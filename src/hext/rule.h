@@ -56,7 +56,7 @@ public:
     return this->tag_name;
   }
 
-  bool is_direct_descendant() const
+  bool get_is_direct_descendant() const
   {
     return this->direct_descendant;
   }
