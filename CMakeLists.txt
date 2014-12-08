@@ -12,6 +12,7 @@ ADD_EXECUTABLE(html-extract "${PROJECT_SOURCE_DIR}/src/main.cpp")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 #TARGET_LINK_LIBRARIES()
 
+EXECUTE_PROCESS(COMMAND "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh" "${PROJECT_SOURCE_DIR}")
 
 ###### WARNINGS ###########################################
 # always show warnings
