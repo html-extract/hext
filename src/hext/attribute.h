@@ -27,7 +27,7 @@ public:
     return this->value;
   }
 
-  bool is_capture() const
+  bool get_is_capture() const
   {
     return this->capture;
   }
