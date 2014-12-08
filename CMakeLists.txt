@@ -28,7 +28,10 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wdisabled-optimization" "-Wformat=2" "-Winit-self" "-Wlogical-op"
     "-Wmissing-include-dirs" "-Woverloaded-virtual" "-Wredundant-decls"
     "-Wshadow" "-Wsign-promo" "-Wstrict-null-sentinel" "-Wstrict-overflow=5"
-    "-Wswitch-default" "-Wundef" "-Wno-unused" "-Weffc++")
+    "-Wundef" "-Wno-unused" "-Weffc++")
+  # unused
+  # "-Wswitch-default": generated ragel code uses switch without default, 
+  #                     we cannot do anything about that
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ###########################################################
 
