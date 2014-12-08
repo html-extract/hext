@@ -2,6 +2,7 @@
 #define HEXT_LEXER_H
 
 #include <iostream>
+#include <iterator>
 #include <algorithm>
 #include <string>
 #include <cassert>
@@ -59,8 +60,12 @@ public:
 
   void print_error()
   {
+    typedef
+      std::iterator_traits<std::string::const_iterator>::difference_type
+      iter_diff_type;
+
     std::string all_to_error(this->p_begin, this->p);
-    int line_nr = 
+    iter_diff_type line_nr =
       std::count(all_to_error.begin(), all_to_error.end(), '\n');
 
     size_t char_nr = 0;
