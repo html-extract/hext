@@ -46,5 +46,13 @@ path="hext/"
 options=" -o $path$ragel_output $path$ragel_file"
 
 "$ragel" $options
-exit $?
+ragel_exit=$?
+
+if [ $ragel_exit ] ; then
+  echo "Generated $path$ragel_output"
+else
+  echo >&2 "$error_origin: ragel failed"
+fi
+
+exit $ragel_exit
 
