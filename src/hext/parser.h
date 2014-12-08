@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iterator>
 #include <string>
-#include <exception>
+#include <stdexcept>
 
 #include "hext/token.h"
 #include "hext/lexer.h"
@@ -14,6 +14,14 @@
 
 namespace hext {
 namespace parser {
+
+
+class parse_error : public std::runtime_error
+{
+public:
+  parse_error(const char * msg)
+  : std::runtime_error(msg) {}
+};
 
 
 std::vector<rule> 
@@ -42,7 +50,7 @@ parse_range(const char * begin, const char * end)
     {
       case TK_ERROR:
         std::cout << "TK_ERROR\n";
-        throw 1;
+        throw parse_error("syntax error");
         break;
       case TK_INDENT:
         std::cout << "TK_INDENT\n";
