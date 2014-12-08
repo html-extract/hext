@@ -37,7 +37,7 @@ public:
     this->name = attribute_name;
   }
 
-  void get_value(std::string attribute_value)
+  void set_value(std::string attribute_value)
   {
     this->value = attribute_value;
   }
