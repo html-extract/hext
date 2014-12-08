@@ -8,7 +8,7 @@ assert_dependencies()
 {
   # try to execute
   "$ragel" --help > /dev/null 2>&1 \
-    || { echo >&2 "cannot execute $flexcpp"; exit 1; }
+    || { echo >&2 "cannot execute $ragel"; exit 1; }
  
   # check if a directory was passed
   [ -d "$1" ] \
