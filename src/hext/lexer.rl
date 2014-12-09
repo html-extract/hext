@@ -1,26 +1,14 @@
 #ifndef HEXT_LEXER_H
 #define HEXT_LEXER_H
 
-#include <iostream>
-#include <iterator>
-#include <algorithm>
 #include <string>
 #include <sstream>
-#include <cassert>
 #include <stdexcept>
+#include <utility>
 
 #include "hext/token.h"
+#include "hext/lexer-util.h"
 
-#define LX_TK_START(tk_id) \
-  token tok;               \
-  tok.tid = tk_id;         \
-  tok.tok_begin = p;       \
-  tok.tok_end = nullptr;   \
-  tokens.push_back(tok);
-
-#define LX_TK_STOP                          \
-  assert(tokens.size() > 0);                \
-  tokens.at(tokens.size() - 1).tok_end = p;
 
 namespace hext {
 
@@ -31,7 +19,7 @@ namespace ragel {
     include "hext.rl";
     write data;
   }%%
-}
+} // namespace ragel
 
 
 class lexer
@@ -67,46 +55,33 @@ public:
     return tokens;
   }
 
-  void throw_error()
+  void throw_error() const
   {
-    typedef
-      std::iterator_traits<std::string::const_iterator>::difference_type
-      iter_diff_type;
+    std::pair<size_t, size_t> pos =
+      get_char_position(this->p, this->p_begin, this->pe);
 
-    std::string all_to_error(this->p_begin, this->p);
-    iter_diff_type line_nr =
-      std::count(all_to_error.begin(), all_to_error.end(), '\n');
-
-    size_t char_nr = 0;
-    size_t line_offset = 0;
-    if( line_nr )
+    std::string char_name;
+    if( this->p == this->pe )
     {
-      line_offset = all_to_error.find_last_of('\n');
-      if( line_offset == std::string::npos )
-        line_offset = 1;
-      // move past \n
-      line_offset += 1;
+      char_name = "[eof]";
     }
-    char_nr = std::distance(this->p_begin, this->p) - line_offset;
-
-    std::string error_token;
-    if( *p == '\n' )
-      error_token = "[newline]";
-    else if( *p == ' ' )
-      error_token = "[space]";
-    else if( *p == '\0' )
-      error_token = "[nullbyte]";
-    else 
-      error_token = *p;
+    else
+    {
+      if( this->p != nullptr )
+        char_name = get_char_name(*this->p);
+      else
+        char_name = "[unknown]";
+    }
 
     std::stringstream error_msg;
     error_msg << "Error at line "
-              << line_nr + 1
+              << pos.first + 1
               << ", char "
-              << char_nr + 1
+              << pos.second + 1
               << ", unexpected character '"
-              << error_token
+              << char_name
               << "'";
+
     throw lex_error(error_msg.str());
   }
 
