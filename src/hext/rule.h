@@ -32,6 +32,16 @@ public:
     return this->children.cend();
   }
 
+  std::vector<rule>::iterator children_begin()
+  {
+    return this->children.begin();
+  }
+
+  std::vector<rule>::iterator children_end()
+  {
+    return this->children.end();
+  }
+
   std::vector<attribute>::const_iterator attributes_begin() const
   {
     return this->attributes.cbegin();
