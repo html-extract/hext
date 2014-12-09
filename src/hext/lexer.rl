@@ -94,6 +94,8 @@ public:
       error_token = "[newline]";
     else if( *p == ' ' )
       error_token = "[space]";
+    else if( *p == '\0' )
+      error_token = "[nullbyte]";
     else 
       error_token = *p;
 
