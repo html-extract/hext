@@ -3,6 +3,7 @@
 #include <ios>
 
 #include "hext/parser.h"
+#include "hext/print.h"
 
 int main(int argc, char ** argv)
 {
@@ -16,9 +17,9 @@ int main(int argc, char ** argv)
   try
   {
     auto rules = hext::parser::parse_file(argv[1]);
-    for( const auto& rule : rules )
+    for(const auto& r : rules)
     {
-      std::cout << "root-rule with tag_name: " << rule.get_tag_name() << std::endl;
+      print_rule(r);
     }
   }
   catch( std::ios_base::failure& e )
