@@ -5,6 +5,7 @@
 #include <iterator>
 #include <algorithm>
 #include <string>
+#include <sstream>
 #include <cassert>
 #include <stdexcept>
 
@@ -39,7 +40,7 @@ public:
   class lex_error : public std::runtime_error
   {
   public:
-    lex_error(const char * msg)
+    lex_error(const std::string& msg)
     : std::runtime_error(msg) {}
   };
 
@@ -66,7 +67,7 @@ public:
     return tokens;
   }
 
-  void print_error()
+  void throw_error()
   {
     typedef
       std::iterator_traits<std::string::const_iterator>::difference_type
@@ -96,13 +97,15 @@ public:
     else 
       error_token = *p;
 
-    std::cerr << "Error at line "
+    std::stringstream error_msg;
+    error_msg << "Error at line "
               << line_nr + 1
               << ", char "
               << char_nr + 1
               << ", unexpected character '"
               << error_token
-              << "'\n";
+              << "'";
+    throw lex_error(error_msg.str());
   }
 
 private:

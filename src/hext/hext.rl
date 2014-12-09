@@ -2,8 +2,7 @@
   machine hext;
 
   action error {
-    print_error();
-    throw lex_error("syntax error");
+    throw_error();
   }
 
   cap_limit = ( '*' | [1-9][0-9]** );
