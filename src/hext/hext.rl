@@ -3,7 +3,7 @@
 
   action error {
     print_error();
-    fbreak;
+    throw lex_error("syntax error");
   }
 
   cap_limit = ( '*' | [1-9][0-9]** );
