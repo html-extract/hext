@@ -18,9 +18,9 @@
   tok.tok_end = nullptr;   \
   tokens.push_back(tok);
 
-#define LX_TK_STOP                          \
-  assert(tokens.size() > 0);                \
-  tokens.at(tokens.size() - 1).tok_end = p;
+#define LX_TK_STOP           \
+  assert(tokens.size() > 0); \
+  tokens.back().tok_end = p;
 
 
 namespace hext {
