@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <string>
 #include <cassert>
+#include <stdexcept>
 
 #include "hext/token.h"
 
@@ -35,6 +36,13 @@ namespace ragel {
 class lexer
 {
 public:
+  class lex_error : public std::runtime_error
+  {
+  public:
+    lex_error(const char * msg)
+    : std::runtime_error(msg) {}
+  };
+
   lexer(const char * begin, const char * end)
   : p_begin(begin),
     p(begin),
