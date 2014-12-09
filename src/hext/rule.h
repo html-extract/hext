@@ -18,7 +18,7 @@ public:
     attributes(),
     tag_name("*"),
     direct_descendant(false),
-    capture_limit(0)
+    capture_limit(1)
   {
   }
 
