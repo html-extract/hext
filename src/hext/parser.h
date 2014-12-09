@@ -35,24 +35,13 @@ void append_rule(
   assert(begin != end);
   std::vector<rule>::iterator it(end - 1);
 
-  if( level > 1 )
+  if( level > 1 && it->children_size() )
   {
-    if( it->children_size() )
-    {
-      append_rule(it->children_begin(), it->children_end(), r, level - 1);
-      return;
-    }
-    else
-    {
-      it->append_child(r);
-      return;
-    }
-  }
-  else
-  {
-    it->append_child(r);
+    append_rule(it->children_begin(), it->children_end(), r, level - 1);
     return;
   }
+
+  it->append_child(r);
 }
 
 std::vector<rule> 
