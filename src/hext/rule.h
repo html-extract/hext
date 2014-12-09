@@ -42,6 +42,11 @@ public:
     return this->children.end();
   }
 
+  std::vector<rule>::size_type children_size() const
+  {
+    return this->children.size();
+  }
+
   std::vector<attribute>::const_iterator attributes_begin() const
   {
     return this->attributes.cbegin();
@@ -52,14 +57,19 @@ public:
     return this->attributes.cend();
   }
 
-  void append_attribute(attribute attr)
+  std::vector<attribute>::size_type attributes_size() const
   {
-    this->attributes.push_back(attr);
+    return this->attributes.size();
   }
 
   void append_child(rule r)
   {
     this->children.push_back(r);
+  }
+
+  void append_attribute(attribute attr)
+  {
+    this->attributes.push_back(attr);
   }
 
   std::string get_tag_name() const
