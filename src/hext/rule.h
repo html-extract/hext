@@ -17,7 +17,8 @@ public:
   : children(),
     attributes(),
     tag_name("*"),
-    direct_descendant(false)
+    direct_descendant(false),
+    capture_limit(0)
   {
   }
 
@@ -61,6 +62,11 @@ public:
     return this->direct_descendant;
   }
 
+  unsigned int get_capture_limit()
+  {
+    return this->capture_limit;
+  }
+
   void set_tag_name(std::string name)
   {
     this->tag_name = name;
@@ -71,12 +77,18 @@ public:
     this->direct_descendant = is_direct_descendant;
   }
 
+  void set_capture_limit(unsigned int cap_limit)
+  {
+    this->capture_limit = cap_limit;
+  }
+
 private:
   std::vector<rule> children;
   std::vector<attribute> attributes;
 
   std::string tag_name;
   bool direct_descendant;
+  unsigned int capture_limit;
 };  
 
 
