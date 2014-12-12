@@ -13,6 +13,11 @@ namespace hext {
 class rule
 {
 public:
+  typedef std::vector<rule>::const_iterator const_child_iterator;
+  typedef std::vector<rule>::iterator child_iterator;
+  typedef std::vector<attribute>::const_iterator const_attribute_iterator;
+  typedef std::vector<attribute>::iterator attribute_iterator;
+
   rule()
   : children(),
     attributes(),
@@ -22,22 +27,22 @@ public:
   {
   }
 
-  std::vector<rule>::const_iterator children_begin() const
+  const_child_iterator children_begin() const
   {
     return this->children.cbegin();
   }
 
-  std::vector<rule>::const_iterator children_end() const
+  const_child_iterator children_end() const
   {
     return this->children.cend();
   }
 
-  std::vector<rule>::iterator children_begin()
+  child_iterator children_begin()
   {
     return this->children.begin();
   }
 
-  std::vector<rule>::iterator children_end()
+  child_iterator children_end()
   {
     return this->children.end();
   }
@@ -47,12 +52,12 @@ public:
     return this->children.size();
   }
 
-  std::vector<attribute>::const_iterator attributes_begin() const
+  const_attribute_iterator attributes_begin() const
   {
     return this->attributes.cbegin();
   }
 
-  std::vector<attribute>::const_iterator attributes_end() const
+  const_attribute_iterator attributes_end() const
   {
     return this->attributes.cend();
   }
