@@ -32,12 +32,12 @@ public:
     return this->capture;
   }
 
-  void set_name(std::string attribute_name)
+  void set_name(const std::string& attribute_name)
   {
     this->name = attribute_name;
   }
 
-  void set_value(std::string attribute_value)
+  void set_value(const std::string& attribute_value)
   {
     this->value = attribute_value;
   }
