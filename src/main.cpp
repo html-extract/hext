@@ -24,8 +24,9 @@ int main(int argc, char ** argv)
 
     for(const auto& r : rules)
     {
-      print_rule(r);
-      m.match(r);
+      hext::print_rule(r);
+      hext::match_tree mt = m.match(r);
+      hext::print_match_tree(mt);
     }
   }
   catch( std::ios_base::failure& e )
