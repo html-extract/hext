@@ -43,7 +43,7 @@ std::string get_char_name(char c)
     default:
       int ci = c;
       return isprint(ci) ?
-          // std::string has no constructor accepting char 
+          // std::string has no constructor accepting char; abusing fill-constructor
           std::string(1, c)
         : std::string("[ascii: ") + std::to_string(ci) + "]";
   }
