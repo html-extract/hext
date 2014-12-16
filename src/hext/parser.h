@@ -72,50 +72,50 @@ parse_range(const char * begin, const char * end)
     switch( tok.tid )
     {
       case TK_ERROR:
-        std::cout << "TK_ERROR\n";
+        std::cout << "TK_ERROR ";
         throw parse_error("syntax error");
         break;
       case TK_INDENT:
-        std::cout << "TK_INDENT\n";
+        std::cout << "TK_INDENT ";
         ++cur_level;
         break;
       case TK_RULE_BEGIN:
-        std::cout << "TK_RULE_BEGIN\n";
+        std::cout << "TK_RULE_BEGIN ";
         break;
       case TK_DIRECT_DESC:
-        std::cout << "TK_DIRECT_DESC\n";
+        std::cout << "TK_DIRECT_DESC ";
         cur_rule.set_is_direct_descendant(true);
         break;
       case TK_CAP_LIMIT:
-        std::cout << "TK_CAP_LIMIT\n";
+        std::cout << "TK_CAP_LIMIT ";
         if( tok_contents == "*" )
           cur_rule.set_capture_limit(0);
         else
           cur_rule.set_capture_limit(std::stoi(tok_contents));
         break;
       case TK_TAG_NAME:
-        std::cout << "TK_TAG_NAME\n";
+        std::cout << "TK_TAG_NAME ";
         cur_rule.set_tag_name(tok_contents);
         break;
       case TK_ATTR_NAME:
-        std::cout << "TK_ATTR_NAME\n";
+        std::cout << "TK_ATTR_NAME ";
         cur_attr = attribute();
         cur_attr.set_name(tok_contents);
         break;
       case TK_ATTR_LITERAL:
-        std::cout << "TK_ATTR_LITERAL\n";
+        std::cout << "TK_ATTR_LITERAL ";
         cur_attr.set_is_capture(false);
         cur_attr.set_value(tok_contents);
         cur_rule.append_attribute(cur_attr);
         break;
       case TK_ATTR_CAPTURE:
-        std::cout << "TK_ATTR_CAPTURE\n";
+        std::cout << "TK_ATTR_CAPTURE ";
         cur_attr.set_is_capture(true);
         cur_attr.set_value(tok_contents);
         cur_rule.append_attribute(cur_attr);
         break;
       case TK_RULE_END:
-        std::cout << "TK_RULE_END\n";
+        std::cout << "TK_RULE_END ";
         if( cur_level == 0 || rules.empty() )
         {
           rules.push_back(cur_rule);
@@ -128,19 +128,16 @@ parse_range(const char * begin, const char * end)
         cur_level = 0;
         break;
       case TK_EOF:
-        std::cout << "TK_EOF\n";
+        std::cout << "TK_EOF ";
         break;
       default:
-        std::cout << "UNKNOWN TAG " << tok.tid << "\n";
+        std::cout << "UNKNOWN TAG " << (int)tok.tid << " ";
         break;
     }
 
-    std::cout << "  contents("
-              << tok_contents.size()
-              << "): "
-              << tok_contents
-              << "\n";
   }
+  
+  std::cout << "\n";
 
   return rules;
 }
