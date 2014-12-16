@@ -38,6 +38,25 @@ void print_rule(rule r, unsigned int indent_level = 0, std::ostream& out = std::
   });
 }
 
+void print_match_tree(const match_tree& m, unsigned int indent_level = 0, std::ostream& out = std::cout)
+{
+  out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
+      << "match_tree matches: ";
+  std::for_each(
+    m.matches_begin(),
+    m.matches_end(),
+    [&out](const std::pair<std::string, const char *>& match) {
+      out << match.first << ": " << match.second << "; ";
+    }
+  );
+  out << "\n";
+  out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
+      << "children(" << std::distance(m.children_begin(), m.children_end()) << "):\n";
+  std::for_each(m.children_begin(), m.children_end(), [indent_level, &out](const match_tree& c) {
+    print_match_tree(c, indent_level + 1, out);
+  });
+}
+
 
 }
 
