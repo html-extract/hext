@@ -10,7 +10,7 @@
 #include <queue>
 #include <tuple>
 
-#include "gumbo.h"
+#include <gumbo.h>
 
 #include "hext/rule.h"
 #include "hext/attribute.h"
