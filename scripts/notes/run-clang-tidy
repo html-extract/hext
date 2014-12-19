@@ -1,0 +1,4 @@
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug -DSYMBOLS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+cd ..
+clang-tidy -checks=* -header-filter='.*' -p build/ src/main.cpp

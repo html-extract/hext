@@ -1,0 +1,1 @@
+cgdb $(find srcdir -type d -printf '-d %p ') --args ./html-extract ../hext/simple.hext ../hext/simple.html
