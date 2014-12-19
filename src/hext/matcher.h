@@ -78,18 +78,31 @@ public:
     {
       if( it->get_is_capture() )
       {
-        GumboAttribute * g_attr = gumbo_get_attribute(
-          &node->v.element.attributes,
-          it->get_name().c_str()
-        );
+        std::pair<std::string, const char *> attr_match = this->capture_attribute(*it, node);
         m_node->append_match(
-          /* name  */ it->get_name(),
-          /* value */ ( g_attr ? g_attr->value : nullptr )
+          /* name  */ attr_match.first,
+          /* value */ attr_match.second
         );
       }
     }
 
     return m_node;
+  }
+
+  std::pair<std::string, const char *>
+  capture_attribute(const attribute& a, const GumboNode * node) const
+  {
+    assert(node != nullptr);
+    assert(node->type == GUMBO_NODE_ELEMENT);
+
+    GumboAttribute * g_attr = gumbo_get_attribute(
+      &node->v.element.attributes,
+      a.get_name().c_str()
+    );
+    return std::pair<std::string, const char *>(
+      /* name  */ a.get_name(),
+      /* value */ ( g_attr ? g_attr->value : nullptr )
+    );
   }
 
   std::unique_ptr<match_tree>
