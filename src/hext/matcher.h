@@ -78,10 +78,8 @@ public:
     {
       if( it->get_is_capture() )
       {
-        std::pair<std::string, const char *> attr_match = this->capture_attribute(*it, node);
         m_node->append_match(
-          /* name  */ attr_match.first,
-          /* value */ attr_match.second
+          this->capture_attribute(*it, node)
         );
       }
     }
@@ -89,7 +87,7 @@ public:
     return m_node;
   }
 
-  std::pair<std::string, const char *>
+  match_tree::name_value_pair
   capture_attribute(const attribute& a, const GumboNode * node) const
   {
     assert(node != nullptr);
@@ -99,7 +97,7 @@ public:
       &node->v.element.attributes,
       a.get_name().c_str()
     );
-    return std::pair<std::string, const char *>(
+    return match_tree::name_value_pair(
       /* name  */ a.get_name(),
       /* value */ ( g_attr ? g_attr->value : nullptr )
     );

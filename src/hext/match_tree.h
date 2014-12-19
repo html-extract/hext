@@ -16,8 +16,11 @@ public:
   typedef
     std::vector<std::unique_ptr<match_tree>>::const_iterator
     const_child_iterator;
-  typedef 
-    std::vector<std::pair<std::string, const char *>>::const_iterator 
+  typedef
+    std::pair<std::string, std::string>
+    name_value_pair;
+  typedef
+    std::vector<std::pair<std::string, std::string>>::const_iterator
     const_match_iterator;
 
   match_tree()
@@ -32,12 +35,9 @@ public:
     return this->children.back().get();
   }
 
-  // TODO: inconsistent interface: std::string vs. const char *
-  void append_match(const std::string& name, const char * value)
+  void append_match(const name_value_pair& p)
   {
-    this->matches.push_back(
-      std::pair<std::string, const char *>(name, value)
-    );
+    this->matches.push_back(p);
   }
 
   const_child_iterator children_begin() const
@@ -70,7 +70,7 @@ private:
   match_tree& operator=(const match_tree&) = delete;
 
   std::vector<std::unique_ptr<match_tree>> children;
-  std::vector<std::pair<std::string, const char *>> matches;
+  std::vector<name_value_pair> matches;
 };
 
 

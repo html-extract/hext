@@ -63,7 +63,7 @@ void print_match_tree(
   std::for_each(
     m->matches_begin(),
     m->matches_end(),
-    [&out](const std::pair<std::string, const char *>& match) {
+    [&out](const match_tree::name_value_pair& match) {
       out << match.first << ": " << match.second << "; ";
     }
   );
