@@ -133,8 +133,7 @@ public:
       assert(m          != nullptr);
       assert(node->type == GUMBO_NODE_ELEMENT);
 
-      // TODO: inconsistent interfaces, rule& vs GumboNode*
-      if( this->node_matches_rule(node, *r) )
+      if( this->node_matches_rule(node, r) )
       {
         match_tree * m_node = m->append_child_and_own(
           this->capture_node(*r, node)
@@ -190,21 +189,24 @@ public:
     return m_root;
   }
 
-  bool node_matches_rule(const GumboNode * node, const rule& r) const
+  bool node_matches_rule(const GumboNode * node, const rule * r) const
   {
     typedef rule::const_attribute_iterator r_attr_iter;
 
     if( node == nullptr )
       return false;
 
+    if( r == nullptr )
+      return false;
+
     if( node->type != GUMBO_NODE_ELEMENT )
       return false;
 
-    std::string tag_name = r.get_tag_name();
+    std::string tag_name = r->get_tag_name();
     if( node->v.element.tag != gumbo_tag_enum(tag_name.c_str()) )
       return false;
 
-    for(r_attr_iter it = r.attributes_begin(); it != r.attributes_end(); ++it)
+    for(r_attr_iter it = r->attributes_begin(); it != r->attributes_end(); ++it)
     {
       std::string attr_name = it->get_name();
 
