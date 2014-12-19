@@ -25,8 +25,9 @@ int main(int argc, char ** argv)
     for(const auto& r : rules)
     {
       hext::print_rule(r);
-      hext::match_tree mt = m.match(r);
-      hext::print_match_tree(mt);
+      std::unique_ptr<hext::match_tree> mt = m.match_bfs(r);
+      assert(mt.get() != nullptr);
+      hext::print_match_tree(mt.get());
     }
   }
   catch( std::ios_base::failure& e )

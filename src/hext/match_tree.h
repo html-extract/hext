@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <memory>
 
 
 namespace hext {
@@ -12,7 +13,9 @@ namespace hext {
 class match_tree
 {
 public:
-  typedef std::vector<match_tree>::const_iterator const_child_iterator;
+  typedef
+    std::vector<std::unique_ptr<match_tree>>::const_iterator
+    const_child_iterator;
   typedef 
     std::vector<std::pair<std::string, const char *>>::const_iterator 
     const_match_iterator;
@@ -23,10 +26,10 @@ public:
   {
   }
 
-  match_tree& append_child(const match_tree& m)
+  match_tree * append_child_and_own(std::unique_ptr<match_tree> m)
   {
-    this->children.push_back(m);
-    return this->children.back();
+    this->children.push_back(std::move(m));
+    return this->children.back().get();
   }
 
   // TODO: inconsistent interface: std::string vs. const char *
@@ -62,13 +65,11 @@ public:
     return this->matches.end();
   }
 
-  // since the pointer members are non-owning, 
-  // we can copy them freely
-  match_tree(const match_tree&) = default;
-  match_tree& operator=(const match_tree&) = default;
-
 private:
-  std::vector<match_tree> children;
+  match_tree(const match_tree&) = delete;
+  match_tree& operator=(const match_tree&) = delete;
+
+  std::vector<std::unique_ptr<match_tree>> children;
   std::vector<std::pair<std::string, const char *>> matches;
 };
 
