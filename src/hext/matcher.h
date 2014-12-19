@@ -33,7 +33,7 @@ public:
   class match_error : public std::runtime_error
   {
   public:
-    match_error(const char * msg)
+    explicit match_error(const char * msg)
     : std::runtime_error(msg) {}
   };
 
