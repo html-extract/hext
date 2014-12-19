@@ -47,6 +47,11 @@ public:
     return this->children.end();
   }
 
+  std::vector<match_tree>::size_type children_size() const
+  {
+    return this->children.size();
+  }
+
   const_match_iterator matches_begin() const
   {
     return this->matches.begin();
