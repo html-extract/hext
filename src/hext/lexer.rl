@@ -28,7 +28,7 @@ public:
   class lex_error : public std::runtime_error
   {
   public:
-    lex_error(const std::string& msg)
+    explicit lex_error(const std::string& msg)
     : std::runtime_error(msg) {}
   };
 
