@@ -125,7 +125,9 @@ public:
       // TODO: inconsistent interfaces, rule& vs GumboNode*
       if( this->node_matches_rule(node, *r) )
       {
-        match_tree * m_node = m->append_child_and_own(this->capture_node(*r, node));
+        match_tree * m_node = m->append_child_and_own(
+          this->capture_node(*r, node)
+        );
 
         for(r_child_iter it = r->children_begin(); it != r->children_end(); ++it)
         {
@@ -177,56 +179,6 @@ public:
     return m_root;
   }
 
-  void match_node(const rule& r, const GumboNode * node, match_tree * m) const
-  {
-    typedef rule::const_child_iterator r_child_iter;
-
-    if( node == nullptr )
-      return;
-
-    if( m == nullptr )
-      return;
-
-    if( node->type != GUMBO_NODE_ELEMENT )
-      return;
-
-    if( this->node_matches_rule(node, r) )
-    {
-      m = m->append_child_and_own(this->capture_node(r, node));
-
-      for(r_child_iter it = r.children_begin(); it != r.children_end(); ++it)
-      {
-        this->match_node_children(*it, node, m);
-      }
-    }
-    else
-    {
-      this->match_node_children(r, node, m);
-    }
-  }
-
-  void match_node_children(
-    const rule& r,
-    const GumboNode * node,
-    match_tree * m
-  ) const
-  {
-    if( node == nullptr )
-      return;
-
-    if( m == nullptr )
-      return;
-
-    if( node->type != GUMBO_NODE_ELEMENT )
-      return;
-
-    const GumboVector * children = &node->v.element.children;
-    for(unsigned int i = 0; i < children->length; ++i)
-    {
-      this->match_node(r, static_cast<const GumboNode *>(children->data[i]), m);
-    }
-  }
-
   bool node_matches_rule(const GumboNode * node, const rule& r) const
   {
     typedef rule::const_attribute_iterator r_attr_iter;
@@ -261,14 +213,6 @@ public:
     return true;
   }
 
-  std::unique_ptr<match_tree> match(const rule& r) const
-  {
-    assert(this->g_outp != nullptr);
-    std::unique_ptr<match_tree> m = make_unique<match_tree>();
-    this->match_node(r, this->g_outp->root, m.get());
-    return m;
-  }
-
   std::unique_ptr<match_tree> match_bfs(const rule& r) const
   {
     assert(this->g_outp != nullptr);
@@ -281,10 +225,10 @@ public:
     gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp);
   }
 
+private:
   matcher(const matcher&) = delete;
   matcher& operator=(const matcher&) = delete;
 
-private:
   GumboOutput * g_outp;
   std::string buffer;
 };
