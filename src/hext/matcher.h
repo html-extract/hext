@@ -98,8 +98,8 @@ public:
       a.get_name().c_str()
     );
     return match_tree::name_value_pair(
-      /* name  */ a.get_name(),
-      /* value */ ( g_attr ? g_attr->value : nullptr )
+      /* name  */ a.get_value(),
+      /* value */ ( g_attr && g_attr->value ? g_attr->value : "" )
     );
   }
 
