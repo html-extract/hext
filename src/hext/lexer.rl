@@ -49,7 +49,7 @@ public:
 
     std::vector<token> tokens;
 
-    // this throws on lexing error
+    // this calls throw_error on lexing error
     %% write exec;
 
     return tokens;
