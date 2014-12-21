@@ -10,7 +10,16 @@ ADD_DEFINITIONS("-std=c++11")
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 
-EXECUTE_PROCESS(COMMAND "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh" "${PROJECT_SOURCE_DIR}")
+EXECUTE_PROCESS(
+  COMMAND
+  "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h.rl"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h")
+EXECUTE_PROCESS(
+  COMMAND
+  "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp.rl"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp")
 
 
 ###### EXTERNAL DEPENDENCIES ##############################
@@ -47,6 +56,8 @@ ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/src/hext/attribute.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtin-captures.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer-util.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser)
 TARGET_LINK_LIBRARIES(html-extract gumbo)
