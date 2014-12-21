@@ -20,7 +20,7 @@ namespace parser {
 class parse_error : public std::runtime_error
 {
 public:
-  parse_error(const char * msg)
+  explicit parse_error(const char * msg)
   : std::runtime_error(msg) {}
 };
 
