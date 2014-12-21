@@ -62,6 +62,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/print.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/match-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/matcher.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser)
 TARGET_LINK_LIBRARIES(html-extract gumbo)
