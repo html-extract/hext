@@ -14,7 +14,7 @@
 
 #include "hext/rule.h"
 #include "hext/attribute.h"
-#include "hext/match_tree.h"
+#include "hext/match-tree.h"
 #include "hext/make-unique.h"
 #include "hext/builtin-captures.h"
 
