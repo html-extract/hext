@@ -23,47 +23,21 @@ public:
     std::vector<std::pair<std::string, std::string>>::const_iterator
     const_match_iterator;
 
-  match_tree()
-  : children(),
-    matches()
-  {
-  }
+  match_tree();
 
-  match_tree * append_child_and_own(std::unique_ptr<match_tree> m)
-  {
-    this->children.push_back(std::move(m));
-    return this->children.back().get();
-  }
+  match_tree * append_child_and_own(std::unique_ptr<match_tree> m);
 
-  void append_match(const name_value_pair& p)
-  {
-    this->matches.push_back(p);
-  }
+  void append_match(const name_value_pair& p);
 
-  const_child_iterator children_begin() const
-  {
-    return this->children.begin();
-  }
+  const_child_iterator children_begin() const;
 
-  const_child_iterator children_end() const
-  {
-    return this->children.end();
-  }
+  const_child_iterator children_end() const;
 
-  std::vector<match_tree>::size_type children_size() const
-  {
-    return this->children.size();
-  }
+  std::vector<match_tree>::size_type children_size() const;
 
-  const_match_iterator matches_begin() const
-  {
-    return this->matches.begin();
-  }
+  const_match_iterator matches_begin() const;
 
-  const_match_iterator matches_end() const
-  {
-    return this->matches.end();
-  }
+  const_match_iterator matches_end() const;
 
 private:
   match_tree(const match_tree&) = delete;
