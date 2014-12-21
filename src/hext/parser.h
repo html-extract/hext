@@ -101,6 +101,9 @@ parse_range(const char * begin, const char * end)
         std::cout << "TK_ATTR_NAME ";
         cur_attr = attribute();
         cur_attr.set_name(tok_contents);
+        cur_attr.set_is_builtin(
+          tok_contents.compare(0, 5, "hext-") == 0
+        );
         break;
       case TK_ATTR_LITERAL:
         std::cout << "TK_ATTR_LITERAL ";
