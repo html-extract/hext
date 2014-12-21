@@ -10,53 +10,23 @@ namespace hext {
 class attribute
 {
 public:
-  attribute()
-  : name(""),
-    value(""),
-    capture(false),
-    builtin(false)
-  {
-  }
+  attribute();
 
-  std::string get_name() const
-  {
-    return this->name;
-  }
+  std::string get_name() const;
 
-  std::string get_value() const
-  {
-    return this->value;
-  }
+  std::string get_value() const;
 
-  bool get_is_capture() const
-  {
-    return this->capture;
-  }
+  bool get_is_capture() const;
 
-  bool get_is_builtin() const
-  {
-    return this->builtin;
-  }
+  bool get_is_builtin() const;
 
-  void set_name(const std::string& attribute_name)
-  {
-    this->name = attribute_name;
-  }
+  void set_name(const std::string& attribute_name);
 
-  void set_value(const std::string& attribute_value)
-  {
-    this->value = attribute_value;
-  }
+  void set_value(const std::string& attribute_value);
 
-  void set_is_capture(bool is_capture)
-  {
-    this->capture = is_capture;
-  }
+  void set_is_capture(bool is_capture);
 
-  void set_is_builtin(bool is_builtin)
-  {
-    this->builtin = is_builtin;
-  }
+  void set_is_builtin(bool is_builtin);
 
 private:
   std::string name;

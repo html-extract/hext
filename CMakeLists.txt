@@ -43,7 +43,10 @@ ExternalProject_Get_Property(gumbo-parser binary_dir)
 LINK_DIRECTORIES(${binary_dir}/.libs)
 ###########################################################
 
-ADD_EXECUTABLE(html-extract "${PROJECT_SOURCE_DIR}/src/main.cpp")
+ADD_EXECUTABLE(
+  html-extract
+  "${PROJECT_SOURCE_DIR}/src/hext/attribute.cpp"
+  "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser)
 TARGET_LINK_LIBRARIES(html-extract gumbo)
 
