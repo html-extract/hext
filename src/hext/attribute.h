@@ -13,7 +13,8 @@ public:
   attribute()
   : name(""),
     value(""),
-    capture(false)
+    capture(false),
+    builtin(false)
   {
   }
 
@@ -32,6 +33,11 @@ public:
     return this->capture;
   }
 
+  bool get_is_builtin() const
+  {
+    return this->builtin;
+  }
+
   void set_name(const std::string& attribute_name)
   {
     this->name = attribute_name;
@@ -47,10 +53,16 @@ public:
     this->capture = is_capture;
   }
 
+  void set_is_builtin(bool is_builtin)
+  {
+    this->builtin = is_builtin;
+  }
+
 private:
   std::string name;
   std::string value;
   bool capture;
+  bool builtin;
 };
 
 
