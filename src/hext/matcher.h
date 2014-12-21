@@ -16,6 +16,7 @@
 #include "hext/attribute.h"
 #include "hext/match_tree.h"
 #include "hext/make-unique.h"
+#include "hext/builtin-captures.h"
 
 
 namespace hext {
@@ -93,14 +94,24 @@ public:
     assert(node != nullptr);
     assert(node->type == GUMBO_NODE_ELEMENT);
 
-    GumboAttribute * g_attr = gumbo_get_attribute(
-      &node->v.element.attributes,
-      a.get_name().c_str()
-    );
-    return match_tree::name_value_pair(
-      /* name  */ a.get_value(),
-      /* value */ ( g_attr && g_attr->value ? g_attr->value : "" )
-    );
+    if( a.get_name() == "hext-inner-text" )
+    {
+      return match_tree::name_value_pair(
+        /* name  */ a.get_value(),
+        /* value */ bc::capture_inner_text(node)
+      );
+    }
+    else
+    {
+      GumboAttribute * g_attr = gumbo_get_attribute(
+        &node->v.element.attributes,
+        a.get_name().c_str()
+      );
+      return match_tree::name_value_pair(
+        /* name  */ a.get_value(),
+        /* value */ ( g_attr && g_attr->value ? g_attr->value : "" )
+      );
+    }
   }
 
   std::unique_ptr<match_tree>
@@ -116,6 +127,8 @@ public:
     if( nod->type != GUMBO_NODE_ELEMENT )
       return m_root;
 
+    // consider using a std::vector instead of std::queue if beneficial to
+    // performance
     std::queue<match_context> q;
     q.push(std::make_tuple(&rul, nod, m_root.get()));
 
@@ -212,7 +225,7 @@ public:
 
       GumboAttribute * g_attr =
         gumbo_get_attribute(&node->v.element.attributes, attr_name.c_str());
-      if( !g_attr )
+      if( !g_attr && !it->get_is_builtin() )
         return false;
 
       std::string attr_value = it->get_value();
