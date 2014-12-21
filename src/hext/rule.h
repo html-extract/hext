@@ -18,94 +18,39 @@ public:
   typedef std::vector<attribute>::const_iterator const_attribute_iterator;
   typedef std::vector<attribute>::iterator attribute_iterator;
 
-  rule()
-  : children(),
-    attributes(),
-    tag_name("*"),
-    direct_descendant(false),
-    capture_limit(1)
-  {
-  }
+  rule();
 
-  const_child_iterator children_begin() const
-  {
-    return this->children.cbegin();
-  }
+  const_child_iterator children_begin() const;
 
-  const_child_iterator children_end() const
-  {
-    return this->children.cend();
-  }
+  const_child_iterator children_end() const;
 
-  child_iterator children_begin()
-  {
-    return this->children.begin();
-  }
+  child_iterator children_begin();
 
-  child_iterator children_end()
-  {
-    return this->children.end();
-  }
+  child_iterator children_end();
 
-  std::vector<rule>::size_type children_size() const
-  {
-    return this->children.size();
-  }
+  std::vector<rule>::size_type children_size() const;
 
-  const_attribute_iterator attributes_begin() const
-  {
-    return this->attributes.cbegin();
-  }
+  const_attribute_iterator attributes_begin() const;
 
-  const_attribute_iterator attributes_end() const
-  {
-    return this->attributes.cend();
-  }
+  const_attribute_iterator attributes_end() const;
 
-  std::vector<attribute>::size_type attributes_size() const
-  {
-    return this->attributes.size();
-  }
+  std::vector<attribute>::size_type attributes_size() const;
 
-  void append_child(rule r)
-  {
-    this->children.push_back(r);
-  }
+  void append_child(rule r);
 
-  void append_attribute(attribute attr)
-  {
-    this->attributes.push_back(attr);
-  }
+  void append_attribute(attribute attr);
 
-  std::string get_tag_name() const
-  {
-    return this->tag_name;
-  }
+  std::string get_tag_name() const;
 
-  bool get_is_direct_descendant() const
-  {
-    return this->direct_descendant;
-  }
+  bool get_is_direct_descendant() const;
 
-  unsigned int get_capture_limit()
-  {
-    return this->capture_limit;
-  }
+  unsigned int get_capture_limit();
 
-  void set_tag_name(std::string name)
-  {
-    this->tag_name = name;
-  }
+  void set_tag_name(std::string name);
 
-  void set_is_direct_descendant(bool is_direct_descendant)
-  {
-    this->direct_descendant = is_direct_descendant;
-  }
+  void set_is_direct_descendant(bool is_direct_descendant);
 
-  void set_capture_limit(unsigned int cap_limit)
-  {
-    this->capture_limit = cap_limit;
-  }
+  void set_capture_limit(unsigned int cap_limit);
 
 private:
   std::vector<rule> children;
