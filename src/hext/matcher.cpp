@@ -189,7 +189,8 @@ bool matcher::node_matches_rule(const GumboNode * node, const rule * r) const
     return false;
 
   std::string tag_name = r->get_tag_name();
-  if( node->v.element.tag != gumbo_tag_enum(tag_name.c_str()) )
+  if( !tag_name.empty() &&
+      node->v.element.tag != gumbo_tag_enum(tag_name.c_str()) )
     return false;
 
   for(r_attr_iter it = r->attributes_begin(); it != r->attributes_end(); ++it)
