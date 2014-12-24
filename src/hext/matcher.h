@@ -51,6 +51,12 @@ public:
   bool node_matches_rule(const GumboNode * node, const rule * r) const;
 
   std::unique_ptr<match_tree> match_bfs(const rule& r) const;
+  
+  std::unique_ptr<match_tree> match(const rule& r) const;
+
+  void match_node(const rule& r, const GumboNode * node, match_tree * m) const;
+
+  void match_node_children(const rule& r, const GumboNode * node, match_tree * m) const;
 
   ~matcher();
 

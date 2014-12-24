@@ -125,6 +125,12 @@ matcher::match_node_bfs(const rule& rul, const GumboNode * nod) const
         this->capture_node(*r, node)
       );
 
+      // TODO: if this node is a single capture, we must delete
+      // all other occurences of this rule from the queue, since
+      // it may be captured only _once_.
+      // This kills the queue :(
+      // Consider a wholly different approach to matching.
+
       for(r_child_iter it = r->children_begin(); it != r->children_end(); ++it)
       {
         const GumboVector * children = &node->v.element.children;
@@ -217,6 +223,69 @@ std::unique_ptr<match_tree> matcher::match_bfs(const rule& r) const
 {
   assert(this->g_outp != nullptr);
   return this->match_node_bfs(r, this->g_outp->root);
+}
+
+// recursive matching
+std::unique_ptr<match_tree> matcher::match(const rule& r) const
+{
+  assert(this->g_outp != nullptr);
+  std::unique_ptr<match_tree> m = make_unique<match_tree>();
+  this->match_node(r, this->g_outp->root, m.get());
+  return m;
+}
+
+void matcher::match_node(
+  const rule& r,
+  const GumboNode * node,
+  match_tree * m
+) const
+{
+  typedef rule::const_child_iterator r_child_iter;
+
+  if( node == nullptr )
+    return;
+
+  if( m == nullptr )
+    return;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return;
+
+  if( this->node_matches_rule(node, &r) )
+  {
+    m = m->append_child_and_own(this->capture_node(r, node));
+
+    for(r_child_iter it = r.children_begin(); it != r.children_end(); ++it)
+    {
+      this->match_node_children(*it, node, m);
+    }
+  }
+  else
+  {
+    this->match_node_children(r, node, m);
+  }
+}
+
+void matcher::match_node_children(
+  const rule& r,
+  const GumboNode * node,
+  match_tree * m
+) const
+{
+  if( node == nullptr )
+    return;
+
+  if( m == nullptr )
+    return;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return;
+
+  const GumboVector * children = &node->v.element.children;
+  for(unsigned int i = 0; i < children->length; ++i)
+  {
+    this->match_node(r, static_cast<const GumboNode *>(children->data[i]), m);
+  }
 }
 
 matcher::~matcher()
