@@ -68,17 +68,6 @@ parse_range(const char * begin, const char * end)
       case TK_RULE_BEGIN:
         std::cout << "TK_RULE_BEGIN ";
         break;
-      case TK_DIRECT_DESC:
-        std::cout << "TK_DIRECT_DESC ";
-        cur_rule.set_is_direct_descendant(true);
-        break;
-      case TK_CAP_LIMIT:
-        std::cout << "TK_CAP_LIMIT ";
-        if( tok_contents == "*" )
-          cur_rule.set_capture_limit(0);
-        else
-          cur_rule.set_capture_limit(std::stoi(tok_contents));
-        break;
       case TK_TAG_NAME:
         std::cout << "TK_TAG_NAME ";
         cur_rule.set_tag_name(tok_contents);

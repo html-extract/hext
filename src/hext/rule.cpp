@@ -7,9 +7,7 @@ namespace hext {
 rule::rule()
 : children(),
   attributes(),
-  tag_name("*"),
-  direct_descendant(false),
-  capture_limit(1)
+  tag_name("*")
 {
 }
 
@@ -68,29 +66,9 @@ std::string rule::get_tag_name() const
   return this->tag_name;
 }
 
-bool rule::get_is_direct_descendant() const
-{
-  return this->direct_descendant;
-}
-
-unsigned int rule::get_capture_limit()
-{
-  return this->capture_limit;
-}
-
 void rule::set_tag_name(std::string name)
 {
   this->tag_name = name;
-}
-
-void rule::set_is_direct_descendant(bool is_direct_descendant)
-{
-  this->direct_descendant = is_direct_descendant;
-}
-
-void rule::set_capture_limit(unsigned int cap_limit)
-{
-  this->capture_limit = cap_limit;
 }
 
 

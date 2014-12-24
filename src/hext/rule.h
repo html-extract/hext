@@ -42,23 +42,13 @@ public:
 
   std::string get_tag_name() const;
 
-  bool get_is_direct_descendant() const;
-
-  unsigned int get_capture_limit();
-
   void set_tag_name(std::string name);
-
-  void set_is_direct_descendant(bool is_direct_descendant);
-
-  void set_capture_limit(unsigned int cap_limit);
 
 private:
   std::vector<rule> children;
   std::vector<attribute> attributes;
 
   std::string tag_name;
-  bool direct_descendant;
-  unsigned int capture_limit;
 };  
 
 

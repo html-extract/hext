@@ -10,13 +10,8 @@ void print_rule(
   std::ostream& out
 )
 {
-  unsigned int cap_limit = r.get_capture_limit();
-
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
-      << ( r.get_is_direct_descendant() ? "!" : "" )
-      << ( cap_limit > 0 ?
-           ( cap_limit > 1 ? std::to_string(cap_limit) : "" ) : "*" )
       << r.get_tag_name()
       << " ";
 
