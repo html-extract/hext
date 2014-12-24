@@ -36,11 +36,14 @@ matcher::matcher(const char * path)
 }
 
 std::unique_ptr<match_tree>
-matcher::capture_node(const rule& r, const GumboNode * node) const
+matcher::capture_node(const rule * r, const GumboNode * node) const
 {
   typedef rule::const_attribute_iterator r_attr_iter;
 
   std::unique_ptr<match_tree> m_node = make_unique<match_tree>();
+
+  if( r == nullptr )
+    return m_node;
 
   if( node == nullptr )
     return m_node;
@@ -48,12 +51,12 @@ matcher::capture_node(const rule& r, const GumboNode * node) const
   if( node->type != GUMBO_NODE_ELEMENT )
     return m_node;
 
-  for(r_attr_iter it = r.attributes_begin(); it != r.attributes_end(); ++it)
+  for(r_attr_iter it = r->attributes_begin(); it != r->attributes_end(); ++it)
   {
     if( it->get_is_capture() )
     {
       m_node->append_match(
-        this->capture_attribute(*it, node)
+        this->capture_attribute(&(*it), node)
       );
     }
   }
@@ -62,15 +65,25 @@ matcher::capture_node(const rule& r, const GumboNode * node) const
 }
 
 match_tree::name_value_pair
-matcher::capture_attribute(const attribute& a, const GumboNode * node) const
+matcher::capture_attribute(const attribute * a, const GumboNode * node) const
 {
+  assert(a != nullptr);
   assert(node != nullptr);
   assert(node->type == GUMBO_NODE_ELEMENT);
 
-  if( a.get_name() == "hext-inner-text" )
+  if( a == nullptr )
+    return match_tree::name_value_pair("", "");
+
+  if( node == nullptr )
+    return match_tree::name_value_pair("", "");
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return match_tree::name_value_pair("", "");
+
+  if( a->get_name() == "hext-inner-text" )
   {
     return match_tree::name_value_pair(
-      /* name  */ a.get_value(),
+      /* name  */ a->get_value(),
       /* value */ bc::capture_inner_text(node)
     );
   }
@@ -78,107 +91,13 @@ matcher::capture_attribute(const attribute& a, const GumboNode * node) const
   {
     GumboAttribute * g_attr = gumbo_get_attribute(
       &node->v.element.attributes,
-      a.get_name().c_str()
+      a->get_name().c_str()
     );
     return match_tree::name_value_pair(
-      /* name  */ a.get_value(),
+      /* name  */ a->get_value(),
       /* value */ ( g_attr && g_attr->value ? g_attr->value : "" )
     );
   }
-}
-
-std::unique_ptr<match_tree>
-matcher::match_node_bfs(const rule& rul, const GumboNode * nod) const
-{
-  typedef rule::const_child_iterator r_child_iter;
-
-  std::unique_ptr<match_tree> m_root = make_unique<match_tree>();
-
-  if( nod == nullptr )
-    return m_root;
-
-  if( nod->type != GUMBO_NODE_ELEMENT )
-    return m_root;
-
-  // consider using a std::vector instead of std::queue if beneficial to
-  // performance
-  std::queue<match_context> q;
-  q.push(std::make_tuple(&rul, nod, m_root.get()));
-
-  while( !q.empty() )
-  {
-    match_context mc = q.front();
-    q.pop();
-
-    const rule *      r    = std::get<0>(mc);
-    const GumboNode * node = std::get<1>(mc);
-    match_tree *      m    = std::get<2>(mc);
-
-    assert(r          != nullptr);
-    assert(node       != nullptr);
-    assert(m          != nullptr);
-    assert(node->type == GUMBO_NODE_ELEMENT);
-
-    if( this->node_matches_rule(node, r) )
-    {
-      match_tree * m_node = m->append_child_and_own(
-        this->capture_node(*r, node)
-      );
-
-      // TODO: if this node is a single capture, we must delete
-      // all other occurences of this rule from the queue, since
-      // it may be captured only _once_.
-      // This kills the queue :(
-      // Consider a wholly different approach to matching.
-
-      for(r_child_iter it = r->children_begin(); it != r->children_end(); ++it)
-      {
-        const GumboVector * children = &node->v.element.children;
-        for(unsigned int i = 0; i < children->length; ++i)
-        {
-          const GumboNode * child_node =
-            static_cast<const GumboNode *>(children->data[i]);
-
-          assert(child_node != nullptr);
-
-          if( child_node->type == GUMBO_NODE_ELEMENT )
-          {
-            q.push(
-              std::make_tuple(&(*it), child_node, m_node)
-            );
-          }
-        }
-      }
-    }
-    else if( r->get_is_direct_descendant() )
-    {
-      // if the rule only matches direct descendants,
-      // but we didn't find a match on this level,
-      // we can skip the rule and all its children
-      // (by not pushing child-rules into the queue)
-      continue;
-    }
-
-    {
-      const GumboVector * children = &node->v.element.children;
-      for(unsigned int i = 0; i < children->length; ++i)
-      {
-        const GumboNode * child_node =
-          static_cast<const GumboNode *>(children->data[i]);
-
-        assert(child_node != nullptr);
-
-        if( child_node->type == GUMBO_NODE_ELEMENT )
-        {
-          q.push(
-            std::make_tuple(r, child_node, m)
-          );
-        }
-      }
-    }
-  }
-
-  return m_root;
 }
 
 bool matcher::node_matches_rule(const GumboNode * node, const rule * r) const
@@ -219,28 +138,26 @@ bool matcher::node_matches_rule(const GumboNode * node, const rule * r) const
   return true;
 }
 
-std::unique_ptr<match_tree> matcher::match_bfs(const rule& r) const
+std::unique_ptr<match_tree> matcher::match(const rule * r) const
 {
   assert(this->g_outp != nullptr);
-  return this->match_node_bfs(r, this->g_outp->root);
-}
-
-// recursive matching
-std::unique_ptr<match_tree> matcher::match(const rule& r) const
-{
-  assert(this->g_outp != nullptr);
+  assert(r != nullptr);
   std::unique_ptr<match_tree> m = make_unique<match_tree>();
-  this->match_node(r, this->g_outp->root, m.get());
+  if( r )
+    this->match_node(r, this->g_outp->root, m.get());
   return m;
 }
 
 void matcher::match_node(
-  const rule& r,
+  const rule * r,
   const GumboNode * node,
   match_tree * m
 ) const
 {
   typedef rule::const_child_iterator r_child_iter;
+
+  if( r == nullptr )
+    return;
 
   if( node == nullptr )
     return;
@@ -251,13 +168,13 @@ void matcher::match_node(
   if( node->type != GUMBO_NODE_ELEMENT )
     return;
 
-  if( this->node_matches_rule(node, &r) )
+  if( this->node_matches_rule(node, r) )
   {
     m = m->append_child_and_own(this->capture_node(r, node));
 
-    for(r_child_iter it = r.children_begin(); it != r.children_end(); ++it)
+    for(r_child_iter it = r->children_begin(); it != r->children_end(); ++it)
     {
-      this->match_node_children(*it, node, m);
+      this->match_node_children(&(*it), node, m);
     }
   }
   else
@@ -267,11 +184,14 @@ void matcher::match_node(
 }
 
 void matcher::match_node_children(
-  const rule& r,
+  const rule * r,
   const GumboNode * node,
   match_tree * m
 ) const
 {
+  if( r == nullptr )
+    return;
+
   if( node == nullptr )
     return;
 
