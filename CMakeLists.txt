@@ -32,7 +32,7 @@ ExternalProject_Add(
     GIT_REPOSITORY https://github.com/google/gumbo-parser.git
     TIMEOUT 10
 
-    CONFIGURE_COMMAND ./autogen.sh && ./configure --prefix=${CMAKE_BINARY_DIR}
+    CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=${CMAKE_BINARY_DIR}
     BUILD_COMMAND make
     UPDATE_COMMAND ""
     INSTALL_COMMAND ""
