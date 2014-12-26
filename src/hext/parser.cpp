@@ -38,13 +38,8 @@ parse_range(const char * begin, const char * end)
     // (famous last words)
     switch( tok.tid )
     {
-      case TK_ERROR:
-        throw parse_error("syntax error");
-        break;
       case TK_INDENT:
         ++cur_level;
-        break;
-      case TK_RULE_BEGIN:
         break;
       case TK_TAG_NAME:
         cur_rule.set_tag_name(tok_contents);
@@ -80,6 +75,10 @@ parse_range(const char * begin, const char * end)
         cur_level = 0;
         break;
       case TK_EOF:
+      case TK_RULE_BEGIN:
+        break;
+      case TK_ERROR:
+        throw parse_error("syntax error");
         break;
       default:
         throw parse_error("unknown token");
