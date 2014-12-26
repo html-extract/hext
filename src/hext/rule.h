@@ -33,7 +33,7 @@ public:
 
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
-  void append_child(rule r);
+  void append_child(const rule& r, int level = 0);
   void append_attribute(attribute attr);
 
   std::string get_tag_name() const;

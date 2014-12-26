@@ -26,13 +26,6 @@ public:
 };
 
 
-void append_rule(
-  std::vector<rule>::iterator begin,
-  std::vector<rule>::iterator end,
-  const rule& r,
-  int level
-);
-
 std::vector<rule> 
 parse_range(const char * begin, const char * end);
 

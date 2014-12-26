@@ -11,25 +11,6 @@ parse_error::parse_error(const char * msg)
 }
 
 
-void append_rule(
-  std::vector<rule>::iterator begin,
-  std::vector<rule>::iterator end,
-  const rule& r,
-  int level
-)
-{
-  assert(begin != end);
-  std::vector<rule>::iterator it(end - 1);
-
-  if( level > 1 && it->children_size() )
-  {
-    append_rule(it->children_begin(), it->children_end(), r, level - 1);
-    return;
-  }
-
-  it->append_child(r);
-}
-
 std::vector<rule> 
 parse_range(const char * begin, const char * end)
 {
@@ -92,7 +73,8 @@ parse_range(const char * begin, const char * end)
         }
         else
         {
-          append_rule(rules.begin(), rules.end(), cur_rule, cur_level);
+          assert(!rules.empty());
+          rules.back().append_child(cur_rule, cur_level);
         }
         cur_rule = rule();
         cur_level = 0;

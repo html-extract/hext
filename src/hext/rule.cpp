@@ -36,8 +36,14 @@ std::vector<rule>::size_type rule::children_size() const
   return this->children.size();
 }
 
-void rule::append_child(rule r)
+void rule::append_child(const rule& r, int level)
 {
+  if( level > 1 && !this->children.empty() )
+  {
+    this->children.back().append_child(r, level - 1);
+    return;
+  }
+
   this->children.push_back(r);
 }
 
