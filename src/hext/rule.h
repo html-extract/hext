@@ -18,11 +18,6 @@ namespace hext {
 class rule
 {
 public:
-  typedef std::vector<rule>::const_iterator const_child_iterator;
-  typedef std::vector<rule>::iterator child_iterator;
-  typedef std::vector<attribute>::const_iterator const_attribute_iterator;
-  typedef std::vector<attribute>::iterator attribute_iterator;
-
   rule();
 
   void print(std::ostream& out = std::cout, int indent_level = 0) const;

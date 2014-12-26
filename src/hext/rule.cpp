@@ -34,7 +34,7 @@ void rule::set_tag_name(std::string name)
 
 void rule::match_recursively(const GumboNode * node, match_tree * m) const
 {
-  typedef rule::const_child_iterator r_child_iter;
+  typedef std::vector<rule>::const_iterator r_child_iter;
 
   if( node == nullptr )
     return;
@@ -83,7 +83,7 @@ void rule::match_node_children(const GumboNode * node, match_tree * m) const
 
 bool rule::matches(const GumboNode * node) const
 {
-  typedef rule::const_attribute_iterator r_attr_iter;
+  typedef std::vector<attribute>::const_iterator r_attr_iter;
 
   if( node == nullptr )
     return false;
@@ -118,7 +118,7 @@ bool rule::matches(const GumboNode * node) const
 std::unique_ptr<match_tree>
 rule::capture(const GumboNode * node) const
 {
-  typedef rule::const_attribute_iterator r_attr_iter;
+  typedef std::vector<attribute>::const_iterator r_attr_iter;
 
   std::unique_ptr<match_tree> m_node = make_unique<match_tree>();
 
