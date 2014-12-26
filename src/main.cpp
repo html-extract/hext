@@ -9,6 +9,8 @@
 
 int main(int argc, char ** argv)
 {
+  std::ios_base::sync_with_stdio(false);
+
   // todo: boost::program_options
   if( argc < 3 )
   {
