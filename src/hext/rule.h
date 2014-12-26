@@ -31,10 +31,6 @@ public:
   child_iterator children_end();
   std::vector<rule>::size_type children_size() const;
 
-  const_attribute_iterator attributes_begin() const;
-  const_attribute_iterator attributes_end() const;
-  std::vector<attribute>::size_type attributes_size() const;
-
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
   void append_child(rule r);
