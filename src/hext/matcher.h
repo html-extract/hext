@@ -31,7 +31,7 @@ public:
     explicit match_error(const char * msg);
   };
 
-  matcher(const char * path);
+  explicit matcher(const char * path);
 
   std::unique_ptr<match_tree>
   capture_node(const rule * r, const GumboNode * node) const;
