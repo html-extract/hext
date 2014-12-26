@@ -5,8 +5,8 @@ namespace hext {
 
 
 attribute::attribute()
-: name(""),
-  value(""),
+: name(),
+  value(),
   capture(false),
   builtin(false)
 {
