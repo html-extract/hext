@@ -3,8 +3,13 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
+#include <gumbo.h>
+
+#include "hext/make-unique.h"
 #include "hext/attribute.h"
+#include "hext/match-tree.h"
 
 
 namespace hext {
@@ -21,28 +26,35 @@ public:
   rule();
 
   const_child_iterator children_begin() const;
-
   const_child_iterator children_end() const;
-
   child_iterator children_begin();
-
   child_iterator children_end();
-
   std::vector<rule>::size_type children_size() const;
 
   const_attribute_iterator attributes_begin() const;
-
   const_attribute_iterator attributes_end() const;
-
   std::vector<attribute>::size_type attributes_size() const;
 
   void append_child(rule r);
-
   void append_attribute(attribute attr);
 
   std::string get_tag_name() const;
-
   void set_tag_name(std::string name);
+
+  void match_recursively(
+    const GumboNode * node,
+    match_tree * m
+  ) const;
+
+  void match_node_children(
+    const GumboNode * node,
+    match_tree * m
+  ) const;
+
+  bool matches(const GumboNode * node) const;
+
+  std::unique_ptr<match_tree>
+  capture(const GumboNode * node) const;
 
 private:
   std::vector<rule> children;
