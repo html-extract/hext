@@ -14,7 +14,7 @@ parse_error::parse_error(const char * msg)
 void append_rule(
   std::vector<rule>::iterator begin,
   std::vector<rule>::iterator end,
-  rule r,
+  const rule& r,
   int level
 )
 {
@@ -108,7 +108,6 @@ parse_range(const char * begin, const char * end)
   
   return rules;
 }
-
 
 std::vector<rule>
 parse_file(const char * path)

@@ -29,7 +29,7 @@ public:
 void append_rule(
   std::vector<rule>::iterator begin,
   std::vector<rule>::iterator end,
-  rule r,
+  const rule& r,
   int level
 );
 
