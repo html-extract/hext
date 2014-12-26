@@ -59,7 +59,7 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
   std::string label;
   if( this->matches.empty() )
   {
-    label.append("(empty)");
+    label.append("[rule]");
   }
   else
   {
@@ -70,8 +70,9 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
     }
   }
 
-  out << "    node_" << this_node << " [label=\"" << label << "\"];\n"
-      << "    node_" << parent_id << " -> node_"  << this_node << ";\n";
+  out << "    node_" << this_node << " [label=\"" << label << "\"];\n";
+  if( parent_id )
+    out << "    node_" << parent_id << " -> node_" << this_node << ";\n";
 
   for(const auto& c : this->children)
     c->print_dot(out, this_node);
