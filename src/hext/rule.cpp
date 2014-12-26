@@ -7,7 +7,7 @@ namespace hext {
 rule::rule()
 : children(),
   attributes(),
-  tag_name("*")
+  tag_name()
 {
 }
 
