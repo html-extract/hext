@@ -34,13 +34,11 @@ public:
   void append_match(const name_value_pair& p);
 
   const_child_iterator children_begin() const;
-
   const_child_iterator children_end() const;
 
   std::vector<match_tree>::size_type children_size() const;
 
   const_match_iterator matches_begin() const;
-
   const_match_iterator matches_end() const;
 
   void to_json(std::ostream& out = std::cout) const;
