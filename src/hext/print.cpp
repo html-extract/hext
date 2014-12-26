@@ -21,9 +21,9 @@ void print_rule(
     [&out](attribute a) {
       out << a.get_name()
           << "=\""
-          << ( a.get_is_capture() ? "(:" : "" )
+          << ( a.is_capture() ? "(:" : "" )
           << a.get_value()
-          << ( a.get_is_capture() ? ")" : "" )
+          << ( a.is_capture() ? ")" : "" )
           << "\" ";
     }
   );

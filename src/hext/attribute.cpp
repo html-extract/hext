@@ -22,12 +22,12 @@ std::string attribute::get_value() const
   return this->value;
 }
 
-bool attribute::get_is_capture() const
+bool attribute::is_capture() const
 {
   return this->capture;
 }
 
-bool attribute::get_is_builtin() const
+bool attribute::is_builtin() const
 {
   return this->builtin;
 }
@@ -42,14 +42,14 @@ void attribute::set_value(const std::string& attribute_value)
   this->value = attribute_value;
 }
 
-void attribute::set_is_capture(bool is_capture)
+void attribute::set_is_capture(bool capt)
 {
-  this->capture = is_capture;
+  this->capture = capt;
 }
 
-void attribute::set_is_builtin(bool is_builtin)
+void attribute::set_is_builtin(bool built)
 {
-  this->builtin = is_builtin;
+  this->builtin = built;
 }
 
 

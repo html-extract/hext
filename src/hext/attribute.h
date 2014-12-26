@@ -16,9 +16,9 @@ public:
 
   std::string get_value() const;
 
-  bool get_is_capture() const;
+  bool is_capture() const;
 
-  bool get_is_builtin() const;
+  bool is_builtin() const;
 
   void set_name(const std::string& attribute_name);
 

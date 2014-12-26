@@ -53,7 +53,7 @@ matcher::capture_node(const rule * r, const GumboNode * node) const
 
   for(r_attr_iter it = r->attributes_begin(); it != r->attributes_end(); ++it)
   {
-    if( it->get_is_capture() )
+    if( it->is_capture() )
     {
       m_node->append_match(
         this->capture_attribute(&(*it), node)
@@ -120,11 +120,11 @@ bool matcher::node_matches_rule(const GumboNode * node, const rule * r) const
 
     GumboAttribute * g_attr =
       gumbo_get_attribute(&node->v.element.attributes, attr_name.c_str());
-    if( !g_attr && !it->get_is_builtin() )
+    if( !g_attr && !it->is_builtin() )
       return false;
 
     std::string attr_value = it->get_value();
-    if( !it->get_is_capture() && !attr_value.empty() )
+    if( !it->is_capture() && !attr_value.empty() )
     {
       if( attr_value.compare(g_attr->value) != 0 )
         return false;
