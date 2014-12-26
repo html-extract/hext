@@ -58,22 +58,17 @@ parse_range(const char * begin, const char * end)
     switch( tok.tid )
     {
       case TK_ERROR:
-        std::cout << "TK_ERROR ";
         throw parse_error("syntax error");
         break;
       case TK_INDENT:
-        std::cout << "TK_INDENT ";
         ++cur_level;
         break;
       case TK_RULE_BEGIN:
-        std::cout << "TK_RULE_BEGIN ";
         break;
       case TK_TAG_NAME:
-        std::cout << "TK_TAG_NAME ";
         cur_rule.set_tag_name(tok_contents);
         break;
       case TK_ATTR_NAME:
-        std::cout << "TK_ATTR_NAME ";
         cur_attr = attribute();
         cur_attr.set_name(tok_contents);
         cur_attr.set_is_builtin(
@@ -81,19 +76,16 @@ parse_range(const char * begin, const char * end)
         );
         break;
       case TK_ATTR_LITERAL:
-        std::cout << "TK_ATTR_LITERAL ";
         cur_attr.set_is_capture(false);
         cur_attr.set_value(tok_contents);
         cur_rule.append_attribute(cur_attr);
         break;
       case TK_ATTR_CAPTURE:
-        std::cout << "TK_ATTR_CAPTURE ";
         cur_attr.set_is_capture(true);
         cur_attr.set_value(tok_contents);
         cur_rule.append_attribute(cur_attr);
         break;
       case TK_RULE_END:
-        std::cout << "TK_RULE_END ";
         if( cur_level == 0 || rules.empty() )
         {
           rules.push_back(cur_rule);
@@ -106,17 +98,14 @@ parse_range(const char * begin, const char * end)
         cur_level = 0;
         break;
       case TK_EOF:
-        std::cout << "TK_EOF ";
         break;
       default:
-        std::cout << "UNKNOWN TAG " << (int)tok.tid << " ";
+        assert(false);
         break;
     }
 
   }
   
-  std::cout << "\n";
-
   return rules;
 }
 
