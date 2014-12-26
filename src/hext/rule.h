@@ -25,12 +25,6 @@ public:
 
   rule();
 
-  const_child_iterator children_begin() const;
-  const_child_iterator children_end() const;
-  child_iterator children_begin();
-  child_iterator children_end();
-  std::vector<rule>::size_type children_size() const;
-
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
   void append_child(const rule& r, int level = 0);

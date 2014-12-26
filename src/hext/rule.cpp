@@ -11,31 +11,6 @@ rule::rule()
 {
 }
 
-rule::const_child_iterator rule::children_begin() const
-{
-  return this->children.cbegin();
-}
-
-rule::const_child_iterator rule::children_end() const
-{
-  return this->children.cend();
-}
-
-rule::child_iterator rule::children_begin()
-{
-  return this->children.begin();
-}
-
-rule::child_iterator rule::children_end()
-{
-  return this->children.end();
-}
-
-std::vector<rule>::size_type rule::children_size() const
-{
-  return this->children.size();
-}
-
 void rule::append_child(const rule& r, int level)
 {
   if( level > 1 && !this->children.empty() )
