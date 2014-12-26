@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iterator>
 
-#include "token.h"
+#include "hext/token.h"
 
 
 #define LX_TK_START(tk_id) \
