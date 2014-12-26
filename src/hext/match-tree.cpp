@@ -44,27 +44,38 @@ void match_tree::to_json(std::ostream& out) const
   }
 }
 
-void match_tree::print(std::ostream& out, int indent_level) const
+void match_tree::print(std::ostream& out) const
 {
-  std::string indent_str(indent_level * 2, ' ');
+  out << "digraph match_tree {\n"
+      << "    node [fontname=\"Arial\"];\n";
+  this->print_dot(out);
+  out << "}\n";
+}
 
-  out << indent_str
-      << "match_tree matches: ";
-  for(const auto& m : this->matches)
+void match_tree::print_dot(std::ostream& out, int parent_id) const
+{
+  static int node_index = 0;
+  int this_node = ++node_index;
+
+  std::string label;
+  if( this->matches.empty() )
   {
-    out << m.first << ": " << m.second << "; ";
+    label.append("(empty)");
+  }
+  else
+  {
+    for(const auto& m : this->matches)
+    {
+      label.append(m.first);
+      label.append(" ");
+    }
   }
 
-  out << "\n"
-      << indent_str
-      << "children("
-      << this->children.size()
-      << "):\n";
+  out << "    node_" << this_node << " [label=\"" << label << "\"];\n"
+      << "    node_" << parent_id << " -> node_"  << this_node << ";\n";
 
   for(const auto& c : this->children)
-  {
-    c->print(out, indent_level + 1);
-  }
+    c->print_dot(out, this_node);
 }
 
 

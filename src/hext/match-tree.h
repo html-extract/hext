@@ -29,7 +29,8 @@ public:
 
   void to_json(std::ostream& out = std::cout) const;
 
-  void print(std::ostream& out = std::cout, int indent_level = 0) const;
+  void print(std::ostream& out = std::cout) const;
+  void print_dot(std::ostream& out, int parent_id = 0) const;
 
 private:
   match_tree(const match_tree&) = delete;
