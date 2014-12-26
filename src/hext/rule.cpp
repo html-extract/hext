@@ -180,6 +180,26 @@ rule::capture(const GumboNode * node) const
   return m_node;
 }
 
+void rule::print(std::ostream& out, int indent_level) const
+{
+  out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
+      << "<"
+      << this->tag_name
+      << " ";
+
+  for(const auto& a : this->attributes)
+  {
+    a.print(out);
+    out << " ";
+  }
+
+  out << ">\n";
+  for(const auto& c : this->children)
+  {
+    c.print(out, indent_level + 1);
+  }
+}
+
 
 } // namespace hext
 

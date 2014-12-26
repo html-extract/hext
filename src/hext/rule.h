@@ -35,6 +35,8 @@ public:
   const_attribute_iterator attributes_end() const;
   std::vector<attribute>::size_type attributes_size() const;
 
+  void print(std::ostream& out = std::cout, int indent_level = 0) const;
+
   void append_child(rule r);
   void append_attribute(attribute attr);
 

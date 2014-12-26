@@ -36,6 +36,8 @@ public:
   match_tree::name_value_pair
   capture(const GumboNode * node) const;
 
+  void print(std::ostream& out = std::cout) const;
+
 private:
   std::string name;
   std::string value;

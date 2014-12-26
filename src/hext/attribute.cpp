@@ -81,6 +81,16 @@ attribute::capture(const GumboNode * node) const
   }
 }
 
+void attribute::print(std::ostream& out) const
+{
+  out << this->name
+      << "=\""
+      << ( this->is_capt ? "(:" : "" )
+      << this->value
+      << ( this->is_capt ? ")" : "" )
+      << "\"";
+}
+
 
 } // namespace hext
 

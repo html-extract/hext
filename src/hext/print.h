@@ -14,12 +14,6 @@
 namespace hext {
 
 
-void print_rule(
-  rule r,
-  unsigned int indent_level = 0,
-  std::ostream& out = std::cout
-);
-
 void print_match_tree(
   const match_tree * m,
   unsigned int indent_level = 0,
