@@ -28,7 +28,7 @@ int main(int argc, char ** argv)
     {
       hext::print_rule(r);
       std::unique_ptr<hext::match_tree> mt = m.match(&r);
-      assert(mt.get() != nullptr);
+      assert(mt != nullptr);
       //hext::print_match_tree(mt.get());
       mt->to_json(std::cout);
     }
