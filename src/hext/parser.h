@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iterator>
 #include <string>
+#include <vector>
 #include <stdexcept>
 
 #include "hext/token.h"
