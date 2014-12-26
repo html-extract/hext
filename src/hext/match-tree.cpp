@@ -46,8 +46,7 @@ void match_tree::to_json(std::ostream& out) const
 
 void match_tree::print(std::ostream& out) const
 {
-  out << "digraph match_tree {\n"
-      << "    node [fontname=\"Arial\"];\n";
+  out << "digraph match_tree {\n";
   this->print_dot(out);
   out << "}\n";
 }
