@@ -4,7 +4,6 @@
 
 #include "hext/parser.h"
 #include "hext/matcher.h"
-#include "hext/print.h"
 
 
 int main(int argc, char ** argv)
