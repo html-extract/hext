@@ -11,7 +11,7 @@ parse_error::parse_error(const char * msg)
 }
 
 
-std::vector<rule> 
+std::vector<rule>
 parse_range(const char * begin, const char * end)
 {
   lexer lex(begin, end);
@@ -82,10 +82,9 @@ parse_range(const char * begin, const char * end)
       case TK_EOF:
         break;
       default:
-        assert(false);
+        throw parse_error("unknown token");
         break;
     }
-
   }
   
   return rules;
