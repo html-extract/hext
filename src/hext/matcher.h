@@ -24,12 +24,6 @@ namespace hext {
 
 class matcher
 {
-  typedef std::tuple<
-    const rule *,
-    const GumboNode *,
-    match_tree *
-  > match_context;
-
 public:
   class match_error : public std::runtime_error
   {
