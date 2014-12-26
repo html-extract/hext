@@ -67,10 +67,6 @@ matcher::capture_node(const rule * r, const GumboNode * node) const
 match_tree::name_value_pair
 matcher::capture_attribute(const attribute * a, const GumboNode * node) const
 {
-  assert(a != nullptr);
-  assert(node != nullptr);
-  assert(node->type == GUMBO_NODE_ELEMENT);
-
   if( a == nullptr )
     return match_tree::name_value_pair("", "");
 
