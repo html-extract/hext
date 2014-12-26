@@ -4,12 +4,6 @@
 namespace hext {
 
 
-matcher::match_error::match_error(const char * msg)
-: std::runtime_error(msg)
-{
-}
-
-
 matcher::matcher(const char * path)
 : g_outp(nullptr),
   buffer()
@@ -32,7 +26,7 @@ matcher::matcher(const char * path)
 
   this->g_outp = gumbo_parse(this->buffer.c_str());
   if( this->g_outp == nullptr )
-    throw match_error("gumbo_parse returned nullptr");
+    throw std::runtime_error("gumbo_parse returned nullptr");
 }
 
 std::unique_ptr<match_tree> matcher::match(const rule& r) const

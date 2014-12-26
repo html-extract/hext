@@ -25,12 +25,6 @@ namespace hext {
 class matcher
 {
 public:
-  class match_error : public std::runtime_error
-  {
-  public:
-    explicit match_error(const char * msg);
-  };
-
   explicit matcher(const char * path);
 
   std::unique_ptr<match_tree> match(const rule& r) const;
