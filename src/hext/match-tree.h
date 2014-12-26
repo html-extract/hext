@@ -43,6 +43,8 @@ public:
 
   void to_json(std::ostream& out = std::cout) const;
 
+  void print(std::ostream& out = std::cout, int indent_level = 0) const;
+
 private:
   match_tree(const match_tree&) = delete;
   match_tree& operator=(const match_tree&) = delete;

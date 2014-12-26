@@ -68,6 +68,29 @@ void match_tree::to_json(std::ostream& out) const
   }
 }
 
+void match_tree::print(std::ostream& out, int indent_level) const
+{
+  std::string indent_str(indent_level * 2, ' ');
+
+  out << indent_str
+      << "match_tree matches: ";
+  for(const auto& m : this->matches)
+  {
+    out << m.first << ": " << m.second << "; ";
+  }
+
+  out << "\n"
+      << indent_str
+      << "children("
+      << this->children.size()
+      << "):\n";
+
+  for(const auto& c : this->children)
+  {
+    c->print(out, indent_level + 1);
+  }
+}
+
 
 } // namespace hext
 
