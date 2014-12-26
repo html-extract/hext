@@ -2,21 +2,16 @@
 #define HEXT_MATCHER_H
 
 #include <cassert>
-#include <vector>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <stdexcept>
-#include <queue>
-#include <tuple>
 
 #include <gumbo.h>
 
 #include "hext/rule.h"
-#include "hext/attribute.h"
 #include "hext/match-tree.h"
 #include "hext/make-unique.h"
-#include "hext/builtin-captures.h"
 
 
 namespace hext {
