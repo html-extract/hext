@@ -2,6 +2,7 @@
 #define HEXT_LEXER_H
 
 #include <string>
+#include <vector>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
