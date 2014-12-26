@@ -1,10 +1,14 @@
 #ifndef HEXT_MATCH_TREE_H
 #define HEXT_MATCH_TREE_H
 
+#include <cassert>
 #include <string>
 #include <utility>
 #include <vector>
 #include <memory>
+#include <iostream>
+
+#include "hext/util.h"
 
 
 namespace hext {
@@ -38,6 +42,8 @@ public:
   const_match_iterator matches_begin() const;
 
   const_match_iterator matches_end() const;
+
+  void to_json(std::ostream& out = std::cout) const;
 
 private:
   match_tree(const match_tree&) = delete;

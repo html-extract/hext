@@ -54,6 +54,7 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 
 ADD_EXECUTABLE(
   html-extract
+  "${PROJECT_SOURCE_DIR}/src/hext/util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/attribute.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtin-captures.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/lexer-util.cpp"
