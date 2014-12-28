@@ -28,8 +28,8 @@ int main(int argc, char ** argv)
       //r.print(std::cout);
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
-      mt->print();
-      //mt->to_json(std::cout);
+      //mt->print();
+      mt->json_print(std::cout);
     }
   }
   catch( std::ios_base::failure& e )

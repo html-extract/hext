@@ -49,9 +49,19 @@ void rule::match_recursively(const GumboNode * node, match_tree * m) const
   {
     m = m->append_child_and_own(this->capture(node));
 
-    for(r_child_iter it = this->children.begin(); it != this->children.end(); ++it)
+    // if we do not have any child-rules left, we have found a complete
+    // match.
+
+    if( this->children.empty() )
     {
-      it->match_node_children(node, m);
+      m->set_is_complete(true);
+    }
+    else
+    {
+      for(r_child_iter it = this->children.begin(); it != this->children.end(); ++it)
+      {
+        it->match_node_children(node, m);
+      }
     }
   }
   else

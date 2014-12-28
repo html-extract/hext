@@ -6,7 +6,8 @@ namespace hext {
 
 match_tree::match_tree()
 : children(),
-  matches()
+  matches(),
+  complete(false)
 {
 }
 
@@ -21,26 +22,49 @@ void match_tree::append_match(const name_value_pair& p)
   this->matches.push_back(p);
 }
 
-void match_tree::to_json(std::ostream& out) const
+void match_tree::json_print(std::ostream& out) const
 {
-  if( !this->matches.empty() )
-  {
-    out << "{";
-    assert(this->matches.size() > 0);
-    std::vector<match_tree::name_value_pair>::const_iterator
-      it_last = this->matches.end() - 1;
-    for(auto it = this->matches.begin(); it != this->matches.end(); ++it)
-    {
-      out << it->first << ": \""
-          << util::escape_quotes(it->second)
-          << ( it == it_last ? "\"" : "\", " );
-    }
-    out << "}\n";
-  }
-
+  out << "{";
+  infix_ostream_iterator<std::string> it_out(out, ", ");
   for(const auto& c : this->children)
   {
-    c->to_json(out);
+    c->json_print_recursive(it_out);
+  }
+  out << "}\n";
+}
+
+bool match_tree::json_print_recursive(infix_ostream_iterator<std::string>& out) const
+{
+  if( this->children.empty() )
+  {
+    if( this->complete )
+      this->json_print_matches(out);
+
+    return this->complete;
+  }
+  else
+  {
+    bool ret = false;
+    for(const auto& c : this->children)
+      ret |= c->json_print_recursive(out);
+
+    if( ret )
+      this->json_print_matches(out);
+
+    return ret;
+  }
+}
+
+void match_tree::json_print_matches(infix_ostream_iterator<std::string>& out) const
+{
+  for(auto it = this->matches.begin(); it != this->matches.end(); ++it)
+  {
+    std::string str("\"");
+    str.append(util::escape_quotes(it->first))
+       .append("\": \"")
+       .append(util::escape_quotes(it->second))
+       .append("\"");
+    out = str;
   }
 }
 
@@ -59,17 +83,16 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
 
   std::string label;
   if( this->matches.empty() )
-  {
     label.append("[rule]");
-  }
   else
-  {
     for(const auto& m : this->matches)
     {
       label.append(m.first);
       label.append(" ");
     }
-  }
+
+  if( this->complete )
+    label.append("*");
 
   out << "    node_" << this_node << " [label=\"" << label << "\"];\n";
   if( parent_id )
@@ -77,6 +100,16 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
 
   for(const auto& c : this->children)
     c->print_dot(out, this_node);
+}
+
+bool match_tree::is_complete() const
+{
+  return this->complete;
+}
+
+void match_tree::set_is_complete(bool comp)
+{
+  this->complete = comp;
 }
 
 
