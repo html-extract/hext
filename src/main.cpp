@@ -4,24 +4,30 @@
 
 #include "hext/parser.h"
 #include "hext/matcher.h"
+#include "hext/program-options.h"
 
 
-int main(int argc, char ** argv)
+int main(int argc, const char ** argv)
 {
   std::ios_base::sync_with_stdio(false);
 
-  // todo: boost::program_options
-  if( argc < 3 )
+  hext::program_options po(argc, argv);
+
+  if( po.contains("help") )
   {
-    std::cout << "Usage: " << argv[0]
-              << " [rules.hext] [target.html]" << std::endl;
+    po.print(argv[0], std::cout);
     return EXIT_SUCCESS;
+  }
+
+  if( !po.validate_or_print_error(std::cerr) )
+  {
+    return EXIT_FAILURE;
   }
 
   try
   {
-    auto rules = hext::parser::parse_file(argv[1]);
-    hext::matcher m(argv[2]);
+    auto rules = hext::parser::parse_file(po.get("hext-file"));
+    hext::matcher m(po.get("html-file"));
 
     for(const auto& r : rules)
     {

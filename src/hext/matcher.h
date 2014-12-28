@@ -20,7 +20,7 @@ namespace hext {
 class matcher
 {
 public:
-  explicit matcher(const char * path);
+  explicit matcher(const std::string& path);
 
   std::unique_ptr<match_tree> match(const rule& r) const;
 

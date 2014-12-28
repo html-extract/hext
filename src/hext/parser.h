@@ -30,7 +30,7 @@ std::vector<rule>
 parse_range(const char * begin, const char * end);
 
 std::vector<rule>
-parse_file(const char * path);
+parse_file(const std::string& path);
 
 
 } // namespace parser

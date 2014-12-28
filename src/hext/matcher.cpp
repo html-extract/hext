@@ -4,12 +4,10 @@
 namespace hext {
 
 
-matcher::matcher(const char * path)
+matcher::matcher(const std::string& path)
 : g_outp(nullptr),
   buffer()
 {
-  assert(path != nullptr);
-
   {
     std::ifstream file;
     // force exception on error
