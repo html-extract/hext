@@ -92,11 +92,13 @@ parse_range(const char * begin, const char * end)
 std::vector<rule>
 parse_file(const std::string& path)
 {
-  std::ifstream in;
-  in.open(path);
+  std::ifstream file;
+  // force exception on error
+  file.exceptions(std::ios::failbit | std::ios::badbit);
+  file.open(path);
 
   std::string input(
-    (std::istreambuf_iterator<char>(in)),
+    (std::istreambuf_iterator<char>(file)),
     std::istreambuf_iterator<char>()
   );
   const char * c_begin = input.c_str();
