@@ -32,11 +32,12 @@ int main(int argc, const char ** argv)
 
     for(const auto& r : rules)
     {
-      //r.print(std::cout);
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
-      //mt->print();
-      mt->json_print(std::cout);
+      if( po.contains("match-tree-graph") )
+        mt->print();
+      else
+        mt->json_print();
     }
   }
   catch( std::ios_base::failure& e )
