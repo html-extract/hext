@@ -33,11 +33,6 @@ void attribute::set_is_capture(bool capt)
   this->is_capt = capt;
 }
 
-void attribute::set_is_builtin(bool built)
-{
-  this->is_built = built;
-}
-
 bool attribute::matches(const GumboNode * node) const
 {
   if( node == nullptr )
