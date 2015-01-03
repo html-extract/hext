@@ -35,10 +35,7 @@ void rule::set_tag_name(std::string name)
 
 void rule::match_recursively(const GumboNode * node, match_tree * m) const
 {
-  if( node == nullptr )
-    return;
-
-  if( m == nullptr )
+  if( node == nullptr || m == nullptr )
     return;
 
   if( node->type != GUMBO_NODE_ELEMENT )
@@ -60,10 +57,7 @@ void rule::match_recursively(const GumboNode * node, match_tree * m) const
 
 void rule::match_node_children(const GumboNode * node, match_tree * m) const
 {
-  if( node == nullptr )
-    return;
-
-  if( m == nullptr )
+  if( node == nullptr || m == nullptr )
     return;
 
   if( node->type != GUMBO_NODE_ELEMENT )
