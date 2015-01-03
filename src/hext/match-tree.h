@@ -7,6 +7,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <algorithm>
 
 #include "hext/util.h"
 #include "hext/infix-ostream-iterator.h"
@@ -14,6 +15,8 @@
 
 namespace hext {
 
+
+class rule;
 
 class match_tree
 {
@@ -29,14 +32,15 @@ public:
   void append_match(const name_value_pair& p);
 
   void json_print(std::ostream& out = std::cout) const;
-  bool json_print_recursive(infix_ostream_iterator<std::string>& out) const;
-  void json_print_matches(infix_ostream_iterator<std::string>& out) const;
+  void json_print_recursive(infix_ostream_iterator<std::string>& out) const;
 
   void print(std::ostream& out = std::cout) const;
   void print_dot(std::ostream& out, int parent_id = 0) const;
 
-  bool is_complete() const;
-  void set_is_complete(bool comp);
+  void set_rule(const rule * matching_rule);
+
+  void filter();
+  bool filter_recursive();
 
 private:
   match_tree(const match_tree&) = delete;
@@ -45,7 +49,7 @@ private:
   std::vector<std::unique_ptr<match_tree>> children;
   std::vector<name_value_pair> matches;
 
-  bool complete;
+  const rule * r;
 };
 
 

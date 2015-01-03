@@ -1,4 +1,5 @@
 #include "hext/rule.h"
+#include "hext/match-tree.h"
 
 
 namespace hext {
@@ -48,20 +49,11 @@ void rule::match_recursively(const GumboNode * node, match_tree * m) const
   if( this->matches(node) )
   {
     m = m->append_child_and_own(this->capture(node));
+    m->set_rule(this);
 
-    // if we do not have any child-rules left, we have found a complete
-    // match.
-
-    if( this->children.empty() )
+    for(r_child_iter it = this->children.begin(); it != this->children.end(); ++it)
     {
-      m->set_is_complete(true);
-    }
-    else
-    {
-      for(r_child_iter it = this->children.begin(); it != this->children.end(); ++it)
-      {
-        it->match_node_children(node, m);
-      }
+      it->match_node_children(node, m);
     }
   }
   else
@@ -138,7 +130,8 @@ rule::capture(const GumboNode * node) const
   if( node->type != GUMBO_NODE_ELEMENT )
     return m_node;
 
-  for(r_attr_iter it = this->attributes.begin(); it != this->attributes.end(); ++it)
+  for(r_attr_iter it = this->attributes.begin(); 
+      it != this->attributes.end(); ++it)
   {
     if( it->is_capture() )
     {
@@ -169,6 +162,16 @@ void rule::print(std::ostream& out, int indent_level) const
   {
     c.print(out, indent_level + 1);
   }
+}
+
+std::string rule::get_tag_name() const
+{
+  return this->tag_name;
+}
+
+std::vector<rule>::size_type rule::children_size() const
+{
+  return this->children.size();
 }
 
 

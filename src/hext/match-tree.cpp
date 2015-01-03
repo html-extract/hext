@@ -1,4 +1,5 @@
 #include "hext/match-tree.h"
+#include "hext/rule.h"
 
 
 namespace hext {
@@ -7,7 +8,7 @@ namespace hext {
 match_tree::match_tree()
 : children(),
   matches(),
-  complete(false)
+  r(nullptr)
 {
 }
 
@@ -24,48 +25,32 @@ void match_tree::append_match(const name_value_pair& p)
 
 void match_tree::json_print(std::ostream& out) const
 {
-  out << "{";
-  infix_ostream_iterator<std::string> it_out(out, ", ");
   for(const auto& c : this->children)
   {
-    c->json_print_recursive(it_out);
-  }
-  out << "}\n";
-}
-
-bool match_tree::json_print_recursive(infix_ostream_iterator<std::string>& out) const
-{
-  if( this->children.empty() )
-  {
-    if( this->complete )
-      this->json_print_matches(out);
-
-    return this->complete;
-  }
-  else
-  {
-    bool ret = false;
-    for(const auto& c : this->children)
-      ret |= c->json_print_recursive(out);
-
-    if( ret )
-      this->json_print_matches(out);
-
-    return ret;
+    out << "{";
+    infix_ostream_iterator<std::string> it_out(out, ", ");
+    this->json_print_recursive(it_out);
+    out << "}\n";
   }
 }
 
-void match_tree::json_print_matches(infix_ostream_iterator<std::string>& out) const
+void
+match_tree::json_print_recursive(
+  infix_ostream_iterator<std::string>& out
+) const
 {
-  for(auto it = this->matches.begin(); it != this->matches.end(); ++it)
+  for(const auto& p : this->matches)
   {
     std::string str("\"");
-    str.append(util::escape_quotes(it->first))
+    str.append(util::escape_quotes(p.first))
        .append("\": \"")
-       .append(util::escape_quotes(it->second))
+       .append(util::escape_quotes(p.second))
        .append("\"");
     out = str;
   }
+
+  for(const auto& c : this->children)
+    c->json_print_recursive(out);
 }
 
 void match_tree::print(std::ostream& out) const
@@ -82,16 +67,18 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
   int this_node = ++node_index;
 
   std::string label;
-  if( this->matches.empty() )
+  if( this->r == nullptr || this->r->get_tag_name().empty() )
     label.append("[rule]");
   else
-    for(const auto& m : this->matches)
-    {
-      label.append(m.first);
-      label.append(" ");
-    }
+    label.append(this->r->get_tag_name());
 
-  if( this->complete )
+  for(const auto& m : this->matches)
+  {
+    label.append(" ");
+    label.append(m.first);
+  }
+
+  if( this->r && this->r->children_size() == 0 )
     label.append("*");
 
   out << "    node_" << this_node << " [label=\"" << label << "\"];\n";
@@ -102,14 +89,51 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
     c->print_dot(out, this_node);
 }
 
-bool match_tree::is_complete() const
+void match_tree::set_rule(const rule * matching_rule)
 {
-  return this->complete;
+  this->r = matching_rule;
 }
 
-void match_tree::set_is_complete(bool comp)
+void match_tree::filter()
 {
-  this->complete = comp;
+  bool filter_ret = this->filter_recursive();
+
+  // TODO: move this into matcher?
+  if( this->children.size() == 1 && this->matches.empty() )
+  {
+    // TODO: is this bullet-proof?
+    std::swap(this->children, this->children.front()->children);
+  }
+}
+
+bool match_tree::filter_recursive()
+{
+  // if the matching rule has no more children, we have a complete
+  // match of a rule path, therefore we want to keep this branch by
+  // returning false.
+  if( this->r && this->r->children_size() == 0 )
+    return false;
+
+  for(auto& c : this->children)
+  {
+    if( c->filter_recursive() )
+      c.reset(nullptr);
+  }
+
+  // erase all empty unique_ptr
+  this->children.erase(
+    std::remove(this->children.begin(), this->children.end(), nullptr),
+    this->children.end()
+  );
+
+  // if there is no matching rule and there are no children, the branch
+  // is non matching and must be removed
+  if( this->r == nullptr )
+    return this->children.empty();
+  // there must be at least as many matches as there are child-rules,
+  // if not, this branch is non matching and must be removed
+  else
+    return this->r->children_size() > this->children.size();
 }
 
 

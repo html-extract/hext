@@ -9,11 +9,12 @@
 
 #include "hext/make-unique.h"
 #include "hext/attribute.h"
-#include "hext/match-tree.h"
 
 
 namespace hext {
 
+
+class match_tree;
 
 class rule
 {
@@ -42,6 +43,8 @@ public:
 
   std::unique_ptr<match_tree>
   capture(const GumboNode * node) const;
+
+  std::vector<rule>::size_type children_size() const;
 
 private:
   std::vector<rule> children;

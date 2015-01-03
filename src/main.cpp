@@ -21,9 +21,7 @@ int main(int argc, const char ** argv)
   }
 
   if( !po.validate_or_print_error(std::cerr) )
-  {
     return EXIT_FAILURE;
-  }
 
   try
   {
@@ -32,8 +30,22 @@ int main(int argc, const char ** argv)
 
     for(const auto& r : rules)
     {
+      std::fstream g(
+        "auto.graph.dot",
+        std::fstream::out|std::fstream::trunc
+      );
+      std::fstream gf(
+        "auto.graph.filtered.dot",
+        std::fstream::out|std::fstream::trunc
+      );
+
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
+
+      mt->print(g);
+      mt->filter();
+      mt->print(gf);
+
       if( po.contains("match-tree-graph") )
         mt->print();
       else
