@@ -29,13 +29,14 @@ void match_tree::json_print(std::ostream& out) const
   {
     out << "{";
     infix_ostream_iterator<std::string> it_out(out, ", ");
-    this->json_print_recursive(it_out);
+    this->json_print_matches(it_out);
+    c->json_print_recursive(it_out);
     out << "}\n";
   }
 }
 
 void
-match_tree::json_print_recursive(
+match_tree::json_print_matches(
   infix_ostream_iterator<std::string>& out
 ) const
 {
@@ -48,6 +49,14 @@ match_tree::json_print_recursive(
        .append("\"");
     out = str;
   }
+}
+
+void
+match_tree::json_print_recursive(
+  infix_ostream_iterator<std::string>& out
+) const
+{
+  this->json_print_matches(out);
 
   for(const auto& c : this->children)
     c->json_print_recursive(out);
@@ -96,6 +105,7 @@ void match_tree::set_rule(const rule * matching_rule)
 
 bool match_tree::filter()
 {
+  // TODO: explain why this step is neccessary
   if( this->children.size() == 1 && this->matches.empty() )
   {
     std::unique_ptr<match_tree> mt_front = std::move(this->children.front());
