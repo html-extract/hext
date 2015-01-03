@@ -30,18 +30,14 @@ public:
 
   void match(const GumboNode * node, match_tree * m) const;
 
-  std::unique_ptr<match_tree>
-  capture(const GumboNode * node) const;
+  std::unique_ptr<match_tree> capture(const GumboNode * node) const;
 
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
 private:
   bool matches(const GumboNode * node) const;
 
-  void match_node_children(
-    const GumboNode * node,
-    match_tree * m
-  ) const;
+  void match_node_children(const GumboNode * node, match_tree * m) const;
 
   std::vector<rule> children;
   std::vector<attribute> attributes;
