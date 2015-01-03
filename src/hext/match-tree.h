@@ -39,8 +39,7 @@ public:
 
   void set_rule(const rule * matching_rule);
 
-  void filter();
-  bool filter_recursive();
+  bool filter();
 
 private:
   match_tree(const match_tree&) = delete;

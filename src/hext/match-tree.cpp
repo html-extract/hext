@@ -94,13 +94,7 @@ void match_tree::set_rule(const rule * matching_rule)
   this->r = matching_rule;
 }
 
-void match_tree::filter()
-{
-  bool filter_ret = this->filter_recursive();
-
-}
-
-bool match_tree::filter_recursive()
+bool match_tree::filter()
 {
   if( this->children.size() == 1 && this->matches.empty() )
   {
@@ -119,7 +113,7 @@ bool match_tree::filter_recursive()
 
   for(auto& c : this->children)
   {
-    if( c->filter_recursive() )
+    if( c->filter() )
       c.reset(nullptr);
   }
 
