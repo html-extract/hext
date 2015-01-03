@@ -18,17 +18,14 @@ public:
   attribute();
 
   bool is_capture() const;
+  void set_is_capture(bool capt);
 
   void set_name(const std::string& attribute_name);
-
   void set_value(const std::string& attribute_value);
-
-  void set_is_capture(bool capt);
 
   bool matches(const GumboNode * node) const;
 
-  match_tree::name_value_pair
-  capture(const GumboNode * node) const;
+  match_tree::name_value_pair capture(const GumboNode * node) const;
 
   void print(std::ostream& out = std::cout) const;
 
