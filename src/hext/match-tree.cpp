@@ -96,6 +96,7 @@ bool match_tree::filter()
     // enable koenig lookup
     using namespace std;
     swap(this->r, mt_front->r);
+    swap(this->matches, mt_front->matches);
     swap(this->children, mt_front->children);
   }
 
