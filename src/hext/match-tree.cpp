@@ -62,15 +62,15 @@ match_tree::json_print_recursive(
     c->json_print_recursive(out);
 }
 
-void match_tree::print(std::ostream& out) const
+void match_tree::print_dot(std::ostream& out) const
 {
   out << "digraph match_tree {\n"
       << "    node [fontname=\"Arial\"];\n";
-  this->print_dot(out);
+  this->print_dot_nodes(out);
   out << "}\n";
 }
 
-void match_tree::print_dot(std::ostream& out, int parent_id) const
+void match_tree::print_dot_nodes(std::ostream& out, int parent_id) const
 {
   static int node_index = 0;
   int this_node = ++node_index;
@@ -95,7 +95,7 @@ void match_tree::print_dot(std::ostream& out, int parent_id) const
     out << "    node_" << parent_id << " -> node_" << this_node << ";\n";
 
   for(const auto& c : this->children)
-    c->print_dot(out, this_node);
+    c->print_dot_nodes(out, this_node);
 }
 
 void match_tree::set_rule(const rule * matching_rule)

@@ -42,12 +42,12 @@ int main(int argc, const char ** argv)
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
 
-      mt->print(g);
+      mt->print_dot(g);
       mt->filter();
-      mt->print(gf);
+      mt->print_dot(gf);
 
       if( po.contains("match-tree-graph") )
-        mt->print();
+        mt->print_dot();
       else
         mt->json_print();
     }

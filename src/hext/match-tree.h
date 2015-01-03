@@ -35,8 +35,8 @@ public:
   void json_print_recursive(infix_ostream_iterator<std::string>& out) const;
   void json_print_matches(infix_ostream_iterator<std::string>& out) const;
 
-  void print(std::ostream& out = std::cout) const;
-  void print_dot(std::ostream& out, int parent_id = 0) const;
+  void print_dot(std::ostream& out = std::cout) const;
+  void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
 
   void set_rule(const rule * matching_rule);
 
