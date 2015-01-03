@@ -98,11 +98,11 @@ bool match_tree::filter()
 {
   if( this->children.size() == 1 && this->matches.empty() )
   {
+    std::unique_ptr<match_tree> mt_front = std::move(this->children.front());
     // enable koenig lookup
     using namespace std;
-    // TODO: is this bullet-proof?
-    swap(this->children, this->children.front()->children);
-    swap(this->r, this->children.front()->r);
+    swap(this->r, mt_front->r);
+    swap(this->children, mt_front->children);
   }
 
   // if the matching rule has no more children, we have a complete
