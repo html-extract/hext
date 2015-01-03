@@ -28,6 +28,16 @@ void rule::append_attribute(attribute attr)
   this->attributes.push_back(attr);
 }
 
+std::vector<rule>::size_type rule::children_size() const
+{
+  return this->children.size();
+}
+
+std::string rule::get_tag_name() const
+{
+  return this->tag_name;
+}
+
 void rule::set_tag_name(std::string name)
 {
   this->tag_name = name;
@@ -52,45 +62,6 @@ void rule::match(const GumboNode * node, match_tree * m) const
   {
     this->match_node_children(node, m);
   }
-}
-
-void rule::match_node_children(const GumboNode * node, match_tree * m) const
-{
-  if( node == nullptr || m == nullptr )
-    return;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
-    return;
-
-  const GumboVector * node_children = &node->v.element.children;
-  for(unsigned int i = 0; i < node_children->length; ++i)
-  {
-    this->match(
-      static_cast<const GumboNode *>(node_children->data[i]),
-      m
-    );
-  }
-}
-
-bool rule::matches(const GumboNode * node) const
-{
-  if( node == nullptr )
-    return false;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
-    return false;
-
-  if( !this->tag_name.empty() &&
-      node->v.element.tag != gumbo_tag_enum(this->tag_name.c_str()) )
-    return false;
-
-  for(const auto& attr : this->attributes)
-  {
-    if( !attr.matches(node) )
-      return false;
-  }
-
-  return true;
 }
 
 std::unique_ptr<match_tree>
@@ -130,14 +101,43 @@ void rule::print(std::ostream& out, int indent_level) const
     c.print(out, indent_level + 1);
 }
 
-std::string rule::get_tag_name() const
+bool rule::matches(const GumboNode * node) const
 {
-  return this->tag_name;
+  if( node == nullptr )
+    return false;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return false;
+
+  if( !this->tag_name.empty() &&
+      node->v.element.tag != gumbo_tag_enum(this->tag_name.c_str()) )
+    return false;
+
+  for(const auto& attr : this->attributes)
+  {
+    if( !attr.matches(node) )
+      return false;
+  }
+
+  return true;
 }
 
-std::vector<rule>::size_type rule::children_size() const
+void rule::match_node_children(const GumboNode * node, match_tree * m) const
 {
-  return this->children.size();
+  if( node == nullptr || m == nullptr )
+    return;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return;
+
+  const GumboVector * node_children = &node->v.element.children;
+  for(unsigned int i = 0; i < node_children->length; ++i)
+  {
+    this->match(
+      static_cast<const GumboNode *>(node_children->data[i]),
+      m
+    );
+  }
 }
 
 
