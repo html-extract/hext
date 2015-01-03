@@ -78,9 +78,17 @@ public:
     return *this;
   }
 
-  infix_ostream_iterator<T, char_t, traits>&
+  // if we return a reference here like std::ostream_iterator does,
+  // we get a warning with -Weffc++:
+  //   > postfix ‘operator++(int)’ should return
+  //   > ‘hext::infix_ostream_iterator<T, char_t, traits>’
+  // Unfortunately we need to return a reference because we have
+  // state (is_first). BUT actually we don't care, because we do
+  // not even use this => assert(false).
+  infix_ostream_iterator<T, char_t, traits>
   operator++(int)
   {
+    assert(false);
     return *this;
   }
 
