@@ -23,20 +23,20 @@ void match_tree::append_match(const name_value_pair& p)
   this->matches.push_back(p);
 }
 
-void match_tree::json_print(std::ostream& out) const
+void match_tree::print_json(std::ostream& out) const
 {
   for(const auto& c : this->children)
   {
     out << "{";
     infix_ostream_iterator<std::string> it_out(out, ", ");
-    this->json_print_matches(it_out);
-    c->json_print_recursive(it_out);
+    this->print_json_matches(it_out);
+    c->print_json_recursive(it_out);
     out << "}\n";
   }
 }
 
 void
-match_tree::json_print_matches(
+match_tree::print_json_matches(
   infix_ostream_iterator<std::string>& out
 ) const
 {
@@ -52,14 +52,14 @@ match_tree::json_print_matches(
 }
 
 void
-match_tree::json_print_recursive(
+match_tree::print_json_recursive(
   infix_ostream_iterator<std::string>& out
 ) const
 {
-  this->json_print_matches(out);
+  this->print_json_matches(out);
 
   for(const auto& c : this->children)
-    c->json_print_recursive(out);
+    c->print_json_recursive(out);
 }
 
 void match_tree::print_dot(std::ostream& out) const

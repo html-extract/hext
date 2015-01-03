@@ -49,7 +49,7 @@ int main(int argc, const char ** argv)
       if( po.contains("match-tree-graph") )
         mt->print_dot();
       else
-        mt->json_print();
+        mt->print_json();
     }
   }
   catch( std::ios_base::failure& e )

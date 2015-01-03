@@ -31,9 +31,9 @@ public:
 
   void append_match(const name_value_pair& p);
 
-  void json_print(std::ostream& out = std::cout) const;
-  void json_print_recursive(infix_ostream_iterator<std::string>& out) const;
-  void json_print_matches(infix_ostream_iterator<std::string>& out) const;
+  void print_json(std::ostream& out = std::cout) const;
+  void print_json_recursive(infix_ostream_iterator<std::string>& out) const;
+  void print_json_matches(infix_ostream_iterator<std::string>& out) const;
 
   void print_dot(std::ostream& out = std::cout) const;
   void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
