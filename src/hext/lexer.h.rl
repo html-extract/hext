@@ -23,6 +23,8 @@ namespace ragel {
 } // namespace ragel
 
 
+/// lexer contains the ragel state machine and shields the user from its
+/// details.
 class lexer
 {
 public:
@@ -32,14 +34,21 @@ public:
     explicit lex_error(const std::string& msg);
   };
 
+  /// Setup ragel
   lexer(const char * begin, const char * end);
 
+  /// Throws lexer::lex_error on invalid input (by calling lexer::throw_error)
   std::vector<token> lex();
 
 private:
+  /// Print diagnostics and throw lexer::lex_error.
   void throw_error() const;
 
+  /// A pointer to the beginning of the overall input is needed to provide
+  /// good error diagnostics.
   const char * p_begin;
+
+  /// ragel's runtime state
   const char * p;
   const char * pe;
   const char * eof;
