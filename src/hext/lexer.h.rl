@@ -36,9 +36,9 @@ public:
 
   std::vector<token> lex();
 
+private:
   void throw_error() const;
 
-private:
   const char * p_begin;
   const char * p;
   const char * pe;
