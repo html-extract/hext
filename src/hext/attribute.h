@@ -17,13 +17,7 @@ class attribute
 public:
   attribute();
 
-  std::string get_name() const;
-
-  std::string get_value() const;
-
   bool is_capture() const;
-
-  bool is_builtin() const;
 
   void set_name(const std::string& attribute_name);
 

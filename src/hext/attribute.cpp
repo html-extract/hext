@@ -12,24 +12,9 @@ attribute::attribute()
 {
 }
 
-std::string attribute::get_name() const
-{
-  return this->name;
-}
-
-std::string attribute::get_value() const
-{
-  return this->value;
-}
-
 bool attribute::is_capture() const
 {
   return this->is_capt;
-}
-
-bool attribute::is_builtin() const
-{
-  return this->is_built;
 }
 
 void attribute::set_name(const std::string& attribute_name)
