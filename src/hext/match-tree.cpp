@@ -102,11 +102,13 @@ void match_tree::filter()
 
 bool match_tree::filter_recursive()
 {
-  // TODO: move this into matcher?
   if( this->children.size() == 1 && this->matches.empty() )
   {
+    // enable koenig lookup
+    using namespace std;
     // TODO: is this bullet-proof?
-    std::swap(this->children, this->children.front()->children);
+    swap(this->children, this->children.front()->children);
+    swap(this->r, this->children.front()->r);
   }
 
   // if the matching rule has no more children, we have a complete
@@ -133,6 +135,7 @@ bool match_tree::filter_recursive()
     return this->children.empty();
   // there must be at least as many matches as there are child-rules,
   // if not, this branch is non matching and must be removed
+  // TODO: can this break?
   else
     return this->r->children_size() > this->children.size();
 }
