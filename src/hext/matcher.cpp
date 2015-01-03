@@ -31,7 +31,7 @@ std::unique_ptr<match_tree> matcher::match(const rule& r) const
 {
   assert(this->g_outp != nullptr);
   std::unique_ptr<match_tree> m = make_unique<match_tree>();
-  r.match_recursively(this->g_outp->root, m.get());
+  r.match(this->g_outp->root, m.get());
   return m;
 }
 

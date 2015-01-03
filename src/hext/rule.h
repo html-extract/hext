@@ -28,10 +28,7 @@ public:
   std::string get_tag_name() const;
   void set_tag_name(std::string name);
 
-  void match_recursively(
-    const GumboNode * node,
-    match_tree * m
-  ) const;
+  void match(const GumboNode * node, match_tree * m) const;
 
   std::unique_ptr<match_tree>
   capture(const GumboNode * node) const;
