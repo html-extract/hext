@@ -33,9 +33,15 @@ void match_tree::print_json(std::ostream& out) const
   for(const auto& c : this->children)
   {
     out << "{";
+
+    // infix_ostream_iterator will prefix all values with the delimiter ", "
+    // unless the inserted element is the first
+    // (json unfortunately does not allow trailing commas)
     infix_ostream_iterator<std::string> it_out(out, ", ");
+
     this->print_json_matches(it_out);
     c->print_json_recursive(it_out);
+
     out << "}\n";
   }
 }
@@ -50,7 +56,40 @@ void match_tree::print_dot(std::ostream& out) const
 
 bool match_tree::filter()
 {
-  // TODO: explain why this step is neccessary
+  // If this node does not contribute anything, remove it by swapping its
+  // contents with its single child.
+  // This is especially important with root nodes, where it may happen that
+  // the top-most-rule was only hit exactly once, but with many child matches,
+  // leaving a match-tree that has all matches in one single branch, 
+  // collapsing all values into one single result instead of many.
+  // Example html:
+  //   <div id="unique">
+  //     <li class="one"></li>
+  //     <li class="two"><li>
+  //     <li class)"three"><li>
+  //   </div>
+  //
+  // Example hext:
+  //   <div id="unique">
+  //     <li class="(:cap)">
+  //
+  // Produces match-tree:
+  //   [top] -> [div-rule] -> [li-rule]
+  //                       -> [li-rule]
+  //                       -> [li-rule]
+  //
+  // Produces useless json:
+  //   {"cap":"one", "cap":"two", "cap":"three"}
+  //
+  // We therefore move [div-rule] up by one level when filtering:
+  //   [div-rule] -> [li-rule]
+  //              -> [li-rule]
+  //              -> [li-rule]
+  //
+  // And get a beautiful result:
+  //   {"cap": "one"}
+  //   {"cap": "two"}
+  //   {"cap": "three"}
   if( this->children.size() == 1 && this->matches.empty() )
   {
     std::unique_ptr<match_tree> mt_front = std::move(this->children.front());
@@ -84,7 +123,7 @@ bool match_tree::filter()
     return this->children.empty();
   // there must be at least as many matches as there are child-rules,
   // if not, this branch is non matching and must be removed
-  // TODO: can this break?
+  // TODO: find input that breaks this
   else
     return this->r->children_size() > this->children.size();
 }
