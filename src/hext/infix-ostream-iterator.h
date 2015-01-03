@@ -16,9 +16,16 @@ template<
   typename traits = std::char_traits<char_t>
 >
 class infix_ostream_iterator
-: public std::iterator<std::output_iterator_tag, void, void, void, void>
 {
 public:
+  // std::iterator typedefs (avoid inheriting from std::iterator)
+  typedef std::output_iterator_tag iterator_category;
+  typedef void value_type;
+  typedef void difference_type;
+  typedef void pointer;
+  typedef void reference;
+
+  // std::ostream_iterator typedefs
   typedef char_t char_type;
   typedef traits traits_type;
   typedef std::basic_ostream<char_t, traits> ostream_type;
