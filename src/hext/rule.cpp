@@ -97,15 +97,15 @@ bool rule::matches(const GumboNode * node) const
 
     GumboAttribute * g_attr =
       gumbo_get_attribute(&node->v.element.attributes, attr_name.c_str());
+
     if( !g_attr && !attr.is_builtin() )
       return false;
 
     std::string attr_value = attr.get_value();
-    if( !attr.is_capture() && !attr_value.empty() )
-    {
-      if( attr_value.compare(g_attr->value) != 0 )
-        return false;
-    }
+    if( !attr.is_capture() && 
+        !attr_value.empty() && 
+        attr_value.compare(g_attr->value) != 0 )
+      return false;
   }
 
   return true;
