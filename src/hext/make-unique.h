@@ -8,6 +8,7 @@
 namespace hext {
 
 
+/// Until C++14 is widely available, we ship our own version of make_unique.
 template<typename T, typename ...Args>
 std::unique_ptr<T> make_unique(Args&& ...args)
 {
