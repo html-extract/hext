@@ -30,7 +30,7 @@ public:
   typedef traits traits_type;
   typedef std::basic_ostream<char_t, traits> ostream_type;
 
-  infix_ostream_iterator(ostream_type& s)
+  explicit infix_ostream_iterator(ostream_type& s)
   : stream(&s),
     delimiter(nullptr),
     is_first(true)
