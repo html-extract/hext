@@ -98,16 +98,17 @@ void match_tree::filter()
 {
   bool filter_ret = this->filter_recursive();
 
+}
+
+bool match_tree::filter_recursive()
+{
   // TODO: move this into matcher?
   if( this->children.size() == 1 && this->matches.empty() )
   {
     // TODO: is this bullet-proof?
     std::swap(this->children, this->children.front()->children);
   }
-}
 
-bool match_tree::filter_recursive()
-{
   // if the matching rule has no more children, we have a complete
   // match of a rule path, therefore we want to keep this branch by
   // returning false.
