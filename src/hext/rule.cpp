@@ -44,7 +44,6 @@ void rule::match_recursively(const GumboNode * node, match_tree * m) const
   if( this->matches(node) )
   {
     m = m->append_child_and_own(this->capture(node));
-    m->set_rule(this);
 
     for(const auto& c : this->children)
       c.match_node_children(node, m);
@@ -110,6 +109,7 @@ std::unique_ptr<match_tree>
 rule::capture(const GumboNode * node) const
 {
   std::unique_ptr<match_tree> m_node = make_unique<match_tree>();
+  m_node->set_rule(this);
 
   if( node == nullptr )
     return m_node;
