@@ -11,8 +11,7 @@ parse_error::parse_error(const char * msg)
 }
 
 
-std::vector<rule>
-parse_range(const char * begin, const char * end)
+std::vector<rule> parse_range(const char * begin, const char * end)
 {
   lexer lex(begin, end);
   std::vector<token> tokens = lex.lex();
@@ -86,8 +85,7 @@ parse_range(const char * begin, const char * end)
   return rules;
 }
 
-std::vector<rule>
-parse_file(const std::string& path)
+std::vector<rule> parse_file(const std::string& path)
 {
   std::ifstream file;
   // force exception on error
