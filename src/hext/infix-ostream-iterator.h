@@ -10,6 +10,14 @@
 namespace hext {
 
 
+/// infix_ostream_iterator will prefix all values with the given delimiter
+/// unless the inserted element is the first one.
+/// infix_ostream_iterator is included in this project because json does
+/// not allow trailing commas. When recursively printing a match_tree we
+/// do not want to carry a boolean around (which may indicate whether a
+/// comma was already printed).
+/// Otherwise this is a basic copy of std::ostream_iterator, with the
+/// exception of the postfix-increment operator.
 template<
   typename T,
   typename char_t = char,
@@ -18,7 +26,8 @@ template<
 class infix_ostream_iterator
 {
 public:
-  // std::iterator typedefs (avoid inheriting from std::iterator)
+  // std::iterator typedefs (avoid inheriting from std::iterator, which
+  // is discouraged)
   typedef std::output_iterator_tag iterator_category;
   typedef void value_type;
   typedef void difference_type;
@@ -78,13 +87,13 @@ public:
     return *this;
   }
 
-  // if we return a reference here like std::ostream_iterator does,
-  // we get a warning with -Weffc++:
-  //   > postfix ‘operator++(int)’ should return
-  //   > ‘hext::infix_ostream_iterator<T, char_t, traits>’
-  // Unfortunately we need to return a reference because we have
-  // state (is_first). BUT actually we don't care, because we do
-  // not even use this => assert(false).
+  /// If we return a reference here like std::ostream_iterator does,
+  /// we get a warning with -Weffc++:
+  ///   > postfix ‘operator++(int)’ should return
+  ///   > ‘hext::infix_ostream_iterator<T, char_t, traits>’
+  /// Unfortunately we need to return a reference because we have
+  /// state (is_first). BUT actually we don't care, because we do
+  /// not even use this => assert(false).
   infix_ostream_iterator<T, char_t, traits>
   operator++(int)
   {
