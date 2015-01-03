@@ -104,9 +104,7 @@ bool rule::matches(const GumboNode * node) const
         return false;
 
       std::string attr_value = attr.get_value();
-      if( !attr.is_capture() &&
-          !attr_value.empty() &&
-          attr_value.compare(g_attr->value) != 0 )
+      if( !attr.is_capture() && attr_value.compare(g_attr->value) != 0 )
         return false;
     }
   }
