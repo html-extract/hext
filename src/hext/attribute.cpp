@@ -20,6 +20,7 @@ bool attribute::is_capture() const
 void attribute::set_name(const std::string& attribute_name)
 {
   this->name = attribute_name;
+  this->is_built = ( attribute_name.compare(0, 5, "hext-") == 0 );
 }
 
 void attribute::set_value(const std::string& attribute_value)

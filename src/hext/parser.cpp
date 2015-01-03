@@ -47,9 +47,6 @@ parse_range(const char * begin, const char * end)
       case TK_ATTR_NAME:
         cur_attr = attribute();
         cur_attr.set_name(tok_contents);
-        cur_attr.set_is_builtin(
-          tok_contents.compare(0, 5, "hext-") == 0
-        );
         break;
       case TK_ATTR_LITERAL:
         cur_attr.set_is_capture(false);
@@ -85,7 +82,7 @@ parse_range(const char * begin, const char * end)
         break;
     }
   }
-  
+
   return rules;
 }
 
