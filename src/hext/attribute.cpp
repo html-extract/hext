@@ -52,6 +52,29 @@ void attribute::set_is_builtin(bool built)
   this->is_built = built;
 }
 
+bool attribute::matches(const GumboNode * node) const
+{
+  if( node == nullptr )
+    return false;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return false;
+
+  if( this->is_built )
+    return true;
+
+  GumboAttribute * g_attr =
+    gumbo_get_attribute(&node->v.element.attributes, this->name.c_str());
+
+  if( !g_attr )
+    return false;
+
+  if( !this->is_capt && this->value.compare(g_attr->value) != 0 )
+    return false;
+
+  return true;
+}
+
 match_tree::name_value_pair
 attribute::capture(const GumboNode * node) const
 {

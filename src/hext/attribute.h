@@ -33,6 +33,8 @@ public:
 
   void set_is_builtin(bool buil);
 
+  bool matches(const GumboNode * node) const;
+
   match_tree::name_value_pair
   capture(const GumboNode * node) const;
 
