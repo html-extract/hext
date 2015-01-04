@@ -35,10 +35,7 @@ void attribute::set_value(const std::string& attribute_value)
 
 bool attribute::matches(const GumboNode * node) const
 {
-  if( node == nullptr )
-    return false;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
   if( this->is_built )
@@ -59,10 +56,7 @@ bool attribute::matches(const GumboNode * node) const
 match_tree::name_value_pair
 attribute::capture(const GumboNode * node) const
 {
-  if( node == nullptr )
-    return match_tree::name_value_pair("", "");
-
-  if( node->type != GUMBO_NODE_ELEMENT )
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
     return match_tree::name_value_pair("", "");
 
   if( this->name == "hext-inner-text" )
