@@ -23,7 +23,7 @@ matcher::matcher(const std::string& path)
   }
 
   this->g_outp = gumbo_parse(this->buffer.c_str());
-  if( this->g_outp == nullptr )
+  if( !this->g_outp )
     throw std::runtime_error("gumbo_parse returned nullptr");
 }
 
