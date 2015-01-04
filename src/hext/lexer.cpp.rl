@@ -44,16 +44,11 @@ void lexer::throw_error() const
 
   std::string char_name;
   if( this->p == this->pe )
-  {
     char_name = "[eof]";
-  }
+  else if( this->p )
+    char_name = get_char_name(*this->p);
   else
-  {
-    if( this->p != nullptr )
-      char_name = get_char_name(*this->p);
-    else
-      char_name = "[unknown]";
-  }
+    char_name = "[unknown]";
 
   std::stringstream error_msg;
   error_msg << "Error at line "
