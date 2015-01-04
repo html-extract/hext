@@ -46,11 +46,11 @@ public:
   ///   level2      <img>
   ///   level2      <a>    # new
   void append_child(const rule& r, int level = 1);
-  void append_attribute(attribute attr);
+  void append_attribute(const attribute& attr);
 
   std::vector<rule>::size_type children_size() const;
   std::string get_tag_name() const;
-  void set_tag_name(std::string name);
+  void set_tag_name(const std::string& name);
 
   /// Recursively try to find and capture matches.
   /// Call this->matches(node):

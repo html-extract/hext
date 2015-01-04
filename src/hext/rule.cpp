@@ -23,7 +23,7 @@ void rule::append_child(const rule& r, int level)
   this->children.push_back(r);
 }
 
-void rule::append_attribute(attribute attr)
+void rule::append_attribute(const attribute& attr)
 {
   this->attributes.push_back(attr);
 }
@@ -38,7 +38,7 @@ std::string rule::get_tag_name() const
   return this->tag_name;
 }
 
-void rule::set_tag_name(std::string name)
+void rule::set_tag_name(const std::string& name)
 {
   this->tag_name = name;
 }
