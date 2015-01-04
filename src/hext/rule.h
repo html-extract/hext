@@ -45,7 +45,7 @@ public:
   ///   level1    <li>
   ///   level2      <img>
   ///   level2      <a>    # new
-  void append_child(const rule& r, int level = 0);
+  void append_child(const rule& r, int level = 1);
   void append_attribute(attribute attr);
 
   std::vector<rule>::size_type children_size() const;
