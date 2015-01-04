@@ -8,6 +8,7 @@ namespace hext {
 namespace util {
 
 
+/// Prepend a slash to all double-quotes (")
 std::string escape_quotes(const std::string& str);
 
 
