@@ -23,11 +23,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
   for( const auto& tok : tokens )
   {
     std::string tok_contents;
-    if( 
-      tok.tok_begin != nullptr &&
-      tok.tok_end   != nullptr &&
-      tok.tok_begin != tok.tok_end
-    )
+    if( tok.tok_begin && tok.tok_end && tok.tok_begin != tok.tok_end )
     {
       assert(tok.tok_begin < tok.tok_end);
       tok_contents.append(tok.tok_begin, tok.tok_end);
