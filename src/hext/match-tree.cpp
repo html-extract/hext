@@ -120,7 +120,7 @@ bool match_tree::filter()
 
   // if there is no matching rule and there are no children, the branch
   // is non matching and must be removed
-  if( this->r == nullptr )
+  if( !this->r )
     return this->children.empty();
   // there must be at least as many matches as there are child-rules,
   // if not, this branch is non matching and must be removed
@@ -160,7 +160,7 @@ void match_tree::print_dot_nodes(std::ostream& out, int parent_id) const
   int this_node = ++node_index;
 
   std::string label;
-  if( this->r == nullptr || this->r->get_tag_name().empty() )
+  if( !this->r || this->r->get_tag_name().empty() )
     label.append("[rule]");
   else
     label.append(this->r->get_tag_name());
