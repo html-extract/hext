@@ -45,10 +45,7 @@ void rule::set_tag_name(std::string name)
 
 void rule::match(const GumboNode * node, match_tree * m) const
 {
-  if( node == nullptr || m == nullptr )
-    return;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
+  if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
     return;
 
   if( this->matches(node) )
@@ -70,10 +67,7 @@ rule::capture(const GumboNode * node) const
   std::unique_ptr<match_tree> m_node = make_unique<match_tree>();
   m_node->set_rule(this);
 
-  if( node == nullptr )
-    return m_node;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
     return m_node;
 
   for(const auto& attr : this->attributes)
@@ -103,10 +97,7 @@ void rule::print(std::ostream& out, int indent_level) const
 
 bool rule::matches(const GumboNode * node) const
 {
-  if( node == nullptr )
-    return false;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
   if( !this->tag_name.empty() &&
@@ -124,10 +115,7 @@ bool rule::matches(const GumboNode * node) const
 
 void rule::match_node_children(const GumboNode * node, match_tree * m) const
 {
-  if( node == nullptr || m == nullptr )
-    return;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
+  if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
     return;
 
   const GumboVector * node_children = &node->v.element.children;
