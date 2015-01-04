@@ -36,23 +36,12 @@ std::pair<size_t, size_t> get_char_position(
   const char * end
 )
 {
-  if(
-    begin == nullptr ||
-    c     == nullptr ||
-    end   == nullptr ||
-    // expect begin <= c <= end
-    c      < begin   ||
-    c      > end
-  )
-  {
+  if( !begin || !c || !end )
     return std::pair<size_t, size_t>(0, 0);
-  }
 
-  // on empty input
-  if( begin == end )
-  {
+  // expect c to be within range begin to end
+  if( c < begin || c >= end || begin == end )
     return std::pair<size_t, size_t>(0, 0);
-  }
 
   // the position of the newline prior to c
   size_t line_offset = 0;
