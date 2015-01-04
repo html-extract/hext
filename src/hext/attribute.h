@@ -2,6 +2,7 @@
 #define HEXT_ATTRIBUTE_H
 
 #include <string>
+#include <iostream>
 
 #include <gumbo.h>
 
