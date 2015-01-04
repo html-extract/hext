@@ -59,15 +59,15 @@ public:
   /// * if false, call this->match for each child of node.
   void match(const GumboNode * node, match_tree * m) const;
 
-  /// Capture attributes from a single GumboNode.
-  /// Returns a single match_tree.
-  std::unique_ptr<match_tree> capture(const GumboNode * node) const;
-
   /// Recursively print the rule and its child-rules, including attributes
   /// and tag-name.
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
 private:
+  /// Capture attributes from a single GumboNode.
+  /// Returns a single match_tree.
+  std::unique_ptr<match_tree> capture(const GumboNode * node) const;
+
   /// Check wheter this rule matches a single GumboNode.
   /// A rule matches when each attribute is found in the GumboNode and
   /// tag-name is equal (if non empty).

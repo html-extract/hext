@@ -61,22 +61,6 @@ void rule::match(const GumboNode * node, match_tree * m) const
   }
 }
 
-std::unique_ptr<match_tree>
-rule::capture(const GumboNode * node) const
-{
-  std::unique_ptr<match_tree> m_node = make_unique<match_tree>();
-  m_node->set_rule(this);
-
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return m_node;
-
-  for(const auto& attr : this->attributes)
-    if( attr.is_capture() )
-      m_node->append_match(attr.capture(node));
-
-  return m_node;
-}
-
 void rule::print(std::ostream& out, int indent_level) const
 {
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
@@ -93,6 +77,22 @@ void rule::print(std::ostream& out, int indent_level) const
   out << ">\n";
   for(const auto& c : this->children)
     c.print(out, indent_level + 1);
+}
+
+std::unique_ptr<match_tree>
+rule::capture(const GumboNode * node) const
+{
+  std::unique_ptr<match_tree> m_node = make_unique<match_tree>();
+  m_node->set_rule(this);
+
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return m_node;
+
+  for(const auto& attr : this->attributes)
+    if( attr.is_capture() )
+      m_node->append_match(attr.capture(node));
+
+  return m_node;
 }
 
 bool rule::matches(const GumboNode * node) const
