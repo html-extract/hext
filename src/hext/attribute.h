@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <boost/regex.hpp>
 
 #include <gumbo.h>
 

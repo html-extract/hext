@@ -66,7 +66,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser)
-TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options)
+TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
 
 ###### WARNINGS ###########################################
 # always show warnings

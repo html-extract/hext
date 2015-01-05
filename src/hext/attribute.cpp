@@ -47,8 +47,11 @@ bool attribute::matches(const GumboNode * node) const
   if( !g_attr )
     return false;
 
-  if( !this->is_capt && this->value.compare(g_attr->value) != 0 )
-    return false;
+  if( !this->is_capt )
+  {
+    boost::regex rx(this->value, boost::regex_constants::icase);
+    return boost::regex_search(g_attr->value, rx);
+  }
 
   return true;
 }
