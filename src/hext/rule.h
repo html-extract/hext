@@ -51,6 +51,8 @@ public:
   std::vector<rule>::size_type children_size() const;
   std::string get_tag_name() const;
   void set_tag_name(const std::string& name);
+  bool get_is_direct_descendant() const;
+  void set_is_direct_descendant(bool direct_desc);
 
   /// Recursively try to find and capture matches.
   /// Call this->matches(node):
@@ -80,6 +82,7 @@ private:
   std::vector<attribute> attributes;
 
   std::string tag_name;
+  bool is_direct_desc;
 };  
 
 

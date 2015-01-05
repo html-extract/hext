@@ -49,6 +49,10 @@
         '<' >{ LX_TK_START(TK_RULE_BEGIN); } 
             %{ LX_TK_STOP; }
       )
+      (
+        '!' >{ LX_TK_START(TK_DIRECT_DESC); }
+            %{ LX_TK_STOP; }
+      )?
       ( 
         attr_name >{ LX_TK_START(TK_TAG_NAME); }
                   %{ LX_TK_STOP; }

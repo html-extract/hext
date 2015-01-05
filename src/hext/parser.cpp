@@ -36,6 +36,9 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_INDENT:
         ++cur_level;
         break;
+      case TK_DIRECT_DESC:
+        cur_rule.set_is_direct_descendant(true);
+        break;
       case TK_TAG_NAME:
         cur_rule.set_tag_name(tok_contents);
         break;

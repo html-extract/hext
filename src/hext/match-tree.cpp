@@ -173,6 +173,8 @@ void match_tree::print_dot_nodes(std::ostream& out, int parent_id) const
 
   if( this->r && this->r->children_size() == 0 )
     label.append("*");
+  if( this->r && this->r->get_is_direct_descendant() )
+    label.append("!");
 
   out << "    node_" << this_node << " [label=\"" << label << "\"];\n";
   if( parent_id )

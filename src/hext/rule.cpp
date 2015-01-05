@@ -8,7 +8,8 @@ namespace hext {
 rule::rule()
 : children(),
   attributes(),
-  tag_name()
+  tag_name(),
+  is_direct_desc(false)
 {
 }
 
@@ -43,6 +44,16 @@ void rule::set_tag_name(const std::string& name)
   this->tag_name = name;
 }
 
+bool rule::get_is_direct_descendant() const
+{
+  return this->is_direct_desc;
+}
+
+void rule::set_is_direct_descendant(bool direct_desc)
+{
+  this->is_direct_desc = direct_desc;
+}
+
 void rule::match(const GumboNode * node, match_tree * m) const
 {
   if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
@@ -57,7 +68,10 @@ void rule::match(const GumboNode * node, match_tree * m) const
   }
   else
   {
-    this->match_node_children(node, m);
+    // if this rule is a direct descendant, and it didn't match,
+    // all child-rules cannot be matched either.
+    if( !this->is_direct_desc )
+      this->match_node_children(node, m);
   }
 }
 
