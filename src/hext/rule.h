@@ -95,10 +95,11 @@ private:
   const int cap_limit;
 
   /// Count how often this rule was matched.
-  /// It is mutable because it is not observable from the outside.
+  /// match_count is mutable because it is not observable from the outside.
   /// This enables us to keep rule::match const.
-  /// When using mutable on a member, it must also be thread-safe,
-  /// since it is generally assumed that const objects are thread-safe.
+  /// It is generally assumed that const objects are thread-safe,
+  /// therefore mutable members must be made thread-safe.
+  /// This is solved by using std::atomic.
   mutable std::atomic<int> match_count;
 }; 
 
