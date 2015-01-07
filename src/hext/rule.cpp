@@ -14,7 +14,7 @@ rule::rule(
 : children(),
   attributes(std::move(attrs)),
   tag(html_tag_name),
-  is_direct_desc(false),
+  is_direct_desc(direct_descendant),
   cap_limit(max_capture_limit),
   match_count(0)
 {
