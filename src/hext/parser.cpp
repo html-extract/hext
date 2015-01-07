@@ -17,11 +17,11 @@ std::vector<rule> parse_range(const char * begin, const char * end)
   std::vector<token> tokens = lex.lex();
   std::vector<rule> rules;
 
-  int cur_level = 0;
-  attribute cur_attr;
+  int indent = 0;
   std::vector<attribute> attrs;
   bool is_direct_desc = false;
   std::string tag_name;
+  std::string attr_name;
 
   for( const auto& tok : tokens )
   {
@@ -37,7 +37,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
     switch( tok.tid )
     {
       case TK_INDENT:
-        ++cur_level;
+        ++indent;
         break;
       case TK_DIRECT_DESC:
         is_direct_desc = true;
@@ -46,30 +46,31 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         tag_name = tok_contents;
         break;
       case TK_ATTR_NAME:
-        cur_attr = attribute();
-        cur_attr.set_name(tok_contents);
+        attr_name = tok_contents;
         break;
       case TK_ATTR_LITERAL:
       case TK_ATTR_CAPTURE:
-        cur_attr.set_is_capture(tok.tid == TK_ATTR_CAPTURE);
-        cur_attr.set_value(tok_contents);
-        attrs.push_back(cur_attr);
+        {
+          attribute attr(attr_name, tok_contents, (tok.tid == TK_ATTR_CAPTURE));
+          attrs.push_back(attr);
+        }
         break;
       case TK_RULE_END:
         {
           rule r(tag_name, is_direct_desc, std::move(attrs));
-          if( cur_level == 0 || rules.empty() )
+          if( indent == 0 || rules.empty() )
           {
             rules.push_back(r);
           }
           else
           {
             assert(!rules.empty());
-            rules.back().append_child(r, cur_level);
+            rules.back().append_child(r, indent);
           }
           is_direct_desc = false;
+          attr_name = "";
           tag_name = "";
-          cur_level = 0;
+          indent = 0;
           attrs.clear();
         }
         break;

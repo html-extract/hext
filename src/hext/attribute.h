@@ -22,13 +22,13 @@ namespace hext {
 class attribute
 {
 public:
-  attribute();
+  attribute(
+    const std::string& attr_name,
+    const std::string& attr_value,
+    bool capture_contents
+  );
 
   bool is_capture() const;
-  void set_is_capture(bool capt);
-
-  void set_name(const std::string& attribute_name);
-  void set_value(const std::string& attribute_value);
 
   /// Check if a GumboNode can satisfy this attribute.
   /// Returns true on match.
@@ -41,10 +41,10 @@ public:
   void print(std::ostream& out = std::cout) const;
 
 private:
-  std::string name;
-  std::string value;
-  bool is_capt;
-  bool is_built;
+  const std::string name;
+  const std::string value;
+  const bool is_capt;
+  const bool is_built;
 };
 
 

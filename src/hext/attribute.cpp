@@ -4,33 +4,21 @@
 namespace hext {
 
 
-attribute::attribute()
-: name(),
-  value(),
-  is_capt(false),
-  is_built(false)
+attribute::attribute(
+  const std::string& attr_name,
+  const std::string& attr_value,
+  bool capture_contents
+)
+: name(attr_name),
+  value(attr_value),
+  is_capt(capture_contents),
+  is_built(attr_name.compare(0, 5, "hext-") == 0)
 {
 }
 
 bool attribute::is_capture() const
 {
   return this->is_capt;
-}
-
-void attribute::set_is_capture(bool capt)
-{
-  this->is_capt = capt;
-}
-
-void attribute::set_name(const std::string& attribute_name)
-{
-  this->name = attribute_name;
-  this->is_built = ( attribute_name.compare(0, 5, "hext-") == 0 );
-}
-
-void attribute::set_value(const std::string& attribute_value)
-{
-  this->value = attribute_value;
 }
 
 bool attribute::matches(const GumboNode * node) const
