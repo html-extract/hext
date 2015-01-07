@@ -1,6 +1,8 @@
 #ifndef HEXT_TOKEN_H
 #define HEXT_TOKEN_H
 
+#include <string>
+
 
 namespace hext {
 
@@ -22,8 +24,10 @@ enum token_id {
 struct token
 {
   token_id tid;
-  const char * tok_begin;
-  const char * tok_end;
+  const char * begin;
+  const char * end;
+
+  std::string to_string() const;
 };
 
 

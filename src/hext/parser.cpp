@@ -25,13 +25,6 @@ std::vector<rule> parse_range(const char * begin, const char * end)
 
   for( const auto& tok : tokens )
   {
-    std::string tok_contents;
-    if( tok.tok_begin && tok.tok_end && tok.tok_begin != tok.tok_end )
-    {
-      assert(tok.tok_begin < tok.tok_end);
-      tok_contents.append(tok.tok_begin, tok.tok_end);
-    }
-
     // we expect the lexer to have catched all syntax errors
     // (famous last words)
     switch( tok.tid )
@@ -43,15 +36,19 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         is_direct_desc = true;
         break;
       case TK_TAG_NAME:
-        tag_name = tok_contents;
+        tag_name = tok.to_string();
         break;
       case TK_ATTR_NAME:
-        attr_name = tok_contents;
+        attr_name = tok.to_string();
         break;
       case TK_ATTR_LITERAL:
       case TK_ATTR_CAPTURE:
         {
-          attribute attr(attr_name, tok_contents, (tok.tid == TK_ATTR_CAPTURE));
+          attribute attr(
+            attr_name,
+            tok.to_string(),
+            (tok.tid == TK_ATTR_CAPTURE)
+          );
           attrs.push_back(attr);
         }
         break;

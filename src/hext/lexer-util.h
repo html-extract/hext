@@ -14,13 +14,13 @@
 #define LX_TK_START(tk_id) \
   token tok;               \
   tok.tid = tk_id;         \
-  tok.tok_begin = p;       \
-  tok.tok_end = nullptr;   \
+  tok.begin = p;           \
+  tok.end = nullptr;       \
   tokens.push_back(tok);
 
 #define LX_TK_STOP           \
   assert(tokens.size() > 0); \
-  tokens.back().tok_end = p;
+  tokens.back().end = p;
 
 
 namespace hext {
