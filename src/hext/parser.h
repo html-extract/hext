@@ -19,6 +19,10 @@ namespace hext {
 namespace parser {
 
 
+/// clang: warning: 'parse_error' has no out-of-line virtual method
+/// definitions; its vtable will be emitted in every translation
+/// unit [-Wweak-vtables]
+/// This warning can be ignored, see comment above class lex_error.
 class parse_error : public std::runtime_error
 {
 public:
