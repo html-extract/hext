@@ -8,6 +8,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <unordered_map>
 
 #include "hext/util.h"
 #include "hext/infix-ostream-iterator.h"

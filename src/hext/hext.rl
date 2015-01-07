@@ -5,6 +5,7 @@
     throw_error();
   }
 
+  cap_limit = ( [1-9][0-9]** );
   attr_name = ( alpha (alnum | '-' | '_')** );
   attr_value = ( alpha (alnum | '-' | '_')** );
 
@@ -52,6 +53,10 @@
       (
         '!' >{ LX_TK_START(TK_DIRECT_DESC); }
             %{ LX_TK_STOP; }
+      )?
+      (
+        cap_limit >{ LX_TK_START(TK_CAP_LIMIT); }
+                  %{ LX_TK_STOP; }
       )?
       ( 
         attr_name >{ LX_TK_START(TK_TAG_NAME); }

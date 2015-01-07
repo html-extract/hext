@@ -8,12 +8,14 @@ namespace hext {
 rule::rule(
   const std::string& html_tag_name,
   bool direct_descendant,
+  int max_capture_limit,
   std::vector<attribute>&& attrs
 )
 : children(),
   attributes(std::move(attrs)),
   tag(html_tag_name),
-  is_direct_desc(false)
+  is_direct_desc(false),
+  cap_limit(max_capture_limit)
 {
 }
 
@@ -41,6 +43,11 @@ std::string rule::tag_name() const
 bool rule::is_direct_descendant() const
 {
   return this->is_direct_desc;
+}
+
+int rule::capture_limit() const
+{
+  return this->cap_limit;
 }
 
 void rule::match(const GumboNode * node, match_tree * m) const

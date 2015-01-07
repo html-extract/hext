@@ -15,6 +15,7 @@ state::state()
 : indent(0),
   tag_name(),
   is_direct_desc(false),
+  cap_limit(0),
   attr_name(),
   attrs()
 {
@@ -36,6 +37,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         break;
       case TK_DIRECT_DESC: st.is_direct_desc = true;
         break;
+      case TK_CAP_LIMIT:   st.cap_limit = std::stoi(tok.to_string());
+        break;
       case TK_TAG_NAME:    st.tag_name = tok.to_string();
         break;
       case TK_ATTR_NAME:   st.attr_name = tok.to_string();
@@ -50,7 +53,12 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         break;
       case TK_RULE_END:
         {
-          rule r(st.tag_name, st.is_direct_desc, std::move(st.attrs));
+          rule r(
+            st.tag_name,
+            st.is_direct_desc,
+            st.cap_limit,
+            std::move(st.attrs)
+          );
           // either top-level rule or first rule
           if( st.indent == 0 || rules.empty() )
             rules.push_back(r);

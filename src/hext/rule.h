@@ -31,6 +31,7 @@ public:
   rule(
     const std::string& html_tag_name,
     bool direct_descendant,
+    int max_capture_limit,
     std::vector<attribute>&& attrs
   );
 
@@ -54,6 +55,7 @@ public:
   std::vector<rule>::size_type children_size() const;
   std::string tag_name() const;
   bool is_direct_descendant() const;
+  int capture_limit() const;
 
   /// Recursively try to find and capture matches.
   /// Call this->matches(node):
@@ -84,6 +86,7 @@ private:
 
   const std::string tag;
   const bool is_direct_desc;
+  const int cap_limit;
 }; 
 
 

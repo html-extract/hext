@@ -34,6 +34,7 @@ struct state
   int indent;
   std::string tag_name;
   bool is_direct_desc;
+  int cap_limit;
   std::string attr_name;
   std::vector<attribute> attrs;
 };
