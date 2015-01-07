@@ -26,6 +26,18 @@ public:
 };
 
 
+/// Internal parse state used in parse_range.
+struct state
+{
+  state();
+
+  int indent;
+  std::string tag_name;
+  bool is_direct_desc;
+  std::string attr_name;
+  std::vector<attribute> attrs;
+};
+
 /// Use lexer to lex from begin to end, then convert tokens to vector<rule>.
 std::vector<rule> parse_range(const char * begin, const char * end);
 

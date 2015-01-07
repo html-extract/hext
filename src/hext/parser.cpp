@@ -11,64 +11,53 @@ parse_error::parse_error(const char * msg)
 }
 
 
+state::state()
+: indent(0),
+  tag_name(),
+  is_direct_desc(false),
+  attr_name(),
+  attrs()
+{
+}
+
 std::vector<rule> parse_range(const char * begin, const char * end)
 {
   lexer lex(begin, end);
   std::vector<token> tokens = lex.lex();
   std::vector<rule> rules;
-
-  int indent = 0;
-  std::vector<attribute> attrs;
-  bool is_direct_desc = false;
-  std::string tag_name;
-  std::string attr_name;
+  state st;
 
   for( const auto& tok : tokens )
   {
     // we expect the lexer to have catched all syntax errors
-    // (famous last words)
     switch( tok.tid )
     {
-      case TK_INDENT:
-        ++indent;
+      case TK_INDENT:      st.indent++;
         break;
-      case TK_DIRECT_DESC:
-        is_direct_desc = true;
+      case TK_DIRECT_DESC: st.is_direct_desc = true;
         break;
-      case TK_TAG_NAME:
-        tag_name = tok.to_string();
+      case TK_TAG_NAME:    st.tag_name = tok.to_string();
         break;
-      case TK_ATTR_NAME:
-        attr_name = tok.to_string();
+      case TK_ATTR_NAME:   st.attr_name = tok.to_string();
         break;
       case TK_ATTR_LITERAL:
       case TK_ATTR_CAPTURE:
-        {
-          attribute attr(
-            attr_name,
-            tok.to_string(),
-            (tok.tid == TK_ATTR_CAPTURE)
-          );
-          attrs.push_back(attr);
-        }
+        st.attrs.push_back(attribute(
+          st.attr_name,
+          tok.to_string(),
+          (tok.tid == TK_ATTR_CAPTURE)
+        ));
         break;
       case TK_RULE_END:
         {
-          rule r(tag_name, is_direct_desc, std::move(attrs));
-          if( indent == 0 || rules.empty() )
-          {
+          rule r(st.tag_name, st.is_direct_desc, std::move(st.attrs));
+          // either top-level rule or first rule
+          if( st.indent == 0 || rules.empty() )
             rules.push_back(r);
-          }
           else
-          {
-            assert(!rules.empty());
-            rules.back().append_child(r, indent);
-          }
-          is_direct_desc = false;
-          attr_name = "";
-          tag_name = "";
-          indent = 0;
-          attrs.clear();
+            rules.back().append_child(r, st.indent);
+          // reset parse state
+          st = state();
         }
         break;
       case TK_EOF:
