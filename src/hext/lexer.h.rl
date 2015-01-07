@@ -28,6 +28,11 @@ namespace ragel {
 class lexer
 {
 public:
+  /// Clang warns (-Wweak-vtables) that a vtable for lex_error may be placed
+  /// in every translation unit, because lex_error doesn't have any
+  /// 'out-of-line virtual method definitions', where it would normally put
+  /// the vtable. But http://stackoverflow.com/a/23749273 suggests that this
+  /// is a non-issue; the linker will clean it up.
   class lex_error : public std::runtime_error
   {
   public:
