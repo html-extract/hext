@@ -106,20 +106,11 @@ bool match_tree::filter()
   if( this->r && this->r->children_size() == 0 )
     return false;
 
+  for(auto& c : this->children)
   {
-    std::unordered_map<const rule *, int> count_by_rule;
-    for(auto& c : this->children)
+    if( c->filter() )
     {
-      if( c->r && c->r->capture_limit() > 0 )
-      {
-        count_by_rule[c->r]++;
-        if( count_by_rule[c->r] > c->r->capture_limit() )
-          c.reset(nullptr);
-      }
-      else if( c->filter() )
-      {
-        c.reset(nullptr);
-      }
+      c.reset(nullptr);
     }
   }
 

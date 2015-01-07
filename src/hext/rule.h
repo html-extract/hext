@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <atomic>
 
 #include <gumbo.h>
 
@@ -34,6 +35,9 @@ public:
     int max_capture_limit,
     std::vector<attribute>&& attrs
   );
+
+  /// Copy constructor. Resets match_count to zero.
+  rule(const rule& r);
 
   /// Append child-rule after last element at tree-level level.
   /// Example rule:
@@ -69,6 +73,8 @@ public:
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
 private:
+  rule& operator=(const rule&) = delete;
+
   /// Capture attributes from a single GumboNode.
   /// Returns a single match_tree.
   std::unique_ptr<match_tree> capture(const GumboNode * node) const;
@@ -87,6 +93,13 @@ private:
   const std::string tag;
   const bool is_direct_desc;
   const int cap_limit;
+
+  /// Count how often this rule was matched.
+  /// It is mutable because it is not observable from the outside.
+  /// This enables us to keep rule::match const.
+  /// When using mutable on a member, it must also be thread-safe,
+  /// since it is generally assumed that const objects are thread-safe.
+  mutable std::atomic<int> match_count;
 }; 
 
 

@@ -15,7 +15,18 @@ rule::rule(
   attributes(std::move(attrs)),
   tag(html_tag_name),
   is_direct_desc(false),
-  cap_limit(max_capture_limit)
+  cap_limit(max_capture_limit),
+  match_count(0)
+{
+}
+
+rule::rule(const rule& r)
+: children(r.children),
+  attributes(r.attributes),
+  tag(r.tag),
+  is_direct_desc(r.is_direct_desc),
+  cap_limit(r.cap_limit),
+  match_count(0)
 {
 }
 
@@ -57,17 +68,22 @@ void rule::match(const GumboNode * node, match_tree * m) const
 
   if( this->matches(node) )
   {
+    this->match_count++;
     m = m->append_child_and_own(this->capture(node));
 
     for(const auto& c : this->children)
-      c.match_node_children(node, m);
+    {
+      if( c.cap_limit == 0 || c.match_count < c.cap_limit )
+        c.match_node_children(node, m);
+    }
   }
   else
   {
     // if this rule is a direct descendant, and it didn't match,
     // all child-rules cannot be matched either.
     if( !this->is_direct_desc )
-      this->match_node_children(node, m);
+      if( this->cap_limit == 0 || this->match_count < this->cap_limit )
+        this->match_node_children(node, m);
   }
 }
 
