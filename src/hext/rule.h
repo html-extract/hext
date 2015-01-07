@@ -84,7 +84,7 @@ private:
 
   const std::string tag;
   const bool is_direct_desc;
-};  
+}; 
 
 
 } // namespace hext
