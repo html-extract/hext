@@ -24,11 +24,11 @@ enum token_id {
 
 struct token
 {
+  std::string to_string() const;
+
   token_id tid;
   const char * begin;
   const char * end;
-
-  std::string to_string() const;
 };
 
 
