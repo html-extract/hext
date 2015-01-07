@@ -160,10 +160,10 @@ void match_tree::print_dot_nodes(std::ostream& out, int parent_id) const
   int this_node = ++node_index;
 
   std::string label;
-  if( !this->r || this->r->get_tag_name().empty() )
+  if( !this->r || this->r->tag_name().empty() )
     label.append("[rule]");
   else
-    label.append(this->r->get_tag_name());
+    label.append(this->r->tag_name());
 
   for(const auto& m : this->matches)
   {
@@ -173,7 +173,7 @@ void match_tree::print_dot_nodes(std::ostream& out, int parent_id) const
 
   if( this->r && this->r->children_size() == 0 )
     label.append("*");
-  if( this->r && this->r->get_is_direct_descendant() )
+  if( this->r && this->r->is_direct_descendant() )
     label.append("!");
 
   out << "    node_" << this_node << " [label=\"" << label << "\"];\n";

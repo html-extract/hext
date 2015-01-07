@@ -5,10 +5,14 @@
 namespace hext {
 
 
-rule::rule()
+rule::rule(
+  const std::string& html_tag_name,
+  bool direct_descendant,
+  std::vector<attribute>&& attrs
+)
 : children(),
-  attributes(),
-  tag_name(),
+  attributes(std::move(attrs)),
+  tag(html_tag_name),
   is_direct_desc(false)
 {
 }
@@ -24,34 +28,19 @@ void rule::append_child(const rule& r, int level)
   this->children.push_back(r);
 }
 
-void rule::append_attribute(const attribute& attr)
-{
-  this->attributes.push_back(attr);
-}
-
 std::vector<rule>::size_type rule::children_size() const
 {
   return this->children.size();
 }
 
-std::string rule::get_tag_name() const
+std::string rule::tag_name() const
 {
-  return this->tag_name;
+  return this->tag;
 }
 
-void rule::set_tag_name(const std::string& name)
-{
-  this->tag_name = name;
-}
-
-bool rule::get_is_direct_descendant() const
+bool rule::is_direct_descendant() const
 {
   return this->is_direct_desc;
-}
-
-void rule::set_is_direct_descendant(bool direct_desc)
-{
-  this->is_direct_desc = direct_desc;
 }
 
 void rule::match(const GumboNode * node, match_tree * m) const
@@ -79,7 +68,7 @@ void rule::print(std::ostream& out, int indent_level) const
 {
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
-      << this->tag_name
+      << this->tag
       << " ";
 
   for(const auto& a : this->attributes)
@@ -114,8 +103,8 @@ bool rule::matches(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  if( !this->tag_name.empty() &&
-      node->v.element.tag != gumbo_tag_enum(this->tag_name.c_str()) )
+  if( !this->tag.empty() &&
+      node->v.element.tag != gumbo_tag_enum(this->tag.c_str()) )
     return false;
 
   for(const auto& attr : this->attributes)

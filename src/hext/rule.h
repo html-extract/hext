@@ -17,8 +17,8 @@ namespace hext {
 class match_tree;
 
 /// A rule represents a source line from the hext input.
-/// Generally: <tag_name? attribute*>
-///   Example: <div id="container">
+/// Generally: <direct_descendant?tag_name? attribute*>
+///   Example: <!div id="container" class="list">
 ///
 /// tag_name represents the html-tag that we want to match. Empty tag_name
 /// matches any html-tag.
@@ -28,7 +28,11 @@ class match_tree;
 class rule
 {
 public:
-  rule();
+  rule(
+    const std::string& html_tag_name,
+    bool direct_descendant,
+    std::vector<attribute>&& attrs
+  );
 
   /// Append child-rule after last element at tree-level level.
   /// Example rule:
@@ -46,13 +50,10 @@ public:
   ///   level2      <img>
   ///   level2      <a>    # new
   void append_child(const rule& r, int level = 1);
-  void append_attribute(const attribute& attr);
 
   std::vector<rule>::size_type children_size() const;
-  std::string get_tag_name() const;
-  void set_tag_name(const std::string& name);
-  bool get_is_direct_descendant() const;
-  void set_is_direct_descendant(bool direct_desc);
+  std::string tag_name() const;
+  bool is_direct_descendant() const;
 
   /// Recursively try to find and capture matches.
   /// Call this->matches(node):
@@ -79,10 +80,10 @@ private:
   void match_node_children(const GumboNode * node, match_tree * m) const;
 
   std::vector<rule> children;
-  std::vector<attribute> attributes;
+  const std::vector<attribute> attributes;
 
-  std::string tag_name;
-  bool is_direct_desc;
+  const std::string tag;
+  const bool is_direct_desc;
 };  
 
 

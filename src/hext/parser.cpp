@@ -16,9 +16,12 @@ std::vector<rule> parse_range(const char * begin, const char * end)
   lexer lex(begin, end);
   std::vector<token> tokens = lex.lex();
   std::vector<rule> rules;
-  rule cur_rule;
-  attribute cur_attr;
+
   int cur_level = 0;
+  attribute cur_attr;
+  std::vector<attribute> attrs;
+  bool is_direct_desc = false;
+  std::string tag_name;
 
   for( const auto& tok : tokens )
   {
@@ -37,10 +40,10 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         ++cur_level;
         break;
       case TK_DIRECT_DESC:
-        cur_rule.set_is_direct_descendant(true);
+        is_direct_desc = true;
         break;
       case TK_TAG_NAME:
-        cur_rule.set_tag_name(tok_contents);
+        tag_name = tok_contents;
         break;
       case TK_ATTR_NAME:
         cur_attr = attribute();
@@ -49,25 +52,30 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_ATTR_LITERAL:
         cur_attr.set_is_capture(false);
         cur_attr.set_value(tok_contents);
-        cur_rule.append_attribute(cur_attr);
+        attrs.push_back(cur_attr);
         break;
       case TK_ATTR_CAPTURE:
         cur_attr.set_is_capture(true);
         cur_attr.set_value(tok_contents);
-        cur_rule.append_attribute(cur_attr);
+        attrs.push_back(cur_attr);
         break;
       case TK_RULE_END:
-        if( cur_level == 0 || rules.empty() )
         {
-          rules.push_back(cur_rule);
+          rule r(tag_name, is_direct_desc, std::move(attrs));
+          if( cur_level == 0 || rules.empty() )
+          {
+            rules.push_back(r);
+          }
+          else
+          {
+            assert(!rules.empty());
+            rules.back().append_child(r, cur_level);
+          }
+          is_direct_desc = false;
+          tag_name = "";
+          cur_level = 0;
+          attrs.clear();
         }
-        else
-        {
-          assert(!rules.empty());
-          rules.back().append_child(cur_rule, cur_level);
-        }
-        cur_rule = rule();
-        cur_level = 0;
         break;
       case TK_EOF:
       case TK_RULE_BEGIN:
