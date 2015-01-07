@@ -50,12 +50,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         cur_attr.set_name(tok_contents);
         break;
       case TK_ATTR_LITERAL:
-        cur_attr.set_is_capture(false);
-        cur_attr.set_value(tok_contents);
-        attrs.push_back(cur_attr);
-        break;
       case TK_ATTR_CAPTURE:
-        cur_attr.set_is_capture(true);
+        cur_attr.set_is_capture(tok.tid == TK_ATTR_CAPTURE);
         cur_attr.set_value(tok_contents);
         attrs.push_back(cur_attr);
         break;
