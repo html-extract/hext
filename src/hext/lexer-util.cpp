@@ -30,23 +30,23 @@ std::string get_char_name(char c)
   return "";
 }
 
-std::pair<size_t, size_t> get_char_position(
+char_pos_pair get_char_position(
   const char * c,
   const char * begin,
   const char * end
 )
 {
   if( !begin || !c || !end )
-    return std::pair<size_t, size_t>(0, 0);
+    return char_pos_pair(0, 0);
 
   // expect c to be within range begin to end
   if( c < begin || c >= end || begin == end )
-    return std::pair<size_t, size_t>(0, 0);
+    return char_pos_pair(0, 0);
 
   // the position of the newline prior to c
-  size_t line_offset = 0;
+  char_pos_type line_offset = 0;
   // the line number of c
-  size_t line_count = std::count(begin, c, '\n');
+  char_pos_type line_count = std::count(begin, c, '\n');
 
   if( line_count )
   {
@@ -60,14 +60,11 @@ std::pair<size_t, size_t> get_char_position(
   }
 
   // the position of c in the overall input
-  size_t char_offset = std::distance(begin, c);
+  char_pos_type char_offset = std::distance(begin, c);
   // the position of c in the current line
-  size_t char_offset_in_line = char_offset - line_offset;
+  char_pos_type char_offset_in_line = char_offset - line_offset;
 
-  return std::pair<size_t, size_t>(
-    line_count,
-    char_offset_in_line
-  );
+  return char_pos_pair(line_count, char_offset_in_line);
 }
 
 

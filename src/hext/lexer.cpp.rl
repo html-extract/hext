@@ -39,7 +39,7 @@ std::vector<token> lexer::lex()
 
 void lexer::throw_error() const
 {
-  std::pair<size_t, size_t> pos =
+  char_pos_pair pos =
     get_char_position(this->p, this->p_begin, this->pe);
 
   std::string char_name;
