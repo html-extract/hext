@@ -78,15 +78,29 @@ ENDIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 # g++
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  ADD_DEFINITIONS("-Wconversion" "-Wextra" "-pedantic" "-Wall" "-Wextra"
-    "-Wcast-align" "-Wcast-qual" "-Wctor-dtor-privacy"
-    "-Wdisabled-optimization" "-Wformat=2" "-Winit-self" "-Wlogical-op"
-    "-Wmissing-include-dirs" "-Woverloaded-virtual" "-Wredundant-decls"
-    "-Wshadow" "-Wsign-promo" "-Wstrict-null-sentinel" "-Wstrict-overflow=5"
-    "-Wundef" "-Wno-unused" "-Weffc++")
-  # unused
-  # "-Wswitch-default": generated ragel code uses switch without default, 
-  #                     we cannot do anything about that
+  ADD_DEFINITIONS(
+    "-pedantic" "-pedantic-errors" "-Wall" "-Wcast-align" "-Wcast-qual"
+    "-Wchar-subscripts" "-Wcomment" "-Wconversion" "-Wctor-dtor-privacy"
+    "-Wdisabled-optimization" "-Weffc++" "-Wextra" "-Wfloat-equal"
+    "-Wformat=2" "-Wformat-nonliteral" "-Wformat-security" "-Wformat-y2k"
+    "-Wimport" "-Winit-self" "-Winline" "-Winvalid-pch" "-Wlogical-op"
+    "-Wlong-long" "-Wmissing-braces" "-Wmissing-field-initializers"
+    "-Wmissing-format-attribute" "-Wmissing-include-dirs" "-Wno-unused"
+    "-Woverloaded-virtual" "-Wpacked" "-Wparentheses" "-Wpointer-arith"
+    "-Wredundant-decls" "-Wreturn-type" "-Wsequence-point" "-Wshadow"
+    "-Wsign-compare" "-Wsign-promo" "-Wstack-protector" "-Wstrict-aliasing=2"
+    "-Wstrict-null-sentinel" "-Wstrict-overflow=5" "-Wswitch" "-Wswitch-enum"
+    "-Wtrigraphs" "-Wundef" "-Wuninitialized" "-Wunknown-pragmas"
+    "-Wunreachable-code" "-Wunsafe-loop-optimizations" "-Wunused"
+    "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
+    "-Wunused-variable" "-Wvariadic-macros" "-Wvolatile-register-var"
+    "-Wwrite-strings"
+    # Unused switches:
+    # "-Wswitch-default": generated ragel code uses switch without default, 
+    #                     we cannot do anything about that
+    # "-Wmissing-noreturn": we dont care for gcc specific attributes
+    # "-Wpadded": also warns when it's impossible to shrink padding
+  )
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ###########################################################
 
