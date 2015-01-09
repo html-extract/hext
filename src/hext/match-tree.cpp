@@ -90,7 +90,7 @@ bool match_tree::filter()
   //   {"cap": "one"}
   //   {"cap": "two"}
   //   {"cap": "three"}
-  if( this->children.size() == 1 && this->matches.empty() )
+  while( this->children.size() == 1 && this->matches.empty() )
   {
     std::unique_ptr<match_tree> mt_front = std::move(this->children.front());
     // enable koenig lookup
