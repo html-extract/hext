@@ -9,6 +9,8 @@
   attr_name = ( alpha (alnum | '-' | '_')** );
   attr_value = ( alpha (alnum | '-' | '_')** );
 
+  comment = ( ' '* '#' (any - '\n')* '\n' );
+
   attributes = 
     (
       space+ 
@@ -42,30 +44,34 @@
 
   main := 
     ( 
+      comment
+      |
       (
-        '  ' >{ LX_TK_START(TK_INDENT); }
-             %{ LX_TK_STOP; }
-      )*
-      ( 
-        '<' >{ LX_TK_START(TK_RULE_BEGIN); } 
-            %{ LX_TK_STOP; }
-      )
-      (
-        '!' >{ LX_TK_START(TK_DIRECT_DESC); }
-            %{ LX_TK_STOP; }
-      )?
-      (
-        cap_limit >{ LX_TK_START(TK_CAP_LIMIT); }
-                  %{ LX_TK_STOP; }
-      )?
-      ( 
-        attr_name >{ LX_TK_START(TK_TAG_NAME); }
-                  %{ LX_TK_STOP; }
-      )?
-      attributes?
-      (
-        '>' >{ LX_TK_START(TK_RULE_END); } 
-            %{ LX_TK_STOP; }
+        (
+          '  ' >{ LX_TK_START(TK_INDENT); }
+               %{ LX_TK_STOP; }
+        )*
+        (
+          '<' >{ LX_TK_START(TK_RULE_BEGIN); }
+              %{ LX_TK_STOP; }
+        )
+        (
+          '!' >{ LX_TK_START(TK_DIRECT_DESC); }
+              %{ LX_TK_STOP; }
+        )?
+        (
+          cap_limit >{ LX_TK_START(TK_CAP_LIMIT); }
+                    %{ LX_TK_STOP; }
+        )?
+        (
+          attr_name >{ LX_TK_START(TK_TAG_NAME); }
+                    %{ LX_TK_STOP; }
+        )?
+        attributes?
+        (
+          '>' >{ LX_TK_START(TK_RULE_END); }
+              %{ LX_TK_STOP; }
+        )
       )
       '\n'
     )**
