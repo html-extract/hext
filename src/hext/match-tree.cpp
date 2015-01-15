@@ -107,12 +107,8 @@ bool match_tree::filter()
     return false;
 
   for(auto& c : this->children)
-  {
     if( c->filter() )
-    {
       c.reset(nullptr);
-    }
-  }
 
   // erase all empty unique_ptr
   this->children.erase(
@@ -129,6 +125,11 @@ bool match_tree::filter()
   // TODO: find input that breaks this
   else
     return this->r->children_size() > this->children.size();
+}
+
+bool match_tree::matches_empty() const
+{
+  return this->matches.empty();
 }
 
 void match_tree::print_json_recursive(

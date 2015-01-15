@@ -69,13 +69,18 @@ void rule::match(const GumboNode * node, match_tree * m) const
   if( this->matches(node) )
   {
     this->match_count++;
-    m = m->append_child_and_own(this->capture(node));
+
+    {
+      std::unique_ptr<match_tree> mt = this->capture(node);
+      // if this rule has branches, then the match_tree must also branch
+      // but if we have captured content, we must add a branch anyway
+      if( this->children.size() > 1 || !mt->matches_empty() )
+        m = m->append_child_and_own(std::move(mt));
+    }
 
     for(const auto& c : this->children)
-    {
       if( c.cap_limit == 0 || c.match_count < c.cap_limit )
         c.match_node_children(node, m);
-    }
   }
   else
   {

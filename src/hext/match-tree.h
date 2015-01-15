@@ -51,6 +51,8 @@ public:
   /// Returns true on empty match_tree.
   bool filter();
 
+  bool matches_empty() const;
+
 private:
   match_tree(const match_tree&) = delete;
   match_tree& operator=(const match_tree&) = delete;
