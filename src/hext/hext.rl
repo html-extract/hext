@@ -9,7 +9,7 @@
   attr_name = ( alpha (alnum | '-' | '_')** );
   attr_value = ( alpha (alnum | '-' | '_')** );
 
-  comment = ( ' '* '#' (any - '\n')* '\n' );
+  comment = ( '#' (any - '\n')* '\n' );
 
   attributes = 
     (
