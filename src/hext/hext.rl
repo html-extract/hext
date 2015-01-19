@@ -24,12 +24,12 @@
           '="'
           (
             (
-              '(:'
+              '{'
               (
                 attr_value** >{ LX_TK_START(TK_ATTR_CAPTURE); }
                              %{ LX_TK_STOP; }
               )
-              ')'
+              '}'
             )
             |
             (
