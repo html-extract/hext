@@ -18,7 +18,8 @@ enum token_id {
   , TK_ATTR_LITERAL = 1 << 7
   , TK_ATTR_CAPTURE = 1 << 8
   , TK_RULE_END     = 1 << 9
-  , TK_EOF          = 1 << 10
+  , TK_NEWLINE      = 1 << 10
+  , TK_EOF          = 1 << 11
 };
 
 

@@ -33,6 +33,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
     // we expect the lexer to have catched all syntax errors
     switch( tok.tid )
     {
+      case TK_NEWLINE:     st.indent = 0;
+        break;
       case TK_INDENT:      st.indent++;
         break;
       case TK_DIRECT_DESC: st.is_direct_desc = true;

@@ -9,7 +9,15 @@
   attr_name = ( alpha (alnum | '-' | '_')** );
   attr_value = ( alpha (alnum | '-' | '_')** );
 
-  comment = ( '#' (any - '\n')* '\n' );
+  comment = (
+    ' '*
+    '#'
+    (any - '\n')*
+    (
+      '\n' >{ LX_TK_START(TK_NEWLINE); }
+           %{ LX_TK_STOP; }
+    )
+  );
 
   attributes = 
     (
@@ -73,7 +81,10 @@
               %{ LX_TK_STOP; }
         )
       )
-      '\n'
+      (
+        '\n' >{ LX_TK_START(TK_NEWLINE); }
+             %{ LX_TK_STOP; }
+      )
     )**
     $err(error) $/{ LX_TK_START(TK_EOF); fbreak; };
 }%%
