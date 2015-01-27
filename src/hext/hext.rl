@@ -65,8 +65,8 @@
               (
                 '/'
                 (
-                  match_regex** >{ LX_TK_START(TK_MATCH_REGEX); }
-                                %{ LX_TK_STOP; }
+                  match_regex >{ LX_TK_START(TK_MATCH_REGEX); }
+                              %{ LX_TK_STOP; }
                 )
                 '/'
               )
