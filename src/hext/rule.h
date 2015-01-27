@@ -63,7 +63,6 @@ public:
   std::vector<rule>::size_type children_size() const;
   std::string tag_name() const;
   bool is_direct_descendant() const;
-  int capture_limit() const;
 
   /// Recursively try to find and capture matches.
   /// Call this->matches(node):
