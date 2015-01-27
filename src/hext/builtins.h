@@ -11,7 +11,10 @@ namespace hext {
 namespace bi {
 
 
-std::string capture_inner_text(const GumboNode * node);
+typedef std::string (*builtin_func_ptr)(const GumboNode *);
+
+builtin_func_ptr get_builtin_by_name(const std::string& builtin_name);
+std::string text(const GumboNode * node);
 
 
 } // namespace bi

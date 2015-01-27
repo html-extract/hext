@@ -27,6 +27,10 @@
       space+ 
       (
         (
+          '@' >{ LX_TK_START(TK_BUILTIN); }
+              %{ LX_TK_STOP; }
+        )?
+        (
           attr_name >{ LX_TK_START(TK_ATTR_NAME); }
                     %{ LX_TK_STOP; }
         )

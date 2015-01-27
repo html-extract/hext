@@ -5,7 +5,7 @@ namespace hext {
 namespace parser {
 
 
-parse_error::parse_error(const char * msg)
+parse_error::parse_error(const std::string& msg)
 : std::runtime_error(msg)
 {
 }
@@ -16,6 +16,7 @@ state::state()
   tag_name(),
   is_direct_desc(false),
   cap_limit(0),
+  is_builtin(false),
   attr_name(),
   cap_var(),
   cap_regex(),
@@ -52,6 +53,9 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_TAG_NAME:
         st.tag_name = tok.to_string();
         break;
+      case TK_BUILTIN:
+        st.is_builtin = true;
+        break;
       case TK_ATTR_NAME:
         st.attr_name = tok.to_string();
         break;
@@ -59,6 +63,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         break;
       case TK_MATCH_LITERAL:
         {
+          if( st.is_builtin )
+            throw parse_error("builtins cannot be used when matching");
           std::unique_ptr<match_pattern> p(
             new literal_match(
               st.attr_name, tok.to_string()
@@ -69,6 +75,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         break;
       case TK_MATCH_REGEX:
         {
+          if( st.is_builtin )
+            throw parse_error("builtins cannot be used when matching");
           std::unique_ptr<match_pattern> p(
             new regex_match(
               st.attr_name, tok.to_string()
@@ -79,18 +87,34 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         break;
       case TK_CAP_END:
         {
-          std::unique_ptr<capture_pattern> p(
-            new attribute_capture(
-              st.cap_var, st.attr_name, st.cap_regex
-            )
-          );
-          st.capturep.push_back(std::move(p));
-          std::unique_ptr<match_pattern> pm(
-            new match_pattern(
-              st.attr_name
-            )
-          );
-          st.matchp.push_back(std::move(pm));
+          if( st.is_builtin )
+          {
+            bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
+            if( bf == nullptr )
+              throw parse_error(std::string("unknown builtin: ") + st.attr_name);
+            std::unique_ptr<capture_pattern> p(
+              new builtin_capture(
+                st.cap_var, bf, st.cap_regex
+              )
+            );
+            st.capturep.push_back(std::move(p));
+            st.is_builtin = false;
+          }
+          else
+          {
+            std::unique_ptr<capture_pattern> p(
+              new attribute_capture(
+                st.cap_var, st.attr_name, st.cap_regex
+              )
+            );
+            st.capturep.push_back(std::move(p));
+            std::unique_ptr<match_pattern> pm(
+              new match_pattern(
+                st.attr_name
+              )
+            );
+            st.matchp.push_back(std::move(pm));
+          }
         }
         break;
       case TK_CAP_VAR:

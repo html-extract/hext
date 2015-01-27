@@ -16,6 +16,8 @@
 #include "hext/literal-match.h"
 #include "hext/capture-pattern.h"
 #include "hext/attribute-capture.h"
+#include "hext/builtins.h"
+#include "hext/builtin-capture.h"
 #include "hext/rule.h"
 
 
@@ -30,7 +32,7 @@ namespace parser {
 class parse_error : public std::runtime_error
 {
 public:
-  explicit parse_error(const char * msg);
+  explicit parse_error(const std::string& msg);
 };
 
 
@@ -43,6 +45,7 @@ struct state
   std::string tag_name;
   bool is_direct_desc;
   int cap_limit;
+  bool is_builtin;
   std::string attr_name;
   std::string cap_var;
   std::string cap_regex;

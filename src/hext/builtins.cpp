@@ -5,6 +5,14 @@ namespace hext {
 namespace bi {
 
 
+builtin_func_ptr get_builtin_by_name(const std::string& builtin_name)
+{
+  if( builtin_name.compare("text") == 0 )
+    return text;
+
+  return nullptr;
+}
+
 std::string text(const GumboNode * node)
 {
   assert(node != nullptr);
