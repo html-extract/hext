@@ -8,7 +8,7 @@
   cap_limit = ( [1-9][0-9]** );
   attr_name = ( alpha (alnum | '-' | '_')** );
   cap_var       = ( alpha (alnum | '-' | '_')** );
-  match_literal = ( alpha (alnum | '-' | '_')** );
+  match_literal = ( alpha (alnum | '-' | '_' | ' ')** );
   cap_regex   = ( '/' [^/]+* '/' );
   match_regex = ( '/' [^/]+* '/' );
 
