@@ -11,7 +11,11 @@
 
 #include "hext/token.h"
 #include "hext/lexer.h"
-#include "hext/attribute.h"
+#include "hext/match-pattern.h"
+#include "hext/regex-match.h"
+#include "hext/literal-match.h"
+#include "hext/capture-pattern.h"
+#include "hext/attribute-capture.h"
 #include "hext/rule.h"
 
 
@@ -40,7 +44,10 @@ struct state
   bool is_direct_desc;
   int cap_limit;
   std::string attr_name;
-  std::vector<attribute> attrs;
+  std::string cap_var;
+  std::string cap_regex;
+  std::vector<std::unique_ptr<match_pattern>> matchp;
+  std::vector<std::unique_ptr<capture_pattern>> capturep;
 };
 
 /// Use lexer to lex from begin to end, then convert tokens to vector<rule>.

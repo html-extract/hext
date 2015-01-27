@@ -9,36 +9,39 @@ rule::rule(
   const std::string& html_tag_name,
   bool direct_descendant,
   int max_capture_limit,
-  std::vector<attribute>&& attrs
+  std::vector<std::unique_ptr<match_pattern>>&& matchp,
+  std::vector<std::unique_ptr<capture_pattern>>&& capturep
 )
-: children(),
-  attributes(std::move(attrs)),
-  tag(html_tag_name),
-  is_direct_desc(direct_descendant),
-  cap_limit(max_capture_limit),
-  match_count(0)
+: children()
+, match_patterns(std::move(matchp))
+, capture_patterns(std::move(capturep))
+, tag(html_tag_name)
+, is_direct_desc(direct_descendant)
+, cap_limit(max_capture_limit)
+, match_count(0)
 {
 }
 
-rule::rule(const rule& r)
-: children(r.children),
-  attributes(r.attributes),
-  tag(r.tag),
-  is_direct_desc(r.is_direct_desc),
-  cap_limit(r.cap_limit),
-  match_count(0)
+rule::rule(rule&& r)
+: children(std::move(r.children))
+, match_patterns(std::move(r.match_patterns))
+, capture_patterns(std::move(r.capture_patterns))
+, tag(std::move(r.tag))
+, is_direct_desc(r.is_direct_desc)
+, cap_limit(r.cap_limit)
+, match_count(0)
 {
 }
 
-void rule::append_child(const rule& r, int level)
+void rule::append_child(rule&& r, int level)
 {
   if( level > 1 && !this->children.empty() )
   {
-    this->children.back().append_child(r, level - 1);
+    this->children.back().append_child(std::move(r), level - 1);
     return;
   }
 
-  this->children.push_back(r);
+  this->children.push_back(std::move(r));
 }
 
 std::vector<rule>::size_type rule::children_size() const
@@ -72,8 +75,8 @@ void rule::match(const GumboNode * node, match_tree * m) const
 
     {
       std::unique_ptr<match_tree> mt = this->capture(node);
-      // if this rule has branches, then the match_tree must also branch
-      // but if we have captured content, we must add a branch anyway
+      // If this rule has branches, then the match_tree must also branch.
+      // But if we have captured content, we must add a branch anyway.
       if( this->children.size() > 1 || !mt->matches_empty() )
         m = m->append_child_and_own(std::move(mt));
     }
@@ -99,11 +102,11 @@ void rule::print(std::ostream& out, int indent_level) const
       << this->tag
       << " ";
 
-  for(const auto& a : this->attributes)
-  {
-    a.print(out);
-    out << " ";
-  }
+  for(const auto& p : this->match_patterns)
+    p->print(out);
+
+  for(const auto& p : this->capture_patterns)
+    p->print(out);
 
   out << ">\n";
   for(const auto& c : this->children)
@@ -119,9 +122,8 @@ rule::capture(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return m_node;
 
-  for(const auto& attr : this->attributes)
-    if( attr.is_capture() )
-      m_node->append_match(attr.capture(node));
+  for(const auto& pattern : this->capture_patterns)
+    m_node->append_match(pattern->capture(node));
 
   return m_node;
 }
@@ -131,13 +133,14 @@ bool rule::matches(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  if( !this->tag.empty() &&
-      node->v.element.tag != gumbo_tag_enum(this->tag.c_str()) )
-    return false;
+  // empty tag-name matches every tag
+  if( !this->tag.empty() )
+    if( node->v.element.tag != gumbo_tag_enum(this->tag.c_str()) )
+      return false;
 
-  for(const auto& attr : this->attributes)
+  for(const auto& pattern : this->match_patterns)
   {
-    if( !attr.matches(node) )
+    if( !pattern->matches(node) )
       return false;
   }
 

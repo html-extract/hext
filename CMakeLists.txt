@@ -55,7 +55,6 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/src/hext/util.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/attribute.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtin-captures.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/lexer-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp"
@@ -65,6 +64,11 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/matcher.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/token.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/match-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/regex-match.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/literal-match.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/capture-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/attribute-capture.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)

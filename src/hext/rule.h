@@ -9,7 +9,8 @@
 #include <gumbo.h>
 
 #include "hext/make-unique.h"
-#include "hext/attribute.h"
+#include "hext/match-pattern.h"
+#include "hext/capture-pattern.h"
 
 
 namespace hext {
@@ -23,9 +24,11 @@ class match_tree;
 ///
 /// tag_name represents the html-tag that we want to match. Empty tag_name
 /// matches any html-tag.
-/// A rule's attributes can be matched against an html-tag and capture values
-/// to be used in the result (match_tree).
-/// A rule is a tree: each rule has a vector of child-rules.
+/// A rule matches an html-node if all match_patterns match. Then, all 
+/// capture_patterns are applied to the node, producing captured content which
+/// will be stored in a match_tree.
+/// A rule is a self-managing tree: each rule has a vector of unique_ptr to
+/// child-rule.
 class rule
 {
 public:
@@ -33,11 +36,12 @@ public:
     const std::string& html_tag_name,
     bool direct_descendant,
     int max_capture_limit,
-    std::vector<attribute>&& attrs
+    std::vector<std::unique_ptr<match_pattern>>&& matchp,
+    std::vector<std::unique_ptr<capture_pattern>>&& capturep
   );
 
-  /// Copy constructor. Resets match_count to zero.
-  rule(const rule& r);
+  /// Move constructor. Resets match_count to zero.
+  rule(rule&& r);
 
   /// Append child-rule after last element at tree-level level.
   /// Example rule:
@@ -54,7 +58,7 @@ public:
   ///   level1    <li>
   ///   level2      <img>
   ///   level2      <a>    # new
-  void append_child(const rule& r, int level = 1);
+  void append_child(rule&& r, int level = 1);
 
   std::vector<rule>::size_type children_size() const;
   std::string tag_name() const;
@@ -68,19 +72,20 @@ public:
   /// * if false, call this->match for each child of node.
   void match(const GumboNode * node, match_tree * m) const;
 
-  /// Recursively print the rule and its child-rules, including attributes
+  /// Recursively print the rule and its child-rules, including patterns
   /// and tag-name.
   void print(std::ostream& out = std::cout, int indent_level = 0) const;
 
 private:
+  rule(const rule& r) = delete;
+  rule& operator=(rule&&) = delete;
   rule& operator=(const rule&) = delete;
 
-  /// Capture attributes from a single GumboNode.
-  /// Returns a single match_tree.
+  /// Capture contents from a single GumboNode. Returns a single match_tree.
   std::unique_ptr<match_tree> capture(const GumboNode * node) const;
 
   /// Check wheter this rule matches a single GumboNode.
-  /// A rule matches when each attribute is found in the GumboNode and
+  /// A rule matches when each match_pattern is found in the GumboNode and
   /// tag-name is equal (if non empty).
   bool matches(const GumboNode * node) const;
 
@@ -88,7 +93,8 @@ private:
   void match_node_children(const GumboNode * node, match_tree * m) const;
 
   std::vector<rule> children;
-  const std::vector<attribute> attributes;
+  std::vector<std::unique_ptr<match_pattern>> match_patterns;
+  std::vector<std::unique_ptr<capture_pattern>> capture_patterns;
 
   const std::string tag;
   const bool is_direct_desc;
