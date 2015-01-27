@@ -56,50 +56,6 @@ void match_tree::print_dot(std::ostream& out) const
 
 bool match_tree::filter()
 {
-  // If this node does not contribute anything, remove it by swapping its
-  // contents with its single child.
-  // This is especially important with root nodes, where it may happen that
-  // the top-most-rule was only hit exactly once, but with many child matches,
-  // leaving a match-tree that has all matches in one single branch, 
-  // collapsing all values into one single result instead of many.
-  // Example html:
-  //   <div id="unique">
-  //     <li class="one"></li>
-  //     <li class="two"><li>
-  //     <li class)"three"><li>
-  //   </div>
-  //
-  // Example hext:
-  //   <div id="unique">
-  //     <li class="(:cap)">
-  //
-  // Produces match-tree:
-  //   [top] -> [div-rule] -> [li-rule]
-  //                       -> [li-rule]
-  //                       -> [li-rule]
-  //
-  // Produces useless json:
-  //   {"cap":"one", "cap":"two", "cap":"three"}
-  //
-  // We therefore move [div-rule] up by one level when filtering:
-  //   [div-rule] -> [li-rule]
-  //              -> [li-rule]
-  //              -> [li-rule]
-  //
-  // And get a beautiful result:
-  //   {"cap": "one"}
-  //   {"cap": "two"}
-  //   {"cap": "three"}
-  while( this->children.size() == 1 && this->matches.empty() )
-  {
-    std::unique_ptr<match_tree> mt_front = std::move(this->children.front());
-    // enable koenig lookup
-    using namespace std;
-    swap(this->r, mt_front->r);
-    swap(this->matches, mt_front->matches);
-    swap(this->children, mt_front->children);
-  }
-
   // if the matching rule has no more children, we have a complete
   // match of a rule path, therefore we want to keep this branch by
   // returning false.
