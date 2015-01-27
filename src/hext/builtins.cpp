@@ -1,11 +1,11 @@
-#include "hext/builtin-captures.h"
+#include "hext/builtins.h"
 
 
 namespace hext {
-namespace bc {
+namespace bi {
 
 
-std::string capture_inner_text(const GumboNode * node)
+std::string text(const GumboNode * node)
 {
   assert(node != nullptr);
   assert(node->type == GUMBO_NODE_ELEMENT);
@@ -32,6 +32,6 @@ std::string capture_inner_text(const GumboNode * node)
 }
 
 
-} // namespace bc
+} // namespace bi
 } // namespace hext
 

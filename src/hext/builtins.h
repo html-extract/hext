@@ -1,5 +1,5 @@
-#ifndef HEXT_BUILTIN_CAPTURES_H
-#define HEXT_BUILTIN_CAPTURES_H
+#ifndef HEXT_BUILTINS_H
+#define HEXT_BUILTINS_H
 
 #include <cassert>
 #include <string>
@@ -8,15 +8,15 @@
 
 
 namespace hext {
-namespace bc {
+namespace bi {
 
 
 std::string capture_inner_text(const GumboNode * node);
 
 
-} // namespace bc
+} // namespace bi
 } // namespace hext
 
 
-#endif // HEXT_BUILTIN_CAPTURES_H
+#endif // HEXT_BUILTINS_H
 
