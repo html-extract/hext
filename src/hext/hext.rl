@@ -9,8 +9,8 @@
   attr_name = ( alpha (alnum | '-' | '_')** );
   cap_var       = ( alpha (alnum | '-' | '_')** );
   match_literal = ( alpha (alnum | '-' | '_' | ' ')** );
-  cap_regex   = ( '/' [^/]+* '/' );
-  match_regex = ( '/' [^/]+* '/' );
+  cap_regex   = ( [^/]+* );
+  match_regex = ( [^/]+* );
 
   comment = (
     ' '*
@@ -48,8 +48,12 @@
                           %{ LX_TK_STOP; }
               )
               (
-                cap_regex >{ LX_TK_START(TK_CAP_REGEX); }
-                          %{ LX_TK_STOP; }
+                '/'
+                (
+                  cap_regex >{ LX_TK_START(TK_CAP_REGEX); }
+                            %{ LX_TK_STOP; }
+                )
+                '/'
               )?
               (
                 '}' >{ LX_TK_START(TK_CAP_END); }
@@ -59,8 +63,12 @@
             |
             (
               (
-                match_regex** >{ LX_TK_START(TK_MATCH_REGEX); }
-                              %{ LX_TK_STOP; }
+                '/'
+                (
+                  match_regex** >{ LX_TK_START(TK_MATCH_REGEX); }
+                                %{ LX_TK_STOP; }
+                )
+                '/'
               )
               |
               (
