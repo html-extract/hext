@@ -16,7 +16,7 @@ literal_match::literal_match(
 bool literal_match::matches(const GumboNode * node) const
 {
   const GumboAttribute * g_attr = this->get_node_attr(node);
-  return g_attr && this->literal.compare(g_attr->value);
+  return g_attr && this->literal.compare(g_attr->value) == 0;
 }
 
 void literal_match::print(std::ostream& out) const
