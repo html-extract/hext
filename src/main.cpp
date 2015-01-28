@@ -26,6 +26,10 @@ int main(int argc, const char ** argv)
   try
   {
     auto rules = hext::parser::parse_file(po.get("hext-file"));
+
+    if( po.contains("lint") )
+      return EXIT_SUCCESS;
+
     hext::matcher m(po.get("html-file"));
 
     for(const auto& r : rules)
