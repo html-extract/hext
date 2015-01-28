@@ -43,20 +43,18 @@ void program_options::print(const char * program_name, std::ostream& out) const
 
 bool program_options::validate_or_print_error(std::ostream& out) const
 {
-  if( ( this->contains("print") || this->contains("lint") )
-      && !this->contains("hext-file") )
+  if( !this->contains("hext-file") )
   {
     out << "Error: Expecting hext-file\n";
     return false;
   }
-  else
-  {
-    return true;
-  }
 
-  if( !this->contains("hext-file") || !this->contains("html-file") )
+  if( this->contains("print") || this->contains("lint") )
+    return true;
+
+  if( !this->contains("html-file") )
   {
-    out << "Error: Expecting both hext-file and html-file\n";
+    out << "Error: Expecting html-file\n";
     return false;
   }
 
