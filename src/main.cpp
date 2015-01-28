@@ -14,14 +14,14 @@ int main(int argc, const char ** argv)
 
   hext::program_options po(argc, argv);
 
-  if( po.contains("help") )
+  if( !po.validate_or_print_error(std::cerr) )
+    return EXIT_FAILURE;
+
+  if( argc < 2 || po.contains("help") )
   {
     po.print(argv[0], std::cout);
     return EXIT_SUCCESS;
   }
-
-  if( !po.validate_or_print_error(std::cerr) )
-    return EXIT_FAILURE;
 
   try
   {
