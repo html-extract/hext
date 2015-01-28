@@ -20,12 +20,18 @@ capture_pattern::~capture_pattern()
 std::string capture_pattern::regex_filter(const char * str) const
 {
   assert(this->rx);
-  boost::match_results<const char *> mr;
+  if( !this->rx )
+    return str;
 
+  boost::match_results<const char *> mr;
   if( boost::regex_match(str, str + strlen(str), mr, *(this->rx)) )
   {
-    assert(mr.size() > 1);
-    return mr[1];
+    // If there are no captures, return whole string (mr[0]), if there are
+    // captures, then return the first one
+    if( mr.size() > 1 )
+      return mr[1];
+    else
+      return mr[0];
   }
   else
   {
