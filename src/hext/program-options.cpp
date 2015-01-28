@@ -15,6 +15,7 @@ program_options::program_options(int argc, const char * argv[])
     ("hext-file,h", po::value<std::string>(), "Path to hext file")
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
+    ("print,p", "Print parsed hext")
     ("mt-graph,g", "Print match-tree as DOT")
     ("unfiltered-mt-graph,u", "Print unfiltered match-tree as DOT")
   ;
@@ -42,7 +43,8 @@ void program_options::print(const char * program_name, std::ostream& out) const
 
 bool program_options::validate_or_print_error(std::ostream& out) const
 {
-  if( this->contains("lint") && !this->contains("hext-file") )
+  if( ( this->contains("print") || this->contains("lint") )
+      && !this->contains("hext-file") )
   {
     out << "Error: Expecting hext-file\n";
     return false;

@@ -27,6 +27,13 @@ int main(int argc, const char ** argv)
   {
     auto rules = hext::parser::parse_file(po.get("hext-file"));
 
+    if( po.contains("print") )
+    {
+      for(const auto& r : rules)
+        r.print();
+      return EXIT_SUCCESS;
+    }
+
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
