@@ -2,6 +2,7 @@
 #define HEXT_LITERAL_MATCH_H
 
 #include <string>
+#include <cstring>
 #include <iostream>
 
 #include <gumbo.h>
