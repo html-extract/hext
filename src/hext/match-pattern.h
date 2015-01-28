@@ -19,8 +19,8 @@ class match_pattern
 {
 public:
   explicit match_pattern(const std::string& attr_name);
-  /// Return true if GumboNode has any attribute called attr_name
-  virtual bool matches(const GumboNode * node) const;
+  /// Returns nullptr if GumboNode does not have any attribute called attr_name
+  virtual const GumboAttribute * matches(const GumboNode * node) const;
   virtual void print(std::ostream& out = std::cout) const;
   virtual ~match_pattern();
 

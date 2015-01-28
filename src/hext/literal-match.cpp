@@ -13,10 +13,13 @@ literal_match::literal_match(
 {
 }
 
-bool literal_match::matches(const GumboNode * node) const
+const GumboAttribute * literal_match::matches(const GumboNode * node) const
 {
   const GumboAttribute * g_attr = this->get_node_attr(node);
-  return g_attr && this->literal.compare(g_attr->value) == 0;
+  if( g_attr && this->literal.compare(g_attr->value) == 0 )
+    return g_attr;
+  else
+    return nullptr;
 }
 
 void literal_match::print(std::ostream& out) const

@@ -8,6 +8,7 @@ namespace hext {
 rule::rule(
   const std::string& html_tag_name,
   bool direct_descendant,
+  bool closed,
   int max_capture_limit,
   std::vector<std::unique_ptr<match_pattern>>&& matchp,
   std::vector<std::unique_ptr<capture_pattern>>&& capturep
@@ -17,6 +18,7 @@ rule::rule(
 , capture_patterns(std::move(capturep))
 , tag(html_tag_name)
 , is_direct_desc(direct_descendant)
+, is_closed(closed)
 , cap_limit(max_capture_limit)
 , match_count(0)
 {
@@ -28,6 +30,7 @@ rule::rule(rule&& r)
 , capture_patterns(std::move(r.capture_patterns))
 , tag(std::move(r.tag))
 , is_direct_desc(r.is_direct_desc)
+, is_closed(r.is_closed)
 , cap_limit(r.cap_limit)
 , match_count(0)
 {
@@ -103,7 +106,10 @@ void rule::print(std::ostream& out, int indent_level) const
   for(const auto& p : this->capture_patterns)
     p->print(out);
 
-  out << ">\n";
+  if( this->is_closed )
+    out << ">";
+
+  out << "\n";
   for(const auto& c : this->children)
     c.print(out, indent_level + 1);
 }
@@ -133,10 +139,29 @@ bool rule::matches(const GumboNode * node) const
     if( node->v.element.tag != gumbo_tag_enum(this->tag.c_str()) )
       return false;
 
+  std::vector<const GumboAttribute *> m_attrs;
   for(const auto& pattern : this->match_patterns)
   {
-    if( !pattern->matches(node) )
+    const GumboAttribute * attr = pattern->matches(node);
+    if( attr )
+    {
+      m_attrs.push_back(attr);
+    }
+    else
+    {
       return false;
+    }
+  }
+
+  if( this->is_closed )
+  {
+    // if the rule is closed, we have to have matched all attributes
+    const GumboVector& attr = node->v.element.attributes;
+    for(unsigned int i = 0; i < attr.length; ++i)
+    {
+      if( std::find(m_attrs.begin(), m_attrs.end(), attr.data[i]) == m_attrs.end() )
+        return false;
+    }
   }
 
   return true;

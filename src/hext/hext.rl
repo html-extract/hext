@@ -111,8 +111,8 @@
         (
           '>' >{ LX_TK_START(TK_RULE_END); }
               %{ LX_TK_STOP; }
-        )
-      )
+        )?
+      ):>
       (
         '\n' >{ LX_TK_START(TK_NEWLINE); }
              %{ LX_TK_STOP; }

@@ -13,10 +13,13 @@ regex_match::regex_match(
 {
 }
 
-bool regex_match::matches(const GumboNode * node) const
+const GumboAttribute * regex_match::matches(const GumboNode * node) const
 {
   const GumboAttribute * g_attr = this->get_node_attr(node);
-  return g_attr && boost::regex_search(g_attr->value, this->rx);
+  if( g_attr && boost::regex_search(g_attr->value, this->rx) )
+    return g_attr;
+  else
+    return nullptr;
 }
 
 void regex_match::print(std::ostream& out) const

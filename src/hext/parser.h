@@ -41,9 +41,11 @@ struct state
 {
   state();
 
+  bool rule_start;
   int indent;
   std::string tag_name;
   bool is_direct_desc;
+  bool is_closed;
   int cap_limit;
   bool is_builtin;
   std::string attr_name;

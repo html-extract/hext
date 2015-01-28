@@ -12,16 +12,18 @@ parse_error::parse_error(const std::string& msg)
 
 
 state::state()
-: indent(0),
-  tag_name(),
-  is_direct_desc(false),
-  cap_limit(0),
-  is_builtin(false),
-  attr_name(),
-  cap_var(),
-  cap_regex(),
-  matchp(),
-  capturep()
+: rule_start(false)
+, indent(0)
+, tag_name()
+, is_direct_desc(false)
+, is_closed(false)
+, cap_limit(0)
+, is_builtin(false)
+, attr_name()
+, cap_var()
+, cap_regex()
+, matchp()
+, capturep()
 {
 }
 
@@ -39,6 +41,24 @@ std::vector<rule> parse_range(const char * begin, const char * end)
     switch( tok.tid )
     {
       case TK_NEWLINE:
+        if( st.rule_start )
+        {
+          rule r(
+            st.tag_name,
+            st.is_direct_desc,
+            st.is_closed,
+            st.cap_limit,
+            std::move(st.matchp),
+            std::move(st.capturep)
+          );
+          // either top-level rule or first rule
+          if( st.indent == 0 || rules.empty() )
+            rules.push_back(std::move(r));
+          else
+            rules.back().append_child(std::move(r), st.indent);
+          // reset parse state
+          st = state();
+        }
         st.indent = 0;
         break;
       case TK_INDENT:
@@ -124,25 +144,12 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         st.cap_regex = tok.to_string();
         break;
       case TK_RULE_END:
-        {
-          rule r(
-            st.tag_name,
-            st.is_direct_desc,
-            st.cap_limit,
-            std::move(st.matchp),
-            std::move(st.capturep)
-          );
-          // either top-level rule or first rule
-          if( st.indent == 0 || rules.empty() )
-            rules.push_back(std::move(r));
-          else
-            rules.back().append_child(std::move(r), st.indent);
-          // reset parse state
-          st = state();
-        }
+        st.is_closed = true;
+        break;
+      case TK_RULE_BEGIN:
+        st.rule_start = true;
         break;
       case TK_EOF:
-      case TK_RULE_BEGIN:
         break;
       case TK_ERROR:
         throw parse_error("syntax error");

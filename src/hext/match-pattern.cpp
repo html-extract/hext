@@ -9,9 +9,9 @@ match_pattern::match_pattern(const std::string& attr_name)
 {
 }
 
-bool match_pattern::matches(const GumboNode * node) const
+const GumboAttribute * match_pattern::matches(const GumboNode * node) const
 {
-  return this->get_node_attr(node) != nullptr;
+  return this->get_node_attr(node);
 }
 
 void match_pattern::print(std::ostream& out) const

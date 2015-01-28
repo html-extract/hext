@@ -35,6 +35,7 @@ public:
   rule(
     const std::string& html_tag_name,
     bool direct_descendant,
+    bool closed,
     int max_capture_limit,
     std::vector<std::unique_ptr<match_pattern>>&& matchp,
     std::vector<std::unique_ptr<capture_pattern>>&& capturep
@@ -97,6 +98,7 @@ private:
 
   const std::string tag;
   const bool is_direct_desc;
+  const bool is_closed;
   const int cap_limit;
 
   /// Count how often this rule was matched.
