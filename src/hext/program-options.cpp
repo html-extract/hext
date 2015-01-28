@@ -14,7 +14,8 @@ program_options::program_options(int argc, const char * argv[])
     ("help", "This help message")
     ("hext-file,h", po::value<std::string>(), "Path to hext file")
     ("html-file,i", po::value<std::string>(), "Path to html file")
-    ("match-tree-graph,g", "Print match_tree as DOT")
+    ("mt-graph,g", "Print match-tree as DOT")
+    ("unfiltered-mt-graph,u", "Print unfiltered match-tree as DOT")
   ;
 
   po::store(po::parse_command_line(argc, argv, this->desc), this->vm);
