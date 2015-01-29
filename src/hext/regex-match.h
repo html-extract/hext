@@ -19,7 +19,7 @@ class regex_match : public match_pattern
 {
 public:
   regex_match(const std::string& attr_name, const std::string& regex);
-  const GumboAttribute * matches(const GumboNode * node) const final;
+  match_result matches(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:

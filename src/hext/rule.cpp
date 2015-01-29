@@ -142,10 +142,11 @@ bool rule::matches(const GumboNode * node) const
   std::vector<const GumboAttribute *> m_attrs;
   for(const auto& pattern : this->match_patterns)
   {
-    const GumboAttribute * attr = pattern->matches(node);
-    if( attr )
+    match_result mr = pattern->matches(node);
+    if( mr.first /* bool is matching? */ )
     {
-      m_attrs.push_back(attr);
+      if( /* const GumboAttribute* */ mr.second /* != nullptr */ )
+        m_attrs.push_back(mr.second);
     }
     else
     {
@@ -158,10 +159,8 @@ bool rule::matches(const GumboNode * node) const
     // if the rule is closed, we have to have matched all attributes
     const GumboVector& attr = node->v.element.attributes;
     for(unsigned int i = 0; i < attr.length; ++i)
-    {
       if( std::find(m_attrs.begin(), m_attrs.end(), attr.data[i]) == m_attrs.end() )
         return false;
-    }
   }
 
   return true;

@@ -19,7 +19,9 @@ class literal_match : public match_pattern
 {
 public:
   literal_match(const std::string& attr_name, const std::string& attr_value);
-  const GumboAttribute * matches(const GumboNode * node) const final;
+  /// Returns std::pair<false, nullptr> if GumboNode does not have any
+  /// attribute called attr_name with exact value 'literal'.
+  match_result matches(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:
