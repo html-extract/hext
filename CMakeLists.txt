@@ -68,6 +68,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/regex-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/literal-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtin-literal-match.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/builtin-regex-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/capture-pattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/attribute-capture.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtins.cpp"

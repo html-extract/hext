@@ -86,7 +86,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
           if( st.is_builtin )
           {
             bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
-            if( bf == nullptr )
+            if( !bf )
               throw parse_error(std::string("unknown builtin: ") + st.attr_name);
             std::unique_ptr<match_pattern> p(
               new builtin_literal_match(
@@ -109,13 +109,26 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_MATCH_REGEX:
         {
           if( st.is_builtin )
-            throw parse_error("builtins cannot be used when matching");
-          std::unique_ptr<match_pattern> p(
-            new regex_match(
-              st.attr_name, tok.to_string()
-            )
-          );
-          st.matchp.push_back(std::move(p));
+          {
+            bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
+            if( !bf )
+              throw parse_error(std::string("unknown builtin: ") + st.attr_name);
+            std::unique_ptr<match_pattern> p(
+              new builtin_regex_match(
+                bf, tok.to_string()
+              )
+            );
+            st.matchp.push_back(std::move(p));
+          }
+          else
+          {
+            std::unique_ptr<match_pattern> p(
+              new regex_match(
+                st.attr_name, tok.to_string()
+              )
+            );
+            st.matchp.push_back(std::move(p));
+          }
         }
         break;
       case TK_CAP_END:
@@ -123,7 +136,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
           if( st.is_builtin )
           {
             bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
-            if( bf == nullptr )
+            if( !bf )
               throw parse_error(std::string("unknown builtin: ") + st.attr_name);
             std::unique_ptr<capture_pattern> p(
               new builtin_capture(
