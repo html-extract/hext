@@ -40,7 +40,7 @@ char_pos_pair get_char_position(
     return char_pos_pair(0, 0);
 
   // expect c to be within range begin to end
-  if( c < begin || c >= end || begin == end )
+  if( c < begin || c > end || begin == end )
     return char_pos_pair(0, 0);
 
   // the position of the newline prior to c
