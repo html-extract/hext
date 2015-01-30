@@ -24,7 +24,7 @@ std::string capture_pattern::regex_filter(const char * str) const
     return str;
 
   boost::match_results<const char *> mr;
-  if( boost::regex_match(str, str + strlen(str), mr, *(this->rx)) )
+  if( boost::regex_search(str, str + strlen(str), mr, *(this->rx)) )
   {
     // If there are no captures, return whole string (mr[0]), if there are
     // captures, then return the first one
