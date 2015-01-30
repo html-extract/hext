@@ -41,20 +41,20 @@ int main(int argc, const char ** argv)
 
     for(const auto& r : rules)
     {
-      std::fstream g(
-        "auto.graph.dot",
-        std::fstream::out|std::fstream::trunc
-      );
-      std::fstream gf(
-        "auto.graph.filtered.dot",
-        std::fstream::out|std::fstream::trunc
-      );
-
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
 
       if( po.contains("mt-graph") )
       {
+        std::fstream g(
+          "auto.graph.dot",
+          std::fstream::out|std::fstream::trunc
+        );
+        std::fstream gf(
+          "auto.graph.filtered.dot",
+          std::fstream::out|std::fstream::trunc
+        );
+
         mt->print_dot(g); // debug
         mt->filter();
         mt->print_dot(gf); // debug
