@@ -15,6 +15,7 @@
 #include "hext/attribute-match.h"
 #include "hext/regex-match.h"
 #include "hext/literal-match.h"
+#include "hext/builtin-literal-match.h"
 #include "hext/capture-pattern.h"
 #include "hext/attribute-capture.h"
 #include "hext/builtins.h"

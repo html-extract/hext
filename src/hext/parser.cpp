@@ -84,13 +84,26 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_MATCH_LITERAL:
         {
           if( st.is_builtin )
-            throw parse_error("builtins cannot be used when matching");
-          std::unique_ptr<match_pattern> p(
-            new literal_match(
-              st.attr_name, tok.to_string()
-            )
-          );
-          st.matchp.push_back(std::move(p));
+          {
+            bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
+            if( bf == nullptr )
+              throw parse_error(std::string("unknown builtin: ") + st.attr_name);
+            std::unique_ptr<match_pattern> p(
+              new builtin_literal_match(
+                bf, tok.to_string()
+              )
+            );
+            st.matchp.push_back(std::move(p));
+          }
+          else
+          {
+            std::unique_ptr<match_pattern> p(
+              new literal_match(
+                st.attr_name, tok.to_string()
+              )
+            );
+            st.matchp.push_back(std::move(p));
+          }
         }
         break;
       case TK_MATCH_REGEX:
