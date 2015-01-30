@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <utility>
 
 #include <gumbo.h>
 
@@ -14,26 +15,15 @@ namespace hext {
 /// and, if applicable, the GumboAttribute that was matched.
 typedef std::pair<bool, const GumboAttribute *> match_result;
 
-/// match_pattern is the base class for all patterns that are used to check
+/// match_pattern is an abstract base for all patterns that are used to check
 /// whether an html-node is matched by a rule. Rules have match_patterns.
-/// In its basic form a match_pattern checks whether an html-node has an
-/// attribute called attr_name.
-/// See also hext/regex-match.h and hext/literal-match.h
 class match_pattern
 {
 public:
-  explicit match_pattern(const std::string& attr_name);
-  /// Returns std::pair<false, nullptr> if GumboNode does not have any
-  /// attribute called attr_name
-  virtual match_result matches(const GumboNode * node) const;
-  virtual void print(std::ostream& out = std::cout) const;
+  match_pattern();
+  virtual match_result matches(const GumboNode * node) const = 0;
+  virtual void print(std::ostream& out = std::cout) const = 0;
   virtual ~match_pattern();
-
-protected:
-  /// Get a GumboAttribute pointer to the node's attribute called attr_name.
-  /// Returns nullptr if not found.
-  const GumboAttribute * get_node_attr(const GumboNode * node) const;
-  const std::string attr;
 };
 
 

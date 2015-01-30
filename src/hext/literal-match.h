@@ -7,7 +7,7 @@
 
 #include <gumbo.h>
 
-#include "hext/match-pattern.h"
+#include "hext/attribute-match.h"
 
 
 namespace hext {
@@ -15,7 +15,7 @@ namespace hext {
 
 /// A literal_match is a match_pattern that checks whether an html-node has an
 /// attribute called attr_name with a value that matches literal exactly.
-class literal_match : public match_pattern
+class literal_match : public attribute_match
 {
 public:
   literal_match(const std::string& attr_name, const std::string& attr_value);

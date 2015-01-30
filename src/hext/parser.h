@@ -12,6 +12,7 @@
 #include "hext/token.h"
 #include "hext/lexer.h"
 #include "hext/match-pattern.h"
+#include "hext/attribute-match.h"
 #include "hext/regex-match.h"
 #include "hext/literal-match.h"
 #include "hext/capture-pattern.h"

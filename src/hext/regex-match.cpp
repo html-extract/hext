@@ -8,7 +8,7 @@ regex_match::regex_match(
   const std::string& attr_name,
   const std::string& regex
 )
-: match_pattern(attr_name)
+: attribute_match(attr_name)
 , rx(regex)
 {
 }

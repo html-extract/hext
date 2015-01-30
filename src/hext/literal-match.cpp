@@ -8,7 +8,7 @@ literal_match::literal_match(
   const std::string& attr_name,
   const std::string& attr_value
 )
-: match_pattern(attr_name)
+: attribute_match(attr_name)
 , literal(attr_value)
 {
 }

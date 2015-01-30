@@ -64,6 +64,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/token.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/match-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/attribute-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/regex-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/literal-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/capture-pattern.cpp"

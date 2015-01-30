@@ -129,7 +129,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
             );
             st.capturep.push_back(std::move(p));
             std::unique_ptr<match_pattern> pm(
-              new match_pattern(
+              new attribute_match(
                 st.attr_name
               )
             );
