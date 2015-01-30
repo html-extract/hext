@@ -97,7 +97,12 @@ void rule::print(std::ostream& out, int indent_level) const
 {
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
-      << this->tag
+      << ( this->is_direct_desc ? "!" : "" );
+
+  if( this->cap_limit > 0 )
+    out << this->cap_limit;
+
+  out << this->tag
       << " ";
 
   for(const auto& p : this->match_patterns)
