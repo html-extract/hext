@@ -5,7 +5,7 @@
     throw_error();
   }
 
-  cap_limit = ( [1-9][0-9]** );
+  nth_child = ( [1-9][0-9]** );
   attr_name = ( alpha (alnum | '-' | '_')** );
   cap_var       = ( [^/{}][^/{}]** );
   match_literal = ( [^/{}"][^/{}"]** );
@@ -100,7 +100,7 @@
               %{ LX_TK_STOP; }
         )?
         (
-          cap_limit >{ LX_TK_START(TK_CAP_LIMIT); }
+          nth_child >{ LX_TK_START(TK_NTH_CHILD); }
                     %{ LX_TK_STOP; }
         )?
         (

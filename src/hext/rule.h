@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <atomic>
 
 #include <gumbo.h>
 
@@ -36,12 +35,11 @@ public:
     const std::string& html_tag_name,
     bool direct_descendant,
     bool closed,
-    int max_capture_limit,
+    unsigned int nth_child,
     std::vector<std::unique_ptr<match_pattern>>&& matchp,
     std::vector<std::unique_ptr<capture_pattern>>&& capturep
   );
 
-  /// Move constructor. Resets match_count to zero.
   rule(rule&& r);
 
   /// Append child-rule after last element at tree-level level.
@@ -92,6 +90,10 @@ private:
   /// Helper method that calls rule::match for each child of GumboNode.
   void match_node_children(const GumboNode * node, match_tree * m) const;
 
+  /// Get the position of node within its parent. Only counts nodes of type
+  /// GUMBO_NODE_ELEMENT. First node has position 1. Returns 0 if no parent.
+  unsigned int get_node_position_within_parent(const GumboNode * node) const;
+
   std::vector<rule> children;
   std::vector<std::unique_ptr<match_pattern>> match_patterns;
   std::vector<std::unique_ptr<capture_pattern>> capture_patterns;
@@ -99,15 +101,7 @@ private:
   const std::string tag;
   const bool is_direct_desc;
   const bool is_closed;
-  const int cap_limit;
-
-  /// Count how often this rule was matched.
-  /// match_count is mutable because it is not observable from the outside.
-  /// This enables us to keep rule::match const.
-  /// It is generally assumed that const objects are thread-safe,
-  /// therefore mutable members must be made thread-safe.
-  /// This is solved by using std::atomic.
-  mutable std::atomic<int> match_count;
+  const unsigned int child_pos;
 }; 
 
 

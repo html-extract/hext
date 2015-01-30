@@ -49,7 +49,7 @@ struct state
   std::string tag_name;
   bool is_direct_desc;
   bool is_closed;
-  int cap_limit;
+  unsigned int nth_child;
   bool is_builtin;
   std::string attr_name;
   std::string cap_var;

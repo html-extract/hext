@@ -17,7 +17,7 @@ state::state()
 , tag_name()
 , is_direct_desc(false)
 , is_closed(false)
-, cap_limit(0)
+, nth_child(0)
 , is_builtin(false)
 , attr_name()
 , cap_var()
@@ -47,7 +47,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
             st.tag_name,
             st.is_direct_desc,
             st.is_closed,
-            st.cap_limit,
+            st.nth_child,
             std::move(st.matchp),
             std::move(st.capturep)
           );
@@ -67,8 +67,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_DIRECT_DESC:
         st.is_direct_desc = true;
         break;
-      case TK_CAP_LIMIT:
-        st.cap_limit = std::stoi(tok.to_string());
+      case TK_NTH_CHILD:
+        st.nth_child = std::stoi(tok.to_string());
         break;
       case TK_TAG_NAME:
         st.tag_name = tok.to_string();

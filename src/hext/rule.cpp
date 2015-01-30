@@ -9,7 +9,7 @@ rule::rule(
   const std::string& html_tag_name,
   bool direct_descendant,
   bool closed,
-  int max_capture_limit,
+  unsigned int nth_child,
   std::vector<std::unique_ptr<match_pattern>>&& matchp,
   std::vector<std::unique_ptr<capture_pattern>>&& capturep
 )
@@ -19,8 +19,7 @@ rule::rule(
 , tag(html_tag_name)
 , is_direct_desc(direct_descendant)
 , is_closed(closed)
-, cap_limit(max_capture_limit)
-, match_count(0)
+, child_pos(nth_child)
 {
 }
 
@@ -31,8 +30,7 @@ rule::rule(rule&& r)
 , tag(std::move(r.tag))
 , is_direct_desc(r.is_direct_desc)
 , is_closed(r.is_closed)
-, cap_limit(r.cap_limit)
-, match_count(0)
+, child_pos(r.child_pos)
 {
 }
 
@@ -69,8 +67,6 @@ void rule::match(const GumboNode * node, match_tree * m) const
 
   if( this->matches(node) )
   {
-    this->match_count++;
-
     {
       std::unique_ptr<match_tree> mt = this->capture(node);
       // If this rule has branches, then the match_tree must also branch.
@@ -80,16 +76,14 @@ void rule::match(const GumboNode * node, match_tree * m) const
     }
 
     for(const auto& c : this->children)
-      if( c.cap_limit == 0 || c.match_count < c.cap_limit )
-        c.match_node_children(node, m);
+      c.match_node_children(node, m);
   }
   else
   {
     // if this rule is a direct descendant, and it didn't match,
     // all child-rules cannot be matched either.
     if( !this->is_direct_desc )
-      if( this->cap_limit == 0 || this->match_count < this->cap_limit )
-        this->match_node_children(node, m);
+      this->match_node_children(node, m);
   }
 }
 
@@ -99,11 +93,12 @@ void rule::print(std::ostream& out, int indent_level) const
       << "<"
       << ( this->is_direct_desc ? "!" : "" );
 
-  if( this->cap_limit > 0 )
-    out << this->cap_limit;
+  if( this->child_pos > 0 )
+    out << this->child_pos;
 
-  out << this->tag
-      << " ";
+  out << this->tag;
+
+  out << " ";
 
   for(const auto& p : this->match_patterns)
     p->print(out);
@@ -143,6 +138,13 @@ bool rule::matches(const GumboNode * node) const
   if( !this->tag.empty() )
     if( node->v.element.tag != gumbo_tag_enum(this->tag.c_str()) )
       return false;
+
+  if( this->child_pos > 0 )
+  {
+    unsigned int pos = rule::get_node_position_within_parent(node);
+    if( pos != this->child_pos )
+      return false;
+  }
 
   std::vector<const GumboAttribute *> m_attrs;
   for(const auto& pattern : this->match_patterns)
@@ -184,6 +186,37 @@ void rule::match_node_children(const GumboNode * node, match_tree * m) const
       m
     );
   }
+}
+
+unsigned int
+rule::get_node_position_within_parent(const GumboNode * node) const
+{
+  if( !node )
+    return 0;
+
+  const GumboNode * parent = node->parent;
+
+  if( !parent || parent->type != GUMBO_NODE_ELEMENT )
+    return 0;
+
+  unsigned int pos = 0;
+  const GumboVector& child_nodes = parent->v.element.children;
+  // We only have to traverse up to node->index_within_parent, and not the
+  // whole GumboVector.
+  for(unsigned int i = 0; i <= node->index_within_parent; ++i)
+  {
+    assert(i < child_nodes.length);
+    const GumboNode * child = 
+      static_cast<const GumboNode *>(child_nodes.data[i]);
+
+    if( child && child->type == GUMBO_NODE_ELEMENT )
+      ++pos;
+
+    if( node == child )
+      return pos;
+  }
+
+  return 0;
 }
 
 

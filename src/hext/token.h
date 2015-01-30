@@ -12,7 +12,7 @@ enum token_id {
   , TK_INDENT        = 1 << 1
   , TK_RULE_BEGIN    = 1 << 2
   , TK_DIRECT_DESC   = 1 << 3
-  , TK_CAP_LIMIT     = 1 << 4
+  , TK_NTH_CHILD     = 1 << 4
   , TK_TAG_NAME      = 1 << 5
   , TK_BUILTIN       = 1 << 6
   , TK_ATTR_NAME     = 1 << 7
