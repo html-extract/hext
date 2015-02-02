@@ -39,8 +39,7 @@ builtin_capture::capture(const GumboNode * node) const
 void builtin_capture::print(std::ostream& out) const
 {
   out << '@'
-      // TODO: fix this without carrying the function name around
-      << "[builtin-function]"
+      << bi::get_name_by_builtin(this->func)
       << "=\"{"
       << this->name;
   if( this->rx )

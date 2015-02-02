@@ -24,8 +24,7 @@ match_result builtin_regex_match::matches(const GumboNode * node) const
 void builtin_regex_match::print(std::ostream& out) const
 {
   out << '@'
-      // TODO: fix this without carrying the function name around
-      << "[builtin-function]"
+      << bi::get_name_by_builtin(this->func)
       << "=\"/"
       << this->rx.str()
       << "/\" ";

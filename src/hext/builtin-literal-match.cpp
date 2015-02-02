@@ -25,8 +25,7 @@ match_result builtin_literal_match::matches(const GumboNode * node) const
 void builtin_literal_match::print(std::ostream& out) const
 {
   out << '@'
-      // TODO: fix this without carrying the function name around
-      << "[builtin-function]"
+      << bi::get_name_by_builtin(this->func)
       << "=\""
       << this->value
       << "\" ";

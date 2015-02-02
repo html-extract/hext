@@ -13,6 +13,14 @@ builtin_func_ptr get_builtin_by_name(const std::string& builtin_name)
   return nullptr;
 }
 
+std::string get_name_by_builtin(builtin_func_ptr f)
+{
+  if( f == text )
+    return "text";
+
+  return "unknown-builtin";
+}
+
 std::string text(const GumboNode * node)
 {
   assert(node != nullptr);
