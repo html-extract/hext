@@ -18,11 +18,11 @@ class attribute_match : public match_pattern
 {
 public:
   explicit attribute_match(const std::string& attr_name);
-  virtual ~attribute_match();
+  virtual ~attribute_match() override;
   /// Returns std::pair<false, nullptr> if GumboNode does not have any
   /// attribute called attr_name
-  virtual match_result matches(const GumboNode * node) const;
-  virtual void print(std::ostream& out = std::cout) const;
+  virtual match_result matches(const GumboNode * node) const override;
+  virtual void print(std::ostream& out = std::cout) const override;
 
 protected:
   /// Get a GumboAttribute pointer to the node's attribute called attr_name.
