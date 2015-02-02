@@ -44,7 +44,11 @@ int main(int argc, const char ** argv)
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
 
-      if( po.contains("mt-graph") )
+      if( po.contains("print-debug") )
+      {
+        r.print(std::cout, 0, true);
+      }
+      else if( po.contains("mt-graph") )
       {
         std::fstream g(
           "auto.graph.dot",

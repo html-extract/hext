@@ -16,6 +16,7 @@ rule::rule(
 : children()
 , match_patterns(std::move(matchp))
 , capture_patterns(std::move(capturep))
+, match_count(0)
 , tag(html_tag_name)
 , is_direct_desc(direct_descendant)
 , is_closed(closed)
@@ -27,6 +28,7 @@ rule::rule(rule&& r)
 : children(std::move(r.children))
 , match_patterns(std::move(r.match_patterns))
 , capture_patterns(std::move(r.capture_patterns))
+, match_count(r.match_count.load())
 , tag(std::move(r.tag))
 , is_direct_desc(r.is_direct_desc)
 , is_closed(r.is_closed)
@@ -67,6 +69,8 @@ void rule::match(const GumboNode * node, match_tree * m) const
 
   if( this->matches(node) )
   {
+    this->match_count++;
+
     {
       std::unique_ptr<match_tree> mt = this->capture(node);
       // If this rule has branches, then the match_tree must also branch.
@@ -87,8 +91,15 @@ void rule::match(const GumboNode * node, match_tree * m) const
   }
 }
 
-void rule::print(std::ostream& out, int indent_level) const
+void rule::print(
+  std::ostream& out,
+  int indent_level,
+  bool print_match_count
+) const
 {
+  if( print_match_count )
+    out << "\tx" << this->match_count << " |";
+
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
       << ( this->is_direct_desc ? "!" : "" );
@@ -111,7 +122,7 @@ void rule::print(std::ostream& out, int indent_level) const
 
   out << "\n";
   for(const auto& c : this->children)
-    c.print(out, indent_level + 1);
+    c.print(out, indent_level + 1, print_match_count);
 }
 
 std::unique_ptr<match_tree>

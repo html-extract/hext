@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <atomic>
 
 #include <gumbo.h>
 
@@ -72,7 +73,11 @@ public:
 
   /// Recursively print the rule and its child-rules, including patterns
   /// and tag-name.
-  void print(std::ostream& out = std::cout, int indent_level = 0) const;
+  void print(
+    std::ostream& out = std::cout,
+    int indent_level = 0,
+    bool print_match_count = false
+  ) const;
 
 private:
   rule(const rule& r) = delete;
@@ -97,6 +102,14 @@ private:
   std::vector<rule> children;
   std::vector<std::unique_ptr<match_pattern>> match_patterns;
   std::vector<std::unique_ptr<capture_pattern>> capture_patterns;
+
+  /// Count how often this rule was matched.
+  /// match_count is mutable because it is not observable from the outside.
+  /// This enables us to keep rule::match const.
+  /// It is generally assumed that const objects are thread-safe,
+  /// therefore mutable members must be made thread-safe.
+  /// This is solved by using std::atomic.
+  mutable std::atomic<unsigned int> match_count;
 
   const std::string tag;
   const bool is_direct_desc;
