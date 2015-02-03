@@ -44,33 +44,19 @@ int main(int argc, const char ** argv)
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
 
+      if( !po.contains("no-filter") )
+        mt->filter();
+
       if( po.contains("print-debug") )
       {
         r.print(std::cout, 0, true);
       }
       else if( po.contains("mt-graph") )
       {
-        std::fstream g(
-          "auto.graph.dot",
-          std::fstream::out|std::fstream::trunc
-        );
-        std::fstream gf(
-          "auto.graph.filtered.dot",
-          std::fstream::out|std::fstream::trunc
-        );
-
-        mt->print_dot(g); // debug
-        mt->filter();
-        mt->print_dot(gf); // debug
-        mt->print_dot();
-      }
-      else if( po.contains("unfiltered-mt-graph") )
-      {
         mt->print_dot();
       }
       else
       {
-        mt->filter();
         mt->print_json();
       }
     }
