@@ -23,10 +23,19 @@ std::string get_name_by_builtin(builtin_func_ptr f)
 
 std::string text(const GumboNode * node)
 {
+  std::string str = raw_text(node);
+  // http://www.w3.org/TR/REC-html40/struct/text.html#h-9.1
+  // http://www.w3.org/TR/html5/infrastructure.html#strip-and-collapse-whitespace
+  boost::algorithm::trim(str);
+  return str;
+}
+
+std::string raw_text(const GumboNode * node)
+{
   assert(node != nullptr);
   assert(node->type == GUMBO_NODE_ELEMENT);
 
-  std::string inner_text("");
+  std::string inner_text;
 
   const GumboVector * children = &node->v.element.children;
   for(unsigned int i = 0; i < children->length; ++i)
@@ -41,6 +50,10 @@ std::string text(const GumboNode * node)
       assert(node_text != nullptr);
       assert(node_text->text != nullptr);
       inner_text.append(node_text->text);
+    }
+    else if( child_node->type == GUMBO_NODE_ELEMENT )
+    {
+      inner_text.append(text(child_node));
     }
   }
 
