@@ -23,11 +23,7 @@ std::string get_name_by_builtin(builtin_func_ptr f)
 
 std::string text(const GumboNode * node)
 {
-  std::string str = raw_text(node);
-  // http://www.w3.org/TR/REC-html40/struct/text.html#h-9.1
-  // http://www.w3.org/TR/html5/infrastructure.html#strip-and-collapse-whitespace
-  boost::algorithm::trim(str);
-  return str;
+  return trim_and_collapse_ws(raw_text(node));
 }
 
 std::string raw_text(const GumboNode * node)
@@ -49,15 +45,45 @@ std::string raw_text(const GumboNode * node)
       const GumboText * node_text = &child_node->v.text;
       assert(node_text != nullptr);
       assert(node_text->text != nullptr);
+      inner_text.push_back(' ');
       inner_text.append(node_text->text);
     }
     else if( child_node->type == GUMBO_NODE_ELEMENT )
     {
+      inner_text.push_back(' ');
       inner_text.append(text(child_node));
     }
   }
 
   return inner_text;
+}
+
+std::string trim_and_collapse_ws(std::string str)
+{
+  std::string::size_type i = 0;
+  std::string::size_type c = 0;
+  bool need_space = false;
+
+  for(; c < str.size(); c++)
+  {
+    if( std::isspace(str[c]) )
+    {
+      if( i > 0 )
+        need_space = true;
+    }
+    else
+    {
+      if( need_space )
+      {
+        str[i++] = ' ';
+        need_space = false;
+      }
+      str[i++] = str[c];
+    }
+  }
+
+  str.erase(i);
+  return str;
 }
 
 
