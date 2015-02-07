@@ -70,11 +70,9 @@ void rule::match(const GumboNode * node, match_tree * m) const
 
     {
       std::unique_ptr<match_tree> mt = this->patterns.capture(node);
-      if( mt )
-      {
-        mt->set_rule(this);
-        m = m->append_child_and_own(std::move(mt));
-      }
+      assert(mt != nullptr);
+      mt->set_rule(this);
+      m = m->append_child_and_own(std::move(mt));
     }
 
     for(const auto& c : this->children)

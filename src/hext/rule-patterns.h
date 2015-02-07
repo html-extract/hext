@@ -33,7 +33,7 @@ public:
   /// Returns true if all node-attributes were matched.
   bool matches_all_attributes(const GumboNode * node) const;
   /// Apply all capture patterns to node.
-  /// Returns nullptr if no capture patterns, or invalid node.
+  /// Returns a new match_tree branch.
   std::unique_ptr<match_tree> capture(const GumboNode * node) const;
   void print(std::ostream& out = std::cout) const;
 
