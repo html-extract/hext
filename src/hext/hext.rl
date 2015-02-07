@@ -9,8 +9,8 @@
   attr_name = ( alpha (alnum | '-' | '_')** );
   cap_var       = ( [^/{}][^/{}]** );
   match_literal = ( [^/{}"][^/{}"]** );
-  cap_regex   = ( [^/][^/]** );
-  match_regex = ( [^/][^/]** );
+  cap_regex   = ( ( [^/] | '\\/' )** );
+  match_regex = ( ( [^/] | '\\/' )** );
 
   comment = (
     ' '*
