@@ -37,10 +37,10 @@ attribute_capture::capture(const GumboNode * node) const
 
 void attribute_capture::print(std::ostream& out) const
 {
-  out << this->attr << "=\"{" << this->name;
+  out << ' ' << this->attr << "=\"{" << this->name;
   if( this->rx )
     out << "/" << this->rx->str() << "/";
-  out << "}\" ";
+  out << "}\"";
 }
 
 const GumboAttribute *

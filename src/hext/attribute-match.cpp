@@ -21,7 +21,7 @@ match_result attribute_match::matches(const GumboNode * node) const
 
 void attribute_match::print(std::ostream& out) const
 {
-  out << this->attr << " ";
+  out << " " << this->attr;
 }
 
 const GumboAttribute *

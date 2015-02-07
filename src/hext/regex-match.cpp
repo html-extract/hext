@@ -24,10 +24,9 @@ match_result regex_match::matches(const GumboNode * node) const
 
 void regex_match::print(std::ostream& out) const
 {
-  out << this->attr << "=\"/" << this->rx.str() << "/\" ";
+  out << ' ' << this->attr << "=\"/" << this->rx.str() << "/\"";
 }
 
 
 } // namespace hext
-
 

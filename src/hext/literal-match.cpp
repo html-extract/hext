@@ -25,7 +25,7 @@ match_result literal_match::matches(const GumboNode * node) const
 
 void literal_match::print(std::ostream& out) const
 {
-  out << this->attr << "=\"" << this->literal << "\" ";
+  out << ' ' << this->attr << "=\"" << this->literal << '"';
 }
 
 

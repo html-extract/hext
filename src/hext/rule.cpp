@@ -107,8 +107,6 @@ void rule::print(
 
   out << this->tag;
 
-  out << " ";
-
   this->patterns.print(out);
 
   if( this->is_closed )
