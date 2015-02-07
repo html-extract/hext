@@ -17,7 +17,7 @@ program_options::program_options(int argc, const char * argv[])
     ("lint,l", "Hext syntax check")
     ("print,p", "Print parsed hext")
     ("print-debug", "Print hext with match_count")
-    ("no-filter", "Do not remove invalid matches")
+    ("keep-invalid", "Do not remove invalid matches")
     ("mt-graph,g", "Print match-tree as DOT")
   ;
 
