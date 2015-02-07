@@ -36,7 +36,7 @@
         )
         <:
         (
-          '="'
+          '='
           (
             (
               (
@@ -72,12 +72,15 @@
               )
               |
               (
-                match_literal >{ LX_TK_START(TK_MATCH_LITERAL); }
-                              %{ LX_TK_STOP; }
+                '"'
+                (
+                  match_literal >{ LX_TK_START(TK_MATCH_LITERAL); }
+                                %{ LX_TK_STOP; }
+                )
+                '"'
               )
             )
           )
-          '"'
         )?
       )
     )+;
