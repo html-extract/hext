@@ -44,7 +44,7 @@ ExternalProject_Add(
 # use rapidjson's include/ directory as an additional include directory
 # (rapidjson is header only)
 ExternalProject_Get_Property(rapidjson source_dir)
-INCLUDE_DIRECTORIES(${source_dir}/include)
+INCLUDE_DIRECTORIES(SYSTEM ${source_dir}/include)
 ###########################################################
 
 #
