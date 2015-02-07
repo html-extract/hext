@@ -26,6 +26,28 @@ EXECUTE_PROCESS(
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 #
+### download rapidjson
+ExternalProject_Add(
+    rapidjson
+    GIT_REPOSITORY https://github.com/miloyip/rapidjson.git
+    TIMEOUT 10
+
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    UPDATE_COMMAND ""
+    INSTALL_COMMAND ""
+
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON)
+
+# use rapidjson's include/ directory as an additional include directory
+# (rapidjson is header only)
+ExternalProject_Get_Property(rapidjson source_dir)
+INCLUDE_DIRECTORIES(${source_dir}/include)
+###########################################################
+
+#
 ### download and build gumbo
 ExternalProject_Add(
     gumbo-parser
@@ -75,7 +97,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/builtin-capture.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule-patterns.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
-ADD_DEPENDENCIES(html-extract gumbo-parser)
+ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
 
 ###### WARNINGS ###########################################
