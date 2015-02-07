@@ -73,6 +73,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/attribute-capture.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtins.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/builtin-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/rule-patterns.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)

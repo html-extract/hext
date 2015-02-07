@@ -48,8 +48,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
             st.is_direct_desc,
             st.is_closed,
             st.nth_child,
-            std::move(st.matchp),
-            std::move(st.capturep)
+            rule_patterns(std::move(st.matchp), std::move(st.capturep))
           );
           // either top-level rule or first rule
           if( st.indent == 0 || rules.empty() )
