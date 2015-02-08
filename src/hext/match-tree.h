@@ -10,6 +10,10 @@
 #include <algorithm>
 #include <unordered_map>
 
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
+
 #include "hext/util.h"
 #include "hext/infix-ostream-iterator.h"
 
@@ -36,7 +40,6 @@ public:
 
   /// Print the match_tree as json.
   /// Each child of the root of the match_tree will form its own json object.
-  /// All json keys and values are strings (poor man's json).
   void print_json(std::ostream& out = std::cout) const;
 
   /// Print the match_tree as DOT, a graph description language.
@@ -57,8 +60,8 @@ private:
   match_tree(const match_tree&) = delete;
   match_tree& operator=(const match_tree&) = delete;
 
-  void print_json_recursive(infix_ostream_iterator<std::string>& out) const;
-  void print_json_matches(infix_ostream_iterator<std::string>& out) const;
+  void append_json_recursive(rapidjson::Document& json) const;
+  void append_json_matches(rapidjson::Document& json) const;
   void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
 
   /// match_trees are self-managing: all nodes are owned by the tree

@@ -32,17 +32,16 @@ void match_tree::print_json(std::ostream& out) const
 {
   for(const auto& c : this->children)
   {
-    out << "{";
+    rapidjson::Document json;
+    json.SetObject();
 
-    // infix_ostream_iterator will prefix all values with the delimiter ", "
-    // unless the inserted element is the first
-    // (json unfortunately does not allow trailing commas)
-    infix_ostream_iterator<std::string> it_out(out, ", ");
+    this->append_json_matches(json);
+    c->append_json_recursive(json);
 
-    this->print_json_matches(it_out);
-    c->print_json_recursive(it_out);
-
-    out << "}\n";
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    json.Accept(writer);
+    out << buffer.GetString() << "\n";
   }
 }
 
@@ -88,28 +87,40 @@ bool match_tree::matches_empty() const
   return this->matches.empty();
 }
 
-void match_tree::print_json_recursive(
-  infix_ostream_iterator<std::string>& out
-) const
+void match_tree::append_json_recursive(rapidjson::Document& json) const
 {
-  this->print_json_matches(out);
+  this->append_json_matches(json);
 
   for(const auto& c : this->children)
-    c->print_json_recursive(out);
+    c->append_json_recursive(json);
 }
 
-void match_tree::print_json_matches(
-  infix_ostream_iterator<std::string>& out
-) const
+void match_tree::append_json_matches(rapidjson::Document& json) const
 {
+  rapidjson::Document::AllocatorType& allocator = json.GetAllocator();
   for(const auto& p : this->matches)
   {
-    std::string str("\"");
-    str.append(util::escape_quotes(p.first))
-       .append("\": \"")
-       .append(util::escape_quotes(p.second))
-       .append("\"");
-    out = str;
+    rapidjson::Value name(p.first.c_str(), allocator);
+    rapidjson::Value value(p.second.c_str(), allocator);
+    // If the key is already taken, transform the value into an array
+    if( json.HasMember(name) )
+    {
+      if( json[name].IsArray() )
+      {
+        json[name].PushBack(value, allocator);
+      }
+      else
+      {
+        rapidjson::Value array(rapidjson::kArrayType);
+        array.PushBack(json[name], allocator);
+        array.PushBack(value, allocator);
+        json[name] = array;
+      }
+    }
+    else
+    {
+      json.AddMember(name, value, allocator);
+    }
   }
 }
 
