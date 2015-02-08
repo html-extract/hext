@@ -82,11 +82,6 @@ bool match_tree::filter()
     return this->r->children_size() > this->children.size();
 }
 
-bool match_tree::matches_empty() const
-{
-  return this->matches.empty();
-}
-
 void match_tree::append_json_recursive(rapidjson::Document& json) const
 {
   this->append_json_matches(json);
