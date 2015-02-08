@@ -14,7 +14,6 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-#include "hext/util.h"
 #include "hext/infix-ostream-iterator.h"
 
 
