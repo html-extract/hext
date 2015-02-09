@@ -16,8 +16,8 @@ program_options::program_options(int argc, const char * argv[])
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
     ("print,p", "Print parsed hext")
-    ("print-debug", "Print hext with match_count")
-    ("keep-invalid", "Do not remove invalid matches")
+    ("print-debug,d", "Print hext with match_count")
+    ("keep-invalid,k", "Do not remove invalid matches")
     ("mt-graph,g", "Print match-tree as DOT")
   ;
 
