@@ -11,8 +11,8 @@ program_options::program_options(int argc, const char * argv[])
   namespace po = boost::program_options;
 
   this->desc.add_options()
-    ("help", "This help message")
-    ("hext-file,h", po::value<std::string>(), "Path to hext file")
+    ("help,h", "This help message")
+    ("hext-file,f", po::value<std::string>(), "Path to hext file")
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
     ("print,p", "Print parsed hext")
