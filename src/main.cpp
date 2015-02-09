@@ -44,7 +44,7 @@ int main(int argc, const char ** argv)
       std::unique_ptr<hext::match_tree> mt = m.match(r);
       assert(mt != nullptr);
 
-      if( !po.contains("no-filter") )
+      if( !po.contains("keep-invalid") )
         mt->filter();
 
       if( po.contains("print-debug") )
