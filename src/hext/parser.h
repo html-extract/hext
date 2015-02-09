@@ -61,7 +61,7 @@ struct state
 /// Use lexer to lex from begin to end, then convert tokens to vector<rule>.
 std::vector<rule> parse_range(const char * begin, const char * end);
 
-/// Read file into buffer and calls parser::parse_range.
+/// Read file into buffer and call parser::parse_range.
 std::vector<rule> parse_file(const std::string& path);
 
 
