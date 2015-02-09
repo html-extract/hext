@@ -40,11 +40,11 @@ void builtin_capture::print(std::ostream& out) const
 {
   out << " @"
       << bi::get_name_by_builtin(this->func)
-      << "=\"{"
+      << "={"
       << this->name;
   if( this->rx )
-    out << "/" << this->rx->str() << "/";
-  out << "}\"";
+    out << '/' << this->rx->str() << '/';
+  out << '}';
 }
 
 

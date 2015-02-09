@@ -25,9 +25,9 @@ void builtin_regex_match::print(std::ostream& out) const
 {
   out << " @"
       << bi::get_name_by_builtin(this->func)
-      << "=\"/"
+      << "=/"
       << this->rx.str()
-      << '"';
+      << '/';
 }
 
 
