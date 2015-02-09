@@ -10,8 +10,8 @@
 
 #include "hext/make-unique.h"
 #include "hext/match-tree.h"
-#include "hext/match-pattern.h"
-#include "hext/capture-pattern.h"
+#include "hext/pattern/match-pattern.h"
+#include "hext/pattern/capture-pattern.h"
 
 
 namespace hext {

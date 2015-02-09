@@ -8,7 +8,7 @@
 #include <gumbo.h>
 
 #include "hext/match-tree.h"
-#include "hext/capture-pattern.h"
+#include "hext/pattern/capture-pattern.h"
 #include "hext/builtins.h"
 
 

@@ -1,4 +1,4 @@
-#include "hext/builtin-regex-match.h"
+#include "hext/pattern/builtin-regex-match.h"
 
 namespace hext {
 

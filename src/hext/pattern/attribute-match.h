@@ -6,7 +6,7 @@
 
 #include <gumbo.h>
 
-#include "hext/match-pattern.h"
+#include "hext/pattern/match-pattern.h"
 
 
 namespace hext {

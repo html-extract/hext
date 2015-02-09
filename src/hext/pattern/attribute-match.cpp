@@ -1,4 +1,4 @@
-#include "hext/attribute-match.h"
+#include "hext/pattern/attribute-match.h"
 
 
 namespace hext {

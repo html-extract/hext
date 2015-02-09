@@ -1,4 +1,4 @@
-#include "hext/capture-pattern.h"
+#include "hext/pattern/capture-pattern.h"
 
 
 namespace hext {

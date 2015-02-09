@@ -7,7 +7,7 @@
 #include <gumbo.h>
 #include <boost/regex.hpp>
 
-#include "hext/attribute-match.h"
+#include "hext/pattern/attribute-match.h"
 
 
 namespace hext {
