@@ -78,8 +78,6 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_ATTR_NAME:
         st.attr_name = tok.to_string();
         break;
-      case TK_CAP_BEGIN:
-        break;
       case TK_MATCH_LITERAL:
         {
           if( st.is_builtin )

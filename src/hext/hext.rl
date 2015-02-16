@@ -39,10 +39,7 @@
           '='
           (
             (
-              (
-                '{' >{ LX_TK_START(TK_CAP_BEGIN); }
-                    %{ LX_TK_STOP; }
-              )
+              '{'
               (
                 cap_var >{ LX_TK_START(TK_CAP_VAR); }
                         %{ LX_TK_STOP; }
