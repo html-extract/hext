@@ -50,7 +50,7 @@ struct state
   bool is_direct_desc;
   bool is_closed;
   unsigned int nth_child;
-  bool is_builtin;
+  bi::builtin_func_ptr bf;
   std::string attr_name;
   std::string cap_var;
   std::string cap_regex;

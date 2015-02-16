@@ -18,7 +18,7 @@ state::state()
 , is_direct_desc(false)
 , is_closed(false)
 , nth_child(0)
-, is_builtin(false)
+, bf(nullptr)
 , attr_name()
 , cap_var()
 , cap_regex()
@@ -30,17 +30,13 @@ state::state()
 std::unique_ptr<match_pattern>
 create_match_pattern(const token& tok, const state& st)
 {
-  if( st.is_builtin )
+  if( st.bf )
   {
-    bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
-    if( !bf )
-      throw parse_error(std::string("unknown builtin: ") + st.attr_name);
-
     if( tok.tid == TK_MATCH_REGEX )
     {
       return std::unique_ptr<match_pattern>(
         new builtin_regex_match(
-          bf, tok.to_string()
+          st.bf, tok.to_string()
         )
       );
     }
@@ -48,7 +44,7 @@ create_match_pattern(const token& tok, const state& st)
     {
       return std::unique_ptr<match_pattern>(
         new builtin_literal_match(
-          bf, tok.to_string()
+          st.bf, tok.to_string()
         )
       );
     }
@@ -111,30 +107,31 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_TAG_NAME:
         st.tag_name = tok.to_string();
         break;
-      case TK_BUILTIN:
-        st.is_builtin = true;
+      case TK_BUILTIN_NAME:
+        st.bf = bi::get_builtin_by_name(tok.to_string());
+        if( !st.bf )
+          throw parse_error(std::string("unknown builtin: ") + tok.to_string());
         break;
       case TK_ATTR_NAME:
         st.attr_name = tok.to_string();
         break;
       case TK_MATCH_LITERAL:
+        /* don't break, let through */
       case TK_MATCH_REGEX:
         st.matchp.push_back(create_match_pattern(tok, st));
+        st.bf = nullptr;
         break;
       case TK_CAP_END:
         {
-          if( st.is_builtin )
+          if( st.bf )
           {
-            bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
-            if( !bf )
-              throw parse_error(std::string("unknown builtin: ") + st.attr_name);
             std::unique_ptr<capture_pattern> p(
               new builtin_capture(
-                st.cap_var, bf, st.cap_regex
+                st.cap_var, st.bf, st.cap_regex
               )
             );
             st.capturep.push_back(std::move(p));
-            st.is_builtin = false;
+            st.bf = nullptr;
           }
           else
           {

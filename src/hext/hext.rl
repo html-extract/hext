@@ -7,9 +7,10 @@
 
   nth_child = ( [1-9][0-9]** );
   attr_name = ( alpha (alnum | '-' | '_')** );
-  cap_var       = ( [^/{}][^/{}]** );
+  builtin_name = ( alpha (alnum | '-' | '_')** );
+  cap_var = ( [^/{}][^/{}]** );
   match_literal = ( [^/{}"][^/{}"]** );
-  cap_regex   = ( ( [^/] | '\\/' )** );
+  cap_regex = ( ( [^/] | '\\/' )** );
   match_regex = ( ( [^/] | '\\/' )** );
 
   comment = (
@@ -27,12 +28,18 @@
       space+ 
       (
         (
-          '@' >{ LX_TK_START(TK_BUILTIN); }
-              %{ LX_TK_STOP; }
-        )?
-        (
-          attr_name >{ LX_TK_START(TK_ATTR_NAME); }
-                    %{ LX_TK_STOP; }
+          (
+            '@'
+            (
+              builtin_name >{ LX_TK_START(TK_BUILTIN_NAME); }
+                           %{ LX_TK_STOP; }
+            )
+          )
+          |
+          (
+            attr_name >{ LX_TK_START(TK_ATTR_NAME); }
+                      %{ LX_TK_STOP; }
+          )
         )
         <:
         (

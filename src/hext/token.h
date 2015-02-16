@@ -14,7 +14,7 @@ enum token_id {
   , TK_DIRECT_DESC   = 1 << 3
   , TK_NTH_CHILD     = 1 << 4
   , TK_TAG_NAME      = 1 << 5
-  , TK_BUILTIN       = 1 << 6
+  , TK_BUILTIN_NAME  = 1 << 6
   , TK_ATTR_NAME     = 1 << 7
   , TK_CAP_VAR       = 1 << 8
   , TK_CAP_REGEX     = 1 << 9
