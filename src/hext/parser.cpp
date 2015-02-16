@@ -63,6 +63,27 @@ create_match_pattern(const token& tok, const state& st)
   }
 }
 
+std::unique_ptr<capture_pattern>
+create_capture_pattern(const state& st)
+{
+  if( st.bf )
+  {
+    return std::unique_ptr<capture_pattern>(
+      new builtin_capture(
+        st.cap_var, st.bf, st.cap_regex
+      )
+    );
+  }
+  else
+  {
+    return std::unique_ptr<capture_pattern>(
+      new attribute_capture(
+        st.cap_var, st.attr_name, st.cap_regex
+      )
+    );
+  }
+}
+
 std::vector<rule> parse_range(const char * begin, const char * end)
 {
   lexer lex(begin, end);
@@ -122,33 +143,19 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         st.bf = nullptr;
         break;
       case TK_CAP_END:
+        st.capturep.push_back(create_capture_pattern(st));
+        // For every attribute-capture also insert a match-pattern
+        // that checks if the attribute actually exists.
+        if( !st.bf )
         {
-          if( st.bf )
-          {
-            std::unique_ptr<capture_pattern> p(
-              new builtin_capture(
-                st.cap_var, st.bf, st.cap_regex
-              )
-            );
-            st.capturep.push_back(std::move(p));
-            st.bf = nullptr;
-          }
-          else
-          {
-            std::unique_ptr<capture_pattern> p(
-              new attribute_capture(
-                st.cap_var, st.attr_name, st.cap_regex
-              )
-            );
-            st.capturep.push_back(std::move(p));
-            std::unique_ptr<match_pattern> pm(
-              new attribute_match(
-                st.attr_name
-              )
-            );
-            st.matchp.push_back(std::move(pm));
-          }
+          std::unique_ptr<match_pattern> pm(
+            new attribute_match(
+              st.attr_name
+            )
+          );
+          st.matchp.push_back(std::move(pm));
         }
+        st.bf = nullptr;
         break;
       case TK_CAP_VAR:
         st.cap_var = tok.to_string();
