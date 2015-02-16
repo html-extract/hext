@@ -27,6 +27,45 @@ state::state()
 {
 }
 
+std::unique_ptr<match_pattern>
+create_match_pattern(const token& tok, const state& st)
+{
+  if( st.is_builtin )
+  {
+    bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
+    if( !bf )
+      throw parse_error(std::string("unknown builtin: ") + st.attr_name);
+
+    if( tok.tid == TK_MATCH_REGEX )
+    {
+      return std::unique_ptr<match_pattern>(
+        new builtin_regex_match(
+          bf, tok.to_string()
+        )
+      );
+    }
+    else
+    {
+      return std::unique_ptr<match_pattern>(
+        new builtin_literal_match(
+          bf, tok.to_string()
+        )
+      );
+    }
+  }
+  else if( tok.tid == TK_MATCH_REGEX )
+  {
+    return std::unique_ptr<match_pattern>(
+      new regex_match(st.attr_name, tok.to_string())
+    );
+  }
+  else
+  {
+    return std::unique_ptr<match_pattern>(
+      new literal_match(st.attr_name, tok.to_string())
+    );
+  }
+}
 
 std::vector<rule> parse_range(const char * begin, const char * end)
 {
@@ -79,54 +118,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         st.attr_name = tok.to_string();
         break;
       case TK_MATCH_LITERAL:
-        {
-          if( st.is_builtin )
-          {
-            bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
-            if( !bf )
-              throw parse_error(std::string("unknown builtin: ") + st.attr_name);
-            std::unique_ptr<match_pattern> p(
-              new builtin_literal_match(
-                bf, tok.to_string()
-              )
-            );
-            st.matchp.push_back(std::move(p));
-          }
-          else
-          {
-            std::unique_ptr<match_pattern> p(
-              new literal_match(
-                st.attr_name, tok.to_string()
-              )
-            );
-            st.matchp.push_back(std::move(p));
-          }
-        }
-        break;
       case TK_MATCH_REGEX:
-        {
-          if( st.is_builtin )
-          {
-            bi::builtin_func_ptr bf = bi::get_builtin_by_name(st.attr_name);
-            if( !bf )
-              throw parse_error(std::string("unknown builtin: ") + st.attr_name);
-            std::unique_ptr<match_pattern> p(
-              new builtin_regex_match(
-                bf, tok.to_string()
-              )
-            );
-            st.matchp.push_back(std::move(p));
-          }
-          else
-          {
-            std::unique_ptr<match_pattern> p(
-              new regex_match(
-                st.attr_name, tok.to_string()
-              )
-            );
-            st.matchp.push_back(std::move(p));
-          }
-        }
+        st.matchp.push_back(create_match_pattern(tok, st));
         break;
       case TK_CAP_END:
         {

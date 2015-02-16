@@ -58,6 +58,9 @@ struct state
   std::vector<std::unique_ptr<capture_pattern>> capturep;
 };
 
+std::unique_ptr<match_pattern>
+create_match_pattern(const token& tok, const state& st);
+
 /// Use lexer to lex from begin to end, then convert tokens to vector<rule>.
 std::vector<rule> parse_range(const char * begin, const char * end);
 
