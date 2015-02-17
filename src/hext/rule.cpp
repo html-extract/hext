@@ -68,6 +68,10 @@ void rule::match(const GumboNode * node, match_tree * m) const
   {
     this->match_count++;
 
+    // Although we have a match, this may not be the html-node that the user
+    // is searching for, so we have to keep matching.
+    this->match_node_children(node, m);
+
     {
       std::unique_ptr<match_tree> mt = this->patterns.capture(node);
       assert(mt != nullptr);
