@@ -9,6 +9,8 @@ builtin_func_ptr get_builtin_by_name(const std::string& builtin_name)
 {
   if( builtin_name.compare("text") == 0 )
     return text;
+  else if( builtin_name.compare("inner_html") == 0 )
+    return inner_html;
 
   return nullptr;
 }
@@ -17,6 +19,8 @@ std::string get_name_by_builtin(builtin_func_ptr f)
 {
   if( f == text )
     return "text";
+  else if( f == inner_html )
+    return "inner_html";
 
   return "unknown-builtin";
 }
@@ -84,6 +88,25 @@ std::string trim_and_collapse_ws(std::string str)
 
   str.erase(i);
   return str;
+}
+
+std::string inner_html(const GumboNode * node)
+{
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return "";
+
+  const GumboStringPiece& b = node->v.element.original_tag;
+  const GumboStringPiece& e = node->v.element.original_end_tag;
+
+  if( b.data != nullptr && b.length > 0 &&
+      e.data != nullptr && e.length > 0 )
+  {
+    const char * inner_begin = b.data + b.length;
+    size_t length = std::distance(inner_begin, e.data);
+    return std::string(inner_begin, length);
+  }
+
+  return "";
 }
 
 

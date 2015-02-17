@@ -23,6 +23,7 @@ std::string raw_text(const GumboNode * node);
 /// Example: "   Like\na Rolling\n\tStone  " -> "Like a Rolling Stone"
 /// http://www.w3.org/TR/html5/infrastructure.html#strip-and-collapse-whitespace
 std::string trim_and_collapse_ws(std::string str);
+std::string inner_html(const GumboNode * node);
 
 
 } // namespace bi
