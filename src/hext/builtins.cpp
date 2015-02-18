@@ -55,7 +55,7 @@ std::string raw_text(const GumboNode * node)
     else if( child_node->type == GUMBO_NODE_ELEMENT )
     {
       inner_text.push_back(' ');
-      inner_text.append(text(child_node));
+      inner_text.append(raw_text(child_node));
     }
   }
 
