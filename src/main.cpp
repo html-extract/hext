@@ -14,19 +14,18 @@ int main(int argc, const char ** argv)
 {
   std::ios_base::sync_with_stdio(false);
 
-  hext::program_options po(argc, argv);
-
-  if( po.contains("help") )
-  {
-    po.print(argv[0], std::cout);
-    return EXIT_SUCCESS;
-  }
-
-  if( !po.validate_or_print_error(std::cerr) )
-    return EXIT_FAILURE;
+  hext::program_options po;
 
   try
   {
+    po.store(argc, argv);
+
+    if( po.contains("help") )
+    {
+      po.print(argv[0], std::cout);
+      return EXIT_SUCCESS;
+    }
+
     const std::string bf_hext = hext::read_file_or_throw(po.get("hext-file"));
     const auto rules = hext::parser::parse_range(
       bf_hext.c_str(),
@@ -55,18 +54,17 @@ int main(int argc, const char ** argv)
         mt->filter();
 
       if( po.contains("print-debug") )
-      {
         rule.print(std::cout, 0, true);
-      }
       else if( po.contains("mt-graph") )
-      {
         mt->print_dot();
-      }
       else
-      {
         mt->print_json();
-      }
     }
+  }
+  catch( const boost::program_options::error& e )
+  {
+    std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
+    return EXIT_FAILURE;
   }
   catch( const hext::file_error& e )
   {
