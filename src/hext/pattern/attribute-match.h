@@ -23,8 +23,8 @@ public:
     const std::string& attr_name,
     std::unique_ptr<attr_test> attribute_test
   );
-  virtual match_result matches(const GumboNode * node) const override;
-  virtual void print(std::ostream& out = std::cout) const override;
+  match_result matches(const GumboNode * node) const final;
+  void print(std::ostream& out = std::cout) const final;
 
 protected:
   /// Get a GumboAttribute pointer to the node's attribute called attr_name.
