@@ -73,6 +73,20 @@ int main(int argc, const char ** argv)
     std::cerr << argv[0] << ": " << e.what() << "\n";
     return EXIT_FAILURE;
   }
+  catch( const hext::parser::parse_error& e )
+  {
+    std::cerr << argv[0] << ": "
+              << po.get("hext-file") << ": "
+              << e.what() << "\n";
+    return EXIT_FAILURE;
+  }
+  catch( const hext::lexer::lex_error& e )
+  {
+    std::cerr << argv[0] << ": "
+              << po.get("hext-file") << ": "
+              << e.what() << "\n";
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
