@@ -22,7 +22,7 @@ class matcher
 public:
   explicit matcher(const std::string& path);
 
-  std::unique_ptr<match_tree> match(const rule& r) const;
+  std::unique_ptr<match_tree> extract(const rule& r) const;
 
   ~matcher();
 

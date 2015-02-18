@@ -27,11 +27,11 @@ matcher::matcher(const std::string& path)
     throw std::runtime_error("gumbo_parse returned nullptr");
 }
 
-std::unique_ptr<match_tree> matcher::match(const rule& r) const
+std::unique_ptr<match_tree> matcher::extract(const rule& r) const
 {
   assert(this->g_outp != nullptr);
   std::unique_ptr<match_tree> m = make_unique<match_tree>();
-  r.match(this->g_outp->root, m.get());
+  r.extract(this->g_outp->root, m.get());
   return m;
 }
 

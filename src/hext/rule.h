@@ -20,8 +20,8 @@ namespace hext {
 class match_tree;
 
 /// A rule represents a source line from the hext input.
-/// Generally: <direct_descendant?tag_name? rule_pattern*>
-///   Example: <!div id="container" class="list">
+/// Generally: <direct_descendant?nth_child?tag_name? rule_pattern*>
+///   Example: <!2div id="container" class="list">
 ///
 /// tag_name represents the html-tag that we want to match. Empty tag_name
 /// matches any html-tag.
@@ -65,13 +65,9 @@ public:
   bool is_direct_descendant() const;
 
   /// Recursively try to find and capture matches.
-  /// Call this->matches(node):
-  /// * if true, capture contents and append them to the match_tree.
-  ///   Then call each child-rule's rule::match, for each child of node
-  /// * if false, call this->match for each child of node.
-  void match(const GumboNode * node, match_tree * m) const;
+  void extract(const GumboNode * node, match_tree * m) const;
 
-  /// Recursively print the rule and its child-rules, including rule_patterns
+  /// Recursively print the rule and its child-rules, including rule-patterns
   /// and tag-name.
   void print(
     std::ostream& out = std::cout,
@@ -85,12 +81,12 @@ private:
   rule& operator=(const rule&) = delete;
 
   /// Check wheter this rule matches a single GumboNode.
-  /// A rule matches when each match_pattern is found in the GumboNode and
+  /// A rule matches when each match-pattern is found in the GumboNode and
   /// tag-name is equal (if non empty).
   bool matches(const GumboNode * node) const;
 
-  /// Helper method that calls rule::match for each child of GumboNode.
-  void match_node_children(const GumboNode * node, match_tree * m) const;
+  /// Helper method that calls rule::extract for each child of GumboNode.
+  void extract_node_children(const GumboNode * node, match_tree * m) const;
 
   /// Get the position of node within its parent. Only counts nodes of type
   /// GUMBO_NODE_ELEMENT. First node has position 1. Returns 0 if no parent.

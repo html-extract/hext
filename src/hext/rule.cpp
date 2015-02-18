@@ -59,7 +59,7 @@ bool rule::is_direct_descendant() const
   return this->is_direct_desc;
 }
 
-void rule::match(const GumboNode * node, match_tree * m) const
+void rule::extract(const GumboNode * node, match_tree * m) const
 {
   if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
     return;
@@ -70,7 +70,7 @@ void rule::match(const GumboNode * node, match_tree * m) const
 
     // Although we have a match, this may not be the html-node that the user
     // is searching for, so we have to keep matching.
-    this->match_node_children(node, m);
+    this->extract_node_children(node, m);
 
     {
       std::unique_ptr<match_tree> mt = this->patterns.capture(node);
@@ -80,14 +80,14 @@ void rule::match(const GumboNode * node, match_tree * m) const
     }
 
     for(const auto& c : this->children)
-      c.match_node_children(node, m);
+      c.extract_node_children(node, m);
   }
   else
   {
     // if this rule is a direct descendant, and it didn't match,
     // all child-rules cannot be matched either.
     if( !this->is_direct_desc )
-      this->match_node_children(node, m);
+      this->extract_node_children(node, m);
   }
 }
 
@@ -142,7 +142,7 @@ bool rule::matches(const GumboNode * node) const
     return this->patterns.matches(node);
 }
 
-void rule::match_node_children(const GumboNode * node, match_tree * m) const
+void rule::extract_node_children(const GumboNode * node, match_tree * m) const
 {
   if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
     return;
@@ -150,7 +150,7 @@ void rule::match_node_children(const GumboNode * node, match_tree * m) const
   const GumboVector * node_children = &node->v.element.children;
   for(unsigned int i = 0; i < node_children->length; ++i)
   {
-    this->match(
+    this->extract(
       static_cast<const GumboNode *>(node_children->data[i]),
       m
     );

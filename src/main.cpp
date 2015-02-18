@@ -41,7 +41,7 @@ int main(int argc, const char ** argv)
 
     for(const auto& r : rules)
     {
-      std::unique_ptr<hext::match_tree> mt = m.match(r);
+      std::unique_ptr<hext::match_tree> mt = m.extract(r);
       assert(mt != nullptr);
 
       if( !po.contains("keep-invalid") )
