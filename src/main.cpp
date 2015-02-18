@@ -1,10 +1,12 @@
 #include <cassert>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <ios>
 
 #include "hext/parser.h"
 #include "hext/html.h"
+#include "hext/file.h"
 #include "hext/program-options.h"
 
 
@@ -37,22 +39,14 @@ int main(int argc, const char ** argv)
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    std::string html_buffer;
+    std::ifstream file(po.get("html-file"), std::ios::in | std::ios::binary);
+    if( !file )
     {
-      std::ifstream file(po.get("html-file"), std::ios::in | std::ios::binary);
-
-      if( !file )
-      {
-        std::cerr << "failed opening html-file\n";
-        return EXIT_FAILURE;
-      }
-
-      file.seekg(0, std::ios::end);
-      html_buffer.resize(file.tellg());
-      file.seekg(0, std::ios::beg);
-      file.read(&html_buffer[0], html_buffer.size());
+      std::cerr << "failed opening html-file\n";
+      return EXIT_FAILURE;
     }
-
+    const std::string html_buffer = hext::read_file(file);
+    file.close();
     hext::html html(html_buffer.c_str(), html_buffer.size());
 
     for(const auto& rule : rules)
