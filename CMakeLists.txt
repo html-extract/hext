@@ -136,6 +136,22 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ###########################################################
 
 ###### BUILD OPTIONS ######################################
+OPTION(TCMALLOC "Link with libtcmalloc" OFF)
+IF(TCMALLOC)
+  TARGET_LINK_LIBRARIES(html-extract tcmalloc)
+
+  # -fno-omit-frame-pointer must be set if you configured gperftools with
+  # --enable-frame-pointers
+  #ADD_DEFINITIONS("-fno-omit-frame-pointer")
+
+  # force gcc to use tcmalloc
+  IF(CMAKE_COMPILER_IS_GNUCXX)
+    ADD_DEFINITIONS(
+      "-fno-builtin-malloc" "-fno-builtin-calloc"
+      "-fno-builtin-realloc" "-fno-builtin-free")
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ENDIF(TCMALLOC)
+
 # force debug symbols (e.g. cmake -DCMAKE_BUILD_TYPE=Release -DSYMBOLS=ON)
 OPTION(SYMBOLS "Add debugging symbols" OFF)
 IF(SYMBOLS)
