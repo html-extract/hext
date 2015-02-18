@@ -33,7 +33,14 @@ std::string read_file_or_throw(const std::string& path)
       "cannot access '" + path + "': " + std::strerror(errno)
     );
 
-  return read_file(file);
+  std::string buffer = read_file(file);
+
+  if( file.fail() )
+    throw file_error(
+      "cannot read '" + path + "': " + std::strerror(errno)
+    );
+
+  return buffer;
 }
 
 
