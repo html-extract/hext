@@ -77,6 +77,7 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/src/hext/lexer-util.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/string-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/file.cpp"
