@@ -4,6 +4,12 @@
 namespace hext {
 
 
+file_error::file_error(const std::string& msg)
+: std::runtime_error(msg)
+{
+}
+
+
 std::string read_file(std::ifstream& file)
 {
   assert(!file.fail());
@@ -16,6 +22,18 @@ std::string read_file(std::ifstream& file)
   file.read(&buffer[0], buffer.size());
 
   return buffer;
+}
+
+std::string read_file_or_throw(const std::string& path)
+{
+  std::ifstream file(path, std::ios::in | std::ios::binary);
+
+  if( file.fail() )
+    throw file_error(
+      "cannot access '" + path + "': " + std::strerror(errno)
+    );
+
+  return read_file(file);
 }
 
 

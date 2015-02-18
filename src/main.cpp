@@ -27,17 +27,10 @@ int main(int argc, const char ** argv)
 
   try
   {
-    std::ifstream hext_file(po.get("hext-file"), std::ios::in | std::ios::binary);
-    if( !hext_file )
-    {
-      std::cerr << "failed opening hext-file\n";
-      return EXIT_FAILURE;
-    }
-    const std::string hext_buffer = hext::read_file(hext_file);
-    hext_file.close();
+    const std::string bf_hext = hext::read_file_or_throw(po.get("hext-file"));
     const auto rules = hext::parser::parse_range(
-      hext_buffer.c_str(),
-      hext_buffer.c_str() + hext_buffer.size()
+      bf_hext.c_str(),
+      bf_hext.c_str() + bf_hext.size()
     );
 
     if( po.contains("print") )
@@ -50,15 +43,8 @@ int main(int argc, const char ** argv)
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    std::ifstream html_file(po.get("html-file"), std::ios::in | std::ios::binary);
-    if( !html_file )
-    {
-      std::cerr << "failed opening html-file\n";
-      return EXIT_FAILURE;
-    }
-    const std::string html_buffer = hext::read_file(html_file);
-    html_file.close();
-    const hext::html html(html_buffer.c_str(), html_buffer.size());
+    const std::string bf_html = hext::read_file_or_throw(po.get("html-file"));
+    const hext::html html(bf_html.c_str(), bf_html.size());
 
     for(const auto& rule : rules)
     {
@@ -82,9 +68,9 @@ int main(int argc, const char ** argv)
       }
     }
   }
-  catch( std::ios_base::failure& e )
+  catch( const hext::file_error& e )
   {
-    std::cerr << e.what() << '\n';
+    std::cerr << argv[0] << ": " << e.what() << "\n";
     return EXIT_FAILURE;
   }
 
