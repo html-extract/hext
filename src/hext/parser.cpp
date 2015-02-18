@@ -30,37 +30,16 @@ state::state()
 std::unique_ptr<match_pattern>
 create_match_pattern(const token& tok, const state& st)
 {
-  if( st.bf )
-  {
-    if( tok.tid == TK_MATCH_REGEX )
-    {
-      return std::unique_ptr<match_pattern>(
-        new builtin_regex_match(
-          st.bf, tok.to_string()
-        )
-      );
-    }
-    else
-    {
-      return std::unique_ptr<match_pattern>(
-        new builtin_literal_match(
-          st.bf, tok.to_string()
-        )
-      );
-    }
-  }
-  else if( tok.tid == TK_MATCH_REGEX )
-  {
-    return std::unique_ptr<match_pattern>(
-      new regex_match(st.attr_name, tok.to_string())
-    );
-  }
+  std::unique_ptr<attr_test> test;
+  if( tok.tid == TK_MATCH_REGEX )
+    test = make_unique<regex_test>(tok.to_string());
   else
-  {
-    return std::unique_ptr<match_pattern>(
-      new literal_match(st.attr_name, tok.to_string())
-    );
-  }
+    test = make_unique<literal_test>(tok.to_string());
+
+  if( st.bf )
+    return make_unique<builtin_match>(st.bf, std::move(test));
+  else
+    return make_unique<attribute_match>(st.attr_name, std::move(test));
 }
 
 std::unique_ptr<capture_pattern>
@@ -148,10 +127,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         // that checks if the attribute actually exists.
         if( !st.bf )
         {
-          std::unique_ptr<match_pattern> pm(
-            new attribute_match(
-              st.attr_name
-            )
+          std::unique_ptr<match_pattern> pm = make_unique<attribute_match>(
+            st.attr_name, std::unique_ptr<attr_test>(nullptr)
           );
           st.matchp.push_back(std::move(pm));
         }
