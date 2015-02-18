@@ -70,7 +70,7 @@ std::string trim_and_collapse_ws(std::string str)
 
   for(; c < str.size(); c++)
   {
-    if( std::isspace(str[c]) )
+    if( is_space(str[c]) )
     {
       if( i > 0 )
         need_space = true;
@@ -107,6 +107,24 @@ std::string inner_html(const GumboNode * node)
   }
 
   return "";
+}
+
+bool is_space(char c)
+{
+  // The space characters, for the purposes of this specification,
+  // are U+0020 SPACE, "tab" (U+0009), "LF" (U+000A), "FF" (U+000C),
+  // and "CR" (U+000D).
+  switch( c )
+  {
+    case ' ':
+    case '\t':
+    case '\n':
+    case '\f':
+    case '\r':
+      return true;
+  }
+
+  return false;
 }
 
 

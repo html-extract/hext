@@ -24,6 +24,10 @@ std::string raw_text(const GumboNode * node);
 /// http://www.w3.org/TR/html5/infrastructure.html#strip-and-collapse-whitespace
 std::string trim_and_collapse_ws(std::string str);
 std::string inner_html(const GumboNode * node);
+/// Check if given character is a space character according to the html standard.
+/// std::isspace is not suitable, because it is locale aware.
+/// http://www.w3.org/TR/html5/infrastructure.html#space-character
+bool is_space(char c);
 
 
 } // namespace bi
