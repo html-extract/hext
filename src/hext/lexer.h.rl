@@ -9,6 +9,7 @@
 
 #include "hext/token.h"
 #include "hext/lexer-util.h"
+#include "hext/string-util.h"
 
 
 namespace hext {
