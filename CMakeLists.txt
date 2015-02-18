@@ -81,7 +81,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/match-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/matcher.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/token.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/match-pattern.cpp"

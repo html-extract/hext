@@ -1,11 +1,10 @@
-#ifndef HEXT_MATCHER_H
-#define HEXT_MATCHER_H
+#ifndef HEXT_HTML_H
+#define HEXT_HTML_H
 
 #include <cassert>
-#include <sstream>
-#include <fstream>
 #include <string>
 #include <stdexcept>
+#include <memory>
 
 #include <gumbo.h>
 
@@ -17,26 +16,23 @@
 namespace hext {
 
 
-class matcher
+class html
 {
 public:
-  explicit matcher(const std::string& path);
-
+  html(const char * buffer, size_t length);
+  ~html();
   std::unique_ptr<match_tree> extract(const rule& r) const;
 
-  ~matcher();
-
 private:
-  matcher(const matcher&) = delete;
-  matcher& operator=(const matcher&) = delete;
+  html(const html&) = delete;
+  html& operator=(const html&) = delete;
 
   GumboOutput * g_outp;
-  std::string buffer;
 };
 
 
 } // namespace hext
 
 
-#endif // HEXT_MATCHER_H
+#endif // HEXT_HTML_H
 

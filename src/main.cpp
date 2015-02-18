@@ -4,7 +4,7 @@
 #include <ios>
 
 #include "hext/parser.h"
-#include "hext/matcher.h"
+#include "hext/html.h"
 #include "hext/program-options.h"
 
 
@@ -37,11 +37,27 @@ int main(int argc, const char ** argv)
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    hext::matcher m(po.get("html-file"));
-
-    for(const auto& r : rules)
+    std::string html_buffer;
     {
-      std::unique_ptr<hext::match_tree> mt = m.extract(r);
+      std::ifstream file(po.get("html-file"), std::ios::in | std::ios::binary);
+
+      if( !file )
+      {
+        std::cerr << "failed opening html-file\n";
+        return EXIT_FAILURE;
+      }
+
+      file.seekg(0, std::ios::end);
+      html_buffer.resize(file.tellg());
+      file.seekg(0, std::ios::beg);
+      file.read(&html_buffer[0], html_buffer.size());
+    }
+
+    hext::html html(html_buffer.c_str(), html_buffer.size());
+
+    for(const auto& rule : rules)
+    {
+      std::unique_ptr<hext::match_tree> mt = html.extract(rule);
       assert(mt != nullptr);
 
       if( !po.contains("keep-invalid") )
@@ -49,7 +65,7 @@ int main(int argc, const char ** argv)
 
       if( po.contains("print-debug") )
       {
-        r.print(std::cout, 0, true);
+        rule.print(std::cout, 0, true);
       }
       else if( po.contains("mt-graph") )
       {
