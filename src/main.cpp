@@ -70,19 +70,19 @@ int main(int argc, const char ** argv)
   }
   catch( const hext::file_error& e )
   {
-    std::cerr << argv[0] << ": " << e.what() << "\n";
+    std::cerr << argv[0] << ": Error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
   catch( const hext::parser::parse_error& e )
   {
-    std::cerr << argv[0] << ": "
+    std::cerr << argv[0] << ": Error in "
               << po.get("hext-file") << ": "
               << e.what() << "\n";
     return EXIT_FAILURE;
   }
   catch( const hext::lexer::lex_error& e )
   {
-    std::cerr << argv[0] << ": "
+    std::cerr << argv[0] << ": Error in "
               << po.get("hext-file") << ": "
               << e.what() << "\n";
     return EXIT_FAILURE;

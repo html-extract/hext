@@ -131,7 +131,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
       case TK_BUILTIN_NAME:
         st.bf = bi::get_builtin_by_name(tok.to_string());
         if( !st.bf )
-          throw parse_error(std::string("unknown builtin: ") + tok.to_string());
+          throw parse_error("Unknown builtin '" + tok.to_string() + "'");
         break;
       case TK_ATTR_NAME:
         st.attr_name = tok.to_string();

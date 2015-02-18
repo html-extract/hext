@@ -51,13 +51,12 @@ void lexer::throw_error() const
     char_name = "[unknown]";
 
   std::stringstream error_msg;
-  error_msg << "Error at line "
+  error_msg << "Unexpected character '"
+            << char_name
+            << "' at line "
             << pos.first + 1
             << ", char "
-            << pos.second + 1
-            << ", unexpected character '"
-            << char_name
-            << "'";
+            << pos.second + 1;
 
   throw lex_error(error_msg.str());
 }
