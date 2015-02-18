@@ -8,8 +8,21 @@
 #include <utility>
 
 #include "hext/token.h"
-#include "hext/lexer-util.h"
 #include "hext/string-util.h"
+
+
+/// Convenience macro to create a token and push it onto the token-queue.
+#define LX_TK_START(tk_id) \
+  token tok;               \
+  tok.tid = tk_id;         \
+  tok.begin = p;           \
+  tok.end = nullptr;       \
+  tokens.push_back(tok);
+
+/// Convenience macro to mark the end of the last token in the token-queue.
+#define LX_TK_STOP           \
+  assert(tokens.size() > 0); \
+  tokens.back().end = p;
 
 
 namespace hext {
