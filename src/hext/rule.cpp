@@ -15,6 +15,7 @@ rule::rule(
 : children()
 , patterns(std::move(r_patterns))
 , match_count(0)
+, gumbo_tag(gumbo_tag_enum(html_tag_name.c_str()))
 , tag(html_tag_name)
 , is_direct_desc(direct_descendant)
 , is_closed(closed)
@@ -26,6 +27,7 @@ rule::rule(rule&& r)
 : children(std::move(r.children))
 , patterns(std::move(r.patterns))
 , match_count(r.match_count.load())
+, gumbo_tag(r.gumbo_tag)
 , tag(std::move(r.tag))
 , is_direct_desc(r.is_direct_desc)
 , is_closed(r.is_closed)
@@ -126,7 +128,7 @@ bool rule::matches(const GumboNode * node) const
 
   // empty tag-name matches every tag
   if( !this->tag.empty() )
-    if( node->v.element.tag != gumbo_tag_enum(this->tag.c_str()) )
+    if( node->v.element.tag != this->gumbo_tag )
       return false;
 
   if( this->child_pos > 0 )

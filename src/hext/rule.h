@@ -103,6 +103,7 @@ private:
   /// This is solved by using std::atomic.
   mutable std::atomic<unsigned int> match_count;
 
+  const GumboTag gumbo_tag;
   const std::string tag;
   const bool is_direct_desc;
   const bool is_closed;
