@@ -18,9 +18,7 @@ public:
 };
 
 
-// Read complete file to buffer.
-std::string read_file(std::ifstream& file);
-// Read file at path to buffer. Throws file_error.
+// Read file at path to buffer. Throws file_error on failure.
 std::string read_file_or_throw(const std::string& path);
 
 
