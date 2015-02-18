@@ -8,7 +8,7 @@ attr_test::~attr_test()
 {
 }
 
-bool attr_test::test(const std::string& /* dummy */) const
+bool attr_test::test(const char * /* dummy */) const
 {
   return true;
 }

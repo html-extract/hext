@@ -9,9 +9,9 @@ literal_test::literal_test(std::string literal)
 {
 }
 
-bool literal_test::test(const std::string& subject) const
+bool literal_test::test(const char * subject) const
 {
-  return this->lit.compare(subject) == 0;
+  return subject && this->lit.compare(subject) == 0;
 }
 
 void literal_test::print(std::ostream& out) const

@@ -14,7 +14,7 @@ class literal_test : public attr_test
 {
 public:
   explicit literal_test(std::string literal);
-  bool test(const std::string& subject) const final;
+  bool test(const char * subject) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:

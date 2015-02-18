@@ -12,7 +12,7 @@ class attr_test
 {
 public:
   virtual ~attr_test();
-  virtual bool test(const std::string& /* dummy */) const;
+  virtual bool test(const char * /* dummy */) const;
   virtual void print(std::ostream& /* dummy */ = std::cout) const;
 };
 

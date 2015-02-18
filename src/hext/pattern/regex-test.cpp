@@ -9,7 +9,7 @@ regex_test::regex_test(const std::string& regex)
 {
 }
 
-bool regex_test::test(const std::string& subject) const
+bool regex_test::test(const char * subject) const
 {
   return boost::regex_search(subject, this->rx);
 }
