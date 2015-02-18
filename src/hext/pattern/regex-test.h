@@ -15,7 +15,7 @@ namespace hext {
 class regex_test : public attr_test
 {
 public:
-  regex_test(const std::string& regex);
+  explicit regex_test(const std::string& regex);
   bool test(const std::string& subject) const final;
   void print(std::ostream& out = std::cout) const final;
 
