@@ -183,23 +183,6 @@ std::vector<rule> parse_range(const char * begin, const char * end)
   return rules;
 }
 
-std::vector<rule> parse_file(const std::string& path)
-{
-  std::ifstream file;
-  // force exception on error
-  file.exceptions(std::ios::failbit | std::ios::badbit);
-  file.open(path);
-
-  std::string input(
-    (std::istreambuf_iterator<char>(file)),
-    std::istreambuf_iterator<char>()
-  );
-  const char * c_begin = input.c_str();
-  const char * c_end = c_begin + input.size();
-
-  return parse_range(c_begin, c_end);
-}
-
 
 } // namespace parser
 } // namespace hext
