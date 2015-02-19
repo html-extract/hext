@@ -19,7 +19,7 @@
   tok.end = nullptr;       \
   tokens.push_back(tok);
 
-/// Convenience macro to reset last inserted token.
+/// Convenience macro to change last inserted token.
 #define LX_TK_RESET(tk_id)   \
   assert(tokens.size() > 0); \
   tokens.back().tid = tk_id; \
