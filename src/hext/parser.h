@@ -22,6 +22,7 @@
 #include "hext/pattern/builtin-capture.h"
 #include "hext/builtins.h"
 #include "hext/rule.h"
+#include "hext/rule-builder.h"
 
 
 namespace hext {
@@ -46,16 +47,10 @@ struct state
 
   bool rule_start;
   int indent;
-  std::string tag_name;
-  bool is_direct_desc;
-  bool is_closed;
-  unsigned int nth_child;
   bi::builtin_func_ptr bf;
   std::string attr_name;
   std::string cap_var;
   std::string cap_regex;
-  std::vector<std::unique_ptr<match_pattern>> matchp;
-  std::vector<std::unique_ptr<capture_pattern>> capturep;
 };
 
 std::unique_ptr<match_pattern>

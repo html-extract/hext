@@ -79,6 +79,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/string-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/rule-builder.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/file.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/match-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
