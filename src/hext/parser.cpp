@@ -40,21 +40,11 @@ std::unique_ptr<capture_pattern>
 create_capture_pattern(const state& st)
 {
   if( st.bf )
-  {
-    return std::unique_ptr<capture_pattern>(
-      new builtin_capture(
-        st.cap_var, st.bf, st.cap_regex
-      )
-    );
-  }
+    return make_unique<builtin_capture>(st.cap_var, st.bf, st.cap_regex);
   else
-  {
-    return std::unique_ptr<capture_pattern>(
-      new attribute_capture(
-        st.cap_var, st.attr_name, st.cap_regex
-      )
+    return make_unique<attribute_capture>(
+      st.cap_var, st.attr_name, st.cap_regex
     );
-  }
 }
 
 std::vector<rule> parse_range(const char * begin, const char * end)
