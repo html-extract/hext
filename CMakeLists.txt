@@ -10,17 +10,6 @@ ADD_DEFINITIONS("-std=c++11")
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 
-EXECUTE_PROCESS(
-  COMMAND
-  "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h.rl"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h")
-EXECUTE_PROCESS(
-  COMMAND
-  "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp.rl"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp")
-
 
 ###### EXTERNAL DEPENDENCIES ##############################
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
@@ -100,6 +89,21 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
+
+# Generate ragel state machine
+ADD_CUSTOM_COMMAND(
+  TARGET html-extract
+  PRE_BUILD
+  COMMAND "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h.rl"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h")
+ADD_CUSTOM_COMMAND(
+  TARGET html-extract
+  PRE_BUILD
+  COMMAND "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp.rl"
+  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp")
+
 
 ###### WARNINGS ###########################################
 # always show warnings
