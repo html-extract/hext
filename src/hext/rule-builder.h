@@ -19,19 +19,25 @@ class rule_builder
 public:
   rule_builder();
   ~rule_builder();
-  rule build_and_reset();
+  std::vector<rule> get_rules_and_reset();
+  void reset();
+  void consume_and_reset();
+  void consume_match_pattern();
+  void consume_capture_pattern();
   pattern_builder& pattern();
 
+  void reset_indent();
+  void increment_indent();
   void set_tag_name(const std::string& tag);
   void set_direct_descendant(bool direct_desc);
   void set_closed(bool closed);
   void set_nth_child(unsigned int pos_within_parent);
-  void consume_match_pattern();
-  void consume_capture_pattern();
 
 private:
   pattern_builder pat;
+  std::vector<rule> rules;
 
+  unsigned int indent;
   std::string tag_name;
   bool is_direct_desc;
   bool is_closed;

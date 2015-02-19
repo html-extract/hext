@@ -33,16 +33,6 @@ public:
   explicit parse_error(const std::string& msg);
 };
 
-/// Internal parse state used in parse_range.
-struct state
-{
-  state();
-  ~state();
-
-  bool rule_start;
-  int indent;
-};
-
 /// Use lexer to lex from begin to end, then convert tokens to vector<rule>.
 std::vector<rule> parse_range(const char * begin, const char * end);
 

@@ -10,23 +10,12 @@ parse_error::parse_error(const std::string& msg)
 {
 }
 
-state::state()
-: rule_start(false)
-, indent(0)
-{
-}
-
-state::~state()
-{
-}
-
 std::vector<rule> parse_range(const char * begin, const char * end)
 {
   lexer lex(begin, end);
   std::vector<token> tokens = lex.lex();
   rule_builder builder;
-  std::vector<rule> rules;
-  state st;
+  bool rule_start = false;
 
   for( const auto& tok : tokens )
   {
@@ -35,20 +24,15 @@ std::vector<rule> parse_range(const char * begin, const char * end)
     {
       case TK_NEWLINE:
       case TK_EOF:
-        if( st.rule_start )
+        if( rule_start )
         {
-          rule r = builder.build_and_reset();
-          // either top-level rule or first rule
-          if( st.indent == 0 || rules.empty() )
-            rules.push_back(std::move(r));
-          else
-            rules.back().append_child(std::move(r), st.indent);
+          builder.consume_and_reset();
+          rule_start = false;
         }
-        st.rule_start = 0;
-        st.indent = 0;
+        builder.reset_indent();
         break;
       case TK_INDENT:
-        st.indent++;
+        builder.increment_indent();
         break;
       case TK_DIRECT_DESC:
         builder.set_direct_descendant(true);
@@ -91,7 +75,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         builder.set_closed(true);
         break;
       case TK_RULE_BEGIN:
-        st.rule_start = true;
+        rule_start = true;
         break;
       case TK_ERROR:
         throw parse_error("syntax error");
@@ -100,7 +84,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
     }
   }
 
-  return rules;
+  return builder.get_rules_and_reset();
 }
 
 
