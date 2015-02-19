@@ -45,6 +45,7 @@ public:
 struct state
 {
   state();
+  ~state();
 
   bool rule_start;
   int indent;

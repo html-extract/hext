@@ -21,6 +21,10 @@ state::state()
 {
 }
 
+state::~state()
+{
+}
+
 std::unique_ptr<match_pattern>
 create_match_pattern(const token& tok, const state& st)
 {
