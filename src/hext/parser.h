@@ -21,6 +21,7 @@
 #include "hext/pattern/attribute-capture.h"
 #include "hext/pattern/builtin-capture.h"
 #include "hext/builtins.h"
+#include "hext/make-unique.h"
 #include "hext/rule.h"
 #include "hext/rule-builder.h"
 
