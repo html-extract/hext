@@ -18,20 +18,36 @@ namespace hext {
 
 /// capture_pattern is the abstract base class for all patterns that are used
 /// to capture values from html-nodes. Rules have capture_patterns.
-/// See also hext/attribute-capture.h and hext/regex-capture.h
+/// * hext/pattern/attribute-capture.h:
+///     <a href={link}
+///   From every node, that has both html-tag "a" and an attribute called
+///   href, extract the contents of the attribute and put it into "link".
+///
+/// * hext/pattern/builtin-capture.h:
+///     <a @text={title}
+///   For every node, that has html-tag "a", call builtin function "text" and
+///   put its return value into "title".
+///
+/// capture_patterns may have a regex filter:
+///     <a href={product_id/id=(\d+)/}
+///   Before saving the value, apply regex "id=(\d+)", producing only what is
+///   is specified within the regex's parentheses. If there are no parentheses,
+///   the whole value will be returned, effectively discarding the purpose of
+///   the regex.
 class capture_pattern
 {
 public:
   explicit capture_pattern(const std::string& result_name);
-  capture_pattern(const std::string& var_name, const std::string& regex);
+  capture_pattern(const std::string& result_name, const std::string& regex);
+  virtual ~capture_pattern();
   /// Return a pair with the result_name and the captured content, which is to
   /// be inserted into a match_tree.
   virtual match_tree::name_value_pair capture(const GumboNode * node) const = 0;
   virtual void print(std::ostream& out = std::cout) const = 0;
-  virtual ~capture_pattern();
 
 protected:
   /// Apply regex rx to str and return captured contents.
+  /// Returns whole string if regex contains no capture-parentheses.
   std::string regex_filter(const char * str) const;
 
   /// The result name of the captured contents.
