@@ -27,6 +27,9 @@ void program_options::store(int argc, const char * argv[])
   po::store(po::parse_command_line(argc, argv, this->desc), this->vm);
   po::notify(this->vm);
 
+  if( this->contains("help") )
+    return;
+
   if( !this->contains("hext-file") )
     throw po::error("missing option --hext-file");
 
