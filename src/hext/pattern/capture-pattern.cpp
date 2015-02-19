@@ -4,6 +4,12 @@
 namespace hext {
 
 
+capture_pattern::capture_pattern(const std::string& result_name)
+: name(result_name)
+, rx(nullptr)
+{
+}
+
 capture_pattern::capture_pattern(
   const std::string& result_name,
   const std::string& regex
