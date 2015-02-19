@@ -14,6 +14,7 @@ class program_options
 {
 public:
   program_options();
+  ~program_options();
 
   void store(int argc, const char * argv[]);
 

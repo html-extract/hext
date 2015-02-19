@@ -21,6 +21,10 @@ program_options::program_options()
   ;
 }
 
+program_options::~program_options()
+{
+}
+
 void program_options::store(int argc, const char * argv[])
 {
   namespace po = boost::program_options;
