@@ -22,7 +22,7 @@ print_usage()
 
 [ $# -eq 2 ] || { print_usage ; exit 0; }
 
-assert_dependencies $1 $2
+assert_dependencies "$@"
 
 ragel_input="$1"
 ragel_output="$2"
