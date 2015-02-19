@@ -14,6 +14,10 @@ rule_builder::rule_builder()
 {
 }
 
+rule_builder::~rule_builder()
+{
+}
+
 rule rule_builder::build_and_reset()
 {
   rule r(

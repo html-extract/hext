@@ -17,6 +17,7 @@ class rule_builder
 {
 public:
   rule_builder();
+  ~rule_builder();
   rule build_and_reset();
 
   void set_tag_name(const std::string& tag);
