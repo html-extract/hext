@@ -76,6 +76,7 @@ std::vector<rule> parse_range(const char * begin, const char * end)
     switch( tok.tid )
     {
       case TK_NEWLINE:
+      case TK_EOF:
         if( st.rule_start )
         {
           rule r(
@@ -145,8 +146,6 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         break;
       case TK_RULE_BEGIN:
         st.rule_start = true;
-        break;
-      case TK_EOF:
         break;
       case TK_ERROR:
         throw parse_error("syntax error");

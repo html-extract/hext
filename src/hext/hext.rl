@@ -124,5 +124,5 @@
              %{ LX_TK_STOP; }
       )
     )**
-    $err(error) $/{ LX_TK_START(TK_EOF); fbreak; };
+    $err(error) $/{ LX_TK_RESET(TK_EOF); fbreak; };
 }%%

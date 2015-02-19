@@ -19,6 +19,12 @@
   tok.end = nullptr;       \
   tokens.push_back(tok);
 
+/// Convenience macro to reset last inserted token.
+#define LX_TK_RESET(tk_id)   \
+  assert(tokens.size() > 0); \
+  tokens.back().tid = tk_id; \
+  tokens.back().end = p;
+
 /// Convenience macro to mark the end of the last token in the token-queue.
 #define LX_TK_STOP           \
   assert(tokens.size() > 0); \
