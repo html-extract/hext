@@ -26,6 +26,7 @@ public:
     std::vector<std::unique_ptr<match_pattern>>&& match_patterns,
     std::vector<std::unique_ptr<capture_pattern>>&& capture_patterns
   );
+  rule_patterns(rule_patterns&&) = default;
   /// Apply all match patterns to node.
   /// Returns true if all match patterns match.
   bool matches(const GumboNode * node) const;
