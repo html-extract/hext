@@ -10,45 +10,14 @@ parse_error::parse_error(const std::string& msg)
 {
 }
 
-
 state::state()
 : rule_start(false)
 , indent(0)
-, bf(nullptr)
-, attr_name()
-, cap_var()
-, cap_regex()
 {
 }
 
 state::~state()
 {
-}
-
-std::unique_ptr<match_pattern>
-create_match_pattern(const token& tok, const state& st)
-{
-  std::unique_ptr<attr_test> test;
-  if( tok.tid == TK_MATCH_REGEX )
-    test = make_unique<regex_test>(tok.to_string());
-  else
-    test = make_unique<literal_test>(tok.to_string());
-
-  if( st.bf )
-    return make_unique<builtin_match>(st.bf, std::move(test));
-  else
-    return make_unique<attribute_match>(st.attr_name, std::move(test));
-}
-
-std::unique_ptr<capture_pattern>
-create_capture_pattern(const state& st)
-{
-  if( st.bf )
-    return make_unique<builtin_capture>(st.cap_var, st.bf, st.cap_regex);
-  else
-    return make_unique<attribute_capture>(
-      st.cap_var, st.attr_name, st.cap_regex
-    );
 }
 
 std::vector<rule> parse_range(const char * begin, const char * end)
@@ -74,9 +43,8 @@ std::vector<rule> parse_range(const char * begin, const char * end)
             rules.push_back(std::move(r));
           else
             rules.back().append_child(std::move(r), st.indent);
-          // reset parse state
-          st = state();
         }
+        st.rule_start = 0;
         st.indent = 0;
         break;
       case TK_INDENT:
@@ -92,36 +60,32 @@ std::vector<rule> parse_range(const char * begin, const char * end)
         builder.set_tag_name(tok.to_string());
         break;
       case TK_BUILTIN_NAME:
-        st.bf = bi::get_builtin_by_name(tok.to_string());
-        if( !st.bf )
+      {
+        bi::builtin_func_ptr bf = bi::get_builtin_by_name(tok.to_string());
+        if( !bf )
           throw parse_error("Unknown builtin '" + tok.to_string() + "'");
+        builder.pattern().set_builtin_function(bf);
         break;
+      }
       case TK_ATTR_NAME:
-        st.attr_name = tok.to_string();
+        builder.pattern().set_attr_name(tok.to_string());
         break;
       case TK_MATCH_LITERAL:
-        /* don't break, let through */
+        builder.pattern().set_attr_literal(tok.to_string());
+        builder.consume_match_pattern();
+        break;
       case TK_MATCH_REGEX:
-        builder.append_match_pattern(create_match_pattern(tok, st));
-        st.bf = nullptr;
+        builder.pattern().set_attr_regex(tok.to_string());
+        builder.consume_match_pattern();
         break;
       case TK_CAP_END:
-        builder.append_capture_pattern(create_capture_pattern(st));
-        // For every attribute-capture also insert a match-pattern
-        // that checks if the attribute actually exists.
-        if( !st.bf )
-        {
-          builder.append_match_pattern(make_unique<attribute_match>(
-            st.attr_name, std::unique_ptr<attr_test>(nullptr)
-          ));
-        }
-        st.bf = nullptr;
+        builder.consume_capture_pattern();
         break;
       case TK_CAP_VAR:
-        st.cap_var = tok.to_string();
+        builder.pattern().set_cap_var(tok.to_string());
         break;
       case TK_CAP_REGEX:
-        st.cap_regex = tok.to_string();
+        builder.pattern().set_cap_regex(tok.to_string());
         break;
       case TK_RULE_END:
         builder.set_closed(true);

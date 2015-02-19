@@ -5,7 +5,8 @@ namespace hext {
 
 
 rule_builder::rule_builder()
-: tag_name("")
+: pat()
+, tag_name("")
 , is_direct_desc(false)
 , is_closed(false)
 , nth_child(0)
@@ -38,6 +39,11 @@ rule rule_builder::build_and_reset()
   return std::move(r);
 }
 
+pattern_builder& rule_builder::pattern()
+{
+  return this->pat;
+}
+
 void rule_builder::set_tag_name(const std::string& tag)
 {
   this->tag_name = tag;
@@ -58,14 +64,14 @@ void rule_builder::set_nth_child(unsigned int pos_within_parent)
   this->nth_child = pos_within_parent;
 }
 
-void rule_builder::append_match_pattern(std::unique_ptr<match_pattern> p)
+void rule_builder::consume_match_pattern()
 {
-  this->mp.push_back(std::move(p));
+  this->mp.push_back(this->pat.build_match_and_reset());
 }
 
-void rule_builder::append_capture_pattern(std::unique_ptr<capture_pattern> p)
+void rule_builder::consume_capture_pattern()
 {
-  this->cp.push_back(std::move(p));
+  this->cp.push_back(this->pat.build_capture_and_reset());
 }
 
 
