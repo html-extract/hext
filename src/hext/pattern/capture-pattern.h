@@ -10,6 +10,7 @@
 #include <gumbo.h>
 
 #include "hext/match-tree.h"
+#include "hext/make-unique.h"
 
 
 namespace hext {

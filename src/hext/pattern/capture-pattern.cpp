@@ -9,7 +9,7 @@ capture_pattern::capture_pattern(
   const std::string& regex
 )
 : name(result_name)
-, rx(regex.empty() ? nullptr : new boost::regex(regex))
+, rx(regex.empty() ? nullptr : make_unique<boost::regex>(regex))
 {
 }
 
