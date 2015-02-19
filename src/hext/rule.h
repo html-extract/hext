@@ -40,7 +40,7 @@ public:
     unsigned int nth_child,
     rule_patterns&& r_patterns
   );
-
+  ~rule();
   rule(rule&& r);
 
   /// Append child-rule after last element at tree-level level.

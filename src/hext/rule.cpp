@@ -23,6 +23,10 @@ rule::rule(
 {
 }
 
+rule::~rule()
+{
+}
+
 rule::rule(rule&& r)
 : children(std::move(r.children))
 , patterns(std::move(r.patterns))
