@@ -1,20 +1,13 @@
 #ifndef HEXT_PARSER_H
 #define HEXT_PARSER_H
 
-#include <cassert>
-#include <iostream>
-#include <fstream>
-#include <iterator>
 #include <string>
 #include <vector>
 #include <stdexcept>
 
 #include "hext/token.h"
 #include "hext/lexer.h"
-#include "hext/pattern/match-pattern.h"
-#include "hext/pattern/capture-pattern.h"
 #include "hext/builtins.h"
-#include "hext/make-unique.h"
 #include "hext/rule.h"
 #include "hext/rule-builder.h"
 
