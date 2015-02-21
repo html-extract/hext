@@ -47,7 +47,7 @@ std::vector<rule> lexer::lex()
   return rule.get_rules_and_reset();
 }
 
-void lexer::throw_error() const
+void lexer::throw_unexpected() const
 {
   char_pos_pair pos =
     get_char_position(this->p, this->p_begin, this->pe);
@@ -63,6 +63,22 @@ void lexer::throw_error() const
   std::stringstream error_msg;
   error_msg << "Unexpected character '"
             << char_name
+            << "' at line "
+            << pos.first + 1
+            << ", char "
+            << pos.second + 1;
+
+  throw lex_error(error_msg.str());
+}
+
+void lexer::throw_unknown_builtin(const std::string& builtin_name) const
+{
+  char_pos_pair pos =
+    get_char_position(this->p, this->p_begin, this->pe);
+
+  std::stringstream error_msg;
+  error_msg << "Unknown builtin '"
+            << builtin_name
             << "' at line "
             << pos.first + 1
             << ", char "

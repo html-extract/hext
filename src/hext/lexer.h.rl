@@ -68,7 +68,8 @@ public:
 
 private:
   /// Print diagnostics and throw lexer::lex_error.
-  void throw_error() const;
+  void throw_unexpected() const;
+  void throw_unknown_builtin(const std::string& builtin_name) const;
 
   /// A pointer to the beginning of the overall input is needed to provide
   /// good error diagnostics.

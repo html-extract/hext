@@ -2,7 +2,7 @@
   machine hext;
 
   action error {
-    throw_error();
+    this->throw_unexpected();
   }
 
   action act_newline {
@@ -47,8 +47,7 @@
               %{ LX_TK_STOP;
                  {
                    bi::builtin_func_ptr bf = bi::get_builtin_by_name(tok);
-                   if( !bf )
-                     throw parse_error("Unknown builtin '" + tok + "'");
+                   if( !bf ) this->throw_unknown_builtin(tok);
                    rule.pattern().set_builtin_function(bf);
                  }
               }
