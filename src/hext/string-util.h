@@ -2,11 +2,17 @@
 #define HEXT_STRING_UTIL_H
 
 #include <cassert>
+#include <cstdlib>
 #include <cctype>
 #include <string>
 #include <utility>
 #include <algorithm>
 #include <iterator>
+#include <cstddef>
+#include <iostream>
+#include <iomanip>
+
+#include <boost/tokenizer.hpp>
 
 
 namespace hext {
@@ -39,6 +45,22 @@ char_pos_pair get_char_position(
   const char * c,
   const char * begin,
   const char * end
+);
+
+/// Get width of number when printed as decimal, excluding sign.
+int get_dec_number_width(ptrdiff_t number);
+
+/// Print begin to end into out. When printing lines insert line number,
+/// colon and one space. number_width is the space needed to print a line
+/// number as decimal (uses std::setw).
+/// Example:
+///   1: If my thought dreams could be seen
+///   2: They'd probably put my head in a guillotine
+void print_with_line_numbers(
+  const char * begin,
+  const char * end,
+  int number_width,
+  std::ostream& out
 );
 
 

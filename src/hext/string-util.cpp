@@ -114,6 +114,42 @@ char_pos_pair get_char_position(
   return char_pos_pair(line_count, char_offset_in_line);
 }
 
+int get_dec_number_width(ptrdiff_t number)
+{
+  number = std::abs(number);
+  int number_width = 1;
+  while( (number /= 10) > 0 )
+    number_width++;
+  return number_width;
+}
+
+void print_with_line_numbers(
+  const char * begin,
+  const char * end,
+  int number_width,
+  std::ostream& out
+)
+{
+  boost::tokenizer<boost::char_separator<char>, const char *> lines(
+    begin,
+    end,
+    boost::char_separator<char>("\n")
+  );
+
+  if( number_width < 1 )
+    number_width = 1;
+
+  unsigned int line_num = 1;
+  for(const auto line : lines)
+  {
+    out << std::setw(number_width)
+        << line_num++
+        << ": "
+        << line
+        << '\n';
+  }
+}
+
 
 } // namespace hext
 
