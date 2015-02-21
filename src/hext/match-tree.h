@@ -21,7 +21,7 @@ namespace hext {
 class rule;
 
 /// A match_tree contains the result of matching a rule to GumboNodes through
-/// rule::match().
+/// rule::extract().
 class match_tree
 {
 public:
