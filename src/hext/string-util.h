@@ -3,7 +3,6 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <cctype>
 #include <string>
 #include <utility>
 #include <algorithm>
