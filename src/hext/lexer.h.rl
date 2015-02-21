@@ -7,32 +7,33 @@
 #include <stdexcept>
 #include <utility>
 
-#include "hext/token.h"
 #include "hext/string-util.h"
+#include "hext/builtins.h"
+#include "hext/rule.h"
+#include "hext/rule-builder.h"
 
 
-/// Convenience macro to create a token and push it onto the token-queue.
-#define LX_TK_START(tk_id) \
-  token tok;               \
-  tok.tid = tk_id;         \
-  tok.begin = p;           \
-  tok.end = nullptr;       \
-  tokens.push_back(tok);
+#define LX_TK_START \
+  tok_begin = p;    \
+  tok_end = nullptr;
 
-/// Convenience macro to change last inserted token.
-#define LX_TK_RESET(tk_id)   \
-  assert(tokens.size() > 0); \
-  tokens.back().tid = tk_id; \
-  tokens.back().end = p;
-
-/// Convenience macro to mark the end of the last token in the token-queue.
-#define LX_TK_STOP           \
-  assert(tokens.size() > 0); \
-  tokens.back().end = p;
+#define LX_TK_STOP              \
+  assert(tok_begin != nullptr); \
+  tok_end = p;                  \
+  tok = std::string(tok_begin, std::distance(tok_begin, tok_end));
 
 
 namespace hext {
 
+/// clang: warning: 'parse_error' has no out-of-line virtual method
+/// definitions; its vtable will be emitted in every translation
+/// unit [-Wweak-vtables]
+/// This warning can be ignored, see comment above class lex_error.
+class parse_error : public std::runtime_error
+{
+public:
+  explicit parse_error(const std::string& msg);
+};
 
 namespace ragel {
   %%{
@@ -63,7 +64,7 @@ public:
   lexer(const char * begin, const char * end);
 
   /// Throws lexer::lex_error on invalid input (by calling lexer::throw_error)
-  std::vector<token> lex();
+  std::vector<rule> lex();
 
 private:
   /// Print diagnostics and throw lexer::lex_error.

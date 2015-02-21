@@ -5,6 +5,18 @@
     throw_error();
   }
 
+  action act_newline {
+    if( rule_start )
+    {
+      rule.consume_and_reset();
+      rule_start = false;
+    }
+    else
+    {
+      rule.reset_indent();
+    }
+  }
+
   nth_child = ( [1-9][0-9]** );
   attr_name = ( alpha (alnum | '-' | '_')** );
   builtin_name = ( alpha (alnum | '-' | '_')** );
@@ -18,8 +30,7 @@
     '#'
     (any - '\n')*
     (
-      '\n' >{ LX_TK_START(TK_NEWLINE); }
-           %{ LX_TK_STOP; }
+      '\n' %act_newline
     )
   );
 
@@ -31,14 +42,22 @@
           (
             '@'
             (
-              builtin_name >{ LX_TK_START(TK_BUILTIN_NAME); }
-                           %{ LX_TK_STOP; }
+              builtin_name
+              >{ LX_TK_START; }
+              %{ LX_TK_STOP;
+                 {
+                   bi::builtin_func_ptr bf = bi::get_builtin_by_name(tok);
+                   if( !bf )
+                     throw parse_error("Unknown builtin '" + tok + "'");
+                   rule.pattern().set_builtin_function(bf);
+                 }
+              }
             )
           )
           |
           (
-            attr_name >{ LX_TK_START(TK_ATTR_NAME); }
-                      %{ LX_TK_STOP; }
+            attr_name >{ LX_TK_START; }
+                      %{ LX_TK_STOP; rule.pattern().set_attr_name(tok); }
           )
         )
         (
@@ -47,20 +66,20 @@
             (
               '{'
               (
-                cap_var >{ LX_TK_START(TK_CAP_VAR); }
-                        %{ LX_TK_STOP; }
+                cap_var >{ LX_TK_START; }
+                        %{ LX_TK_STOP; rule.pattern().set_cap_var(tok); }
               )
               (
                 '/'
                 (
-                  cap_regex >{ LX_TK_START(TK_CAP_REGEX); }
-                            %{ LX_TK_STOP; }
+                  cap_regex >{ LX_TK_START; }
+                            %{ LX_TK_STOP;
+                               rule.pattern().set_cap_regex(tok); }
                 )
                 '/'
               )?
               (
-                '}' >{ LX_TK_START(TK_CAP_END); }
-                    %{ LX_TK_STOP; }
+                '}' %{ rule.consume_capture_pattern(); }
               )
             )
             |
@@ -68,8 +87,10 @@
               (
                 '/'
                 (
-                  match_regex >{ LX_TK_START(TK_MATCH_REGEX); }
-                              %{ LX_TK_STOP; }
+                  match_regex >{ LX_TK_START; }
+                              %{ LX_TK_STOP;
+                                 rule.pattern().set_attr_regex(tok);
+                                 rule.consume_match_pattern(); }
                 )
                 '/'
               )
@@ -77,8 +98,10 @@
               (
                 '"'
                 (
-                  match_literal >{ LX_TK_START(TK_MATCH_LITERAL); }
-                                %{ LX_TK_STOP; }
+                  match_literal >{ LX_TK_START; }
+                                %{ LX_TK_STOP;
+                                   rule.pattern().set_attr_literal(tok);
+                                   rule.consume_match_pattern(); }
                 )
                 '"'
               )
@@ -94,35 +117,32 @@
       |
       (
         (
-          '  ' >{ LX_TK_START(TK_INDENT); }
-               %{ LX_TK_STOP; }
+          '  ' %{ rule.increment_indent(); }
         )*
         (
-          '<' >{ LX_TK_START(TK_RULE_BEGIN); }
-              %{ LX_TK_STOP; }
+          '<' %{ rule_start = true; }
         )
         (
-          '!' >{ LX_TK_START(TK_DIRECT_DESC); }
-              %{ LX_TK_STOP; }
+          '!' %{ rule.set_direct_descendant(true); }
         )?
         (
-          nth_child >{ LX_TK_START(TK_NTH_CHILD); }
-                    %{ LX_TK_STOP; }
+          nth_child >{ LX_TK_START; }
+                    %{ LX_TK_STOP;
+                       rule.set_nth_child(std::stoi(tok)); }
         )?
         (
-          attr_name >{ LX_TK_START(TK_TAG_NAME); }
-                    %{ LX_TK_STOP; }
+          attr_name >{ LX_TK_START; }
+                    %{ LX_TK_STOP;
+                       rule.set_tag_name(tok); }
         )?
         attributes?
         (
-          '>' >{ LX_TK_START(TK_RULE_END); }
-              %{ LX_TK_STOP; }
+          '>' %{ rule.set_closed(true); }
         )?
       ):>
       (
-        '\n' >{ LX_TK_START(TK_NEWLINE); }
-             %{ LX_TK_STOP; }
+        '\n' %act_newline
       )
     )**
-    $err(error) $/{ LX_TK_RESET(TK_EOF); fbreak; };
+    $err(error) $/act_newline $/{ fbreak; };
 }%%

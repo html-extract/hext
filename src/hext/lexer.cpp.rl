@@ -4,6 +4,12 @@
 namespace hext {
 
 
+parse_error::parse_error(const std::string& msg)
+: std::runtime_error(msg)
+{
+}
+
+
 lexer::lex_error::lex_error(const std::string& msg)
 : std::runtime_error(msg)
 {
@@ -25,16 +31,20 @@ lexer::lexer(const char * begin, const char * end)
   }%%
 }
 
-std::vector<token> lexer::lex()
+std::vector<rule> lexer::lex()
 {
   using namespace ragel;
 
-  std::vector<token> tokens;
+  rule_builder rule;
+  const char * tok_begin = nullptr;
+  const char * tok_end = nullptr;
+  std::string tok = "";
+  bool rule_start = false;
 
   // this calls throw_error on lexing error
   %% write exec;
 
-  return tokens;
+  return rule.get_rules_and_reset();
 }
 
 void lexer::throw_error() const
