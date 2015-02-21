@@ -75,11 +75,9 @@ bool match_tree::filter()
   // is non matching and must be removed
   if( !this->r )
     return this->children.empty();
-  // there must be at least as many matches as there are child-rules,
-  // if not, this branch is non matching and must be removed
-  // TODO: find input that breaks this
-  else
-    return this->r->children_size() > this->children.size();
+
+  // keep
+  return false;
 }
 
 void match_tree::append_json_recursive(rapidjson::Document& json) const
