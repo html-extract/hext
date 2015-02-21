@@ -1,5 +1,5 @@
-#ifndef HEXT_LEXER_H
-#define HEXT_LEXER_H
+#ifndef HEXT_PARSER_H
+#define HEXT_PARSER_H
 
 #include <string>
 #include <vector>
@@ -25,15 +25,18 @@
 
 namespace hext {
 
-/// clang: warning: 'parse_error' has no out-of-line virtual method
-/// definitions; its vtable will be emitted in every translation
-/// unit [-Wweak-vtables]
-/// This warning can be ignored, see comment above class lex_error.
+
+/// Clang warns (-Wweak-vtables) that a vtable for parse_error may be placed
+/// in every translation unit, because parse_error doesn't have any
+/// 'out-of-line virtual method definitions', where it would normally put
+/// the vtable. But http://stackoverflow.com/a/23749273 suggests that this
+/// is a non-issue; the linker will clean it up.
 class parse_error : public std::runtime_error
 {
 public:
   explicit parse_error(const std::string& msg);
 };
+
 
 namespace ragel {
   %%{
@@ -44,30 +47,20 @@ namespace ragel {
 } // namespace ragel
 
 
-/// lexer contains the ragel state machine and shields the user from its
+/// parser is responsible for parsing hext and producing rules.
+/// parser contains the ragel state machine and shields the user from its
 /// details.
-class lexer
+class parser
 {
 public:
-  /// Clang warns (-Wweak-vtables) that a vtable for lex_error may be placed
-  /// in every translation unit, because lex_error doesn't have any
-  /// 'out-of-line virtual method definitions', where it would normally put
-  /// the vtable. But http://stackoverflow.com/a/23749273 suggests that this
-  /// is a non-issue; the linker will clean it up.
-  class lex_error : public std::runtime_error
-  {
-  public:
-    explicit lex_error(const std::string& msg);
-  };
+  /// Setup ragel.
+  parser(const char * begin, const char * end);
 
-  /// Setup ragel
-  lexer(const char * begin, const char * end);
-
-  /// Throws lexer::lex_error on invalid input (by calling lexer::throw_error)
-  std::vector<rule> lex();
+  /// Throws parse_error on invalid input.
+  std::vector<rule> parse();
 
 private:
-  /// Print diagnostics and throw lexer::lex_error.
+  /// Print diagnostics and throw parse_error.
   void throw_unexpected() const;
   void throw_unknown_builtin(const std::string& builtin_name) const;
 
@@ -86,5 +79,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_LEXER_H
+#endif // HEXT_PARSER_H
 

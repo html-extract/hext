@@ -14,17 +14,17 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 # ADD_CUSTOM_COMMAND is unsuitable, because there is no (non-hackish) way to
 # force cmake to run it on every call to make.
 # The best way for now is to manually call cmake every time there is a change
-# in the lexer.
+# in the parser.
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h.rl"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.h")
+  "${PROJECT_SOURCE_DIR}/src/hext/parser.h.rl"
+  "${PROJECT_SOURCE_DIR}/src/hext/parser.h")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp.rl"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp")
+  "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp.rl"
+  "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp")
 
 
 ###### EXTERNAL DEPENDENCIES ##############################
@@ -82,7 +82,7 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/src/hext/string-util.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/lexer.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule-builder.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern-builder.cpp"

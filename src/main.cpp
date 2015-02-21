@@ -4,7 +4,7 @@
 #include <iostream>
 #include <ios>
 
-#include "hext/lexer.h"
+#include "hext/parser.h"
 #include "hext/html.h"
 #include "hext/file.h"
 #include "hext/program-options.h"
@@ -27,11 +27,11 @@ int main(int argc, const char ** argv)
     }
 
     const std::string bf_hext = hext::read_file_or_throw(po.get("hext-file"));
-    hext::lexer lex(
+    hext::parser p(
       bf_hext.c_str(),
       bf_hext.c_str() + bf_hext.size()
     );
-    auto rules = lex.lex();
+    auto rules = p.parse();
 
     if( po.contains("print") )
     {
@@ -72,7 +72,7 @@ int main(int argc, const char ** argv)
     std::cerr << argv[0] << ": Error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
-  catch( const hext::lexer::lex_error& e )
+  catch( const hext::parse_error& e )
   {
     std::cerr << argv[0] << ": Error in "
               << po.get("hext-file") << ": "

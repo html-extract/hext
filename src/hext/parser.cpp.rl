@@ -1,4 +1,4 @@
-#include "hext/lexer.h"
+#include "hext/parser.h"
 
 
 namespace hext {
@@ -10,13 +10,7 @@ parse_error::parse_error(const std::string& msg)
 }
 
 
-lexer::lex_error::lex_error(const std::string& msg)
-: std::runtime_error(msg)
-{
-}
-
-
-lexer::lexer(const char * begin, const char * end)
+parser::parser(const char * begin, const char * end)
 : p_begin(begin),
   p(begin),
   pe(end),
@@ -31,7 +25,7 @@ lexer::lexer(const char * begin, const char * end)
   }%%
 }
 
-std::vector<rule> lexer::lex()
+std::vector<rule> parser::parse()
 {
   using namespace ragel;
 
@@ -41,13 +35,12 @@ std::vector<rule> lexer::lex()
   std::string tok = "";
   bool rule_start = false;
 
-  // this calls throw_error on lexing error
   %% write exec;
 
   return rule.get_rules_and_reset();
 }
 
-void lexer::throw_unexpected() const
+void parser::throw_unexpected() const
 {
   assert(this->p && this->p_begin && this->pe);
 
@@ -85,10 +78,10 @@ void lexer::throw_unexpected() const
   error_msg << std::string(indent, ' ')
             << "^ here";
 
-  throw lex_error(error_msg.str());
+  throw parse_error(error_msg.str());
 }
 
-void lexer::throw_unknown_builtin(const std::string& builtin_name) const
+void parser::throw_unknown_builtin(const std::string& builtin_name) const
 {
   assert(this->p && this->p_begin && this->pe);
 
@@ -122,7 +115,7 @@ void lexer::throw_unknown_builtin(const std::string& builtin_name) const
             << std::string(builtin_name.size(), '^')
             << " here";
 
-  throw lex_error(error_msg.str());
+  throw parse_error(error_msg.str());
 }
 
 
