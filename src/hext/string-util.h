@@ -37,8 +37,8 @@ typedef std::pair<char_pos_type, char_pos_type> char_pos_pair;
 /// Used in error reporting.
 std::string get_char_name(char c);
 
-/// Returns a pair<line_number, character_number> for the position of c in
-/// the range from begin to end. Numbering is one-based.
+/// Returns a pair<line_offset, character_offset> for the position of c in
+/// the range from begin to end. Numbering is zero-based.
 /// Used in error reporting.
 char_pos_pair get_char_position(
   const char * c,
@@ -47,11 +47,12 @@ char_pos_pair get_char_position(
 );
 
 /// Get width of number when printed as decimal, excluding sign.
+/// Used in error reporting.
 int get_dec_number_width(ptrdiff_t number);
 
 /// Print begin to end into out. When printing lines insert line number,
 /// colon and one space. number_width is the space needed to print a line
-/// number as decimal (uses std::setw).
+/// number as decimal (uses std::setw). Used in error reporting.
 /// Example:
 ///   1: If my thought dreams could be seen
 ///   2: They'd probably put my head in a guillotine
