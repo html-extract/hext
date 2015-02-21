@@ -34,6 +34,7 @@ std::string trim_and_collapse_ws(std::string str)
 
 bool is_space(char c)
 {
+  // http://www.w3.org/TR/html5/infrastructure.html#space-character
   // The space characters, for the purposes of this specification,
   // are U+0020 SPACE, "tab" (U+0009), "LF" (U+000A), "FF" (U+000C),
   // and "CR" (U+000D).
