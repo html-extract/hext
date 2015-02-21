@@ -60,11 +60,6 @@ std::string rule::tag_name() const
   return this->tag;
 }
 
-bool rule::is_direct_descendant() const
-{
-  return this->is_direct_desc;
-}
-
 void rule::extract(const GumboNode * node, match_tree * m) const
 {
   if( !node || !m || node->type != GUMBO_NODE_ELEMENT )

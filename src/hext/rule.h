@@ -62,7 +62,6 @@ public:
 
   std::vector<rule>::size_type children_size() const;
   std::string tag_name() const;
-  bool is_direct_descendant() const;
 
   /// Recursively try to find and capture matches.
   void extract(const GumboNode * node, match_tree * m) const;
