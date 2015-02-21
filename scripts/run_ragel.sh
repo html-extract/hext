@@ -71,7 +71,6 @@ ragel_tmp="$ragel_output.tmp"
   echo >&2 "$script_name: cannot create temporary, file already exists. Please delete $ragel_tmp"
   exit 1
 }
-trap 'rm "$ragel_tmp"' EXIT
 
 # run ragel
 ragel -o "$ragel_tmp" "$ragel_input"
@@ -81,6 +80,8 @@ if [ $ragel_exit -ne 0 ] ; then
   echo >&2 "$script_name: ragel failed"
   exit $ragel_exit
 fi
+
+trap 'rm "$ragel_tmp"' EXIT
 
 if [ ! -f "$ragel_output" ] ; then
   cp "$ragel_tmp" "$ragel_output" || {
