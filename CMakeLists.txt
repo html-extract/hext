@@ -127,7 +127,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wsign-compare" "-Wsign-promo" "-Wstack-protector" "-Wstrict-aliasing=2"
     "-Wstrict-null-sentinel" "-Wstrict-overflow=5" "-Wswitch" "-Wswitch-enum"
     "-Wtrigraphs" "-Wundef" "-Wuninitialized" "-Wunknown-pragmas"
-    "-Wunreachable-code" "-Wunsafe-loop-optimizations" "-Wunused"
+    "-Wunreachable-code" "-Wunused"
     "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
     "-Wunused-variable" "-Wvariadic-macros" "-Wvolatile-register-var"
     "-Wwrite-strings"
@@ -136,6 +136,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     #                     we cannot do anything about that
     # "-Wmissing-noreturn": we dont care for gcc specific attributes
     # "-Wpadded": also warns when it's impossible to shrink padding
+    # "-Wunsafe-loop-optimizations": emits a warning for each for-range loop
   )
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ###########################################################
