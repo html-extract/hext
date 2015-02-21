@@ -122,12 +122,15 @@
           '<' %{ rule_start = true; }
         )
         (
-          '!' %{ rule.set_direct_descendant(true); }
-        )?
-        (
-          nth_child >{ LX_TK_START; }
-                    %{ LX_TK_STOP;
-                       rule.set_nth_child(std::stoi(tok)); }
+          (
+            '!' %{ rule.set_direct_descendant(true); }
+          )
+          |
+          (
+            nth_child >{ LX_TK_START; }
+                      %{ LX_TK_STOP;
+                         rule.set_nth_child(std::stoi(tok)); }
+          )
         )?
         (
           attr_name >{ LX_TK_START; }
