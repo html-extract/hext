@@ -46,6 +46,8 @@ bool is_space(char c)
     case '\f':
     case '\r':
       return true;
+    default:
+      return false;
   }
 
   return false;
