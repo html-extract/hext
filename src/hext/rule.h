@@ -61,7 +61,7 @@ public:
   ///   level2      <a>    # new
   void append_child(Rule&& r, int level = 1);
 
-  const std::vector<Rule>& get_children() const;
+  const std::vector<Rule>& children() const;
   std::string tag_name() const;
   bool optional() const;
 

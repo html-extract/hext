@@ -71,7 +71,7 @@ bool MatchTree::filter()
   {
     auto c_begin = this->children_.begin();
     auto c_end = this->children_.end();
-    for(const auto& rl : this->r_->get_children())
+    for(const auto& rl : this->r_->children())
     {
       // If there are no more match-branches, all rules that follow must
       // be optional.

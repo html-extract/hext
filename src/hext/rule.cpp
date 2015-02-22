@@ -53,7 +53,7 @@ void Rule::append_child(Rule&& r, int level)
   this->children_.push_back(std::move(r));
 }
 
-const std::vector<Rule>& Rule::get_children() const
+const std::vector<Rule>& Rule::children() const
 {
   return this->children_;
 }
