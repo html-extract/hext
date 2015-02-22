@@ -5,8 +5,8 @@ namespace hext {
 
 
 CapturePattern::CapturePattern(const std::string& result_name)
-: name(result_name)
-, rx(nullptr)
+: name_(result_name)
+, rx_(nullptr)
 {
 }
 
@@ -14,8 +14,8 @@ CapturePattern::CapturePattern(
   const std::string& result_name,
   const std::string& regex
 )
-: name(result_name)
-, rx(regex.empty() ? nullptr : make_unique<boost::regex>(regex))
+: name_(result_name)
+, rx_(regex.empty() ? nullptr : make_unique<boost::regex>(regex))
 {
 }
 
@@ -25,12 +25,12 @@ CapturePattern::~CapturePattern()
 
 std::string CapturePattern::regex_filter(const char * str) const
 {
-  assert(this->rx);
-  if( !this->rx )
+  assert(this->rx_);
+  if( !this->rx_ )
     return str;
 
   boost::match_results<const char *> mr;
-  if( boost::regex_search(str, str + strlen(str), mr, *(this->rx)) )
+  if( boost::regex_search(str, str + strlen(str), mr, *(this->rx_)) )
   {
     // If there are no captures, return whole string (mr[0]), if there are
     // captures, then return the first one

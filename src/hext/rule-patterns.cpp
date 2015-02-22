@@ -8,8 +8,8 @@ RulePatterns::RulePatterns(
   std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
   std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
 )
-: matchp(std::move(match_patterns))
-, capturep(std::move(capture_patterns))
+: matchp_(std::move(match_patterns))
+, capturep_(std::move(capture_patterns))
 {
 }
 
@@ -22,7 +22,7 @@ bool RulePatterns::matches(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  for(const auto& p : this->matchp)
+  for(const auto& p : this->matchp_)
     if( !p->matches(node).first )
       return false;
 
@@ -35,7 +35,7 @@ bool RulePatterns::matches_all_attributes(const GumboNode * node) const
     return false;
 
   std::vector<const GumboAttribute *> m_attrs;
-  for(const auto& p : this->matchp)
+  for(const auto& p : this->matchp_)
   {
     // std::pair<bool has_matched, const GumboAttribute *> MatchResult
     MatchResult mr = p->matches(node);
@@ -62,7 +62,7 @@ RulePatterns::capture(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return mt;
 
-  for(const auto& p : this->capturep)
+  for(const auto& p : this->capturep_)
     mt->append_match(p->capture(node));
 
   return mt;
@@ -70,9 +70,9 @@ RulePatterns::capture(const GumboNode * node) const
 
 void RulePatterns::print(std::ostream& out) const
 {
-  for(const auto& p : this->matchp)
+  for(const auto& p : this->matchp_)
     p->print(out);
-  for(const auto& p : this->capturep)
+  for(const auto& p : this->capturep_)
     p->print(out);
 }
 

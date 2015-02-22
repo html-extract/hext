@@ -10,40 +10,40 @@ BuiltinCapture::BuiltinCapture(
   const std::string& regex
 )
 : CapturePattern(result_name, regex)
-, func(f)
+, func_(f)
 {
 }
 
 MatchTree::NameValuePair
 BuiltinCapture::capture(const GumboNode * node) const
 {
-  assert(this->func);
-  if( !this->func )
-    return MatchTree::NameValuePair(this->name, "");
+  assert(this->func_);
+  if( !this->func_ )
+    return MatchTree::NameValuePair(this->name_, "");
 
-  std::string val = this->func(node);
+  std::string val = this->func_(node);
 
-  if( this->rx )
+  if( this->rx_ )
   {
     return MatchTree::NameValuePair(
-      this->name,
+      this->name_,
       this->regex_filter(val.c_str())
     );
   }
   else
   {
-    return MatchTree::NameValuePair(this->name, val);
+    return MatchTree::NameValuePair(this->name_, val);
   }
 }
 
 void BuiltinCapture::print(std::ostream& out) const
 {
   out << " @"
-      << bi::get_name_by_builtin(this->func)
+      << bi::get_name_by_builtin(this->func_)
       << "={"
-      << this->name;
-  if( this->rx )
-    out << '/' << this->rx->str() << '/';
+      << this->name_;
+  if( this->rx_ )
+    out << '/' << this->rx_->str() << '/';
   out << '}';
 }
 

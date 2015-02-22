@@ -9,18 +9,18 @@ BuiltinMatch::BuiltinMatch(
   std::unique_ptr<AttrTest> attribute_test
 )
 : MatchPattern(std::move(attribute_test))
-, func(f)
+, func_(f)
 {
 }
 
 MatchResult BuiltinMatch::matches(const GumboNode * node) const
 {
-  if( !this->func )
+  if( !this->func_ )
     return MatchResult(false, nullptr);
 
-  std::string t = this->func(node);
-  if( this->test )
-    return MatchResult(this->test->test(t.c_str()), nullptr);
+  std::string t = this->func_(node);
+  if( this->test_ )
+    return MatchResult(this->test_->test(t.c_str()), nullptr);
   else
     return MatchResult(true, nullptr);
 }
@@ -28,9 +28,9 @@ MatchResult BuiltinMatch::matches(const GumboNode * node) const
 void BuiltinMatch::print(std::ostream& out) const
 {
   out << " @"
-      << bi::get_name_by_builtin(this->func);
-  if( this->test )
-    this->test->print(out);
+      << bi::get_name_by_builtin(this->func_);
+  if( this->test_ )
+    this->test_->print(out);
 }
 
 

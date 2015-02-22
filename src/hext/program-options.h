@@ -25,8 +25,8 @@ public:
   void print(const char * program_name, std::ostream& out = std::cout) const;
 
 private:
-  boost::program_options::options_description desc;
-  boost::program_options::variables_map vm;
+  boost::program_options::options_description desc_;
+  boost::program_options::variables_map vm_;
 };
 
 

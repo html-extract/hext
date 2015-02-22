@@ -6,31 +6,31 @@ namespace hext {
 
 
 MatchTree::MatchTree()
-: children(),
-  matches(),
-  r(nullptr)
+: children_(),
+  matches_(),
+  r_(nullptr)
 {
 }
 
 MatchTree * MatchTree::append_child_and_own(std::unique_ptr<MatchTree> m)
 {
-  this->children.push_back(std::move(m));
-  return this->children.back().get();
+  this->children_.push_back(std::move(m));
+  return this->children_.back().get();
 }
 
 void MatchTree::append_match(const NameValuePair& p)
 {
-  this->matches.push_back(p);
+  this->matches_.push_back(p);
 }
 
 void MatchTree::set_rule(const Rule * matching_rule)
 {
-  this->r = matching_rule;
+  this->r_ = matching_rule;
 }
 
 void MatchTree::print_json(std::ostream& out) const
 {
-  for(const auto& c : this->children)
+  for(const auto& c : this->children_)
   {
     rapidjson::Document json;
     json.SetObject();
@@ -56,22 +56,22 @@ void MatchTree::print_dot(std::ostream& out) const
 bool MatchTree::filter()
 {
   // depth first
-  for(auto& c : this->children)
+  for(auto& c : this->children_)
     if( c->filter() )
       c.reset(nullptr);
 
   // erase all empty unique_ptr
-  this->children.erase(
-    std::remove(this->children.begin(), this->children.end(), nullptr),
-    this->children.end()
+  this->children_.erase(
+    std::remove(this->children_.begin(), this->children_.end(), nullptr),
+    this->children_.end()
   );
 
   // Check if all rules are present in this match-tree.
-  if( this->r )
+  if( this->r_ )
   {
-    auto c_begin = this->children.begin();
-    auto c_end = this->children.end();
-    for(const auto& rl : this->r->get_children())
+    auto c_begin = this->children_.begin();
+    auto c_end = this->children_.end();
+    for(const auto& rl : this->r_->get_children())
     {
       // If there are no more match-branches, all rules that follow must
       // be optional.
@@ -82,7 +82,7 @@ bool MatchTree::filter()
       }
       // match-branches and rule-children have the same order.
       // Check if child has this rule.
-      else if( *c_begin && (*c_begin)->r == &rl )
+      else if( *c_begin && (*c_begin)->r_ == &rl )
       {
         c_begin++;
       }
@@ -102,14 +102,14 @@ void MatchTree::append_json_recursive(rapidjson::Document& json) const
 {
   this->append_json_matches(json);
 
-  for(const auto& c : this->children)
+  for(const auto& c : this->children_)
     c->append_json_recursive(json);
 }
 
 void MatchTree::append_json_matches(rapidjson::Document& json) const
 {
   rapidjson::Document::AllocatorType& allocator = json.GetAllocator();
-  for(const auto& p : this->matches)
+  for(const auto& p : this->matches_)
   {
     rapidjson::Value name(p.first.c_str(), allocator);
     rapidjson::Value value(p.second.c_str(), allocator);
@@ -141,12 +141,12 @@ void MatchTree::print_dot_nodes(std::ostream& out, int parent_id) const
   int this_node = ++node_index;
 
   std::string label;
-  if( !this->r || this->r->tag_name().empty() )
+  if( !this->r_ || this->r_->tag_name().empty() )
     label.append("[rule]");
   else
-    label.append(this->r->tag_name());
+    label.append(this->r_->tag_name());
 
-  for(const auto& m : this->matches)
+  for(const auto& m : this->matches_)
   {
     label.append(" ");
     label.append(m.first);
@@ -156,7 +156,7 @@ void MatchTree::print_dot_nodes(std::ostream& out, int parent_id) const
   if( parent_id )
     out << "    node_" << parent_id << " -> node_" << this_node << ";\n";
 
-  for(const auto& c : this->children)
+  for(const auto& c : this->children_)
     c->print_dot_nodes(out, this_node);
 }
 

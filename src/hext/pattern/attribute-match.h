@@ -30,7 +30,7 @@ protected:
   /// Get a GumboAttribute pointer to the node's attribute called attr_name.
   /// Returns nullptr if not found.
   const GumboAttribute * get_node_attr(const GumboNode * node) const;
-  const std::string attr;
+  const std::string attr_;
 };
 
 

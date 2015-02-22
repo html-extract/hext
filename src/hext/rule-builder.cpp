@@ -5,16 +5,16 @@ namespace hext {
 
 
 RuleBuilder::RuleBuilder()
-: pat()
-, rules()
-, indent(0)
-, tag_name("")
-, is_optional(false)
-, is_direct_desc(false)
-, is_closed(false)
-, nth_child(0)
-, mp()
-, cp()
+: pat_()
+, rules_()
+, indent_(0)
+, tag_name_("")
+, is_optional_(false)
+, is_direct_desc_(false)
+, is_closed_(false)
+, nth_child_(0)
+, mp_()
+, cp_()
 {
 }
 
@@ -24,93 +24,93 @@ RuleBuilder::~RuleBuilder()
 
 std::vector<Rule> RuleBuilder::get_rules_and_reset()
 {
-  std::vector<Rule> rs = std::move(this->rules);
+  std::vector<Rule> rs = std::move(this->rules_);
 
   this->reset();
-  this->rules.clear();
+  this->rules_.clear();
 
   return std::move(rs);
 }
 
 void RuleBuilder::reset()
 {
-  this->tag_name = "";
-  this->indent = 0;
-  this->is_direct_desc = false;
-  this->is_closed = false;
-  this->nth_child = 0;
-  this->mp.clear();
-  this->cp.clear();
+  this->tag_name_ = "";
+  this->indent_ = 0;
+  this->is_direct_desc_ = false;
+  this->is_closed_ = false;
+  this->nth_child_ = 0;
+  this->mp_.clear();
+  this->cp_.clear();
 }
 
 void RuleBuilder::consume_and_reset()
 {
   Rule r(
-    this->tag_name,
-    this->is_optional,
-    this->is_direct_desc,
-    this->is_closed,
-    this->nth_child,
-    RulePatterns(std::move(this->mp), std::move(this->cp))
+    this->tag_name_,
+    this->is_optional_,
+    this->is_direct_desc_,
+    this->is_closed_,
+    this->nth_child_,
+    RulePatterns(std::move(this->mp_), std::move(this->cp_))
   );
 
   // either top-level rule or first rule
-  if( this->indent == 0 || this->rules.empty() )
-    rules.push_back(std::move(r));
+  if( this->indent_ == 0 || this->rules_.empty() )
+    this->rules_.push_back(std::move(r));
   else
-    rules.back().append_child(std::move(r), this->indent);
+    this->rules_.back().append_child(std::move(r), this->indent_);
 
   this->reset();
 }
 
 PatternBuilder& RuleBuilder::pattern()
 {
-  return this->pat;
+  return this->pat_;
 }
 
 void RuleBuilder::reset_indent()
 {
-  this->indent = 0;
+  this->indent_ = 0;
 }
 
 void RuleBuilder::increment_indent()
 {
-  this->indent++;
+  this->indent_++;
 }
 
 void RuleBuilder::set_tag_name(const std::string& tag)
 {
-  this->tag_name = tag;
+  this->tag_name_ = tag;
 }
 
 void RuleBuilder::set_optional(bool is_opt)
 {
-  this->is_optional = is_opt;
+  this->is_optional_ = is_opt;
 }
 
 void RuleBuilder::set_direct_descendant(bool direct_desc)
 {
-  this->is_direct_desc = direct_desc;
+  this->is_direct_desc_ = direct_desc;
 }
 
 void RuleBuilder::set_closed(bool closed)
 {
-  this->is_closed = closed;
+  this->is_closed_ = closed;
 }
 
 void RuleBuilder::set_nth_child(unsigned int pos_within_parent)
 {
-  this->nth_child = pos_within_parent;
+  this->nth_child_ = pos_within_parent;
 }
 
 void RuleBuilder::consume_match_pattern()
 {
-  this->mp.push_back(this->pat.build_match_and_reset());
+  this->mp_.push_back(this->pat_.build_match_and_reset());
 }
 
 void RuleBuilder::consume_capture_pattern()
 {
-  this->cp.push_back(this->pat.build_capture_and_reset());
+  this->cp_.push_back(this->pat_.build_capture_and_reset());
 }
 
 

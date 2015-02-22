@@ -60,13 +60,13 @@ private:
   void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
 
   /// MatchTrees are self-managing: all nodes are owned by the tree
-  std::vector<std::unique_ptr<MatchTree>> children;
+  std::vector<std::unique_ptr<MatchTree>> children_;
 
   /// The values captured by matching
-  std::vector<NameValuePair> matches;
+  std::vector<NameValuePair> matches_;
 
   /// The Rule that caused this match
-  const Rule * r;
+  const Rule * r_;
 };
 
 

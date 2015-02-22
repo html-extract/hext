@@ -35,17 +35,17 @@ public:
   void set_nth_child(unsigned int pos_within_parent);
 
 private:
-  PatternBuilder pat;
-  std::vector<Rule> rules;
+  PatternBuilder pat_;
+  std::vector<Rule> rules_;
 
-  unsigned int indent;
-  std::string tag_name;
-  bool is_optional;
-  bool is_direct_desc;
-  bool is_closed;
-  unsigned int nth_child;
-  std::vector<std::unique_ptr<MatchPattern>> mp;
-  std::vector<std::unique_ptr<CapturePattern>> cp;
+  unsigned int indent_;
+  std::string tag_name_;
+  bool is_optional_;
+  bool is_direct_desc_;
+  bool is_closed_;
+  unsigned int nth_child_;
+  std::vector<std::unique_ptr<MatchPattern>> mp_;
+  std::vector<std::unique_ptr<CapturePattern>> cp_;
 };
 
 

@@ -27,7 +27,7 @@ private:
   Html(const Html&) = delete;
   Html& operator=(const Html&) = delete;
 
-  GumboOutput * g_outp;
+  GumboOutput * g_outp_;
 };
 
 

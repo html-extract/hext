@@ -37,12 +37,12 @@ public:
   void set_cap_regex(const std::string& capture_regex);
 
 private:
-  bi::BuiltinFuncPtr bf;
-  std::string attr_name;
-  std::string attr_literal;
-  std::string attr_regex;
-  std::string cap_var;
-  std::string cap_regex;
+  bi::BuiltinFuncPtr bf_;
+  std::string attr_name_;
+  std::string attr_literal_;
+  std::string attr_regex_;
+  std::string cap_var_;
+  std::string cap_regex_;
 };
 
 

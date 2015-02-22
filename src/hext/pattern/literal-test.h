@@ -18,7 +18,7 @@ public:
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const std::string lit;
+  const std::string lit_;
 };
 
 

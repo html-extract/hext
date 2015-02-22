@@ -5,7 +5,7 @@ namespace hext {
 
 
 MatchPattern::MatchPattern(std::unique_ptr<AttrTest> attribute_test)
-: test(std::move(attribute_test))
+: test_(std::move(attribute_test))
 {
 }
 

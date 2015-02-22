@@ -20,7 +20,7 @@ public:
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const boost::regex rx;
+  const boost::regex rx_;
 };
 
 

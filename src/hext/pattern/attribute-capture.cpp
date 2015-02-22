@@ -10,7 +10,7 @@ AttributeCapture::AttributeCapture(
   const std::string& regex
 )
 : CapturePattern(result_name, regex)
-, attr(attr_name)
+, attr_(attr_name)
 {
 }
 
@@ -20,26 +20,26 @@ AttributeCapture::capture(const GumboNode * node) const
   const GumboAttribute * g_attr = this->get_node_attr(node);
 
   if( !g_attr )
-    return MatchTree::NameValuePair(this->name, "");
+    return MatchTree::NameValuePair(this->name_, "");
 
-  if( this->rx )
+  if( this->rx_ )
   {
     return MatchTree::NameValuePair(
-      this->name,
+      this->name_,
       this->regex_filter(g_attr->value)
     );
   }
   else
   {
-    return MatchTree::NameValuePair(this->name, g_attr->value);
+    return MatchTree::NameValuePair(this->name_, g_attr->value);
   }
 }
 
 void AttributeCapture::print(std::ostream& out) const
 {
-  out << ' ' << this->attr << "={" << this->name;
-  if( this->rx )
-    out << '/' << this->rx->str() << '/';
+  out << ' ' << this->attr_ << "={" << this->name_;
+  if( this->rx_ )
+    out << '/' << this->rx_->str() << '/';
   out << '}';
 }
 
@@ -49,7 +49,7 @@ AttributeCapture::get_node_attr(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return nullptr;
 
-  return gumbo_get_attribute(&node->v.element.attributes, this->attr.c_str());
+  return gumbo_get_attribute(&node->v.element.attributes, this->attr_.c_str());
 }
 
 

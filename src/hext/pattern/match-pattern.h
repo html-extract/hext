@@ -29,7 +29,7 @@ public:
   virtual ~MatchPattern();
 
 protected:
-  const std::unique_ptr<AttrTest> test;
+  const std::unique_ptr<AttrTest> test_;
 };
 
 

@@ -5,18 +5,18 @@ namespace hext {
 
 
 RegexText::RegexText(const std::string& regex)
-: rx(regex)
+: rx_(regex)
 {
 }
 
 bool RegexText::test(const char * subject) const
 {
-  return boost::regex_search(subject, this->rx);
+  return boost::regex_search(subject, this->rx_);
 }
 
 void RegexText::print(std::ostream& out) const
 {
-  out << "=/" << this->rx.str() << "/";
+  out << "=/" << this->rx_.str() << "/";
 }
 
 

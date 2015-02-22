@@ -11,7 +11,7 @@ ParseError::ParseError(const std::string& msg)
 
 
 Parser::Parser(const char * begin, const char * end)
-: p_begin(begin),
+: p_begin_(begin),
   p(begin),
   pe(end),
   eof(end),
@@ -42,10 +42,10 @@ std::vector<Rule> Parser::parse()
 
 void Parser::throw_unexpected() const
 {
-  assert(this->p && this->p_begin && this->pe);
+  assert(this->p && this->p_begin_ && this->pe);
 
   CharPosPair pos =
-    get_char_position(this->p, this->p_begin, this->pe);
+    get_char_position(this->p, this->p_begin_, this->pe);
 
   const auto line_count = pos.first + 1;
   const auto char_count = pos.second + 1;
@@ -70,7 +70,7 @@ void Parser::throw_unexpected() const
             << "\n\n";
 
   int number_width = get_dec_number_width(line_count);
-  print_with_line_numbers(this->p_begin, end, number_width, error_msg);
+  print_with_line_numbers(this->p_begin_, end, number_width, error_msg);
 
   size_t indent = pos.second
                 + 2 /* strlen(": ") */
@@ -83,10 +83,10 @@ void Parser::throw_unexpected() const
 
 void Parser::throw_unknown_builtin(const std::string& builtin_name) const
 {
-  assert(this->p && this->p_begin && this->pe);
+  assert(this->p && this->p_begin_ && this->pe);
 
   CharPosPair pos =
-    get_char_position(this->p, this->p_begin, this->pe);
+    get_char_position(this->p, this->p_begin_, this->pe);
 
   const auto line_count = pos.first + 1;
   const auto char_count = pos.second + 1;
@@ -105,7 +105,7 @@ void Parser::throw_unknown_builtin(const std::string& builtin_name) const
     end++;
 
   int number_width = get_dec_number_width(line_count);
-  print_with_line_numbers(this->p_begin, end, number_width, error_msg);
+  print_with_line_numbers(this->p_begin_, end, number_width, error_msg);
 
   size_t indent = pos.second
                 + 2 /* strlen(": ") */

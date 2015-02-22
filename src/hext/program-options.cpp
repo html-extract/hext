@@ -5,11 +5,11 @@ namespace hext {
 
 
 ProgramOptions::ProgramOptions()
-: desc("Options"),
-  vm()
+: desc_("Options"),
+  vm_()
 {
   namespace po = boost::program_options;
-  this->desc.add_options()
+  this->desc_.add_options()
     ("help,h", "This help message")
     ("hext-file,f", po::value<std::string>(), "Path to hext file")
     ("html-file,i", po::value<std::string>(), "Path to html file")
@@ -28,8 +28,8 @@ ProgramOptions::~ProgramOptions()
 void ProgramOptions::store(int argc, const char * argv[])
 {
   namespace po = boost::program_options;
-  po::store(po::parse_command_line(argc, argv, this->desc), this->vm);
-  po::notify(this->vm);
+  po::store(po::parse_command_line(argc, argv, this->desc_), this->vm_);
+  po::notify(this->vm_);
 
   if( this->contains("help") )
     return;
@@ -46,19 +46,19 @@ void ProgramOptions::store(int argc, const char * argv[])
 
 bool ProgramOptions::contains(const char * key) const
 {
-  return this->vm.count(key);
+  return this->vm_.count(key);
 }
 
 std::string ProgramOptions::get(const char * key) const
 {
-  return this->vm[key].as<std::string>();
+  return this->vm_[key].as<std::string>();
 }
 
 void ProgramOptions::print(const char * program_name, std::ostream& out) const
 {
   out << "Usage:\n"
       << program_name << " -h hext-file -i html-file\n";
-  out << this->desc;
+  out << this->desc_;
 }
 
 

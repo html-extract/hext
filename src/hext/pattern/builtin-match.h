@@ -26,7 +26,7 @@ public:
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const bi::BuiltinFuncPtr func;
+  const bi::BuiltinFuncPtr func_;
 };
 
 

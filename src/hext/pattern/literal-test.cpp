@@ -5,18 +5,18 @@ namespace hext {
 
 
 LiteralTest::LiteralTest(std::string literal)
-: lit(literal)
+: lit_(literal)
 {
 }
 
 bool LiteralTest::test(const char * subject) const
 {
-  return subject && this->lit.compare(subject) == 0;
+  return subject && this->lit_.compare(subject) == 0;
 }
 
 void LiteralTest::print(std::ostream& out) const
 {
-  out << "=\"" << this->lit << "\"";
+  out << "=\"" << this->lit_ << "\"";
 }
 
 

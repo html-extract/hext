@@ -51,9 +51,9 @@ protected:
   std::string regex_filter(const char * str) const;
 
   /// The result name of the captured contents.
-  const std::string name;
+  const std::string name_;
   /// regex is optional; rx is false if no regex was given
-  const std::unique_ptr<boost::regex> rx;
+  const std::unique_ptr<boost::regex> rx_;
 };
 
 

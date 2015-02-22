@@ -93,8 +93,8 @@ private:
   /// GUMBO_NODE_ELEMENT. First node has position 1. Returns 0 if no parent.
   unsigned int get_node_position_within_parent(const GumboNode * node) const;
 
-  std::vector<Rule> children;
-  RulePatterns patterns;
+  std::vector<Rule> children_;
+  RulePatterns patterns_;
 
   /// Count how often this Rule was matched.
   /// match_count is mutable because it is not observable from the outside.
@@ -102,14 +102,14 @@ private:
   /// It is generally assumed that const objects are thread-safe,
   /// therefore mutable members must be made thread-safe.
   /// This is solved by using std::atomic.
-  mutable std::atomic<unsigned int> match_count;
+  mutable std::atomic<unsigned int> match_count_;
 
-  const GumboTag gumbo_tag;
-  const std::string tag;
-  const bool is_opt;
-  const bool is_direct_desc;
-  const bool is_closed;
-  const unsigned int child_pos;
+  const GumboTag gumbo_tag_;
+  const std::string tag_;
+  const bool is_opt_;
+  const bool is_direct_desc_;
+  const bool is_closed_;
+  const unsigned int child_pos_;
 }; 
 
 

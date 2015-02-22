@@ -66,7 +66,7 @@ private:
 
   /// A pointer to the beginning of the overall input is needed to provide
   /// good error diagnostics.
-  const char * p_begin;
+  const char * p_begin_;
 
   /// ragel's runtime state
   const char * p;
