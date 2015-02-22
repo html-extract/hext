@@ -5,13 +5,13 @@
 namespace hext {
 
 
-rule::rule(
+Rule::Rule(
   const std::string& html_tag_name,
   bool is_optional,
   bool direct_descendant,
   bool closed,
   unsigned int nth_child,
-  rule_patterns&& r_patterns
+  RulePatterns&& r_patterns
 )
 : children()
 , patterns(std::move(r_patterns))
@@ -25,11 +25,11 @@ rule::rule(
 {
 }
 
-rule::~rule()
+Rule::~Rule()
 {
 }
 
-rule::rule(rule&& r)
+Rule::Rule(Rule&& r)
 : children(std::move(r.children))
 , patterns(std::move(r.patterns))
 , match_count(r.match_count.load())
@@ -42,7 +42,7 @@ rule::rule(rule&& r)
 {
 }
 
-void rule::append_child(rule&& r, int level)
+void Rule::append_child(Rule&& r, int level)
 {
   if( level > 1 && !this->children.empty() )
   {
@@ -53,22 +53,22 @@ void rule::append_child(rule&& r, int level)
   this->children.push_back(std::move(r));
 }
 
-const std::vector<rule>& rule::get_children() const
+const std::vector<Rule>& Rule::get_children() const
 {
   return this->children;
 }
 
-std::string rule::tag_name() const
+std::string Rule::tag_name() const
 {
   return this->tag;
 }
 
-bool rule::optional() const
+bool Rule::optional() const
 {
   return this->is_opt;
 }
 
-void rule::extract(const GumboNode * node, match_tree * m) const
+void Rule::extract(const GumboNode * node, MatchTree * m) const
 {
   if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
     return;
@@ -82,7 +82,7 @@ void rule::extract(const GumboNode * node, match_tree * m) const
     this->extract_node_children(node, m);
 
     {
-      std::unique_ptr<match_tree> mt = this->patterns.capture(node);
+      std::unique_ptr<MatchTree> mt = this->patterns.capture(node);
       assert(mt != nullptr);
       mt->set_rule(this);
       m = m->append_child_and_own(std::move(mt));
@@ -100,7 +100,7 @@ void rule::extract(const GumboNode * node, match_tree * m) const
   }
 }
 
-void rule::print(
+void Rule::print(
   std::ostream& out,
   int indent_level,
   bool print_match_count
@@ -129,7 +129,7 @@ void rule::print(
     c.print(out, indent_level + 1, print_match_count);
 }
 
-bool rule::matches(const GumboNode * node) const
+bool Rule::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
@@ -141,7 +141,7 @@ bool rule::matches(const GumboNode * node) const
 
   if( this->child_pos > 0 )
   {
-    unsigned int pos = rule::get_node_position_within_parent(node);
+    unsigned int pos = Rule::get_node_position_within_parent(node);
     if( pos != this->child_pos )
       return false;
   }
@@ -152,7 +152,7 @@ bool rule::matches(const GumboNode * node) const
     return this->patterns.matches(node);
 }
 
-void rule::extract_node_children(const GumboNode * node, match_tree * m) const
+void Rule::extract_node_children(const GumboNode * node, MatchTree * m) const
 {
   if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
     return;
@@ -168,7 +168,7 @@ void rule::extract_node_children(const GumboNode * node, match_tree * m) const
 }
 
 unsigned int
-rule::get_node_position_within_parent(const GumboNode * node) const
+Rule::get_node_position_within_parent(const GumboNode * node) const
 {
   if( !node )
     return 0;

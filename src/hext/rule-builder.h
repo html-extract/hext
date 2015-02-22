@@ -14,17 +14,17 @@
 namespace hext {
 
 
-class rule_builder
+class RuleBuilder
 {
 public:
-  rule_builder();
-  ~rule_builder();
-  std::vector<rule> get_rules_and_reset();
+  RuleBuilder();
+  ~RuleBuilder();
+  std::vector<Rule> get_rules_and_reset();
   void reset();
   void consume_and_reset();
   void consume_match_pattern();
   void consume_capture_pattern();
-  pattern_builder& pattern();
+  PatternBuilder& pattern();
 
   void reset_indent();
   void increment_indent();
@@ -35,8 +35,8 @@ public:
   void set_nth_child(unsigned int pos_within_parent);
 
 private:
-  pattern_builder pat;
-  std::vector<rule> rules;
+  PatternBuilder pat;
+  std::vector<Rule> rules;
 
   unsigned int indent;
   std::string tag_name;
@@ -44,8 +44,8 @@ private:
   bool is_direct_desc;
   bool is_closed;
   unsigned int nth_child;
-  std::vector<std::unique_ptr<match_pattern>> mp;
-  std::vector<std::unique_ptr<capture_pattern>> cp;
+  std::vector<std::unique_ptr<MatchPattern>> mp;
+  std::vector<std::unique_ptr<CapturePattern>> cp;
 };
 
 

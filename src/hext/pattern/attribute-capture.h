@@ -12,17 +12,17 @@
 namespace hext {
 
 
-/// An attribute_capture is a capture_pattern that is used to capture whole
+/// An AttributeCapture is a CapturePattern that is used to capture whole
 /// attribute values from html-nodes.
-class attribute_capture : public capture_pattern
+class AttributeCapture : public CapturePattern
 {
 public:
-  attribute_capture(
+  AttributeCapture(
     const std::string& result_name,
     const std::string& attr_name,
     const std::string& regex
   );
-  match_tree::name_value_pair capture(const GumboNode * node) const final;
+  MatchTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:

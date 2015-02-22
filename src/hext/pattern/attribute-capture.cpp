@@ -4,38 +4,38 @@
 namespace hext {
 
 
-attribute_capture::attribute_capture(
+AttributeCapture::AttributeCapture(
   const std::string& result_name,
   const std::string& attr_name,
   const std::string& regex
 )
-: capture_pattern(result_name, regex)
+: CapturePattern(result_name, regex)
 , attr(attr_name)
 {
 }
 
-match_tree::name_value_pair
-attribute_capture::capture(const GumboNode * node) const
+MatchTree::NameValuePair
+AttributeCapture::capture(const GumboNode * node) const
 {
   const GumboAttribute * g_attr = this->get_node_attr(node);
 
   if( !g_attr )
-    return match_tree::name_value_pair(this->name, "");
+    return MatchTree::NameValuePair(this->name, "");
 
   if( this->rx )
   {
-    return match_tree::name_value_pair(
+    return MatchTree::NameValuePair(
       this->name,
       this->regex_filter(g_attr->value)
     );
   }
   else
   {
-    return match_tree::name_value_pair(this->name, g_attr->value);
+    return MatchTree::NameValuePair(this->name, g_attr->value);
   }
 }
 
-void attribute_capture::print(std::ostream& out) const
+void AttributeCapture::print(std::ostream& out) const
 {
   out << ' ' << this->attr << "={" << this->name;
   if( this->rx )
@@ -44,7 +44,7 @@ void attribute_capture::print(std::ostream& out) const
 }
 
 const GumboAttribute *
-attribute_capture::get_node_attr(const GumboNode * node) const
+AttributeCapture::get_node_attr(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return nullptr;

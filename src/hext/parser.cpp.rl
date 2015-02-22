@@ -4,13 +4,13 @@
 namespace hext {
 
 
-parse_error::parse_error(const std::string& msg)
+ParseError::ParseError(const std::string& msg)
 : std::runtime_error(msg)
 {
 }
 
 
-parser::parser(const char * begin, const char * end)
+Parser::Parser(const char * begin, const char * end)
 : p_begin(begin),
   p(begin),
   pe(end),
@@ -25,11 +25,11 @@ parser::parser(const char * begin, const char * end)
   }%%
 }
 
-std::vector<rule> parser::parse()
+std::vector<Rule> Parser::parse()
 {
   using namespace ragel;
 
-  rule_builder rule;
+  RuleBuilder rule;
   const char * tok_begin = nullptr;
   const char * tok_end = nullptr;
   std::string tok = "";
@@ -40,11 +40,11 @@ std::vector<rule> parser::parse()
   return rule.get_rules_and_reset();
 }
 
-void parser::throw_unexpected() const
+void Parser::throw_unexpected() const
 {
   assert(this->p && this->p_begin && this->pe);
 
-  char_pos_pair pos =
+  CharPosPair pos =
     get_char_position(this->p, this->p_begin, this->pe);
 
   const auto line_count = pos.first + 1;
@@ -78,14 +78,14 @@ void parser::throw_unexpected() const
   error_msg << std::string(indent, ' ')
             << "^ here";
 
-  throw parse_error(error_msg.str());
+  throw ParseError(error_msg.str());
 }
 
-void parser::throw_unknown_builtin(const std::string& builtin_name) const
+void Parser::throw_unknown_builtin(const std::string& builtin_name) const
 {
   assert(this->p && this->p_begin && this->pe);
 
-  char_pos_pair pos =
+  CharPosPair pos =
     get_char_position(this->p, this->p_begin, this->pe);
 
   const auto line_count = pos.first + 1;
@@ -115,7 +115,7 @@ void parser::throw_unknown_builtin(const std::string& builtin_name) const
             << std::string(builtin_name.size(), '^')
             << " here";
 
-  throw parse_error(error_msg.str());
+  throw ParseError(error_msg.str());
 }
 
 

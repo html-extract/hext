@@ -46,7 +46,7 @@
               >{ LX_TK_START; }
               %{ LX_TK_STOP;
                  {
-                   bi::builtin_func_ptr bf = bi::get_builtin_by_name(tok);
+                   bi::BuiltinFuncPtr bf = bi::get_builtin_by_name(tok);
                    if( !bf ) this->throw_unknown_builtin(tok);
                    rule.pattern().set_builtin_function(bf);
                  }

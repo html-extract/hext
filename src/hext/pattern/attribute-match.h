@@ -14,16 +14,16 @@
 namespace hext {
 
 
-/// An attribute_match is a match_pattern that checks whether an html-node has
+/// An AttributeMatch is a MatchPattern that checks whether an html-node has
 /// any attribute called attr_name.
-class attribute_match : public match_pattern
+class AttributeMatch : public MatchPattern
 {
 public:
-  attribute_match(
+  AttributeMatch(
     const std::string& attr_name,
-    std::unique_ptr<attr_test> attribute_test
+    std::unique_ptr<AttrTest> attribute_test
   );
-  match_result matches(const GumboNode * node) const final;
+  MatchResult matches(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 protected:

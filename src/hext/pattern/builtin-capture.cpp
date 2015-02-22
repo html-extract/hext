@@ -4,39 +4,39 @@
 namespace hext {
 
 
-builtin_capture::builtin_capture(
+BuiltinCapture::BuiltinCapture(
   const std::string& result_name,
-  bi::builtin_func_ptr f,
+  bi::BuiltinFuncPtr f,
   const std::string& regex
 )
-: capture_pattern(result_name, regex)
+: CapturePattern(result_name, regex)
 , func(f)
 {
 }
 
-match_tree::name_value_pair
-builtin_capture::capture(const GumboNode * node) const
+MatchTree::NameValuePair
+BuiltinCapture::capture(const GumboNode * node) const
 {
   assert(this->func);
   if( !this->func )
-    return match_tree::name_value_pair(this->name, "");
+    return MatchTree::NameValuePair(this->name, "");
 
   std::string val = this->func(node);
 
   if( this->rx )
   {
-    return match_tree::name_value_pair(
+    return MatchTree::NameValuePair(
       this->name,
       this->regex_filter(val.c_str())
     );
   }
   else
   {
-    return match_tree::name_value_pair(this->name, val);
+    return MatchTree::NameValuePair(this->name, val);
   }
 }
 
-void builtin_capture::print(std::ostream& out) const
+void BuiltinCapture::print(std::ostream& out) const
 {
   out << " @"
       << bi::get_name_by_builtin(this->func)

@@ -14,22 +14,22 @@
 namespace hext {
 
 
-/// A match_result contains a bool deciding whether the match was successful,
+/// A MatchResult contains a bool deciding whether the match was successful,
 /// and, if applicable, the GumboAttribute that was matched.
-typedef std::pair<bool, const GumboAttribute *> match_result;
+typedef std::pair<bool, const GumboAttribute *> MatchResult;
 
-/// match_pattern is an abstract base for all patterns that are used to check
-/// whether an html-node is matched by a rule. Rules have match_patterns.
-class match_pattern
+/// MatchPattern is an abstract base for all patterns that are used to check
+/// whether an html-node is matched by a rule. Rules have MatchPatterns.
+class MatchPattern
 {
 public:
-  explicit match_pattern(std::unique_ptr<attr_test> attribute_test);
-  virtual match_result matches(const GumboNode * node) const = 0;
+  explicit MatchPattern(std::unique_ptr<AttrTest> attribute_test);
+  virtual MatchResult matches(const GumboNode * node) const = 0;
   virtual void print(std::ostream& out = std::cout) const = 0;
-  virtual ~match_pattern();
+  virtual ~MatchPattern();
 
 protected:
-  const std::unique_ptr<attr_test> test;
+  const std::unique_ptr<AttrTest> test;
 };
 
 

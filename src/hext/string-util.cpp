@@ -79,23 +79,23 @@ std::string get_char_name(char c)
   return "";
 }
 
-char_pos_pair get_char_position(
+CharPosPair get_char_position(
   const char * c,
   const char * begin,
   const char * end
 )
 {
   if( !begin || !c || !end )
-    return char_pos_pair(0, 0);
+    return CharPosPair(0, 0);
 
   // expect c to be within range begin to end
   if( c < begin || c > end || begin == end )
-    return char_pos_pair(0, 0);
+    return CharPosPair(0, 0);
 
   // the position of the newline prior to c
-  char_pos_type line_offset = 0;
+  CharPosType line_offset = 0;
   // the line number of c
-  char_pos_type line_count = std::count(begin, c, '\n');
+  CharPosType line_count = std::count(begin, c, '\n');
 
   if( line_count )
   {
@@ -109,11 +109,11 @@ char_pos_pair get_char_position(
   }
 
   // the position of c in the overall input
-  char_pos_type char_offset = std::distance(begin, c);
+  CharPosType char_offset = std::distance(begin, c);
   // the position of c in the current line
-  char_pos_type char_offset_in_line = char_offset - line_offset;
+  CharPosType char_offset_in_line = char_offset - line_offset;
 
-  return char_pos_pair(line_count, char_offset_in_line);
+  return CharPosPair(line_count, char_offset_in_line);
 }
 
 int get_dec_number_width(ptrdiff_t number)

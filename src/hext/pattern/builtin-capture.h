@@ -1,7 +1,6 @@
 #ifndef HEXT_BUILTIN_CAPTURE_H
 #define HEXT_BUILTIN_CAPTURE_H
 
-
 #include <string>
 #include <iostream>
 
@@ -15,19 +14,19 @@
 namespace hext {
 
 
-class builtin_capture : public capture_pattern
+class BuiltinCapture : public CapturePattern
 {
 public:
-  builtin_capture(
+  BuiltinCapture(
     const std::string& result_name,
-    bi::builtin_func_ptr f,
+    bi::BuiltinFuncPtr f,
     const std::string& regex
   );
-  match_tree::name_value_pair capture(const GumboNode * node) const final;
+  MatchTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const bi::builtin_func_ptr func;
+  const bi::BuiltinFuncPtr func;
 };
 
 

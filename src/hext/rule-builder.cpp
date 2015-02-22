@@ -4,7 +4,7 @@
 namespace hext {
 
 
-rule_builder::rule_builder()
+RuleBuilder::RuleBuilder()
 : pat()
 , rules()
 , indent(0)
@@ -18,13 +18,13 @@ rule_builder::rule_builder()
 {
 }
 
-rule_builder::~rule_builder()
+RuleBuilder::~RuleBuilder()
 {
 }
 
-std::vector<rule> rule_builder::get_rules_and_reset()
+std::vector<Rule> RuleBuilder::get_rules_and_reset()
 {
-  std::vector<rule> rs = std::move(this->rules);
+  std::vector<Rule> rs = std::move(this->rules);
 
   this->reset();
   this->rules.clear();
@@ -32,7 +32,7 @@ std::vector<rule> rule_builder::get_rules_and_reset()
   return std::move(rs);
 }
 
-void rule_builder::reset()
+void RuleBuilder::reset()
 {
   this->tag_name = "";
   this->indent = 0;
@@ -43,15 +43,15 @@ void rule_builder::reset()
   this->cp.clear();
 }
 
-void rule_builder::consume_and_reset()
+void RuleBuilder::consume_and_reset()
 {
-  rule r(
+  Rule r(
     this->tag_name,
     this->is_optional,
     this->is_direct_desc,
     this->is_closed,
     this->nth_child,
-    rule_patterns(std::move(this->mp), std::move(this->cp))
+    RulePatterns(std::move(this->mp), std::move(this->cp))
   );
 
   // either top-level rule or first rule
@@ -63,52 +63,52 @@ void rule_builder::consume_and_reset()
   this->reset();
 }
 
-pattern_builder& rule_builder::pattern()
+PatternBuilder& RuleBuilder::pattern()
 {
   return this->pat;
 }
 
-void rule_builder::reset_indent()
+void RuleBuilder::reset_indent()
 {
   this->indent = 0;
 }
 
-void rule_builder::increment_indent()
+void RuleBuilder::increment_indent()
 {
   this->indent++;
 }
 
-void rule_builder::set_tag_name(const std::string& tag)
+void RuleBuilder::set_tag_name(const std::string& tag)
 {
   this->tag_name = tag;
 }
 
-void rule_builder::set_optional(bool is_opt)
+void RuleBuilder::set_optional(bool is_opt)
 {
   this->is_optional = is_opt;
 }
 
-void rule_builder::set_direct_descendant(bool direct_desc)
+void RuleBuilder::set_direct_descendant(bool direct_desc)
 {
   this->is_direct_desc = direct_desc;
 }
 
-void rule_builder::set_closed(bool closed)
+void RuleBuilder::set_closed(bool closed)
 {
   this->is_closed = closed;
 }
 
-void rule_builder::set_nth_child(unsigned int pos_within_parent)
+void RuleBuilder::set_nth_child(unsigned int pos_within_parent)
 {
   this->nth_child = pos_within_parent;
 }
 
-void rule_builder::consume_match_pattern()
+void RuleBuilder::consume_match_pattern()
 {
   this->mp.push_back(this->pat.build_match_and_reset());
 }
 
-void rule_builder::consume_capture_pattern()
+void RuleBuilder::consume_capture_pattern()
 {
   this->cp.push_back(this->pat.build_capture_and_reset());
 }

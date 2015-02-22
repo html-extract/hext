@@ -16,16 +16,16 @@
 namespace hext {
 
 
-class html
+class Html
 {
 public:
-  html(const char * buffer, size_t length);
-  ~html();
-  std::unique_ptr<match_tree> extract(const rule& r) const;
+  Html(const char * buffer, size_t length);
+  ~Html();
+  std::unique_ptr<MatchTree> extract(const Rule& r) const;
 
 private:
-  html(const html&) = delete;
-  html& operator=(const html&) = delete;
+  Html(const Html&) = delete;
+  Html& operator=(const Html&) = delete;
 
   GumboOutput * g_outp;
 };

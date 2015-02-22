@@ -8,10 +8,10 @@
 namespace hext {
 
 
-class attr_test
+class AttrTest
 {
 public:
-  virtual ~attr_test();
+  virtual ~AttrTest();
   virtual bool test(const char * /* dummy */) const;
   virtual void print(std::ostream& /* dummy */ = std::cout) const;
 };

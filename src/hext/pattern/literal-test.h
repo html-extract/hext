@@ -10,10 +10,10 @@
 namespace hext {
 
 
-class literal_test : public attr_test
+class LiteralTest : public AttrTest
 {
 public:
-  explicit literal_test(std::string literal);
+  explicit LiteralTest(std::string literal);
   bool test(const char * subject) const final;
   void print(std::ostream& out = std::cout) const final;
 

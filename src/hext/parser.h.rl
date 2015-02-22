@@ -26,15 +26,15 @@
 namespace hext {
 
 
-/// Clang warns (-Wweak-vtables) that a vtable for parse_error may be placed
-/// in every translation unit, because parse_error doesn't have any
+/// Clang warns (-Wweak-vtables) that a vtable for ParseError may be placed
+/// in every translation unit, because ParseError doesn't have any
 /// 'out-of-line virtual method definitions', where it would normally put
 /// the vtable. But http://stackoverflow.com/a/23749273 suggests that this
 /// is a non-issue; the linker will clean it up.
-class parse_error : public std::runtime_error
+class ParseError : public std::runtime_error
 {
 public:
-  explicit parse_error(const std::string& msg);
+  explicit ParseError(const std::string& msg);
 };
 
 
@@ -47,20 +47,20 @@ namespace ragel {
 } // namespace ragel
 
 
-/// parser is responsible for parsing hext and producing rules.
-/// parser contains the ragel state machine and shields the user from its
+/// Parser is responsible for parsing hext and producing Rules.
+/// Parser contains the ragel state machine and shields the user from its
 /// details.
-class parser
+class Parser
 {
 public:
   /// Setup ragel.
-  parser(const char * begin, const char * end);
+  Parser(const char * begin, const char * end);
 
-  /// Throws parse_error on invalid input.
-  std::vector<rule> parse();
+  /// Throws ParseError on invalid input.
+  std::vector<Rule> parse();
 
 private:
-  /// Print diagnostics and throw parse_error.
+  /// Print diagnostics and throw ParseError.
   void throw_unexpected() const;
   void throw_unknown_builtin(const std::string& builtin_name) const;
 

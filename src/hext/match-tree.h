@@ -18,55 +18,55 @@
 namespace hext {
 
 
-class rule;
+class Rule;
 
-/// A match_tree contains the result of matching a rule to GumboNodes through
-/// rule::extract().
-class match_tree
+/// A MatchTree contains the result of matching a Rule to GumboNodes through
+/// Rule::extract().
+class MatchTree
 {
 public:
   typedef
     std::pair<std::string, std::string>
-    name_value_pair;
+    NameValuePair;
 
-  match_tree();
+  MatchTree();
 
-  match_tree * append_child_and_own(std::unique_ptr<match_tree> m);
-  void append_match(const name_value_pair& p);
-  void set_rule(const rule * matching_rule);
+  MatchTree * append_child_and_own(std::unique_ptr<MatchTree> m);
+  void append_match(const NameValuePair& p);
+  void set_rule(const Rule * matching_rule);
 
-  /// Print the match_tree as json.
-  /// Each child of the root of the match_tree will form its own json object.
+  /// Print the MatchTree as json.
+  /// Each child of the root of the MatchTree will form its own json object.
   void print_json(std::ostream& out = std::cout) const;
 
-  /// Print the match_tree as DOT, a graph description language.
+  /// Print the MatchTree as DOT, a graph description language.
   /// See http://en.wikipedia.org/wiki/DOT_language
   void print_dot(std::ostream& out = std::cout) const;
 
   /// Remove all nodes that do not conform to the rule tree,
-  /// leaving a clean match_tree with only valid results.
-  /// When recursively matching GumboNodes in rule::match we do not want to
+  /// leaving a clean MatchTree with only valid results.
+  /// When recursively matching GumboNodes in Rule::match we do not want to
   /// care about wether a match will eventually be valid. Dropping invalid
   /// matches is much easier after we have processed all input.
-  /// Returns true on empty match_tree.
+  /// Returns true on empty MatchTree.
   bool filter();
 
 private:
-  match_tree(const match_tree&) = delete;
-  match_tree& operator=(const match_tree&) = delete;
+  MatchTree(const MatchTree&) = delete;
+  MatchTree& operator=(const MatchTree&) = delete;
 
   void append_json_recursive(rapidjson::Document& json) const;
   void append_json_matches(rapidjson::Document& json) const;
   void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
 
-  /// match_trees are self-managing: all nodes are owned by the tree
-  std::vector<std::unique_ptr<match_tree>> children;
+  /// MatchTrees are self-managing: all nodes are owned by the tree
+  std::vector<std::unique_ptr<MatchTree>> children;
 
   /// The values captured by matching
-  std::vector<name_value_pair> matches;
+  std::vector<NameValuePair> matches;
 
-  /// The rule that caused this match
-  const rule * r;
+  /// The Rule that caused this match
+  const Rule * r;
 };
 
 

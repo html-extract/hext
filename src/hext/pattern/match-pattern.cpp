@@ -4,12 +4,12 @@
 namespace hext {
 
 
-match_pattern::match_pattern(std::unique_ptr<attr_test> attribute_test)
+MatchPattern::MatchPattern(std::unique_ptr<AttrTest> attribute_test)
 : test(std::move(attribute_test))
 {
 }
 
-match_pattern::~match_pattern()
+MatchPattern::~MatchPattern()
 {
 }
 

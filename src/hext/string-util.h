@@ -29,8 +29,8 @@ std::string trim_and_collapse_ws(std::string str);
 bool is_space(char c);
 
 // Convenience typedefs for get_char_position.
-typedef std::iterator_traits<const char *>::difference_type char_pos_type;
-typedef std::pair<char_pos_type, char_pos_type> char_pos_pair;
+typedef std::iterator_traits<const char *>::difference_type CharPosType;
+typedef std::pair<CharPosType, CharPosType> CharPosPair;
 
 /// Returns a visual representation for every char, including control
 /// characters like the nullbyte.
@@ -40,7 +40,7 @@ std::string get_char_name(char c);
 /// Returns a pair<line_offset, character_offset> for the position of c in
 /// the range from begin to end. Numbering is zero-based.
 /// Used in error reporting.
-char_pos_pair get_char_position(
+CharPosPair get_char_position(
   const char * c,
   const char * begin,
   const char * end

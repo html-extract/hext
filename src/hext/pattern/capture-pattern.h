@@ -16,8 +16,8 @@
 namespace hext {
 
 
-/// capture_pattern is the abstract base class for all patterns that are used
-/// to capture values from html-nodes. Rules have capture_patterns.
+/// CapturePattern is the abstract base class for all patterns that are used
+/// to capture values from html-nodes. Rules have CapturePatterns.
 /// * hext/pattern/attribute-capture.h:
 ///     <a href={link}
 ///   From every node, that has both html-tag "a" and an attribute called
@@ -28,21 +28,21 @@ namespace hext {
 ///   For every node, that has html-tag "a", call builtin function "text" and
 ///   put its return value into "title".
 ///
-/// capture_patterns may have a regex filter:
+/// CapturePatterns may have a regex filter:
 ///     <a href={product_id/id=(\d+)/}
 ///   Before saving the value, apply regex "id=(\d+)", producing only what is
 ///   is specified within the regex's parentheses. If there are no parentheses,
 ///   the whole value will be returned, effectively discarding the purpose of
 ///   the regex.
-class capture_pattern
+class CapturePattern
 {
 public:
-  explicit capture_pattern(const std::string& result_name);
-  capture_pattern(const std::string& result_name, const std::string& regex);
-  virtual ~capture_pattern();
+  explicit CapturePattern(const std::string& result_name);
+  CapturePattern(const std::string& result_name, const std::string& regex);
+  virtual ~CapturePattern();
   /// Return a pair with the result_name and the captured content, which is to
-  /// be inserted into a match_tree.
-  virtual match_tree::name_value_pair capture(const GumboNode * node) const = 0;
+  /// be inserted into a MatchTree.
+  virtual MatchTree::NameValuePair capture(const GumboNode * node) const = 0;
   virtual void print(std::ostream& out = std::cout) const = 0;
 
 protected:

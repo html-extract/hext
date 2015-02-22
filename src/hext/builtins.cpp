@@ -5,7 +5,7 @@ namespace hext {
 namespace bi {
 
 
-builtin_func_ptr get_builtin_by_name(const std::string& builtin_name)
+BuiltinFuncPtr get_builtin_by_name(const std::string& builtin_name)
 {
   if( builtin_name.compare("text") == 0 )
     return text;
@@ -15,7 +15,7 @@ builtin_func_ptr get_builtin_by_name(const std::string& builtin_name)
   return nullptr;
 }
 
-std::string get_name_by_builtin(builtin_func_ptr f)
+std::string get_name_by_builtin(BuiltinFuncPtr f)
 {
   if( f == text )
     return "text";

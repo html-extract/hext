@@ -4,27 +4,27 @@
 namespace hext {
 
 
-attribute_match::attribute_match(
+AttributeMatch::AttributeMatch(
   const std::string& attr_name,
-  std::unique_ptr<attr_test> attribute_test
+  std::unique_ptr<AttrTest> attribute_test
 )
-: match_pattern(std::move(attribute_test))
+: MatchPattern(std::move(attribute_test))
 , attr(attr_name)
 {
 }
 
-match_result attribute_match::matches(const GumboNode * node) const
+MatchResult AttributeMatch::matches(const GumboNode * node) const
 {
   const GumboAttribute * g_attr = this->get_node_attr(node);
   if( !g_attr )
-    return match_result(false, nullptr);
+    return MatchResult(false, nullptr);
   if( !this->test || this->test->test(g_attr->value) )
-    return match_result(true, g_attr);
+    return MatchResult(true, g_attr);
   else
-    return match_result(false, nullptr);
+    return MatchResult(false, nullptr);
 }
 
-void attribute_match::print(std::ostream& out) const
+void AttributeMatch::print(std::ostream& out) const
 {
   out << " " << this->attr;
   if( this->test )
@@ -32,7 +32,7 @@ void attribute_match::print(std::ostream& out) const
 }
 
 const GumboAttribute *
-attribute_match::get_node_attr(const GumboNode * node) const
+AttributeMatch::get_node_attr(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return nullptr;

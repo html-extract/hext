@@ -14,7 +14,7 @@ int main(int argc, const char ** argv)
 {
   std::ios_base::sync_with_stdio(false);
 
-  hext::program_options po;
+  hext::ProgramOptions po;
 
   try
   {
@@ -27,7 +27,7 @@ int main(int argc, const char ** argv)
     }
 
     const std::string bf_hext = hext::read_file_or_throw(po.get("hext-file"));
-    hext::parser p(
+    hext::Parser p(
       bf_hext.c_str(),
       bf_hext.c_str() + bf_hext.size()
     );
@@ -44,11 +44,11 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
 
     const std::string bf_html = hext::read_file_or_throw(po.get("html-file"));
-    const hext::html html(bf_html.c_str(), bf_html.size());
+    const hext::Html html(bf_html.c_str(), bf_html.size());
 
     for(const auto& rule : rules)
     {
-      std::unique_ptr<hext::match_tree> mt = html.extract(rule);
+      std::unique_ptr<hext::MatchTree> mt = html.extract(rule);
       assert(mt != nullptr);
 
       if( !po.contains("keep-invalid") )
@@ -67,12 +67,12 @@ int main(int argc, const char ** argv)
     std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
-  catch( const hext::file_error& e )
+  catch( const hext::FileError& e )
   {
     std::cerr << argv[0] << ": Error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
-  catch( const hext::parse_error& e )
+  catch( const hext::ParseError& e )
   {
     std::cerr << argv[0] << ": Error in "
               << po.get("hext-file") << ": "

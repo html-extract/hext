@@ -5,30 +5,30 @@
 namespace hext {
 
 
-match_tree::match_tree()
+MatchTree::MatchTree()
 : children(),
   matches(),
   r(nullptr)
 {
 }
 
-match_tree * match_tree::append_child_and_own(std::unique_ptr<match_tree> m)
+MatchTree * MatchTree::append_child_and_own(std::unique_ptr<MatchTree> m)
 {
   this->children.push_back(std::move(m));
   return this->children.back().get();
 }
 
-void match_tree::append_match(const name_value_pair& p)
+void MatchTree::append_match(const NameValuePair& p)
 {
   this->matches.push_back(p);
 }
 
-void match_tree::set_rule(const rule * matching_rule)
+void MatchTree::set_rule(const Rule * matching_rule)
 {
   this->r = matching_rule;
 }
 
-void match_tree::print_json(std::ostream& out) const
+void MatchTree::print_json(std::ostream& out) const
 {
   for(const auto& c : this->children)
   {
@@ -45,7 +45,7 @@ void match_tree::print_json(std::ostream& out) const
   }
 }
 
-void match_tree::print_dot(std::ostream& out) const
+void MatchTree::print_dot(std::ostream& out) const
 {
   out << "digraph match_tree {\n"
       << "    node [fontname=\"Arial\"];\n";
@@ -53,7 +53,7 @@ void match_tree::print_dot(std::ostream& out) const
   out << "}\n";
 }
 
-bool match_tree::filter()
+bool MatchTree::filter()
 {
   // depth first
   for(auto& c : this->children)
@@ -98,7 +98,7 @@ bool match_tree::filter()
   return false;
 }
 
-void match_tree::append_json_recursive(rapidjson::Document& json) const
+void MatchTree::append_json_recursive(rapidjson::Document& json) const
 {
   this->append_json_matches(json);
 
@@ -106,7 +106,7 @@ void match_tree::append_json_recursive(rapidjson::Document& json) const
     c->append_json_recursive(json);
 }
 
-void match_tree::append_json_matches(rapidjson::Document& json) const
+void MatchTree::append_json_matches(rapidjson::Document& json) const
 {
   rapidjson::Document::AllocatorType& allocator = json.GetAllocator();
   for(const auto& p : this->matches)
@@ -135,7 +135,7 @@ void match_tree::append_json_matches(rapidjson::Document& json) const
   }
 }
 
-void match_tree::print_dot_nodes(std::ostream& out, int parent_id) const
+void MatchTree::print_dot_nodes(std::ostream& out, int parent_id) const
 {
   static int node_index = 0;
   int this_node = ++node_index;

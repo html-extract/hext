@@ -14,19 +14,19 @@
 namespace hext {
 
 
-class builtin_match : public match_pattern
+class BuiltinMatch : public MatchPattern
 {
 public:
-  builtin_match(
-    bi::builtin_func_ptr f,
-    std::unique_ptr<attr_test> attribute_test
+  BuiltinMatch(
+    bi::BuiltinFuncPtr f,
+    std::unique_ptr<AttrTest> attribute_test
   );
 
-  match_result matches(const GumboNode * node) const final;
+  MatchResult matches(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const bi::builtin_func_ptr func;
+  const bi::BuiltinFuncPtr func;
 };
 
 

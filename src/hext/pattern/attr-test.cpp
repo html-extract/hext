@@ -4,16 +4,16 @@
 namespace hext {
 
 
-attr_test::~attr_test()
+AttrTest::~AttrTest()
 {
 }
 
-bool attr_test::test(const char * /* dummy */) const
+bool AttrTest::test(const char * /* dummy */) const
 {
   return true;
 }
 
-void attr_test::print(std::ostream& /* dummy */) const
+void AttrTest::print(std::ostream& /* dummy */) const
 {
 }
 

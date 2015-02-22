@@ -17,31 +17,31 @@
 namespace hext {
 
 
-/// Rule-patterns contain the patterns of a rule.
-/// There are two types of patterns: match-patterns and capture-patterns.
-class rule_patterns
+/// RulePatterns contain the patterns of a rule.
+/// There are two types of patterns: MatchPatterns and CapturePatterns.
+class RulePatterns
 {
 public:
-  rule_patterns(
-    std::vector<std::unique_ptr<match_pattern>>&& match_patterns,
-    std::vector<std::unique_ptr<capture_pattern>>&& capture_patterns
+  RulePatterns(
+    std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
+    std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
   );
-  ~rule_patterns();
-  rule_patterns(rule_patterns&&) = default;
-  /// Apply all match patterns to node.
-  /// Returns true if all match patterns match.
+  ~RulePatterns();
+  RulePatterns(RulePatterns&&) = default;
+  /// Apply all MatchPatterns to node.
+  /// Returns true if all MatchPatterns match.
   bool matches(const GumboNode * node) const;
-  /// Apply all match patterns to node.
+  /// Apply all MatchPatterns to node.
   /// Returns true if all node-attributes were matched.
   bool matches_all_attributes(const GumboNode * node) const;
   /// Apply all capture patterns to node.
-  /// Returns a new match_tree branch.
-  std::unique_ptr<match_tree> capture(const GumboNode * node) const;
+  /// Returns a new MatchTree branch.
+  std::unique_ptr<MatchTree> capture(const GumboNode * node) const;
   void print(std::ostream& out = std::cout) const;
 
 private:
-  std::vector<std::unique_ptr<match_pattern>> matchp;
-  std::vector<std::unique_ptr<capture_pattern>> capturep;
+  std::vector<std::unique_ptr<MatchPattern>> matchp;
+  std::vector<std::unique_ptr<CapturePattern>> capturep;
 };
 
 

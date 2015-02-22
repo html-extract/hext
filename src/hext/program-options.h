@@ -10,11 +10,11 @@
 namespace hext {
 
 
-class program_options
+class ProgramOptions
 {
 public:
-  program_options();
-  ~program_options();
+  ProgramOptions();
+  ~ProgramOptions();
 
   void store(int argc, const char * argv[]);
 

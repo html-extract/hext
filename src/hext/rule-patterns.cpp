@@ -4,20 +4,20 @@
 namespace hext {
 
 
-rule_patterns::rule_patterns(
-  std::vector<std::unique_ptr<match_pattern>>&& match_patterns,
-  std::vector<std::unique_ptr<capture_pattern>>&& capture_patterns
+RulePatterns::RulePatterns(
+  std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
+  std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
 )
 : matchp(std::move(match_patterns))
 , capturep(std::move(capture_patterns))
 {
 }
 
-rule_patterns::~rule_patterns()
+RulePatterns::~RulePatterns()
 {
 }
 
-bool rule_patterns::matches(const GumboNode * node) const
+bool RulePatterns::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
@@ -29,7 +29,7 @@ bool rule_patterns::matches(const GumboNode * node) const
   return true;
 }
 
-bool rule_patterns::matches_all_attributes(const GumboNode * node) const
+bool RulePatterns::matches_all_attributes(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
@@ -37,8 +37,8 @@ bool rule_patterns::matches_all_attributes(const GumboNode * node) const
   std::vector<const GumboAttribute *> m_attrs;
   for(const auto& p : this->matchp)
   {
-    // std::pair<bool has_matched, const GumboAttribute *> match_result
-    match_result mr = p->matches(node);
+    // std::pair<bool has_matched, const GumboAttribute *> MatchResult
+    MatchResult mr = p->matches(node);
     if( !mr.first )
       return false;
     else if( mr.second )
@@ -54,10 +54,10 @@ bool rule_patterns::matches_all_attributes(const GumboNode * node) const
   return true;
 }
 
-std::unique_ptr<match_tree>
-rule_patterns::capture(const GumboNode * node) const
+std::unique_ptr<MatchTree>
+RulePatterns::capture(const GumboNode * node) const
 {
-  std::unique_ptr<match_tree> mt = make_unique<match_tree>();
+  std::unique_ptr<MatchTree> mt = make_unique<MatchTree>();
 
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return mt;
@@ -68,7 +68,7 @@ rule_patterns::capture(const GumboNode * node) const
   return mt;
 }
 
-void rule_patterns::print(std::ostream& out) const
+void RulePatterns::print(std::ostream& out) const
 {
   for(const auto& p : this->matchp)
     p->print(out);

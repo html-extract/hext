@@ -4,7 +4,7 @@
 namespace hext {
 
 
-program_options::program_options()
+ProgramOptions::ProgramOptions()
 : desc("Options"),
   vm()
 {
@@ -21,11 +21,11 @@ program_options::program_options()
   ;
 }
 
-program_options::~program_options()
+ProgramOptions::~ProgramOptions()
 {
 }
 
-void program_options::store(int argc, const char * argv[])
+void ProgramOptions::store(int argc, const char * argv[])
 {
   namespace po = boost::program_options;
   po::store(po::parse_command_line(argc, argv, this->desc), this->vm);
@@ -44,17 +44,17 @@ void program_options::store(int argc, const char * argv[])
     throw po::error("missing option --html-file");
 }
 
-bool program_options::contains(const char * key) const
+bool ProgramOptions::contains(const char * key) const
 {
   return this->vm.count(key);
 }
 
-std::string program_options::get(const char * key) const
+std::string ProgramOptions::get(const char * key) const
 {
   return this->vm[key].as<std::string>();
 }
 
-void program_options::print(const char * program_name, std::ostream& out) const
+void ProgramOptions::print(const char * program_name, std::ostream& out) const
 {
   out << "Usage:\n"
       << program_name << " -h hext-file -i html-file\n";

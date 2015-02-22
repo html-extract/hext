@@ -4,13 +4,13 @@
 namespace hext {
 
 
-capture_pattern::capture_pattern(const std::string& result_name)
+CapturePattern::CapturePattern(const std::string& result_name)
 : name(result_name)
 , rx(nullptr)
 {
 }
 
-capture_pattern::capture_pattern(
+CapturePattern::CapturePattern(
   const std::string& result_name,
   const std::string& regex
 )
@@ -19,11 +19,11 @@ capture_pattern::capture_pattern(
 {
 }
 
-capture_pattern::~capture_pattern()
+CapturePattern::~CapturePattern()
 {
 }
 
-std::string capture_pattern::regex_filter(const char * str) const
+std::string CapturePattern::regex_filter(const char * str) const
 {
   assert(this->rx);
   if( !this->rx )
