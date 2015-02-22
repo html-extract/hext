@@ -55,12 +55,7 @@ void match_tree::print_dot(std::ostream& out) const
 
 bool match_tree::filter()
 {
-  // if the matching rule has no more children, we have a complete
-  // match of a rule path, therefore we want to keep this branch by
-  // returning false.
-  if( this->r && this->r->children_size() == 0 )
-    return false;
-
+  // depth first
   for(auto& c : this->children)
     if( c->filter() )
       c.reset(nullptr);
@@ -71,10 +66,33 @@ bool match_tree::filter()
     this->children.end()
   );
 
-  // if there is no matching rule and there are no children, the branch
-  // is non matching and must be removed
-  if( !this->r )
-    return this->children.empty();
+  // Check if all rules are present in this match-tree.
+  if( this->r )
+  {
+    auto c_begin = this->children.begin();
+    auto c_end = this->children.end();
+    for(const auto& rl : this->r->get_children())
+    {
+      // If there are no more match-branches, all rules that follow must
+      // be optional.
+      if( c_begin == c_end )
+      {
+        if( !rl.optional() )
+          return true;
+      }
+      // match-branches and rule-children have the same order.
+      // Check if child has this rule.
+      else if( *c_begin && (*c_begin)->r == &rl )
+      {
+        c_begin++;
+      }
+      // Optional rules can be omitted
+      else if( !rl.optional() )
+      {
+        return true;
+      }
+    }
+  }
 
   // keep
   return false;

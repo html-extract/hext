@@ -122,6 +122,9 @@
           '<' %{ rule_start = true; }
         )
         (
+          '?' %{ rule.set_optional(true); }
+        )?
+        (
           (
             '!' %{ rule.set_direct_descendant(true); }
           )

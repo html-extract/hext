@@ -9,6 +9,7 @@ rule_builder::rule_builder()
 , rules()
 , indent(0)
 , tag_name("")
+, is_optional(false)
 , is_direct_desc(false)
 , is_closed(false)
 , nth_child(0)
@@ -46,6 +47,7 @@ void rule_builder::consume_and_reset()
 {
   rule r(
     this->tag_name,
+    this->is_optional,
     this->is_direct_desc,
     this->is_closed,
     this->nth_child,
@@ -79,6 +81,11 @@ void rule_builder::increment_indent()
 void rule_builder::set_tag_name(const std::string& tag)
 {
   this->tag_name = tag;
+}
+
+void rule_builder::set_optional(bool is_opt)
+{
+  this->is_optional = is_opt;
 }
 
 void rule_builder::set_direct_descendant(bool direct_desc)

@@ -29,6 +29,7 @@ public:
   void reset_indent();
   void increment_indent();
   void set_tag_name(const std::string& tag);
+  void set_optional(bool is_opt);
   void set_direct_descendant(bool direct_desc);
   void set_closed(bool closed);
   void set_nth_child(unsigned int pos_within_parent);
@@ -39,6 +40,7 @@ private:
 
   unsigned int indent;
   std::string tag_name;
+  bool is_optional;
   bool is_direct_desc;
   bool is_closed;
   unsigned int nth_child;

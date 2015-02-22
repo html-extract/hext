@@ -7,6 +7,7 @@ namespace hext {
 
 rule::rule(
   const std::string& html_tag_name,
+  bool is_optional,
   bool direct_descendant,
   bool closed,
   unsigned int nth_child,
@@ -17,6 +18,7 @@ rule::rule(
 , match_count(0)
 , gumbo_tag(gumbo_tag_enum(html_tag_name.c_str()))
 , tag(html_tag_name)
+, is_opt(is_optional)
 , is_direct_desc(direct_descendant)
 , is_closed(closed)
 , child_pos(nth_child)
@@ -33,6 +35,7 @@ rule::rule(rule&& r)
 , match_count(r.match_count.load())
 , gumbo_tag(r.gumbo_tag)
 , tag(std::move(r.tag))
+, is_opt(r.is_opt)
 , is_direct_desc(r.is_direct_desc)
 , is_closed(r.is_closed)
 , child_pos(r.child_pos)
@@ -50,14 +53,19 @@ void rule::append_child(rule&& r, int level)
   this->children.push_back(std::move(r));
 }
 
-std::vector<rule>::size_type rule::children_size() const
+const std::vector<rule>& rule::get_children() const
 {
-  return this->children.size();
+  return this->children;
 }
 
 std::string rule::tag_name() const
 {
   return this->tag;
+}
+
+bool rule::optional() const
+{
+  return this->is_opt;
 }
 
 void rule::extract(const GumboNode * node, match_tree * m) const
@@ -103,6 +111,7 @@ void rule::print(
 
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
+      << ( this->is_opt ? "?" : "" )
       << ( this->is_direct_desc ? "!" : "" );
 
   if( this->child_pos > 0 )

@@ -35,6 +35,7 @@ class rule
 public:
   rule(
     const std::string& html_tag_name,
+    bool is_optional,
     bool direct_descendant,
     bool closed,
     unsigned int nth_child,
@@ -60,8 +61,9 @@ public:
   ///   level2      <a>    # new
   void append_child(rule&& r, int level = 1);
 
-  std::vector<rule>::size_type children_size() const;
+  const std::vector<rule>& get_children() const;
   std::string tag_name() const;
+  bool optional() const;
 
   /// Recursively try to find and capture matches.
   void extract(const GumboNode * node, match_tree * m) const;
@@ -104,6 +106,7 @@ private:
 
   const GumboTag gumbo_tag;
   const std::string tag;
+  const bool is_opt;
   const bool is_direct_desc;
   const bool is_closed;
   const unsigned int child_pos;
