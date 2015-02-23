@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cstring>
 #include <stdexcept>
+#include <sstream>
 
 
 namespace hext {
