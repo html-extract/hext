@@ -8,7 +8,7 @@ RuleBuilder::RuleBuilder()
 : pat_()
 , rules_()
 , indent_(0)
-, tag_name_("")
+, gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)
 , is_direct_desc_(false)
 , is_closed_(false)
@@ -34,7 +34,7 @@ std::vector<Rule> RuleBuilder::get_rules_and_reset()
 
 void RuleBuilder::reset()
 {
-  this->tag_name_ = "";
+  this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
   this->indent_ = 0;
   this->is_direct_desc_ = false;
   this->is_closed_ = false;
@@ -46,7 +46,7 @@ void RuleBuilder::reset()
 void RuleBuilder::consume_and_reset()
 {
   Rule r(
-    this->tag_name_,
+    this->gumbo_tag_,
     this->is_optional_,
     this->is_direct_desc_,
     this->is_closed_,
@@ -78,9 +78,20 @@ void RuleBuilder::increment_indent()
   this->indent_++;
 }
 
-void RuleBuilder::set_tag_name(const std::string& tag)
+bool RuleBuilder::set_tag_name(const std::string& tag)
 {
-  this->tag_name_ = tag;
+  if( tag.empty() )
+  {
+    this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
+  }
+  else
+  {
+    GumboTag t = gumbo_tag_enum(tag.c_str());
+    if( t == GUMBO_TAG_UNKNOWN )
+      return false;
+  }
+
+  return true;
 }
 
 void RuleBuilder::set_optional(bool is_opt)

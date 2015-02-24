@@ -141,10 +141,10 @@ void MatchTree::print_dot_nodes(std::ostream& out, int parent_id) const
   int this_node = ++node_index;
 
   std::string label;
-  if( !this->r_ || this->r_->tag_name().empty() )
+  if( !this->r_ || this->r_->gumbo_tag() == GUMBO_TAG_UNKNOWN )
     label.append("[rule]");
   else
-    label.append(this->r_->tag_name());
+    label.append(gumbo_normalized_tagname(this->r_->gumbo_tag()));
 
   for(const auto& m : this->matches_)
   {

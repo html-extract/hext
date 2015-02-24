@@ -62,7 +62,10 @@ public:
 private:
   /// Print diagnostics and throw ParseError.
   void throw_unexpected() const;
-  void throw_unknown_builtin(const std::string& builtin_name) const;
+  void throw_unknown_token(
+    const std::string& token_name,
+    const std::string& token
+  ) const;
 
   /// A pointer to the beginning of the overall input is needed to provide
   /// good error diagnostics.

@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 
+#include <gumbo.h>
+
 #include "hext/rule.h"
 #include "hext/rule-patterns.h"
 #include "hext/pattern-builder.h"
@@ -28,7 +30,7 @@ public:
 
   void reset_indent();
   void increment_indent();
-  void set_tag_name(const std::string& tag);
+  bool set_tag_name(const std::string& tag);
   void set_optional(bool is_opt);
   void set_direct_descendant(bool direct_desc);
   void set_closed(bool closed);
@@ -39,7 +41,7 @@ private:
   std::vector<Rule> rules_;
 
   unsigned int indent_;
-  std::string tag_name_;
+  GumboTag gumbo_tag_;
   bool is_optional_;
   bool is_direct_desc_;
   bool is_closed_;

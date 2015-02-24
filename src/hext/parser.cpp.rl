@@ -81,7 +81,10 @@ void Parser::throw_unexpected() const
   throw ParseError(error_msg.str());
 }
 
-void Parser::throw_unknown_builtin(const std::string& builtin_name) const
+void Parser::throw_unknown_token(
+  const std::string& token_name,
+  const std::string& token
+) const
 {
   assert(this->p && this->p_begin_ && this->pe);
 
@@ -92,8 +95,10 @@ void Parser::throw_unknown_builtin(const std::string& builtin_name) const
   const auto char_count = pos.second + 1;
 
   std::stringstream error_msg;
-  error_msg << "Unknown builtin '"
-            << builtin_name
+  error_msg << "Unknown "
+            << token_name
+            << " '"
+            << token
             << "' at line "
             << line_count
             << ", char "
@@ -110,9 +115,9 @@ void Parser::throw_unknown_builtin(const std::string& builtin_name) const
   size_t indent = pos.second
                 + 2 /* strlen(": ") */
                 + number_width
-                - builtin_name.size();
+                - token.size();
   error_msg << std::string(indent, ' ')
-            << std::string(builtin_name.size(), '^')
+            << std::string(token.size(), '^')
             << " here";
 
   throw ParseError(error_msg.str());

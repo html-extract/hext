@@ -47,7 +47,7 @@
               %{ LX_TK_STOP;
                  {
                    bi::BuiltinFuncPtr bf = bi::get_builtin_by_name(tok);
-                   if( !bf ) this->throw_unknown_builtin(tok);
+                   if( !bf ) this->throw_unknown_token("builtin", tok);
                    rule.pattern().set_builtin_function(bf);
                  }
               }
@@ -138,7 +138,8 @@
         (
           attr_name >{ LX_TK_START; }
                     %{ LX_TK_STOP;
-                       rule.set_tag_name(tok); }
+                       if( !rule.set_tag_name(tok) )
+                         this->throw_unknown_token("html-tag", tok); }
         )?
         attributes?
         (

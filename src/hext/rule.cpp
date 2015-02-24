@@ -6,7 +6,7 @@ namespace hext {
 
 
 Rule::Rule(
-  const std::string& html_tag_name,
+  GumboTag tag,
   bool is_optional,
   bool direct_descendant,
   bool closed,
@@ -16,8 +16,7 @@ Rule::Rule(
 : children_()
 , patterns_(std::move(r_patterns))
 , match_count_(0)
-, gumbo_tag_(gumbo_tag_enum(html_tag_name.c_str()))
-, tag_(html_tag_name)
+, gumbo_tag_(tag)
 , is_opt_(is_optional)
 , is_direct_desc_(direct_descendant)
 , is_closed_(closed)
@@ -34,7 +33,6 @@ Rule::Rule(Rule&& r)
 , patterns_(std::move(r.patterns_))
 , match_count_(r.match_count_.load())
 , gumbo_tag_(r.gumbo_tag_)
-, tag_(std::move(r.tag_))
 , is_opt_(r.is_opt_)
 , is_direct_desc_(r.is_direct_desc_)
 , is_closed_(r.is_closed_)
@@ -58,9 +56,9 @@ const std::vector<Rule>& Rule::children() const
   return this->children_;
 }
 
-std::string Rule::tag_name() const
+GumboTag Rule::gumbo_tag() const
 {
-  return this->tag_;
+  return this->gumbo_tag_;
 }
 
 bool Rule::optional() const
@@ -117,7 +115,8 @@ void Rule::print(
   if( this->child_pos_ > 0 )
     out << this->child_pos_;
 
-  out << this->tag_;
+  if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
+    out << gumbo_normalized_tagname(this->gumbo_tag_);
 
   this->patterns_.print(out);
 
@@ -134,8 +133,7 @@ bool Rule::matches(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  // empty tag-name matches every tag
-  if( !this->tag_.empty() )
+  if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
     if( node->v.element.tag != this->gumbo_tag_ )
       return false;
 

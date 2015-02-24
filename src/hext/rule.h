@@ -34,7 +34,7 @@ class Rule
 {
 public:
   Rule(
-    const std::string& html_tag_name,
+    GumboTag gumbo_tag,
     bool is_optional,
     bool direct_descendant,
     bool closed,
@@ -62,7 +62,7 @@ public:
   void append_child(Rule&& r, int level = 1);
 
   const std::vector<Rule>& children() const;
-  std::string tag_name() const;
+  GumboTag gumbo_tag() const;
   bool optional() const;
 
   /// Recursively try to find and capture matches.
@@ -105,7 +105,6 @@ private:
   mutable std::atomic<unsigned int> match_count_;
 
   const GumboTag gumbo_tag_;
-  const std::string tag_;
   const bool is_opt_;
   const bool is_direct_desc_;
   const bool is_closed_;
