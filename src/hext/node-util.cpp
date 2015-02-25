@@ -4,7 +4,7 @@
 namespace hext {
 
 
-unsigned int get_node_position_within_parent(const GumboNode * node)
+unsigned int GetNodePositionWithinParent(const GumboNode * node)
 {
   if( !node )
     return 0;
@@ -34,12 +34,12 @@ unsigned int get_node_position_within_parent(const GumboNode * node)
   return 0;
 }
 
-std::string get_node_text(const GumboNode * node)
+std::string GetNodeText(const GumboNode * node)
 {
-  return trim_and_collapse_ws(get_node_raw_text(node));
+  return TrimAndCollapseWs(GetNodeRawText(node));
 }
 
-std::string get_node_raw_text(const GumboNode * node)
+std::string GetNodeRawText(const GumboNode * node)
 {
   assert(node != nullptr);
   assert(node->type == GUMBO_NODE_ELEMENT);
@@ -64,14 +64,14 @@ std::string get_node_raw_text(const GumboNode * node)
     else if( child_node->type == GUMBO_NODE_ELEMENT )
     {
       inner_text.push_back(' ');
-      inner_text.append(get_node_raw_text(child_node));
+      inner_text.append(GetNodeRawText(child_node));
     }
   }
 
   return inner_text;
 }
 
-std::string get_node_inner_html(const GumboNode * node)
+std::string GetNodeInnerHtml(const GumboNode * node)
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return "";

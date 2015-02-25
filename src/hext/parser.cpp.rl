@@ -45,7 +45,7 @@ void Parser::throw_unexpected() const
   assert(this->p && this->p_begin_ && this->pe);
 
   CharPosPair pos =
-    get_char_position(this->p, this->p_begin_, this->pe);
+    GetCharPosition(this->p, this->p_begin_, this->pe);
 
   const auto line_count = pos.first + 1;
   const auto char_count = pos.second + 1;
@@ -54,7 +54,7 @@ void Parser::throw_unexpected() const
   if( this->p == this->pe )
     char_name = "[eof]";
   else
-    char_name = get_char_name(*this->p);
+    char_name = GetCharName(*this->p);
 
   const char * end = this->p;
   if( this->p < this->pe )
@@ -69,8 +69,8 @@ void Parser::throw_unexpected() const
             << char_count
             << "\n\n";
 
-  int number_width = get_dec_number_width(line_count);
-  print_with_line_numbers(this->p_begin_, end, number_width, error_msg);
+  int number_width = GetDecNumberWidth(line_count);
+  PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
 
   size_t indent = pos.second
                 + 2 /* strlen(": ") */
@@ -89,7 +89,7 @@ void Parser::throw_unknown_token(
   assert(this->p && this->p_begin_ && this->pe);
 
   CharPosPair pos =
-    get_char_position(this->p, this->p_begin_, this->pe);
+    GetCharPosition(this->p, this->p_begin_, this->pe);
 
   const auto line_count = pos.first + 1;
   const auto char_count = pos.second + 1;
@@ -109,8 +109,8 @@ void Parser::throw_unknown_token(
   if( this->p < this->pe )
     end++;
 
-  int number_width = get_dec_number_width(line_count);
-  print_with_line_numbers(this->p_begin_, end, number_width, error_msg);
+  int number_width = GetDecNumberWidth(line_count);
+  PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
 
   size_t indent = pos.second
                 + 2 /* strlen(": ") */

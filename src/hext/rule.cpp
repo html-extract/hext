@@ -139,7 +139,7 @@ bool Rule::matches(const GumboNode * node) const
 
   if( this->child_pos_ > 0 )
   {
-    unsigned int pos = get_node_position_within_parent(node);
+    unsigned int pos = GetNodePositionWithinParent(node);
     if( pos != this->child_pos_ )
       return false;
   }

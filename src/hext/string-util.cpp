@@ -4,7 +4,7 @@
 namespace hext {
 
 
-std::string trim_and_collapse_ws(std::string str)
+std::string TrimAndCollapseWs(std::string str)
 {
   std::string::size_type i = 0;
   std::string::size_type c = 0;
@@ -12,7 +12,7 @@ std::string trim_and_collapse_ws(std::string str)
 
   for(; c < str.size(); c++)
   {
-    if( is_space(str[c]) )
+    if( IsSpace(str[c]) )
     {
       if( i > 0 )
         need_space = true;
@@ -32,7 +32,7 @@ std::string trim_and_collapse_ws(std::string str)
   return str;
 }
 
-bool is_space(char c)
+bool IsSpace(char c)
 {
   // http://www.w3.org/TR/html5/infrastructure.html#space-character
   // The space characters, for the purposes of this specification,
@@ -53,7 +53,7 @@ bool is_space(char c)
   return false;
 }
 
-std::string get_char_name(char c)
+std::string GetCharName(char c)
 {
   switch( c )
   {
@@ -79,7 +79,7 @@ std::string get_char_name(char c)
   return "";
 }
 
-CharPosPair get_char_position(
+CharPosPair GetCharPosition(
   const char * c,
   const char * begin,
   const char * end
@@ -116,7 +116,7 @@ CharPosPair get_char_position(
   return CharPosPair(line_count, char_offset_in_line);
 }
 
-int get_dec_number_width(ptrdiff_t number)
+int GetDecNumberWidth(ptrdiff_t number)
 {
   number = std::abs(number);
   int number_width = 1;
@@ -125,7 +125,7 @@ int get_dec_number_width(ptrdiff_t number)
   return number_width;
 }
 
-void print_with_line_numbers(
+void PrintWithLineNumbers(
   const char * begin,
   const char * end,
   int number_width,

@@ -23,14 +23,14 @@ std::unique_ptr<MatchPattern> PatternBuilder::build_match_and_reset()
   std::unique_ptr<MatchPattern> p;
   std::unique_ptr<AttrTest> test;
   if( this->attr_regex_.size() )
-    test = make_unique<RegexText>(this->attr_regex_);
+    test = MakeUnique<RegexText>(this->attr_regex_);
   else
-    test = make_unique<LiteralTest>(this->attr_literal_);
+    test = MakeUnique<LiteralTest>(this->attr_literal_);
 
   if( this->bf_ )
-    p = make_unique<BuiltinMatch>(this->bf_, std::move(test));
+    p = MakeUnique<BuiltinMatch>(this->bf_, std::move(test));
   else
-    p = make_unique<AttributeMatch>(this->attr_name_, std::move(test));
+    p = MakeUnique<AttributeMatch>(this->attr_name_, std::move(test));
 
   this->reset();
 
@@ -41,9 +41,9 @@ std::unique_ptr<CapturePattern> PatternBuilder::build_capture_and_reset()
 {
   std::unique_ptr<CapturePattern> p;
   if( this->bf_ )
-    p = make_unique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_);
+    p = MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_);
   else
-    p = make_unique<AttributeCapture>(
+    p = MakeUnique<AttributeCapture>(
       this->cap_var_, this->attr_name_, this->cap_regex_
     );
 

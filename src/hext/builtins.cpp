@@ -4,21 +4,21 @@
 namespace hext {
 
 
-BuiltinFuncPtr get_builtin_by_name(const std::string& builtin_name)
+BuiltinFuncPtr GetBuiltinByName(const std::string& builtin_name)
 {
   if( builtin_name.compare("text") == 0 )
-    return get_node_text;
+    return GetNodeText;
   else if( builtin_name.compare("inner_html") == 0 )
-    return get_node_inner_html;
+    return GetNodeInnerHtml;
 
   return nullptr;
 }
 
-std::string get_name_by_builtin(BuiltinFuncPtr f)
+std::string GetNameByBuiltin(BuiltinFuncPtr f)
 {
-  if( f == get_node_text )
+  if( f == GetNodeText )
     return "text";
-  else if( f == get_node_inner_html )
+  else if( f == GetNodeInnerHtml )
     return "inner_html";
 
   return "unknown-builtin";

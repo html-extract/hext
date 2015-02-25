@@ -10,7 +10,7 @@ FileError::FileError(const std::string& msg)
 }
 
 
-std::string read_file_or_throw(const std::string& path)
+std::string ReadFileOrThrow(const std::string& path)
 {
   std::ifstream file(path, std::ios::in | std::ios::binary);
 

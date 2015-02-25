@@ -28,7 +28,7 @@ MatchResult BuiltinMatch::matches(const GumboNode * node) const
 void BuiltinMatch::print(std::ostream& out) const
 {
   out << " @"
-      << get_name_by_builtin(this->func_);
+      << GetNameByBuiltin(this->func_);
   if( this->test_ )
     this->test_->print(out);
 }

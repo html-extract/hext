@@ -15,7 +15,7 @@ CapturePattern::CapturePattern(
   const std::string& regex
 )
 : name_(result_name)
-, rx_(regex.empty() ? nullptr : make_unique<boost::regex>(regex))
+, rx_(regex.empty() ? nullptr : MakeUnique<boost::regex>(regex))
 {
 }
 

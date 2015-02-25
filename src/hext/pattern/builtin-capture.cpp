@@ -39,7 +39,7 @@ BuiltinCapture::capture(const GumboNode * node) const
 void BuiltinCapture::print(std::ostream& out) const
 {
   out << " @"
-      << get_name_by_builtin(this->func_)
+      << GetNameByBuiltin(this->func_)
       << "={"
       << this->name_;
   if( this->rx_ )

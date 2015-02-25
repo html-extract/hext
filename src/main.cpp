@@ -26,7 +26,7 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    const std::string bf_hext = hext::read_file_or_throw(po.get("hext-file"));
+    const std::string bf_hext = hext::ReadFileOrThrow(po.get("hext-file"));
     hext::Parser p(
       bf_hext.c_str(),
       bf_hext.c_str() + bf_hext.size()
@@ -43,7 +43,7 @@ int main(int argc, const char ** argv)
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    const std::string bf_html = hext::read_file_or_throw(po.get("html-file"));
+    const std::string bf_html = hext::ReadFileOrThrow(po.get("html-file"));
     const hext::Html html(bf_html.c_str(), bf_html.size());
 
     for(const auto& rule : rules)
