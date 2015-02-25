@@ -14,6 +14,8 @@
 namespace hext {
 
 
+/// A BuiltinCapture is a CapturePattern that captures the result of a builtin
+/// function.
 class BuiltinCapture : public CapturePattern
 {
 public:
