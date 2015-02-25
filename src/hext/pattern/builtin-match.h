@@ -14,6 +14,8 @@
 namespace hext {
 
 
+/// A BuiltinMatch is a MatchPattern that checks whether the result of a
+/// builtin matches value_test.
 class BuiltinMatch : public MatchPattern
 {
 public:
