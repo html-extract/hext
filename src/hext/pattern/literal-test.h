@@ -10,10 +10,13 @@
 namespace hext {
 
 
+/// A LiteralTest is a ValueTest that checks whether another string equals a
+/// given string completely.
 class LiteralTest : public ValueTest
 {
 public:
   explicit LiteralTest(std::string literal);
+  /// Return true if subject equals literal.
   bool test(const char * subject) const final;
   void print(std::ostream& out = std::cout) const final;
 
