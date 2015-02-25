@@ -15,13 +15,21 @@ AttributeMatch::AttributeMatch(
 
 MatchResult AttributeMatch::matches(const GumboNode * node) const
 {
-  const GumboAttribute * g_attr = this->get_node_attr(node);
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return MatchResult(false, nullptr);
+
+  const GumboAttribute * g_attr = gumbo_get_attribute(
+    &node->v.element.attributes,
+    this->attr_.c_str()
+  );
+
   if( !g_attr )
     return MatchResult(false, nullptr);
+
   if( !this->test_ || this->test_->test(g_attr->value) )
     return MatchResult(true, g_attr);
-  else
-    return MatchResult(false, nullptr);
+
+  return MatchResult(false, nullptr);
 }
 
 void AttributeMatch::print(std::ostream& out) const
@@ -29,15 +37,6 @@ void AttributeMatch::print(std::ostream& out) const
   out << " " << this->attr_;
   if( this->test_ )
     this->test_->print(out);
-}
-
-const GumboAttribute *
-AttributeMatch::get_node_attr(const GumboNode * node) const
-{
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return nullptr;
-
-  return gumbo_get_attribute(&node->v.element.attributes, this->attr_.c_str());
 }
 
 

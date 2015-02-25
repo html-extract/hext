@@ -27,9 +27,6 @@ public:
   void print(std::ostream& out = std::cout) const final;
 
 protected:
-  /// Get a GumboAttribute pointer to the node's attribute called attr_name.
-  /// Returns nullptr if not found.
-  const GumboAttribute * get_node_attr(const GumboNode * node) const;
   const std::string attr_;
 };
 
