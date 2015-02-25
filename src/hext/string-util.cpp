@@ -132,6 +132,9 @@ void PrintWithLineNumbers(
   std::ostream& out
 )
 {
+  if( !begin || !end )
+    return;
+
   boost::tokenizer<boost::char_separator<char>, const char *> lines(
     begin,
     end,
