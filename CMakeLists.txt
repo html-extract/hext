@@ -95,7 +95,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/match-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/attr-test.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/pattern/value-test.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/literal-test.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/regex-test.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/match-pattern.cpp"

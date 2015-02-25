@@ -6,7 +6,7 @@
 
 #include "hext/make-unique.h"
 #include "hext/builtins.h"
-#include "hext/pattern/attr-test.h"
+#include "hext/pattern/value-test.h"
 #include "hext/pattern/literal-test.h"
 #include "hext/pattern/regex-test.h"
 #include "hext/pattern/match-pattern.h"

@@ -7,7 +7,7 @@
 
 #include <gumbo.h>
 
-#include "hext/pattern/attr-test.h"
+#include "hext/pattern/value-test.h"
 #include "hext/pattern/match-pattern.h"
 
 
@@ -21,7 +21,7 @@ class AttributeMatch : public MatchPattern
 public:
   AttributeMatch(
     const std::string& attr_name,
-    std::unique_ptr<AttrTest> attribute_test
+    std::unique_ptr<ValueTest> value_test
   );
   MatchResult matches(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;

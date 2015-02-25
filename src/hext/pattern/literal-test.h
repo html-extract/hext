@@ -4,13 +4,13 @@
 #include <string>
 #include <iostream>
 
-#include "hext/pattern/attr-test.h"
+#include "hext/pattern/value-test.h"
 
 
 namespace hext {
 
 
-class LiteralTest : public AttrTest
+class LiteralTest : public ValueTest
 {
 public:
   explicit LiteralTest(std::string literal);

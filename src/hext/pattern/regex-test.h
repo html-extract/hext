@@ -6,13 +6,13 @@
 
 #include <boost/regex.hpp>
 
-#include "hext/pattern/attr-test.h"
+#include "hext/pattern/value-test.h"
 
 
 namespace hext {
 
 
-class RegexTest : public AttrTest
+class RegexTest : public ValueTest
 {
 public:
   explicit RegexTest(const std::string& regex);

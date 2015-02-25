@@ -1,5 +1,5 @@
-#ifndef HEXT_ATTR_TEST_H
-#define HEXT_ATTR_TEST_H
+#ifndef HEXT_VALUE_TEST_H
+#define HEXT_VALUE_TEST_H
 
 #include <string>
 #include <iostream>
@@ -8,10 +8,10 @@
 namespace hext {
 
 
-class AttrTest
+class ValueTest
 {
 public:
-  virtual ~AttrTest();
+  virtual ~ValueTest();
   virtual bool test(const char * /* dummy */) const;
   virtual void print(std::ostream& /* dummy */ = std::cout) const;
 };
@@ -19,5 +19,5 @@ public:
 
 } // namespace hext
 
-#endif // HEXT_ATTR_TEST_H
+#endif // HEXT_VALUE_TEST_H
 

@@ -19,7 +19,7 @@ class BuiltinMatch : public MatchPattern
 public:
   BuiltinMatch(
     BuiltinFuncPtr f,
-    std::unique_ptr<AttrTest> attribute_test
+    std::unique_ptr<ValueTest> value_test
   );
 
   MatchResult matches(const GumboNode * node) const final;

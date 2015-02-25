@@ -6,9 +6,9 @@ namespace hext {
 
 BuiltinMatch::BuiltinMatch(
   BuiltinFuncPtr f,
-  std::unique_ptr<AttrTest> attribute_test
+  std::unique_ptr<ValueTest> value_test
 )
-: MatchPattern(std::move(attribute_test))
+: MatchPattern(std::move(value_test))
 , func_(f)
 {
 }

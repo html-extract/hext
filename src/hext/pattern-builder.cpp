@@ -21,7 +21,7 @@ PatternBuilder::~PatternBuilder()
 std::unique_ptr<MatchPattern> PatternBuilder::build_match_and_reset()
 {
   std::unique_ptr<MatchPattern> p;
-  std::unique_ptr<AttrTest> test;
+  std::unique_ptr<ValueTest> test;
   if( this->attr_regex_.size() )
     test = MakeUnique<RegexTest>(this->attr_regex_);
   else

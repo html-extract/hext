@@ -8,7 +8,7 @@
 
 #include <gumbo.h>
 
-#include "hext/pattern/attr-test.h"
+#include "hext/pattern/value-test.h"
 
 
 namespace hext {
@@ -23,13 +23,13 @@ typedef std::pair<bool, const GumboAttribute *> MatchResult;
 class MatchPattern
 {
 public:
-  explicit MatchPattern(std::unique_ptr<AttrTest> attribute_test);
+  explicit MatchPattern(std::unique_ptr<ValueTest> value_test);
   virtual ~MatchPattern();
   virtual MatchResult matches(const GumboNode * node) const = 0;
   virtual void print(std::ostream& out = std::cout) const = 0;
 
 protected:
-  const std::unique_ptr<AttrTest> test_;
+  const std::unique_ptr<ValueTest> test_;
 };
 
 
