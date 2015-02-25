@@ -12,10 +12,10 @@
 namespace hext {
 
 
-class RegexText : public AttrTest
+class RegexTest : public AttrTest
 {
 public:
-  explicit RegexText(const std::string& regex);
+  explicit RegexTest(const std::string& regex);
   bool test(const char * subject) const final;
   void print(std::ostream& out = std::cout) const final;
 

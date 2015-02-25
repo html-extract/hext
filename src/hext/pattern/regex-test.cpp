@@ -4,17 +4,17 @@
 namespace hext {
 
 
-RegexText::RegexText(const std::string& regex)
+RegexTest::RegexTest(const std::string& regex)
 : rx_(regex)
 {
 }
 
-bool RegexText::test(const char * subject) const
+bool RegexTest::test(const char * subject) const
 {
   return boost::regex_search(subject, this->rx_);
 }
 
-void RegexText::print(std::ostream& out) const
+void RegexTest::print(std::ostream& out) const
 {
   out << "=/" << this->rx_.str() << "/";
 }

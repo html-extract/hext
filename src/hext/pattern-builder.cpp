@@ -23,7 +23,7 @@ std::unique_ptr<MatchPattern> PatternBuilder::build_match_and_reset()
   std::unique_ptr<MatchPattern> p;
   std::unique_ptr<AttrTest> test;
   if( this->attr_regex_.size() )
-    test = MakeUnique<RegexText>(this->attr_regex_);
+    test = MakeUnique<RegexTest>(this->attr_regex_);
   else
     test = MakeUnique<LiteralTest>(this->attr_literal_);
 
