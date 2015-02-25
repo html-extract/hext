@@ -15,7 +15,7 @@ namespace hext {
 
 
 /// An AttributeMatch is a MatchPattern that checks whether an html-node has
-/// any attribute called attr_name.
+/// any attribute called attr_name which matches value_test.
 class AttributeMatch : public MatchPattern
 {
 public:
