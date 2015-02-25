@@ -89,6 +89,7 @@ bool RuleBuilder::set_tag_name(const std::string& tag)
     GumboTag t = gumbo_tag_enum(tag.c_str());
     if( t == GUMBO_TAG_UNKNOWN )
       return false;
+    this->gumbo_tag_ = t;
   }
 
   return true;
