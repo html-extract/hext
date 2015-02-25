@@ -62,9 +62,14 @@ void PatternBuilder::reset()
   this->cap_regex_ = "";
 }
 
-void PatternBuilder::set_builtin_function(BuiltinFuncPtr func)
+bool PatternBuilder::set_builtin_function(const std::string& bi)
 {
+  BuiltinFuncPtr func = GetBuiltinByName(bi);
+  if( !func )
+    return false;
+
   this->bf_ = func;
+  return true;
 }
 
 void PatternBuilder::set_attr_name(const std::string& attribute_name)

@@ -46,9 +46,8 @@
               >{ LX_TK_START; }
               %{ LX_TK_STOP;
                  {
-                   BuiltinFuncPtr bf = GetBuiltinByName(tok);
-                   if( !bf ) this->throw_unknown_token("builtin", tok);
-                   rule.pattern().set_builtin_function(bf);
+                   if( !rule.pattern().set_builtin_function(tok) )
+                     this->throw_unknown_token("builtin", tok);
                  }
               }
             )

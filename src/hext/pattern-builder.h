@@ -29,7 +29,7 @@ public:
   std::unique_ptr<CapturePattern> build_capture_and_reset();
   void reset();
 
-  void set_builtin_function(BuiltinFuncPtr func);
+  bool set_builtin_function(const std::string& bi);
   void set_attr_name(const std::string& attribute_name);
   void set_attr_literal(const std::string& attribute_literal);
   void set_attr_regex(const std::string& attribute_regex);
