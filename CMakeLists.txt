@@ -81,6 +81,7 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 
 ADD_EXECUTABLE(
   html-extract
+  "${PROJECT_SOURCE_DIR}/src/hext/node-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/string-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"

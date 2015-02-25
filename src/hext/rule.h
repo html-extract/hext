@@ -8,6 +8,7 @@
 
 #include <gumbo.h>
 
+#include "hext/node-util.h"
 #include "hext/make-unique.h"
 #include "hext/rule-patterns.h"
 #include "hext/pattern/match-pattern.h"
@@ -88,10 +89,6 @@ private:
 
   /// Helper method that calls Rule::extract for each child of GumboNode.
   void extract_node_children(const GumboNode * node, MatchTree * m) const;
-
-  /// Get the position of node within its parent. Only counts nodes of type
-  /// GUMBO_NODE_ELEMENT. First node has position 1. Returns 0 if no parent.
-  unsigned int get_node_position_within_parent(const GumboNode * node) const;
 
   std::vector<Rule> children_;
   RulePatterns patterns_;
