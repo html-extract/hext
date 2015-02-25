@@ -18,7 +18,7 @@ class BuiltinMatch : public MatchPattern
 {
 public:
   BuiltinMatch(
-    bi::BuiltinFuncPtr f,
+    BuiltinFuncPtr f,
     std::unique_ptr<AttrTest> attribute_test
   );
 
@@ -26,7 +26,7 @@ public:
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const bi::BuiltinFuncPtr func_;
+  const BuiltinFuncPtr func_;
 };
 
 

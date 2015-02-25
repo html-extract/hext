@@ -6,7 +6,7 @@ namespace hext {
 
 BuiltinCapture::BuiltinCapture(
   const std::string& result_name,
-  bi::BuiltinFuncPtr f,
+  BuiltinFuncPtr f,
   const std::string& regex
 )
 : CapturePattern(result_name, regex)
@@ -39,7 +39,7 @@ BuiltinCapture::capture(const GumboNode * node) const
 void BuiltinCapture::print(std::ostream& out) const
 {
   out << " @"
-      << bi::get_name_by_builtin(this->func_)
+      << get_name_by_builtin(this->func_)
       << "={"
       << this->name_;
   if( this->rx_ )

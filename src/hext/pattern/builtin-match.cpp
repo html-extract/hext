@@ -5,7 +5,7 @@ namespace hext {
 
 
 BuiltinMatch::BuiltinMatch(
-  bi::BuiltinFuncPtr f,
+  BuiltinFuncPtr f,
   std::unique_ptr<AttrTest> attribute_test
 )
 : MatchPattern(std::move(attribute_test))
@@ -28,7 +28,7 @@ MatchResult BuiltinMatch::matches(const GumboNode * node) const
 void BuiltinMatch::print(std::ostream& out) const
 {
   out << " @"
-      << bi::get_name_by_builtin(this->func_);
+      << get_name_by_builtin(this->func_);
   if( this->test_ )
     this->test_->print(out);
 }

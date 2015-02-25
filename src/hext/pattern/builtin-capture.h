@@ -19,14 +19,14 @@ class BuiltinCapture : public CapturePattern
 public:
   BuiltinCapture(
     const std::string& result_name,
-    bi::BuiltinFuncPtr f,
+    BuiltinFuncPtr f,
     const std::string& regex
   );
   MatchTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const bi::BuiltinFuncPtr func_;
+  const BuiltinFuncPtr func_;
 };
 
 

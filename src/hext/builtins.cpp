@@ -2,7 +2,6 @@
 
 
 namespace hext {
-namespace bi {
 
 
 BuiltinFuncPtr get_builtin_by_name(const std::string& builtin_name)
@@ -26,6 +25,5 @@ std::string get_name_by_builtin(BuiltinFuncPtr f)
 }
 
 
-} // namespace bi
 } // namespace hext
 

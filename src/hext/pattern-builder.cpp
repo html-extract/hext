@@ -62,7 +62,7 @@ void PatternBuilder::reset()
   this->cap_regex_ = "";
 }
 
-void PatternBuilder::set_builtin_function(bi::BuiltinFuncPtr func)
+void PatternBuilder::set_builtin_function(BuiltinFuncPtr func)
 {
   this->bf_ = func;
 }
