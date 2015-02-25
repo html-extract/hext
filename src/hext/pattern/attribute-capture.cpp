@@ -17,7 +17,13 @@ AttributeCapture::AttributeCapture(
 MatchTree::NameValuePair
 AttributeCapture::capture(const GumboNode * node) const
 {
-  const GumboAttribute * g_attr = this->get_node_attr(node);
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return MatchTree::NameValuePair(this->name_, "");
+
+  const GumboAttribute * g_attr = gumbo_get_attribute(
+    &node->v.element.attributes,
+    this->attr_.c_str()
+  );
 
   if( !g_attr )
     return MatchTree::NameValuePair(this->name_, "");
@@ -41,15 +47,6 @@ void AttributeCapture::print(std::ostream& out) const
   if( this->rx_ )
     out << '/' << this->rx_->str() << '/';
   out << '}';
-}
-
-const GumboAttribute *
-AttributeCapture::get_node_attr(const GumboNode * node) const
-{
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return nullptr;
-
-  return gumbo_get_attribute(&node->v.element.attributes, this->attr_.c_str());
 }
 
 

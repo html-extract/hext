@@ -26,8 +26,6 @@ public:
   void print(std::ostream& out = std::cout) const final;
 
 private:
-  const GumboAttribute * get_node_attr(const GumboNode * node) const;
-
   /// The name of the html-node-attribute whose value should be captured
   const std::string attr_;
 };
