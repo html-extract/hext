@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 
+#include "string-util/main.h"
+
 
 int main(int argc, char ** argv)
 {
