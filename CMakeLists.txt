@@ -6,6 +6,10 @@ INCLUDE(ExternalProject) # available since 2.8.7
 
 PROJECT(html-extract)
 
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Release)
+ENDIF()
+
 ADD_DEFINITIONS("-std=c++11")
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
