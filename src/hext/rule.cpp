@@ -101,8 +101,17 @@ void Rule::print(
   bool print_match_count
 ) const
 {
+  // When print_match_count is set, prefix each printed rule with the rule's
+  // match_count_. To have a fixed-width column containing varying numbers we
+  // need to know the space needed for the biggest number. Because a child's
+  // match_count_ will always be less than or equal to the match_count_ of its
+  // parent we only need to call GetDecNumberWidth once.
+  static int match_count_width = GetDecNumberWidth(this->match_count_);
+
   if( print_match_count )
-    out << "\tx" << this->match_count_ << " |";
+    out << std::setw(match_count_width)
+        << this->match_count_
+        << "x | ";
 
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
