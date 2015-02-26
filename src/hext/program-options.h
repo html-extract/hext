@@ -18,7 +18,7 @@ public:
   ~ProgramOptions();
 
   /// Store argv and validate or throw boost::program_options::error.
-  void store(int argc, const char * argv[]);
+  void store_and_validate_or_throw(int argc, const char * argv[]);
   /// Check if key was given as an argument.
   bool contains(const char * key) const;
   /// Get value from parameter.

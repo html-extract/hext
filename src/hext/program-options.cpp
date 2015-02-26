@@ -25,7 +25,7 @@ ProgramOptions::~ProgramOptions()
 {
 }
 
-void ProgramOptions::store(int argc, const char * argv[])
+void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
 {
   namespace po = boost::program_options;
   po::store(po::parse_command_line(argc, argv, this->desc_), this->vm_);

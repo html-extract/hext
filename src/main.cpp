@@ -18,7 +18,7 @@ int main(int argc, const char ** argv)
 
   try
   {
-    po.store(argc, argv);
+    po.store_and_validate_or_throw(argc, argv);
 
     if( po.contains("help") )
     {
