@@ -16,11 +16,16 @@
 namespace hext {
 
 
+/// Html is a simple RAII wrapper around gumbo.
 class Html
 {
 public:
+  /// Parse html at buffer. buffer must live as long as this object.
   Html(const char * buffer, size_t length);
   ~Html();
+
+  /// Apply Rule to all nodes and return a MatchTree containing all
+  /// captured values.
   std::unique_ptr<MatchTree> extract(const Rule& r) const;
 
 private:
