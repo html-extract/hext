@@ -20,13 +20,18 @@
 namespace hext {
 
 
+/// When parsing hext a PatternBuilder is responsible for creating
+/// MatchPatterns and CapturePatterns.
 class PatternBuilder
 {
 public:
   PatternBuilder();
   ~PatternBuilder();
+  /// Return a MatchPattern and reset all members.
   std::unique_ptr<MatchPattern> build_match_and_reset();
+  /// Return a CapturePattern and reset all members.
   std::unique_ptr<CapturePattern> build_capture_and_reset();
+  /// Reset all members to their original state.
   void reset();
 
   bool set_builtin_function(const std::string& bi);
