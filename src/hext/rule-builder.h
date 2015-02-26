@@ -1,7 +1,6 @@
 #ifndef HEXT_RULE_BUILDER_H
 #define HEXT_RULE_BUILDER_H
 
-
 #include <string>
 #include <memory>
 #include <vector>
@@ -16,15 +15,21 @@
 namespace hext {
 
 
+/// When parsing hext a RuleBuilder is responsible for creating Rules.
 class RuleBuilder
 {
 public:
   RuleBuilder();
   ~RuleBuilder();
+  /// Return all stored rules and reset.
   std::vector<Rule> get_rules_and_reset();
+  /// Reset all members to their original state (except rules_).
   void reset();
+  /// Store the Rule that is currently being built and call reset.
   void consume_and_reset();
+  /// Store the pattern that is currently being built as a MatchPattern.
   void consume_match_pattern();
+  /// Store the pattern that is currently being built as a CapturePattern.
   void consume_capture_pattern();
   PatternBuilder& pattern();
 
