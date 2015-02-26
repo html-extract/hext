@@ -21,16 +21,26 @@ namespace hext {
 class MatchTree;
 
 /// A Rule represents a source line from the hext input.
-/// Generally: <direct_descendant?nth_child?tag_name? rule_pattern*>
+/// Generally: <is_optional?(dd|nth_child)?tag_name? rule_pattern*>
 ///   Example: <!2div id="container" class="list">
 ///
-/// tag_name represents the html-tag that we want to match. Empty tag_name
-/// matches any html-tag.
-/// A Rule matches an html-node if all RulePatterns are matched. Then,
-/// RulePatterns extracts captured content which will be stored in a
-/// MatchTree.
-/// A Rule is a self-managing tree: each Rule has a vector of unique_ptr to
-/// child-rule.
+/// A Rule matches an html-node if all its attributes are satisfied:
+///  * is_optional: Ignored while matching. When MatchTree::filter is called,
+///    invalid MatchTree branches are removed, unless this flag is set.
+///  * nth_child or direct_descendant: Matches if the node is a direct
+///    descendant of its parent. If nth_child is given, it must match the index
+///    within its parent node (the index is determined by ignoring text-nodes,
+///    see node-util's GetNodePositionWithinParent)
+///  * gumbo_tag: The tag_name of the rule, as parsed by gumbo. Matches if the
+///    node's tag is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
+///  * RulePatterns: If the Rule is closed,
+///    RulePatterns::matches_all_attributes() must return true. If the Rule is
+///    not optional, RulePatterns::matches() must return true.
+///
+/// If a node matches a Rule, RulePatterns::capture() is called, which returns
+/// a new MatchTree branch, containing all captured NameValuePairs.
+///
+/// A Rule is a tree: each Rule has a vector of child-rules.
 class Rule
 {
 public:
@@ -60,6 +70,8 @@ public:
   ///   level1    <li>
   ///   level2      <img>
   ///   level2      <a>    # new
+  ///
+  /// Only used when constructing Rules in the parser.
   void append_child(Rule&& r, int level = 1);
 
   const std::vector<Rule>& children() const;
@@ -69,8 +81,9 @@ public:
   /// Recursively try to find and capture matches.
   void extract(const GumboNode * node, MatchTree * m) const;
 
-  /// Recursively print the Rule and its child-rules, including rule-patterns
-  /// and tag-name.
+  /// Recursively print the Rule and its child-rules.
+  /// If print_match_count is true, print a column containing the match count
+  /// for each rule.
   void print(
     std::ostream& out = std::cout,
     int indent_level = 0,
@@ -83,8 +96,6 @@ private:
   Rule& operator=(const Rule&) = delete;
 
   /// Check wheter this Rule matches a single GumboNode.
-  /// A Rule matches when each match-pattern is found in the GumboNode and
-  /// tag-name is equal (if non empty).
   bool matches(const GumboNode * node) const;
 
   /// Helper method that calls Rule::extract for each child of GumboNode.
@@ -95,7 +106,7 @@ private:
 
   /// Count how often this Rule was matched.
   /// match_count is mutable because it is not observable from the outside.
-  /// This enables us to keep Rule::match const.
+  /// This enables us to keep Rule::extract const.
   /// It is generally assumed that const objects are thread-safe,
   /// therefore mutable members must be made thread-safe.
   /// This is solved by using std::atomic.
