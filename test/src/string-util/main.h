@@ -55,6 +55,22 @@ TEST(String_TrimAndCollapseWs, LeftRightTrim)
   EXPECT_EQ(output, expected);
 }
 
+TEST(String_TrimAndCollapseWs, Collapse)
+{
+  std::vector<std::pair<std::string, std::string>> checks = {
+    {"   \t l  e ftr    ig \n\t\r ht \n ", "l e ftr ig ht"},
+    {"left           right", "left right"},
+    {"left           right ", "left right"},
+    {"left\nright", "left right"},
+  };
+
+  for(const auto& p : checks)
+  {
+    std::string output = hext::TrimAndCollapseWs(p.first);
+    EXPECT_EQ(output, p.second);
+  }
+}
+
 TEST(String_IsSpace, DidntChangeBehaviour)
 {
   char c_min = std::numeric_limits<char>::min();
