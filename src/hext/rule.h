@@ -112,8 +112,8 @@ private:
   mutable std::atomic<unsigned int> match_count_;
 
   const GumboTag gumbo_tag_;
-  const bool is_opt_;
-  const int child_pos_;
+  const bool is_optional_;
+  const int nth_child_;
   const bool is_closed_;
 }; 
 

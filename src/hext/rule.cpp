@@ -16,8 +16,8 @@ Rule::Rule(
 , patterns_(std::move(r_patterns))
 , match_count_(0)
 , gumbo_tag_(tag)
-, is_opt_(is_optional)
-, child_pos_(nth_child)
+, is_optional_(is_optional)
+, nth_child_(nth_child)
 , is_closed_(closed)
 {
 }
@@ -31,8 +31,8 @@ Rule::Rule(Rule&& r)
 , patterns_(std::move(r.patterns_))
 , match_count_(r.match_count_.load())
 , gumbo_tag_(r.gumbo_tag_)
-, is_opt_(r.is_opt_)
-, child_pos_(r.child_pos_)
+, is_optional_(r.is_optional_)
+, nth_child_(r.nth_child_)
 , is_closed_(r.is_closed_)
 {
 }
@@ -60,7 +60,7 @@ GumboTag Rule::gumbo_tag() const
 
 bool Rule::optional() const
 {
-  return this->is_opt_;
+  return this->is_optional_;
 }
 
 void Rule::extract(const GumboNode * node, MatchTree * m) const
@@ -90,7 +90,7 @@ void Rule::extract(const GumboNode * node, MatchTree * m) const
   {
     // if this rule is a direct descendant, and it didn't match,
     // all child-rules cannot be matched either.
-    if( this->child_pos_ == -1 )
+    if( this->nth_child_ == -1 )
       this->extract_node_children(node, m);
   }
 }
@@ -106,11 +106,11 @@ void Rule::print(
 
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
-      << ( this->is_opt_ ? "?" : "" )
-      << ( this->child_pos_ == 0 ? "!" : "" );
+      << ( this->is_optional_ ? "?" : "" )
+      << ( this->nth_child_ == 0 ? "!" : "" );
 
-  if( this->child_pos_ > 0 )
-    out << this->child_pos_;
+  if( this->nth_child_ > 0 )
+    out << this->nth_child_;
 
   if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
     out << gumbo_normalized_tagname(this->gumbo_tag_);
@@ -134,10 +134,10 @@ bool Rule::matches(const GumboNode * node) const
     if( node->v.element.tag != this->gumbo_tag_ )
       return false;
 
-  if( this->child_pos_ > 0 )
+  if( this->nth_child_ > 0 )
   {
     unsigned int pos = GetNodePositionWithinParent(node);
-    if( pos != this->child_pos_ )
+    if( pos != this->nth_child_ )
       return false;
   }
 
