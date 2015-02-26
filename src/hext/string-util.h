@@ -28,7 +28,7 @@ std::string TrimAndCollapseWs(std::string str);
 /// http://www.w3.org/TR/html5/infrastructure.html#space-character
 bool IsSpace(char c);
 
-// Convenience typedefs for get_char_position.
+/// Convenience typedefs for GetCharPosition.
 typedef std::iterator_traits<const char *>::difference_type CharPosType;
 typedef std::pair<CharPosType, CharPosType> CharPosPair;
 
