@@ -12,6 +12,7 @@
 namespace hext {
 
 
+/// Custom exception type for file errors.
 class FileError : public std::runtime_error
 {
 public:
@@ -19,7 +20,8 @@ public:
 };
 
 
-// Read file at path to buffer. Throws FileError on failure.
+/// Read file at path to buffer. Throws FileError on failure.
+/// Can read regular files as well as named pipes.
 std::string ReadFileOrThrow(const std::string& path);
 
 
