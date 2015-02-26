@@ -16,7 +16,7 @@ TEST(String_TrimAndCollapseWs, EmptyString)
   std::string expected = "";
   std::string output = hext::TrimAndCollapseWs(input);
 
-  EXPECT_EQ(output.compare(expected), 0);
+  EXPECT_EQ(output, expected);
 }
 
 TEST(String_TrimAndCollapseWs, AlreadyTrimmed)
@@ -25,7 +25,7 @@ TEST(String_TrimAndCollapseWs, AlreadyTrimmed)
   std::string expected = "a";
   std::string output = hext::TrimAndCollapseWs(input);
 
-  EXPECT_EQ(output.compare(expected), 0);
+  EXPECT_EQ(output, expected);
 }
 
 TEST(String_TrimAndCollapseWs, LeftTrim)
@@ -34,7 +34,7 @@ TEST(String_TrimAndCollapseWs, LeftTrim)
   std::string expected = "left";
   std::string output = hext::TrimAndCollapseWs(input);
 
-  EXPECT_EQ(output.compare(expected), 0);
+  EXPECT_EQ(output, expected);
 }
 
 TEST(String_TrimAndCollapseWs, RightTrim)
