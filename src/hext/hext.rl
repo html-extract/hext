@@ -125,7 +125,7 @@
         )?
         (
           (
-            '!' %{ rule.set_direct_descendant(true); }
+            '!' %{ rule.set_nth_child(0); }
           )
           |
           (

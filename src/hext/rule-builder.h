@@ -37,9 +37,8 @@ public:
   void increment_indent();
   bool set_tag_name(const std::string& tag);
   void set_optional(bool is_opt);
-  void set_direct_descendant(bool direct_desc);
+  void set_nth_child(int pos_within_parent);
   void set_closed(bool closed);
-  void set_nth_child(unsigned int pos_within_parent);
 
 private:
   PatternBuilder pat_;
@@ -48,9 +47,8 @@ private:
   unsigned int indent_;
   GumboTag gumbo_tag_;
   bool is_optional_;
-  bool is_direct_desc_;
+  int nth_child_;
   bool is_closed_;
-  unsigned int nth_child_;
   std::vector<std::unique_ptr<MatchPattern>> mp_;
   std::vector<std::unique_ptr<CapturePattern>> cp_;
 };

@@ -47,9 +47,8 @@ public:
   Rule(
     GumboTag gumbo_tag,
     bool is_optional,
-    bool direct_descendant,
+    int nth_child,
     bool closed,
-    unsigned int nth_child,
     RulePatterns&& r_patterns
   );
   ~Rule();
@@ -114,9 +113,8 @@ private:
 
   const GumboTag gumbo_tag_;
   const bool is_opt_;
-  const bool is_direct_desc_;
+  const int child_pos_;
   const bool is_closed_;
-  const unsigned int child_pos_;
 }; 
 
 

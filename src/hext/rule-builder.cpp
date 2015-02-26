@@ -10,9 +10,8 @@ RuleBuilder::RuleBuilder()
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)
-, is_direct_desc_(false)
+, nth_child_(-1)
 , is_closed_(false)
-, nth_child_(0)
 , mp_()
 , cp_()
 {
@@ -36,10 +35,9 @@ void RuleBuilder::reset()
 {
   this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
   this->indent_ = 0;
-  this->is_direct_desc_ = false;
   this->is_closed_ = false;
+  this->nth_child_ = -1;
   this->is_optional_ = false;
-  this->nth_child_ = 0;
   this->mp_.clear();
   this->cp_.clear();
 }
@@ -49,9 +47,8 @@ void RuleBuilder::consume_and_reset()
   Rule r(
     this->gumbo_tag_,
     this->is_optional_,
-    this->is_direct_desc_,
-    this->is_closed_,
     this->nth_child_,
+    this->is_closed_,
     RulePatterns(std::move(this->mp_), std::move(this->cp_))
   );
 
@@ -101,19 +98,16 @@ void RuleBuilder::set_optional(bool is_opt)
   this->is_optional_ = is_opt;
 }
 
-void RuleBuilder::set_direct_descendant(bool direct_desc)
+void RuleBuilder::set_nth_child(int pos_within_parent)
 {
-  this->is_direct_desc_ = direct_desc;
+  if( pos_within_parent < -1 )
+    pos_within_parent = -1;
+  this->nth_child_ = pos_within_parent;
 }
 
 void RuleBuilder::set_closed(bool closed)
 {
   this->is_closed_ = closed;
-}
-
-void RuleBuilder::set_nth_child(unsigned int pos_within_parent)
-{
-  this->nth_child_ = pos_within_parent;
 }
 
 void RuleBuilder::consume_match_pattern()
