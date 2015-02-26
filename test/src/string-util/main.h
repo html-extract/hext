@@ -43,7 +43,7 @@ TEST(String_TrimAndCollapseWs, RightTrim)
   std::string expected = "right";
   std::string output = hext::TrimAndCollapseWs(input);
 
-  EXPECT_EQ(output.compare(expected), 0);
+  EXPECT_EQ(output, expected);
 }
 
 TEST(String_TrimAndCollapseWs, LeftRightTrim)
@@ -52,7 +52,7 @@ TEST(String_TrimAndCollapseWs, LeftRightTrim)
   std::string expected = "leftright";
   std::string output = hext::TrimAndCollapseWs(input);
 
-  EXPECT_EQ(output.compare(expected), 0);
+  EXPECT_EQ(output, expected);
 }
 
 TEST(String_IsSpace, DidntChangeBehaviour)
