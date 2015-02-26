@@ -38,6 +38,7 @@ void RuleBuilder::reset()
   this->indent_ = 0;
   this->is_direct_desc_ = false;
   this->is_closed_ = false;
+  this->is_optional_ = false;
   this->nth_child_ = 0;
   this->mp_.clear();
   this->cp_.clear();
