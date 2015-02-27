@@ -118,15 +118,23 @@ void PatternBuilder::consume_match_pattern()
 
 void PatternBuilder::consume_capture_pattern()
 {
-  std::unique_ptr<CapturePattern> p;
   if( this->bf_ )
-    p = MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_);
-  else
-    p = MakeUnique<AttributeCapture>(
-      this->cap_var_, this->attr_name_, this->cap_regex_
+  {
+    this->cp_.push_back(
+      MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_)
     );
-
-  this->cp_.push_back(std::move(p));
+  }
+  else
+  {
+    this->cp_.push_back(
+      MakeUnique<AttributeCapture>(
+        this->cap_var_, this->attr_name_, this->cap_regex_
+      )
+    );
+    this->mp_.push_back(
+      MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<ValueTest>())
+    );
+  }
 }
 
 
