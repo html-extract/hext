@@ -27,12 +27,16 @@ class PatternBuilder
 public:
   PatternBuilder();
   ~PatternBuilder();
-  /// Return a MatchPattern and reset all members.
-  std::unique_ptr<MatchPattern> build_match_and_reset();
-  /// Return a CapturePattern and reset all members.
-  std::unique_ptr<CapturePattern> build_capture_and_reset();
-  /// Reset all members to their original state.
-  void reset();
+
+  /// Consume either a MatchPattern or a CapturePattern, depending on which
+  /// parameters were given previously. Reset members.
+  void consume_and_reset();
+
+  /// Move all previously created MatchPatterns to caller.
+  std::vector<std::unique_ptr<MatchPattern>> get_matchp_and_reset();
+
+  /// Move all previously created CapturePatterns to caller.
+  std::vector<std::unique_ptr<CapturePattern>> get_capturep_and_reset();
 
   bool set_builtin_function(const std::string& bi);
   void set_attr_name(const std::string& attribute_name);
@@ -42,12 +46,23 @@ public:
   void set_cap_regex(const std::string& capture_regex);
 
 private:
+  /// Reset all members to their original state.
+  void reset();
+
+  /// Append a MatchPattern.
+  void consume_match_pattern();
+
+  /// Append a CapturePattern.
+  void consume_capture_pattern();
+
   BuiltinFuncPtr bf_;
   std::string attr_name_;
   std::string attr_literal_;
   std::string attr_regex_;
   std::string cap_var_;
   std::string cap_regex_;
+  std::vector<std::unique_ptr<MatchPattern>> mp_;
+  std::vector<std::unique_ptr<CapturePattern>> cp_;
 };
 
 

@@ -76,9 +76,7 @@
                 )
                 '/'
               )?
-              (
-                '}' %{ rule.consume_capture_pattern(); }
-              )
+              '}'
             )
             |
             (
@@ -87,8 +85,7 @@
                 (
                   match_regex >{ LX_TK_START; }
                               %{ LX_TK_STOP;
-                                 rule.pattern().set_attr_regex(tok);
-                                 rule.consume_match_pattern(); }
+                                 rule.pattern().set_attr_regex(tok); }
                 )
                 '/'
               )
@@ -98,15 +95,14 @@
                 (
                   match_literal >{ LX_TK_START; }
                                 %{ LX_TK_STOP;
-                                   rule.pattern().set_attr_literal(tok);
-                                   rule.consume_match_pattern(); }
+                                   rule.pattern().set_attr_literal(tok); }
                 )
                 '"'
               )
             )
           )
         )?
-      )
+      ) %{ rule.pattern().consume_and_reset(); }
     )+;
 
   main := 

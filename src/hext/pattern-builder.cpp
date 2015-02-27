@@ -11,6 +11,8 @@ PatternBuilder::PatternBuilder()
 , attr_regex_()
 , cap_var_()
 , cap_regex_()
+, mp_()
+, cp_()
 {
 }
 
@@ -18,48 +20,36 @@ PatternBuilder::~PatternBuilder()
 {
 }
 
-std::unique_ptr<MatchPattern> PatternBuilder::build_match_and_reset()
+void PatternBuilder::consume_and_reset()
 {
-  std::unique_ptr<MatchPattern> p;
-  std::unique_ptr<ValueTest> test;
-  if( this->attr_regex_.size() )
-    test = MakeUnique<RegexTest>(this->attr_regex_);
+  if( this->cap_var_.size() )
+    this->consume_capture_pattern();
   else
-    test = MakeUnique<LiteralTest>(this->attr_literal_);
-
-  if( this->bf_ )
-    p = MakeUnique<BuiltinMatch>(this->bf_, std::move(test));
-  else
-    p = MakeUnique<AttributeMatch>(this->attr_name_, std::move(test));
+    this->consume_match_pattern();
 
   this->reset();
-
-  return std::move(p);
 }
 
-std::unique_ptr<CapturePattern> PatternBuilder::build_capture_and_reset()
+std::vector<std::unique_ptr<MatchPattern>>
+PatternBuilder::get_matchp_and_reset()
 {
-  std::unique_ptr<CapturePattern> p;
-  if( this->bf_ )
-    p = MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_);
-  else
-    p = MakeUnique<AttributeCapture>(
-      this->cap_var_, this->attr_name_, this->cap_regex_
-    );
+  std::vector<std::unique_ptr<MatchPattern>> vec = std::move(this->mp_);
 
   this->reset();
+  this->mp_.clear();
 
-  return std::move(p);
+  return std::move(vec);
 }
 
-void PatternBuilder::reset()
+std::vector<std::unique_ptr<CapturePattern>>
+PatternBuilder::get_capturep_and_reset()
 {
-  this->bf_ = nullptr;
-  this->attr_name_ = "";
-  this->attr_literal_ = "";
-  this->attr_regex_ = "";
-  this->cap_var_ = "";
-  this->cap_regex_ = "";
+  std::vector<std::unique_ptr<CapturePattern>> vec = std::move(this->cp_);
+
+  this->reset();
+  this->cp_.clear();
+
+  return std::move(vec);
 }
 
 bool PatternBuilder::set_builtin_function(const std::string& bi)
@@ -95,6 +85,48 @@ void PatternBuilder::set_cap_var(const std::string& capture_var)
 void PatternBuilder::set_cap_regex(const std::string& capture_regex)
 {
   this->cap_regex_ = capture_regex;
+}
+
+void PatternBuilder::reset()
+{
+  this->bf_ = nullptr;
+  this->attr_name_ = "";
+  this->attr_literal_ = "";
+  this->attr_regex_ = "";
+  this->cap_var_ = "";
+  this->cap_regex_ = "";
+}
+
+void PatternBuilder::consume_match_pattern()
+{
+  std::unique_ptr<ValueTest> test;
+  if( this->attr_regex_.size() )
+    test = MakeUnique<RegexTest>(this->attr_regex_);
+  else if( this->attr_literal_.size() )
+    test = MakeUnique<LiteralTest>(this->attr_literal_);
+  else
+    test = MakeUnique<ValueTest>();
+
+  std::unique_ptr<MatchPattern> p;
+  if( this->bf_ )
+    p = MakeUnique<BuiltinMatch>(this->bf_, std::move(test));
+  else
+    p = MakeUnique<AttributeMatch>(this->attr_name_, std::move(test));
+
+  this->mp_.push_back(std::move(p));
+}
+
+void PatternBuilder::consume_capture_pattern()
+{
+  std::unique_ptr<CapturePattern> p;
+  if( this->bf_ )
+    p = MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_);
+  else
+    p = MakeUnique<AttributeCapture>(
+      this->cap_var_, this->attr_name_, this->cap_regex_
+    );
+
+  this->cp_.push_back(std::move(p));
 }
 
 

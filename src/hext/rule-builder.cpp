@@ -12,8 +12,6 @@ RuleBuilder::RuleBuilder()
 , is_optional_(false)
 , nth_child_(-1)
 , is_closed_(false)
-, mp_()
-, cp_()
 {
 }
 
@@ -38,8 +36,6 @@ void RuleBuilder::reset()
   this->is_closed_ = false;
   this->nth_child_ = -1;
   this->is_optional_ = false;
-  this->mp_.clear();
-  this->cp_.clear();
 }
 
 void RuleBuilder::consume_and_reset()
@@ -49,7 +45,10 @@ void RuleBuilder::consume_and_reset()
     this->is_optional_,
     this->nth_child_,
     this->is_closed_,
-    RulePatterns(std::move(this->mp_), std::move(this->cp_))
+    RulePatterns(
+      std::move(this->pat_.get_matchp_and_reset()),
+      std::move(this->pat_.get_capturep_and_reset())
+    )
   );
 
   // either top-level rule or first rule
@@ -108,16 +107,6 @@ void RuleBuilder::set_nth_child(int pos_within_parent)
 void RuleBuilder::set_closed(bool closed)
 {
   this->is_closed_ = closed;
-}
-
-void RuleBuilder::consume_match_pattern()
-{
-  this->mp_.push_back(this->pat_.build_match_and_reset());
-}
-
-void RuleBuilder::consume_capture_pattern()
-{
-  this->cp_.push_back(this->pat_.build_capture_and_reset());
 }
 
 
