@@ -4,6 +4,8 @@
 #include <iostream>
 #include <ios>
 
+#include <boost/regex/pattern_except.hpp>
+
 #include "hext/parser.h"
 #include "hext/html.h"
 #include "hext/file.h"
@@ -65,6 +67,11 @@ int main(int argc, const char ** argv)
   catch( const boost::program_options::error& e )
   {
     std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
+    return EXIT_FAILURE;
+  }
+  catch( const boost::regex_error& e )
+  {
+    std::cerr << argv[0] << ": Regex error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
   catch( const hext::FileError& e )
