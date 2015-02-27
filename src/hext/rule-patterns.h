@@ -42,6 +42,7 @@ public:
   /// Apply all capture patterns to node.
   /// Return a new MatchTree branch containing name-value-pair.
   std::unique_ptr<MatchTree> capture(const GumboNode * node) const;
+
   void print(std::ostream& out = std::cout) const;
 
 private:
