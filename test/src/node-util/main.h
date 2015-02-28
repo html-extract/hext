@@ -52,6 +52,35 @@ TEST(Node_GetNodePositionWithinParent, Position)
   }
 }
 
+TEST(Node_GetNodeText, NiceTextAndRawText)
+{
+  const char * html = R"html(
+<html><head></head><body>
+ 
+   This is  <span> a</span>badly 
+
+formatted<div><div>html</div>document.
+
+</div>
+</body></html>
+)html";
+
+  helper::Html h(html);
+  const GumboNode * body = h.body();
+
+  const char * expected = "This is a badly formatted html document.";
+  EXPECT_EQ(hext::GetNodeText(body), expected);
+
+  const char * expected_raw = R"html( 
+ 
+   This is     a badly 
+
+formatted   html document.
+
+)html";
+  EXPECT_EQ(hext::GetNodeRawText(body), expected_raw);
+}
+
 
 } // namespace hext
 
