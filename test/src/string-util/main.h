@@ -20,38 +20,14 @@ TEST(String_TrimAndCollapseWs, EmptyString)
 
 TEST(String_TrimAndCollapseWs, AlreadyTrimmed)
 {
-  std::string input = "a";
-  std::string expected = "a";
-  std::string output = hext::TrimAndCollapseWs(input);
-
-  EXPECT_EQ(output, expected);
+  EXPECT_EQ(hext::TrimAndCollapseWs("a"), "a");
 }
 
-TEST(String_TrimAndCollapseWs, LeftTrim)
+TEST(String_TrimAndCollapseWs, Trim)
 {
-  std::string input = " \n left";
-  std::string expected = "left";
-  std::string output = hext::TrimAndCollapseWs(input);
-
-  EXPECT_EQ(output, expected);
-}
-
-TEST(String_TrimAndCollapseWs, RightTrim)
-{
-  std::string input = "right \n ";
-  std::string expected = "right";
-  std::string output = hext::TrimAndCollapseWs(input);
-
-  EXPECT_EQ(output, expected);
-}
-
-TEST(String_TrimAndCollapseWs, LeftRightTrim)
-{
-  std::string input = "   \t leftright \n ";
-  std::string expected = "leftright";
-  std::string output = hext::TrimAndCollapseWs(input);
-
-  EXPECT_EQ(output, expected);
+  EXPECT_EQ(hext::TrimAndCollapseWs(" \n left"), "left");
+  EXPECT_EQ(hext::TrimAndCollapseWs("right \n "), "right");
+  EXPECT_EQ(hext::TrimAndCollapseWs("   \t leftright \n "), "leftright");
 }
 
 TEST(String_TrimAndCollapseWs, Collapse)
@@ -61,12 +37,12 @@ TEST(String_TrimAndCollapseWs, Collapse)
     {"left           right", "left right"},
     {"left           right ", "left right"},
     {"left\nright", "left right"},
+    {"left right", "left right"}
   };
 
   for(const auto& p : checks)
   {
-    std::string output = hext::TrimAndCollapseWs(p.first);
-    EXPECT_EQ(output, p.second);
+    EXPECT_EQ(hext::TrimAndCollapseWs(p.first), p.second);
   }
 }
 
