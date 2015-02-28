@@ -6,7 +6,7 @@ namespace hext {
 
 std::string TrimAndCollapseWs(std::string str)
 {
-  // To erase superflous whitespace, shift all characters to the left,
+  // To erase superfluous whitespace, shift all characters to the left,
   // replacing unwanted characters.
 
   // The end of the resulting string.
