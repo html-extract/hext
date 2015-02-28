@@ -3,6 +3,7 @@
 #include "string-util/main.h"
 #include "builtins/main.h"
 #include "file/main.h"
+#include "match-tree/main.h"
 
 
 int main(int argc, char ** argv)
