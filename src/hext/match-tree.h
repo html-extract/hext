@@ -11,8 +11,6 @@
 #include <unordered_map>
 
 #include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 
 namespace hext {
@@ -42,9 +40,9 @@ public:
   /// Set the Rule that caused this MatchTree branch.
   void set_rule(const Rule * matching_rule);
 
-  /// Print the MatchTree as json.
+  /// Return each MatchTree branch as a json object.
   /// Each child of the root of the MatchTree will form its own json object.
-  void print_json(std::ostream& out = std::cout) const;
+  std::vector<rapidjson::Document> to_json() const;
 
   /// Print the MatchTree as DOT, a graph description language.
   /// See http://en.wikipedia.org/wiki/DOT_language

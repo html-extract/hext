@@ -3,8 +3,13 @@
 #include <fstream>
 #include <iostream>
 #include <ios>
+#include <vector>
 
 #include <boost/regex/pattern_except.hpp>
+
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 
 #include "hext/parser.h"
 #include "hext/html.h"
@@ -57,11 +62,24 @@ int main(int argc, const char ** argv)
         mt->filter();
 
       if( po.contains("print-debug") )
+      {
         rule.print(std::cout, 0, true);
+      }
       else if( po.contains("mt-graph") )
+      {
         mt->print_dot();
+      }
       else
-        mt->print_json();
+      {
+        std::vector<rapidjson::Document> objects = mt->to_json();
+        for(const auto& obj : objects)
+        {
+          rapidjson::StringBuffer buffer;
+          rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+          obj.Accept(writer);
+          std::cout << buffer.GetString() << "\n";
+        }
+      }
     }
   }
   catch( const boost::program_options::error& e )

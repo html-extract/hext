@@ -28,20 +28,17 @@ void MatchTree::set_rule(const Rule * matching_rule)
   this->r_ = matching_rule;
 }
 
-void MatchTree::print_json(std::ostream& out) const
+std::vector<rapidjson::Document> MatchTree::to_json() const
 {
-  for(const auto& c : this->children_)
+  std::vector<rapidjson::Document> objects(this->children_.size());
+
+  for(size_t i = 0; i < this->children_.size(); ++i)
   {
-    rapidjson::Document json;
-    json.SetObject();
-
-    c->append_json_recursive(json);
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    json.Accept(writer);
-    out << buffer.GetString() << "\n";
+    objects[i].SetObject();
+    this->children_[i]->append_json_recursive(objects[i]);
   }
+
+  return objects;
 }
 
 void MatchTree::print_dot(std::ostream& out) const
