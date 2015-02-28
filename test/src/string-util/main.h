@@ -196,6 +196,15 @@ TEST(String_PrintWithLineNumbers, Lines)
 {
   const char * begin = "This\nis\na\nstring\nin\na\nsentence\n";
   const char * end = begin + std::strlen(begin);
+  std::string expected =
+    "1: This\n"
+    "2: is\n"
+    "3: a\n"
+    "4: string\n"
+    "5: in\n"
+    "6: a\n"
+    "7: sentence\n"
+    "8: \n";
 
   int line_count = std::count(begin, end, '\n');
   int number_width = hext::GetDecNumberWidth(line_count);
@@ -203,11 +212,7 @@ TEST(String_PrintWithLineNumbers, Lines)
   hext::PrintWithLineNumbers(begin, end, number_width, ss);
   std::string result = ss.str();
   EXPECT_FALSE(result.empty());
-  EXPECT_EQ(result.size(), std::strlen(begin) + line_count * ( number_width + 2 /* ": " */ ));
-  EXPECT_EQ(result[0], '1');
-  EXPECT_EQ(result[1], ':');
-  EXPECT_EQ(result[2], ' ');
-  EXPECT_EQ(result[3], 'T');
+  EXPECT_EQ(expected, result);
 }
 
 
