@@ -6,29 +6,43 @@ namespace hext {
 
 std::string TrimAndCollapseWs(std::string str)
 {
-  std::string::size_type i = 0;
+  // To erase superflous whitespace, shift all characters to the left,
+  // replacing unwanted characters.
+
+  // The end of the resulting string.
+  std::string::size_type end = 0;
+  // The index of the currently looked at character.
   std::string::size_type c = 0;
+  // If we encounter any amount of whitespace, set need_space to true. A space
+  // is only inserted if there is actually a non-whitespace character remaining
+  // ("right trim").
   bool need_space = false;
 
   for(; c < str.size(); c++)
   {
     if( IsSpace(str[c]) )
     {
-      if( i > 0 )
+      // Do not insert a space if we are at the beginning of the
+      // string ("left trim").
+      if( end > 0 )
         need_space = true;
     }
     else
     {
       if( need_space )
       {
-        str[i++] = ' ';
+        // The current character is not whitespace and we have previously
+        // encountered whitespace, so we need to prepend a space to the next
+        // character.
+        str[end++] = ' ';
         need_space = false;
       }
-      str[i++] = str[c];
+      str[end++] = str[c];
     }
   }
 
-  str.erase(i);
+  // Erase all remaining characters.
+  str.erase(end);
   return str;
 }
 
