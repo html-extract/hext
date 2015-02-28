@@ -12,11 +12,10 @@ namespace {
 
 TEST(String_TrimAndCollapseWs, EmptyString)
 {
-  std::string input = "";
-  std::string expected = "";
-  std::string output = hext::TrimAndCollapseWs(input);
-
-  EXPECT_EQ(output, expected);
+  EXPECT_EQ(hext::TrimAndCollapseWs(""), "");
+  EXPECT_EQ(hext::TrimAndCollapseWs(" "), "");
+  EXPECT_EQ(hext::TrimAndCollapseWs("  "), "");
+  EXPECT_EQ(hext::TrimAndCollapseWs("   "), "");
 }
 
 TEST(String_TrimAndCollapseWs, AlreadyTrimmed)
