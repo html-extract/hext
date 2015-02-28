@@ -138,6 +138,7 @@ void PrintWithLineNumbers(
   boost::tokenizer<boost::char_separator<char>, const char *> lines(
     begin,
     end,
+    // keep_empty_tokens is neccessary because we also have to print empty lines
     boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
   );
 
