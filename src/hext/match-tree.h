@@ -70,12 +70,12 @@ private:
   /// If a name already exists it is converted to an array and the new value is
   /// appended.
   ///
-  /// For example, consider the key "Silvio" already being taken:
-  ///   {"Silvio": "silver"}
+  /// For example, consider the key "foo" already being taken:
+  ///   {"foo": "bar"}
   ///   then append_json_matches is called, with a branch
-  ///   containing NameValuePair("Silvio", "gold")
+  ///   containing NameValuePair("foo", "baz")
   /// Produces:
-  ///   {"Silvio": ["silver", "gold"]}
+  ///   {"foo": ["bar", "baz"]}
   void append_json_matches(rapidjson::Document& json) const;
 
   /// Recursivley print all DOT nodes. Each node has a distinct id. The
