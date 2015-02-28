@@ -138,14 +138,14 @@ void PrintWithLineNumbers(
   boost::tokenizer<boost::char_separator<char>, const char *> lines(
     begin,
     end,
-    boost::char_separator<char>("\n")
+    boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
   );
 
   if( number_width < 1 )
     number_width = 1;
 
   unsigned int line_num = 1;
-  for(const auto line : lines)
+  for(const auto& line : lines)
   {
     out << std::setw(number_width)
         << line_num++
