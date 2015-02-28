@@ -17,7 +17,7 @@ TEST(MatchTree_AppendChildAndOwn, Append)
   EXPECT_EQ(child_ptr, mt.append_child_and_own(std::move(child)));
 }
 
-TEST(MatchTree_AppendMatch, Append)
+TEST(MatchTree_AppendMatch, AppendJson)
 {
   std::unique_ptr<hext::MatchTree> branch = hext::MakeUnique<hext::MatchTree>();
   branch->append_match(hext::MatchTree::NameValuePair("foo", "bar"));
