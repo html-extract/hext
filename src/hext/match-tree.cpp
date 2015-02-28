@@ -35,7 +35,6 @@ void MatchTree::print_json(std::ostream& out) const
     rapidjson::Document json;
     json.SetObject();
 
-    this->append_json_matches(json);
     c->append_json_recursive(json);
 
     rapidjson::StringBuffer buffer;
