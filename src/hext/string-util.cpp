@@ -68,15 +68,14 @@ std::string GetCharName(char c)
     case '\0':
       return "[nullbyte]";
     default:
-      int ci = c;
-      return std::isprint(ci) ?
-          // std::string has no constructor accepting char; abusing fill-constructor
-          std::string(1, c)
-        : std::string("[ascii: ") + std::to_string(ci) + "]";
+      break;
   }
 
-  assert(false);
-  return "";
+  int ci = c;
+  if( std::isprint(ci) )
+    return std::string(1, c);
+  else
+    return std::string("[ascii: ") + std::to_string(ci) + "]";
 }
 
 CharPosPair GetCharPosition(
