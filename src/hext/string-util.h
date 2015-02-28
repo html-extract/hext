@@ -54,8 +54,9 @@ int GetDecNumberWidth(ptrdiff_t number);
 /// colon and one space. number_width is the space needed to print a line
 /// number as decimal (uses std::setw). Used in error reporting.
 /// Example:
-///   1: If my thought dreams could be seen
-///   2: They'd probably put my head in a guillotine
+/// 1: An SQL query goes into a bar,
+/// 2: walks up to two tables and asks,
+/// 3: 'Can I join you?'
 void PrintWithLineNumbers(
   const char * begin,
   const char * end,
