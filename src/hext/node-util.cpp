@@ -79,8 +79,9 @@ std::string GetNodeInnerHtml(const GumboNode * node)
   const GumboStringPiece& b = node->v.element.original_tag;
   const GumboStringPiece& e = node->v.element.original_end_tag;
 
-  if( b.data != nullptr && b.length > 0 &&
-      e.data != nullptr && e.length > 0 )
+  if( b.data && b.length > 0 &&
+      e.data && e.length > 0 &&
+      ( b.data + b.length ) < e.data )
   {
     const char * inner_begin = b.data + b.length;
     size_t length = std::distance(inner_begin, e.data);
