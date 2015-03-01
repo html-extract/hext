@@ -41,8 +41,8 @@ std::string GetNodeText(const GumboNode * node)
 
 std::string GetNodeRawText(const GumboNode * node)
 {
-  assert(node != nullptr);
-  assert(node->type == GUMBO_NODE_ELEMENT);
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return "";
 
   std::string inner_text;
 
