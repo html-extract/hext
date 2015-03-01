@@ -81,6 +81,40 @@ formatted   html document.
   EXPECT_EQ(hext::GetNodeRawText(body), expected_raw);
 }
 
+TEST(Node_GetNodeInnerHtml, Empty)
+{
+  const char * html = "<html><head></head><body>";
+    "</body></html>";
+
+  helper::Html h(html);
+  const GumboNode * body = h.body();
+
+  EXPECT_EQ(hext::GetNodeInnerHtml(body), "");
+}
+
+TEST(Node_GetNodeInnerHtml, InnerHtml)
+{
+  std::string html = "<html><head></head><body>";
+  const char * inner = "<div><div> --- text --- </div>"
+    "<div> --- stuff --- </div></div>";
+  html.append(inner);
+  html.append("</body></html>");
+
+  helper::Html h(html.c_str());
+  const GumboNode * body = h.body();
+
+  EXPECT_EQ(hext::GetNodeInnerHtml(body), inner);
+}
+
+TEST(Node_All, Nullptr)
+{
+  const GumboNode * nullnode = nullptr;
+  EXPECT_EQ(hext::GetNodePositionWithinParent(nullnode), 0);
+  EXPECT_EQ(hext::GetNodeText(nullnode), "");
+  EXPECT_EQ(hext::GetNodeRawText(nullnode), "");
+  EXPECT_EQ(hext::GetNodeInnerHtml(nullnode), "");
+}
+
 
 } // namespace hext
 
