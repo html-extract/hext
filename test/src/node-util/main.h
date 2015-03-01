@@ -106,6 +106,20 @@ TEST(Node_GetNodeInnerHtml, InnerHtml)
   EXPECT_EQ(hext::GetNodeInnerHtml(body), inner);
 }
 
+TEST(Node_GetNodeInnerHtml, BrokenHtml)
+{
+  std::string html = "<html><head></head><body>";
+  const char * inner = "<div><div> --- text --- </div>"
+    "<div> --- stuff --- </div><a>"; // missing </div>, stray <a>
+  html.append(inner);
+  html.append("</body></html>");
+
+  helper::Html h(html.c_str());
+  const GumboNode * body = h.body();
+
+  EXPECT_EQ(hext::GetNodeInnerHtml(body), inner);
+}
+
 TEST(Node_All, Nullptr)
 {
   const GumboNode * nullnode = nullptr;
