@@ -1,5 +1,5 @@
-#ifndef HEXT_MAKE_UNIQUE_H
-#define HEXT_MAKE_UNIQUE_H
+#ifndef HEXT_MAKE_UNIQUE_H_INCLUDED
+#define HEXT_MAKE_UNIQUE_H_INCLUDED
 
 #include <memory>
 #include <utility>
@@ -19,5 +19,5 @@ std::unique_ptr<T> MakeUnique(Args&& ...args)
 } // namespace hext
 
 
-#endif // HEXT_MAKE_UNIQUE_H
+#endif // HEXT_MAKE_UNIQUE_H_INCLUDED
 

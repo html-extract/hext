@@ -1,5 +1,5 @@
-#ifndef HEXT_BUILTINS_H
-#define HEXT_BUILTINS_H
+#ifndef HEXT_BUILTINS_H_INCLUDED
+#define HEXT_BUILTINS_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -25,5 +25,5 @@ std::string GetNameByBuiltin(BuiltinFuncPtr f);
 } // namespace hext
 
 
-#endif // HEXT_BUILTINS_H
+#endif // HEXT_BUILTINS_H_INCLUDED
 

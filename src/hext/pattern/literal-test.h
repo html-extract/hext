@@ -1,5 +1,5 @@
-#ifndef HEXT_LITERAL_TEST_H
-#define HEXT_LITERAL_TEST_H
+#ifndef HEXT_LITERAL_TEST_H_INCLUDED
+#define HEXT_LITERAL_TEST_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -28,5 +28,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_LITERAL_TEST_H
+#endif // HEXT_LITERAL_TEST_H_INCLUDED
 

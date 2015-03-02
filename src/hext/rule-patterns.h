@@ -1,5 +1,5 @@
-#ifndef HEXT_RULE_PATTERNS_H
-#define HEXT_RULE_PATTERNS_H
+#ifndef HEXT_RULE_PATTERNS_H_INCLUDED
+#define HEXT_RULE_PATTERNS_H_INCLUDED
 
 #include <vector>
 #include <iostream>
@@ -54,5 +54,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_RULE_PATTERNS_H
+#endif // HEXT_RULE_PATTERNS_H_INCLUDED
 

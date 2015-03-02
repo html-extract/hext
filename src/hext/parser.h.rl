@@ -1,5 +1,5 @@
-#ifndef HEXT_PARSER_H
-#define HEXT_PARSER_H
+#ifndef HEXT_PARSER_H_INCLUDED
+#define HEXT_PARSER_H_INCLUDED
 
 #include <string>
 #include <vector>
@@ -82,5 +82,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PARSER_H
+#endif // HEXT_PARSER_H_INCLUDED
 

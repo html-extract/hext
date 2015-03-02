@@ -1,5 +1,5 @@
-#ifndef HEXT_ATTRIBUTE_MATCH_H
-#define HEXT_ATTRIBUTE_MATCH_H
+#ifndef HEXT_ATTRIBUTE_MATCH_H_INCLUDED
+#define HEXT_ATTRIBUTE_MATCH_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -34,5 +34,5 @@ protected:
 } // namespace hext
 
 
-#endif // HEXT_ATTRIBUTE_MATCH_H
+#endif // HEXT_ATTRIBUTE_MATCH_H_INCLUDED
 

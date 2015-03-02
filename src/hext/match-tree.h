@@ -1,5 +1,5 @@
-#ifndef HEXT_MATCH_TREE_H
-#define HEXT_MATCH_TREE_H
+#ifndef HEXT_MATCH_TREE_H_INCLUDED
+#define HEXT_MATCH_TREE_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -95,5 +95,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_MATCH_TREE_H
+#endif // HEXT_MATCH_TREE_H_INCLUDED
 

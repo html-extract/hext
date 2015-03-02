@@ -1,5 +1,5 @@
-#ifndef HEXT_FILE_H
-#define HEXT_FILE_H
+#ifndef HEXT_FILE_H_INCLUDED
+#define HEXT_FILE_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -28,5 +28,5 @@ std::string ReadFileOrThrow(const std::string& path);
 } // namespace hext
 
 
-#endif // HEXT_FILE_H
+#endif // HEXT_FILE_H_INCLUDED
 

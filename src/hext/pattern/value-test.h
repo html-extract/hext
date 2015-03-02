@@ -1,5 +1,5 @@
-#ifndef HEXT_VALUE_TEST_H
-#define HEXT_VALUE_TEST_H
+#ifndef HEXT_VALUE_TEST_H_INCLUDED
+#define HEXT_VALUE_TEST_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -26,5 +26,5 @@ public:
 } // namespace hext
 
 
-#endif // HEXT_VALUE_TEST_H
+#endif // HEXT_VALUE_TEST_H_INCLUDED
 

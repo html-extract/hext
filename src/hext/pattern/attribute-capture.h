@@ -1,5 +1,5 @@
-#ifndef HEXT_ATTRIBUTE_CAPTURE_H
-#define HEXT_ATTRIBUTE_CAPTURE_H
+#ifndef HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
+#define HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -34,5 +34,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_ATTRIBUTE_CAPTURE_H
+#endif // HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
 

@@ -1,5 +1,5 @@
-#ifndef HEXT_HTML_H
-#define HEXT_HTML_H
+#ifndef HEXT_HTML_H_INCLUDED
+#define HEXT_HTML_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -39,5 +39,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_HTML_H
+#endif // HEXT_HTML_H_INCLUDED
 

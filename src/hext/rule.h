@@ -1,5 +1,5 @@
-#ifndef HEXT_RULE_H
-#define HEXT_RULE_H
+#ifndef HEXT_RULE_H_INCLUDED
+#define HEXT_RULE_H_INCLUDED
 
 #include <string>
 #include <vector>
@@ -121,5 +121,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_RULE_H
+#endif // HEXT_RULE_H_INCLUDED
 

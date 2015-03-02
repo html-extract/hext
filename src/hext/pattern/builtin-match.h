@@ -1,5 +1,5 @@
-#ifndef HEXT_BUILTIN_MATCH_H
-#define HEXT_BUILTIN_MATCH_H
+#ifndef HEXT_BUILTIN_MATCH_H_INCLUDED
+#define HEXT_BUILTIN_MATCH_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -35,5 +35,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_BUILTIN_MATCH_H
+#endif // HEXT_BUILTIN_MATCH_H_INCLUDED
 

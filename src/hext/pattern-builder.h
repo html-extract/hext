@@ -1,5 +1,5 @@
-#ifndef HEXT_PATTERN_BUILDER_H
-#define HEXT_PATTERN_BUILDER_H
+#ifndef HEXT_PATTERN_BUILDER_H_INCLUDED
+#define HEXT_PATTERN_BUILDER_H_INCLUDED
 
 #include <string>
 #include <memory>
@@ -69,5 +69,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_BUILDER_H
+#endif // HEXT_PATTERN_BUILDER_H_INCLUDED
 

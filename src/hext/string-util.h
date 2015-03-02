@@ -1,5 +1,5 @@
-#ifndef HEXT_STRING_UTIL_H
-#define HEXT_STRING_UTIL_H
+#ifndef HEXT_STRING_UTIL_H_INCLUDED
+#define HEXT_STRING_UTIL_H_INCLUDED
 
 #include <cassert>
 #include <cstdlib>
@@ -68,5 +68,5 @@ void PrintWithLineNumbers(
 } // namespace hext
 
 
-#endif // HEXT_STRING_UTIL_H
+#endif // HEXT_STRING_UTIL_H_INCLUDED
 

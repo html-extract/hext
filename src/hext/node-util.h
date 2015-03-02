@@ -1,5 +1,5 @@
-#ifndef HEXT_NODE_UTIL_H
-#define HEXT_NODE_UTIL_H
+#ifndef HEXT_NODE_UTIL_H_INCLUDED
+#define HEXT_NODE_UTIL_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -29,5 +29,5 @@ std::string GetNodeInnerHtml(const GumboNode * node);
 } // namespace hext
 
 
-#endif // HEXT_NODE_UTIL_H
+#endif // HEXT_NODE_UTIL_H_INCLUDED
 

@@ -1,5 +1,5 @@
-#ifndef HEXT_PROGRAM_OPTIONS_H
-#define HEXT_PROGRAM_OPTIONS_H
+#ifndef HEXT_PROGRAM_OPTIONS_H_INCLUDED
+#define HEXT_PROGRAM_OPTIONS_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -35,5 +35,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PROGRAM_OPTIONS_H
+#endif // HEXT_PROGRAM_OPTIONS_H_INCLUDED
 
