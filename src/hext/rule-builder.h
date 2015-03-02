@@ -1,15 +1,15 @@
 #ifndef HEXT_RULE_BUILDER_H_INCLUDED
 #define HEXT_RULE_BUILDER_H_INCLUDED
 
+#include "hext/rule.h"
+#include "hext/rule-patterns.h"
+#include "hext/pattern-builder.h"
+
 #include <string>
 #include <memory>
 #include <vector>
 
 #include <gumbo.h>
-
-#include "hext/rule.h"
-#include "hext/rule-patterns.h"
-#include "hext/pattern-builder.h"
 
 
 namespace hext {

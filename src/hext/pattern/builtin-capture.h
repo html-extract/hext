@@ -1,14 +1,14 @@
 #ifndef HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 
+#include "hext/match-tree.h"
+#include "hext/pattern/capture-pattern.h"
+#include "hext/builtins.h"
+
 #include <string>
 #include <iostream>
 
 #include <gumbo.h>
-
-#include "hext/match-tree.h"
-#include "hext/pattern/capture-pattern.h"
-#include "hext/builtins.h"
 
 
 namespace hext {

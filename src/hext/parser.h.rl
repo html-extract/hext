@@ -1,16 +1,16 @@
 #ifndef HEXT_PARSER_H_INCLUDED
 #define HEXT_PARSER_H_INCLUDED
 
+#include "hext/string-util.h"
+#include "hext/builtins.h"
+#include "hext/rule.h"
+#include "hext/rule-builder.h"
+
 #include <string>
 #include <vector>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
-
-#include "hext/string-util.h"
-#include "hext/builtins.h"
-#include "hext/rule.h"
-#include "hext/rule-builder.h"
 
 
 #define LX_TK_START \

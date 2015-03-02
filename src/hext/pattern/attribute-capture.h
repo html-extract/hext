@@ -1,12 +1,12 @@
 #ifndef HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
 #define HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
 
+#include "hext/pattern/capture-pattern.h"
+
 #include <string>
 #include <iostream>
 
 #include <gumbo.h>
-
-#include "hext/pattern/capture-pattern.h"
 
 
 namespace hext {

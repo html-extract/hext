@@ -1,14 +1,14 @@
 #ifndef HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 
+#include "hext/pattern/match-pattern.h"
+#include "hext/builtins.h"
+
 #include <string>
 #include <iostream>
 #include <memory>
 
 #include <gumbo.h>
-
-#include "hext/pattern/match-pattern.h"
-#include "hext/builtins.h"
 
 
 namespace hext {

@@ -1,18 +1,18 @@
 #ifndef HEXT_RULE_H_INCLUDED
 #define HEXT_RULE_H_INCLUDED
 
+#include "hext/node-util.h"
+#include "hext/make-unique.h"
+#include "hext/rule-patterns.h"
+#include "hext/pattern/match-pattern.h"
+#include "hext/pattern/capture-pattern.h"
+
 #include <string>
 #include <vector>
 #include <memory>
 #include <atomic>
 
 #include <gumbo.h>
-
-#include "hext/node-util.h"
-#include "hext/make-unique.h"
-#include "hext/rule-patterns.h"
-#include "hext/pattern/match-pattern.h"
-#include "hext/pattern/capture-pattern.h"
 
 
 namespace hext {

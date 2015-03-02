@@ -1,3 +1,8 @@
+#include "hext/parser.h"
+#include "hext/html.h"
+#include "hext/file.h"
+#include "hext/program-options.h"
+
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
@@ -10,11 +15,6 @@
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
-#include "hext/parser.h"
-#include "hext/html.h"
-#include "hext/file.h"
-#include "hext/program-options.h"
 
 
 int main(int argc, const char ** argv)

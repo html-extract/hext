@@ -1,16 +1,16 @@
 #ifndef HEXT_HTML_H_INCLUDED
 #define HEXT_HTML_H_INCLUDED
 
+#include "hext/rule.h"
+#include "hext/match-tree.h"
+#include "hext/make-unique.h"
+
 #include <cassert>
 #include <string>
 #include <stdexcept>
 #include <memory>
 
 #include <gumbo.h>
-
-#include "hext/rule.h"
-#include "hext/match-tree.h"
-#include "hext/make-unique.h"
 
 
 namespace hext {

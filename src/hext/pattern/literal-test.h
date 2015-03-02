@@ -1,10 +1,10 @@
 #ifndef HEXT_PATTERN_LITERAL_TEST_H_INCLUDED
 #define HEXT_PATTERN_LITERAL_TEST_H_INCLUDED
 
+#include "hext/pattern/value-test.h"
+
 #include <string>
 #include <iostream>
-
-#include "hext/pattern/value-test.h"
 
 
 namespace hext {

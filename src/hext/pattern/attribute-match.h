@@ -1,14 +1,14 @@
 #ifndef HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
 #define HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
 
+#include "hext/pattern/value-test.h"
+#include "hext/pattern/match-pattern.h"
+
 #include <string>
 #include <iostream>
 #include <memory>
 
 #include <gumbo.h>
-
-#include "hext/pattern/value-test.h"
-#include "hext/pattern/match-pattern.h"
 
 
 namespace hext {

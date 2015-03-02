@@ -1,6 +1,9 @@
 #ifndef HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 #define HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 
+#include "hext/match-tree.h"
+#include "hext/make-unique.h"
+
 #include <string>
 #include <cstring>
 #include <memory>
@@ -8,9 +11,6 @@
 
 #include <boost/regex.hpp>
 #include <gumbo.h>
-
-#include "hext/match-tree.h"
-#include "hext/make-unique.h"
 
 
 namespace hext {

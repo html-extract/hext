@@ -1,17 +1,17 @@
 #ifndef HEXT_RULE_PATTERNS_H_INCLUDED
 #define HEXT_RULE_PATTERNS_H_INCLUDED
 
+#include "hext/make-unique.h"
+#include "hext/match-tree.h"
+#include "hext/pattern/match-pattern.h"
+#include "hext/pattern/capture-pattern.h"
+
 #include <vector>
 #include <iostream>
 #include <memory>
 #include <algorithm>
 
 #include <gumbo.h>
-
-#include "hext/make-unique.h"
-#include "hext/match-tree.h"
-#include "hext/pattern/match-pattern.h"
-#include "hext/pattern/capture-pattern.h"
 
 
 namespace hext {

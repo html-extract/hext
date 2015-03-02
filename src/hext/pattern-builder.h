@@ -1,9 +1,6 @@
 #ifndef HEXT_PATTERN_BUILDER_H_INCLUDED
 #define HEXT_PATTERN_BUILDER_H_INCLUDED
 
-#include <string>
-#include <memory>
-
 #include "hext/make-unique.h"
 #include "hext/builtins.h"
 #include "hext/pattern/value-test.h"
@@ -15,6 +12,9 @@
 #include "hext/pattern/builtin-match.h"
 #include "hext/pattern/attribute-capture.h"
 #include "hext/pattern/builtin-capture.h"
+
+#include <string>
+#include <memory>
 
 
 namespace hext {

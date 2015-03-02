@@ -1,12 +1,12 @@
 #ifndef HEXT_NODE_UTIL_H_INCLUDED
 #define HEXT_NODE_UTIL_H_INCLUDED
 
+#include "hext/string-util.h"
+
 #include <cassert>
 #include <string>
 
 #include <gumbo.h>
-
-#include "hext/string-util.h"
 
 
 namespace hext {
