@@ -87,10 +87,10 @@ void Parser::throw_unexpected() const
   // 1: An SQL query goes into a bar,
   // 2: walks up to two tables and asks,
   // 3: 'Can I join you?'
-  size_t indent = number_width // chars required to print the line number
-                + 2            // ": "
-                + pos.second;  // offset of the unexpected character from the
-                               // beginning of the line.
+  std::size_t indent = number_width // chars required to print the line number
+                     + 2            // ": "
+                     + pos.second;  // offset of the unexpected character from
+                                    // the beginning of the line.
 
   error_msg << std::string(indent, ' ')
             << "^ here";
@@ -132,10 +132,10 @@ void Parser::throw_unknown_token(
 
   PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
 
-  size_t indent = number_width
-                + 2
-                + pos.second
-                - token.size();
+  std::size_t indent = number_width
+                     + 2
+                     + pos.second
+                     - token.size();
 
   error_msg << std::string(indent, ' ')
             << std::string(token.size(), '^')
