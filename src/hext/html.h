@@ -21,7 +21,7 @@ class Html
 {
 public:
   /// Parse html at buffer. buffer must live as long as this object.
-  Html(const char * buffer, size_t length);
+  Html(const char * buffer, std::size_t length);
   ~Html();
 
   /// Apply Rule to all nodes and return a MatchTree containing all

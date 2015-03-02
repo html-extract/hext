@@ -4,7 +4,7 @@
 namespace hext {
 
 
-Html::Html(const char * buffer, size_t length)
+Html::Html(const char * buffer, std::size_t length)
 : g_outp_(gumbo_parse_with_options(&kGumboDefaultOptions, buffer, length))
 {
   if( !this->g_outp_ )
