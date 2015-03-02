@@ -32,7 +32,7 @@ std::vector<rapidjson::Document> MatchTree::to_json() const
 {
   std::vector<rapidjson::Document> objects(this->children_.size());
 
-  for(size_t i = 0; i < this->children_.size(); ++i)
+  for(std::vector<MatchTree>::size_type i = 0; i < this->children_.size(); ++i)
   {
     objects[i].SetObject();
     this->children_[i]->append_json_recursive(objects[i]);
