@@ -48,7 +48,7 @@ CharPosPair GetCharPosition(
 
 /// Get width of number when printed as decimal, excluding sign.
 /// Used in error reporting.
-int GetDecNumberWidth(ptrdiff_t number);
+int GetDecNumberWidth(int number);
 
 /// Print begin to end into out. When printing lines insert line number,
 /// colon and one space. number_width is the space needed to print a line

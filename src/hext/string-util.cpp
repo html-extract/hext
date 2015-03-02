@@ -129,7 +129,7 @@ CharPosPair GetCharPosition(
   return CharPosPair(line_count, char_offset_in_line);
 }
 
-int GetDecNumberWidth(ptrdiff_t number)
+int GetDecNumberWidth(int number)
 {
   number = std::abs(number);
   int number_width = 1;

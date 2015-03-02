@@ -49,8 +49,8 @@ void Parser::throw_unexpected() const
     GetCharPosition(this->p, this->p_begin_, this->pe);
 
   // GetCharPosition's offsets are zero-based.
-  const auto line_count = pos.first + 1;
-  const auto char_count = pos.second + 1;
+  const CharPosType line_count = pos.first + 1;
+  const CharPosType char_count = pos.second + 1;
 
   std::string char_name;
   if( this->p == this->pe )
@@ -77,7 +77,9 @@ void Parser::throw_unexpected() const
     end++;
 
   // The amount of chars needed to print the biggest line number.
-  int number_width = GetDecNumberWidth(line_count);
+  // If line_count is bigger than INT_MAX the only thing that breaks is the
+  // formatting of output.
+  int number_width = GetDecNumberWidth(static_cast<int>(line_count));
 
   PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
 
@@ -128,7 +130,7 @@ void Parser::throw_unknown_token(
   if( this->p < this->pe )
     end++;
 
-  int number_width = GetDecNumberWidth(line_count);
+  int number_width = GetDecNumberWidth(static_cast<int>(line_count));
 
   PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
 
