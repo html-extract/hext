@@ -1,5 +1,5 @@
-#ifndef HEXT_REGEX_TEST_H_INCLUDED
-#define HEXT_REGEX_TEST_H_INCLUDED
+#ifndef HEXT_PATTERN_REGEX_TEST_H_INCLUDED
+#define HEXT_PATTERN_REGEX_TEST_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -30,5 +30,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_REGEX_TEST_H_INCLUDED
+#endif // HEXT_PATTERN_REGEX_TEST_H_INCLUDED
 

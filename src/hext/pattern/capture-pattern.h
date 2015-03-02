@@ -1,5 +1,5 @@
-#ifndef HEXT_CAPTURE_PATTERN_H_INCLUDED
-#define HEXT_CAPTURE_PATTERN_H_INCLUDED
+#ifndef HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
+#define HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 
 #include <string>
 #include <cstring>
@@ -60,5 +60,5 @@ protected:
 } // namespace hext
 
 
-#endif // HEXT_CAPTURE_PATTERN_H_INCLUDED
+#endif // HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 
