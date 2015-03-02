@@ -16,6 +16,7 @@
 namespace hext {
 
 
+/// Forward declare Rule because it depends on MatchTree.
 class Rule;
 
 /// A MatchTree contains the result of matching a Rule to GumboNodes through
