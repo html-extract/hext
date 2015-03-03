@@ -74,7 +74,7 @@
                             %{ LX_TK_STOP;
                                try{ rule.pattern().set_cap_regex(tok); }
                                catch( const boost::regex_error& e )
-                               { this->throw_regex_error(tok, e); }
+                               { this->throw_regex_error(tok, e.code()); }
                              }
                 )
                 '/'
@@ -90,7 +90,7 @@
                               %{ LX_TK_STOP;
                                  try{ rule.pattern().set_attr_regex(tok); }
                                  catch( const boost::regex_error& e )
-                                 { this->throw_regex_error(tok, e); }
+                                 { this->throw_regex_error(tok, e.code()); }
                                }
                 )
                 '/'

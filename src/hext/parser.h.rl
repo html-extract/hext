@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <utility>
 
+#include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
 
 
@@ -70,7 +71,7 @@ private:
   ) const;
   void throw_regex_error(
     const std::string& tok,
-    const boost::regex_error& e
+    boost::regex_constants::error_type e_code
   ) const;
   void print_error_location(
     std::string::size_type mark_len,

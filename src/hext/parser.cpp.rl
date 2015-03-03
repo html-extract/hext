@@ -69,16 +69,21 @@ void Parser::throw_unknown_token(
 
 void Parser::throw_regex_error(
   const std::string& tok,
-  const boost::regex_error& e
+  boost::regex_constants::error_type e_code
 ) const
 {
   assert(this->p && this->p_begin_ && this->pe);
 
   std::stringstream error_msg;
-  error_msg << "Regex error ";
+  error_msg << "In regular expression ";
   this->print_error_location(tok.size(), error_msg);
-  error_msg << "\n"
-            << e.what();
+
+  // regex_error::what() not only contains an error message, but also adds the
+  // error location. Therefore we use regex_traits::error_string to get a
+  // shorter error description.
+  boost::regex_traits<boost::regex::value_type> traits;
+  error_msg << "\n\nError: "
+            << traits.error_string(e_code);
 
   throw ParseError(error_msg.str());
 }
