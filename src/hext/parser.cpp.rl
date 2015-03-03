@@ -146,6 +146,48 @@ void Parser::throw_unknown_token(
   throw ParseError(error_msg.str());
 }
 
+void Parser::throw_regex_error(
+  const std::string& tok,
+  const char * regex_error
+) const
+{
+  assert(this->p && this->p_begin_ && this->pe);
+
+  CharPosPair pos =
+    GetCharPosition(this->p, this->p_begin_, this->pe);
+
+  const auto line_count = pos.first + 1;
+  const auto char_count = pos.second + 1;
+
+  std::stringstream error_msg;
+  error_msg << "Regex error at line "
+            << line_count
+            << ", char "
+            << char_count
+            << ":\n"
+            << regex_error
+            << "\n\n";
+
+  const char * end = this->p;
+  if( this->p < this->pe )
+    end++;
+
+  int number_width = GetDecNumberWidth(static_cast<int>(line_count));
+
+  PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
+
+  std::size_t indent = number_width
+                     + 2
+                     + pos.second
+                     - tok.size();
+
+  error_msg << std::string(indent, ' ')
+            << std::string(tok.size(), '^')
+            << " here";
+
+  throw ParseError(error_msg.str());
+}
+
 
 } // namespace hext
 

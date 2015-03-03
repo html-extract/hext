@@ -2,14 +2,13 @@
 #define HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 
 #include "hext/match-tree.h"
-#include "hext/make-unique.h"
 
 #include <string>
 #include <cstring>
-#include <memory>
 #include <iostream>
 
 #include <boost/regex.hpp>
+#include <boost/optional.hpp>
 #include <gumbo.h>
 
 
@@ -38,11 +37,13 @@ class CapturePattern
 {
 public:
   explicit CapturePattern(const std::string& result_name);
-  CapturePattern(const std::string& result_name, const std::string& regex);
+  CapturePattern(const std::string& result_name, const boost::regex& regex);
   virtual ~CapturePattern();
+
   /// Return a pair with the result_name and the captured content, which is to
   /// be inserted into a MatchTree.
   virtual MatchTree::NameValuePair capture(const GumboNode * node) const = 0;
+
   virtual void print(std::ostream& out = std::cout) const = 0;
 
 protected:
@@ -52,8 +53,9 @@ protected:
 
   /// The result name of the captured contents.
   const std::string name_;
-  /// regex is optional; rx is false if no regex was given
-  const std::unique_ptr<boost::regex> rx_;
+
+  /// regex is optional
+  const boost::optional<const boost::regex> rx_;
 };
 
 

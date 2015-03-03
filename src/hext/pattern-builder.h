@@ -15,6 +15,7 @@
 
 #include <string>
 #include <memory>
+#include <boost/regex.hpp>
 
 
 namespace hext {
@@ -58,9 +59,9 @@ private:
   BuiltinFuncPtr bf_;
   std::string attr_name_;
   std::string attr_literal_;
-  std::string attr_regex_;
+  boost::regex attr_regex_;
   std::string cap_var_;
-  std::string cap_regex_;
+  boost::regex cap_regex_;
   std::vector<std::unique_ptr<MatchPattern>> mp_;
   std::vector<std::unique_ptr<CapturePattern>> cp_;
 };

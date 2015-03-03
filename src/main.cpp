@@ -87,11 +87,6 @@ int main(int argc, const char ** argv)
     std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
-  catch( const boost::regex_error& e )
-  {
-    std::cerr << argv[0] << ": Regex error: " << e.what() << "\n";
-    return EXIT_FAILURE;
-  }
   catch( const hext::FileError& e )
   {
     std::cerr << argv[0] << ": Error: " << e.what() << "\n";

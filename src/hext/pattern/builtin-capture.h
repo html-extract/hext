@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include <gumbo.h>
+#include <boost/regex.hpp>
 
 
 namespace hext {
@@ -21,8 +22,12 @@ class BuiltinCapture : public CapturePattern
 public:
   BuiltinCapture(
     const std::string& result_name,
+    BuiltinFuncPtr f
+  );
+  BuiltinCapture(
+    const std::string& result_name,
     BuiltinFuncPtr f,
-    const std::string& regex
+    const boost::regex& regex
   );
   MatchTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;

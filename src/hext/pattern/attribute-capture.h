@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include <gumbo.h>
+#include <boost/regex.hpp>
 
 
 namespace hext {
@@ -19,8 +20,12 @@ class AttributeCapture : public CapturePattern
 public:
   AttributeCapture(
     const std::string& result_name,
+    const std::string& attr_name
+  );
+  AttributeCapture(
+    const std::string& result_name,
     const std::string& attr_name,
-    const std::string& regex
+    const boost::regex& regex
   );
   MatchTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;

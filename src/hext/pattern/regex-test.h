@@ -17,7 +17,7 @@ namespace hext {
 class RegexTest : public ValueTest
 {
 public:
-  explicit RegexTest(const std::string& regex);
+  explicit RegexTest(const boost::regex& regex);
   /// Returns true if regex matches subject.
   bool test(const char * subject) const final;
   void print(std::ostream& out = std::cout) const final;

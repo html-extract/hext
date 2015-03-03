@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <utility>
 
+#include <boost/regex/pattern_except.hpp>
+
 
 #define LX_TK_START \
   tok_begin = p;    \
@@ -65,6 +67,10 @@ private:
   void throw_unknown_token(
     const std::string& token_name,
     const std::string& token
+  ) const;
+  void throw_regex_error(
+    const std::string& tok,
+    const char * regex_error
   ) const;
 
   /// A pointer to the beginning of the overall input is needed to provide

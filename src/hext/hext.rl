@@ -72,7 +72,10 @@
                 (
                   cap_regex >{ LX_TK_START; }
                             %{ LX_TK_STOP;
-                               rule.pattern().set_cap_regex(tok); }
+                               try{ rule.pattern().set_cap_regex(tok); }
+                               catch( const boost::regex_error& e )
+                               { this->throw_regex_error(tok, e.what()); }
+                             }
                 )
                 '/'
               )?
@@ -85,7 +88,10 @@
                 (
                   match_regex >{ LX_TK_START; }
                               %{ LX_TK_STOP;
-                                 rule.pattern().set_attr_regex(tok); }
+                                 try{ rule.pattern().set_attr_regex(tok); }
+                                 catch( const boost::regex_error& e )
+                                 { this->throw_regex_error(tok, e.what()); }
+                               }
                 )
                 '/'
               )

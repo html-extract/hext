@@ -6,8 +6,17 @@ namespace hext {
 
 AttributeCapture::AttributeCapture(
   const std::string& result_name,
+  const std::string& attr_name
+)
+: CapturePattern(result_name)
+, attr_(attr_name)
+{
+}
+
+AttributeCapture::AttributeCapture(
+  const std::string& result_name,
   const std::string& attr_name,
-  const std::string& regex
+  const boost::regex& regex
 )
 : CapturePattern(result_name, regex)
 , attr_(attr_name)

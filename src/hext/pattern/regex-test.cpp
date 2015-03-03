@@ -4,7 +4,7 @@
 namespace hext {
 
 
-RegexTest::RegexTest(const std::string& regex)
+RegexTest::RegexTest(const boost::regex& regex)
 : rx_(regex)
 {
 }
