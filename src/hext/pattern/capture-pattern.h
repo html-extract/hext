@@ -19,12 +19,12 @@ namespace hext {
 /// to capture values from html-nodes. Rules have CapturePatterns.
 /// * hext/pattern/attribute-capture.h:
 ///     <a href={link}
-///   From every node, that has both html-tag "a" and an attribute called
+///   From every node that has both html-tag "a" and an attribute called
 ///   href, extract the contents of the attribute and put it into "link".
 ///
 /// * hext/pattern/builtin-capture.h:
 ///     <a @text={title}
-///   For every node, that has html-tag "a", call builtin function "text" and
+///   For every node that has html-tag "a", call builtin function "text" and
 ///   put its return value into "title".
 ///
 /// CapturePatterns may have a regex filter:
@@ -47,7 +47,7 @@ public:
   virtual void print(std::ostream& out = std::cout) const = 0;
 
 protected:
-  /// Apply regex rx to str and return captured contents.
+  /// Apply regex rx_ to str and return captured contents.
   /// Returns whole string if regex contains no capture-parentheses.
   std::string regex_filter(const char * str) const;
 
