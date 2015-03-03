@@ -47,7 +47,7 @@
               %{ LX_TK_STOP;
                  {
                    if( !rule.pattern().set_builtin_function(tok) )
-                     this->throw_unknown_token("builtin", tok);
+                     this->throw_unknown_token(tok, "builtin");
                  }
               }
             )
@@ -74,7 +74,7 @@
                             %{ LX_TK_STOP;
                                try{ rule.pattern().set_cap_regex(tok); }
                                catch( const boost::regex_error& e )
-                               { this->throw_regex_error(tok, e.what()); }
+                               { this->throw_regex_error(tok, e); }
                              }
                 )
                 '/'
@@ -90,7 +90,7 @@
                               %{ LX_TK_STOP;
                                  try{ rule.pattern().set_attr_regex(tok); }
                                  catch( const boost::regex_error& e )
-                                 { this->throw_regex_error(tok, e.what()); }
+                                 { this->throw_regex_error(tok, e); }
                                }
                 )
                 '/'
@@ -140,7 +140,7 @@
           attr_name >{ LX_TK_START; }
                     %{ LX_TK_STOP;
                        if( !rule.set_tag_name(tok) )
-                         this->throw_unknown_token("html-tag", tok); }
+                         this->throw_unknown_token(tok, "html-tag"); }
         )?
         attributes?
         (

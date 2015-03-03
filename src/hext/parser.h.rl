@@ -65,12 +65,16 @@ private:
   /// Print diagnostics and throw ParseError.
   void throw_unexpected() const;
   void throw_unknown_token(
-    const std::string& token_name,
-    const std::string& token
+    const std::string& tok,
+    const std::string& tok_name
   ) const;
   void throw_regex_error(
     const std::string& tok,
-    const char * regex_error
+    const boost::regex_error& e
+  ) const;
+  void print_error_location(
+    std::string::size_type mark_len,
+    std::ostream& out
   ) const;
 
   /// A pointer to the beginning of the overall input is needed to provide

@@ -44,28 +44,62 @@ void Parser::throw_unexpected() const
 {
   assert(this->p && this->p_begin_ && this->pe);
 
-  // The line and char offset of the unexpected character
+  std::stringstream error_msg;
+  error_msg << "Unexpected character '"
+            << ( this->p >= this->pe ? "[eof]" : GetCharName(*this->p) )
+            << "' ";
+  this->print_error_location(0, error_msg);
+
+  throw ParseError(error_msg.str());
+}
+
+void Parser::throw_unknown_token(
+  const std::string& tok,
+  const std::string& tok_name
+) const
+{
+  assert(this->p && this->p_begin_ && this->pe);
+
+  std::stringstream error_msg;
+  error_msg << "Unknown " << tok_name << " '" << tok << "' ";
+  this->print_error_location(tok.size(), error_msg);
+
+  throw ParseError(error_msg.str());
+}
+
+void Parser::throw_regex_error(
+  const std::string& tok,
+  const boost::regex_error& e
+) const
+{
+  assert(this->p && this->p_begin_ && this->pe);
+
+  std::stringstream error_msg;
+  error_msg << "Regex error ";
+  this->print_error_location(tok.size(), error_msg);
+  error_msg << "\n"
+            << e.what();
+
+  throw ParseError(error_msg.str());
+}
+
+void Parser::print_error_location(
+  std::string::size_type mark_len,
+  std::ostream& out
+) const
+{
+  assert(this->p && this->p_begin_ && this->pe);
+
+  // The zero-based line and char offset of the unexpected character.
   CharPosPair pos =
     GetCharPosition(this->p, this->p_begin_, this->pe);
 
-  // GetCharPosition's offsets are zero-based.
-  const CharPosType line_count = pos.first + 1;
-  const CharPosType char_count = pos.second + 1;
-
-  std::string char_name;
-  if( this->p == this->pe )
-    char_name = "[eof]";
-  else
-    char_name = GetCharName(*this->p);
-
-  std::stringstream error_msg;
-  error_msg << "Unexpected character '"
-            << char_name
-            << "' at line "
-            << line_count
-            << ", char "
-            << char_count
-            << "\n\n";
+  out << "at line "
+      << pos.first + 1 // line_count
+      << ", char "
+      << pos.second + 1 // char_count
+      << ": "
+      << "\n\n";
 
   // We need a 'past-the-last-element' iterator.
   const char * end = this->p;
@@ -79,11 +113,11 @@ void Parser::throw_unexpected() const
   // The amount of chars needed to print the biggest line number.
   // If line_count is bigger than INT_MAX the only thing that breaks is the
   // formatting of output.
-  int number_width = GetDecNumberWidth(static_cast<int>(line_count));
+  int number_width = GetDecNumberWidth(static_cast<int>(pos.first + 1));
 
-  PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
+  PrintWithLineNumbers(this->p_begin_, end, number_width, out);
 
-  // Print a visual indicator right under the unexpected character.
+  // Print a visual indicator right under the unexpected token.
   // We need to know the amount of indentation required.
   // PrintWithLineNumbers prints lines like this:
   // 1: An SQL query goes into a bar,
@@ -91,101 +125,16 @@ void Parser::throw_unexpected() const
   // 3: 'Can I join you?'
   std::size_t indent = number_width // chars required to print the line number
                      + 2            // ": "
-                     + pos.second;  // offset of the unexpected character from
+                     + pos.second   // offset of the unexpected character from
                                     // the beginning of the line.
+                     - mark_len;    // the length of the '^' mark
 
-  error_msg << std::string(indent, ' ')
-            << "^ here";
+  if( mark_len < 1 )
+    mark_len = 1;
 
-  throw ParseError(error_msg.str());
-}
-
-void Parser::throw_unknown_token(
-  const std::string& token_name,
-  const std::string& token
-) const
-{
-  // See Parser::throw_unexpected for some commentary.
-
-  assert(this->p && this->p_begin_ && this->pe);
-
-  CharPosPair pos =
-    GetCharPosition(this->p, this->p_begin_, this->pe);
-
-  const auto line_count = pos.first + 1;
-  const auto char_count = pos.second + 1;
-
-  std::stringstream error_msg;
-  error_msg << "Unknown "
-            << token_name
-            << " '"
-            << token
-            << "' at line "
-            << line_count
-            << ", char "
-            << char_count
-            << "\n\n";
-
-  const char * end = this->p;
-  if( this->p < this->pe )
-    end++;
-
-  int number_width = GetDecNumberWidth(static_cast<int>(line_count));
-
-  PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
-
-  std::size_t indent = number_width
-                     + 2
-                     + pos.second
-                     - token.size();
-
-  error_msg << std::string(indent, ' ')
-            << std::string(token.size(), '^')
-            << " here";
-
-  throw ParseError(error_msg.str());
-}
-
-void Parser::throw_regex_error(
-  const std::string& tok,
-  const char * regex_error
-) const
-{
-  assert(this->p && this->p_begin_ && this->pe);
-
-  CharPosPair pos =
-    GetCharPosition(this->p, this->p_begin_, this->pe);
-
-  const auto line_count = pos.first + 1;
-  const auto char_count = pos.second + 1;
-
-  std::stringstream error_msg;
-  error_msg << "Regex error at line "
-            << line_count
-            << ", char "
-            << char_count
-            << ":\n"
-            << regex_error
-            << "\n\n";
-
-  const char * end = this->p;
-  if( this->p < this->pe )
-    end++;
-
-  int number_width = GetDecNumberWidth(static_cast<int>(line_count));
-
-  PrintWithLineNumbers(this->p_begin_, end, number_width, error_msg);
-
-  std::size_t indent = number_width
-                     + 2
-                     + pos.second
-                     - tok.size();
-
-  error_msg << std::string(indent, ' ')
-            << std::string(tok.size(), '^')
-            << " here";
-
-  throw ParseError(error_msg.str());
+  out << std::string(indent, ' ')
+      << std::string(mark_len, '^')
+      << " here";
 }
 
 
