@@ -1,5 +1,5 @@
 #include "hext/rule.h"
-#include "hext/match-tree.h"
+#include "hext/result-tree.h"
 
 
 namespace hext {
@@ -63,9 +63,9 @@ bool Rule::optional() const
   return this->is_optional_;
 }
 
-void Rule::extract(const GumboNode * node, MatchTree * m) const
+void Rule::extract(const GumboNode * node, ResultTree * rt) const
 {
-  if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
+  if( !rt || !node || node->type != GUMBO_NODE_ELEMENT )
     return;
 
   if( this->matches(node) )
@@ -74,24 +74,24 @@ void Rule::extract(const GumboNode * node, MatchTree * m) const
 
     // Although we have a match, this may not be the html-node that the user
     // is searching for, so we have to keep matching.
-    this->extract_node_children(node, m);
+    this->extract_node_children(node, rt);
 
     {
-      std::unique_ptr<MatchTree> mt = this->patterns_.capture(node);
-      assert(mt != nullptr);
-      mt->set_rule(this);
-      m = m->append_child_and_own(std::move(mt));
+      std::unique_ptr<ResultTree> rt_branch = this->patterns_.capture(node);
+      assert(rt_branch != nullptr);
+      rt_branch->set_rule(this);
+      rt = rt->append_child_and_own(std::move(rt_branch));
     }
 
     for(const auto& c : this->children_)
-      c.extract_node_children(node, m);
+      c.extract_node_children(node, rt);
   }
   else
   {
     // if this rule is a direct descendant, and it didn't match,
     // all child-rules cannot be matched either.
     if( this->nth_child_ == -1 )
-      this->extract_node_children(node, m);
+      this->extract_node_children(node, rt);
   }
 }
 
@@ -156,9 +156,9 @@ bool Rule::matches(const GumboNode * node) const
     return this->patterns_.matches(node);
 }
 
-void Rule::extract_node_children(const GumboNode * node, MatchTree * m) const
+void Rule::extract_node_children(const GumboNode * node, ResultTree * rt) const
 {
-  if( !node || !m || node->type != GUMBO_NODE_ELEMENT )
+  if( !rt || !node || node->type != GUMBO_NODE_ELEMENT )
     return;
 
   const GumboVector * node_children = &node->v.element.children;
@@ -166,7 +166,7 @@ void Rule::extract_node_children(const GumboNode * node, MatchTree * m) const
   {
     this->extract(
       static_cast<const GumboNode *>(node_children->data[i]),
-      m
+      rt
     );
   }
 }

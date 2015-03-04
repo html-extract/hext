@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 
-#include "hext/match-tree.h"
+#include "hext/result-tree.h"
 #include "hext/pattern/capture-pattern.h"
 #include "hext/builtins.h"
 
@@ -29,7 +29,7 @@ public:
     BuiltinFuncPtr f,
     const boost::regex& regex
   );
-  MatchTree::NameValuePair capture(const GumboNode * node) const final;
+  ResultTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:

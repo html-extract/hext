@@ -55,23 +55,23 @@ int main(int argc, const char ** argv)
 
     for(const auto& rule : rules)
     {
-      std::unique_ptr<hext::MatchTree> mt = html.extract(rule);
-      assert(mt != nullptr);
+      std::unique_ptr<hext::ResultTree> rt = html.extract(rule);
+      assert(rt != nullptr);
 
       if( !po.contains("keep-invalid") )
-        mt->filter();
+        rt->filter();
 
       if( po.contains("print-debug") )
       {
         rule.print(std::cout, 0, true);
       }
-      else if( po.contains("mt-graph") )
+      else if( po.contains("rt-graph") )
       {
-        mt->print_dot();
+        rt->print_dot();
       }
       else
       {
-        std::vector<rapidjson::Document> objects = mt->to_json();
+        std::vector<rapidjson::Document> objects = rt->to_json();
         for(const auto& obj : objects)
         {
           rapidjson::StringBuffer buffer;

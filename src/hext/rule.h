@@ -18,15 +18,15 @@
 namespace hext {
 
 
-class MatchTree;
+class ResultTree;
 
 /// A Rule represents a source line from the hext input.
 /// Generally: <is_optional?(dd|nth_child)?tag_name? rule_pattern*>
 ///   Example: <!2div id="container" class="list">
 ///
 /// A Rule matches an html-node if all its attributes are satisfied:
-///  * is_optional: Ignored while matching. When MatchTree::filter is called,
-///    invalid MatchTree branches are removed, unless this flag is set.
+///  * is_optional: Ignored while matching. When ResultTree::filter is called,
+///    invalid ResultTree branches are removed, unless this flag is set.
 ///  * nth_child or direct_descendant: Matches if the node is a direct
 ///    descendant of its parent. If nth_child is given, it must match the index
 ///    within its parent node (the index is determined by ignoring text-nodes,
@@ -38,7 +38,7 @@ class MatchTree;
 ///    not optional, RulePatterns::matches() must return true.
 ///
 /// If a node matches a Rule, RulePatterns::capture() is called, which returns
-/// a new MatchTree branch, containing all captured NameValuePairs.
+/// a new ResultTree branch, containing all captured NameValuePairs.
 ///
 /// A Rule is a tree: each Rule has a vector of child-rules.
 class Rule
@@ -78,7 +78,7 @@ public:
   bool optional() const;
 
   /// Recursively try to find and capture matches.
-  void extract(const GumboNode * node, MatchTree * m) const;
+  void extract(const GumboNode * node, ResultTree * r) const;
 
   /// Recursively print the Rule and its child-rules.
   /// If print_match_count is true, print a column containing the match count
@@ -98,7 +98,7 @@ private:
   bool matches(const GumboNode * node) const;
 
   /// Helper method that calls Rule::extract for each child of GumboNode.
-  void extract_node_children(const GumboNode * node, MatchTree * m) const;
+  void extract_node_children(const GumboNode * node, ResultTree * rt) const;
 
   std::vector<Rule> children_;
   RulePatterns patterns_;

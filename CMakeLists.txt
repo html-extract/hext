@@ -92,7 +92,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/rule-builder.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern-builder.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/file.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/match-tree.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/result-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/value-test.cpp"

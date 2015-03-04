@@ -1,38 +1,38 @@
-#include "hext/match-tree.h"
+#include "hext/result-tree.h"
 #include "hext/rule.h"
 
 
 namespace hext {
 
 
-MatchTree::MatchTree()
+ResultTree::ResultTree()
 : children_(),
-  matches_(),
+  values_(),
   r_(nullptr)
 {
 }
 
-MatchTree * MatchTree::append_child_and_own(std::unique_ptr<MatchTree> m)
+ResultTree * ResultTree::append_child_and_own(std::unique_ptr<ResultTree> m)
 {
   this->children_.push_back(std::move(m));
   return this->children_.back().get();
 }
 
-void MatchTree::append_match(const NameValuePair& p)
+void ResultTree::append_result(const NameValuePair& p)
 {
-  this->matches_.push_back(p);
+  this->values_.push_back(p);
 }
 
-void MatchTree::set_rule(const Rule * matching_rule)
+void ResultTree::set_rule(const Rule * matching_rule)
 {
   this->r_ = matching_rule;
 }
 
-std::vector<rapidjson::Document> MatchTree::to_json() const
+std::vector<rapidjson::Document> ResultTree::to_json() const
 {
   std::vector<rapidjson::Document> objects(this->children_.size());
 
-  for(std::vector<MatchTree>::size_type i = 0; i < this->children_.size(); ++i)
+  for(std::vector<ResultTree>::size_type i = 0; i < this->children_.size(); ++i)
   {
     objects[i].SetObject();
     this->children_[i]->append_json_recursive(objects[i]);
@@ -41,15 +41,15 @@ std::vector<rapidjson::Document> MatchTree::to_json() const
   return objects;
 }
 
-void MatchTree::print_dot(std::ostream& out) const
+void ResultTree::print_dot(std::ostream& out) const
 {
-  out << "digraph match_tree {\n"
+  out << "digraph result_tree {\n"
       << "    node [fontname=\"Arial\"];\n";
   this->print_dot_nodes(out);
   out << "}\n";
 }
 
-bool MatchTree::filter()
+bool ResultTree::filter()
 {
   // depth first
   for(auto& c : this->children_)
@@ -62,21 +62,21 @@ bool MatchTree::filter()
     this->children_.end()
   );
 
-  // Check if all rules are present in this match-tree.
+  // Check if all rules are present in this ResultTree.
   if( this->r_ )
   {
     auto c_begin = this->children_.begin();
     auto c_end = this->children_.end();
     for(const auto& rl : this->r_->children())
     {
-      // If there are no more match-branches, all rules that follow must
+      // If there are no more result branches, all rules that follow must
       // be optional.
       if( c_begin == c_end )
       {
         if( !rl.optional() )
           return true;
       }
-      // match-branches and rule-children have the same order.
+      // result branches and rule children have the same order.
       // Check if child has this rule.
       else if( *c_begin && (*c_begin)->r_ == &rl )
       {
@@ -94,18 +94,18 @@ bool MatchTree::filter()
   return false;
 }
 
-void MatchTree::append_json_recursive(rapidjson::Document& json) const
+void ResultTree::append_json_recursive(rapidjson::Document& json) const
 {
-  this->append_json_matches(json);
+  this->append_json_values(json);
 
   for(const auto& c : this->children_)
     c->append_json_recursive(json);
 }
 
-void MatchTree::append_json_matches(rapidjson::Document& json) const
+void ResultTree::append_json_values(rapidjson::Document& json) const
 {
   rapidjson::Document::AllocatorType& allocator = json.GetAllocator();
-  for(const auto& p : this->matches_)
+  for(const auto& p : this->values_)
   {
     rapidjson::Value name(p.first.c_str(), allocator);
     rapidjson::Value value(p.second.c_str(), allocator);
@@ -131,21 +131,21 @@ void MatchTree::append_json_matches(rapidjson::Document& json) const
   }
 }
 
-void MatchTree::print_dot_nodes(std::ostream& out, int parent_id) const
+void ResultTree::print_dot_nodes(std::ostream& out, int parent_id) const
 {
   static int node_index = 0;
   int this_node = ++node_index;
 
   std::string label;
   if( !this->r_ || this->r_->gumbo_tag() == GUMBO_TAG_UNKNOWN )
-    label.append("[rule]");
+    label.append("*");
   else
     label.append(gumbo_normalized_tagname(this->r_->gumbo_tag()));
 
-  for(const auto& m : this->matches_)
+  for(const auto& v : this->values_)
   {
     label.append(" ");
-    label.append(m.first);
+    label.append(v.first);
   }
 
   out << "    node_" << this_node << " [label=\"" << label << "\"];\n";

@@ -23,11 +23,11 @@ AttributeCapture::AttributeCapture(
 {
 }
 
-MatchTree::NameValuePair
+ResultTree::NameValuePair
 AttributeCapture::capture(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return MatchTree::NameValuePair(this->name_, "");
+    return ResultTree::NameValuePair(this->name_, "");
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
@@ -35,18 +35,18 @@ AttributeCapture::capture(const GumboNode * node) const
   );
 
   if( !g_attr )
-    return MatchTree::NameValuePair(this->name_, "");
+    return ResultTree::NameValuePair(this->name_, "");
 
   if( this->rx_ )
   {
-    return MatchTree::NameValuePair(
+    return ResultTree::NameValuePair(
       this->name_,
       this->regex_filter(g_attr->value)
     );
   }
   else
   {
-    return MatchTree::NameValuePair(this->name_, g_attr->value);
+    return ResultTree::NameValuePair(this->name_, g_attr->value);
   }
 }
 

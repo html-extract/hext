@@ -27,7 +27,7 @@ public:
     const std::string& attr_name,
     const boost::regex& regex
   );
-  MatchTree::NameValuePair capture(const GumboNode * node) const final;
+  ResultTree::NameValuePair capture(const GumboNode * node) const final;
   void print(std::ostream& out = std::cout) const final;
 
 private:

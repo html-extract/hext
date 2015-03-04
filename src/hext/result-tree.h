@@ -1,5 +1,5 @@
-#ifndef HEXT_MATCH_TREE_H_INCLUDED
-#define HEXT_MATCH_TREE_H_INCLUDED
+#ifndef HEXT_RESULT_TREE_H_INCLUDED
+#define HEXT_RESULT_TREE_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -16,12 +16,12 @@
 namespace hext {
 
 
-/// Forward declare Rule because it depends on MatchTree.
+/// Forward declare Rule because it depends on ResultTree.
 class Rule;
 
-/// A MatchTree contains the result of matching a Rule to GumboNodes through
+/// A ResultTree contains the result of matching a Rule to GumboNodes through
 /// Rule::extract().
-class MatchTree
+class ResultTree
 {
 public:
   /// Convenience typedef for name-value-pairs. First member is the name of a
@@ -30,65 +30,65 @@ public:
     std::pair<std::string, std::string>
     NameValuePair;
 
-  MatchTree();
+  ResultTree();
 
   /// Append and own branch. Return a pointer to the new branch.
-  MatchTree * append_child_and_own(std::unique_ptr<MatchTree> m);
+  ResultTree * append_child_and_own(std::unique_ptr<ResultTree> m);
 
   /// Append a NameValuePair to this branch.
-  void append_match(const NameValuePair& p);
+  void append_result(const NameValuePair& p);
 
-  /// Set the Rule that caused this MatchTree branch.
+  /// Set the Rule that caused this ResultTree branch.
   void set_rule(const Rule * matching_rule);
 
-  /// Return each MatchTree branch as a json object.
-  /// Each child of the root of the MatchTree will form its own json object.
+  /// Return each ResultTree branch as a json object.
+  /// Each child of the root of the ResultTree will form its own json object.
   std::vector<rapidjson::Document> to_json() const;
 
-  /// Print the MatchTree as DOT, a graph description language.
+  /// Print the ResultTree as DOT, a graph description language.
   /// See http://en.wikipedia.org/wiki/DOT_language
   void print_dot(std::ostream& out = std::cout) const;
 
   /// Remove all nodes that do not conform to the rule tree,
-  /// leaving a clean MatchTree with only valid results.
+  /// leaving a clean ResultTree with only valid results.
   /// When recursively matching GumboNodes in Rule::extract we do not want to
   /// care about wether a match will eventually be valid. Dropping invalid
   /// matches is much easier after we have processed all input.
   /// Do not remove optional Rules.
-  /// Returns true on empty MatchTree.
+  /// Return true on empty ResultTree.
   bool filter();
 
 private:
-  MatchTree(const MatchTree&) = delete;
-  MatchTree& operator=(const MatchTree&) = delete;
+  ResultTree(const ResultTree&) = delete;
+  ResultTree& operator=(const ResultTree&) = delete;
 
   /// Recursively append all branches to the json document.
   void append_json_recursive(rapidjson::Document& json) const;
 
-  /// Append a MatchTree's branch NameValuePairs to the json document.
+  /// Append a ResultTree's branch NameValuePairs to the json document.
   /// If a name already exists it is converted to an array and the new value is
   /// appended.
   ///
   /// For example, consider the key "foo" already being taken:
   ///   {"foo": "bar"}
-  ///   then append_json_matches is called, with a branch
+  ///   then append_json_values is called, with a branch
   ///   containing NameValuePair("foo", "baz")
   /// Produces:
   ///   {"foo": ["bar", "baz"]}
-  void append_json_matches(rapidjson::Document& json) const;
+  void append_json_values(rapidjson::Document& json) const;
 
   /// Recursivley print all DOT nodes. Each node has a distinct id. The
   /// parameter parent_id is neccessary to allow kids to connect to their
   /// parents.
   void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
 
-  /// MatchTrees are self-managing: all nodes are owned by the tree.
-  std::vector<std::unique_ptr<MatchTree>> children_;
+  /// ResultTrees are self-managing: all nodes are owned by the tree.
+  std::vector<std::unique_ptr<ResultTree>> children_;
 
   /// The values captured by extracting.
-  std::vector<NameValuePair> matches_;
+  std::vector<NameValuePair> values_;
 
-  /// The Rule that caused this match.
+  /// The Rule that produced this instance's values_.
   const Rule * r_;
 };
 
@@ -96,5 +96,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_MATCH_TREE_H_INCLUDED
+#endif // HEXT_RESULT_TREE_H_INCLUDED
 

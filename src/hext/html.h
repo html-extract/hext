@@ -2,7 +2,7 @@
 #define HEXT_HTML_H_INCLUDED
 
 #include "hext/rule.h"
-#include "hext/match-tree.h"
+#include "hext/result-tree.h"
 #include "hext/make-unique.h"
 
 #include <cassert>
@@ -24,9 +24,9 @@ public:
   Html(const char * buffer, std::size_t length);
   ~Html();
 
-  /// Apply Rule to all nodes and return a MatchTree containing all
+  /// Apply Rule to all nodes and return a ResultTree containing all
   /// captured values.
-  std::unique_ptr<MatchTree> extract(const Rule& r) const;
+  std::unique_ptr<ResultTree> extract(const Rule& r) const;
 
 private:
   Html(const Html&) = delete;

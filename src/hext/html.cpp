@@ -17,12 +17,12 @@ Html::~Html()
   gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
 }
 
-std::unique_ptr<MatchTree> Html::extract(const Rule& r) const
+std::unique_ptr<ResultTree> Html::extract(const Rule& r) const
 {
   assert(this->g_outp_ != nullptr);
-  std::unique_ptr<MatchTree> m = MakeUnique<MatchTree>();
-  r.extract(this->g_outp_->root, m.get());
-  return m;
+  std::unique_ptr<ResultTree> rt = MakeUnique<ResultTree>();
+  r.extract(this->g_outp_->root, rt.get());
+  return rt;
 }
 
 

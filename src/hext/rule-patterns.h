@@ -2,7 +2,7 @@
 #define HEXT_RULE_PATTERNS_H_INCLUDED
 
 #include "hext/make-unique.h"
-#include "hext/match-tree.h"
+#include "hext/result-tree.h"
 #include "hext/pattern/match-pattern.h"
 #include "hext/pattern/capture-pattern.h"
 
@@ -40,8 +40,8 @@ public:
   bool matches_all_attributes(const GumboNode * node) const;
 
   /// Apply all capture patterns to node.
-  /// Return a new MatchTree branch containing name-value-pair.
-  std::unique_ptr<MatchTree> capture(const GumboNode * node) const;
+  /// Return a new ResultTree branch containing name-value-pair.
+  std::unique_ptr<ResultTree> capture(const GumboNode * node) const;
 
   void print(std::ostream& out = std::cout) const;
 

@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 #define HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 
-#include "hext/match-tree.h"
+#include "hext/result-tree.h"
 
 #include <string>
 #include <cstring>
@@ -41,8 +41,8 @@ public:
   virtual ~CapturePattern();
 
   /// Return a pair with the result_name and the captured content, which is to
-  /// be inserted into a MatchTree.
-  virtual MatchTree::NameValuePair capture(const GumboNode * node) const = 0;
+  /// be inserted into a ResultTree.
+  virtual ResultTree::NameValuePair capture(const GumboNode * node) const = 0;
 
   virtual void print(std::ostream& out = std::cout) const = 0;
 
