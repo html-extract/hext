@@ -7,7 +7,6 @@
 
 #include <cassert>
 #include <string>
-#include <stdexcept>
 #include <memory>
 
 #include <gumbo.h>
