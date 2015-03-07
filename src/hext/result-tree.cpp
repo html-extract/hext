@@ -94,6 +94,28 @@ bool ResultTree::filter()
   return false;
 }
 
+std::vector<std::multimap<std::string, std::string>>
+ResultTree::to_vector() const
+{
+  typedef std::vector<std::unique_ptr<ResultTree>>::size_type c_size_type;
+  typedef std::multimap<std::string, std::string> map_type;
+
+  std::vector<map_type> result(this->children_.size());
+  for(c_size_type i = 0; i < this->children_.size(); ++i)
+    this->children_[i]->save(result[i]);
+
+  return result;
+}
+
+void ResultTree::save(std::multimap<std::string, std::string>& map) const
+{
+  for(const auto& p : this->values_)
+    map.insert(p);
+
+  for(const auto& c : this->children_)
+    c->save(map);
+}
+
 void ResultTree::append_json_recursive(rapidjson::Document& json) const
 {
   this->append_json_values(json);

@@ -8,6 +8,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <map>
 
 #include <rapidjson/document.h>
 
@@ -57,9 +58,15 @@ public:
   /// Return true on empty ResultTree.
   bool filter();
 
+  /// Convert every branch's values_ to a multimap and put them in a vector.
+  std::vector<std::multimap<std::string, std::string>> to_vector() const;
+
 private:
   ResultTree(const ResultTree&) = delete;
   ResultTree& operator=(const ResultTree&) = delete;
+
+  /// Recursively insert all values_ into map.
+  void save(std::multimap<std::string, std::string>& map) const;
 
   /// Recursively append all branches to the json document.
   void append_json_recursive(rapidjson::Document& json) const;
