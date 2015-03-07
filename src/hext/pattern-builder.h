@@ -16,6 +16,7 @@
 #include <string>
 #include <memory>
 #include <boost/regex.hpp>
+#include <boost/optional.hpp>
 
 
 namespace hext {
@@ -61,7 +62,7 @@ private:
   std::string attr_literal_;
   boost::regex attr_regex_;
   std::string cap_var_;
-  boost::regex cap_regex_;
+  boost::optional<boost::regex> cap_regex_;
   std::vector<std::unique_ptr<MatchPattern>> mp_;
   std::vector<std::unique_ptr<CapturePattern>> cp_;
 };

@@ -84,7 +84,7 @@ void PatternBuilder::set_cap_var(const std::string& capture_var)
 
 void PatternBuilder::set_cap_regex(const std::string& capture_regex)
 {
-  this->cap_regex_ = capture_regex;
+  this->cap_regex_ = boost::regex(capture_regex);
 }
 
 void PatternBuilder::reset()
@@ -94,7 +94,7 @@ void PatternBuilder::reset()
   this->attr_literal_ = "";
   this->attr_regex_ = "";
   this->cap_var_ = "";
-  this->cap_regex_ = "";
+  this->cap_regex_ = boost::none;
 }
 
 void PatternBuilder::consume_match_pattern()
@@ -120,17 +120,34 @@ void PatternBuilder::consume_capture_pattern()
 {
   if( this->bf_ )
   {
-    this->cp_.push_back(
-      MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_, this->cap_regex_)
-    );
+    if( this->cap_regex_ )
+      this->cp_.push_back(
+        MakeUnique<BuiltinCapture>(
+          this->cap_var_,
+          this->bf_,
+          this->cap_regex_.get()
+        )
+      );
+    else
+      this->cp_.push_back(
+        MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_)
+      );
   }
   else
   {
-    this->cp_.push_back(
-      MakeUnique<AttributeCapture>(
-        this->cap_var_, this->attr_name_, this->cap_regex_
-      )
-    );
+    if( this->cap_regex_ )
+      this->cp_.push_back(
+        MakeUnique<AttributeCapture>(
+          this->cap_var_, this->attr_name_, this->cap_regex_.get()
+        )
+      );
+    else
+      this->cp_.push_back(
+        MakeUnique<AttributeCapture>(
+          this->cap_var_, this->attr_name_
+        )
+      );
+
     this->mp_.push_back(
       MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<ValueTest>())
     );
