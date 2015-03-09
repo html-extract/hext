@@ -8,7 +8,7 @@ namespace hext {
 ResultTree::ResultTree()
 : children_(),
   values_(),
-  r_(nullptr)
+  matching_rule_(nullptr)
 {
 }
 
@@ -25,7 +25,7 @@ void ResultTree::append_result(const NameValuePair& p)
 
 void ResultTree::set_rule(const Rule * matching_rule)
 {
-  this->r_ = matching_rule;
+  this->matching_rule_ = matching_rule;
 }
 
 void ResultTree::print_dot(std::ostream& out) const
@@ -50,11 +50,11 @@ bool ResultTree::filter()
   );
 
   // Check if all rules are present in this ResultTree.
-  if( this->r_ )
+  if( this->matching_rule_ )
   {
     auto c_begin = this->children_.begin();
     auto c_end = this->children_.end();
-    for(const auto& rl : this->r_->children())
+    for(const auto& rl : this->matching_rule_->children())
     {
       // If there are no more result branches, all rules that follow must
       // be optional.
@@ -65,7 +65,7 @@ bool ResultTree::filter()
       }
       // result branches and rule children have the same order.
       // Check if child has this rule.
-      else if( *c_begin && (*c_begin)->r_ == &rl )
+      else if( *c_begin && (*c_begin)->matching_rule_ == &rl )
       {
         c_begin++;
       }
@@ -110,10 +110,11 @@ void ResultTree::print_dot_nodes(std::ostream& out, int parent_id) const
   int this_node = ++node_index;
 
   std::string label;
-  if( !this->r_ || this->r_->gumbo_tag() == GUMBO_TAG_UNKNOWN )
+  if( !this->matching_rule_ ||
+      this->matching_rule_->gumbo_tag() == GUMBO_TAG_UNKNOWN )
     label.append("*");
   else
-    label.append(gumbo_normalized_tagname(this->r_->gumbo_tag()));
+    label.append(gumbo_normalized_tagname(this->matching_rule_->gumbo_tag()));
 
   for(const auto& v : this->values_)
   {
