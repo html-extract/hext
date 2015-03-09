@@ -59,7 +59,8 @@ public:
   bool filter();
 
   /// Convert every branch's values_ to a multimap and put them in a vector.
-  std::vector<std::multimap<std::string, std::string>> to_vector() const;
+  std::vector<std::multimap<std::string, std::string>>
+  get_values() const;
 
 private:
   ResultTree(const ResultTree&) = delete;

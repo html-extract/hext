@@ -95,16 +95,17 @@ bool ResultTree::filter()
 }
 
 std::vector<std::multimap<std::string, std::string>>
-ResultTree::to_vector() const
+ResultTree::get_values() const
 {
   typedef std::vector<std::unique_ptr<ResultTree>>::size_type c_size_type;
   typedef std::multimap<std::string, std::string> map_type;
 
-  std::vector<map_type> result(this->children_.size());
-  for(c_size_type i = 0; i < this->children_.size(); ++i)
-    this->children_[i]->save(result[i]);
+  std::vector<map_type> results(this->children_.size());
 
-  return result;
+  for(c_size_type i = 0; i < this->children_.size(); ++i)
+    this->children_[i]->save(results[i]);
+
+  return results;
 }
 
 void ResultTree::save(std::multimap<std::string, std::string>& map) const
