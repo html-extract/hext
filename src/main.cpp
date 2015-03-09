@@ -1,5 +1,6 @@
 #include "hext/parser.h"
 #include "hext/html.h"
+#include "hext/json.h"
 #include "hext/file.h"
 #include "hext/program-options.h"
 
@@ -71,14 +72,8 @@ int main(int argc, const char ** argv)
       }
       else
       {
-        std::vector<rapidjson::Document> objects = rt->to_json();
-        for(const auto& obj : objects)
-        {
-          rapidjson::StringBuffer buffer;
-          rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-          obj.Accept(writer);
-          std::cout << buffer.GetString() << "\n";
-        }
+        for(const auto& v : rt->get_values())
+          hext::PrintJson(v);
       }
     }
   }

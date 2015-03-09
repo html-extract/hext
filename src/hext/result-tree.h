@@ -10,8 +10,6 @@
 #include <algorithm>
 #include <map>
 
-#include <rapidjson/document.h>
-
 
 namespace hext {
 
@@ -41,10 +39,6 @@ public:
   /// Set the Rule that caused this ResultTree branch.
   void set_rule(const Rule * matching_rule);
 
-  /// Return each ResultTree branch as a json object.
-  /// Each child of the root of the ResultTree will form its own json object.
-  std::vector<rapidjson::Document> to_json() const;
-
   /// Print the ResultTree as DOT, a graph description language.
   /// See http://en.wikipedia.org/wiki/DOT_language
   void print_dot(std::ostream& out = std::cout) const;
@@ -68,21 +62,6 @@ private:
 
   /// Recursively insert all values_ into map.
   void save(std::multimap<std::string, std::string>& map) const;
-
-  /// Recursively append all branches to the json document.
-  void append_json_recursive(rapidjson::Document& json) const;
-
-  /// Append a ResultTree's branch NameValuePairs to the json document.
-  /// If a name already exists it is converted to an array and the new value is
-  /// appended.
-  ///
-  /// For example, consider the key "foo" already being taken:
-  ///   {"foo": "bar"}
-  ///   then append_json_values is called, with a branch
-  ///   containing NameValuePair("foo", "baz")
-  /// Produces:
-  ///   {"foo": ["bar", "baz"]}
-  void append_json_values(rapidjson::Document& json) const;
 
   /// Recursivley print all DOT nodes. Each node has a distinct id. The
   /// parameter parent_id is neccessary to allow kids to connect to their

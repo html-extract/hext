@@ -94,6 +94,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/file.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/result-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/json.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/value-test.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/literal-test.cpp"

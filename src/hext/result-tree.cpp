@@ -28,19 +28,6 @@ void ResultTree::set_rule(const Rule * matching_rule)
   this->r_ = matching_rule;
 }
 
-std::vector<rapidjson::Document> ResultTree::to_json() const
-{
-  std::vector<rapidjson::Document> objects(this->children_.size());
-
-  for(std::vector<ResultTree>::size_type i = 0; i < this->children_.size(); ++i)
-  {
-    objects[i].SetObject();
-    this->children_[i]->append_json_recursive(objects[i]);
-  }
-
-  return objects;
-}
-
 void ResultTree::print_dot(std::ostream& out) const
 {
   out << "digraph result_tree {\n"
@@ -115,43 +102,6 @@ void ResultTree::save(std::multimap<std::string, std::string>& map) const
 
   for(const auto& c : this->children_)
     c->save(map);
-}
-
-void ResultTree::append_json_recursive(rapidjson::Document& json) const
-{
-  this->append_json_values(json);
-
-  for(const auto& c : this->children_)
-    c->append_json_recursive(json);
-}
-
-void ResultTree::append_json_values(rapidjson::Document& json) const
-{
-  rapidjson::Document::AllocatorType& allocator = json.GetAllocator();
-  for(const auto& p : this->values_)
-  {
-    rapidjson::Value name(p.first.c_str(), allocator);
-    rapidjson::Value value(p.second.c_str(), allocator);
-    // If the key is already taken, transform the value into an array
-    if( json.HasMember(name) )
-    {
-      if( json[name].IsArray() )
-      {
-        json[name].PushBack(value, allocator);
-      }
-      else
-      {
-        rapidjson::Value array(rapidjson::kArrayType);
-        array.PushBack(json[name], allocator);
-        array.PushBack(value, allocator);
-        json[name] = array;
-      }
-    }
-    else
-    {
-      json.AddMember(name, value, allocator);
-    }
-  }
 }
 
 void ResultTree::print_dot_nodes(std::ostream& out, int parent_id) const
