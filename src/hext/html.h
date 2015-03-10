@@ -4,9 +4,6 @@
 #include "hext/rule.h"
 #include "hext/result-tree.h"
 
-#include <cassert>
-#include <string>
-
 #include <gumbo.h>
 
 
