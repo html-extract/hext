@@ -110,6 +110,7 @@ private:
   /// Helper method that calls Rule::extract for each child of GumboNode.
   void extract_node_children(const GumboNode * node, ResultTree * rt) const;
 
+  /// The children of this rule.
   std::vector<Rule> children_;
   RulePatterns patterns_;
 
