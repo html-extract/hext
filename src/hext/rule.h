@@ -51,7 +51,6 @@ public:
     bool closed,
     RulePatterns&& r_patterns
   );
-  ~Rule();
 
   /// Move constructor. We cannot use default generation, because std::atomic
   /// has no move support.

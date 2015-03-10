@@ -22,10 +22,6 @@ Rule::Rule(
 {
 }
 
-Rule::~Rule()
-{
-}
-
 Rule::Rule(Rule&& r)
 : children_(std::move(r.children_))
 , patterns_(std::move(r.patterns_))
