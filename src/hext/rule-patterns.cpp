@@ -39,10 +39,15 @@ bool RulePatterns::matches_all_attributes(const GumboNode * node) const
   std::vector<const GumboAttribute *> m_attrs;
   for(const auto& pattern : this->match_patterns_)
   {
+    // MatchResult is a pair. First member is a boolean, signaling whether the
+    // match was successful. Second member is a pointer to the matched
+    // GumboAttribute, if applicable. For example, BuiltinMatches are not
+    // matched against GumboAttributes, therefore the pointer returned will
+    // always be null.
     MatchResult mr = pattern->matches(node);
-    if( !mr.first /* hasn't matched? */ )
+    if( !mr.first )
       return false;
-    else if( mr.second /* matched GumboAttribute pointer is not null? */ )
+    else if( mr.second )
       m_attrs.push_back(mr.second);
   }
 
