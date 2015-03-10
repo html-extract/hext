@@ -15,7 +15,6 @@ class ProgramOptions
 {
 public:
   ProgramOptions();
-  ~ProgramOptions();
 
   /// Store argv and validate or throw boost::program_options::error.
   void store_and_validate_or_throw(int argc, const char * argv[]);

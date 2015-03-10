@@ -21,10 +21,6 @@ ProgramOptions::ProgramOptions()
   ;
 }
 
-ProgramOptions::~ProgramOptions()
-{
-}
-
 void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
 {
   namespace po = boost::program_options;
