@@ -27,7 +27,6 @@ public:
     std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
     std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
   );
-  ~RulePatterns();
   RulePatterns(RulePatterns&&) = default;
 
   /// Apply all MatchPatterns to node.

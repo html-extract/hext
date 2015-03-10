@@ -13,10 +13,6 @@ RulePatterns::RulePatterns(
 {
 }
 
-RulePatterns::~RulePatterns()
-{
-}
-
 bool RulePatterns::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
