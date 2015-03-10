@@ -17,7 +17,7 @@ Html::~Html()
 
 ResultTree Html::extract(const Rule& r) const
 {
-  ResultTree rt;
+  ResultTree rt(nullptr);
   if( this->g_outp_ )
     r.extract(this->g_outp_->root, &rt);
   return rt;

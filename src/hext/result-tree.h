@@ -28,17 +28,15 @@ public:
     std::pair<std::string, std::string>
     NameValuePair;
 
-  ResultTree();
+  explicit ResultTree(const Rule * rule);
+  ResultTree(const Rule * rule, std::vector<NameValuePair> values);
   ResultTree(ResultTree&&) = default;
 
-  /// Append and own branch. Return a pointer to the new branch.
-  ResultTree * append_child_and_own(std::unique_ptr<ResultTree> m);
-
-  /// Append a NameValuePair to this branch.
-  void append_result(const NameValuePair& p);
-
-  /// Set the Rule that caused this ResultTree branch.
-  void set_matching_rule(const Rule * matching_rule);
+  /// Create a new branch. Return a pointer to the new branch.
+  ResultTree * create_branch(
+    const Rule * rule,
+    std::vector<NameValuePair> values
+  );
 
   /// Print the ResultTree as DOT, a graph description language.
   /// See http://en.wikipedia.org/wiki/DOT_language
@@ -73,7 +71,7 @@ private:
   std::vector<std::unique_ptr<ResultTree>> children_;
 
   /// The values captured by extracting.
-  std::vector<NameValuePair> values_;
+  const std::vector<NameValuePair> values_;
 
   /// The Rule that produced this instance's values_.
   const Rule * matching_rule_;

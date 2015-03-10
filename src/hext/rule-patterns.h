@@ -38,9 +38,8 @@ public:
   /// MatchPattern ("closed Rule").
   bool matches_all_attributes(const GumboNode * node) const;
 
-  /// Apply all capture patterns to node.
-  /// Return a new ResultTree branch containing name-value-pair.
-  std::unique_ptr<ResultTree> capture(const GumboNode * node) const;
+  /// Apply all capture patterns to node. Return all captured NameValuePairs.
+  std::vector<ResultTree::NameValuePair> capture(const GumboNode * node) const;
 
   void print(std::ostream& out = std::cout) const;
 

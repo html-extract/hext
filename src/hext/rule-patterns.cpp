@@ -60,18 +60,21 @@ bool RulePatterns::matches_all_attributes(const GumboNode * node) const
   return true;
 }
 
-std::unique_ptr<ResultTree>
+std::vector<ResultTree::NameValuePair>
 RulePatterns::capture(const GumboNode * node) const
 {
-  std::unique_ptr<ResultTree> rt = MakeUnique<ResultTree>();
+  typedef std::vector<ResultTree::NameValuePair> values_type;
+  typedef std::vector<std::unique_ptr<CapturePattern>> patterns_type;
 
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return rt;
+    return values_type();
 
-  for(const auto& pattern : this->capture_patterns_)
-    rt->append_result(pattern->capture(node));
+  patterns_type::size_type patterns_size = this->capture_patterns_.size();
+  values_type values(patterns_size);
+  for(patterns_type::size_type i = 0; i < patterns_size; ++i)
+    values[i] = this->capture_patterns_[i]->capture(node);
 
-  return rt;
+  return values;
 }
 
 void RulePatterns::print(std::ostream& out) const

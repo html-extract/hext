@@ -74,10 +74,9 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
     this->extract_node_children(node, rt);
 
     {
-      std::unique_ptr<ResultTree> rt_branch = this->patterns_.capture(node);
-      assert(rt_branch != nullptr);
-      rt_branch->set_matching_rule(this);
-      rt = rt->append_child_and_own(std::move(rt_branch));
+      std::vector<ResultTree::NameValuePair> values
+        = this->patterns_.capture(node);
+      rt = rt->create_branch(this, values);
     }
 
     for(const auto& c : this->children_)

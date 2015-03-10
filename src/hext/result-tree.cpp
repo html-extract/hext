@@ -5,27 +5,27 @@
 namespace hext {
 
 
-ResultTree::ResultTree()
+ResultTree::ResultTree(const Rule * rule)
 : children_(),
   values_(),
-  matching_rule_(nullptr)
+  matching_rule_(rule)
 {
 }
 
-ResultTree * ResultTree::append_child_and_own(std::unique_ptr<ResultTree> m)
+ResultTree::ResultTree(const Rule * rule, std::vector<NameValuePair> values)
+: children_(),
+  values_(values),
+  matching_rule_(rule)
 {
-  this->children_.push_back(std::move(m));
+}
+
+ResultTree * ResultTree::create_branch(
+  const Rule * rule,
+  std::vector<NameValuePair> values
+)
+{
+  this->children_.push_back(MakeUnique<ResultTree>(rule, values));
   return this->children_.back().get();
-}
-
-void ResultTree::append_result(const NameValuePair& p)
-{
-  this->values_.push_back(p);
-}
-
-void ResultTree::set_matching_rule(const Rule * matching_rule)
-{
-  this->matching_rule_ = matching_rule;
 }
 
 void ResultTree::print_dot(std::ostream& out) const
