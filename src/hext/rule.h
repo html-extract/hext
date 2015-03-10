@@ -79,7 +79,10 @@ public:
   /// rule tree to decide if all rules were matched.
   const std::vector<Rule>& children() const;
 
+  /// The type of html-tag this rule matches, as parsed by gumbo. Returns
+  /// GUMBO_TAG_UNKNOWN this rule has no tag.
   GumboTag gumbo_tag() const;
+
   bool optional() const;
 
   /// Recursively try to find and capture matches.
