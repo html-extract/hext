@@ -29,6 +29,7 @@ public:
     NameValuePair;
 
   ResultTree();
+  ResultTree(ResultTree&&) = default;
 
   /// Append and own branch. Return a pointer to the new branch.
   ResultTree * append_child_and_own(std::unique_ptr<ResultTree> m);
