@@ -22,9 +22,10 @@ Rule::Rule(
 {
 }
 
-Rule::Rule(Rule&& r)
+Rule::Rule(Rule&& r) noexcept
 : children_(std::move(r.children_))
 , patterns_(std::move(r.patterns_))
+  // std::atomic::load is marked noexcept.
 , match_count_(r.match_count_.load())
 , gumbo_tag_(r.gumbo_tag_)
 , is_optional_(r.is_optional_)

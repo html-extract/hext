@@ -53,7 +53,7 @@ public:
 
   /// Move constructor. We cannot use default generation, because std::atomic
   /// has no move support.
-  Rule(Rule&& r);
+  Rule(Rule&& r) noexcept;
 
   /// Append child-rule after last element at tree-level level.
   /// Example Rule:
