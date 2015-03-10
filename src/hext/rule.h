@@ -52,6 +52,9 @@ public:
     RulePatterns&& r_patterns
   );
   ~Rule();
+
+  /// Move constructor. We cannot use default generation, because std::atomic
+  /// has no move support.
   Rule(Rule&& r);
 
   /// Append child-rule after last element at tree-level level.
