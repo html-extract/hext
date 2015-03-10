@@ -75,7 +75,10 @@ public:
   /// Only used when constructing Rules in the parser.
   void append_child(Rule&& r, int level = 1);
 
+  /// Expose child rules. ResultTree::filter needs to know about the complete
+  /// rule tree to decide if all rules were matched.
   const std::vector<Rule>& children() const;
+
   GumboTag gumbo_tag() const;
   bool optional() const;
 
