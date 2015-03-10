@@ -80,7 +80,8 @@ public:
   const std::vector<Rule>& children() const;
 
   /// The type of html-tag this rule matches, as parsed by gumbo. Returns
-  /// GUMBO_TAG_UNKNOWN this rule has no tag.
+  /// GUMBO_TAG_UNKNOWN this rule has no tag. Html-tags that aren't defined by
+  /// the html spec have at this stage already been rejected by the parser.
   GumboTag gumbo_tag() const;
 
   /// Returns true if this rule is optional. A rule is optional, if it does not
