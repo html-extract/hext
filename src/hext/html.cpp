@@ -15,11 +15,11 @@ Html::~Html()
     gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
 }
 
-std::unique_ptr<ResultTree> Html::extract(const Rule& r) const
+ResultTree Html::extract(const Rule& r) const
 {
-  std::unique_ptr<ResultTree> rt = MakeUnique<ResultTree>();
+  ResultTree rt;
   if( this->g_outp_ )
-    r.extract(this->g_outp_->root, rt.get());
+    r.extract(this->g_outp_->root, &rt);
   return rt;
 }
 

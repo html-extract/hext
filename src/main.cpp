@@ -56,11 +56,10 @@ int main(int argc, const char ** argv)
 
     for(const auto& rule : rules)
     {
-      std::unique_ptr<hext::ResultTree> rt = html.extract(rule);
-      assert(rt != nullptr);
+      hext::ResultTree rt = html.extract(rule);
 
       if( !po.contains("keep-invalid") )
-        rt->filter();
+        rt.filter();
 
       if( po.contains("print-debug") )
       {
@@ -68,11 +67,11 @@ int main(int argc, const char ** argv)
       }
       else if( po.contains("rt-graph") )
       {
-        rt->print_dot();
+        rt.print_dot();
       }
       else
       {
-        for(const auto& v : rt->get_values())
+        for(const auto& v : rt.get_values())
           hext::PrintJson(v);
       }
     }

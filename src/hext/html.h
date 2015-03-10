@@ -3,11 +3,9 @@
 
 #include "hext/rule.h"
 #include "hext/result-tree.h"
-#include "hext/make-unique.h"
 
 #include <cassert>
 #include <string>
-#include <memory>
 
 #include <gumbo.h>
 
@@ -25,7 +23,7 @@ public:
 
   /// Apply Rule to all nodes and return a ResultTree containing all
   /// captured values.
-  std::unique_ptr<ResultTree> extract(const Rule& r) const;
+  ResultTree extract(const Rule& r) const;
 
 private:
   Html(const Html&) = delete;
