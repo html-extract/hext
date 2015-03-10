@@ -20,7 +20,6 @@ class RuleBuilder
 {
 public:
   RuleBuilder();
-  ~RuleBuilder();
 
   /// Return all stored rules and reset.
   std::vector<Rule> get_rules_and_reset();

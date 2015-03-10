@@ -15,10 +15,6 @@ RuleBuilder::RuleBuilder()
 {
 }
 
-RuleBuilder::~RuleBuilder()
-{
-}
-
 std::vector<Rule> RuleBuilder::get_rules_and_reset()
 {
   std::vector<Rule> rs = std::move(this->rules_);
