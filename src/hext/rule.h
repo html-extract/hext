@@ -83,6 +83,8 @@ public:
   /// GUMBO_TAG_UNKNOWN this rule has no tag.
   GumboTag gumbo_tag() const;
 
+  /// Returns true if this rule is optional. A rule is optional, if it does not
+  /// participate in validation.
   bool optional() const;
 
   /// Recursively try to find and capture matches.
