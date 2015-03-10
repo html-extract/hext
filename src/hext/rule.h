@@ -112,6 +112,9 @@ private:
 
   /// The children of this rule.
   std::vector<Rule> children_;
+
+  /// RulePatterns contain both MatchPatterns and CapturePatterns. RulePatterns
+  /// were introduced to lessen the amount of code in Rule.
   RulePatterns patterns_;
 
   /// Count how often this Rule was matched.
