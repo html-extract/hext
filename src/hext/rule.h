@@ -4,8 +4,6 @@
 #include "hext/node-util.h"
 #include "hext/make-unique.h"
 #include "hext/rule-patterns.h"
-#include "hext/pattern/match-pattern.h"
-#include "hext/pattern/capture-pattern.h"
 
 #include <string>
 #include <vector>
