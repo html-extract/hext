@@ -16,10 +16,6 @@ PatternBuilder::PatternBuilder()
 {
 }
 
-PatternBuilder::~PatternBuilder()
-{
-}
-
 void PatternBuilder::consume_and_reset()
 {
   if( this->cap_var_.size() )

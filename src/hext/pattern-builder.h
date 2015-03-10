@@ -28,7 +28,6 @@ class PatternBuilder
 {
 public:
   PatternBuilder();
-  ~PatternBuilder();
 
   /// Consume either a MatchPattern or a CapturePattern, depending on which
   /// parameters were given previously. Reset members.
