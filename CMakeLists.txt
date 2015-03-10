@@ -125,7 +125,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wchar-subscripts" "-Wcomment" "-Wconversion" "-Wctor-dtor-privacy"
     "-Wdisabled-optimization" "-Weffc++" "-Wextra" "-Wfloat-equal"
     "-Wformat=2" "-Wformat-nonliteral" "-Wformat-security" "-Wformat-y2k"
-    "-Wimport" "-Winit-self" "-Winline" "-Winvalid-pch" "-Wlogical-op"
+    "-Wimport" "-Winit-self" "-Winvalid-pch" "-Wlogical-op"
     "-Wlong-long" "-Wmissing-braces" "-Wmissing-field-initializers"
     "-Wmissing-format-attribute" "-Wmissing-include-dirs" "-Wno-unused"
     "-Woverloaded-virtual" "-Wpacked" "-Wparentheses" "-Wpointer-arith"
