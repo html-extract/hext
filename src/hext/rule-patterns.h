@@ -33,9 +33,9 @@ public:
   /// Return true if all MatchPatterns match.
   bool matches(const GumboNode * node) const;
 
-  /// Apply all MatchPatterns to node.
-  /// Return true if all MatchPatterns match and each node-attribute was
-  /// matched with a MatchPattern ("closed Rule").
+  /// Apply all MatchPatterns to node. Behaves like RulePatterns::matches with
+  /// the addition that each GumboAttribute must be matched by at least one
+  /// MatchPattern ("closed Rule").
   bool matches_all_attributes(const GumboNode * node) const;
 
   /// Apply all capture patterns to node.
