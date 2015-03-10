@@ -23,7 +23,7 @@ void ResultTree::append_result(const NameValuePair& p)
   this->values_.push_back(p);
 }
 
-void ResultTree::set_rule(const Rule * matching_rule)
+void ResultTree::set_matching_rule(const Rule * matching_rule)
 {
   this->matching_rule_ = matching_rule;
 }

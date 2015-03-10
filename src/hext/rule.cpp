@@ -76,7 +76,7 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
     {
       std::unique_ptr<ResultTree> rt_branch = this->patterns_.capture(node);
       assert(rt_branch != nullptr);
-      rt_branch->set_rule(this);
+      rt_branch->set_matching_rule(this);
       rt = rt->append_child_and_own(std::move(rt_branch));
     }
 

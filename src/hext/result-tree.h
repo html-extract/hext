@@ -38,7 +38,7 @@ public:
   void append_result(const NameValuePair& p);
 
   /// Set the Rule that caused this ResultTree branch.
-  void set_rule(const Rule * matching_rule);
+  void set_matching_rule(const Rule * matching_rule);
 
   /// Print the ResultTree as DOT, a graph description language.
   /// See http://en.wikipedia.org/wiki/DOT_language
