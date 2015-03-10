@@ -30,19 +30,24 @@ bool RulePatterns::matches_all_attributes(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
+  // In typical html, most html-nodes have few to no attributes at all.
+  // Further, most nodes will not match.
+
+  // Use a vector to store all pointers to previously matched GumboAttributes.
+  // It is assumed that lookup in a contiguous data structure is faster than
+  // e.g. std::map if the number of elements is very small.
   std::vector<const GumboAttribute *> m_attrs;
-  for(const auto& p : this->matchp_)
+  for(const auto& pattern : this->matchp_)
   {
-    // std::pair<bool has_matched, const GumboAttribute *> MatchResult
-    MatchResult mr = p->matches(node);
-    if( !mr.first )
+    MatchResult mr = pattern->matches(node);
+    if( !mr.first /* hasn't matched? */ )
       return false;
-    else if( mr.second )
+    else if( mr.second /* matched GumboAttribute pointer is not null? */ )
       m_attrs.push_back(mr.second);
   }
 
-  // check if we have found _every_ attribute of GumboNode
   const GumboVector& v = node->v.element.attributes;
+  // Check if we have matched _every_ attribute of GumboNode. This is O(N^2).
   for(unsigned int i = 0; i < v.length; ++i)
     if( std::find(m_attrs.begin(), m_attrs.end(), v.data[i]) == m_attrs.end() )
       return false;
