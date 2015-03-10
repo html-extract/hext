@@ -33,9 +33,10 @@ class ResultTree;
 ///    see node-util's GetNodePositionWithinParent)
 ///  * gumbo_tag: The tag_name of the rule, as parsed by gumbo. Matches if the
 ///    node's tag is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
-///  * RulePatterns: If the Rule is closed,
+///  * RulePatterns: If the rule is closed,
 ///    RulePatterns::matches_all_attributes() must return true. If the Rule is
 ///    not optional, RulePatterns::matches() must return true.
+///  * is_closed: A Rule is closed, if it ends with '>'.
 ///
 /// If a node matches a Rule, RulePatterns::capture() is called, which returns
 /// a new ResultTree branch, containing all captured NameValuePairs.
@@ -126,9 +127,23 @@ private:
   /// This is solved by using std::atomic.
   mutable std::atomic<unsigned int> match_count_;
 
+  /// The type of html-tag this rule matches, as parsed by gumbo. Set to
+  /// GUMBO_TAG_UNKNOWN if this rule has no tag. Html-tags that aren't defined
+  /// by the html spec have at this stage already been rejected by the parser.
   const GumboTag gumbo_tag_;
+
+  /// A rule is optional if it does not participate in validation.
   const bool is_optional_;
+
+  /// If nth_child_ is greater than zero, html-nodes matching this rule must
+  /// match the index within its parent node (the index is determined by
+  /// ignoring text-nodes, see node-util's GetNodePositionWithinParent).
+  /// Else, if nth_child_ is less than one, html-nodes matching this rule must
+  /// be a direct descendant of their parents.
   const int nth_child_;
+
+  /// If a rule is closed, html-nodes matching this rule must have all
+  /// attributes specified in the rule definition, but no more.
   const bool is_closed_;
 }; 
 
