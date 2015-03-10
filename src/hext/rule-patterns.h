@@ -45,8 +45,8 @@ public:
   void print(std::ostream& out = std::cout) const;
 
 private:
-  std::vector<std::unique_ptr<MatchPattern>> matchp_;
-  std::vector<std::unique_ptr<CapturePattern>> capturep_;
+  std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
+  std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
 };
 
 

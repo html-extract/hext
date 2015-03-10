@@ -8,8 +8,8 @@ RulePatterns::RulePatterns(
   std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
   std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
 )
-: matchp_(std::move(match_patterns))
-, capturep_(std::move(capture_patterns))
+: match_patterns_(std::move(match_patterns))
+, capture_patterns_(std::move(capture_patterns))
 {
 }
 
@@ -18,8 +18,8 @@ bool RulePatterns::matches(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  for(const auto& p : this->matchp_)
-    if( !p->matches(node).first )
+  for(const auto& pattern : this->match_patterns_)
+    if( !pattern->matches(node).first )
       return false;
 
   return true;
@@ -37,7 +37,7 @@ bool RulePatterns::matches_all_attributes(const GumboNode * node) const
   // It is assumed that lookup in a contiguous data structure is faster than
   // e.g. std::map if the number of elements is very small.
   std::vector<const GumboAttribute *> m_attrs;
-  for(const auto& pattern : this->matchp_)
+  for(const auto& pattern : this->match_patterns_)
   {
     MatchResult mr = pattern->matches(node);
     if( !mr.first /* hasn't matched? */ )
@@ -63,18 +63,18 @@ RulePatterns::capture(const GumboNode * node) const
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return rt;
 
-  for(const auto& p : this->capturep_)
-    rt->append_result(p->capture(node));
+  for(const auto& pattern : this->capture_patterns_)
+    rt->append_result(pattern->capture(node));
 
   return rt;
 }
 
 void RulePatterns::print(std::ostream& out) const
 {
-  for(const auto& p : this->matchp_)
-    p->print(out);
-  for(const auto& p : this->capturep_)
-    p->print(out);
+  for(const auto& pattern : this->match_patterns_)
+    pattern->print(out);
+  for(const auto& pattern : this->capture_patterns_)
+    pattern->print(out);
 }
 
 
