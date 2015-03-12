@@ -22,7 +22,7 @@ public:
 
   /// Apply Rule to all nodes and return a Result containing all captured
   /// values.
-  Result extract(const Rule& r, Option flag = Option::Default) const;
+  Result extract(const Rule& r, Option flags = Option::Default) const;
 
 private:
   Html(const Html&) = delete;
