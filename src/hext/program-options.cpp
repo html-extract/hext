@@ -17,7 +17,6 @@ ProgramOptions::ProgramOptions()
     ("print,p", "Print parsed hext")
     ("print-debug,d", "Print hext with match_count")
     ("keep-invalid,k", "Do not remove invalid results")
-    ("rt-graph,g", "Print result tree as DOT")
   ;
 }
 

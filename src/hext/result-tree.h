@@ -40,10 +40,6 @@ public:
     std::vector<NameValuePair> values
   );
 
-  /// Print the ResultTree as DOT, a graph description language.
-  /// See http://en.wikipedia.org/wiki/DOT_language
-  void print_dot(std::ostream& out = std::cout) const;
-
   /// Remove all nodes that do not conform to the rule tree,
   /// leaving a clean ResultTree with only valid results.
   /// When recursively matching GumboNodes in Rule::extract we do not want to
@@ -62,11 +58,6 @@ private:
 
   /// Recursively insert all values_ into map.
   void save(ResultMap& map) const;
-
-  /// Recursivley print all DOT nodes. Each node has a distinct id. The
-  /// parameter parent_id is neccessary to allow kids to connect to their
-  /// parents.
-  void print_dot_nodes(std::ostream& out, int parent_id = 0) const;
 
   /// ResultTrees are self-managing: all nodes are owned by the tree.
   std::vector<std::unique_ptr<ResultTree>> children_;

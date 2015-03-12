@@ -28,14 +28,6 @@ ResultTree * ResultTree::create_branch(
   return this->children_.back().get();
 }
 
-void ResultTree::print_dot(std::ostream& out) const
-{
-  out << "digraph result_tree {\n"
-      << "    node [fontname=\"Arial\"];\n";
-  this->print_dot_nodes(out);
-  out << "}\n";
-}
-
 bool ResultTree::filter()
 {
   // depth first
@@ -100,32 +92,6 @@ void ResultTree::save(std::multimap<std::string, std::string>& map) const
 
   for(const auto& c : this->children_)
     c->save(map);
-}
-
-void ResultTree::print_dot_nodes(std::ostream& out, int parent_id) const
-{
-  static int node_index = 0;
-  int this_node = ++node_index;
-
-  std::string label;
-  if( !this->matching_rule_ ||
-      this->matching_rule_->gumbo_tag() == GUMBO_TAG_UNKNOWN )
-    label.append("*");
-  else
-    label.append(gumbo_normalized_tagname(this->matching_rule_->gumbo_tag()));
-
-  for(const auto& v : this->values_)
-  {
-    label.append(" ");
-    label.append(v.first);
-  }
-
-  out << "    node_" << this_node << " [label=\"" << label << "\"];\n";
-  if( parent_id )
-    out << "    node_" << parent_id << " -> node_" << this_node << ";\n";
-
-  for(const auto& c : this->children_)
-    c->print_dot_nodes(out, this_node);
 }
 
 
