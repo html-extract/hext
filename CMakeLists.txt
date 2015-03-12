@@ -88,6 +88,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/builtins.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/file.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/hext.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/json.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/node-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"

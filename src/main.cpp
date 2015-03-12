@@ -1,10 +1,7 @@
-#include "hext/parser.h"
-#include "hext/html.h"
 #include "hext/json.h"
 #include "hext/file.h"
 #include "hext/program-options.h"
-#include "hext/result.h"
-#include "hext/option.h"
+#include "hext/hext.h"
 
 #include <cassert>
 #include <cstdlib>
@@ -36,31 +33,21 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    const std::string bf_hext = hext::ReadFileOrThrow(po.get("hext-file"));
-    hext::Parser p(
-      bf_hext.c_str(),
-      bf_hext.c_str() + bf_hext.size()
-    );
-    auto rules = p.parse();
+    std::string hext_str = hext::ReadFileOrThrow(po.get("hext-file"));
+    hext::HtmlExtract extractor(hext_str);
 
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    const std::string bf_html = hext::ReadFileOrThrow(po.get("html-file"));
-    const hext::Html html(bf_html.c_str(), bf_html.size());
+    hext::Option flags = hext::Option::Default;
+    if( po.contains("keep-invalid") )
+      flags = flags | hext::Option::KeepInvalid;
 
-    for(const auto& rule : rules)
-    {
-      hext::Result result;
+    std::string html = hext::ReadFileOrThrow(po.get("html-file"));
+    hext::Result result = extractor.extract(html, flags);
 
-      if( po.contains("keep-invalid") )
-        result = html.extract(rule, hext::Option::KeepInvalid);
-      else
-        result = html.extract(rule);
-
-      for(const auto& v : result)
-        hext::PrintJson(v);
-    }
+    for(const auto& v : result)
+      hext::PrintJson(v);
   }
   catch( const boost::program_options::error& e )
   {
