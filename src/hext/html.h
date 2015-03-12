@@ -2,6 +2,8 @@
 #define HEXT_HTML_H_INCLUDED
 
 #include "hext/rule.h"
+#include "hext/result.h"
+#include "hext/option.h"
 #include "hext/result-tree.h"
 
 #include <gumbo.h>
@@ -18,9 +20,9 @@ public:
   Html(const char * buffer, std::size_t length);
   ~Html();
 
-  /// Apply Rule to all nodes and return a ResultTree containing all
-  /// captured values.
-  ResultTree extract(const Rule& r) const;
+  /// Apply Rule to all nodes and return a Result containing all captured
+  /// values.
+  Result extract(const Rule& r, Option flag = Option::Default) const;
 
 private:
   Html(const Html&) = delete;

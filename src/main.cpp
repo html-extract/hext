@@ -3,6 +3,8 @@
 #include "hext/json.h"
 #include "hext/file.h"
 #include "hext/program-options.h"
+#include "hext/result.h"
+#include "hext/option.h"
 
 #include <cassert>
 #include <cstdlib>
@@ -56,24 +58,15 @@ int main(int argc, const char ** argv)
 
     for(const auto& rule : rules)
     {
-      hext::ResultTree rt = html.extract(rule);
+      hext::Result result;
 
-      if( !po.contains("keep-invalid") )
-        rt.filter();
-
-      if( po.contains("print-debug") )
-      {
-        rule.print(std::cout, 0, true);
-      }
-      else if( po.contains("rt-graph") )
-      {
-        rt.print_dot();
-      }
+      if( po.contains("keep-invalid") )
+        result = html.extract(rule, hext::Option::KeepInvalid);
       else
-      {
-        for(const auto& v : rt.get_values())
-          hext::PrintJson(v);
-      }
+        result = html.extract(rule);
+
+      for(const auto& v : result)
+        hext::PrintJson(v);
     }
   }
   catch( const boost::program_options::error& e )

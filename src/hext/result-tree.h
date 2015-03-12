@@ -1,6 +1,8 @@
 #ifndef HEXT_RESULT_TREE_H_INCLUDED
 #define HEXT_RESULT_TREE_H_INCLUDED
 
+#include "hext/result.h"
+
 #include <cassert>
 #include <string>
 #include <utility>
@@ -52,15 +54,14 @@ public:
   bool filter();
 
   /// Convert every branch's values_ to a multimap and put them in a vector.
-  std::vector<std::multimap<std::string, std::string>>
-  get_values() const;
+  Result to_result() const;
 
 private:
   ResultTree(const ResultTree&) = delete;
   ResultTree& operator=(const ResultTree&) = delete;
 
   /// Recursively insert all values_ into map.
-  void save(std::multimap<std::string, std::string>& map) const;
+  void save(ResultMap& map) const;
 
   /// Recursivley print all DOT nodes. Each node has a distinct id. The
   /// parameter parent_id is neccessary to allow kids to connect to their

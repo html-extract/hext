@@ -15,12 +15,17 @@ Html::~Html()
     gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
 }
 
-ResultTree Html::extract(const Rule& r) const
+Result Html::extract(const Rule& r, Option flag) const
 {
   ResultTree rt(nullptr);
+
   if( this->g_outp_ )
     r.extract(this->g_outp_->root, &rt);
-  return rt;
+
+  if( !(flag & Option::KeepInvalid) )
+    rt.filter();
+
+  return rt.to_result();
 }
 
 
