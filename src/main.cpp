@@ -43,13 +43,6 @@ int main(int argc, const char ** argv)
     );
     auto rules = p.parse();
 
-    if( po.contains("print") )
-    {
-      for(const auto& r : rules)
-        r.print();
-      return EXIT_SUCCESS;
-    }
-
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 

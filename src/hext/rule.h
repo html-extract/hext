@@ -84,12 +84,6 @@ public:
   /// Recursively try to find and capture matches.
   void extract(const GumboNode * node, ResultTree * r) const;
 
-  /// Recursively print the Rule and its child-rules.
-  void print(
-    std::ostream& out = std::cout,
-    int indent_level = 0
-  ) const;
-
 private:
   /// Check wheter this Rule matches a single GumboNode.
   bool matches(const GumboNode * node) const;

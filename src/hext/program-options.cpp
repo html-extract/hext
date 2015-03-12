@@ -14,7 +14,6 @@ ProgramOptions::ProgramOptions()
     ("hext-file,f", po::value<std::string>(), "Path to hext file")
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
-    ("print,p", "Print parsed hext")
     ("keep-invalid,k", "Do not remove invalid results")
   ;
 }
@@ -31,7 +30,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   if( !this->contains("hext-file") )
     throw po::error("missing option --hext-file");
 
-  if( this->contains("print") || this->contains("lint") )
+  if( this->contains("lint") )
     return;
 
   if( !this->contains("html-file") )

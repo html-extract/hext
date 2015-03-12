@@ -71,32 +71,6 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
   }
 }
 
-void Rule::print(
-  std::ostream& out,
-  int indent_level
-) const
-{
-  out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
-      << "<"
-      << ( this->is_optional_ ? "?" : "" )
-      << ( this->nth_child_ == 0 ? "!" : "" );
-
-  if( this->nth_child_ > 0 )
-    out << this->nth_child_;
-
-  if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
-    out << gumbo_normalized_tagname(this->gumbo_tag_);
-
-  this->patterns_.print(out);
-
-  if( this->is_closed_ )
-    out << ">";
-
-  out << "\n";
-  for(const auto& c : this->children_)
-    c.print(out, indent_level + 1);
-}
-
 bool Rule::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
