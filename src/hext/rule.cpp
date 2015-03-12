@@ -14,23 +14,10 @@ Rule::Rule(
 )
 : children_()
 , patterns_(std::move(r_patterns))
-, match_count_(0)
 , gumbo_tag_(tag)
 , is_optional_(is_optional)
 , nth_child_(nth_child)
 , is_closed_(closed)
-{
-}
-
-Rule::Rule(Rule&& r) noexcept
-: children_(std::move(r.children_))
-, patterns_(std::move(r.patterns_))
-  // std::atomic::load is marked noexcept.
-, match_count_(r.match_count_.load())
-, gumbo_tag_(r.gumbo_tag_)
-, is_optional_(r.is_optional_)
-, nth_child_(r.nth_child_)
-, is_closed_(r.is_closed_)
 {
 }
 
@@ -67,8 +54,6 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
 
   if( this->matches(node) )
   {
-    this->match_count_++;
-
     // Although we have a match, this may not be the html-node that the user
     // is searching for, so we have to keep matching.
     this->extract_node_children(node, rt);
@@ -93,22 +78,9 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
 
 void Rule::print(
   std::ostream& out,
-  int indent_level,
-  bool print_match_count
+  int indent_level
 ) const
 {
-  // When print_match_count is set, prefix each printed rule with the rule's
-  // match_count_. To have a fixed-width column containing varying numbers we
-  // need to know the space needed for the biggest number. Because a child's
-  // match_count_ will always be less than or equal to the match_count_ of its
-  // parent we only need to call GetDecNumberWidth once.
-  static int match_count_width = GetDecNumberWidth(this->match_count_);
-
-  if( print_match_count )
-    out << std::setw(match_count_width)
-        << this->match_count_
-        << "x | ";
-
   out << ( indent_level ? std::string(indent_level * 2, ' ') : "" )
       << "<"
       << ( this->is_optional_ ? "?" : "" )
@@ -127,7 +99,7 @@ void Rule::print(
 
   out << "\n";
   for(const auto& c : this->children_)
-    c.print(out, indent_level + 1, print_match_count);
+    c.print(out, indent_level + 1);
 }
 
 bool Rule::matches(const GumboNode * node) const

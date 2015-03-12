@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <atomic>
 
 #include <gumbo.h>
 
@@ -50,10 +49,10 @@ public:
     bool closed,
     RulePatterns&& r_patterns
   );
-
-  /// Move constructor. We cannot use default generation, because std::atomic
-  /// has no move support.
-  Rule(Rule&& r) noexcept;
+  Rule(Rule&&) = default;
+  Rule(const Rule&) = default;
+  Rule& operator=(Rule&&) = default;
+  Rule& operator=(const Rule&) = default;
 
   /// Append child-rule after last element at tree-level level.
   /// Example Rule:
@@ -91,19 +90,12 @@ public:
   void extract(const GumboNode * node, ResultTree * r) const;
 
   /// Recursively print the Rule and its child-rules.
-  /// If print_match_count is true, print a column containing the match count
-  /// for each rule.
   void print(
     std::ostream& out = std::cout,
-    int indent_level = 0,
-    bool print_match_count = false
+    int indent_level = 0
   ) const;
 
 private:
-  Rule(const Rule& r) = delete;
-  Rule& operator=(Rule&&) = delete;
-  Rule& operator=(const Rule&) = delete;
-
   /// Check wheter this Rule matches a single GumboNode.
   bool matches(const GumboNode * node) const;
 
@@ -116,14 +108,6 @@ private:
   /// RulePatterns contain both MatchPatterns and CapturePatterns. RulePatterns
   /// were introduced to lessen the amount of code in Rule.
   RulePatterns patterns_;
-
-  /// Count how often this Rule was matched.
-  /// match_count is mutable because it is not observable from the outside.
-  /// This enables us to keep Rule::extract const.
-  /// It is generally assumed that const objects are thread-safe,
-  /// therefore mutable members must be made thread-safe.
-  /// This is solved by using std::atomic.
-  mutable std::atomic<unsigned int> match_count_;
 
   /// The type of html-tag this rule matches, as parsed by gumbo. Set to
   /// GUMBO_TAG_UNKNOWN if this rule has no tag. Html-tags that aren't defined

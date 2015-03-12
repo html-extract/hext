@@ -15,7 +15,6 @@ ProgramOptions::ProgramOptions()
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
     ("print,p", "Print parsed hext")
-    ("print-debug,d", "Print hext with match_count")
     ("keep-invalid,k", "Do not remove invalid results")
   ;
 }
