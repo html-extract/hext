@@ -37,11 +37,6 @@ const std::vector<Rule>& Rule::children() const
   return this->children_;
 }
 
-GumboTag Rule::gumbo_tag() const
-{
-  return this->gumbo_tag_;
-}
-
 bool Rule::optional() const
 {
   return this->is_optional_;
