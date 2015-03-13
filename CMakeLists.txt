@@ -12,7 +12,8 @@ ENDIF()
 
 ADD_DEFINITIONS("-std=c++11")
 
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext")
 
 # Generate ragel state machine
 # ADD_CUSTOM_COMMAND is unsuitable, because there is no (non-hackish) way to
@@ -22,13 +23,13 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/src/hext/parser.h.rl"
-  "${PROJECT_SOURCE_DIR}/src/hext/parser.h")
+  "${PROJECT_SOURCE_DIR}/libhext/hext/parser.h.rl"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/parser.h")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp.rl"
-  "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp")
+  "${PROJECT_SOURCE_DIR}/libhext/hext/parser.cpp.rl"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/parser.cpp")
 
 
 ###### EXTERNAL DEPENDENCIES ##############################
@@ -85,30 +86,30 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 
 ADD_EXECUTABLE(
   html-extract
-  "${PROJECT_SOURCE_DIR}/src/hext/builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/hext.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/node-util.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/attribute-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/attribute-match.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/builtin-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/builtin-match.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/capture-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/literal-test.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/match-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/regex-test.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/pattern/value-test.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/result-tree.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/rule-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/rule-patterns.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/string-util.cpp"
-  "${PROJECT_SOURCE_DIR}/src/htmlext/file.cpp"
-  "${PROJECT_SOURCE_DIR}/src/htmlext/json.cpp"
-  "${PROJECT_SOURCE_DIR}/src/htmlext/program-options.cpp"
-  "${PROJECT_SOURCE_DIR}/src/main.cpp")
+  "${PROJECT_SOURCE_DIR}/libhext/hext/builtins.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/hext.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/html.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/node-util.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/parser.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern-builder.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/attribute-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/attribute-match.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/builtin-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/builtin-match.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/capture-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/literal-test.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/match-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/regex-test.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/pattern/value-test.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/result-tree.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/rule-builder.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/rule-patterns.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/rule.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/hext/string-util.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/file.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/json.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/program-options.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
 
