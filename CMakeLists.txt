@@ -23,12 +23,12 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/libhext/include/hext/parser.h.rl"
+  "${PROJECT_SOURCE_DIR}/libhext/ragel/parser.h.rl"
   "${PROJECT_SOURCE_DIR}/libhext/include/hext/parser.h")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/libhext/include/hext/parser.cpp.rl"
+  "${PROJECT_SOURCE_DIR}/libhext/ragel/parser.cpp.rl"
   "${PROJECT_SOURCE_DIR}/libhext/src/parser.cpp")
 
 
