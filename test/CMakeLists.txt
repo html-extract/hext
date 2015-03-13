@@ -1,12 +1,15 @@
 #### html-extract-test
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
-INCLUDE(ExternalProject) # available since 2.8.7
 #SET(CMAKE_VERBOSE_MAKEFILE on)
 
 PROJECT(html-extract-test)
 
-ADD_DEFINITIONS("-std=c++11")
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
+
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake/modules/")
+INCLUDE(ExternalProject) # available since 2.8.7
+INCLUDE(HextForceCPP11)
+
 # undefine NDEBUG; this way asserts won't be removed in relase mode
 ADD_DEFINITIONS(-UNDEBUG)
 
