@@ -11,7 +11,7 @@ ADD_DEFINITIONS("-std=c++11")
 ADD_DEFINITIONS(-UNDEBUG)
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../libhext")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../libhext/include")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../html-extract")
 
 ###### EXTERNAL DEPENDENCIES ##############################
@@ -92,26 +92,26 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 
 ADD_EXECUTABLE(
   html-extract-test
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/hext.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/html.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/node-util.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/parser.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/attribute-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/attribute-match.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/builtin-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/builtin-match.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/capture-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/literal-test.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/match-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/regex-test.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/value-test.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/result-tree.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/rule-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/rule-patterns.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/rule.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/hext/string-util.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/builtins.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/hext.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/html.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/node-util.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/parser.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern-builder.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/attribute-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/attribute-match.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/builtin-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/builtin-match.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/capture-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/literal-test.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/match-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/regex-test.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/value-test.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/result-tree.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/rule-builder.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/rule-patterns.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/rule.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/src/string-util.cpp"
   "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/file.cpp"
   "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/json.cpp"
   "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/program-options.cpp"
