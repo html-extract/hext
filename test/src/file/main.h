@@ -1,20 +1,20 @@
-#include "hext/file.h"
+#include "htmlext/file.h"
 
 #include <fstream>
 #include <sstream>
 
 
-namespace hext {
+namespace {
 
 
 TEST(File_ReadFileOrThrow, Throw)
 {
-  EXPECT_THROW(hext::ReadFileOrThrow(""), hext::FileError);
+  EXPECT_THROW(htmlext::ReadFileOrThrow(""), htmlext::FileError);
 }
 
 TEST(File_ReadFileOrThrow, ReadFile)
 {
-  std::string contents = hext::ReadFileOrThrow(__FILE__);
+  std::string contents = htmlext::ReadFileOrThrow(__FILE__);
   ASSERT_TRUE(contents.size());
 
   std::ifstream file(__FILE__, std::ios::in | std::ios::binary);
@@ -29,5 +29,5 @@ TEST(File_ReadFileOrThrow, ReadFile)
 }
 
 
-} // hext
+} // namespace
 

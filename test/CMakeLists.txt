@@ -11,9 +11,8 @@ ADD_DEFINITIONS("-std=c++11")
 ADD_DEFINITIONS(-UNDEBUG)
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
-# add html-extract's src/ directory as an additional include directory
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../src")
-
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../libhext")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../html-extract")
 
 ###### EXTERNAL DEPENDENCIES ##############################
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
@@ -93,27 +92,29 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 
 ADD_EXECUTABLE(
   html-extract-test
-  "${PROJECT_SOURCE_DIR}/../src/hext/node-util.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/string-util.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/parser.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/rule.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/rule-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/file.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/result-tree.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/html.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/program-options.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/value-test.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/literal-test.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/regex-test.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/match-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/attribute-match.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/builtin-match.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/capture-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/attribute-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/pattern/builtin-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/../src/hext/rule-patterns.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/builtins.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/hext.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/html.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/node-util.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/parser.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern-builder.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/attribute-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/attribute-match.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/builtin-capture.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/builtin-match.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/capture-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/literal-test.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/match-pattern.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/regex-test.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/pattern/value-test.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/result-tree.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/rule-builder.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/rule-patterns.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/rule.cpp"
+  "${PROJECT_SOURCE_DIR}/../libhext/hext/string-util.cpp"
+  "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/file.cpp"
+  "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/json.cpp"
+  "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 
 ADD_DEPENDENCIES(
