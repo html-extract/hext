@@ -3,7 +3,6 @@
 #include "string-util/main.h"
 #include "builtins/main.h"
 #include "file/main.h"
-#include "result-tree/main.h"
 #include "node-util/main.h"
 #include "parser/main.h"
 
