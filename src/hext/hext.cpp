@@ -4,14 +4,14 @@
 namespace hext {
 
 
-HtmlExtract::HtmlExtract(const std::string& hext)
+Hext::Hext(const std::string& hext)
 : rules_()
 {
   Parser p(hext.c_str(), hext.c_str() + hext.size());
   this->rules_ = p.parse();
 }
 
-Result HtmlExtract::extract(const std::string& html, Option flags) const
+Result Hext::extract(const std::string& html, Option flags) const
 {
   Result result;
   Html h(html.c_str(), html.size());

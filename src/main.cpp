@@ -34,7 +34,7 @@ int main(int argc, const char ** argv)
     }
 
     std::string hext_str = hext::ReadFileOrThrow(po.get("hext-file"));
-    hext::HtmlExtract extractor(hext_str);
+    hext::Hext extractor(hext_str);
 
     if( po.contains("lint") )
       return EXIT_SUCCESS;

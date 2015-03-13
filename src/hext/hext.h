@@ -14,10 +14,10 @@
 namespace hext {
 
 
-class HtmlExtract
+class Hext
 {
 public:
-  explicit HtmlExtract(const std::string& hext);
+  explicit Hext(const std::string& hext);
   Result extract(const std::string& html, Option flags = Option::Default) const;
 
 private:
