@@ -1,4 +1,4 @@
-#include "hext/node-util.h"
+#include "hext/NodeUtil.h"
 #include "test-helper/html.h"
 
 #include <string>

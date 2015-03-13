@@ -1,4 +1,4 @@
-#include "htmlext/file.h"
+#include "htmlext/File.h"
 
 #include <fstream>
 #include <sstream>

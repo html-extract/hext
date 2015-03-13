@@ -1,7 +1,7 @@
-#include "htmlext/json.h"
-#include "htmlext/file.h"
-#include "htmlext/program-options.h"
-#include "hext/hext.h"
+#include "htmlext/Json.h"
+#include "htmlext/File.h"
+#include "htmlext/ProgramOptions.h"
+#include "hext/Hext.h"
 
 #include <cassert>
 #include <cstdlib>

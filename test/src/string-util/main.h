@@ -1,4 +1,4 @@
-#include "hext/string-util.h"
+#include "hext/StringUtil.h"
 
 #include <string>
 #include <cstring>

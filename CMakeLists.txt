@@ -23,13 +23,13 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/libhext/ragel/parser.h.rl"
-  "${PROJECT_SOURCE_DIR}/libhext/include/hext/parser.h")
+  "${PROJECT_SOURCE_DIR}/libhext/ragel/Parser.h.rl"
+  "${PROJECT_SOURCE_DIR}/libhext/include/hext/Parser.h")
 EXECUTE_PROCESS(
   COMMAND
   "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/libhext/ragel/parser.cpp.rl"
-  "${PROJECT_SOURCE_DIR}/libhext/src/parser.cpp")
+  "${PROJECT_SOURCE_DIR}/libhext/ragel/Parser.cpp.rl"
+  "${PROJECT_SOURCE_DIR}/libhext/src/Parser.cpp")
 
 
 ###### EXTERNAL DEPENDENCIES ##############################
@@ -86,29 +86,29 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 
 ADD_EXECUTABLE(
   html-extract
-  "${PROJECT_SOURCE_DIR}/libhext/src/builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/hext.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/html.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/node-util.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/parser.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/attribute-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/attribute-match.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/builtin-capture.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/builtin-match.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/capture-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/literal-test.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/match-pattern.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/regex-test.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/value-test.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/result-tree.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/rule-builder.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/rule-patterns.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/rule.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/string-util.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/file.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/json.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/program-options.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/Builtins.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/Hext.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/Html.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/NodeUtil.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/Parser.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/PatternBuilder.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/AttributeCapture.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/AttributeMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/BuiltinCapture.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/BuiltinMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/CapturePattern.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/LiteralTest.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/MatchPattern.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/RegexTest.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/ValueTest.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/ResultTree.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/RuleBuilder.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/RulePatterns.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/Rule.cpp"
+  "${PROJECT_SOURCE_DIR}/libhext/src/StringUtil.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/File.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Json.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
