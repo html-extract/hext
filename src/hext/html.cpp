@@ -4,8 +4,14 @@
 namespace hext {
 
 
-Html::Html(const char * buffer, std::size_t length)
-: g_outp_(gumbo_parse_with_options(&kGumboDefaultOptions, buffer, length))
+Html::Html(const char * begin, const char * end)
+: g_outp_(
+    gumbo_parse_with_options(
+      &kGumboDefaultOptions,
+      begin,
+      std::distance(begin, end)
+    )
+  )
 {
 }
 

@@ -16,8 +16,7 @@ namespace hext {
 class Html
 {
 public:
-  /// Parse html at buffer. buffer must live as long as this object.
-  Html(const char * buffer, std::size_t length);
+  Html(const char * begin, const char * end);
   ~Html();
 
   /// Apply Rule to all nodes and return a Result containing all captured
