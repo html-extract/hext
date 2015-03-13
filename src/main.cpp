@@ -5,16 +5,8 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <fstream>
 #include <iostream>
 #include <ios>
-#include <vector>
-
-#include <boost/regex/pattern_except.hpp>
-
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 
 int main(int argc, const char ** argv)
