@@ -20,7 +20,7 @@ Parser::Parser(const char * begin, const char * end)
   using namespace ragel;
   %%{
     machine hext;
-    include "hext.rl";
+    include "hext-machine.rl";
     write init;
   }%%
 }
