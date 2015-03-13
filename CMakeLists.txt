@@ -86,10 +86,8 @@ LINK_DIRECTORIES(${binary_dir}/.libs)
 ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/src/hext/builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/file.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/hext.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/json.cpp"
+  "${PROJECT_SOURCE_DIR}/src/hext/html.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/node-util.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern-builder.cpp"
@@ -102,12 +100,14 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/match-pattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/regex-test.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/pattern/value-test.cpp"
-  "${PROJECT_SOURCE_DIR}/src/hext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/result-tree.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule-builder.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule-patterns.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/hext/string-util.cpp"
+  "${PROJECT_SOURCE_DIR}/src/htmlext/file.cpp"
+  "${PROJECT_SOURCE_DIR}/src/htmlext/json.cpp"
+  "${PROJECT_SOURCE_DIR}/src/htmlext/program-options.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
 TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)

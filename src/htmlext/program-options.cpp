@@ -1,7 +1,7 @@
-#include "hext/program-options.h"
+#include "htmlext/program-options.h"
 
 
-namespace hext {
+namespace htmlext {
 
 
 ProgramOptions::ProgramOptions()
@@ -55,5 +55,5 @@ void ProgramOptions::print(const char * program_name, std::ostream& out) const
 }
 
 
-} // namespace hext
+} // namespace htmlext
 

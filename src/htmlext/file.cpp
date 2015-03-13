@@ -1,7 +1,7 @@
-#include "hext/file.h"
+#include "htmlext/file.h"
 
 
-namespace hext {
+namespace htmlext {
 
 
 FileError::FileError(const std::string& msg)
@@ -31,5 +31,5 @@ std::string ReadFileOrThrow(const std::string& path)
 }
 
 
-} // namespace hext
+} // namespace htmlext
 

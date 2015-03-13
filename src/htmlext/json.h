@@ -1,5 +1,5 @@
-#ifndef HEXT_JSON_H_INCLUDED
-#define HEXT_JSON_H_INCLUDED
+#ifndef HTMLEXT_JSON_H_INCLUDED
+#define HTMLEXT_JSON_H_INCLUDED
 
 #include <map>
 #include <iostream>
@@ -9,7 +9,7 @@
 #include <rapidjson/writer.h>
 
 
-namespace hext {
+namespace htmlext {
 
 
 /// Print a multimap as json.
@@ -26,8 +26,8 @@ void PrintJson(
 );
 
 
-} // namespace hext
+} // namespace htmlext
 
 
-#endif // HEXT_JSON_H_INCLUDED
+#endif // HTMLEXT_JSON_H_INCLUDED
 

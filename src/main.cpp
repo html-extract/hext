@@ -1,6 +1,6 @@
-#include "hext/json.h"
-#include "hext/file.h"
-#include "hext/program-options.h"
+#include "htmlext/json.h"
+#include "htmlext/file.h"
+#include "htmlext/program-options.h"
 #include "hext/hext.h"
 
 #include <cassert>
@@ -13,7 +13,7 @@ int main(int argc, const char ** argv)
 {
   std::ios_base::sync_with_stdio(false);
 
-  hext::ProgramOptions po;
+  htmlext::ProgramOptions po;
 
   try
   {
@@ -25,7 +25,7 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    std::string hext_str = hext::ReadFileOrThrow(po.get("hext-file"));
+    std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext-file"));
     hext::Hext extractor(hext_str);
 
     if( po.contains("lint") )
@@ -35,18 +35,18 @@ int main(int argc, const char ** argv)
     if( po.contains("keep-invalid") )
       flags |= hext::Option::KeepInvalid;
 
-    std::string html = hext::ReadFileOrThrow(po.get("html-file"));
+    std::string html = htmlext::ReadFileOrThrow(po.get("html-file"));
     hext::Result result = extractor.extract(html, flags);
 
     for(const auto& v : result)
-      hext::PrintJson(v);
+      htmlext::PrintJson(v);
   }
   catch( const boost::program_options::error& e )
   {
     std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
     return EXIT_FAILURE;
   }
-  catch( const hext::FileError& e )
+  catch( const htmlext::FileError& e )
   {
     std::cerr << argv[0] << ": Error: " << e.what() << "\n";
     return EXIT_FAILURE;

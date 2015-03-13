@@ -1,5 +1,5 @@
-#ifndef HEXT_PROGRAM_OPTIONS_H_INCLUDED
-#define HEXT_PROGRAM_OPTIONS_H_INCLUDED
+#ifndef HTMLEXT_PROGRAM_OPTIONS_H_INCLUDED
+#define HTMLEXT_PROGRAM_OPTIONS_H_INCLUDED
 
 #include <string>
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <boost/program_options.hpp>
 
 
-namespace hext {
+namespace htmlext {
 
 
 // The project's program options.
@@ -31,8 +31,8 @@ private:
 };
 
 
-} // namespace hext
+} // namespace htmlext
 
 
-#endif // HEXT_PROGRAM_OPTIONS_H_INCLUDED
+#endif // HTMLEXT_PROGRAM_OPTIONS_H_INCLUDED
 

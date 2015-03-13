@@ -1,5 +1,5 @@
-#ifndef HEXT_FILE_H_INCLUDED
-#define HEXT_FILE_H_INCLUDED
+#ifndef HTMLEXT_FILE_H_INCLUDED
+#define HTMLEXT_FILE_H_INCLUDED
 
 #include <cassert>
 #include <string>
@@ -9,7 +9,7 @@
 #include <sstream>
 
 
-namespace hext {
+namespace htmlext {
 
 
 /// Custom exception type for file errors.
@@ -25,8 +25,8 @@ public:
 std::string ReadFileOrThrow(const std::string& path);
 
 
-} // namespace hext
+} // namespace htmlext
 
 
-#endif // HEXT_FILE_H_INCLUDED
+#endif // HTMLEXT_FILE_H_INCLUDED
 

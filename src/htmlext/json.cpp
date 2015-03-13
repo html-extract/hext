@@ -1,7 +1,7 @@
-#include "hext/json.h"
+#include "htmlext/json.h"
 
 
-namespace hext {
+namespace htmlext {
 
 
 void PrintJson(
@@ -44,5 +44,5 @@ void PrintJson(
 }
 
 
-} // namespace hext
+} // namespace htmlext
 
