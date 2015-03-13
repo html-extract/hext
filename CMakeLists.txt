@@ -157,12 +157,8 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
 INCLUDE(HextOptionLinkTcmalloc)
 
-# gprof build
-OPTION(GPROF "gprof build" OFF)
-IF(GPROF)
-  # -pg must be set when compiling and linking
-  ADD_DEFINITIONS("-pg")
-  SET(CMAKE_EXE_LINKER_FLAGS "-pg")
-ENDIF(GPROF)
+# Option GPROF, default OFF
+# GNU gprof build
+INCLUDE(HextOptionGprof)
 ###########################################################
 
