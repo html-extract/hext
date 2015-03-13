@@ -157,12 +157,6 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
 INCLUDE(HextOptionLinkTcmalloc)
 
-# force debug symbols (e.g. cmake -DCMAKE_BUILD_TYPE=Release -DSYMBOLS=ON)
-OPTION(SYMBOLS "Add debugging symbols" OFF)
-IF(SYMBOLS)
-  ADD_DEFINITIONS("-g")
-ENDIF(SYMBOLS)
-
 # enable whole-program optimization on gcc
 OPTION(WPO  "Use whole-program optimization on gcc" OFF)
 IF(WPO)
