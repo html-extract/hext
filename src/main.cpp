@@ -41,7 +41,7 @@ int main(int argc, const char ** argv)
 
     hext::Option flags = hext::Option::Default;
     if( po.contains("keep-invalid") )
-      flags = flags | hext::Option::KeepInvalid;
+      flags |= hext::Option::KeepInvalid;
 
     std::string html = hext::ReadFileOrThrow(po.get("html-file"));
     hext::Result result = extractor.extract(html, flags);

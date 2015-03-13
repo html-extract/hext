@@ -34,6 +34,24 @@ inline Option operator~(Option opt)
   return static_cast<Option>(~static_cast<int>(opt));
 }
 
+inline Option& operator|=(Option& left, Option right)
+{
+  left = static_cast<Option>(static_cast<int>(left) | static_cast<int>(right));
+  return left;
+}
+
+inline Option& operator&=(Option& left, Option right)
+{
+  left = static_cast<Option>(static_cast<int>(left) & static_cast<int>(right));
+  return left;
+}
+
+inline Option& operator^=(Option& left, Option right)
+{
+  left = static_cast<Option>(static_cast<int>(left) ^ static_cast<int>(right));
+  return left;
+}
+
 
 } // namespace hext
 
