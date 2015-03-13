@@ -20,23 +20,6 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 
-# Generate ragel state machine
-# ADD_CUSTOM_COMMAND is unsuitable, because there is no (non-hackish) way to
-# force cmake to run it on every call to make.
-# The best way for now is to manually call cmake every time there is a change
-# in the parser.
-EXECUTE_PROCESS(
-  COMMAND
-  "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/libhext/ragel/Parser.h.rl"
-  "${PROJECT_SOURCE_DIR}/libhext/include/hext/Parser.h")
-EXECUTE_PROCESS(
-  COMMAND
-  "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-  "${PROJECT_SOURCE_DIR}/libhext/ragel/Parser.cpp.rl"
-  "${PROJECT_SOURCE_DIR}/libhext/src/Parser.cpp")
-
-
 ###### EXTERNAL DEPENDENCIES ##############################
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
@@ -123,6 +106,10 @@ TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
 # Link with libtcmalloc, i.e. cmake -DTCMALLOC=ON
 SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
 INCLUDE(HextOptionLinkTcmalloc)
+
+# Option RUNRAGEL, default OFF
+# Call run_ragel.sh to generate the parser.
+INCLUDE(HextOptionRunRagel)
 
 # Option GPROF, default OFF
 # GNU gprof build
