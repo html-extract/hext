@@ -12,10 +12,8 @@ INCLUDE(ExternalProject) # available since 2.8.7
 INCLUDE(HextForceCPP11)
 # Enable all (reasonable) warnings with Clang and GCC.
 INCLUDE(HextEnableWarnings)
-
-IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE Release)
-ENDIF(NOT CMAKE_BUILD_TYPE)
+# If build type was not specified, build Release.
+INCLUDE(HextDefaultBuildRelease)
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
