@@ -1,6 +1,7 @@
 # Download gumbo's latest trunk and build it. Add gumbo's .lib/ directory
 # to LINK_DIRECTORIES. Add gumbo's src/ directory to INCLUDE_DIRECTORIES.
 
+INCLUDE(ExternalProject)
 ExternalProject_Add(
     gumbo
     GIT_REPOSITORY https://github.com/google/gumbo-parser.git

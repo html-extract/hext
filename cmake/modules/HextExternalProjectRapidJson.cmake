@@ -1,5 +1,6 @@
 # Download latest rapidjson trunk. Rapidjson is a header-only library.
 
+INCLUDE(ExternalProject)
 ExternalProject_Add(
     rapidjson
     GIT_REPOSITORY https://github.com/miloyip/rapidjson.git

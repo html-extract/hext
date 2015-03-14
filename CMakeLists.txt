@@ -5,7 +5,6 @@ PROJECT(html-extract)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/")
-INCLUDE(ExternalProject)
 
 # Force flag -std=c++11.
 INCLUDE(HextForceCPP11)
