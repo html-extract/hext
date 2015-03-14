@@ -1,3 +1,4 @@
+// This file was generated from Parser.h.rl.
 
 #line 1 "Parser.h.rl"
 #ifndef HEXT_PARSER_H_INCLUDED

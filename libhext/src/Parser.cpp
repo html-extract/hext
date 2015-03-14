@@ -1,3 +1,4 @@
+// This file was generated from Parser.cpp.rl.
 
 #line 1 "Parser.cpp.rl"
 #include "hext/Parser.h"

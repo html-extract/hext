@@ -92,6 +92,9 @@ fi
 
 trap 'rm "$ragel_tmp"' EXIT
 
+# Prepend notice.
+sed -i "1i // This file was generated from $basename_ragel_input." "$ragel_tmp"
+
 if [ ! -f "$ragel_output" ] ; then
   cp "$ragel_tmp" "$ragel_output" || {
     echo >&2 "$script_name: failed creating $ragel_output";
