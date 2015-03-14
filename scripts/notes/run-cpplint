@@ -1,1 +1,0 @@
-cpplint --filter=-whitespace,-legal,-build/header_guard,-build/include_order,-runtime/references,-readability/streams,-build/storage_class,-readability/namespace $(find . -name "*.h" -or -name "*.cpp" -or -name "*.hpp" | xargs echo -n)
