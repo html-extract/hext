@@ -1,66 +1,68 @@
-#### html-extract-test
-
-#SET(CMAKE_VERBOSE_MAKEFILE on)
-
+###### HTML-EXTRACT-TEST #######################################################
 PROJECT(html-extract-test)
 
+# Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
 SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake")
-INCLUDE(ExternalProject) # available since 2.8.7
+
+# Force flag -std=c++11.
 INCLUDE(HextForceCPP11)
 
-# undefine NDEBUG; this way asserts won't be removed in relase mode
-ADD_DEFINITIONS(-UNDEBUG)
+# Enable all (reasonable) warnings with Clang and GCC.
+INCLUDE(HextEnableWarnings)
 
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../libhext/include")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../html-extract")
 
-###### EXTERNAL DEPENDENCIES ##############################
+###### DEPENDENCIES ############################################################
+FIND_PACKAGE(Boost COMPONENTS regex program_options)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 INCLUDE(HextExternalProjectGoogleTest)
 INCLUDE(HextExternalProjectRapidJson)
 INCLUDE(HextExternalProjectGumbo)
 
 
+###### INCLUDES ################################################################
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../libhext/include")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../html-extract")
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+
+
+###### SOURCES #################################################################
+SET(LIBHEXT_SRC "${PROJECT_SOURCE_DIR}/../libhext/src")
+SET(HTMLEXT_SRC "${PROJECT_SOURCE_DIR}/../html-extract/htmlext")
 ADD_EXECUTABLE(
   html-extract-test
-  "${PROJECT_SOURCE_DIR}/../libhext/src/Builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/Hext.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/Html.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/NodeUtil.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/Parser.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/PatternBuilder.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/AttributeCapture.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/AttributeMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/BuiltinCapture.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/BuiltinMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/CapturePattern.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/LiteralTest.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/MatchPattern.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/RegexTest.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/pattern/ValueTest.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/ResultTree.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/RuleBuilder.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/RulePatterns.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/Rule.cpp"
-  "${PROJECT_SOURCE_DIR}/../libhext/src/StringUtil.cpp"
-  "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/File.cpp"
-  "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/Json.cpp"
-  "${PROJECT_SOURCE_DIR}/../html-extract/htmlext/ProgramOptions.cpp"
+  "${LIBHEXT_SRC}/Builtins.cpp"
+  "${LIBHEXT_SRC}/Hext.cpp"
+  "${LIBHEXT_SRC}/Html.cpp"
+  "${LIBHEXT_SRC}/NodeUtil.cpp"
+  "${LIBHEXT_SRC}/Parser.cpp"
+  "${LIBHEXT_SRC}/PatternBuilder.cpp"
+  "${LIBHEXT_SRC}/pattern/AttributeCapture.cpp"
+  "${LIBHEXT_SRC}/pattern/AttributeMatch.cpp"
+  "${LIBHEXT_SRC}/pattern/BuiltinCapture.cpp"
+  "${LIBHEXT_SRC}/pattern/BuiltinMatch.cpp"
+  "${LIBHEXT_SRC}/pattern/CapturePattern.cpp"
+  "${LIBHEXT_SRC}/pattern/LiteralTest.cpp"
+  "${LIBHEXT_SRC}/pattern/MatchPattern.cpp"
+  "${LIBHEXT_SRC}/pattern/RegexTest.cpp"
+  "${LIBHEXT_SRC}/pattern/ValueTest.cpp"
+  "${LIBHEXT_SRC}/ResultTree.cpp"
+  "${LIBHEXT_SRC}/RuleBuilder.cpp"
+  "${LIBHEXT_SRC}/RulePatterns.cpp"
+  "${LIBHEXT_SRC}/Rule.cpp"
+  "${LIBHEXT_SRC}/StringUtil.cpp"
+  "${HTMLEXT_SRC}/File.cpp"
+  "${HTMLEXT_SRC}/Json.cpp"
+  "${HTMLEXT_SRC}/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
-
-ADD_DEPENDENCIES(
-  html-extract-test
-  gumbo-parser
-  rapidjson
-  googletest)
+ADD_DEPENDENCIES(html-extract-test gumbo rapidjson googletest)
 TARGET_LINK_LIBRARIES(
   html-extract-test
   gumbo.a
-  boost_program_options
-  boost_regex
+  ${Boost_PROGRAM_OPTIONS_LIBRARY}
+  ${Boost_REGEX_LIBRARY}
   gtest
   pthread)
 
