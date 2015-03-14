@@ -15,7 +15,8 @@ ExternalProject_Add(
 
 # use googletest's include/ directory as an additional include directory
 ExternalProject_Get_Property(googletest source_dir)
-INCLUDE_DIRECTORIES(${source_dir}/include)
+# Use SYSTEM to hide warnings.
+INCLUDE_DIRECTORIES(SYSTEM ${source_dir}/include)
 
 # add googletest's library directory when linking
 ExternalProject_Get_Property(googletest binary_dir)
