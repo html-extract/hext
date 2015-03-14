@@ -43,6 +43,10 @@ TARGET_LINK_LIBRARIES(
   ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 
+###### INSTALL #################################################################
+INSTALL(TARGETS html-extract DESTINATION bin)
+
+
 ###### BUILD OPTIONS ###########################################################
 
 # Option TCMALLOC, default OFF
