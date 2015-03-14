@@ -23,27 +23,7 @@ FIND_PACKAGE(Boost COMPONENTS regex program_options)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
-#
-### download rapidjson
-ExternalProject_Add(
-    rapidjson
-    GIT_REPOSITORY https://github.com/miloyip/rapidjson.git
-    TIMEOUT 10
-
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ""
-    UPDATE_COMMAND ""
-    INSTALL_COMMAND ""
-
-    LOG_DOWNLOAD ON
-    LOG_CONFIGURE ON
-    LOG_BUILD ON)
-
-# use rapidjson's include/ directory as an additional include directory
-# (rapidjson is header only)
-ExternalProject_Get_Property(rapidjson source_dir)
-INCLUDE_DIRECTORIES(SYSTEM ${source_dir}/include)
-###########################################################
+INCLUDE(HextExternalProjectRapidJson)
 
 #
 ### download and build gumbo
