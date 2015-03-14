@@ -4,7 +4,7 @@ PROJECT(html-extract)
 # Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/")
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
 # Force flag -std=c++11.
 INCLUDE(HextForceCPP11)
