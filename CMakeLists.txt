@@ -17,10 +17,10 @@ INCLUDE(HextDefaultBuildRelease)
 
 
 ###### DEPENDENCIES ############################################################
-FIND_PACKAGE(Boost COMPONENTS regex program_options)
+ADD_SUBDIRECTORY("libhext")
+FIND_PACKAGE(Boost COMPONENTS program_options)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 INCLUDE(HextExternalProjectRapidJson)
-INCLUDE(HextExternalProjectGumbo)
 
 
 ###### INCLUDES ################################################################
@@ -32,36 +32,15 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 ###### SOURCES #################################################################
 ADD_EXECUTABLE(
   html-extract
-  "${PROJECT_SOURCE_DIR}/libhext/src/Builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/Hext.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/Html.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/NodeUtil.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/Parser.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/PatternBuilder.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/AttributeCapture.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/AttributeMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/BuiltinCapture.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/BuiltinMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/CapturePattern.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/LiteralTest.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/MatchPattern.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/RegexTest.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/pattern/ValueTest.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/ResultTree.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/RuleBuilder.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/RulePatterns.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/Rule.cpp"
-  "${PROJECT_SOURCE_DIR}/libhext/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/File.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Json.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
-ADD_DEPENDENCIES(html-extract gumbo rapidjson)
+ADD_DEPENDENCIES(html-extract rapidjson hext)
 TARGET_LINK_LIBRARIES(
   html-extract
-  gumbo.a
-  ${Boost_PROGRAM_OPTIONS_LIBRARY}
-  ${Boost_REGEX_LIBRARY})
+  hext
+  ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 
 ###### BUILD OPTIONS ###########################################################
