@@ -12,12 +12,12 @@ IF(RUNRAGEL)
   EXECUTE_PROCESS(
     COMMAND
     "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-    "${PROJECT_SOURCE_DIR}/libhext/ragel/Parser.h.rl"
-    "${PROJECT_SOURCE_DIR}/libhext/include/hext/Parser.h")
+    "${PROJECT_SOURCE_DIR}/ragel/Parser.h.rl"
+    "${PROJECT_SOURCE_DIR}/include/hext/Parser.h")
   EXECUTE_PROCESS(
     COMMAND
     "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-    "${PROJECT_SOURCE_DIR}/libhext/ragel/Parser.cpp.rl"
-    "${PROJECT_SOURCE_DIR}/libhext/src/Parser.cpp")
+    "${PROJECT_SOURCE_DIR}/ragel/Parser.cpp.rl"
+    "${PROJECT_SOURCE_DIR}/src/Parser.cpp")
 ENDIF(RUNRAGEL)
 
