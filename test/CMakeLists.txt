@@ -6,7 +6,7 @@ PROJECT(html-extract-test)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/../cmake")
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake")
 INCLUDE(ExternalProject) # available since 2.8.7
 INCLUDE(HextForceCPP11)
 
@@ -19,57 +19,10 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../html-extract")
 
 ###### EXTERNAL DEPENDENCIES ##############################
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
-
 INCLUDE(HextExternalProjectGoogleTest)
+INCLUDE(HextExternalProjectRapidJson)
+INCLUDE(HextExternalProjectGumbo)
 
-#
-### download rapidjson
-ExternalProject_Add(
-    rapidjson
-    GIT_REPOSITORY https://github.com/miloyip/rapidjson.git
-    TIMEOUT 10
-
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ""
-    UPDATE_COMMAND ""
-    INSTALL_COMMAND ""
-
-    LOG_DOWNLOAD ON
-    LOG_CONFIGURE ON
-    LOG_BUILD ON)
-
-# use rapidjson's include/ directory as an additional include directory
-# (rapidjson is header only)
-ExternalProject_Get_Property(rapidjson source_dir)
-INCLUDE_DIRECTORIES(SYSTEM ${source_dir}/include)
-###########################################################
-
-#
-### download and build gumbo
-ExternalProject_Add(
-    gumbo-parser
-    GIT_REPOSITORY https://github.com/google/gumbo-parser.git
-    TIMEOUT 10
-
-    CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=${CMAKE_BINARY_DIR}
-    BUILD_COMMAND make
-    UPDATE_COMMAND ""
-    INSTALL_COMMAND ""
-
-    BUILD_IN_SOURCE ON
-    LOG_DOWNLOAD ON
-    LOG_CONFIGURE ON
-    LOG_BUILD ON)
-
-# use gumbo's include/ directory as an additional include directory
-ExternalProject_Get_Property(gumbo-parser source_dir)
-INCLUDE_DIRECTORIES(${source_dir}/src)
-
-# add gumbo's library directory when linking
-ExternalProject_Get_Property(gumbo-parser binary_dir)
-# LINK_DIRECTORIES will apply only to targets created after it is called
-LINK_DIRECTORIES(${binary_dir}/.libs)
-###########################################################
 
 ADD_EXECUTABLE(
   html-extract-test
@@ -105,7 +58,7 @@ ADD_DEPENDENCIES(
   googletest)
 TARGET_LINK_LIBRARIES(
   html-extract-test
-  gumbo
+  gumbo.a
   boost_program_options
   boost_regex
   gtest
