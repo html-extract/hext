@@ -50,10 +50,6 @@ TARGET_LINK_LIBRARIES(
 SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
 INCLUDE(HextOptionLinkTcmalloc)
 
-# Option RUNRAGEL, default OFF
-# Call run_ragel.sh to generate the parser.
-INCLUDE(HextOptionRunRagel)
-
 # Option GPROF, default OFF
 # GNU gprof build
 INCLUDE(HextOptionGprof)
