@@ -1,31 +1,36 @@
-#### html-extract
-
-#SET(CMAKE_VERBOSE_MAKEFILE ON)
-
+###### HTML-EXTRACT ############################################################
 PROJECT(html-extract)
 
+# Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/")
-INCLUDE(ExternalProject) # available since 2.8.7
+INCLUDE(ExternalProject)
+
 # Force flag -std=c++11.
 INCLUDE(HextForceCPP11)
+
 # Enable all (reasonable) warnings with Clang and GCC.
 INCLUDE(HextEnableWarnings)
+
 # If build type was not specified, build Release.
 INCLUDE(HextDefaultBuildRelease)
 
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 
-###### DEPENDENCIES ##############################
+###### DEPENDENCIES ############################################################
 FIND_PACKAGE(Boost COMPONENTS regex program_options)
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 INCLUDE(HextExternalProjectRapidJson)
 INCLUDE(HextExternalProjectGumbo)
-##################################################
 
+
+###### INCLUDES ################################################################
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+
+
+###### SOURCES #################################################################
 ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/libhext/src/Builtins.cpp"
@@ -59,7 +64,8 @@ TARGET_LINK_LIBRARIES(
   ${Boost_PROGRAM_OPTIONS_LIBRARY}
   ${Boost_REGEX_LIBRARY})
 
-###### BUILD OPTIONS ######################################
+
+###### BUILD OPTIONS ###########################################################
 # Option TCMALLOC, default OFF
 # Link with libtcmalloc, i.e. cmake -DTCMALLOC=ON
 SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
@@ -72,5 +78,4 @@ INCLUDE(HextOptionRunRagel)
 # Option GPROF, default OFF
 # GNU gprof build
 INCLUDE(HextOptionGprof)
-###########################################################
 
