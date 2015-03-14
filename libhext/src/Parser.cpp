@@ -1,5 +1,5 @@
 
-#line 1 "/repos/projects/html-extract/libhext/ragel/Parser.cpp.rl"
+#line 1 "Parser.cpp.rl"
 #include "hext/Parser.h"
 
 
@@ -21,12 +21,12 @@ Parser::Parser(const char * begin, const char * end)
 {
   using namespace ragel;
   
-#line 25 "/repos/projects/html-extract/libhext/src/Parser.cpp.tmp"
+#line 25 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 25 "/repos/projects/html-extract/libhext/ragel/Parser.cpp.rl"
+#line 25 "Parser.cpp.rl"
 
 }
 
@@ -41,7 +41,7 @@ std::vector<Rule> Parser::parse()
   bool rule_start = false;
 
   
-#line 45 "/repos/projects/html-extract/libhext/src/Parser.cpp.tmp"
+#line 45 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -115,13 +115,13 @@ _match:
 		switch ( *_acts++ )
 		{
 	case 0:
-#line 4 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 4 "hext-machine.rl"
 	{
     this->throw_unexpected();
   }
 	break;
 	case 1:
-#line 8 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 8 "hext-machine.rl"
 	{
     if( rule_start )
     {
@@ -135,11 +135,11 @@ _match:
   }
 	break;
 	case 2:
-#line 46 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 46 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 3:
-#line 47 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 47 "hext-machine.rl"
 	{ LX_TK_STOP;
                  {
                    if( !rule.pattern().set_builtin_function(tok) )
@@ -148,27 +148,27 @@ _match:
               }
 	break;
 	case 4:
-#line 57 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 57 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 5:
-#line 58 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 58 "hext-machine.rl"
 	{ LX_TK_STOP; rule.pattern().set_attr_name(tok); }
 	break;
 	case 6:
-#line 67 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 67 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 7:
-#line 68 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 68 "hext-machine.rl"
 	{ LX_TK_STOP; rule.pattern().set_cap_var(tok); }
 	break;
 	case 8:
-#line 73 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 73 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 9:
-#line 74 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 74 "hext-machine.rl"
 	{ LX_TK_STOP;
                                try{ rule.pattern().set_cap_regex(tok); }
                                catch( const boost::regex_error& e )
@@ -176,11 +176,11 @@ _match:
                              }
 	break;
 	case 10:
-#line 89 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 89 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 11:
-#line 90 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 90 "hext-machine.rl"
 	{ LX_TK_STOP;
                                  try{ rule.pattern().set_attr_regex(tok); }
                                  catch( const boost::regex_error& e )
@@ -188,58 +188,58 @@ _match:
                                }
 	break;
 	case 12:
-#line 102 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 102 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 13:
-#line 103 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 103 "hext-machine.rl"
 	{ LX_TK_STOP;
                                    rule.pattern().set_attr_literal(tok); }
 	break;
 	case 14:
-#line 111 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 111 "hext-machine.rl"
 	{ rule.pattern().consume_and_reset(); }
 	break;
 	case 15:
-#line 120 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 120 "hext-machine.rl"
 	{ rule.increment_indent(); }
 	break;
 	case 16:
-#line 123 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 123 "hext-machine.rl"
 	{ rule_start = true; }
 	break;
 	case 17:
-#line 126 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 126 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
 	case 18:
-#line 130 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 130 "hext-machine.rl"
 	{ rule.set_nth_child(0); }
 	break;
 	case 19:
-#line 134 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 134 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 20:
-#line 135 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 135 "hext-machine.rl"
 	{ LX_TK_STOP;
                          rule.set_nth_child(std::stoi(tok)); }
 	break;
 	case 21:
-#line 140 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 140 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 22:
-#line 141 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 141 "hext-machine.rl"
 	{ LX_TK_STOP;
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
 	break;
 	case 23:
-#line 147 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 147 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-#line 243 "/repos/projects/html-extract/libhext/src/Parser.cpp.tmp"
+#line 243 "Parser.cpp.tmp"
 		}
 	}
 
@@ -256,13 +256,13 @@ _again:
 	while ( __nacts-- > 0 ) {
 		switch ( *__acts++ ) {
 	case 0:
-#line 4 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 4 "hext-machine.rl"
 	{
     this->throw_unexpected();
   }
 	break;
 	case 1:
-#line 8 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 8 "hext-machine.rl"
 	{
     if( rule_start )
     {
@@ -276,10 +276,10 @@ _again:
   }
 	break;
 	case 24:
-#line 154 "/repos/projects/html-extract/libhext/ragel/hext-machine.rl"
+#line 154 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 283 "/repos/projects/html-extract/libhext/src/Parser.cpp.tmp"
+#line 283 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -287,7 +287,7 @@ _again:
 	_out: {}
 	}
 
-#line 39 "/repos/projects/html-extract/libhext/ragel/Parser.cpp.rl"
+#line 39 "Parser.cpp.rl"
 
   return rule.get_rules_and_reset();
 }

@@ -1,5 +1,5 @@
 
-#line 1 "/repos/projects/html-extract/libhext/ragel/Parser.h.rl"
+#line 1 "Parser.h.rl"
 #ifndef HEXT_PARSER_H_INCLUDED
 #define HEXT_PARSER_H_INCLUDED
 
@@ -45,7 +45,7 @@ public:
 
 namespace ragel {
   
-#line 49 "/repos/projects/html-extract/libhext/include/hext/Parser.h.tmp"
+#line 49 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 5, 1, 6, 1, 
@@ -166,7 +166,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 27;
 
 
-#line 49 "/repos/projects/html-extract/libhext/ragel/Parser.h.rl"
+#line 49 "Parser.h.rl"
 
 } // namespace ragel
 

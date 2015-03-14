@@ -56,7 +56,16 @@ assert_dependencies "$@"
 
 ragel_input="$1"
 ragel_output="$2"
-basename_ragel_output=$(basename "$2")
+basename_ragel_input=$(basename "$ragel_input")
+basename_ragel_output=$(basename "$ragel_output")
+dirname_ragel_input=$(dirname "$ragel_input")
+
+# Ragel prints the full passed path into the generated files. We only want the
+# filename.
+cd "$dirname_ragel_input" || {
+  echo >&2 "$script_name: failed changing directory to $dirname_ragel_input"
+  exit 1
+}
 
 # We only want to write to $ragel_output if the file will actually change.
 # Else cmake will recompile it everytime. Therefore we first write to a
@@ -66,14 +75,14 @@ basename_ragel_output=$(basename "$2")
 # resulting in different outputs everytime we run ragel.
 # (ragel 6.9 actually has a switch -L to "Inhibit writing of #line directives"
 # but it is useless in this context, because the filename still gets written)
-ragel_tmp="$ragel_output.tmp"
+ragel_tmp="$basename_ragel_output.tmp"
 [ ! -f "$ragel_tmp" ] || {
   echo >&2 "$script_name: cannot create temporary, file already exists. Please delete $ragel_tmp"
   exit 1
 }
 
 # run ragel
-ragel -o "$ragel_tmp" "$ragel_input"
+ragel -o "$ragel_tmp" "$basename_ragel_input"
 ragel_exit=$?
 
 if [ $ragel_exit -ne 0 ] ; then
@@ -88,7 +97,7 @@ if [ ! -f "$ragel_output" ] ; then
     echo >&2 "$script_name: failed creating $ragel_output";
     exit 1;
   }
-  echo "$script_name: Created '$ragel_output'"
+  echo "$script_name: Created '$basename_ragel_output'"
 elif files_are_equal "$ragel_tmp" "$ragel_output" ; then
   echo "$script_name: $basename_ragel_output still current"
 else
