@@ -18,9 +18,11 @@ INCLUDE(HextDefaultBuildRelease)
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 
-###### EXTERNAL DEPENDENCIES ##############################
-SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
+###### DEPENDENCIES ##############################
+FIND_PACKAGE(Boost COMPONENTS regex program_options)
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
+SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 #
 ### download rapidjson
 ExternalProject_Add(
@@ -97,7 +99,11 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
 ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
-TARGET_LINK_LIBRARIES(html-extract gumbo boost_program_options boost_regex)
+TARGET_LINK_LIBRARIES(
+  html-extract
+  gumbo
+  ${Boost_PROGRAM_OPTIONS_LIBRARY}
+  ${Boost_REGEX_LIBRARY})
 
 ###### BUILD OPTIONS ######################################
 # Option TCMALLOC, default OFF
