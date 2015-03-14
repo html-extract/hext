@@ -1,7 +1,7 @@
 # Download gumbo's latest trunk and build it. Add gumbo's .lib/ directory
 # to LINK_DIRECTORIES. Add gumbo's src/ directory to INCLUDE_DIRECTORIES.
 
-EXTERNALPROJECT_ADD(
+ExternalProject_Add(
     gumbo
     GIT_REPOSITORY https://github.com/google/gumbo-parser.git
     TIMEOUT 10
@@ -17,11 +17,11 @@ EXTERNALPROJECT_ADD(
     LOG_BUILD ON)
 
 # use gumbo's include/ directory as an additional include directory
-EXTERNALPROJECT_GET_PROPERTY(gumbo source_dir)
+ExternalProject_Get_Property(gumbo source_dir)
 INCLUDE_DIRECTORIES(${source_dir}/src)
 
 # add gumbo's library directory when linking
-EXTERNALPROJECT_GET_PROPERTY(gumbo binary_dir)
+ExternalProject_Get_Property(gumbo binary_dir)
 # LINK_DIRECTORIES will apply only to targets created after it is called
 LINK_DIRECTORIES(${binary_dir}/.libs)
 
