@@ -52,10 +52,10 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Json.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
-ADD_DEPENDENCIES(html-extract gumbo-parser rapidjson)
+ADD_DEPENDENCIES(html-extract gumbo rapidjson)
 TARGET_LINK_LIBRARIES(
   html-extract
-  gumbo
+  gumbo.a
   ${Boost_PROGRAM_OPTIONS_LIBRARY}
   ${Boost_REGEX_LIBRARY})
 
