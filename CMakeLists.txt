@@ -21,36 +21,10 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 ###### DEPENDENCIES ##############################
 FIND_PACKAGE(Boost COMPONENTS regex program_options)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 INCLUDE(HextExternalProjectRapidJson)
-
-#
-### download and build gumbo
-ExternalProject_Add(
-    gumbo-parser
-    GIT_REPOSITORY https://github.com/google/gumbo-parser.git
-    TIMEOUT 10
-
-    CONFIGURE_COMMAND ./autogen.sh COMMAND ./configure --prefix=${CMAKE_BINARY_DIR}
-    BUILD_COMMAND make
-    UPDATE_COMMAND ""
-    INSTALL_COMMAND ""
-
-    BUILD_IN_SOURCE ON
-    LOG_DOWNLOAD ON
-    LOG_CONFIGURE ON
-    LOG_BUILD ON)
-
-# use gumbo's include/ directory as an additional include directory
-ExternalProject_Get_Property(gumbo-parser source_dir)
-INCLUDE_DIRECTORIES(${source_dir}/src)
-
-# add gumbo's library directory when linking
-ExternalProject_Get_Property(gumbo-parser binary_dir)
-# LINK_DIRECTORIES will apply only to targets created after it is called
-LINK_DIRECTORIES(${binary_dir}/.libs)
-###########################################################
+INCLUDE(HextExternalProjectGumbo)
+##################################################
 
 ADD_EXECUTABLE(
   html-extract
