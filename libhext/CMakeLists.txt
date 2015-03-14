@@ -57,6 +57,11 @@ TARGET_LINK_LIBRARIES(
   ${Boost_REGEX_LIBRARY})
 
 
+###### INSTALL #################################################################
+INSTALL(TARGETS hext DESTINATION lib)
+INSTALL(DIRECTORY include/hext DESTINATION include)
+
+
 ###### BUILD OPTIONS ###########################################################
 
 # Option TCMALLOC, default OFF
