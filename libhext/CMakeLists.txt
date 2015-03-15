@@ -64,11 +64,6 @@ INSTALL(DIRECTORY include/hext DESTINATION include)
 
 ###### BUILD OPTIONS ###########################################################
 
-# Option TCMALLOC, default OFF
-# Link with libtcmalloc, i.e. cmake -DTCMALLOC=ON
-SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
-INCLUDE(HextOptionLinkTcmalloc)
-
 # Option RUNRAGEL, default OFF
 # Call run_ragel.sh to generate the parser.
 INCLUDE(HextOptionRunRagel)
