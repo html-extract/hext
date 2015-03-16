@@ -5,7 +5,7 @@ namespace hext {
 
 
 RuleBuilder::RuleBuilder()
-: pat_()
+: pattern_builder_()
 , rules_()
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
@@ -42,8 +42,8 @@ void RuleBuilder::consume_and_reset()
     this->nth_child_,
     this->is_closed_,
     RulePatterns(
-      std::move(this->pat_.get_matchp_and_reset()),
-      std::move(this->pat_.get_capturep_and_reset())
+      std::move(this->pattern_builder_.get_matchp_and_reset()),
+      std::move(this->pattern_builder_.get_capturep_and_reset())
     )
   );
 
@@ -58,7 +58,7 @@ void RuleBuilder::consume_and_reset()
 
 PatternBuilder& RuleBuilder::pattern()
 {
-  return this->pat_;
+  return this->pattern_builder_;
 }
 
 void RuleBuilder::reset_indent()
@@ -71,15 +71,15 @@ void RuleBuilder::increment_indent()
   this->indent_++;
 }
 
-bool RuleBuilder::set_tag_name(const std::string& tag)
+bool RuleBuilder::set_tag_name(const std::string& tag_name)
 {
-  if( tag.empty() )
+  if( tag_name.empty() )
   {
     this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
   }
   else
   {
-    GumboTag t = gumbo_tag_enum(tag.c_str());
+    GumboTag t = gumbo_tag_enum(tag_name.c_str());
     if( t == GUMBO_TAG_UNKNOWN )
       return false;
     this->gumbo_tag_ = t;
@@ -88,21 +88,21 @@ bool RuleBuilder::set_tag_name(const std::string& tag)
   return true;
 }
 
-void RuleBuilder::set_optional(bool is_opt)
+void RuleBuilder::set_optional(bool is_optional)
 {
-  this->is_optional_ = is_opt;
+  this->is_optional_ = is_optional;
 }
 
-void RuleBuilder::set_nth_child(int pos_within_parent)
+void RuleBuilder::set_nth_child(int nth_child)
 {
-  if( pos_within_parent < -1 )
-    pos_within_parent = -1;
-  this->nth_child_ = pos_within_parent;
+  if( nth_child < -1 )
+    nth_child = -1;
+  this->nth_child_ = nth_child;
 }
 
-void RuleBuilder::set_closed(bool closed)
+void RuleBuilder::set_closed(bool is_closed)
 {
-  this->is_closed_ = closed;
+  this->is_closed_ = is_closed;
 }
 
 

@@ -39,13 +39,13 @@ public:
   PatternBuilder& pattern();
   void reset_indent();
   void increment_indent();
-  bool set_tag_name(const std::string& tag);
-  void set_optional(bool is_opt);
-  void set_nth_child(int pos_within_parent);
-  void set_closed(bool closed);
+  bool set_tag_name(const std::string& tag_name);
+  void set_optional(bool is_optional);
+  void set_nth_child(int nth_child);
+  void set_closed(bool is_closed);
 
 private:
-  PatternBuilder pat_;
+  PatternBuilder pattern_builder_;
   std::vector<Rule> rules_;
   unsigned int indent_;
   GumboTag gumbo_tag_;
