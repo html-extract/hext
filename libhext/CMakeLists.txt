@@ -50,7 +50,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/RulePatterns.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp")
-ADD_DEPENDENCIES(hext gumbo)
+ADD_DEPENDENCIES(hext gumbo-parser)
 TARGET_LINK_LIBRARIES(
   hext
   gumbo.a
