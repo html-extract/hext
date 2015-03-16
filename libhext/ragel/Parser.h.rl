@@ -11,6 +11,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <utility>
+#include <algorithm>
 
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>

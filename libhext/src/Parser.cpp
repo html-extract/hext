@@ -375,6 +375,9 @@ void Parser::print_error_location(
 
   PrintWithLineNumbers(this->p_begin_, end, number_width, out);
 
+  // The biggest the mark can be is the length of the last line.
+  mark_len = std::min(pos.second, static_cast<CharPosType>(mark_len));
+
   // Print a visual indicator right under the unexpected token.
   // We need to know the amount of indentation required.
   // PrintWithLineNumbers prints lines like this:
