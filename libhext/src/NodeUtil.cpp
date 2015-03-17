@@ -17,7 +17,7 @@ unsigned int GetNodePositionWithinParent(const GumboNode * node)
   unsigned int pos = 0;
   const GumboVector& child_nodes = parent->v.element.children;
   // We only have to traverse up to node->index_within_parent, and not the
-  // whole GumboVector.
+  // whole GumboVector. node->index_within_parent includes text nodes.
   for(unsigned int i = 0; i <= node->index_within_parent; ++i)
   {
     assert(i < child_nodes.length);
@@ -92,5 +92,5 @@ std::string GetNodeInnerHtml(const GumboNode * node)
 }
 
 
-} // hext
+} // namespace hext
 

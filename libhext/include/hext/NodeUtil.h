@@ -5,6 +5,8 @@
 
 #include <cassert>
 #include <string>
+#include <cstddef>
+#include <iterator>
 
 #include <gumbo.h>
 
@@ -22,7 +24,7 @@ std::string GetNodeText(const GumboNode * node);
 /// Get node's inner text, as is.
 std::string GetNodeRawText(const GumboNode * node);
 
-/// Get node's inner html.
+/// Get node's inner html as an untouched copy of the source buffer.
 std::string GetNodeInnerHtml(const GumboNode * node);
 
 
