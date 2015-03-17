@@ -22,8 +22,8 @@
 namespace hext {
 
 
-/// When parsing hext a PatternBuilder is responsible for creating
-/// MatchPatterns and CapturePatterns.
+/// When parsing hext rule definitions, a PatternBuilder is responsible for
+/// creating MatchPatterns and CapturePatterns.
 class PatternBuilder
 {
 public:
