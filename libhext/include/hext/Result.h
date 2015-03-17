@@ -12,7 +12,7 @@ namespace hext {
 /// A ResultMap contains the values produced by capturing.
 typedef std::multimap<std::string, std::string> ResultMap;
 
-/// Convenience typedef for a collection of Results.
+/// Convenience typedef for a collection of ResultMaps.
 typedef std::vector<ResultMap> Result;
 
 
