@@ -15,6 +15,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include <boost/regex.hpp>
 #include <boost/optional.hpp>
 
