@@ -14,10 +14,16 @@
 namespace hext {
 
 
+/// The class Hext takes a string containing hext rule definitions. Once
+/// constructed, the rules can be applied to html by calling Hext::extract,
+/// which returns a Result containing all captured values.
 class Hext
 {
 public:
+  /// Construct Hext. Throws ParseError if given hext is invalid.
   explicit Hext(const std::string& hext);
+
+  /// Extract values from html. Returns a hext::Result with captured values.
   Result extract(const std::string& html, Option flags = Option::Default) const;
 
 private:
