@@ -5,10 +5,12 @@
 namespace hext {
 
 
-/// Enum to allow for typesafe passing of options.
+/// Option flags to control extraction behaviour.
 enum Option
 {
+  /// Default settings.
   Default     = 0 << 0,
+  /// Do not remove invalid results.
   KeepInvalid = 1 << 0
 };
 
