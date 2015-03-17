@@ -12,14 +12,16 @@
 namespace hext {
 
 
-/// Html is a simple RAII wrapper around gumbo.
+/// Html is responsible for parsing html and, given a Rule, extraction of
+/// content.
 class Html
 {
 public:
+  /// Construct Html. Pointers must be valid until destruction.
   Html(const char * begin, const char * end);
   ~Html();
 
-  /// Apply Rule to all nodes and return a Result containing all captured
+  /// Apply Rule to all html-nodes and return a Result containing all captured
   /// values.
   Result extract(const Rule& r, Option flags = Option::Default) const;
 
