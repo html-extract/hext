@@ -17,10 +17,15 @@
 #include <boost/regex/pattern_except.hpp>
 
 
+/// Convenience macro to store the start of a token. Used within the hext
+/// machine definition. Accesses Parser::parse()'s local variables.
 #define LX_TK_START \
   tok_begin = p;    \
   tok_end = nullptr;
 
+
+/// Convenience macro to complete a token. Used within the hext
+/// machine defintion. Accesses Parser::parse()'s local variables.
 #define LX_TK_STOP              \
   assert(tok_begin != nullptr); \
   tok_end = p;                  \
@@ -30,8 +35,10 @@
 namespace hext {
 
 
-/// Clang warns (-Wweak-vtables) that a vtable for ParseError may be placed
-/// in every translation unit, because ParseError doesn't have any
+/// ParseError is a custom exception class thrown for all errors that occur
+/// while parsing hext.
+/// Note: Clang warns (-Wweak-vtables) that a vtable for ParseError may be
+/// placed in every translation unit, because ParseError doesn't have any
 /// 'out-of-line virtual method definitions', where it would normally put
 /// the vtable. But http://stackoverflow.com/a/23749273 suggests that this
 /// is a non-issue; the linker will clean it up.
@@ -42,6 +49,7 @@ public:
 };
 
 
+/// The ragel namespace holds ragel's static data.
 namespace ragel {
   %%{
     machine hext;
@@ -52,28 +60,38 @@ namespace ragel {
 
 
 /// Parser is responsible for parsing hext and producing Rules.
-/// Parser contains the ragel state machine and shields the user from its
-/// details.
 class Parser
 {
 public:
-  /// Setup ragel.
+  /// Construct a Parser to parse hext rule definitions described in range begin
+  /// to end. Pointers must stay valid until the last call to Parser::parse().
   Parser(const char * begin, const char * end);
 
+  /// Parse hext and produce a vector of rules.
   /// Throws ParseError on invalid input.
   std::vector<Rule> parse();
 
 private:
-  /// Print diagnostics and throw ParseError.
+  /// Throw ParseError with an error message marking an unexpected character.
   void throw_unexpected() const;
+
+  /// Throw ParseError with an error message marking an unknown token.
   void throw_unknown_token(
     const std::string& tok,
     const std::string& tok_name
   ) const;
+
+  /// Throw ParseError with an error message marking an invalid regular
+  /// expression.
   void throw_regex_error(
     const std::string& tok,
     boost::regex_constants::error_type e_code
   ) const;
+
+  /// Print an error at the current location within hext. Print hext with line
+  /// numbers up to the currently examined character. mark_len denotes the
+  /// amount of '^' characters that are used to mark the error location up to
+  /// the current character.
   void print_error_location(
     std::string::size_type mark_len,
     std::ostream& out

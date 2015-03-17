@@ -17,6 +17,8 @@ Parser::Parser(const char * begin, const char * end)
   eof(end),
   cs(0)
 {
+  // Ragel generates state machines in plain C and knows nothing about
+  // namespaces.
   using namespace ragel;
   %%{
     machine hext;

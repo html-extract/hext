@@ -20,14 +20,16 @@ Parser::Parser(const char * begin, const char * end)
   eof(end),
   cs(0)
 {
+  // Ragel generates state machines in plain C and knows nothing about
+  // namespaces.
   using namespace ragel;
   
-#line 25 "Parser.cpp.tmp"
+#line 27 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 25 "Parser.cpp.rl"
+#line 27 "Parser.cpp.rl"
 
 }
 
@@ -42,7 +44,7 @@ std::vector<Rule> Parser::parse()
   bool rule_start = false;
 
   
-#line 45 "Parser.cpp.tmp"
+#line 47 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -240,7 +242,7 @@ _match:
 #line 147 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-#line 243 "Parser.cpp.tmp"
+#line 245 "Parser.cpp.tmp"
 		}
 	}
 
@@ -280,7 +282,7 @@ _again:
 #line 154 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 283 "Parser.cpp.tmp"
+#line 285 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -288,7 +290,7 @@ _again:
 	_out: {}
 	}
 
-#line 39 "Parser.cpp.rl"
+#line 41 "Parser.cpp.rl"
 
   return rule.get_rules_and_reset();
 }
@@ -375,7 +377,7 @@ void Parser::print_error_location(
 
   PrintWithLineNumbers(this->p_begin_, end, number_width, out);
 
-  // The biggest the mark can be is the length of the last line.
+  // The longest the mark can be is the length of the last line.
   mark_len = std::min(pos.second, static_cast<CharPosType>(mark_len));
 
   // Print a visual indicator right under the unexpected token.
