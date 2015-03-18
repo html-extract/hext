@@ -53,7 +53,7 @@ ADD_LIBRARY(
 ADD_DEPENDENCIES(hext gumbo-parser)
 TARGET_LINK_LIBRARIES(
   hext
-  gumbo.a
+  gumbo
   ${Boost_REGEX_LIBRARY})
 
 
