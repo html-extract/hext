@@ -20,17 +20,12 @@ INCLUDE(HextDefaultBuildRelease)
 
 
 ###### VERSION #################################################################
-INCLUDE(GetGitRevisionDescription)
-get_git_head_revision(GIT_REFSPEC PROJECT_VERSION_GIT_SHA1)
-STRING(SUBSTRING ${PROJECT_VERSION_GIT_SHA1} 1 7 PROJECT_VERSION_GIT_SHA1)
-
 SET(PROJECT_VERSION_MAJOR 0)
 SET(PROJECT_VERSION_MINOR 1)
-
-CONFIGURE_FILE(
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp.in"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp"
-  @ONLY)
+SET(
+  HEXT_VERSION_FILE_SOURCE
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp.in")
+INCLUDE(HextGenerateVersionFile)
 
 
 ###### DEPENDENCIES ############################################################
