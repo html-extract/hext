@@ -1,6 +1,7 @@
 #include "htmlext/Json.h"
 #include "htmlext/File.h"
 #include "htmlext/ProgramOptions.h"
+#include "htmlext/Version.h"
 #include "hext/Hext.h"
 
 #include <cassert>
@@ -22,6 +23,12 @@ int main(int argc, const char ** argv)
     if( po.contains("help") )
     {
       po.print(argv[0], std::cout);
+      return EXIT_SUCCESS;
+    }
+
+    if( po.contains("version") )
+    {
+      htmlext::PrintVersion(std::cout);
       return EXIT_SUCCESS;
     }
 

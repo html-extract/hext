@@ -15,6 +15,7 @@ ProgramOptions::ProgramOptions()
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
     ("keep-invalid,k", "Do not remove invalid results")
+    ("version", "Print version")
   ;
 }
 
@@ -24,7 +25,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   po::store(po::parse_command_line(argc, argv, this->desc_), this->vm_);
   po::notify(this->vm_);
 
-  if( this->contains("help") )
+  if( this->contains("help") || this->contains("version") )
     return;
 
   if( !this->contains("hext-file") )
