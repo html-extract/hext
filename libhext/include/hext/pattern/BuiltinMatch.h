@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/ValueMatch.h"
 #include "hext/Builtins.h"
 
 #include <string>
@@ -16,7 +16,7 @@ namespace hext {
 
 /// A BuiltinMatch is a MatchPattern that checks whether the result of a
 /// builtin matches value_test.
-class BuiltinMatch : public MatchPattern
+class BuiltinMatch : public ValueMatch
 {
 public:
   BuiltinMatch(

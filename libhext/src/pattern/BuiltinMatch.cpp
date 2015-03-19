@@ -8,7 +8,7 @@ BuiltinMatch::BuiltinMatch(
   BuiltinFuncPtr f,
   std::unique_ptr<ValueTest> value_test
 )
-: MatchPattern(std::move(value_test))
+: ValueMatch(std::move(value_test))
 , func_(f)
 {
 }

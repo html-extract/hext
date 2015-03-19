@@ -8,7 +8,7 @@ AttributeMatch::AttributeMatch(
   const std::string& attr_name,
   std::unique_ptr<ValueTest> value_test
 )
-: MatchPattern(std::move(value_test))
+: ValueMatch(std::move(value_test))
 , attr_(attr_name)
 {
 }
