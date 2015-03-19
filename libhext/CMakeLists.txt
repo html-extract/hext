@@ -4,7 +4,10 @@ PROJECT(libhext)
 # Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake")
+SET(
+  CMAKE_MODULE_PATH
+  ${PROJECT_SOURCE_DIR}/../cmake
+  ${PROJECT_SOURCE_DIR}/../cmake/thirdparty)
 
 # Force flag -std=c++11.
 INCLUDE(HextForceCPP11)
@@ -14,6 +17,14 @@ INCLUDE(HextEnableWarnings)
 
 # If build type was not specified, build Release.
 INCLUDE(HextDefaultBuildRelease)
+
+###### VERSION #################################################################
+SET(PROJECT_VERSION_MAJOR 0)
+SET(PROJECT_VERSION_MINOR 1)
+SET(
+  HEXT_VERSION_FILE_SOURCE
+  "${PROJECT_SOURCE_DIR}/src/Version.cpp.in")
+INCLUDE(HextGenerateVersionFile)
 
 
 ###### DEPENDENCIES ############################################################
@@ -49,7 +60,8 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/RulePatterns.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
-  "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp")
+  "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
+  "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 ADD_DEPENDENCIES(hext gumbo-parser)
 TARGET_LINK_LIBRARIES(
   hext
