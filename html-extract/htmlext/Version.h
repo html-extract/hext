@@ -1,6 +1,8 @@
 #ifndef HTMLEXT_VERSION_H_INCLUDED
 #define HTMLEXT_VERSION_H_INCLUDED
 
+#include "hext/Version.h"
+
 #include <iostream>
 
 
