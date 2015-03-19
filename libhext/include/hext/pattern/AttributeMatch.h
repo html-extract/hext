@@ -5,7 +5,6 @@
 #include "hext/pattern/ValueMatch.h"
 
 #include <string>
-#include <iostream>
 #include <memory>
 
 #include <gumbo.h>
@@ -24,7 +23,6 @@ public:
     std::unique_ptr<ValueTest> value_test
   );
   MatchResult matches(const GumboNode * node) const final;
-  void print(std::ostream& out = std::cout) const final;
 
 protected:
   const std::string attr_;

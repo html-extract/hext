@@ -5,7 +5,6 @@
 
 #include <string>
 #include <cstring>
-#include <iostream>
 
 #include <boost/regex.hpp>
 #include <boost/optional.hpp>
@@ -43,8 +42,6 @@ public:
   /// Return a pair with the result_name and the captured content, which is to
   /// be inserted into a ResultTree.
   virtual ResultTree::NameValuePair capture(const GumboNode * node) const = 0;
-
-  virtual void print(std::ostream& out = std::cout) const = 0;
 
 protected:
   /// Apply regex rx_ to str and return captured contents.

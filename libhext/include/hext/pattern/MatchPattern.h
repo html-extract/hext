@@ -4,7 +4,6 @@
 #include "hext/pattern/ValueTest.h"
 
 #include <string>
-#include <iostream>
 #include <utility>
 #include <memory>
 
@@ -26,7 +25,6 @@ public:
   MatchPattern();
   virtual ~MatchPattern();
   virtual MatchResult matches(const GumboNode * node) const = 0;
-  virtual void print(std::ostream& out = std::cout) const = 0;
 };
 
 

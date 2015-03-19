@@ -32,13 +32,6 @@ MatchResult AttributeMatch::matches(const GumboNode * node) const
   return MatchResult(false, nullptr);
 }
 
-void AttributeMatch::print(std::ostream& out) const
-{
-  out << " " << this->attr_;
-  if( this->test_ )
-    this->test_->print(out);
-}
-
 
 } // namespace hext
 

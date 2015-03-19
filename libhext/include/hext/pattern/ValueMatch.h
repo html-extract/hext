@@ -5,7 +5,6 @@
 #include "hext/pattern/MatchPattern.h"
 
 #include <memory>
-#include <iostream>
 
 #include <gumbo.h>
 
@@ -20,7 +19,6 @@ class ValueMatch : public MatchPattern
 public:
   ValueMatch(std::unique_ptr<ValueTest> value_test);
   virtual MatchResult matches(const GumboNode * node) const = 0;
-  virtual void print(std::ostream& out = std::cout) const = 0;
 
 protected:
   const std::unique_ptr<ValueTest> test_;

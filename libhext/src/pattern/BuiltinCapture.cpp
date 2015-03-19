@@ -45,17 +45,6 @@ BuiltinCapture::capture(const GumboNode * node) const
   }
 }
 
-void BuiltinCapture::print(std::ostream& out) const
-{
-  out << " @"
-      << GetNameByBuiltin(this->func_)
-      << "={"
-      << this->name_;
-  if( this->rx_ )
-    out << '/' << this->rx_->str() << '/';
-  out << '}';
-}
-
 
 } // namespace hext
 

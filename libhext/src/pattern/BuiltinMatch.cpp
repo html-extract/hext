@@ -25,14 +25,6 @@ MatchResult BuiltinMatch::matches(const GumboNode * node) const
     return MatchResult(true, nullptr);
 }
 
-void BuiltinMatch::print(std::ostream& out) const
-{
-  out << " @"
-      << GetNameByBuiltin(this->func_);
-  if( this->test_ )
-    this->test_->print(out);
-}
-
 
 } // namespace hext
 

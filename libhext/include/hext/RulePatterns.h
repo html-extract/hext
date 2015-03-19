@@ -41,9 +41,6 @@ public:
   /// Apply all capture patterns to node. Return all captured NameValuePairs.
   std::vector<ResultTree::NameValuePair> capture(const GumboNode * node) const;
 
-  /// Print all patterns to out.
-  void print(std::ostream& out = std::cout) const;
-
 private:
   std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
   std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;

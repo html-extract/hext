@@ -2,7 +2,6 @@
 #define HEXT_PATTERN_VALUE_TEST_H_INCLUDED
 
 #include <string>
-#include <iostream>
 
 
 namespace hext {
@@ -18,8 +17,6 @@ public:
   virtual ~ValueTest();
   /// Always return true.
   virtual bool test(const char * /* dummy */) const;
-  /// Print nothing.
-  virtual void print(std::ostream& /* dummy */ = std::cout) const;
 };
 
 

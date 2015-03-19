@@ -4,7 +4,6 @@
 #include "hext/pattern/ValueTest.h"
 
 #include <string>
-#include <iostream>
 
 #include <boost/regex.hpp>
 
@@ -20,7 +19,6 @@ public:
   explicit RegexTest(const boost::regex& regex);
   /// Returns true if regex matches subject.
   bool test(const char * subject) const final;
-  void print(std::ostream& out = std::cout) const final;
 
 private:
   const boost::regex rx_;

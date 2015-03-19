@@ -4,7 +4,6 @@
 #include "hext/pattern/ValueTest.h"
 
 #include <string>
-#include <iostream>
 
 
 namespace hext {
@@ -16,9 +15,9 @@ class LiteralTest : public ValueTest
 {
 public:
   explicit LiteralTest(std::string literal);
+
   /// Return true if subject equals literal.
   bool test(const char * subject) const final;
-  void print(std::ostream& out = std::cout) const final;
 
 private:
   const std::string lit_;

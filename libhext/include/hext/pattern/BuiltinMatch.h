@@ -5,7 +5,6 @@
 #include "hext/Builtins.h"
 
 #include <string>
-#include <iostream>
 #include <memory>
 
 #include <gumbo.h>
@@ -25,7 +24,6 @@ public:
   );
 
   MatchResult matches(const GumboNode * node) const final;
-  void print(std::ostream& out = std::cout) const final;
 
 private:
   const BuiltinFuncPtr func_;

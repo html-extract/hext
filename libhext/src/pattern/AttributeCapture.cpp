@@ -50,14 +50,6 @@ AttributeCapture::capture(const GumboNode * node) const
   }
 }
 
-void AttributeCapture::print(std::ostream& out) const
-{
-  out << ' ' << this->attr_ << "={" << this->name_;
-  if( this->rx_ )
-    out << '/' << this->rx_->str() << '/';
-  out << '}';
-}
-
 
 } // namespace hext
 

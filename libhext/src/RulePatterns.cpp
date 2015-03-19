@@ -77,14 +77,6 @@ RulePatterns::capture(const GumboNode * node) const
   return values;
 }
 
-void RulePatterns::print(std::ostream& out) const
-{
-  for(const auto& pattern : this->match_patterns_)
-    pattern->print(out);
-  for(const auto& pattern : this->capture_patterns_)
-    pattern->print(out);
-}
-
 
 } // namespace hext
 

@@ -4,7 +4,6 @@
 #include "hext/pattern/CapturePattern.h"
 
 #include <string>
-#include <iostream>
 
 #include <gumbo.h>
 #include <boost/regex.hpp>
@@ -28,7 +27,6 @@ public:
     const boost::regex& regex
   );
   ResultTree::NameValuePair capture(const GumboNode * node) const final;
-  void print(std::ostream& out = std::cout) const final;
 
 private:
   /// The name of the html-node-attribute whose value should be captured
