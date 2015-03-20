@@ -68,6 +68,14 @@
         ( 'empty' )
         %{ rule.pattern().consume_trait_empty(); }
       )
+      |
+      (
+        ( 'first-child' )
+        %{
+           rule.pattern().set_nth_pattern_multiplier("1");
+           rule.pattern().consume_trait_nth_child();
+         }
+      )
     )
   );
 
