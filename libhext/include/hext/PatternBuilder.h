@@ -1,18 +1,19 @@
 #ifndef HEXT_PATTERN_BUILDER_H_INCLUDED
 #define HEXT_PATTERN_BUILDER_H_INCLUDED
 
-#include "hext/MakeUnique.h"
 #include "hext/Builtins.h"
-#include "hext/pattern/ValueTest.h"
-#include "hext/pattern/LiteralTest.h"
-#include "hext/pattern/RegexTest.h"
-#include "hext/pattern/MatchPattern.h"
-#include "hext/pattern/CapturePattern.h"
-#include "hext/pattern/AttributeMatch.h"
-#include "hext/pattern/BuiltinMatch.h"
+#include "hext/MakeUnique.h"
 #include "hext/pattern/AttributeCapture.h"
+#include "hext/pattern/AttributeMatch.h"
 #include "hext/pattern/BuiltinCapture.h"
+#include "hext/pattern/BuiltinMatch.h"
+#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/EmptyMatch.h"
+#include "hext/pattern/LiteralTest.h"
+#include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NthChildMatch.h"
+#include "hext/pattern/RegexTest.h"
+#include "hext/pattern/ValueTest.h"
 
 #include <string>
 #include <memory>
@@ -43,6 +44,9 @@ public:
 
   /// Consume an NthChildMatch trait.
   void consume_trait_nth_child();
+
+  /// Consume an EmptyMatch trait.
+  void consume_trait_empty();
 
   bool set_builtin_function(const std::string& bi);
   void set_attr_name(const std::string& attribute_name);

@@ -59,8 +59,15 @@
   trait = (
     ':'
     (
-      ( 'nth-child(' nth_pattern ')' )
-      %{ rule.pattern().consume_trait_nth_child(); }
+      (
+        ( 'nth-child(' nth_pattern ')' )
+        %{ rule.pattern().consume_trait_nth_child(); }
+      )
+      |
+      (
+        ( 'empty' )
+        %{ rule.pattern().consume_trait_empty(); }
+      )
     )
   );
 

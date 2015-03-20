@@ -52,6 +52,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/CapturePattern.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/EmptyMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/LiteralTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/MatchPattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"

@@ -74,6 +74,11 @@ void PatternBuilder::consume_trait_nth_child()
   }
 }
 
+void PatternBuilder::consume_trait_empty()
+{
+  this->mp_.push_back(MakeUnique<EmptyMatch>());
+}
+
 bool PatternBuilder::set_builtin_function(const std::string& bi)
 {
   BuiltinFuncPtr func = GetBuiltinByName(bi);
