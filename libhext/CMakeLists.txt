@@ -54,6 +54,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/CapturePattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/LiteralTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/MatchPattern.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ValueMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ValueTest.cpp"

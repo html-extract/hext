@@ -11,6 +11,8 @@ PatternBuilder::PatternBuilder()
 , attr_regex_()
 , cap_var_()
 , cap_regex_()
+, nth_multiplier_(0)
+, nth_addend_(-1)
 , mp_()
 , cp_()
 {
@@ -48,6 +50,30 @@ PatternBuilder::get_capturep_and_reset()
   return std::move(vec);
 }
 
+void PatternBuilder::consume_trait_nth_child()
+{
+  // If nth_addend_ hasn't been set yet, use nth_multiplier_ as the shift
+  // argument to NthChildMatch. This makes lexing easier.
+  if( this->nth_addend_ < 0 )
+  {
+    this->mp_.push_back(
+      MakeUnique<NthChildMatch>(
+        0,
+        this->nth_multiplier_
+      )
+    );
+  }
+  else
+  {
+    this->mp_.push_back(
+      MakeUnique<NthChildMatch>(
+        this->nth_multiplier_,
+        this->nth_addend_
+      )
+    );
+  }
+}
+
 bool PatternBuilder::set_builtin_function(const std::string& bi)
 {
   BuiltinFuncPtr func = GetBuiltinByName(bi);
@@ -83,6 +109,16 @@ void PatternBuilder::set_cap_regex(const std::string& capture_regex)
   this->cap_regex_ = boost::regex(capture_regex);
 }
 
+void PatternBuilder::set_nth_pattern_multiplier(const std::string& multiplier)
+{
+  this->nth_multiplier_ = std::stoi(multiplier);
+}
+
+void PatternBuilder::set_nth_pattern_addend(const std::string& addend)
+{
+  this->nth_addend_ = std::stoi(addend);
+}
+
 void PatternBuilder::reset()
 {
   this->bf_ = nullptr;
@@ -91,6 +127,8 @@ void PatternBuilder::reset()
   this->attr_regex_ = "";
   this->cap_var_ = "";
   this->cap_regex_ = boost::none;
+  this->nth_multiplier_ = 0;
+  this->nth_addend_ = -1;
 }
 
 void PatternBuilder::consume_match_pattern()

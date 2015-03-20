@@ -34,6 +34,36 @@
     )
   );
 
+  nth_pattern = (
+    (
+      [0-9]+
+      >{ LX_TK_START; }
+      %{ LX_TK_STOP; rule.pattern().set_nth_pattern_multiplier(tok); }
+    )
+    (
+      'n'
+      %{ // '2n' must behave the same as '2n+0'.
+         rule.pattern().set_nth_pattern_addend("0");
+       }
+      (
+        '+'
+        (
+          [0-9]+
+          >{ LX_TK_START; }
+          %{ LX_TK_STOP; rule.pattern().set_nth_pattern_addend(tok); }
+        )
+      )?
+    )?
+  );
+
+  trait = (
+    ':'
+    (
+      ( 'nth-child(' nth_pattern ')' )
+      %{ rule.pattern().consume_trait_nth_child(); }
+    )
+  );
+
   attributes = 
     (
       space+ 
@@ -142,6 +172,7 @@
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
         )?
+        trait?
         attributes?
         (
           '>' %{ rule.set_closed(true); }

@@ -12,6 +12,7 @@
 #include "hext/pattern/BuiltinMatch.h"
 #include "hext/pattern/AttributeCapture.h"
 #include "hext/pattern/BuiltinCapture.h"
+#include "hext/pattern/NthChildMatch.h"
 
 #include <string>
 #include <memory>
@@ -40,12 +41,17 @@ public:
   /// Move all previously created CapturePatterns to caller.
   std::vector<std::unique_ptr<CapturePattern>> get_capturep_and_reset();
 
+  /// Consume an NthChildMatch trait.
+  void consume_trait_nth_child();
+
   bool set_builtin_function(const std::string& bi);
   void set_attr_name(const std::string& attribute_name);
   void set_attr_literal(const std::string& attribute_literal);
   void set_attr_regex(const std::string& attribute_regex);
   void set_cap_var(const std::string& capture_var);
   void set_cap_regex(const std::string& capture_regex);
+  void set_nth_pattern_multiplier(const std::string& multiplier);
+  void set_nth_pattern_addend(const std::string& addend);
 
 private:
   /// Reset all members to their original state.
@@ -63,6 +69,8 @@ private:
   boost::regex attr_regex_;
   std::string cap_var_;
   boost::optional<boost::regex> cap_regex_;
+  int nth_multiplier_;
+  int nth_addend_;
   std::vector<std::unique_ptr<MatchPattern>> mp_;
   std::vector<std::unique_ptr<CapturePattern>> cp_;
 };

@@ -138,11 +138,37 @@ _match:
   }
 	break;
 	case 2:
-#line 46 "hext-machine.rl"
+#line 40 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 3:
-#line 47 "hext-machine.rl"
+#line 41 "hext-machine.rl"
+	{ LX_TK_STOP; rule.pattern().set_nth_pattern_multiplier(tok); }
+	break;
+	case 4:
+#line 45 "hext-machine.rl"
+	{ // '2n' must behave the same as '2n+0'.
+         rule.pattern().set_nth_pattern_addend("0");
+       }
+	break;
+	case 5:
+#line 52 "hext-machine.rl"
+	{ LX_TK_START; }
+	break;
+	case 6:
+#line 53 "hext-machine.rl"
+	{ LX_TK_STOP; rule.pattern().set_nth_pattern_addend(tok); }
+	break;
+	case 7:
+#line 63 "hext-machine.rl"
+	{ rule.pattern().consume_trait_nth_child(); }
+	break;
+	case 8:
+#line 76 "hext-machine.rl"
+	{ LX_TK_START; }
+	break;
+	case 9:
+#line 77 "hext-machine.rl"
 	{ LX_TK_STOP;
                  {
                    if( !rule.pattern().set_builtin_function(tok) )
@@ -150,99 +176,99 @@ _match:
                  }
               }
 	break;
-	case 4:
-#line 57 "hext-machine.rl"
+	case 10:
+#line 87 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 5:
-#line 58 "hext-machine.rl"
+	case 11:
+#line 88 "hext-machine.rl"
 	{ LX_TK_STOP; rule.pattern().set_attr_name(tok); }
 	break;
-	case 6:
-#line 67 "hext-machine.rl"
+	case 12:
+#line 97 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 7:
-#line 68 "hext-machine.rl"
+	case 13:
+#line 98 "hext-machine.rl"
 	{ LX_TK_STOP; rule.pattern().set_cap_var(tok); }
 	break;
-	case 8:
-#line 73 "hext-machine.rl"
+	case 14:
+#line 103 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 9:
-#line 74 "hext-machine.rl"
+	case 15:
+#line 104 "hext-machine.rl"
 	{ LX_TK_STOP;
                                try{ rule.pattern().set_cap_regex(tok); }
                                catch( const boost::regex_error& e )
                                { this->throw_regex_error(tok, e.code()); }
                              }
 	break;
-	case 10:
-#line 89 "hext-machine.rl"
+	case 16:
+#line 119 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 11:
-#line 90 "hext-machine.rl"
+	case 17:
+#line 120 "hext-machine.rl"
 	{ LX_TK_STOP;
                                  try{ rule.pattern().set_attr_regex(tok); }
                                  catch( const boost::regex_error& e )
                                  { this->throw_regex_error(tok, e.code()); }
                                }
 	break;
-	case 12:
-#line 102 "hext-machine.rl"
+	case 18:
+#line 132 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 13:
-#line 103 "hext-machine.rl"
+	case 19:
+#line 133 "hext-machine.rl"
 	{ LX_TK_STOP;
                                    rule.pattern().set_attr_literal(tok); }
 	break;
-	case 14:
-#line 111 "hext-machine.rl"
+	case 20:
+#line 141 "hext-machine.rl"
 	{ rule.pattern().consume_and_reset(); }
 	break;
-	case 15:
-#line 120 "hext-machine.rl"
+	case 21:
+#line 150 "hext-machine.rl"
 	{ rule.increment_indent(); }
 	break;
-	case 16:
-#line 123 "hext-machine.rl"
+	case 22:
+#line 153 "hext-machine.rl"
 	{ rule_start = true; }
 	break;
-	case 17:
-#line 126 "hext-machine.rl"
+	case 23:
+#line 156 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
-	case 18:
-#line 130 "hext-machine.rl"
+	case 24:
+#line 160 "hext-machine.rl"
 	{ rule.set_nth_child(0); }
 	break;
-	case 19:
-#line 134 "hext-machine.rl"
+	case 25:
+#line 164 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 20:
-#line 135 "hext-machine.rl"
+	case 26:
+#line 165 "hext-machine.rl"
 	{ LX_TK_STOP;
                          rule.set_nth_child(std::stoi(tok)); }
 	break;
-	case 21:
-#line 140 "hext-machine.rl"
+	case 27:
+#line 170 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
-	case 22:
-#line 141 "hext-machine.rl"
+	case 28:
+#line 171 "hext-machine.rl"
 	{ LX_TK_STOP;
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
 	break;
-	case 23:
-#line 147 "hext-machine.rl"
+	case 29:
+#line 178 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-#line 245 "Parser.cpp.tmp"
+#line 271 "Parser.cpp.tmp"
 		}
 	}
 
@@ -278,11 +304,11 @@ _again:
     }
   }
 	break;
-	case 24:
-#line 154 "hext-machine.rl"
+	case 30:
+#line 185 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 285 "Parser.cpp.tmp"
+#line 311 "Parser.cpp.tmp"
 		}
 	}
 	}
