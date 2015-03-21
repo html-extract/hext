@@ -162,6 +162,16 @@
           );
          }
       )
+      |
+      (
+        ( 'only-child' )
+        %{
+          rule.pattern().set_nth_pattern_multiplier("1");
+          rule.pattern().consume_trait_nth_child();
+          rule.pattern().set_nth_pattern_multiplier("1");
+          rule.pattern().consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
+         }
+      )
     )
   );
 
