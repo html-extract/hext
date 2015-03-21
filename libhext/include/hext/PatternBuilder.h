@@ -43,7 +43,9 @@ public:
   std::vector<std::unique_ptr<CapturePattern>> get_capturep_and_reset();
 
   /// Consume an NthChildMatch trait.
-  void consume_trait_nth_child();
+  void consume_trait_nth_child(
+    NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front
+  );
 
   /// Consume an EmptyMatch trait.
   void consume_trait_empty();

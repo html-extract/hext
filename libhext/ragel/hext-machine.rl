@@ -60,20 +60,35 @@
     ':'
     (
       (
-        ( 'nth-child(' nth_pattern ')' )
-        %{ rule.pattern().consume_trait_nth_child(); }
-      )
-      |
-      (
         ( 'empty' )
         %{ rule.pattern().consume_trait_empty(); }
       )
       |
       (
+        ( 'nth-child(' nth_pattern ')' )
+        %{ rule.pattern().consume_trait_nth_child(); }
+      )
+      |
+      (
+        ( 'nth-last-child(' nth_pattern ')' )
+        %{
+          rule.pattern().consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
+         }
+      )
+      |
+      (
         ( 'first-child' )
         %{
-           rule.pattern().set_nth_pattern_multiplier("1");
-           rule.pattern().consume_trait_nth_child();
+          rule.pattern().set_nth_pattern_multiplier("1");
+          rule.pattern().consume_trait_nth_child();
+         }
+      )
+      |
+      (
+        ( 'last-child' )
+        %{
+          rule.pattern().set_nth_pattern_multiplier("1");
+          rule.pattern().consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
          }
       )
     )

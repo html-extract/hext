@@ -50,7 +50,7 @@ PatternBuilder::get_capturep_and_reset()
   return std::move(vec);
 }
 
-void PatternBuilder::consume_trait_nth_child()
+void PatternBuilder::consume_trait_nth_child(NthChildMatch::OffsetOf offset_of)
 {
   // If nth_addend_ hasn't been set yet, use nth_multiplier_ as the shift
   // argument to NthChildMatch. This makes lexing easier.
@@ -59,7 +59,8 @@ void PatternBuilder::consume_trait_nth_child()
     this->mp_.push_back(
       MakeUnique<NthChildMatch>(
         0,
-        this->nth_multiplier_
+        this->nth_multiplier_,
+        offset_of
       )
     );
   }
@@ -68,7 +69,8 @@ void PatternBuilder::consume_trait_nth_child()
     this->mp_.push_back(
       MakeUnique<NthChildMatch>(
         this->nth_multiplier_,
-        this->nth_addend_
+        this->nth_addend_,
+        offset_of
       )
     );
   }

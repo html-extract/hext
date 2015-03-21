@@ -10,14 +10,26 @@
 namespace hext {
 
 
-/// An NthChildMatch is a MatchPattern that matches if a node's index within
+/// An NthChildMatch is a MatchPattern that matches if a node's position within
 /// its parent node is in set {step * n + shift}.
 class NthChildMatch : public MatchPattern
 {
 public:
-  /// Construct an NthChildMatch that matches if a node's index within its
-  /// parent node is in set {step * n + shift}.
-  NthChildMatch(int step, int shift);
+  /// Flag to specify how to determine a node's position within its parent.
+  enum OffsetOf
+  {
+    /// Start counting from the first child.
+    Front = 1 << 0,
+    /// Start counting from the last child.
+    Back  = 1 << 1
+  };
+
+  /// Construct an NthChildMatch that matches if a node's position within its
+  /// parent node is in set {step * n + shift}. offset_of decides the direction
+  /// from which to start counting: OffsetOf::Front starts counting from
+  /// the first child (default), OffsetOf::Back counts backwards from the last
+  /// child.
+  NthChildMatch(int step, int shift, OffsetOf offset_of = OffsetOf::Front);
 
   /// Return MatchResult(true, nullptr) if node matches. Second member is
   /// always nullptr.
@@ -26,6 +38,7 @@ public:
 private:
   const int step_;
   const int shift_;
+  const OffsetOf offset_of_;
 };
 
 
