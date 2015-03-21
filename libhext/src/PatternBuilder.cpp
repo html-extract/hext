@@ -79,6 +79,9 @@ void PatternBuilder::consume_trait_nth_child(
       )
     );
   }
+
+  this->nth_multiplier_ = 0;
+  this->nth_addend_ = -1;
 }
 
 void PatternBuilder::consume_trait_child_count(const std::string& child_count)
