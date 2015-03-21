@@ -81,8 +81,7 @@ std::string GetNodeRawText(const GumboNode * node)
   const GumboVector * children = &node->v.element.children;
   for(unsigned int i = 0; i < children->length; ++i)
   {
-    const GumboNode * child_node =
-      static_cast<const GumboNode *>(children->data[i]);
+    auto child_node = static_cast<const GumboNode *>(children->data[i]);
     assert(child_node != nullptr);
 
     if( child_node->type == GUMBO_NODE_TEXT )
