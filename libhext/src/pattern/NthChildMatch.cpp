@@ -13,6 +13,9 @@ NthChildMatch::NthChildMatch(int step, int shift, OffsetOf offset_of)
 
 MatchResult NthChildMatch::matches(const GumboNode * node) const
 {
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return MatchResult(false, nullptr);
+
   int node_pos = 0;
   if( this->offset_of_ == OffsetOf::Front )
     node_pos = GetNodePositionWithinParent(node);
