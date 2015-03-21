@@ -54,7 +54,7 @@ TEST(String_IsSpace, DidntChangeBehaviour)
 
   for(int i = c_min; i <= c_max; ++i)
   {
-    bool is_space = hext::IsSpace(i);
+    bool is_space = hext::IsSpace(static_cast<char>(i));
     bool expected = std::find(
       allowed_spaces.begin(),
       allowed_spaces.end(),
@@ -71,7 +71,7 @@ TEST(String_GetCharName, DidntChangeBehaviour)
 
   for(int i = c_min; i <= c_max; ++i)
   {
-    std::string char_name = hext::GetCharName(i);
+    std::string char_name = hext::GetCharName(static_cast<char>(i));
     ASSERT_TRUE(char_name.size());
     if( char_name.size() > 1 )
     {
@@ -181,7 +181,7 @@ TEST(String_PrintWithLineNumbers, Lines)
     "7: sentence\n"
     "8: \n";
 
-  int line_count = std::count(begin, end, '\n');
+  int line_count = static_cast<int>(std::count(begin, end, '\n'));
   int number_width = hext::GetDecNumberWidth(line_count);
   std::stringstream ss;
   hext::PrintWithLineNumbers(begin, end, number_width, ss);
