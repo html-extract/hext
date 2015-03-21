@@ -61,7 +61,19 @@
     (
       (
         ( 'empty' )
-        %{ rule.pattern().consume_trait_empty(); }
+        %{ rule.pattern().consume_trait_child_count("0"); }
+      )
+      |
+      (
+        (
+          'child-count('
+          (
+            [0-9]+
+            >{ LX_TK_START; }
+            %{ LX_TK_STOP; rule.pattern().consume_trait_child_count(tok); }
+          )
+          ')'
+        )
       )
       |
       (

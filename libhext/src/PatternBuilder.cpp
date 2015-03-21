@@ -81,9 +81,11 @@ void PatternBuilder::consume_trait_nth_child(
   }
 }
 
-void PatternBuilder::consume_trait_empty()
+void PatternBuilder::consume_trait_child_count(const std::string& child_count)
 {
-  this->mp_.push_back(MakeUnique<EmptyMatch>());
+  this->mp_.push_back(
+    MakeUnique<ChildCountMatch>(std::stoi(child_count))
+  );
 }
 
 bool PatternBuilder::set_builtin_function(const std::string& bi)

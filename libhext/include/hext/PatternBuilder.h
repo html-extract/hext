@@ -8,7 +8,7 @@
 #include "hext/pattern/BuiltinCapture.h"
 #include "hext/pattern/BuiltinMatch.h"
 #include "hext/pattern/CapturePattern.h"
-#include "hext/pattern/EmptyMatch.h"
+#include "hext/pattern/ChildCountMatch.h"
 #include "hext/pattern/LiteralTest.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NthChildMatch.h"
@@ -50,8 +50,8 @@ public:
     GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
 
-  /// Consume an EmptyMatch trait.
-  void consume_trait_empty();
+  /// Consume a ChildCountMatch trait.
+  void consume_trait_child_count(const std::string& child_count);
 
   bool set_builtin_function(const std::string& bi);
   void set_attr_name(const std::string& attribute_name);
