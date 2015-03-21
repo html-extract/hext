@@ -16,7 +16,7 @@ class ChildCountMatch : public MatchPattern
 public:
   /// Construct a ChildCountMatch that matches nodes with a child_count amount
   /// of children. If child_count is negative, child_count_ will be set to zero.
-  ChildCountMatch(int child_count);
+  explicit ChildCountMatch(int child_count);
 
   /// Return MatchResult<true, nullptr> if node has child_count children.
   /// Second member is always nullptr.
