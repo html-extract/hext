@@ -14,16 +14,6 @@ BuiltinFuncPtr GetBuiltinByName(const std::string& builtin_name)
   return nullptr;
 }
 
-std::string GetNameByBuiltin(BuiltinFuncPtr f)
-{
-  if( f == GetNodeText )
-    return "text";
-  else if( f == GetNodeInnerHtml )
-    return "inner_html";
-
-  return "unknown-builtin";
-}
-
 
 } // namespace hext
 

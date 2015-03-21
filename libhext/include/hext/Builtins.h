@@ -20,10 +20,6 @@ typedef std::string (*BuiltinFuncPtr)(const GumboNode *);
 /// Return nullptr for unknown builtin.
 BuiltinFuncPtr GetBuiltinByName(const std::string& builtin_name);
 
-/// Return the name of the builtin which is pointed to by f.
-/// Return the string "unknown-builtin" for unknown builtin.
-std::string GetNameByBuiltin(BuiltinFuncPtr f);
-
 
 } // namespace hext
 
