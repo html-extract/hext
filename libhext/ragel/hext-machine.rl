@@ -77,6 +77,16 @@
       )
       |
       (
+        ( 'nth-of-type(' nth_pattern ')' )
+        %{
+          rule.pattern().consume_trait_nth_child(
+            NthChildMatch::OffsetOf::Front,
+            rule.tag()
+          );
+         }
+      )
+      |
+      (
         ( 'first-child' )
         %{
           rule.pattern().set_nth_pattern_multiplier("1");
@@ -100,6 +110,27 @@
         %{
           rule.pattern().set_nth_pattern_multiplier("1");
           rule.pattern().consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
+         }
+      )
+      |
+      (
+        ( 'last-of-type' )
+        %{
+          rule.pattern().set_nth_pattern_multiplier("1");
+          rule.pattern().consume_trait_nth_child(
+            NthChildMatch::OffsetOf::Back,
+            rule.tag()
+          );
+         }
+      )
+      |
+      (
+        ( 'nth-last-of-type(' nth_pattern ')' )
+        %{
+          rule.pattern().consume_trait_nth_child(
+            NthChildMatch::OffsetOf::Back,
+            rule.tag()
+          );
          }
       )
     )
