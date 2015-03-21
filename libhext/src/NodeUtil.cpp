@@ -10,19 +10,18 @@ unsigned int GetNodePositionWithinParent(const GumboNode * node)
     return 0;
 
   const GumboNode * parent = node->parent;
-
   if( !parent || parent->type != GUMBO_NODE_ELEMENT )
     return 0;
 
   unsigned int pos = 0;
   const GumboVector& child_nodes = parent->v.element.children;
+  assert(node->index_within_parent < child_nodes.length);
   // We only have to traverse up to node->index_within_parent, and not the
   // whole GumboVector. node->index_within_parent includes text nodes.
   for(unsigned int i = 0; i <= node->index_within_parent; ++i)
   {
     assert(i < child_nodes.length);
-    const GumboNode * child = 
-      static_cast<const GumboNode *>(child_nodes.data[i]);
+    auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
 
     if( child && child->type == GUMBO_NODE_ELEMENT )
       ++pos;
