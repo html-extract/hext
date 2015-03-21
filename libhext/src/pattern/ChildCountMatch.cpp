@@ -15,7 +15,7 @@ MatchResult ChildCountMatch::matches(const GumboNode * node) const
     return MatchResult(false, nullptr);
 
   return MatchResult(
-    static_cast<unsigned int>(this->child_count_) == node->v.element.children.length,
+    static_cast<unsigned int>(this->child_count_) == GetNodeChildCount(node),
     nullptr
   );
 }

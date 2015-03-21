@@ -34,6 +34,9 @@ unsigned int GetNodePositionWithinParentReverse(
   GumboTag count_tag = GUMBO_TAG_UNKNOWN
 );
 
+/// Count amount of children. Only count children of type GUMBO_NODE_ELEMENT.
+unsigned int GetNodeChildCount(const GumboNode * node);
+
 /// Get node's inner text. Uses hext::trim_and_collapse_ws.
 std::string GetNodeText(const GumboNode * node);
 
