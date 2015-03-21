@@ -50,7 +50,10 @@ PatternBuilder::get_capturep_and_reset()
   return std::move(vec);
 }
 
-void PatternBuilder::consume_trait_nth_child(NthChildMatch::OffsetOf offset_of)
+void PatternBuilder::consume_trait_nth_child(
+  NthChildMatch::OffsetOf offset_of,
+  GumboTag count_tag
+)
 {
   // If nth_addend_ hasn't been set yet, use nth_multiplier_ as the shift
   // argument to NthChildMatch. This makes lexing easier.
@@ -60,6 +63,7 @@ void PatternBuilder::consume_trait_nth_child(NthChildMatch::OffsetOf offset_of)
       MakeUnique<NthChildMatch>(
         0,
         this->nth_multiplier_,
+        count_tag,
         offset_of
       )
     );
@@ -70,6 +74,7 @@ void PatternBuilder::consume_trait_nth_child(NthChildMatch::OffsetOf offset_of)
       MakeUnique<NthChildMatch>(
         this->nth_multiplier_,
         this->nth_addend_,
+        count_tag,
         offset_of
       )
     );

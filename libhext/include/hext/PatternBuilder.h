@@ -18,8 +18,10 @@
 #include <string>
 #include <memory>
 #include <vector>
+
 #include <boost/regex.hpp>
 #include <boost/optional.hpp>
+#include <gumbo.h>
 
 
 namespace hext {
@@ -44,7 +46,8 @@ public:
 
   /// Consume an NthChildMatch trait.
   void consume_trait_nth_child(
-    NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front
+    NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front,
+    GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
 
   /// Consume an EmptyMatch trait.

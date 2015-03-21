@@ -43,6 +43,7 @@ public:
   void set_optional(bool is_optional);
   void set_nth_child(int nth_child);
   void set_closed(bool is_closed);
+  GumboTag tag() const;
 
 private:
   PatternBuilder pattern_builder_;

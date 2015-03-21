@@ -4,7 +4,10 @@
 namespace hext {
 
 
-unsigned int GetNodePositionWithinParent(const GumboNode * node)
+unsigned int GetNodePositionWithinParent(
+  const GumboNode * node,
+  GumboTag count_tag
+)
 {
   if( !node )
     return 0;
@@ -24,7 +27,8 @@ unsigned int GetNodePositionWithinParent(const GumboNode * node)
     auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
 
     if( child && child->type == GUMBO_NODE_ELEMENT )
-      ++pos;
+      if( count_tag == GUMBO_TAG_UNKNOWN || child->v.element.tag == count_tag )
+        ++pos;
 
     if( node == child )
       return pos;
@@ -33,7 +37,10 @@ unsigned int GetNodePositionWithinParent(const GumboNode * node)
   return 0;
 }
 
-unsigned int GetNodePositionWithinParentReverse(const GumboNode * node)
+unsigned int GetNodePositionWithinParentReverse(
+  const GumboNode * node,
+  GumboTag count_tag
+)
 {
   if( !node )
     return 0;
@@ -57,7 +64,8 @@ unsigned int GetNodePositionWithinParentReverse(const GumboNode * node)
 
     assert(child != nullptr);
     if( child && child->type == GUMBO_NODE_ELEMENT )
-      ++pos;
+      if( count_tag == GUMBO_TAG_UNKNOWN || child->v.element.tag == count_tag )
+        ++pos;
 
     if( node == child )
       return pos;

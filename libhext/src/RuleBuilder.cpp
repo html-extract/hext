@@ -105,6 +105,11 @@ void RuleBuilder::set_closed(bool is_closed)
   this->is_closed_ = is_closed;
 }
 
+GumboTag RuleBuilder::tag() const
+{
+  return this->gumbo_tag_;
+}
+
 
 } // namespace hext
 
