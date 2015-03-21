@@ -18,18 +18,18 @@ namespace hext {
 class ResultTree;
 
 /// A Rule represents a source line from the hext input.
-/// Generally: <is_optional?(dd|nth_child)?tag_name? rule_pattern*>
-///   Example: <!2div id="container" class="list">
+/// Generally: <is_optional?dd?tag_name?:trait? rule_pattern*>
+///   Example: <!div id="container" class="list">
 ///
 /// A Rule matches an html-node if all its attributes are satisfied:
 ///  * is_optional: Ignored while matching. When ResultTree::filter is called,
 ///    invalid ResultTree branches are removed, unless this flag is set.
-///  * nth_child or direct_descendant: Matches if the node is a direct
-///    descendant of its parent. If nth_child is given, it must match the index
-///    within its parent node (the index is determined by ignoring text-nodes,
-///    see node-util's GetNodePositionWithinParent)
+///  * direct_descendant: If a Rule is a direct descendant, it can only be
+///    matched if its immediate parent Rule was matched.
 ///  * gumbo_tag: The tag_name of the rule, as parsed by gumbo. Matches if the
 ///    node's tag is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
+///  * trait: Traits describe the node that must match. For example:
+///    :nth-child(2n), :last-child. Traits are stored as MatchPatterns.
 ///  * RulePatterns: If the rule is closed,
 ///    RulePatterns::matches_all_attributes() must return true. If the Rule is
 ///    not optional, RulePatterns::matches() must return true.
@@ -45,7 +45,7 @@ public:
   Rule(
     GumboTag gumbo_tag,
     bool is_optional,
-    int nth_child,
+    bool is_direct_descendant,
     bool closed,
     RulePatterns&& r_patterns
   );
@@ -106,12 +106,9 @@ private:
   /// A rule is optional if it does not participate in validation.
   const bool is_optional_;
 
-  /// If nth_child_ is greater than zero, html-nodes matching this rule must
-  /// match the index within its parent node (the index is determined by
-  /// ignoring text-nodes, see node-util's GetNodePositionWithinParent).
-  /// Else, if nth_child_ is less than one, html-nodes matching this rule must
-  /// be a direct descendant of their parents.
-  const int nth_child_;
+  /// If a Rule is a direct descendant, it can only be matched if its immediate
+  /// parent Rule was matched.
+  const int is_direct_descendant_;
 
   /// If a rule is closed, html-nodes matching this rule must have all
   /// attributes specified in the rule definition, but no more.

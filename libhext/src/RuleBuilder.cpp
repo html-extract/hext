@@ -10,7 +10,7 @@ RuleBuilder::RuleBuilder()
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)
-, nth_child_(-1)
+, is_direct_descendant_(false)
 , is_closed_(false)
 {
 }
@@ -30,7 +30,7 @@ void RuleBuilder::reset()
   this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
   this->indent_ = 0;
   this->is_closed_ = false;
-  this->nth_child_ = -1;
+  this->is_direct_descendant_ = false;
   this->is_optional_ = false;
 }
 
@@ -39,7 +39,7 @@ void RuleBuilder::consume_and_reset()
   Rule r(
     this->gumbo_tag_,
     this->is_optional_,
-    this->nth_child_,
+    this->is_direct_descendant_,
     this->is_closed_,
     RulePatterns(
       std::move(this->pattern_builder_.get_matchp_and_reset()),
@@ -93,11 +93,9 @@ void RuleBuilder::set_optional(bool is_optional)
   this->is_optional_ = is_optional;
 }
 
-void RuleBuilder::set_nth_child(int nth_child)
+void RuleBuilder::set_direct_descendant(bool is_direct_descendant)
 {
-  if( nth_child < -1 )
-    nth_child = -1;
-  this->nth_child_ = nth_child;
+  this->is_direct_descendant_ = is_direct_descendant;
 }
 
 void RuleBuilder::set_closed(bool is_closed)

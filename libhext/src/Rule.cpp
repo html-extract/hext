@@ -8,7 +8,7 @@ namespace hext {
 Rule::Rule(
   GumboTag tag,
   bool is_optional,
-  int nth_child,
+  bool is_direct_descendant,
   bool closed,
   RulePatterns&& r_patterns
 )
@@ -16,7 +16,7 @@ Rule::Rule(
 , patterns_(std::move(r_patterns))
 , gumbo_tag_(tag)
 , is_optional_(is_optional)
-, nth_child_(nth_child)
+, is_direct_descendant_(is_direct_descendant)
 , is_closed_(closed)
 {
 }
@@ -64,9 +64,8 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
   }
   else
   {
-    // if this rule is a direct descendant, and it didn't match,
-    // all child-rules cannot be matched either.
-    if( this->nth_child_ == -1 )
+    // Only continue matching if this Rule is not a direct descendant.
+    if( !this->is_direct_descendant_ )
       this->extract_node_children(node, rt);
   }
 }
@@ -79,13 +78,6 @@ bool Rule::matches(const GumboNode * node) const
   if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
     if( node->v.element.tag != this->gumbo_tag_ )
       return false;
-
-  if( this->nth_child_ > 0 )
-  {
-    unsigned int pos = GetNodePositionWithinParent(node);
-    if( pos != static_cast<unsigned int>(this->nth_child_) )
-      return false;
-  }
 
   if( this->is_closed_ )
     return this->patterns_.matches_all_attributes(node);

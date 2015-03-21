@@ -17,7 +17,6 @@
     }
   }
 
-  nth_child = ( [1-9][0-9]** );
   attr_name = ( alpha (alnum | '-' | '_')** );
   builtin_name = ( alpha (alnum | '-' | '_')** );
   cap_var = ( [^/{}][^/{}]** );
@@ -258,15 +257,7 @@
           '?' %{ rule.set_optional(true); }
         )?
         (
-          (
-            '!' %{ rule.set_nth_child(0); }
-          )
-          |
-          (
-            nth_child >{ LX_TK_START; }
-                      %{ LX_TK_STOP;
-                         rule.set_nth_child(std::stoi(tok)); }
-          )
+          '!' %{ rule.set_direct_descendant(true); }
         )?
         (
           attr_name >{ LX_TK_START; }
