@@ -265,7 +265,7 @@
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
         )?
-        trait?
+        trait*
         attributes?
         (
           '>' %{ rule.set_closed(true); }
