@@ -34,6 +34,39 @@ unsigned int GetNodePositionWithinParent(const GumboNode * node)
   return 0;
 }
 
+unsigned int GetNodePositionWithinParentReverse(const GumboNode * node)
+{
+  if( !node )
+    return 0;
+
+  const GumboNode * parent = node->parent;
+  if( !parent || parent->type != GUMBO_NODE_ELEMENT )
+    return 0;
+
+  const GumboVector& child_nodes = parent->v.element.children;
+  if( !child_nodes.length )
+    return 0;
+
+  assert(node->index_within_parent < child_nodes.length);
+  unsigned int pos = 0;
+  // We only have to traverse down to node->index_within_parent, and not the
+  // whole GumboVector. node->index_within_parent includes text nodes.
+  for(unsigned int i = child_nodes.length; i-- > node->index_within_parent; )
+  {
+    assert(i > 0 && i < child_nodes.length);
+    auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
+
+    assert(child != nullptr);
+    if( child && child->type == GUMBO_NODE_ELEMENT )
+      ++pos;
+
+    if( node == child )
+      return pos;
+  }
+
+  return 0;
+}
+
 std::string GetNodeText(const GumboNode * node)
 {
   return TrimAndCollapseWs(GetNodeRawText(node));

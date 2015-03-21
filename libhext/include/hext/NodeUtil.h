@@ -18,6 +18,10 @@ namespace hext {
 /// GUMBO_NODE_ELEMENT. First node has position 1. Returns 0 if no parent.
 unsigned int GetNodePositionWithinParent(const GumboNode * node);
 
+/// Get the position of node within its parent in reverse. Only counts nodes of
+/// type GUMBO_NODE_ELEMENT. Last node has position 1. Returns 0 if no parent.
+unsigned int GetNodePositionWithinParentReverse(const GumboNode * node);
+
 /// Get node's inner text. Uses hext::trim_and_collapse_ws.
 std::string GetNodeText(const GumboNode * node);
 
