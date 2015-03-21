@@ -53,7 +53,7 @@ unsigned int GetNodePositionWithinParentReverse(const GumboNode * node)
   // whole GumboVector. node->index_within_parent includes text nodes.
   for(unsigned int i = child_nodes.length; i-- > node->index_within_parent; )
   {
-    assert(i > 0 && i < child_nodes.length);
+    assert(i < child_nodes.length);
     auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
 
     assert(child != nullptr);
