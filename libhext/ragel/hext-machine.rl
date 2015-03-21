@@ -36,24 +36,42 @@
 
   nth_pattern = (
     (
-      [0-9]+
-      >{ LX_TK_START; }
-      %{ LX_TK_STOP; rule.pattern().set_nth_pattern_multiplier(tok); }
-    )
-    (
-      'n'
-      %{ // '2n' must behave the same as '2n+0'.
-         rule.pattern().set_nth_pattern_addend("0");
+      'even'
+      %{
+        rule.pattern().set_nth_pattern_multiplier("2");
+        rule.pattern().set_nth_pattern_addend("0");
        }
+    )
+    |
+    (
+      'odd'
+      %{
+        rule.pattern().set_nth_pattern_multiplier("2");
+        rule.pattern().set_nth_pattern_addend("1");
+       }
+    )
+    |
+    (
       (
-        '+'
+        [0-9]+
+        >{ LX_TK_START; }
+        %{ LX_TK_STOP; rule.pattern().set_nth_pattern_multiplier(tok); }
+      )
+      (
+        'n'
+        %{ // '2n' must behave the same as '2n+0'.
+           rule.pattern().set_nth_pattern_addend("0");
+         }
         (
-          [0-9]+
-          >{ LX_TK_START; }
-          %{ LX_TK_STOP; rule.pattern().set_nth_pattern_addend(tok); }
-        )
+          '+'
+          (
+            [0-9]+
+            >{ LX_TK_START; }
+            %{ LX_TK_STOP; rule.pattern().set_nth_pattern_addend(tok); }
+          )
+        )?
       )?
-    )?
+    )
   );
 
   trait = (
