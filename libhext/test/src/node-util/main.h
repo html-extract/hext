@@ -61,6 +61,29 @@ TEST(Node_GetNodePositionWithinParent_AndReverse, Position)
   }
 }
 
+TEST(Node_GetNodeChildCount, Nullptr)
+{
+  EXPECT_EQ(hext::GetNodeChildCount(nullptr), 0);
+}
+
+TEST(Node_GetNodeChildCount, ChildCount)
+{
+  const char * html = R"(
+      This
+    <div>is</div>
+    <span>a</span>
+      string
+    <div>all</div>
+    <span>over</span>
+      the
+      place
+  )";
+
+  helper::Html h(html);
+  const GumboNode * body = h.body();
+  EXPECT_EQ(hext::GetNodeChildCount(body), 4);
+}
+
 TEST(Node_GetNodeText, NiceTextAndRawText)
 {
   const char * html = R"html(
