@@ -12,6 +12,7 @@
 #include "pattern/literal-test.h"
 #include "pattern/nthchild-match.h"
 #include "pattern/regex-test.h"
+#include "pattern/value-test.h"
 
 
 int main(int argc, char ** argv)
