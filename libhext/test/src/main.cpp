@@ -5,6 +5,7 @@
 #include "node-util/main.h"
 #include "parser/main.h"
 #include "pattern/attribute-capture.h"
+#include "pattern/attribute-match.h"
 
 
 int main(int argc, char ** argv)
