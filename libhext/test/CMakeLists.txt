@@ -14,7 +14,13 @@ INCLUDE(HextEnableWarnings)
 
 
 ###### DEPENDENCIES ############################################################
-ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
+# Avoid circular dependeny by only loading libhext if it wasn't included
+# already.
+IF(NOT LIBHEXT_LOADED)
+  # Tell libhext that libhext-test is already loaded
+  SET(LIBHEXT_TEST_LOADED "true")
+  ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
+ENDIF(NOT LIBHEXT_LOADED)
 INCLUDE(HextExternalProjectGoogleTest)
 
 
@@ -33,4 +39,10 @@ TARGET_LINK_LIBRARIES(
   hext
   gtest
   pthread)
+
+
+###### TESTING #################################################################
+ENABLE_TESTING()
+ADD_TEST("LIBHEXT_GTEST" html-extract-test)
+
 

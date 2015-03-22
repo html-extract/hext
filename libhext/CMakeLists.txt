@@ -18,6 +18,7 @@ INCLUDE(HextEnableWarnings)
 # If build type was not specified, build Release.
 INCLUDE(HextDefaultBuildRelease)
 
+
 ###### VERSION #################################################################
 SET(PROJECT_VERSION_MAJOR 0)
 SET(PROJECT_VERSION_MINOR 1)
@@ -77,9 +78,20 @@ INSTALL(TARGETS hext DESTINATION lib)
 INSTALL(DIRECTORY include/hext DESTINATION include)
 
 
-###### BUILD OPTIONS ###########################################################
+###### TEST ####################################################################
+ENABLE_TESTING()
+# Avoid circular dependency by telling libhext-test that libhext is already
+# loaded. Libhext-test depends on libhext.
+SET(LIBHEXT_LOADED "true")
+# Only load libhext-test if it wasn't included already.
+IF(NOT LIBHEXT_TEST_LOADED)
+  ADD_SUBDIRECTORY("test/")
+ENDIF(NOT LIBHEXT_TEST_LOADED)
 
+
+###### BUILD OPTIONS ###########################################################
 # Option RUNRAGEL, default OFF
 # Call run_ragel.sh to generate the parser.
 INCLUDE(HextOptionRunRagel)
+
 
