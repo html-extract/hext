@@ -23,7 +23,8 @@ public:
 
   ~Html()
   {
-    gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
+    if( this->g_outp_)
+      gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
   }
 
   const GumboNode * root() const
