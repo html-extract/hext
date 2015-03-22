@@ -11,6 +11,7 @@
 #include "pattern/childcount-match.h"
 #include "pattern/literal-test.h"
 #include "pattern/nthchild-match.h"
+#include "pattern/regex-test.h"
 
 
 int main(int argc, char ** argv)
