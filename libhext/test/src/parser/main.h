@@ -16,6 +16,9 @@ TEST(Parser, Throws)
 {
   const char * strs[] = {
     "<unknown_html_tag",
+    "<:unknown_trait",
+    "<:nth-child()",
+    "<:nth-child(n)",
     " <",
     "<0",
     "<0a",
