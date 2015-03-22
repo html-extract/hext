@@ -10,6 +10,7 @@
 #include "pattern/builtin-match.h"
 #include "pattern/childcount-match.h"
 #include "pattern/literal-test.h"
+#include "pattern/nthchild-match.h"
 
 
 int main(int argc, char ** argv)
