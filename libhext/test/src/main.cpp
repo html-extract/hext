@@ -7,6 +7,7 @@
 #include "pattern/attribute-capture.h"
 #include "pattern/attribute-match.h"
 #include "pattern/builtin-capture.h"
+#include "pattern/builtin-match.h"
 
 
 int main(int argc, char ** argv)
