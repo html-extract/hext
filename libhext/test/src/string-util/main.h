@@ -118,7 +118,7 @@ TEST(String_GetCharPosition, Position)
   int char_count = 0;
   int line_count = 0;
 
-  for(const char * c = begin; c < end; ++c)
+  for(const char * c = begin; c != end; ++c)
   {
     EXPECT_EQ(hext::GetCharPosition(c, begin, end), hext::CharPosPair(line_count, char_count));
     char_count++;
