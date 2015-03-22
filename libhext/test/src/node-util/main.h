@@ -1,5 +1,6 @@
 #include "hext/NodeUtil.h"
 #include "test-helper/html.h"
+#include "test-helper/node.h"
 
 #include <string>
 
@@ -9,21 +10,22 @@
 namespace {
 
 
-TEST(Node_GetNodePositionWithinParent, Position)
+TEST(Node_GetNodePositionWithinParent_AndReverse, Position)
 {
+  using helper::attr_value;
+  using helper::tag;
+
   // Test html with expected node position as attribute 'pos'.
-  const char * pos_html = R"html(
-<html><head></head><body>
-  This
-  <div pos="1">is</div>
-  <div pos="2">a</div>
-  string
-  <div pos="3">all</div>
-  <div pos="4">over</div>
-  the
-  place
-</body></html>
-)html";
+  const char * pos_html = R"(
+      This
+    <div  pos="1" pos-div="1">is</div>
+    <span pos="2" pos-span="1">a</span>
+      string
+    <div  pos="3" pos-div="2">all</div>
+    <span pos="4" pos-span="2">over</span>
+      the
+      place
+  )";
 
   helper::Html h(pos_html);
   const GumboNode * body = h.body();
@@ -35,19 +37,26 @@ TEST(Node_GetNodePositionWithinParent, Position)
   // returns the same value, as the attribute "pos".
   for(unsigned int i = 0; i < body_children.length; ++i)
   {
-    const GumboNode * node = static_cast<const GumboNode *>(
-      body_children.data[i]
-    );
+    auto node = static_cast<const GumboNode *>(body_children.data[i]);
     if( node->type == GUMBO_NODE_ELEMENT )
     {
-      const GumboAttribute * g_attr = gumbo_get_attribute(
-        &node->v.element.attributes,
-        "pos"
+      int pos = std::stoi(attr_value(node, "pos"));
+      EXPECT_EQ(pos,
+          hext::GetNodePositionWithinParent(node));
+      EXPECT_EQ(5 - pos,
+          hext::GetNodePositionWithinParentReverse(node));
+
+      int tag_pos = std::stoi(
+        attr_value(
+          node,
+          ( tag(node) == GUMBO_TAG_SPAN ? "pos-span" : "pos-div" )
+        )
       );
-      ASSERT_TRUE(g_attr);
-      ASSERT_TRUE(g_attr->value);
-      int expected = std::stoi(g_attr->value);
-      EXPECT_EQ(expected, hext::GetNodePositionWithinParent(node));
+
+      EXPECT_EQ(tag_pos,
+        hext::GetNodePositionWithinParent(node, tag(node)));
+      EXPECT_EQ(3 - tag_pos,
+        hext::GetNodePositionWithinParentReverse(node, tag(node)));
     }
   }
 }
