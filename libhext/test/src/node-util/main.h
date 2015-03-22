@@ -83,7 +83,7 @@ formatted   html document.
 
 TEST(Node_GetNodeInnerHtml, Empty)
 {
-  const char * html = "<html><head></head><body>";
+  const char * html = "<html><head></head><body>"
     "</body></html>";
 
   helper::Html h(html);
