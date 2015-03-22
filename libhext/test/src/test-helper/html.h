@@ -14,7 +14,7 @@ namespace helper {
 class Html
 {
 public:
-  Html(const char * str)
+  explicit Html(const char * str)
   : g_outp_(
       gumbo_parse_with_options(&kGumboDefaultOptions, str, std::strlen(str))
     )
@@ -55,6 +55,9 @@ public:
   }
 
 private:
+  Html(const Html&) = delete;
+  Html& operator=(const Html&) = delete;
+
   GumboOutput * g_outp_;
 };
 
