@@ -1,5 +1,5 @@
-###### HTML-EXTRACT-TEST #######################################################
-PROJECT(html-extract-test)
+###### LIBHEXT-TEST ############################################################
+PROJECT(libhext-test)
 
 # Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
@@ -21,6 +21,7 @@ IF(NOT LIBHEXT_LOADED)
   SET(LIBHEXT_TEST_LOADED "true")
   ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
 ENDIF(NOT LIBHEXT_LOADED)
+# Download and build GTest.
 INCLUDE(HextExternalProjectGoogleTest)
 
 
@@ -31,11 +32,11 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/include")
 
 ###### SOURCES #################################################################
 ADD_EXECUTABLE(
-  html-extract-test
+  libhext-test
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
-ADD_DEPENDENCIES(html-extract-test libhext googletest)
+ADD_DEPENDENCIES(libhext-test libhext googletest)
 TARGET_LINK_LIBRARIES(
-  html-extract-test
+  libhext-test
   hext
   gtest
   pthread)
@@ -43,6 +44,6 @@ TARGET_LINK_LIBRARIES(
 
 ###### TESTING #################################################################
 ENABLE_TESTING()
-ADD_TEST("LIBHEXT_GTEST" html-extract-test)
+ADD_TEST("LIBHEXT_GTEST" libhext-test)
 
 
