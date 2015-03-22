@@ -9,6 +9,7 @@
 #include "pattern/builtin-capture.h"
 #include "pattern/builtin-match.h"
 #include "pattern/childcount-match.h"
+#include "pattern/literal-test.h"
 
 
 int main(int argc, char ** argv)
