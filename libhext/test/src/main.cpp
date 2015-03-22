@@ -4,6 +4,7 @@
 #include "builtins/main.h"
 #include "node-util/main.h"
 #include "parser/main.h"
+#include "pattern/attribute-capture.h"
 
 
 int main(int argc, char ** argv)
