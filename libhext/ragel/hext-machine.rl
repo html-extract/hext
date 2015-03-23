@@ -177,7 +177,7 @@
 
   attributes = 
     (
-      space+ 
+      ' '+
       (
         (
           (
