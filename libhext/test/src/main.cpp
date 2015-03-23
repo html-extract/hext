@@ -14,6 +14,7 @@
 #include "pattern/regex-test.h"
 #include "pattern/value-test.h"
 #include "hext/main.h"
+#include "option/main.h"
 
 
 int main(int argc, char ** argv)
