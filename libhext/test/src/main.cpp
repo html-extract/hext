@@ -13,6 +13,7 @@
 #include "pattern/nthchild-match.h"
 #include "pattern/regex-test.h"
 #include "pattern/value-test.h"
+#include "hext/main.h"
 
 
 int main(int argc, char ** argv)
