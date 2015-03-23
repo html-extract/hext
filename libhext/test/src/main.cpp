@@ -15,6 +15,7 @@
 #include "pattern/value-test.h"
 #include "hext/main.h"
 #include "option/main.h"
+#include "version/main.h"
 
 
 int main(int argc, char ** argv)
