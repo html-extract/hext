@@ -280,10 +280,10 @@
         (
           '>' %{ rule.set_closed(true); }
         )?
-      ):>
+      )
       (
         '\n' %act_newline
-      )
+      )?
     )**
     $err(error) $/act_newline $/{ fbreak; };
 }%%
