@@ -1,11 +1,3 @@
-#titlearea {
-  background:url("hext-logo-x60-extended.png") 10px center no-repeat;
-  height:60px;
-}
-#projectname {
-  display:none;
-}
-
 /* The standard CSS for doxygen */
 
 body, table, div, p, dl {
@@ -1168,4 +1160,19 @@ tr.heading h2 {
     display:inline;
   }
 }
+
+/* ######## custom ######## */
+
+#titlearea {
+  background:url("hext-logo-x60-extended.png") 10px center no-repeat;
+  height:60px;
+}
+#projectname {
+  font:20px Tahoma,Arial,sans-serif;
+  padding:2px 0 0 180px;
+}
+#projectnumber {
+  font:18px Tahoma,Arial,sans-serif;
+}
+
 
