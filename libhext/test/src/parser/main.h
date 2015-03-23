@@ -40,7 +40,7 @@ TEST(Parser, Throws)
   for(const char * str : strs)
   {
     hext::Parser p(str, str + strlen(str));
-    EXPECT_THROW(p.parse(), hext::ParseError);
+    EXPECT_THROW(p.parse(), hext::ParseError) << "with hext: " << str;
   }
 }
 
@@ -49,17 +49,17 @@ TEST(Parser, Comment)
   const char * strs[] = {
     "# single comment\n",
     "# multiple comments\n# multiple comments\n# multiple comments\n",
-    "# a comment and\n<a rule\n# and a comment\n",
-    "# a comment and\n<a rule\n # and a comment\n",
-    "# a comment and\n<a rule\n  # and a comment\n",
-    "<a rule\n# and a comment\n",
-    "#a comment and\n<a rule\n"
+    "# a comment and\n<a\n# and a comment\n",
+    "# a comment and\n<a\n # and a comment\n",
+    "# a comment and\n<a\n  # and a comment\n",
+    "<a\n# and a comment\n",
+    "#a comment and\n<a\n"
   };
 
   for(const char * str : strs)
   {
     hext::Parser p(str, str + strlen(str));
-    EXPECT_NO_THROW(p.parse());
+    EXPECT_NO_THROW(p.parse()) << "with hext: " << str;
   }
 }
 
