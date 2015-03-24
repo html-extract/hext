@@ -1291,5 +1291,7 @@ tr.heading h2 {
 .navpath li:last-child a:after {
   content: "";
 }
-
+#MSearchClose {
+  padding:0 !important;
+}
 
