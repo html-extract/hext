@@ -1162,6 +1162,9 @@ tr.heading h2 {
 }
 
 /* ############# libhext custom */
+body {
+  min-width:850px;
+}
 #titlearea {
   background: url("hext-logo-x60-extended.png") no-repeat scroll 10px center #000;
   height:60px;
@@ -1172,19 +1175,24 @@ tr.heading h2 {
   z-index:-99;
   border-bottom:1px solid #69d2e7;
   box-sizing:content-box;
+  min-width:850px;
 }
 #navrow1 {
-  float:left;
   height:60px;
   padding:15px;
+  width:100%;
+  float:left;
 }
-#narvrow1 .tablist li {
-  list-style:none;
+#navrow1 .tablist li:last-child {
+  position:absolute;
+  right:0;
+  width:200px;
 }
 #navrow1 .tablist {
   height: 60px;
   margin: 0 0 0 200px;
   padding: 0;
+  position:relative;
 }
 #navrow1 .tablist li {
   color: #fff;
