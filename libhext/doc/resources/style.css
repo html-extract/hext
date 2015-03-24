@@ -1,17 +1,17 @@
 /* The standard CSS for doxygen */
 
 body, table, div, p, dl {
-	font: 400 14px/19px Roboto,sans-serif;
+	/*font: 400 14px/19px Roboto,sans-serif;*/
 }
 
 /* @group Heading Levels */
 
 h1 {
-	font-size: 150%;
+	/*font-size: 150%;*/
 }
 
 .title {
-	font-size: 150%;
+/*	font-size: 150%;*/
 	font-weight: bold;
 	margin: 10px 2px;
 }
@@ -32,11 +32,11 @@ h3 {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	-webkit-transition: text-shadow 0.5s linear;
+/*	-webkit-transition: text-shadow 0.5s linear;
 	-moz-transition: text-shadow 0.5s linear;
 	-ms-transition: text-shadow 0.5s linear;
 	-o-transition: text-shadow 0.5s linear;
-	transition: text-shadow 0.5s linear;
+	transition: text-shadow 0.5s linear; */
 	margin-right: 15px;
 }
 
@@ -104,7 +104,7 @@ div.navtab {
 
 /* @group Link Styling */
 
-a {
+//*a {
 	color: #3D578C;
 	font-weight: normal;
 	text-decoration: none;
@@ -116,7 +116,7 @@ a {
 
 a:hover {
 	text-decoration: underline;
-}
+}*/
 
 a.qindex {
 	font-weight: bold;
@@ -1161,18 +1161,135 @@ tr.heading h2 {
   }
 }
 
-/* ######## custom ######## */
-
+/* ############# libhext custom */
 #titlearea {
-  background:url("hext-logo-x60-extended.png") 10px center no-repeat;
+  background: url("hext-logo-x60-extended.png") no-repeat scroll 10px center #000;
   height:60px;
+  background-color:#000;
+  float:left;
+  position:absolute;
+  width:100%;
+  z-index:-99;
+  border-bottom:1px solid #69d2e7;
+  box-sizing:content-box;
 }
-#projectname {
-  font:20px Tahoma,Arial,sans-serif;
-  padding:2px 0 0 180px;
+#navrow1 {
+  float:left;
+  height:60px;
+  padding:15px;
 }
-#projectnumber {
-  font:18px Tahoma,Arial,sans-serif;
+#narvrow1 .tablist li {
+  list-style:none;
+}
+#navrow1 .tablist {
+  height: 60px;
+  margin: 0 0 0 200px;
+  padding: 0;
+}
+#navrow1 .tablist li {
+  color: #fff;
+  display: block;
+  float: left;
+  height: 60px;
+}
+#navrow1 .tablist a {
+  color: #fff;
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  padding:5px 20px;
+  border-radius:4px;
+}
+#navrow2,
+#navrow3,
+#navrow4 {
+  border-bottom: 1px solid #69d2e7;
+  padding: 10px;
+}
+#navrow2 .tablist,
+#navrow3 .tablist,
+#navrow4 .tablist {
+  padding:0;
+  margin:0;
+  height:41px;
+}
+#navrow2 .tablist li,
+#navrow3 .tablist li,
+#navrow4 .tablist li {
+  display: block;
+  float: left;
+}
+#navrow2 .tablist a,
+#navrow3 .tablist a,
+#navrow4 .tablist a {
+  display:block;
+  border-radius:4px;
+  padding:10px 15px;
+  font-weight:bold;
+}
+#navrow1 .tablist a:hover,
+#navrow2 .tablist a:hover,
+#navrow3 .tablist a:hover,
+#navrow4 .tablist a:hover {
+  text-decoration:none;
+}
+#navrow1 .tablist li.current a,
+#navrow2 .tablist li.current a,
+#navrow3 .tablist li.current a,
+#navrow4 .tablist li.current a {
+  background-color:#69d2e7;
+  color: #fff;
+}
+#navrow1 .tablist a:after,
+#navrow2 .tablist a:after,
+#navrow3 .tablist a:after,
+#navrow4 .tablist a:after {
+  display: block;
+  content: '';
+  height: 1px;
+  width: 0;
+  background: transparent;
+  transition: width .7s ease, background-color .5s ease;
+}
+#navrow1 .tablist li.current a:after,
+#navrow2 .tablist li.current a:after,
+#navrow3 .tablist li.current a:after,
+#navrow4 .tablist li.current a:after {
+  display:none;
+}
+#navrow1 .tablist a:hover:after {
+  width: 100%;
+  background: #fff;
+}
+#navrow2 .tablist a:hover:after,
+#navrow3 .tablist a:hover:after,
+#navrow4 .tablist a:hover:after {
+  width: 100%;
+  background: #337ab7;
+}
+#navrow2, #navrow3, #navrow4 {
+  clear:both;
+}
+.contents {
+  clear:both;
+}
+.header {
+  display:none;
+}
+.navpath ul, .navpath li {
+  background-image:none;
+  border:none;
+}
+.navpath ul {
+  border-bottom:1px solid #69d2e7;
+}
+.navpath li a:after {
+  content: " » ";
+  font-size: 15px;
+  padding: 0 0 0 20px;
+}
+.navpath li:last-child a:after {
+  content: "";
 }
 
 
