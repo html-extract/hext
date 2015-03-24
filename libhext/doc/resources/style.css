@@ -1227,6 +1227,12 @@ tr.heading h2 {
   padding:10px 15px;
   font-weight:bold;
 }
+#navrow1 .tablist a:focus,
+#navrow2 .tablist a:focus,
+#navrow3 .tablist a:focus,
+#navrow4 .tablist a:focus {
+  text-decoration:none;
+}
 #navrow1 .tablist a:hover,
 #navrow2 .tablist a:hover,
 #navrow3 .tablist a:hover,
