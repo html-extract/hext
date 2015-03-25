@@ -327,32 +327,35 @@ _match:
 	{ rule.increment_indent(); }
 	break;
 	case 35:
-#line 264 "hext-machine.rl"
+#line 266 "hext-machine.rl"
 	{ rule_start = true; }
 	break;
 	case 36:
-#line 267 "hext-machine.rl"
-	{ rule.set_optional(true); }
+#line 271 "hext-machine.rl"
+	{
+              rule_start = true;
+              rule.set_any_descendant(true);
+             }
 	break;
 	case 37:
-#line 270 "hext-machine.rl"
-	{ rule.set_direct_descendant(true); }
+#line 278 "hext-machine.rl"
+	{ rule.set_optional(true); }
 	break;
 	case 38:
-#line 273 "hext-machine.rl"
+#line 281 "hext-machine.rl"
 	{ LX_TK_START; }
 	break;
 	case 39:
-#line 274 "hext-machine.rl"
+#line 282 "hext-machine.rl"
 	{ LX_TK_STOP;
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
 	break;
 	case 40:
-#line 281 "hext-machine.rl"
+#line 289 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-#line 355 "Parser.cpp.tmp"
+#line 358 "Parser.cpp.tmp"
 		}
 	}
 
@@ -481,32 +484,35 @@ _again:
 	{ rule.pattern().consume_and_reset(); }
 	break;
 	case 35:
-#line 264 "hext-machine.rl"
+#line 266 "hext-machine.rl"
 	{ rule_start = true; }
 	break;
 	case 36:
-#line 267 "hext-machine.rl"
-	{ rule.set_optional(true); }
+#line 271 "hext-machine.rl"
+	{
+              rule_start = true;
+              rule.set_any_descendant(true);
+             }
 	break;
 	case 37:
-#line 270 "hext-machine.rl"
-	{ rule.set_direct_descendant(true); }
+#line 278 "hext-machine.rl"
+	{ rule.set_optional(true); }
 	break;
 	case 39:
-#line 274 "hext-machine.rl"
+#line 282 "hext-machine.rl"
 	{ LX_TK_STOP;
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
 	break;
 	case 40:
-#line 281 "hext-machine.rl"
+#line 289 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
 	case 41:
-#line 288 "hext-machine.rl"
+#line 296 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 509 "Parser.cpp.tmp"
+#line 515 "Parser.cpp.tmp"
 		}
 	}
 	}

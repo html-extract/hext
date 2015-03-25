@@ -18,14 +18,15 @@ namespace hext {
 class ResultTree;
 
 /// A Rule represents a source line from the hext input.
-/// Generally: <is_optional?dd?tag_name?:trait? rule_pattern*>
-///   Example: <!div id="container" class="list">
+/// Generally: (<|>)is_optional?tag_name?:trait? rule_pattern*>?
+///   Example: <div id="container" class="list">
 ///
 /// A Rule matches an html-node if all its attributes are satisfied:
 ///  * is_optional: Ignored while matching. When ResultTree::filter is called,
 ///    invalid ResultTree branches are removed, unless this flag is set.
-///  * direct_descendant: If a Rule is a direct descendant, it can only be
-///    matched if its immediate parent Rule was matched.
+///  * any_descendant: Matching html-nodes may appear anywhere in the tree, as
+///    opposed to direct descendants (default) which may only match if its
+///    immediate parent node was matched.
 ///  * gumbo_tag: The tag_name of the rule, as parsed by gumbo. Matches if the
 ///    node's tag is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
 ///  * trait: Traits describe the node that must match. For example:
@@ -45,7 +46,7 @@ public:
   Rule(
     GumboTag gumbo_tag,
     bool is_optional,
-    bool is_direct_descendant,
+    bool is_any_descendant,
     bool closed,
     RulePatterns&& r_patterns
   );
@@ -106,9 +107,9 @@ private:
   /// A rule is optional if it does not participate in validation.
   const bool is_optional_;
 
-  /// If a Rule is a direct descendant, it can only be matched if its immediate
-  /// parent Rule was matched.
-  const int is_direct_descendant_;
+  /// If true, matching html-nodes may appear anywhere in the html.
+  /// If false, Rule matches only if its immediate parent was matched.
+  const int is_any_descendant_;
 
   /// If a rule is closed, html-nodes matching this rule must have all
   /// attributes specified in the rule definition, but no more.

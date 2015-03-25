@@ -261,13 +261,21 @@
           '  ' %{ rule.increment_indent(); }
         )*
         (
-          '<' %{ rule_start = true; }
+          (
+            '<'
+            %{ rule_start = true; }
+          )
+          |
+          (
+            '>'
+            %{
+              rule_start = true;
+              rule.set_any_descendant(true);
+             }
+          )
         )
         (
           '?' %{ rule.set_optional(true); }
-        )?
-        (
-          '!' %{ rule.set_direct_descendant(true); }
         )?
         (
           attr_name >{ LX_TK_START; }

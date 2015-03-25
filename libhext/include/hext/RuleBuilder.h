@@ -41,7 +41,7 @@ public:
   void increment_indent();
   bool set_tag_name(const std::string& tag_name);
   void set_optional(bool is_optional);
-  void set_direct_descendant(bool is_direct_descendant);
+  void set_any_descendant(bool is_any_descendant);
   void set_closed(bool is_closed);
   GumboTag tag() const;
 
@@ -51,7 +51,7 @@ private:
   unsigned int indent_;
   GumboTag gumbo_tag_;
   bool is_optional_;
-  bool is_direct_descendant_;
+  bool is_any_descendant_;
   bool is_closed_;
 };
 
