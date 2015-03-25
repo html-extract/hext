@@ -1213,6 +1213,8 @@ body {
 #navrow4 {
   border-bottom: 1px solid #69d2e7;
   padding: 10px;
+  clear:both;
+  background-color:#eee;
 }
 #navrow2 .tablist,
 #navrow3 .tablist,
@@ -1280,9 +1282,6 @@ body {
 #navrow4 .tablist a:hover:after {
   width: 100%;
   background: #337ab7;
-}
-#navrow2, #navrow3, #navrow4 {
-  clear:both;
 }
 div.contents {
   clear:both;
