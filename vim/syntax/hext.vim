@@ -12,14 +12,9 @@ highlight link hextComment Comment
 syntax match hextRule "\v(\<|\>)"
 highlight link hextRule Identifier
 
-" Direct descendant and optional
-syntax match hextSpecial "\v(!|\?)"
+" Optional
+syntax match hextSpecial "\v\?"
 highlight link hextSpecial Special
-
-" BUG: In hext, a tag name may be preceded by a number, which is then
-" considered as a part of the word that follows, in this case a hextTag, and
-" therefore the keyword match fails. But this will not be the case in the
-" future, when pseudo-classes are implemented.
 
 " Allowed html tags. Taken from gumbo's tag_strings.h.
 " Handy one liner:
@@ -43,10 +38,6 @@ syn keyword hextTag bgsound dir frame frameset noframes isindex listing xmp
 syn keyword hextTag nextid noembed plaintext rb strike basefont big blink 
 syn keyword hextTag center font marquee multicol nobr spacer tt rtc 
 highlight link hextTag Statement
-
-" nth-child
-syntax match hextNthChild "\v[0-9]+"
-highlight link hextNthChild HtmlTagName
 
 " Attribute name
 syntax match hextAttributeName "\v \w+"
