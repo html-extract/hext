@@ -1,8 +1,6 @@
 #ifndef HEXT_PATTERN_VALUE_TEST_H_INCLUDED
 #define HEXT_PATTERN_VALUE_TEST_H_INCLUDED
 
-#include <string>
-
 
 namespace hext {
 
@@ -15,6 +13,7 @@ class ValueTest
 {
 public:
   virtual ~ValueTest();
+
   /// Always return true.
   virtual bool test(const char * /* dummy */) const;
 };
