@@ -31,12 +31,6 @@ public:
   /// Store the Rule that is currently being built and call reset.
   void consume_and_reset();
 
-  /// Store the pattern that is currently being built as a MatchPattern.
-  void consume_match_pattern();
-
-  /// Store the pattern that is currently being built as a CapturePattern.
-  void consume_capture_pattern();
-
   PatternBuilder& pattern();
   void reset_indent();
   void increment_indent();
