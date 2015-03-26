@@ -40,8 +40,8 @@ syn keyword hextTag center font marquee multicol nobr spacer tt rtc
 highlight link hextTag Statement
 
 " Attribute name
-syntax match hextAttributeName "\v \w+"
-highlight link hextAttributeName Normal
+syntax match hextAttributeName "\v [a-zA-Z][a-zA-Z0-9\-_]*"
+highlight link hextAttributeName Type
 
 " Literal attibute value
 syntax region hextLiteral start=/\v"/ skip=/\v\\"/ end=/\v"/
