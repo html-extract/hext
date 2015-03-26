@@ -17,6 +17,7 @@ class RegexTest : public ValueTest
 {
 public:
   explicit RegexTest(const boost::regex& regex);
+
   /// Returns true if regex matches subject.
   bool test(const char * subject) const final;
 

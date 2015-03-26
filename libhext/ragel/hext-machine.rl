@@ -175,6 +175,16 @@
     )
   );
 
+  literal_value = (
+    '"'
+    (
+      match_literal >{ LX_TK_START; }
+                    %{ LX_TK_STOP;
+                       rule.pattern().set_attr_literal(tok); }
+    )
+    '"'
+  );
+
   attributes = 
     (
       ' '+
@@ -200,51 +210,51 @@
           )
         )
         (
-          '='
           (
+            ( '^' | '*' | '!' | '~' | '$' )
+            >{ rule.pattern().set_literal_operator(*this->p); }
+            '=' literal_value
+          )
+          |
+          (
+            '='
             (
-              '{'
               (
-                cap_var >{ LX_TK_START; }
-                        %{ LX_TK_STOP; rule.pattern().set_cap_var(tok); }
-              )
-              (
-                '/'
+                '{'
                 (
-                  cap_regex >{ LX_TK_START; }
-                            %{ LX_TK_STOP;
-                               try{ rule.pattern().set_cap_regex(tok); }
-                               catch( const boost::regex_error& e )
-                               { this->throw_regex_error(tok, e.code()); }
-                             }
+                  cap_var >{ LX_TK_START; }
+                          %{ LX_TK_STOP; rule.pattern().set_cap_var(tok); }
                 )
-                '/'
-              )?
-              '}'
-            )
-            |
-            (
-              (
-                '/'
                 (
-                  match_regex >{ LX_TK_START; }
+                  '/'
+                  (
+                    cap_regex >{ LX_TK_START; }
                               %{ LX_TK_STOP;
-                                 try{ rule.pattern().set_attr_regex(tok); }
+                                 try{ rule.pattern().set_cap_regex(tok); }
                                  catch( const boost::regex_error& e )
                                  { this->throw_regex_error(tok, e.code()); }
                                }
-                )
-                '/'
+                  )
+                  '/'
+                )?
+                '}'
               )
               |
               (
-                '"'
                 (
-                  match_literal >{ LX_TK_START; }
+                  '/'
+                  (
+                    match_regex >{ LX_TK_START; }
                                 %{ LX_TK_STOP;
-                                   rule.pattern().set_attr_literal(tok); }
+                                   try{ rule.pattern().set_attr_regex(tok); }
+                                   catch( const boost::regex_error& e )
+                                   { this->throw_regex_error(tok, e.code()); }
+                                 }
+                  )
+                  '/'
                 )
-                '"'
+                |
+                literal_value
               )
             )
           )

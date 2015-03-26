@@ -10,7 +10,7 @@ namespace hext {
 
 
 /// A LiteralTest is a ValueTest that checks whether another string equals a
-/// given string completely.
+/// given string.
 class LiteralTest : public ValueTest
 {
 public:

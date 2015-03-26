@@ -5,10 +5,15 @@
 #include "hext/MakeUnique.h"
 #include "hext/pattern/AttributeCapture.h"
 #include "hext/pattern/AttributeMatch.h"
+#include "hext/pattern/BeginsWithTest.h"
 #include "hext/pattern/BuiltinCapture.h"
 #include "hext/pattern/BuiltinMatch.h"
 #include "hext/pattern/CapturePattern.h"
 #include "hext/pattern/ChildCountMatch.h"
+#include "hext/pattern/ContainsTest.h"
+#include "hext/pattern/ContainsWordTest.h"
+#include "hext/pattern/EndsWithTest.h"
+#include "hext/pattern/IsNotLiteralTest.h"
 #include "hext/pattern/LiteralTest.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NthChildMatch.h"
@@ -63,6 +68,7 @@ public:
   void set_cap_regex(const std::string& capture_regex);
   void set_nth_pattern_multiplier(const std::string& multiplier);
   void set_nth_pattern_addend(const std::string& addend);
+  void set_literal_operator(char op);
 
 private:
   /// Reset all members to their original state.
@@ -82,6 +88,7 @@ private:
   boost::optional<boost::regex> cap_regex_;
   int nth_multiplier_;
   int nth_addend_;
+  char literal_operator_;
   std::vector<std::unique_ptr<MatchPattern>> mp_;
   std::vector<std::unique_ptr<CapturePattern>> cp_;
 };

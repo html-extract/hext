@@ -13,6 +13,7 @@ PatternBuilder::PatternBuilder()
 , cap_regex_()
 , nth_multiplier_(0)
 , nth_addend_(-1)
+, literal_operator_('0')
 , mp_()
 , cp_()
 {
@@ -136,6 +137,11 @@ void PatternBuilder::set_nth_pattern_addend(const std::string& addend)
   this->nth_addend_ = std::stoi(addend);
 }
 
+void PatternBuilder::set_literal_operator(char op)
+{
+  this->literal_operator_ = op;
+}
+
 void PatternBuilder::reset()
 {
   this->bf_ = nullptr;
@@ -146,17 +152,49 @@ void PatternBuilder::reset()
   this->cap_regex_ = boost::none;
   this->nth_multiplier_ = 0;
   this->nth_addend_ = -1;
+  this->literal_operator_ = '0';
 }
 
 void PatternBuilder::consume_match_pattern()
 {
   std::unique_ptr<ValueTest> test;
-  if( this->attr_regex_.size() )
+
+  if( this->literal_operator_ != '0' )
+  {
+    switch(this->literal_operator_)
+    {
+      case '^':
+        test = MakeUnique<BeginsWithTest>(this->attr_literal_);
+        break;
+      case '*':
+        test = MakeUnique<ContainsTest>(this->attr_literal_);
+        break;
+      case '!':
+        test = MakeUnique<IsNotLiteralTest>(this->attr_literal_);
+        break;
+      case '~':
+        test = MakeUnique<ContainsWordTest>(this->attr_literal_);
+        break;
+      case '$':
+        test = MakeUnique<EndsWithTest>(this->attr_literal_);
+        break;
+      default:
+        test = MakeUnique<LiteralTest>(this->attr_literal_);
+        break;
+    }
+  }
+  else if( this->attr_regex_.size() )
+  {
     test = MakeUnique<RegexTest>(this->attr_regex_);
+  }
   else if( this->attr_literal_.size() )
+  {
     test = MakeUnique<LiteralTest>(this->attr_literal_);
+  }
   else
+  {
     test = MakeUnique<ValueTest>();
+  }
 
   std::unique_ptr<MatchPattern> p;
   if( this->bf_ )
