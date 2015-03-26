@@ -47,8 +47,8 @@ void RuleBuilder::consume_and_reset()
     ),
     this->is_closed_,
     RulePatterns(
-      std::move(this->pattern_builder_.get_matchp_and_reset()),
-      std::move(this->pattern_builder_.get_capturep_and_reset())
+      std::move(this->pattern_builder_.get_matchpatterns_and_reset()),
+      std::move(this->pattern_builder_.get_capturepatterns_and_reset())
     )
   );
 

@@ -29,7 +29,7 @@ void PatternBuilder::consume_and_reset()
 }
 
 std::vector<std::unique_ptr<MatchPattern>>
-PatternBuilder::get_matchp_and_reset()
+PatternBuilder::get_matchpatterns_and_reset()
 {
   std::vector<std::unique_ptr<MatchPattern>> vec = std::move(this->mp_);
 
@@ -40,7 +40,7 @@ PatternBuilder::get_matchp_and_reset()
 }
 
 std::vector<std::unique_ptr<CapturePattern>>
-PatternBuilder::get_capturep_and_reset()
+PatternBuilder::get_capturepatterns_and_reset()
 {
   std::vector<std::unique_ptr<CapturePattern>> vec = std::move(this->cp_);
 

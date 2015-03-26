@@ -39,10 +39,12 @@ public:
   void consume_and_reset();
 
   /// Move all previously created MatchPatterns to caller.
-  std::vector<std::unique_ptr<MatchPattern>> get_matchp_and_reset();
+  std::vector<std::unique_ptr<MatchPattern>>
+  get_matchpatterns_and_reset();
 
   /// Move all previously created CapturePatterns to caller.
-  std::vector<std::unique_ptr<CapturePattern>> get_capturep_and_reset();
+  std::vector<std::unique_ptr<CapturePattern>>
+  get_capturepatterns_and_reset();
 
   /// Consume an NthChildMatch trait.
   void consume_trait_nth_child(
