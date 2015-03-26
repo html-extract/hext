@@ -22,14 +22,14 @@
 
 /// Convenience macro to store the start of a token. Used within the hext
 /// machine definition. Accesses Parser::parse()'s local variables.
-#define LX_TK_START \
-  tok_begin = p;    \
+#define TK_START \
+  tok_begin = p; \
   tok_end = nullptr;
 
 
 /// Convenience macro to complete a token. Used within the hext
 /// machine defintion. Accesses Parser::parse()'s local variables.
-#define LX_TK_STOP              \
+#define TK_STOP                 \
   assert(tok_begin != nullptr); \
   tok_end = p;                  \
   tok = std::string(tok_begin, std::distance(tok_begin, tok_end));

@@ -53,8 +53,8 @@
     (
       (
         [0-9]+
-        >{ LX_TK_START; }
-        %{ LX_TK_STOP; rule.pattern().set_nth_pattern_multiplier(tok); }
+        >{ TK_START; }
+        %{ TK_STOP; rule.pattern().set_nth_pattern_multiplier(tok); }
       )
       (
         'n'
@@ -65,8 +65,8 @@
           '+'
           (
             [0-9]+
-            >{ LX_TK_START; }
-            %{ LX_TK_STOP; rule.pattern().set_nth_pattern_addend(tok); }
+            >{ TK_START; }
+            %{ TK_STOP; rule.pattern().set_nth_pattern_addend(tok); }
           )
         )?
       )?
@@ -86,8 +86,8 @@
           'child-count('
           (
             [0-9]+
-            >{ LX_TK_START; }
-            %{ LX_TK_STOP; rule.pattern().consume_trait_child_count(tok); }
+            >{ TK_START; }
+            %{ TK_STOP; rule.pattern().consume_trait_child_count(tok); }
           )
           ')'
         )
@@ -178,8 +178,8 @@
   literal_value = (
     '"'
     (
-      match_literal >{ LX_TK_START; }
-                    %{ LX_TK_STOP;
+      match_literal >{ TK_START; }
+                    %{ TK_STOP;
                        rule.pattern().set_attr_literal(tok); }
     )
     '"'
@@ -194,8 +194,8 @@
             '@'
             (
               builtin_name
-              >{ LX_TK_START; }
-              %{ LX_TK_STOP;
+              >{ TK_START; }
+              %{ TK_STOP;
                  {
                    if( !rule.pattern().set_builtin_function(tok) )
                      this->throw_unknown_token(tok, "builtin");
@@ -205,8 +205,8 @@
           )
           |
           (
-            attr_name >{ LX_TK_START; }
-                      %{ LX_TK_STOP; rule.pattern().set_attr_name(tok); }
+            attr_name >{ TK_START; }
+                      %{ TK_STOP; rule.pattern().set_attr_name(tok); }
           )
         )
         (
@@ -222,14 +222,14 @@
               (
                 '{'
                 (
-                  cap_var >{ LX_TK_START; }
-                          %{ LX_TK_STOP; rule.pattern().set_cap_var(tok); }
+                  cap_var >{ TK_START; }
+                          %{ TK_STOP; rule.pattern().set_cap_var(tok); }
                 )
                 (
                   '/'
                   (
-                    cap_regex >{ LX_TK_START; }
-                              %{ LX_TK_STOP;
+                    cap_regex >{ TK_START; }
+                              %{ TK_STOP;
                                  try{ rule.pattern().set_cap_regex(tok); }
                                  catch( const boost::regex_error& e )
                                  { this->throw_regex_error(tok, e.code()); }
@@ -244,8 +244,8 @@
                 (
                   '/'
                   (
-                    match_regex >{ LX_TK_START; }
-                                %{ LX_TK_STOP;
+                    match_regex >{ TK_START; }
+                                %{ TK_STOP;
                                    try{ rule.pattern().set_attr_regex(tok); }
                                    catch( const boost::regex_error& e )
                                    { this->throw_regex_error(tok, e.code()); }
@@ -288,8 +288,8 @@
           '?' %{ rule.set_optional(true); }
         )?
         (
-          attr_name >{ LX_TK_START; }
-                    %{ LX_TK_STOP;
+          attr_name >{ TK_START; }
+                    %{ TK_STOP;
                        if( !rule.set_tag_name(tok) )
                          this->throw_unknown_token(tok, "html-tag"); }
         )?
