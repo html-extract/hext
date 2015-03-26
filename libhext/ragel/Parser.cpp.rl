@@ -32,6 +32,7 @@ std::vector<Rule> Parser::parse(Option flags)
   using namespace ragel;
 
   RuleBuilder rule(flags);
+  PatternBuilder& pattern = rule.pattern();
   const char * tok_begin = nullptr;
   const char * tok_end = nullptr;
   std::string tok = "";
