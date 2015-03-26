@@ -23,13 +23,13 @@ public:
   explicit RuleBuilder(Option flags);
 
   /// Return all stored rules and reset.
-  std::vector<Rule> get_rules_and_reset();
+  std::vector<Rule> take_rules();
 
   /// Reset all members to their original state (except rules_).
   void reset();
 
   /// Store the Rule that is currently being built and call reset.
-  void consume_and_reset();
+  void consume_rule();
 
   PatternBuilder& pattern();
   void reset_indent();

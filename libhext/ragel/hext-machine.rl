@@ -8,7 +8,7 @@
   action act_newline {
     if( rule_start )
     {
-      rule.consume_and_reset();
+      rule.consume_rule();
       rule_start = false;
     }
     else
@@ -259,7 +259,7 @@
             )
           )
         )?
-      ) %{ rule.pattern().consume_and_reset(); }
+      ) %{ rule.pattern().consume_pattern(); }
     )+;
 
   main := 

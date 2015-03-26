@@ -16,7 +16,7 @@ RuleBuilder::RuleBuilder(Option flags)
 {
 }
 
-std::vector<Rule> RuleBuilder::get_rules_and_reset()
+std::vector<Rule> RuleBuilder::take_rules()
 {
   std::vector<Rule> rs = std::move(this->rules_);
 
@@ -35,7 +35,7 @@ void RuleBuilder::reset()
   this->is_optional_ = false;
 }
 
-void RuleBuilder::consume_and_reset()
+void RuleBuilder::consume_rule()
 {
   Rule r(
     this->gumbo_tag_,
@@ -47,8 +47,8 @@ void RuleBuilder::consume_and_reset()
     ),
     this->is_closed_,
     RulePatterns(
-      std::move(this->pattern_builder_.get_matchpatterns_and_reset()),
-      std::move(this->pattern_builder_.get_capturepatterns_and_reset())
+      std::move(this->pattern_builder_.take_match_patterns()),
+      std::move(this->pattern_builder_.take_capture_patterns())
     )
   );
 

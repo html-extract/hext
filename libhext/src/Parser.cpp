@@ -128,7 +128,7 @@ _match:
 	{
     if( rule_start )
     {
-      rule.consume_and_reset();
+      rule.consume_rule();
       rule_start = false;
     }
     else
@@ -324,7 +324,7 @@ _match:
 	break;
 	case 34:
 #line 262 "hext-machine.rl"
-	{ rule.pattern().consume_and_reset(); }
+	{ rule.pattern().consume_pattern(); }
 	break;
 	case 35:
 #line 271 "hext-machine.rl"
@@ -386,7 +386,7 @@ _again:
 	{
     if( rule_start )
     {
-      rule.consume_and_reset();
+      rule.consume_rule();
       rule_start = false;
     }
     else
@@ -485,7 +485,7 @@ _again:
 	break;
 	case 34:
 #line 262 "hext-machine.rl"
-	{ rule.pattern().consume_and_reset(); }
+	{ rule.pattern().consume_pattern(); }
 	break;
 	case 36:
 #line 276 "hext-machine.rl"
@@ -526,7 +526,7 @@ _again:
 
 #line 41 "Parser.cpp.rl"
 
-  return rule.get_rules_and_reset();
+  return rule.take_rules();
 }
 
 void Parser::throw_unexpected() const

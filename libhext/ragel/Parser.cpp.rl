@@ -39,7 +39,7 @@ std::vector<Rule> Parser::parse(Option flags)
 
   %% write exec;
 
-  return rule.get_rules_and_reset();
+  return rule.take_rules();
 }
 
 void Parser::throw_unexpected() const

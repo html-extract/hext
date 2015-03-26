@@ -41,15 +41,13 @@ public:
 
   /// Consume either a MatchPattern or a CapturePattern, depending on which
   /// parameters were given previously. Reset members.
-  void consume_and_reset();
+  void consume_pattern();
 
   /// Move all previously created MatchPatterns to caller.
-  std::vector<std::unique_ptr<MatchPattern>>
-  get_matchpatterns_and_reset();
+  std::vector<std::unique_ptr<MatchPattern>> take_match_patterns();
 
   /// Move all previously created CapturePatterns to caller.
-  std::vector<std::unique_ptr<CapturePattern>>
-  get_capturepatterns_and_reset();
+  std::vector<std::unique_ptr<CapturePattern>> take_capture_patterns();
 
   /// Consume an NthChildMatch trait.
   void consume_trait_nth_child(
