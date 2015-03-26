@@ -47,7 +47,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
   "${PROJECT_SOURCE_DIR}/src/NodeUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/Parser.cpp"
-  "${PROJECT_SOURCE_DIR}/src/PatternBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/AttributeCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/AttributeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/BeginsWithTest.cpp"
@@ -65,10 +64,11 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ValueMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ValueTest.cpp"
+  "${PROJECT_SOURCE_DIR}/src/PatternBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/ResultTree.cpp"
+  "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/RulePatterns.cpp"
-  "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 ADD_DEPENDENCIES(hext gumbo-parser)
