@@ -21,13 +21,14 @@ class Hext
 {
 public:
   /// Construct Hext. Throws ParseError if given hext is invalid.
-  explicit Hext(const std::string& hext);
+  explicit Hext(const std::string& hext, Option flags = Option::Default);
 
   /// Extract values from html. Returns a hext::Result with captured values.
-  Result extract(const std::string& html, Option flags = Option::Default) const;
+  Result extract(const std::string& html) const;
 
 private:
   std::vector<Rule> rules_;
+  const Option flags_;
 };
 
 

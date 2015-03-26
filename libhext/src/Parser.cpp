@@ -33,11 +33,11 @@ Parser::Parser(const char * begin, const char * end)
 
 }
 
-std::vector<Rule> Parser::parse()
+std::vector<Rule> Parser::parse(Option flags)
 {
   using namespace ragel;
 
-  RuleBuilder rule;
+  RuleBuilder rule(flags);
   const char * tok_begin = nullptr;
   const char * tok_end = nullptr;
   std::string tok = "";

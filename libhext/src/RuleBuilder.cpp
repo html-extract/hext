@@ -4,9 +4,10 @@
 namespace hext {
 
 
-RuleBuilder::RuleBuilder()
+RuleBuilder::RuleBuilder(Option flags)
 : pattern_builder_()
 , rules_()
+, flags_(flags)
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)
@@ -39,7 +40,11 @@ void RuleBuilder::consume_and_reset()
   Rule r(
     this->gumbo_tag_,
     this->is_optional_,
-    this->is_any_descendant_,
+    (
+      this->indent_ == 0 && !(this->flags_ & Option::NoAutoAnyDesc)
+      ?
+      true : this->is_any_descendant_
+    ),
     this->is_closed_,
     RulePatterns(
       std::move(this->pattern_builder_.get_matchp_and_reset()),

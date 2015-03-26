@@ -32,18 +32,20 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
+    hext::Option flags = hext::Option::Default;
+    if( po.contains("keep-invalid") )
+      flags |= hext::Option::KeepInvalid;
+    if( po.contains("no-auto-any-descendant") )
+      flags |= hext::Option::NoAutoAnyDesc;
+
     std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext-file"));
-    hext::Hext extractor(hext_str);
+    hext::Hext extractor(hext_str, flags);
 
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    hext::Option flags = hext::Option::Default;
-    if( po.contains("keep-invalid") )
-      flags |= hext::Option::KeepInvalid;
-
     std::string html = htmlext::ReadFileOrThrow(po.get("html-file"));
-    hext::Result result = extractor.extract(html, flags);
+    hext::Result result = extractor.extract(html);
 
     for(const auto& v : result)
       htmlext::PrintJson(v);

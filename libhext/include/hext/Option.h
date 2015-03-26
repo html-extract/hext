@@ -9,9 +9,11 @@ namespace hext {
 enum Option
 {
   /// Default settings.
-  Default     = 0 << 0,
+  Default       = 0 << 0,
   /// Do not remove invalid results.
-  KeepInvalid = 1 << 0
+  KeepInvalid   = 1 << 0,
+  /// Do not force top level rules to be any descendant.
+  NoAutoAnyDesc = 2 << 0
 };
 
 /// Bit operators to avoid having to cast to int.

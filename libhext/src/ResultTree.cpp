@@ -44,6 +44,11 @@ bool ResultTree::filter()
   // Check if all rules are present in this ResultTree.
   if( this->matching_rule_ )
   {
+
+    //TODO / BUG: This code implies that rules on the same level also have to
+    // append a ResultTree on the same level - which is simply not true!
+    //
+
     auto c_begin = this->children_.begin();
     auto c_end = this->children_.end();
     for(const auto& rl : this->matching_rule_->children())

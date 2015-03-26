@@ -15,6 +15,7 @@ ProgramOptions::ProgramOptions()
     ("html-file,i", po::value<std::string>(), "Path to html file")
     ("lint,l", "Hext syntax check")
     ("keep-invalid,k", "Do not remove invalid results")
+    ("no-auto-any-descendant,n", "Do not force top rules to be any descendant")
     ("version", "Print version")
   ;
 }

@@ -2,6 +2,7 @@
 #define HEXT_RULE_BUILDER_H_INCLUDED
 
 #include "hext/Rule.h"
+#include "hext/Option.h"
 #include "hext/RulePatterns.h"
 #include "hext/PatternBuilder.h"
 
@@ -19,7 +20,7 @@ namespace hext {
 class RuleBuilder
 {
 public:
-  RuleBuilder();
+  explicit RuleBuilder(Option flags);
 
   /// Return all stored rules and reset.
   std::vector<Rule> get_rules_and_reset();
@@ -48,6 +49,7 @@ public:
 private:
   PatternBuilder pattern_builder_;
   std::vector<Rule> rules_;
+  const Option flags_;
   unsigned int indent_;
   GumboTag gumbo_tag_;
   bool is_optional_;
