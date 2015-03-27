@@ -37,15 +37,25 @@ std::vector<Rule> Parser::parse(Option flags)
 {
   using namespace ragel;
 
+  // Provide shortcut to keep hext-machine's code smaller.
+  typedef NthChildMatch::OffsetOf NthOff;
+
+  // In the hext-machine, rules will be contructed with a RuleBuilder.
   RuleBuilder rule(flags);
+
+  // Same with patterns.
   PatternBuilder& pattern = rule.pattern();
+
+  // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;
   const char * tok_end = nullptr;
   std::string tok = "";
+
+  // A flag to tell whether we are currently parsing a rule.
   bool rule_start = false;
 
   
-#line 48 "Parser.cpp.tmp"
+#line 58 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -193,14 +203,14 @@ _match:
 	case 13:
 #line 103 "hext-machine.rl"
 	{
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
 	break;
 	case 14:
 #line 110 "hext-machine.rl"
 	{
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Front,
+            NthOff::Front,
             rule.tag()
           );
          }
@@ -217,7 +227,7 @@ _match:
 	{
           pattern.set_nth_mul("1");
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Front,
+            NthOff::Front,
             rule.tag()
           );
          }
@@ -226,7 +236,7 @@ _match:
 #line 139 "hext-machine.rl"
 	{
           pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
 	break;
 	case 18:
@@ -234,7 +244,7 @@ _match:
 	{
           pattern.set_nth_mul("1");
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Back,
+            NthOff::Back,
             rule.tag()
           );
          }
@@ -243,7 +253,7 @@ _match:
 #line 158 "hext-machine.rl"
 	{
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Back,
+            NthOff::Back,
             rule.tag()
           );
          }
@@ -254,7 +264,7 @@ _match:
           pattern.set_nth_mul("1");
           pattern.consume_nth_child();
           pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
 	break;
 	case 21:
@@ -360,7 +370,7 @@ _match:
 #line 299 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-#line 363 "Parser.cpp.tmp"
+#line 373 "Parser.cpp.tmp"
 		}
 	}
 
@@ -407,14 +417,14 @@ _again:
 	case 13:
 #line 103 "hext-machine.rl"
 	{
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
 	break;
 	case 14:
 #line 110 "hext-machine.rl"
 	{
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Front,
+            NthOff::Front,
             rule.tag()
           );
          }
@@ -431,7 +441,7 @@ _again:
 	{
           pattern.set_nth_mul("1");
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Front,
+            NthOff::Front,
             rule.tag()
           );
          }
@@ -440,7 +450,7 @@ _again:
 #line 139 "hext-machine.rl"
 	{
           pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
 	break;
 	case 18:
@@ -448,7 +458,7 @@ _again:
 	{
           pattern.set_nth_mul("1");
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Back,
+            NthOff::Back,
             rule.tag()
           );
          }
@@ -457,7 +467,7 @@ _again:
 #line 158 "hext-machine.rl"
 	{
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Back,
+            NthOff::Back,
             rule.tag()
           );
          }
@@ -468,7 +478,7 @@ _again:
           pattern.set_nth_mul("1");
           pattern.consume_nth_child();
           pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
 	break;
 	case 24:
@@ -517,7 +527,7 @@ _again:
 #line 306 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 520 "Parser.cpp.tmp"
+#line 530 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -525,7 +535,7 @@ _again:
 	_out: {}
 	}
 
-#line 42 "Parser.cpp.rl"
+#line 52 "Parser.cpp.rl"
 
   return rule.take_rules();
 }

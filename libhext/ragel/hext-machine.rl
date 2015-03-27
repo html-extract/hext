@@ -101,7 +101,7 @@
       (
         ( 'nth-last-child(' nth_pattern ')' )
         %{
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
       )
       |
@@ -109,7 +109,7 @@
         ( 'nth-of-type(' nth_pattern ')' )
         %{
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Front,
+            NthOff::Front,
             rule.tag()
           );
          }
@@ -128,7 +128,7 @@
         %{
           pattern.set_nth_mul("1");
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Front,
+            NthOff::Front,
             rule.tag()
           );
          }
@@ -138,7 +138,7 @@
         ( 'last-child' )
         %{
           pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
       )
       |
@@ -147,7 +147,7 @@
         %{
           pattern.set_nth_mul("1");
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Back,
+            NthOff::Back,
             rule.tag()
           );
          }
@@ -157,7 +157,7 @@
         ( 'nth-last-of-type(' nth_pattern ')' )
         %{
           pattern.consume_nth_child(
-            NthChildMatch::OffsetOf::Back,
+            NthOff::Back,
             rule.tag()
           );
          }
@@ -169,7 +169,7 @@
           pattern.set_nth_mul("1");
           pattern.consume_nth_child();
           pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthOff::Back);
          }
       )
     )

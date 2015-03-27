@@ -8,6 +8,7 @@
 #include "hext/Builtins.h"
 #include "hext/Rule.h"
 #include "hext/RuleBuilder.h"
+#include "hext/PatternBuilder.h"
 
 #include <string>
 #include <vector>
@@ -55,7 +56,7 @@ public:
 /// The ragel namespace holds ragel's static data.
 namespace ragel {
   
-#line 58 "Parser.h.tmp"
+#line 59 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 5, 1, 6, 1, 
@@ -418,7 +419,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 159;
 
 
-#line 58 "Parser.h.rl"
+#line 59 "Parser.h.rl"
 
 } // namespace ragel
 

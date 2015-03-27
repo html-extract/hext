@@ -31,11 +31,21 @@ std::vector<Rule> Parser::parse(Option flags)
 {
   using namespace ragel;
 
+  // Provide shortcut to keep hext-machine's code smaller.
+  typedef NthChildMatch::OffsetOf NthOff;
+
+  // In the hext-machine, rules will be contructed with a RuleBuilder.
   RuleBuilder rule(flags);
+
+  // Same with patterns.
   PatternBuilder& pattern = rule.pattern();
+
+  // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;
   const char * tok_end = nullptr;
   std::string tok = "";
+
+  // A flag to tell whether we are currently parsing a rule.
   bool rule_start = false;
 
   %% write exec;

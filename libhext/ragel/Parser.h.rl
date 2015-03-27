@@ -5,6 +5,7 @@
 #include "hext/Builtins.h"
 #include "hext/Rule.h"
 #include "hext/RuleBuilder.h"
+#include "hext/PatternBuilder.h"
 
 #include <string>
 #include <vector>
