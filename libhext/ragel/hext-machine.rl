@@ -33,6 +33,7 @@
     )
   );
 
+
   nth_pattern = (
     # nth-child(even)
     ( 'even' %{ pattern.set_nth_mul("2"); pattern.set_nth_add("0"); } )
@@ -49,6 +50,7 @@
       )?
     )
   );
+
 
   trait = ':' (
     # :empty
@@ -97,92 +99,64 @@
          pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); } )
   );
 
-  literal_value = (
-    '"'
-    (
-      match_literal >{ TK_START; }
-                    %{ TK_STOP;
-                       pattern.set_attr_literal(tok); }
-    )
-    '"'
-  );
 
-  attributes = 
+  # attr="literal"
+  literal_value = '"' ( match_literal
+    >{ TK_START; } %{ TK_STOP; pattern.set_attr_literal(tok); }
+  ) '"';
+
+
+  attributes = (
+    ' '+
     (
-      ' '+
       (
-        (
+        # builtin function, e.g. @text
+        ( '@'
+          ( builtin_name
+            >{ TK_START; }
+            %{ TK_STOP; { if( !pattern.set_builtin(tok) )
+                          this->throw_unknown_token(tok, "builtin"); } } ) )
+        |
+        # html node attribute, e.g. class
+        ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
+      )
+      # attribute value
+      (
+        # literal operator, e.g. @text^="Lorem ", class~="menu"
+        ( ( '^' | '*' | '!' | '~' | '$' ) >{ pattern.set_literal_op(*this->p); }
+          '=' literal_value )
+        |
+        # capture variable, match regex or match literal
+        ( '='
           (
-            '@'
-            (
-              builtin_name
-              >{ TK_START; }
-              %{ TK_STOP;
-                 {
-                   if( !pattern.set_builtin(tok) )
-                     this->throw_unknown_token(tok, "builtin");
-                 }
-              }
-            )
-          )
-          |
-          (
-            attr_name >{ TK_START; }
-                      %{ TK_STOP; pattern.set_attr_name(tok); }
-          )
-        )
-        (
-          (
-            ( '^' | '*' | '!' | '~' | '$' )
-            >{ pattern.set_literal_op(*this->p); }
-            '=' literal_value
-          )
-          |
-          (
-            '='
-            (
-              (
-                '{'
-                (
-                  cap_var >{ TK_START; }
-                          %{ TK_STOP; pattern.set_cap_var(tok); }
-                )
-                (
-                  '/'
-                  (
-                    cap_regex >{ TK_START; }
+            # capture variable, e.g. id={html_node_attr_id}, @text={heading}
+            ( '{' cap_var >{ TK_START; } %{ TK_STOP; pattern.set_cap_var(tok); }
+              # optional capture regex, e.g. @text={time/(\d\d+:\d+\d+)/}
+              ( '/' cap_regex >{ TK_START; }
                               %{ TK_STOP;
                                  try{ pattern.set_cap_regex(tok); }
                                  catch( const boost::regex_error& e )
-                                 { this->throw_regex_error(tok, e.code()); }
-                               }
-                  )
-                  '/'
-                )?
-                '}'
-              )
-              |
-              (
-                (
-                  '/'
-                  (
-                    match_regex >{ TK_START; }
-                                %{ TK_STOP;
-                                   try{ pattern.set_attr_regex(tok); }
-                                   catch( const boost::regex_error& e )
-                                   { this->throw_regex_error(tok, e.code()); }
-                                 }
-                  )
-                  '/'
-                )
-                |
-                literal_value
-              )
-            )
+                                 { this->throw_regex_error(tok, e.code()); } }
+                '/'
+              )?
+              '}' )
+            |
+            # match regex, e.g. id=/article_[0-9]+/
+            ( '/' match_regex >{ TK_START; }
+                              %{ TK_STOP;
+                                 try{ pattern.set_attr_regex(tok); }
+                                 catch( const boost::regex_error& e )
+                                 { this->throw_regex_error(tok, e.code()); } }
+              '/' )
+            |
+            # match literal, e.g. id="article_23"
+            literal_value
           )
-        )?
-      ) %{ pattern.consume_pattern(); }
-    )+;
+        )
+      )?
+    ) %{ pattern.consume_pattern(); }
+  )+;
+
 
   main := 
     ( 
