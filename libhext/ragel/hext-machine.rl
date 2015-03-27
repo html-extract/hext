@@ -1,9 +1,11 @@
 %%{
   machine hext;
 
+
   action error {
     this->throw_unexpected();
   }
+
 
   action act_newline {
     if( rule_start )
@@ -17,6 +19,7 @@
     }
   }
 
+
   attr_name = ( alpha (alnum | '-' | '_')** );
   builtin_name = ( alpha (alnum | '-' | '_')** );
   cap_var = ( [^/{}][^/{}]** );
@@ -24,13 +27,9 @@
   cap_regex = ( ( [^/] | '\\/' )** );
   match_regex = ( ( [^/] | '\\/' )** );
 
+
   comment = (
-    ' '*
-    '#'
-    (any - '\n')*
-    (
-      '\n' %act_newline
-    )
+    ' '* '#' (any - '\n')* ( '\n' %act_newline )
   );
 
 
@@ -158,46 +157,36 @@
   )+;
 
 
-  main := 
-    ( 
-      comment
-      |
+  main := (
+    # comment, e.g. # This is a comment
+    comment
+    |
+    (
+      # groups of two spaces indent a rule
+      ( '  ' %{ rule.increment_indent(); } )*
+      # a rule starts with either '<' (direct descentant) or '>' (any descendant)
       (
-        (
-          '  ' %{ rule.increment_indent(); }
-        )*
-        (
-          (
-            '<'
-            %{ rule_start = true; }
-          )
-          |
-          (
-            '>'
-            %{
-              rule_start = true;
-              rule.set_any_descendant(true);
-             }
-          )
-        )
-        (
-          '?' %{ rule.set_optional(true); }
-        )?
-        (
-          attr_name >{ TK_START; }
-                    %{ TK_STOP;
-                       if( !rule.set_tag_name(tok) )
-                         this->throw_unknown_token(tok, "html-tag"); }
-        )?
-        trait*
-        attributes?
-        (
-          '>' %{ rule.set_closed(true); }
-        )?
+        ( '<' %{ rule_start = true; } )
+        |
+        ( '>' %{ rule_start = true; rule.set_any_descendant(true); } )
       )
-      (
-        '\n' %act_newline
+      # a rule can be optional, e.g. <?
+      ( '?' %{ rule.set_optional(true); } )?
+      # a rule can have a tag name, e.g. <div
+      ( attr_name >{ TK_START; }
+                  %{ TK_STOP;
+                     if( !rule.set_tag_name(tok) )
+                       this->throw_unknown_token(tok, "html-tag"); }
       )?
-    )**
-    $err(error) $/act_newline $/{ fbreak; };
+      # a rule can have multiple traits, e.g. <div:first-child
+      trait*
+      # a rule can have multple attributes, e.g. <div class="menu"
+      attributes?
+      # a rule can be closed ("nodes may not have more attributes than specified")
+      ( '>' %{ rule.set_closed(true); } )?
+    )
+    # rules and comments may terminate with a newline
+    ( '\n' %act_newline )?
+  )**
+  $err(error) $/act_newline $/{ fbreak; };
 }%%
