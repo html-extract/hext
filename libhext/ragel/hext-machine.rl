@@ -25,7 +25,7 @@ action act_newline {
 attr_name     = ( alpha (alnum | '-' | '_')** );
 builtin_name  = ( alpha (alnum | '-' | '_')** );
 cap_var       = ( [^/{}][^/{}]** );
-match_literal = ( [^/{}"][^/{}"]** );
+match_literal = ( ( [^"] | '\\"' )** );
 cap_regex     = ( ( [^/] | '\\/' )** );
 match_regex   = ( ( [^/] | '\\/' )** );
 
