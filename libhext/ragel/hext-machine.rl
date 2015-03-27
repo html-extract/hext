@@ -37,16 +37,16 @@
     (
       'even'
       %{
-        pattern.set_nth_pattern_multiplier("2");
-        pattern.set_nth_pattern_addend("0");
+        pattern.set_nth_mul("2");
+        pattern.set_nth_add("0");
        }
     )
     |
     (
       'odd'
       %{
-        pattern.set_nth_pattern_multiplier("2");
-        pattern.set_nth_pattern_addend("1");
+        pattern.set_nth_mul("2");
+        pattern.set_nth_add("1");
        }
     )
     |
@@ -54,19 +54,19 @@
       (
         [0-9]+
         >{ TK_START; }
-        %{ TK_STOP; pattern.set_nth_pattern_multiplier(tok); }
+        %{ TK_STOP; pattern.set_nth_mul(tok); }
       )
       (
         'n'
         %{ // '2n' must behave the same as '2n+0'.
-           pattern.set_nth_pattern_addend("0");
+           pattern.set_nth_add("0");
          }
         (
           '+'
           (
             [0-9]+
             >{ TK_START; }
-            %{ TK_STOP; pattern.set_nth_pattern_addend(tok); }
+            %{ TK_STOP; pattern.set_nth_add(tok); }
           )
         )?
       )?
@@ -78,7 +78,7 @@
     (
       (
         ( 'empty' )
-        %{ pattern.consume_trait_child_count("0"); }
+        %{ pattern.consume_child_count("0"); }
       )
       |
       (
@@ -87,7 +87,7 @@
           (
             [0-9]+
             >{ TK_START; }
-            %{ TK_STOP; pattern.consume_trait_child_count(tok); }
+            %{ TK_STOP; pattern.consume_child_count(tok); }
           )
           ')'
         )
@@ -95,20 +95,20 @@
       |
       (
         ( 'nth-child(' nth_pattern ')' )
-        %{ pattern.consume_trait_nth_child(); }
+        %{ pattern.consume_nth_child(); }
       )
       |
       (
         ( 'nth-last-child(' nth_pattern ')' )
         %{
-          pattern.consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
          }
       )
       |
       (
         ( 'nth-of-type(' nth_pattern ')' )
         %{
-          pattern.consume_trait_nth_child(
+          pattern.consume_nth_child(
             NthChildMatch::OffsetOf::Front,
             rule.tag()
           );
@@ -118,16 +118,16 @@
       (
         ( 'first-child' )
         %{
-          pattern.set_nth_pattern_multiplier("1");
-          pattern.consume_trait_nth_child();
+          pattern.set_nth_mul("1");
+          pattern.consume_nth_child();
          }
       )
       |
       (
         ( 'first-of-type' )
         %{
-          pattern.set_nth_pattern_multiplier("1");
-          pattern.consume_trait_nth_child(
+          pattern.set_nth_mul("1");
+          pattern.consume_nth_child(
             NthChildMatch::OffsetOf::Front,
             rule.tag()
           );
@@ -137,16 +137,16 @@
       (
         ( 'last-child' )
         %{
-          pattern.set_nth_pattern_multiplier("1");
-          pattern.consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.set_nth_mul("1");
+          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
          }
       )
       |
       (
         ( 'last-of-type' )
         %{
-          pattern.set_nth_pattern_multiplier("1");
-          pattern.consume_trait_nth_child(
+          pattern.set_nth_mul("1");
+          pattern.consume_nth_child(
             NthChildMatch::OffsetOf::Back,
             rule.tag()
           );
@@ -156,7 +156,7 @@
       (
         ( 'nth-last-of-type(' nth_pattern ')' )
         %{
-          pattern.consume_trait_nth_child(
+          pattern.consume_nth_child(
             NthChildMatch::OffsetOf::Back,
             rule.tag()
           );
@@ -166,10 +166,10 @@
       (
         ( 'only-child' )
         %{
-          pattern.set_nth_pattern_multiplier("1");
-          pattern.consume_trait_nth_child();
-          pattern.set_nth_pattern_multiplier("1");
-          pattern.consume_trait_nth_child(NthChildMatch::OffsetOf::Back);
+          pattern.set_nth_mul("1");
+          pattern.consume_nth_child();
+          pattern.set_nth_mul("1");
+          pattern.consume_nth_child(NthChildMatch::OffsetOf::Back);
          }
       )
     )
@@ -197,7 +197,7 @@
               >{ TK_START; }
               %{ TK_STOP;
                  {
-                   if( !pattern.set_builtin_function(tok) )
+                   if( !pattern.set_builtin(tok) )
                      this->throw_unknown_token(tok, "builtin");
                  }
               }
@@ -212,7 +212,7 @@
         (
           (
             ( '^' | '*' | '!' | '~' | '$' )
-            >{ pattern.set_literal_operator(*this->p); }
+            >{ pattern.set_literal_op(*this->p); }
             '=' literal_value
           )
           |

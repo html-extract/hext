@@ -49,24 +49,24 @@ public:
   /// Move all previously created CapturePatterns to caller.
   std::vector<std::unique_ptr<CapturePattern>> take_capture_patterns();
 
-  /// Consume an NthChildMatch trait.
-  void consume_trait_nth_child(
+  /// Consume an NthChildMatch.
+  void consume_nth_child(
     NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front,
     GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
 
-  /// Consume a ChildCountMatch trait.
-  void consume_trait_child_count(const std::string& child_count);
+  /// Consume a ChildCountMatch.
+  void consume_child_count(const std::string& child_count);
 
-  bool set_builtin_function(const std::string& bi);
+  bool set_builtin(const std::string& bi);
   void set_attr_name(const std::string& attribute_name);
   void set_attr_literal(const std::string& attribute_literal);
   void set_attr_regex(const std::string& attribute_regex);
   void set_cap_var(const std::string& capture_var);
   void set_cap_regex(const std::string& capture_regex);
-  void set_nth_pattern_multiplier(const std::string& multiplier);
-  void set_nth_pattern_addend(const std::string& addend);
-  void set_literal_operator(char op);
+  void set_nth_mul(const std::string& multiplier);
+  void set_nth_add(const std::string& addend);
+  void set_literal_op(char op);
 
 private:
   /// Reset all members to their original state.

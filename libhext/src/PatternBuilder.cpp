@@ -51,7 +51,7 @@ PatternBuilder::take_capture_patterns()
   return std::move(vec);
 }
 
-void PatternBuilder::consume_trait_nth_child(
+void PatternBuilder::consume_nth_child(
   NthChildMatch::OffsetOf offset_of,
   GumboTag count_tag
 )
@@ -85,14 +85,14 @@ void PatternBuilder::consume_trait_nth_child(
   this->nth_addend_ = -1;
 }
 
-void PatternBuilder::consume_trait_child_count(const std::string& child_count)
+void PatternBuilder::consume_child_count(const std::string& child_count)
 {
   this->mp_.push_back(
     MakeUnique<ChildCountMatch>(std::stoi(child_count))
   );
 }
 
-bool PatternBuilder::set_builtin_function(const std::string& bi)
+bool PatternBuilder::set_builtin(const std::string& bi)
 {
   BuiltinFuncPtr func = GetBuiltinByName(bi);
   if( !func )
@@ -127,17 +127,17 @@ void PatternBuilder::set_cap_regex(const std::string& capture_regex)
   this->cap_regex_ = boost::regex(capture_regex);
 }
 
-void PatternBuilder::set_nth_pattern_multiplier(const std::string& multiplier)
+void PatternBuilder::set_nth_mul(const std::string& multiplier)
 {
   this->nth_multiplier_ = std::stoi(multiplier);
 }
 
-void PatternBuilder::set_nth_pattern_addend(const std::string& addend)
+void PatternBuilder::set_nth_add(const std::string& addend)
 {
   this->nth_addend_ = std::stoi(addend);
 }
 
-void PatternBuilder::set_literal_operator(char op)
+void PatternBuilder::set_literal_op(char op)
 {
   this->literal_operator_ = op;
 }
