@@ -50,106 +50,51 @@
     )
   );
 
-  trait = (
-    ':'
-    (
-      (
-        ( 'empty' )
-        %{ pattern.consume_child_count("0"); }
-      )
-      |
-      (
-        (
-          'child-count('
-          (
-            [0-9]+
-            >{ TK_START; }
-            %{ TK_STOP; pattern.consume_child_count(tok); }
-          )
-          ')'
-        )
-      )
-      |
-      (
-        ( 'nth-child(' nth_pattern ')' )
-        %{ pattern.consume_nth_child(); }
-      )
-      |
-      (
-        ( 'nth-last-child(' nth_pattern ')' )
-        %{
-          pattern.consume_nth_child(NthOff::Back);
-         }
-      )
-      |
-      (
-        ( 'nth-of-type(' nth_pattern ')' )
-        %{
-          pattern.consume_nth_child(
-            NthOff::Front,
-            rule.tag()
-          );
-         }
-      )
-      |
-      (
-        ( 'first-child' )
-        %{
-          pattern.set_nth_mul("1");
-          pattern.consume_nth_child();
-         }
-      )
-      |
-      (
-        ( 'first-of-type' )
-        %{
-          pattern.set_nth_mul("1");
-          pattern.consume_nth_child(
-            NthOff::Front,
-            rule.tag()
-          );
-         }
-      )
-      |
-      (
-        ( 'last-child' )
-        %{
-          pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthOff::Back);
-         }
-      )
-      |
-      (
-        ( 'last-of-type' )
-        %{
-          pattern.set_nth_mul("1");
-          pattern.consume_nth_child(
-            NthOff::Back,
-            rule.tag()
-          );
-         }
-      )
-      |
-      (
-        ( 'nth-last-of-type(' nth_pattern ')' )
-        %{
-          pattern.consume_nth_child(
-            NthOff::Back,
-            rule.tag()
-          );
-         }
-      )
-      |
-      (
-        ( 'only-child' )
-        %{
-          pattern.set_nth_mul("1");
-          pattern.consume_nth_child();
-          pattern.set_nth_mul("1");
-          pattern.consume_nth_child(NthOff::Back);
-         }
-      )
-    )
+  trait = ':' (
+    # :empty
+    ( 'empty' %{ pattern.consume_child_count("0"); } )
+    |
+    # :child-count(5)
+    ( 'child-count('
+      ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.consume_child_count(tok); } )
+      ')' )
+    |
+    # :nth-child(2n+1)
+    ( 'nth-child(' nth_pattern ')' %{ pattern.consume_nth_child(); } )
+    |
+    # :nth-last-child(2n+1)
+    ( 'nth-last-child(' nth_pattern ')'
+      %{ pattern.consume_nth_child(NthOff::Back); } )
+    |
+    # :nth-of-type(2n+1)
+    ( 'nth-of-type(' nth_pattern ')'
+      %{ pattern.consume_nth_child(NthOff::Front, rule.tag()); } )
+    |
+    # :first-child
+    ( 'first-child' %{ pattern.set_nth_mul("1"); pattern.consume_nth_child(); } )
+    |
+    # :first-of-type
+    ( 'first-of-type'
+      %{ pattern.set_nth_mul("1");
+         pattern.consume_nth_child(NthOff::Front, rule.tag()); } )
+    |
+    # :last-child
+    ( 'last-child'
+      %{ pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); } )
+    |
+    # :last-of-type
+    ( 'last-of-type'
+      %{ pattern.set_nth_mul("1");
+         pattern.consume_nth_child(NthOff::Back, rule.tag()); } )
+    |
+    # :nth-last-of-type(2n+1)
+    ( 'nth-last-of-type(' nth_pattern ')'
+      %{ pattern.consume_nth_child(NthOff::Back, rule.tag()); } )
+    |
+    # :only-child
+    ( 'only-child'
+      %{ pattern.set_nth_mul("1"); pattern.consume_nth_child();
+         pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); } )
   );
 
   literal_value = (
