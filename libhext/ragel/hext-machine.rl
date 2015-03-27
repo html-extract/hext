@@ -34,40 +34,17 @@
   );
 
   nth_pattern = (
-    (
-      'even'
-      %{
-        pattern.set_nth_mul("2");
-        pattern.set_nth_add("0");
-       }
-    )
+    # nth-child(even)
+    ( 'even' %{ pattern.set_nth_mul("2"); pattern.set_nth_add("0"); } )
     |
-    (
-      'odd'
-      %{
-        pattern.set_nth_mul("2");
-        pattern.set_nth_add("1");
-       }
-    )
+    # nth-child(odd)
+    ( 'odd' %{ pattern.set_nth_mul("2"); pattern.set_nth_add("1"); } )
     |
-    (
-      (
-        [0-9]+
-        >{ TK_START; }
-        %{ TK_STOP; pattern.set_nth_mul(tok); }
-      )
-      (
-        'n'
-        %{ // '2n' must behave the same as '2n+0'.
-           pattern.set_nth_add("0");
-         }
-        (
-          '+'
-          (
-            [0-9]+
-            >{ TK_START; }
-            %{ TK_STOP; pattern.set_nth_add(tok); }
-          )
+    # nth-child(2n+1)
+    ( ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.set_nth_mul(tok); } )
+      ( 'n'    %{ pattern.set_nth_add("0"); }
+        ( '+'
+          ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.set_nth_add(tok); } )
         )?
       )?
     )
