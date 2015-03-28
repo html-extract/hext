@@ -44,33 +44,31 @@ bool ResultTree::filter()
   // Check if all rules are present in this ResultTree.
   if( this->matching_rule_ )
   {
-
-    //TODO / BUG: This code implies that rules on the same level also have to
-    // append a ResultTree on the same level - which is simply not true!
-    //
-
     auto c_begin = this->children_.begin();
     auto c_end = this->children_.end();
-    for(const auto& rl : this->matching_rule_->children())
+
+    const auto& rule_children = this->matching_rule_->children();
+    auto r_begin = rule_children.begin();
+    auto r_end = rule_children.end();
+
+    // All rule-children of the matching rule must be contained in this RuleTree
+    // branch's children. Duplicates are safe to ignore.
+    // We can take advantage of the fact that ResultTrees are appended in the
+    // same order as Rule-children are stored.
+    while( r_begin != r_end )
     {
-      // If there are no more result branches, all rules that follow must
-      // be optional.
-      if( c_begin == c_end )
+      if( c_begin != c_end && (*c_begin)->matching_rule_ == &(*r_begin) )
       {
-        if( !rl.optional() )
-          return true;
+        while( c_begin != c_end && (*c_begin)->matching_rule_ == &(*r_begin) )
+          c_begin++;
       }
-      // result branches and rule children have the same order.
-      // Check if child has this rule.
-      else if( *c_begin && (*c_begin)->matching_rule_ == &rl )
+      else if( !r_begin->optional() )
       {
-        c_begin++;
-      }
-      // Optional rules can be omitted
-      else if( !rl.optional() )
-      {
+        // remove
         return true;
       }
+
+      r_begin++;
     }
   }
 
