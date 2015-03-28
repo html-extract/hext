@@ -19,8 +19,13 @@ Result Hext::extract(const std::string& html) const
 
   for(const auto& rule : this->rules_)
   {
-    Result res = h.extract(rule, this->flags_);
-    result.insert(result.end(), res.begin(), res.end());
+    ResultTree rt = h.extract(rule);
+
+    if( !(this->flags_ & Option::KeepInvalid) )
+      rt.filter();
+
+    hext::Result sub_result = rt.to_result();
+    result.insert(result.end(), sub_result.begin(), sub_result.end());
   }
 
   return result;

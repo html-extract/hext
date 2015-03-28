@@ -3,6 +3,7 @@
 
 #include "hext/Parser.h"
 #include "hext/Result.h"
+#include "hext/ResultTree.h"
 #include "hext/Option.h"
 #include "hext/Rule.h"
 #include "hext/Html.h"
