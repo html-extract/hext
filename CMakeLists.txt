@@ -60,6 +60,11 @@ TARGET_LINK_LIBRARIES(
 INSTALL(TARGETS html-extract DESTINATION bin)
 
 
+###### TEST ####################################################################
+# Enable libhext's tests.
+ENABLE_TESTING()
+
+
 ###### BUILD OPTIONS ###########################################################
 
 # Option TCMALLOC, default OFF
