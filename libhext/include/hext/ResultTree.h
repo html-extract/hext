@@ -64,7 +64,7 @@ private:
   const std::vector<NameValuePair> values_;
 
   /// The Rule that produced this instance's values_.
-  const Rule * matching_rule_;
+  const Rule * const matching_rule_;
 };
 
 
