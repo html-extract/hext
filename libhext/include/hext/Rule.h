@@ -109,7 +109,7 @@ private:
 
   /// If true, matching html-nodes may appear anywhere in the html.
   /// If false, Rule matches only if its immediate parent was matched.
-  const int is_any_descendant_;
+  const bool is_any_descendant_;
 
   /// If a rule is closed, html-nodes matching this rule must have all
   /// attributes specified in the rule definition, but no more.
