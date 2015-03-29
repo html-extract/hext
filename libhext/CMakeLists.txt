@@ -4,6 +4,8 @@ PROJECT(libhext)
 # Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
+SET(LIBHEXT_LOADED "true")
+
 SET(
   CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/../cmake
@@ -83,13 +85,15 @@ INSTALL(TARGETS hext DESTINATION lib)
 INSTALL(DIRECTORY include/hext DESTINATION include)
 
 
+###### SWIG-HEXT ###############################################################
+IF(NOT SWIG_HEXT_LOADED)
+  ADD_SUBDIRECTORY("swig/")
+ENDIF(NOT SWIG_HEXT_LOADED)
+
+
 ###### TEST ####################################################################
 IF(NOT LIBHEXT_NO_TESTING)
   ENABLE_TESTING()
-  # Avoid circular dependency by telling libhext-test that libhext is already
-  # loaded. Libhext-test depends on libhext.
-  SET(LIBHEXT_LOADED "true")
-  # Only load libhext-test if it wasn't included already.
   IF(NOT LIBHEXT_TEST_LOADED)
     ADD_SUBDIRECTORY("test/")
   ENDIF(NOT LIBHEXT_TEST_LOADED)
