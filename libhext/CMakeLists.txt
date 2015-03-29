@@ -84,14 +84,16 @@ INSTALL(DIRECTORY include/hext DESTINATION include)
 
 
 ###### TEST ####################################################################
-ENABLE_TESTING()
-# Avoid circular dependency by telling libhext-test that libhext is already
-# loaded. Libhext-test depends on libhext.
-SET(LIBHEXT_LOADED "true")
-# Only load libhext-test if it wasn't included already.
-IF(NOT LIBHEXT_TEST_LOADED)
-  ADD_SUBDIRECTORY("test/")
-ENDIF(NOT LIBHEXT_TEST_LOADED)
+IF(NOT LIBHEXT_NO_TESTING)
+  ENABLE_TESTING()
+  # Avoid circular dependency by telling libhext-test that libhext is already
+  # loaded. Libhext-test depends on libhext.
+  SET(LIBHEXT_LOADED "true")
+  # Only load libhext-test if it wasn't included already.
+  IF(NOT LIBHEXT_TEST_LOADED)
+    ADD_SUBDIRECTORY("test/")
+  ENDIF(NOT LIBHEXT_TEST_LOADED)
+ENDIF(NOT LIBHEXT_NO_TESTING)
 
 
 ###### BUILD OPTIONS ###########################################################
