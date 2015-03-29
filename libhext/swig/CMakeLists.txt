@@ -4,6 +4,8 @@ PROJECT(swig-hext)
 # Cmake module ExternalProject is available since 2.8.7.
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 
+SET(SWIG_HEXT_LOADED "true")
+
 SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../cmake")
 
 # Force flag -std=c++11.
@@ -23,9 +25,6 @@ INCLUDE(${SWIG_USE_FILE})
 FIND_PACKAGE(PythonLibs)
 
 ### LIBHEXT
-# Tell libhext that swig-hext is already loaded
-SET(SWIG_HEXT_LOADED "true")
-# Avoid circular dependeny by only loading libhext if it wasn't included already
 IF(NOT LIBHEXT_LOADED)
   SET(LIBHEXT_NO_TESTING "true")
   ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
@@ -44,6 +43,11 @@ SET_SOURCE_FILES_PROPERTIES(hext.i PROPERTIES CPLUSPLUS ON)
 ###### PYTHON ##################################################################
 IF(PYTHONLIBS_FOUND)
   INCLUDE_DIRECTORIES(SYSTEM ${PYTHON_INCLUDE_PATH})
+
+  # Hide swig's horrible compiler warnings when building release.
+  IF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
+    SET_SOURCE_FILES_PROPERTIES(hextPYTHON_wrap.cxx PROPERTIES COMPILE_FLAGS -w)
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
 
   SWIG_ADD_MODULE(pyhext python hext.i)
   SWIG_LINK_LIBRARIES(pyhext hext ${PYTHON_LIBRARIES})
