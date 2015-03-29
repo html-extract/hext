@@ -24,6 +24,9 @@ INCLUDE(${SWIG_USE_FILE})
 ### PYTHON
 FIND_PACKAGE(PythonLibs)
 
+### RUBY
+FIND_PACKAGE(Ruby)
+
 ### LIBHEXT
 IF(NOT LIBHEXT_LOADED)
   SET(LIBHEXT_NO_TESTING "true")
@@ -33,11 +36,10 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/include")
 
 
 ###### SWIG ####################################################################
-SET(CMAKE_SWIG_FLAGS "")
+SET(CMAKE_SWIG_FLAGS "-c++")
 SET(CMAKE_SWIG_OUTDIR ${CMAKE_BINARY_DIR}/swig-hext)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/swig-hext)
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/swig-hext)
-SET_SOURCE_FILES_PROPERTIES(hext.i PROPERTIES CPLUSPLUS ON)
 
 
 ###### PYTHON ##################################################################
@@ -46,10 +48,26 @@ IF(PYTHONLIBS_FOUND)
 
   # Hide swig's horrible compiler warnings when building release.
   IF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
-    SET_SOURCE_FILES_PROPERTIES(hextPYTHON_wrap.cxx PROPERTIES COMPILE_FLAGS -w)
+    SET_SOURCE_FILES_PROPERTIES(pyhextPYTHON_wrap.cxx PROPERTIES COMPILE_FLAGS -w)
   ENDIF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
 
-  SWIG_ADD_MODULE(pyhext python hext.i)
+  SET_SOURCE_FILES_PROPERTIES(pyhext.i PROPERTIES CPLUSPLUS ON)
+  SWIG_ADD_MODULE(pyhext python pyhext.i)
   SWIG_LINK_LIBRARIES(pyhext hext ${PYTHON_LIBRARIES})
 ENDIF(PYTHONLIBS_FOUND)
+
+
+###### RUBY ####################################################################
+IF(RUBY_FOUND)
+  INCLUDE_DIRECTORIES(SYSTEM ${RUBY_INCLUDE_DIRS})
+
+  # Hide swig's horrible compiler warnings when building release.
+  IF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
+    SET_SOURCE_FILES_PROPERTIES(rbhextRUBY_wrap.cxx PROPERTIES COMPILE_FLAGS -w)
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
+
+  SET_SOURCE_FILES_PROPERTIES(rbhext.i PROPERTIES CPLUSPLUS ON)
+  SWIG_ADD_MODULE(rbhext ruby rbhext.i)
+  SWIG_LINK_LIBRARIES(rbhext hext ${RUBY_LIBRARY})
+ENDIF(RUBY_FOUND)
 

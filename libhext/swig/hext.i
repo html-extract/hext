@@ -1,4 +1,3 @@
-%module hext
 %{
 #include "hext/Hext.h"
 using namespace hext;
@@ -11,8 +10,8 @@ using namespace hext;
 
 namespace std
 {
-  %template(stdResultMap) multimap<std::string, std::string>;
-  %template(stdResult) vector<std::multimap<std::string, std::string>>;
+  %template(StdResultMap) multimap<std::string, std::string>;
+  %template(StdResult) vector<std::multimap<std::string, std::string>>;
 }
 
 class Hext
