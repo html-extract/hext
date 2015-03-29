@@ -21,7 +21,7 @@ IF(NOT LIBHEXT_LOADED)
   SET(LIBHEXT_TEST_LOADED "true")
   ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
 ENDIF(NOT LIBHEXT_LOADED)
-# Download and build GTest.
+# Download and build GTest (installing GTest is discouraged).
 INCLUDE(HextExternalProjectGoogleTest)
 
 
