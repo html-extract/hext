@@ -41,7 +41,7 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 ###### SOURCES #################################################################
 ADD_LIBRARY(
-  hext
+  hext SHARED
   "${PROJECT_SOURCE_DIR}/src/Builtins.cpp"
   "${PROJECT_SOURCE_DIR}/src/Hext.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
