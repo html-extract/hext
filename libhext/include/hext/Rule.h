@@ -17,29 +17,44 @@ namespace hext {
 
 class ResultTree;
 
-/// A Rule represents a source line from the hext input.
-/// Generally: (<|>)is_optional?tag_name?:trait? rule_pattern*>?
-///   Example: <div id="container" class="list">
+/// A Rule defines how to match and capture html-nodes. It can be applied to a
+/// GumboNode tree, where it recursively tries to find matches. Once a match is
+/// found, the Rule appends a new branch to a ResultTree (which is supplied by
+/// the caller), containing the captured values of an html-node.
 ///
-/// A Rule matches an html-node if all its attributes are satisfied:
-///  * is_optional: Ignored while matching. When ResultTree::filter is called,
-///    invalid ResultTree branches are removed, unless this flag is set.
-///  * any_descendant: Matching html-nodes may appear anywhere in the tree, as
+/// A Rule is also a tree. A Rule can have multiple Rule children.
+///
+/// Matching is done in a recursive and brute-force manner: A Rule is matched
+/// against every child of the given GumboNode tree. Additionally, if a Rule
+/// matches a subnode of the html-tree, all its Rule children are matched
+/// against this subtree.
+///
+/// A Rule may produce incomplete ResultTrees. An incomplete ResultTree occurs
+/// if a Rule matches, but its children or siblings do not. This omission
+/// greatly simplifies recursive matching. ResultTree::filter is provided to
+/// remove incomplete ResultTree branches.
+///
+/// \param   gumbo_tag
+///    The tag_name of the rule, as parsed by gumbo. Matches if the node's tag
+///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
+///
+/// \param   is_optional
+///    When ResultTree::filter is called, invalid ResultTree branches are
+///    removed, unless the Rule that produced the branch is optional.
+///
+/// \param   is_any_descendant
+///    Matching html-nodes may appear anywhere in the current subtree, as
 ///    opposed to direct descendants (default) which may only match if its
 ///    immediate parent node was matched.
-///  * gumbo_tag: The tag_name of the rule, as parsed by gumbo. Matches if the
-///    node's tag is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
-///  * trait: Traits describe the node that must match. For example:
-///    :nth-child(2n), :last-child. Traits are stored as MatchPatterns.
-///  * RulePatterns: If the rule is closed,
-///    RulePatterns::matches_all_attributes() must return true. If the Rule is
-///    not optional, RulePatterns::matches() must return true.
-///  * is_closed: A Rule is closed, if it ends with '>'.
 ///
-/// If a node matches a Rule, RulePatterns::capture() is called, which returns
-/// a new ResultTree branch, containing all captured NameValuePairs.
+/// \param   is_closed
+///    For a closed Rule to match an html-node, all html-attributes must be
+///    covered by the Rule definition. This is especially useful to match
+///    html-nodes that have no attributes.
 ///
-/// A Rule is a tree: each Rule has a vector of child-rules.
+/// \param   r_patterns
+///    RulePattern contains the MatchPatterns and CapturePatterns of a Rule. It
+///    is responsible for applying Match- and CapturePatterns to html-nodes.
 class Rule
 {
 public:
@@ -57,6 +72,7 @@ public:
 
   /// Append child-rule after last element at tree-level level.
   /// Example Rule:
+  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ///   level0  <div>       # this
   ///   level1    <li>
   ///   level2      <span>
@@ -70,6 +86,7 @@ public:
   ///   level1    <li>
   ///   level2      <img>
   ///   level2      <a>    # new
+  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ///
   /// Only used when constructing Rules in the parser.
   void append_child(Rule&& r, int level = 1);
@@ -100,8 +117,9 @@ private:
   RulePatterns patterns_;
 
   /// The type of html-tag this rule matches, as parsed by gumbo. Set to
-  /// GUMBO_TAG_UNKNOWN if this rule has no tag. Html-tags that aren't defined
-  /// by the html spec have at this stage already been rejected by the parser.
+  /// GUMBO_TAG_UNKNOWN if this rule should match any tag. Html-tags that
+  /// aren't defined by the html spec have at this stage already been rejected
+  /// by the parser.
   const GumboTag gumbo_tag_;
 
   /// A rule is optional if it does not participate in validation.
