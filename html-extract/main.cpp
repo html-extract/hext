@@ -67,8 +67,8 @@ int main(int argc, const char ** argv)
   catch( const hext::ParseError& e )
   {
     std::cerr << argv[0] << ": Error in "
-              << po.get("hext-file") << ": "
-              << e.what() << "\n";
+              << ( po.contains("hext") ? po.get("hext") : "unknown" )
+              << ": " << e.what() << "\n";
     return EXIT_FAILURE;
   }
 
