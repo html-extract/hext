@@ -22,14 +22,14 @@
 
 
 /// Convenience macro to store the start of a token. Used within the hext
-/// machine definition. Accesses Parser::parse()'s local variables.
+/// machine definition. Accesses local variables of `Parser::parse()`.
 #define TK_START \
   tok_begin = p; \
   tok_end = nullptr;
 
 
 /// Convenience macro to complete a token. Used within the hext
-/// machine defintion. Accesses Parser::parse()'s local variables.
+/// machine defintion. Accesses local variables of `Parser::parse()`.
 #define TK_STOP                 \
   assert(tok_begin != nullptr); \
   tok_end = p;                  \
@@ -55,8 +55,9 @@ public:
 
 /// The ragel namespace holds ragel's static data.
 namespace ragel {
+  /// Embed the ragel state machine.
   
-#line 59 "Parser.h.tmp"
+#line 60 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 5, 1, 6, 1, 
@@ -420,7 +421,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 160;
 
 
-#line 59 "Parser.h.rl"
+#line 60 "Parser.h.rl"
 
 } // namespace ragel
 
@@ -429,25 +430,26 @@ static const int hext_en_main = 160;
 class Parser
 {
 public:
-  /// Construct a Parser to parse hext rule definitions described in range begin
-  /// to end. Pointers must stay valid until the last call to Parser::parse().
+  /// Construct a Parser to parse hext rule definitions described in range
+  /// `begin` to `end`. Pointers must stay valid until the last call to
+  /// `Parser::parse()`.
   Parser(const char * begin, const char * end);
 
   /// Parse hext and produce a vector of rules.
-  /// Throws ParseError on invalid input.
+  /// Throw `ParseError` on invalid input.
   std::vector<Rule> parse(Option flags = Option::Default);
 
 private:
-  /// Throw ParseError with an error message marking an unexpected character.
+  /// Throw `ParseError` with an error message marking an unexpected character.
   void throw_unexpected() const;
 
-  /// Throw ParseError with an error message marking an unknown token.
+  /// Throw `ParseError` with an error message marking an unknown token.
   void throw_unknown_token(
     const std::string& tok,
     const std::string& tok_name
   ) const;
 
-  /// Throw ParseError with an error message marking an invalid regular
+  /// Throw `ParseError` with an error message marking an invalid regular
   /// expression.
   void throw_regex_error(
     const std::string& tok,
@@ -455,7 +457,7 @@ private:
   ) const;
 
   /// Print an error at the current location within hext. Print hext with line
-  /// numbers up to the currently examined character. mark_len denotes the
+  /// numbers up to the currently examined character. `mark_len` denotes the
   /// amount of '^' characters that are used to mark the error location up to
   /// the current character.
   void print_error_location(
@@ -463,14 +465,19 @@ private:
     std::ostream& out
   ) const;
 
-  /// A pointer to the beginning of the overall input is needed to provide
-  /// good error diagnostics.
+  /// The beginning of the hext input.
   const char * p_begin_;
 
-  /// ragel's runtime state
+  /// The current character that ragel is processing within the hext input.
   const char * p;
+
+  /// The end of the hext input.
   const char * pe;
+
+  /// The end of the hext input. Same as `Parser::pe`.
   const char * eof;
+
+  /// Ragel's current state.
   int cs;
 };
 
