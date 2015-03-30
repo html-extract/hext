@@ -8,48 +8,55 @@ namespace hext {
 /// Option flags to control extraction behaviour.
 enum Option
 {
-  /// Default settings.
-  Default       = 0 << 0,
+  /// Default behaviour.
+  Default       = 0,
+
   /// Do not remove invalid results.
   KeepInvalid   = 1 << 0,
+
   /// Do not force top level rules to be any descendant.
-  NoAutoAnyDesc = 2 << 0
+  NoAutoAnyDesc = 1 << 1
 };
 
-/// Bit operators to avoid having to cast to int.
-
+/// Option OR.
 inline Option operator|(Option left, Option right)
 {
   return static_cast<Option>(static_cast<int>(left) | static_cast<int>(right));
 }
 
+/// Option AND.
 inline Option operator&(Option left, Option right)
 {
   return static_cast<Option>(static_cast<int>(left) & static_cast<int>(right));
 }
 
+/// Option XOR.
 inline Option operator^(Option left, Option right)
 {
   return static_cast<Option>(static_cast<int>(left) ^ static_cast<int>(right));
 }
 
+/// Option NOT.
 inline Option operator~(Option opt)
 {
   return static_cast<Option>(~static_cast<int>(opt));
 }
 
+/// Option OR-assignment.
 inline Option& operator|=(Option& left, Option right)
 {
   left = static_cast<Option>(static_cast<int>(left) | static_cast<int>(right));
   return left;
 }
 
+/// Option AND-assignment.
 inline Option& operator&=(Option& left, Option right)
 {
   left = static_cast<Option>(static_cast<int>(left) & static_cast<int>(right));
   return left;
 }
 
+/// Option XOR-assignment.
 inline Option& operator^=(Option& left, Option right)
 {
   left = static_cast<Option>(static_cast<int>(left) ^ static_cast<int>(right));
