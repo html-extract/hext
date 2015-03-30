@@ -1308,4 +1308,8 @@ div.contents {
 #MSearchClose {
   padding:0 !important;
 }
+table.params .paramname {
+  padding: 2px 20px;
+  text-align: right;
+}
 
