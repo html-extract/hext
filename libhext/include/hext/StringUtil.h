@@ -18,9 +18,17 @@ namespace hext {
 
 
 /// Remove whitespace from beginning and end and collapse multiple whitespace
-/// to a single ' ', as is expected when extracting text from html.
-/// Example: "   Like\na Rolling\n\tStone  " -> "Like a Rolling Stone"
+/// to a single space, as is expected when extracting text from html.
 /// http://www.w3.org/TR/html5/infrastructure.html#strip-and-collapse-whitespace
+///
+/// Example:
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// "   Like\na Rolling\n\tStone  "
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// becomes
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// "Like a Rolling Stone"
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 std::string TrimAndCollapseWs(std::string str);
 
 /// Check if given character is a space character according to the html spec.
@@ -32,14 +40,12 @@ bool IsSpace(char c);
 typedef std::iterator_traits<const char *>::difference_type CharPosType;
 typedef std::pair<CharPosType, CharPosType> CharPosPair;
 
-/// Returns a visual representation for every char, including control
+/// Return a visual representation for every char, including control
 /// characters like the nullbyte.
-/// Used in error reporting.
 std::string GetCharName(char c);
 
-/// Returns a pair<line_offset, character_offset> for the position of c in
-/// the range from begin to end. Numbering is zero-based.
-/// Used in error reporting.
+/// Return a pair<line_offset, character_offset> for the position of `c` in
+/// the range from `begin` to `end`. Numbering is zero-based.
 CharPosPair GetCharPosition(
   const char * c,
   const char * begin,
@@ -47,16 +53,24 @@ CharPosPair GetCharPosition(
 );
 
 /// Get width of number when printed as decimal, excluding sign.
-/// Used in error reporting.
 int GetDecNumberWidth(int number);
 
-/// Print begin to end into out. When printing lines insert line number,
-/// colon and one space. number_width is the space needed to print a line
-/// number as decimal (uses std::setw). Used in error reporting.
+/// Print `begin` to `end` into `out`, but when printing lines, insert line
+/// number, colon and one space. `number_width` is the space needed to print a
+/// line number as decimal.
+///
 /// Example:
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// An SQL query goes into a bar,
+/// walks up to two tables and asks,
+/// Can I join you?
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// becomes
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /// 1: An SQL query goes into a bar,
 /// 2: walks up to two tables and asks,
-/// 3: 'Can I join you?'
+/// 3: Can I join you?
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void PrintWithLineNumbers(
   const char * begin,
   const char * end,
