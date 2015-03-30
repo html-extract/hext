@@ -16,7 +16,7 @@ namespace hext {
 /// functions (like `@text`).
 typedef std::string (*BuiltinFuncPtr)(const GumboNode *);
 
-/// Return a function pointer to a builtin called builtin_name.
+/// Return a function pointer to a builtin called `builtin_name`.
 /// Return nullptr for unknown builtin.
 BuiltinFuncPtr GetBuiltinByName(const std::string& builtin_name);
 
