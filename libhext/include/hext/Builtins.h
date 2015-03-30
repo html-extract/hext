@@ -13,7 +13,7 @@ namespace hext {
 
 
 /// Convenience typedef for function pointers pointing to builtin
-/// functions (like @text).
+/// functions (like `@text`).
 typedef std::string (*BuiltinFuncPtr)(const GumboNode *);
 
 /// Return a function pointer to a builtin called builtin_name.
