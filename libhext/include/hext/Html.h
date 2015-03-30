@@ -11,7 +11,7 @@ namespace hext {
 
 
 /// Html is responsible for parsing html and, given a Rule, extraction of
-/// content.
+/// content. Html is simply a RAII wrapper around gumbo.
 class Html
 {
 public:
@@ -27,6 +27,7 @@ private:
   Html(const Html&) = delete;
   Html& operator=(const Html&) = delete;
 
+  /// Gumbo's resource handle.
   GumboOutput * g_outp_;
 };
 
