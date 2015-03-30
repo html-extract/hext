@@ -12,12 +12,13 @@
 #include <string>
 
 
+/// The hext namespace is the top level namespace for everything in libhext.
 namespace hext {
 
 
-/// The class Hext takes a string containing hext rule definitions. Once
-/// constructed, the rules can be applied to html by calling Hext::extract,
-/// which returns a Result containing all captured values.
+/// Hext takes a string containing hext rule definitions. Once constructed, the
+/// rules can be applied to html by calling Hext::extract, which returns a
+/// Result containing all captured values.
 class Hext
 {
 public:
