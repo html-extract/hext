@@ -68,7 +68,14 @@ std::vector<std::string> ProgramOptions::get_html_input() const
 void ProgramOptions::print(const char * program_name, std::ostream& out) const
 {
   out << "Usage:\n  "
-      << program_name << " hext-file html-file [html-file(s)]\n\n"
+      << program_name
+      << " [options] hext-file html-file...\n"
+         "      Apply extraction rules from hext-file to each html-file.\n"
+         "      Print result as JSON.\n\n  "
+      << program_name
+      << " -l hext-file\n"
+         "      Parse hext-file and exit silently on success.\n"
+         "      On failure, print error information to stderr.\n\n"
       << this->desc_;
 }
 
