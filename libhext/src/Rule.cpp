@@ -9,7 +9,7 @@ Rule::Rule(
   GumboTag tag,
   bool is_optional,
   bool is_any_descendant,
-  bool closed,
+  bool is_closed,
   RulePatterns&& r_patterns
 )
 : children_()
@@ -17,7 +17,7 @@ Rule::Rule(
 , gumbo_tag_(tag)
 , is_optional_(is_optional)
 , is_any_descendant_(is_any_descendant)
-, is_closed_(closed)
+, is_closed_(is_closed)
 {
 }
 

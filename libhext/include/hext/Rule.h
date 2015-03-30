@@ -47,7 +47,7 @@ public:
     GumboTag gumbo_tag,
     bool is_optional,
     bool is_any_descendant,
-    bool closed,
+    bool is_closed,
     RulePatterns&& r_patterns
   );
   Rule(Rule&&) = default;
