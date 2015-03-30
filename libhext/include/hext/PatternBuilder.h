@@ -32,7 +32,7 @@
 namespace hext {
 
 
-/// When parsing hext rule definitions, a PatternBuilder is responsible for
+/// When parsing hext rule definitions, PatternBuilder is responsible for
 /// creating MatchPatterns and CapturePatterns.
 class PatternBuilder
 {
@@ -58,14 +58,31 @@ public:
   /// Consume a ChildCountMatch.
   void consume_child_count(const std::string& child_count);
 
+  /// Set builtin function. Return false if builtin cannot be found.
   bool set_builtin(const std::string& bi);
+
+  /// Set attribute name of the Pattern.
   void set_attr_name(const std::string& attribute_name);
+
+  /// Set literal attribute value of the Pattern.
   void set_attr_literal(const std::string& attribute_literal);
+
+  /// Set regex attribute value of the Pattern.
   void set_attr_regex(const std::string& attribute_regex);
+
+  /// Set the CapturePattern's result name.
   void set_cap_var(const std::string& capture_var);
+
+  /// Set the CapturePattern's regex.
   void set_cap_regex(const std::string& capture_regex);
+
+  /// Set the NthChildMatch's multiplier.
   void set_nth_mul(const std::string& multiplier);
+
+  /// Set the NthChildMatch's addend.
   void set_nth_add(const std::string& addend);
+
+  /// Set literal operator-
   void set_literal_op(char op);
 
 private:
@@ -78,16 +95,37 @@ private:
   /// Append a CapturePattern.
   void consume_capture_pattern();
 
+  /// The current builtin function.
   BuiltinFuncPtr bf_;
+
+  /// The current attribute name.
   std::string attr_name_;
+
+  /// The current attribute literal value.
   std::string attr_literal_;
+
+  /// The current attribute regex value.
   boost::regex attr_regex_;
+
+  /// The current CapturePattern's result name.
   std::string cap_var_;
+
+  /// The current CapturePattern's optional regex.
   boost::optional<boost::regex> cap_regex_;
+
+  /// The current NthChildMatch's multiplier.
   int nth_multiplier_;
+
+  /// The current NthChildMatch's addend.
   int nth_addend_;
+
+  /// The current literal operator.
   char literal_operator_;
+
+  /// Consumed MatchPatterns.
   std::vector<std::unique_ptr<MatchPattern>> mp_;
+
+  /// Consumed CapturePatterns.
   std::vector<std::unique_ptr<CapturePattern>> cp_;
 };
 
