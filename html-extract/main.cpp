@@ -38,7 +38,7 @@ int main(int argc, const char ** argv)
     if( po.contains("no-auto-any-descendant") )
       flags |= hext::Option::NoAutoAnyDesc;
 
-    std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext-file"));
+    std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext"));
     hext::Hext extractor(hext_str, flags);
 
     if( po.contains("lint") )

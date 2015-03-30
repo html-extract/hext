@@ -10,13 +10,13 @@ ProgramOptions::ProgramOptions()
 {
   namespace po = boost::program_options;
   this->desc_.add_options()
-    ("hext-file,f", po::value<std::string>(), "hext file")
-    ("html-input", po::value<std::vector<std::string>>(), "html input file(s)")
+    ("hext,x", po::value<std::string>(), "Hext file")
+    ("html-input,i", po::value<std::vector<std::string>>(), "Html input file(s)")
     ("keep-invalid,k", "Do not remove invalid results")
     ("no-auto-any-descendant,n", "Do not force top rules to be any descendant")
-    ("lint,l", "Hext syntax check")
-    ("help,h", "This help message")
-    ("version", "Print version")
+    ("lint,l", "Hext syntax check; parse hext and exit")
+    ("help,h", "Print this help message and exit")
+    ("version,V", "Print version information and exit")
   ;
 }
 
@@ -25,6 +25,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   namespace po = boost::program_options;
 
   po::positional_options_description pos_opt;
+  pos_opt.add("hext", 1);
   pos_opt.add("html-input", -1);
 
   po::store(
@@ -39,8 +40,8 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   if( this->contains("help") || this->contains("version") )
     return;
 
-  if( !this->contains("hext-file") )
-    throw po::error("missing option --hext-file");
+  if( !this->contains("hext") )
+    throw po::error("missing option --hext");
 
   if( this->contains("lint") )
     return;
@@ -66,8 +67,8 @@ std::vector<std::string> ProgramOptions::get_html_input() const
 
 void ProgramOptions::print(const char * program_name, std::ostream& out) const
 {
-  out << "Usage:\n"
-      << program_name << " -h hext-file -i html-file\n"
+  out << "Usage:\n  "
+      << program_name << " hext-file html-file [html-file(s)]\n\n"
       << this->desc_;
 }
 
