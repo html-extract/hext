@@ -44,11 +44,15 @@ int main(int argc, const char ** argv)
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
-    std::string html = htmlext::ReadFileOrThrow(po.get("html-file"));
-    hext::Result result = extractor.extract(html);
+    std::vector<std::string> html_input = po.get_html_input();
+    for(const auto& file : html_input)
+    {
+      std::string html = htmlext::ReadFileOrThrow(file);
+      hext::Result result = extractor.extract(html);
 
-    for(const auto& v : result)
-      htmlext::PrintJson(v);
+      for(const auto& v : result)
+        htmlext::PrintJson(v);
+    }
   }
   catch( const boost::program_options::error& e )
   {
