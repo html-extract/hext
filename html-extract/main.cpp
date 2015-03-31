@@ -33,7 +33,7 @@ int main(int argc, const char ** argv)
     }
 
     hext::Option flags = hext::DefaultOption;
-    if( po.contains("keep-invalid") )
+    if( po.contains("keep-incomplete") )
       flags &= ~hext::Option::RemoveIncomplete;
     if( po.contains("no-auto-any-descendant") )
       flags &= ~hext::Option::ForceTopRuleAnyDesc;
