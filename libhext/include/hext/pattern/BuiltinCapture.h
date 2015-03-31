@@ -14,23 +14,50 @@
 namespace hext {
 
 
-/// A BuiltinCapture is a CapturePattern that captures the result of a builtin
-/// function.
+/// A BuiltinCapture is a CapturePattern that captures the result of applying
+/// a builtin function to a node.
 class BuiltinCapture : public CapturePattern
 {
 public:
+  /// Construct a BuiltinCapture.
+  ///
+  /// \param result_name
+  ///     The name of the capture.
+  /// \param func
+  ///     A pointer to a builtin function that is applied to a node to obtain the
+  ///     captured value.
   BuiltinCapture(
     const std::string& result_name,
-    BuiltinFuncPtr f
+    BuiltinFuncPtr func
   );
+
+  /// Construct a BuiltinCapture that has a regex. See class CapturePattern
+  /// for an explanation on how the regex is applied to the result of the
+  /// builtin function `func`.
+  ///
+  /// \param result_name
+  ///     The name of the capture.
+  /// \param func
+  ///     A pointer to a builtin function that is applied to a node to obtain
+  ///     the captured value.
+  /// \param regex
+  ///     A regular expression that is applied to the result of the builtin
+  ///     function `func`.
   BuiltinCapture(
     const std::string& result_name,
-    BuiltinFuncPtr f,
+    BuiltinFuncPtr func,
     const boost::regex& regex
   );
+
+  /// Return a string pair containing the captured value. First member is
+  /// `result_name_`, second member is the result of the builtin function
+  /// `func` when applied to `node`. If a regex was given, it will be applied
+  /// to the result of the builtin function, capturing only the desired result.
   ResultTree::NameValuePair capture(const GumboNode * node) const final;
 
 private:
+  /// A pointer to a builtin function that is applied to a node to obtain the
+  /// captured value.
   const BuiltinFuncPtr func_;
 };
 
