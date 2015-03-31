@@ -17,7 +17,6 @@ namespace hext {
 class AttributeCapture : public CapturePattern
 {
 public:
-
   /// Construct an AttributeCapture.
   ///
   /// \param result_name
@@ -43,15 +42,15 @@ public:
   );
 
   /// Return a string pair containing the captured value. First member is
-  /// `result_name`, second member is the node-attribute of `node` called
-  /// `attr_name`. If the attribute isn't found, an empty string is used
+  /// `result_name_`, second member is the node-attribute of `node` called
+  /// `attr_name_`. If the attribute isn't found, an empty string is used
   /// instead. If a regex was given, it will be applied to attribute-value,
   /// capturing only the desired result.
   ResultTree::NameValuePair capture(const GumboNode * node) const final;
 
 private:
   /// The name of the html-node-attribute whose value should be captured
-  const std::string attr_;
+  const std::string attr_name_;
 };
 
 

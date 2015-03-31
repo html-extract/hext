@@ -9,7 +9,7 @@ AttributeCapture::AttributeCapture(
   const std::string& attr_name
 )
 : CapturePattern(result_name)
-, attr_(attr_name)
+, attr_name_(attr_name)
 {
 }
 
@@ -19,7 +19,7 @@ AttributeCapture::AttributeCapture(
   const boost::regex& regex
 )
 : CapturePattern(result_name, regex)
-, attr_(attr_name)
+, attr_name_(attr_name)
 {
 }
 
@@ -31,7 +31,7 @@ AttributeCapture::capture(const GumboNode * node) const
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
-    this->attr_.c_str()
+    this->attr_name_.c_str()
   );
 
   if( !g_attr )
