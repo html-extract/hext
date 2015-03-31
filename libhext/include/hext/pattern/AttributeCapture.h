@@ -35,6 +35,8 @@ public:
   ///     The name of the capture.
   /// \param attr_name
   ///     The name of the attribute whose value should be captured.
+  /// \param regex
+  ///     A regular expression that is applied to the captured attribute-value.
   AttributeCapture(
     const std::string& result_name,
     const std::string& attr_name,
