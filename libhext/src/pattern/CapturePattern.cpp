@@ -31,8 +31,8 @@ std::string CapturePattern::regex_filter(const char * str) const
   boost::match_results<const char *> mr;
   if( boost::regex_search(str, str + strlen(str), mr, this->rx_.get()) )
   {
-    // If there are no captures, return whole string (mr[0]), if there are
-    // captures, then return the first one
+    // If there are no parentheses contained within the regex, return whole
+    // regex capture (mr[0]), if there are, then return the first one.
     return mr.size() > 1 ? mr[1] : mr[0];
   }
   else
