@@ -87,6 +87,21 @@ TEST(Parser, Patterns)
   }
 }
 
+TEST(Parser, RepeatedParse)
+{
+  const char * hxt = "<?a href={href}\n  <a bla=/test/";
+  hext::Parser p(hxt, hxt + strlen(hxt));
+
+  for(int i = 0; i < 5; ++i)
+  {
+    std::vector<hext::Rule> v = p.parse();
+    ASSERT_EQ(v.size(), 1);
+    EXPECT_TRUE(v.front().optional());
+    ASSERT_TRUE(v.front().children().size(), 1);
+    EXPECT_FALSE(v.front().children().front().optional());
+  }
+}
+
 
 } // namespace
 
