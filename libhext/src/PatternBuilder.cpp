@@ -4,8 +4,9 @@
 namespace hext {
 
 
-PatternBuilder::PatternBuilder()
-: bf_(nullptr)
+PatternBuilder::PatternBuilder(Option flags)
+: flags_(flags)
+, bf_(nullptr)
 , attr_name_()
 , attr_literal_()
 , attr_regex_()
@@ -237,9 +238,10 @@ void PatternBuilder::consume_capture_pattern()
         )
       );
 
-    this->mp_.push_back(
-      MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<ValueTest>())
-    );
+    if( this->flags_ & Option::CapAttribMustExist )
+      this->mp_.push_back(
+        MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<ValueTest>())
+      );
   }
 }
 

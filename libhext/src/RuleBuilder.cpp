@@ -5,7 +5,7 @@ namespace hext {
 
 
 RuleBuilder::RuleBuilder(Option flags)
-: pattern_builder_()
+: pattern_builder_(flags)
 , rules_()
 , flags_(flags)
 , indent_(0)

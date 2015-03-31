@@ -15,12 +15,17 @@ enum Option
   RemoveIncomplete    = 1 << 0,
 
   /// Force top level rules to be any descendant.
-  ForceTopRuleAnyDesc = 1 << 1
+  ForceTopRuleAnyDesc = 1 << 1,
+
+  /// Insert an AttributeMatch for every AttributeCapture.
+  CapAttribMustExist  = 1 << 2
 };
 
 /// Default options.
 constexpr const Option DefaultOption = static_cast<Option>(
-  Option::RemoveIncomplete | Option::ForceTopRuleAnyDesc
+    Option::RemoveIncomplete
+  | Option::ForceTopRuleAnyDesc
+  | Option::CapAttribMustExist
 );
 
 /// Option OR.

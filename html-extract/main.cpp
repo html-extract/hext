@@ -37,6 +37,8 @@ int main(int argc, const char ** argv)
       flags &= ~hext::Option::RemoveIncomplete;
     if( po.contains("no-auto-any-descendant") )
       flags &= ~hext::Option::ForceTopRuleAnyDesc;
+    if( po.contains("cap-attrib-optional") )
+      flags &= ~hext::Option::CapAttribMustExist;
 
     std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext"));
     hext::Hext extractor(hext_str, flags);
