@@ -28,6 +28,24 @@ ResultTree * ResultTree::create_branch(
   return this->children_.back().get();
 }
 
+void ResultTree::remove_incomplete_branches()
+{
+  // Hide return type of `ResultTree::filter()`.
+  this->filter();
+}
+
+Result ResultTree::to_result() const
+{
+  typedef std::vector<std::unique_ptr<ResultTree>>::size_type c_size_type;
+
+  Result results(this->children_.size());
+
+  for(c_size_type i = 0; i < this->children_.size(); ++i)
+    this->children_[i]->save(results[i]);
+
+  return results;
+}
+
 bool ResultTree::filter()
 {
   // Depth first.
@@ -78,18 +96,6 @@ bool ResultTree::filter()
 
   // keep
   return false;
-}
-
-Result ResultTree::to_result() const
-{
-  typedef std::vector<std::unique_ptr<ResultTree>>::size_type c_size_type;
-
-  Result results(this->children_.size());
-
-  for(c_size_type i = 0; i < this->children_.size(); ++i)
-    this->children_[i]->save(results[i]);
-
-  return results;
 }
 
 void ResultTree::save(std::multimap<std::string, std::string>& map) const

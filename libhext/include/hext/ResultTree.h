@@ -55,8 +55,7 @@ public:
   /// Remove incomplete branches. An incomplete branch occurs if a Rule matches
   /// an html-subtree, but its Rule siblings or children do not match.
   /// Branches that were created by optional Rules are not removed.
-  /// Always returns false.
-  bool filter();
+  void remove_incomplete_branches();
 
   /// Return a vector containing multimaps of string pairs. Each element in the
   /// vector represents a child of this ResultTree. The multimaps are the result
@@ -68,6 +67,12 @@ public:
 private:
   ResultTree(const ResultTree&) = delete;
   ResultTree& operator=(const ResultTree&) = delete;
+
+  /// Remove incomplete branches. `ResultTree::remove_incomplete_branches` is
+  /// an alias of this function, with the sole purpose of hiding the return
+  /// type.
+  /// Return true if this branch is incomplete.
+  bool filter();
 
   /// Recursively insert all `values_` into `map`, including this instance's
   /// `values_`.

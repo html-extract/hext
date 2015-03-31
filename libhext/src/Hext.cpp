@@ -22,7 +22,7 @@ Result Hext::extract(const std::string& html) const
     ResultTree rt = h.extract(rule);
 
     if( !(this->flags_ & Option::KeepInvalid) )
-      rt.filter();
+      rt.remove_incomplete_branches();
 
     hext::Result sub_result = rt.to_result();
     result.insert(result.end(), sub_result.begin(), sub_result.end());

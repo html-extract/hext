@@ -31,16 +31,18 @@ class ResultTree;
 ///
 /// A Rule may produce incomplete ResultTrees. An incomplete ResultTree occurs
 /// if a Rule matches, but its children or siblings do not. This omission
-/// greatly simplifies recursive matching. ResultTree::filter is provided to
-/// remove incomplete ResultTree branches.
+/// greatly simplifies recursive matching.
+/// `ResultTree::remove_incomplete_branches()` is provided to remove incomplete
+/// ResultTree branches.
 ///
 /// \param   gumbo_tag
 ///    The tag_name of the rule, as parsed by gumbo. Matches if the node's tag
 ///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
 ///
 /// \param   is_optional
-///    When ResultTree::filter is called, invalid ResultTree branches are
-///    removed, unless the Rule that produced the branch is optional.
+///    When `ResultTree::remove_incomplete_branches()` is called, invalid
+///    ResultTree branches are removed, unless the Rule that produced the branch
+///    is optional.
 ///
 /// \param   is_any_descendant
 ///    Matching html-nodes may appear anywhere in the current subtree, as
@@ -91,8 +93,8 @@ public:
   /// Only used when constructing Rules in the parser.
   void append_child(Rule&& r, int level = 1);
 
-  /// Expose child rules. ResultTree::filter needs to know about the complete
-  /// rule tree to decide if all rules were matched.
+  /// Expose child rules. `ResultTree::remove_incomplete_branches()` needs to
+  /// know about the complete rule tree to decide if all rules were matched.
   const std::vector<Rule>& children() const;
 
   /// Returns true if this rule is optional. A rule is optional, if it does not
