@@ -20,22 +20,17 @@ Parser::Parser(const char * begin, const char * end)
   eof(end),
   cs(0)
 {
-  // Ragel generates state machines in plain C and knows nothing about
-  // namespaces.
-  using namespace ragel;
-  
-#line 27 "Parser.cpp.tmp"
-	{
-	cs = hext_start;
-	}
-
-#line 27 "Parser.cpp.rl"
-
 }
 
 std::vector<Rule> Parser::parse(Option flags)
 {
+  // Ragel generates state machines in plain C and knows nothing about
+  // namespaces.
   using namespace ragel;
+
+  // When calling Parser::parse repeatedly, ensure we are always in a valid
+  // state.
+  this->p = this->p_begin_;
 
   // Provide shortcut to keep hext-machine's code smaller.
   typedef NthChildMatch::OffsetOf NthOff;
@@ -55,6 +50,11 @@ std::vector<Rule> Parser::parse(Option flags)
   bool rule_start = false;
 
   
+#line 53 "Parser.cpp.tmp"
+	{
+	cs = hext_start;
+	}
+
 #line 58 "Parser.cpp.tmp"
 	{
 	int _klen;
@@ -450,7 +450,8 @@ _again:
 	_out: {}
 	}
 
-#line 52 "Parser.cpp.rl"
+#line 54 "Parser.cpp.rl"
+
 
   return rule.take_rules();
 }
