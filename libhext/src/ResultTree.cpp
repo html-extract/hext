@@ -30,12 +30,12 @@ ResultTree * ResultTree::create_branch(
 
 bool ResultTree::filter()
 {
-  // depth first
+  // Depth first.
   for(auto& c : this->children_)
     if( c->filter() )
       c.reset(nullptr);
 
-  // erase all empty unique_ptr
+  // Erase all empty unique_ptr.
   this->children_.erase(
     std::remove(this->children_.begin(), this->children_.end(), nullptr),
     this->children_.end()
@@ -57,17 +57,21 @@ bool ResultTree::filter()
     // same order as Rule-children are stored.
     while( r_begin != r_end )
     {
+      // Skip matching rules.
       if( c_begin != c_end && (*c_begin)->matching_rule_ == &(*r_begin) )
       {
+        // Skip all duplicates.
         while( c_begin != c_end && (*c_begin)->matching_rule_ == &(*r_begin) )
           c_begin++;
       }
+      // Skip optional rules.
       else if( !r_begin->optional() )
       {
         // remove
         return true;
       }
 
+      // Rule is satisfied, proceed.
       r_begin++;
     }
   }
