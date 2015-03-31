@@ -17,8 +17,10 @@ INCLUDE(HextEnableWarnings)
 # Avoid circular dependeny by only loading libhext if it wasn't included
 # already.
 IF(NOT LIBHEXT_LOADED)
-  # Tell libhext that libhext-test is already loaded
+  # Tell libhext that libhext-test is already loaded.
   SET(LIBHEXT_TEST_LOADED "true")
+  # Tell libhext not to build swig-hext.
+  SET(LIBHEXT_NO_SWIG_HEXT "true")
   ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
 ENDIF(NOT LIBHEXT_LOADED)
 # Download and build GTest (installing GTest is discouraged).
