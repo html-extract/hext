@@ -97,7 +97,7 @@ TEST(Parser, RepeatedParse)
     std::vector<hext::Rule> v = p.parse();
     ASSERT_EQ(v.size(), 1);
     EXPECT_TRUE(v.front().optional());
-    ASSERT_TRUE(v.front().children().size(), 1);
+    ASSERT_EQ(v.front().children().size(), 1);
     EXPECT_FALSE(v.front().children().front().optional());
   }
 }
