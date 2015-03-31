@@ -8,15 +8,20 @@ namespace hext {
 /// Option flags to control extraction behaviour.
 enum Option
 {
-  /// Default behaviour.
-  Default       = 0,
+  /// No options.
+  NoOption            = 0,
 
-  /// Do not remove invalid results.
-  KeepInvalid   = 1 << 0,
+  /// Remove incomplete ResultTree branches.
+  RemoveIncomplete    = 1 << 0,
 
-  /// Do not force top level rules to be any descendant.
-  NoAutoAnyDesc = 1 << 1
+  /// Force top level rules to be any descendant.
+  ForceTopRuleAnyDesc = 1 << 1
 };
+
+/// Default options.
+constexpr const Option DefaultOption = static_cast<Option>(
+  Option::RemoveIncomplete | Option::ForceTopRuleAnyDesc
+);
 
 /// Option OR.
 inline Option operator|(Option left, Option right)

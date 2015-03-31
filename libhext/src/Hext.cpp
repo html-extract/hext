@@ -21,7 +21,7 @@ Result Hext::extract(const std::string& html) const
   {
     ResultTree rt = h.extract(rule);
 
-    if( !(this->flags_ & Option::KeepInvalid) )
+    if( this->flags_ & Option::RemoveIncomplete )
       rt.remove_incomplete_branches();
 
     hext::Result sub_result = rt.to_result();

@@ -72,7 +72,7 @@ public:
 
   /// Parse hext and produce a vector of rules.
   /// Throw `ParseError` on invalid input.
-  std::vector<Rule> parse(Option flags = Option::Default);
+  std::vector<Rule> parse(Option flags = DefaultOption);
 
 private:
   /// Throw `ParseError` with an error message marking an unexpected character.

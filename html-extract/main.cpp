@@ -32,11 +32,11 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    hext::Option flags = hext::Option::Default;
+    hext::Option flags = hext::DefaultOption;
     if( po.contains("keep-invalid") )
-      flags |= hext::Option::KeepInvalid;
+      flags &= ~hext::Option::RemoveIncomplete;
     if( po.contains("no-auto-any-descendant") )
-      flags |= hext::Option::NoAutoAnyDesc;
+      flags &= ~hext::Option::ForceTopRuleAnyDesc;
 
     std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext"));
     hext::Hext extractor(hext_str, flags);

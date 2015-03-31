@@ -23,7 +23,7 @@ class Hext
 {
 public:
   /// Construct Hext. Throws ParseError if given hext is invalid.
-  explicit Hext(const std::string& hext, Option flags = Option::Default);
+  explicit Hext(const std::string& hext, Option flags = DefaultOption);
 
   /// Extract values from html. Returns a hext::Result with captured values.
   Result extract(const std::string& html) const;

@@ -41,7 +41,7 @@ void RuleBuilder::consume_rule()
     this->gumbo_tag_,
     this->is_optional_,
     (
-      this->indent_ == 0 && !(this->flags_ & Option::NoAutoAnyDesc)
+      this->indent_ == 0 && (this->flags_ & Option::ForceTopRuleAnyDesc)
       ?
       true : this->is_any_descendant_
     ),
