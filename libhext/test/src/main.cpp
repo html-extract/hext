@@ -15,6 +15,7 @@
 #include "pattern/containsword-test.h"
 #include "pattern/endswith-test.h"
 #include "pattern/isnotliteral-test.h"
+#include "pattern/isnotregex-test.h"
 #include "pattern/literal-test.h"
 #include "pattern/nthchild-match.h"
 #include "pattern/regex-test.h"
