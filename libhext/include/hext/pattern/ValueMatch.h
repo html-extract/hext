@@ -17,7 +17,7 @@ namespace hext {
 class ValueMatch : public MatchPattern
 {
 public:
-  ValueMatch(std::unique_ptr<ValueTest> value_test);
+  explicit ValueMatch(std::unique_ptr<ValueTest> value_test);
   virtual MatchResult matches(const GumboNode * node) const = 0;
 
 protected:
