@@ -48,6 +48,11 @@ std::string GetNodeRawText(const GumboNode * node);
 /// Get inner html of a `node`, as is, untouched.
 std::string GetNodeInnerHtml(const GumboNode * node);
 
+/// Return true if `tag` is a tag for an element that is to be embedded
+/// in spaces when converting html to text (that excludes most inline
+/// elements, e.g. `<span>`).
+bool RequiresSpaces(GumboTag tag);
+
 
 } // namespace hext
 

@@ -114,13 +114,19 @@ std::string GetNodeRawText(const GumboNode * node)
       const GumboText * node_text = &child_node->v.text;
       assert(node_text != nullptr);
       assert(node_text->text != nullptr);
-      inner_text.push_back(' ');
       inner_text.append(node_text->text);
     }
     else if( child_node->type == GUMBO_NODE_ELEMENT )
     {
-      inner_text.push_back(' ');
+      bool requires_spaces = RequiresSpaces(child_node->v.element.tag);
+
+      if( requires_spaces )
+        inner_text.push_back(' ');
+
       inner_text.append(GetNodeRawText(child_node));
+
+      if( requires_spaces )
+        inner_text.push_back(' ');
     }
   }
 
@@ -145,6 +151,56 @@ std::string GetNodeInnerHtml(const GumboNode * node)
   }
 
   return "";
+}
+
+bool RequiresSpaces(GumboTag tag)
+{
+  switch( tag )
+  {
+    case GUMBO_TAG_A:
+    case GUMBO_TAG_ABBR:
+    case GUMBO_TAG_ACRONYM:
+    case GUMBO_TAG_B:
+    case GUMBO_TAG_BDO:
+    case GUMBO_TAG_BIG:
+    case GUMBO_TAG_BUTTON:
+    case GUMBO_TAG_CITE:
+    case GUMBO_TAG_CODE:
+    case GUMBO_TAG_DEL:
+    case GUMBO_TAG_DFN:
+    case GUMBO_TAG_EM:
+    case GUMBO_TAG_FIELDSET:
+    case GUMBO_TAG_FONT:
+    case GUMBO_TAG_I:
+    case GUMBO_TAG_IMG:
+    case GUMBO_TAG_INPUT:
+    case GUMBO_TAG_INS:
+    case GUMBO_TAG_KBD:
+    case GUMBO_TAG_LABEL:
+    case GUMBO_TAG_LEGEND:
+    case GUMBO_TAG_MAP:
+    case GUMBO_TAG_OBJECT:
+    case GUMBO_TAG_Q:
+    case GUMBO_TAG_S:
+    case GUMBO_TAG_SAMP:
+    case GUMBO_TAG_SCRIPT:
+    case GUMBO_TAG_SELECT:
+    case GUMBO_TAG_SMALL:
+    case GUMBO_TAG_SPAN:
+    case GUMBO_TAG_STRIKE:
+    case GUMBO_TAG_STRONG:
+    case GUMBO_TAG_SUB:
+    case GUMBO_TAG_SUP:
+    case GUMBO_TAG_TEXTAREA:
+    case GUMBO_TAG_TT:
+    case GUMBO_TAG_U:
+    case GUMBO_TAG_VAR:
+      return false;
+    default:
+      return true;
+  }
+
+  return true;
 }
 
 
