@@ -5,11 +5,11 @@ namespace hext {
 
 
 BuiltinMatch::BuiltinMatch(
-  BuiltinFuncPtr f,
+  BuiltinFuncPtr func,
   std::unique_ptr<ValueTest> value_test
 )
 : ValueMatch(std::move(value_test))
-, func_(f)
+, func_(func)
 {
 }
 

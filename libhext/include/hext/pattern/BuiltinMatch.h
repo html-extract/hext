@@ -14,18 +14,30 @@ namespace hext {
 
 
 /// A BuiltinMatch is a MatchPattern that checks whether the result of a
-/// builtin matches value_test.
+/// builtin matches value_test. An BuiltinMatch is a ValueMatch that matches
+/// if the result of applying a builtin function to an html-node passes
+/// `value_test`.
 class BuiltinMatch : public ValueMatch
 {
 public:
+  /// Construct a BuiltinMatch.
+  ///
+  /// \param func
+  ///     A pointer to a builtin function that is to be applied to a node.
+  /// \param value_test
+  ///     The ValueTest which is to be applied to the result of `func`.
   BuiltinMatch(
-    BuiltinFuncPtr f,
+    BuiltinFuncPtr func,
     std::unique_ptr<ValueTest> value_test
   );
 
+  /// Return a pair: First member is true if the result of applying `func`
+  /// to node passes `value_test`, false otherwise. Second member is always
+  /// a nullptr and can be ignored.
   MatchResult matches(const GumboNode * node) const final;
 
 private:
+  /// A pointer to a builtin function that is to be applied to a node.
   const BuiltinFuncPtr func_;
 };
 
