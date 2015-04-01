@@ -29,7 +29,7 @@ std::string CapturePattern::regex_filter(const char * str) const
     return str;
 
   boost::match_results<const char *> mr;
-  if( boost::regex_search(str, str + strlen(str), mr, this->rx_.get()) )
+  if( boost::regex_search(str, str + std::strlen(str), mr, this->rx_.get()) )
   {
     // If there are no parentheses contained within the regex, return whole
     // regex capture (mr[0]), if there are, then return the first one.
