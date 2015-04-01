@@ -12,15 +12,21 @@
 namespace hext {
 
 
-/// A ValueMatch is a MatchPattern that contains a ValueTest. ValueTests are
-/// matched against an html-node-attribute's value.
+/// A ValueMatch is a MatchPattern that contains a ValueTest.
 class ValueMatch : public MatchPattern
 {
 public:
+  /// Construct a ValueMatch.
+  ///
+  /// \param value_test
+  ///     A value_test that is to be applied to a result.
   explicit ValueMatch(std::unique_ptr<ValueTest> value_test);
+
+  /// Implementation must be provided in sub classes.
   virtual MatchResult matches(const GumboNode * node) const = 0;
 
 protected:
+  /// The value_test that is to be applied to a result.
   const std::unique_ptr<ValueTest> test_;
 };
 
