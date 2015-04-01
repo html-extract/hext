@@ -19,14 +19,15 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Woverloaded-virtual" "-Wpacked" "-Wparentheses" "-Wpointer-arith"
     "-Wredundant-decls" "-Wreturn-type" "-Wsequence-point" "-Wshadow"
     "-Wsign-compare" "-Wsign-promo" "-Wstack-protector" "-Wstrict-aliasing=2"
-    "-Wstrict-null-sentinel" "-Wstrict-overflow=5" "-Wswitch" "-Wswitch-enum"
+    "-Wstrict-null-sentinel" "-Wstrict-overflow=5" "-Wswitch"
     "-Wtrigraphs" "-Wundef" "-Wuninitialized" "-Wunknown-pragmas"
     "-Wunreachable-code" "-Wunused"
     "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
     "-Wunused-variable" "-Wvariadic-macros" "-Wvolatile-register-var"
     "-Wwrite-strings"
     # Unused switches:
-    # "-Wswitch-default": generated ragel code uses switch without default, 
+    # "-Wswitch-enum": Listing every enum brings chaos, especially for GumboTag.
+    # "-Wswitch-default": generated ragel code uses switch without default,
     #                     we cannot do anything about that
     # "-Wmissing-noreturn": we dont care for gcc specific attributes
     # "-Wpadded": also warns when it's impossible to shrink padding
