@@ -163,7 +163,6 @@ bool RequiresSpaces(GumboTag tag)
     case GUMBO_TAG_B:
     case GUMBO_TAG_BDO:
     case GUMBO_TAG_BIG:
-    case GUMBO_TAG_BUTTON:
     case GUMBO_TAG_CITE:
     case GUMBO_TAG_CODE:
     case GUMBO_TAG_DEL:
@@ -173,7 +172,6 @@ bool RequiresSpaces(GumboTag tag)
     case GUMBO_TAG_FONT:
     case GUMBO_TAG_I:
     case GUMBO_TAG_IMG:
-    case GUMBO_TAG_INPUT:
     case GUMBO_TAG_INS:
     case GUMBO_TAG_KBD:
     case GUMBO_TAG_LABEL:
@@ -183,15 +181,12 @@ bool RequiresSpaces(GumboTag tag)
     case GUMBO_TAG_Q:
     case GUMBO_TAG_S:
     case GUMBO_TAG_SAMP:
-    case GUMBO_TAG_SCRIPT:
-    case GUMBO_TAG_SELECT:
     case GUMBO_TAG_SMALL:
     case GUMBO_TAG_SPAN:
     case GUMBO_TAG_STRIKE:
     case GUMBO_TAG_STRONG:
     case GUMBO_TAG_SUB:
     case GUMBO_TAG_SUP:
-    case GUMBO_TAG_TEXTAREA:
     case GUMBO_TAG_TT:
     case GUMBO_TAG_U:
     case GUMBO_TAG_VAR:
