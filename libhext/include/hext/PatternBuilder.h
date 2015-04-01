@@ -68,14 +68,11 @@ public:
   /// Set literal attribute value of the Pattern.
   void set_attr_literal(const std::string& attribute_literal);
 
-  /// Set regex attribute value of the Pattern.
-  void set_attr_regex(const std::string& attribute_regex);
+  /// Set regex of the Pattern.
+  void set_regex(const std::string& regex);
 
   /// Set the CapturePattern's result name.
   void set_cap_var(const std::string& capture_var);
-
-  /// Set the CapturePattern's regex.
-  void set_cap_regex(const std::string& capture_regex);
 
   /// Set the NthChildMatch's multiplier.
   void set_nth_mul(const std::string& multiplier);
@@ -108,14 +105,13 @@ private:
   /// The current attribute literal value.
   std::string attr_literal_;
 
-  /// The current attribute regex value.
-  boost::regex attr_regex_;
-
   /// The current CapturePattern's result name.
   std::string cap_var_;
 
-  /// The current CapturePattern's optional regex.
-  boost::optional<boost::regex> cap_regex_;
+  /// The current Pattern's regex.
+  /// boost::optional is used to be able to distinguish between empty regex
+  /// and no regex.
+  boost::optional<boost::regex> regex_;
 
   /// The current NthChildMatch's multiplier.
   int nth_multiplier_;

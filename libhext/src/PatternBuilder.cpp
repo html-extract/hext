@@ -9,9 +9,8 @@ PatternBuilder::PatternBuilder(Option flags)
 , bf_(nullptr)
 , attr_name_()
 , attr_literal_()
-, attr_regex_()
 , cap_var_()
-, cap_regex_()
+, regex_()
 , nth_multiplier_(0)
 , nth_addend_(-1)
 , literal_operator_('0')
@@ -113,19 +112,14 @@ void PatternBuilder::set_attr_literal(const std::string& attribute_literal)
   this->attr_literal_ = attribute_literal;
 }
 
-void PatternBuilder::set_attr_regex(const std::string& attribute_regex)
+void PatternBuilder::set_regex(const std::string& regex)
 {
-  this->attr_regex_ = attribute_regex;
+  this->regex_ = boost::regex(regex);
 }
 
 void PatternBuilder::set_cap_var(const std::string& capture_var)
 {
   this->cap_var_ = capture_var;
-}
-
-void PatternBuilder::set_cap_regex(const std::string& capture_regex)
-{
-  this->cap_regex_ = boost::regex(capture_regex);
 }
 
 void PatternBuilder::set_nth_mul(const std::string& multiplier)
@@ -148,9 +142,8 @@ void PatternBuilder::reset()
   this->bf_ = nullptr;
   this->attr_name_ = "";
   this->attr_literal_ = "";
-  this->attr_regex_ = "";
   this->cap_var_ = "";
-  this->cap_regex_ = boost::none;
+  this->regex_ = boost::none;
   this->nth_multiplier_ = 0;
   this->nth_addend_ = -1;
   this->literal_operator_ = '0';
@@ -184,9 +177,9 @@ void PatternBuilder::consume_match_pattern()
         break;
     }
   }
-  else if( this->attr_regex_.size() )
+  else if( this->regex_ )
   {
-    test = MakeUnique<RegexTest>(this->attr_regex_);
+    test = MakeUnique<RegexTest>(this->regex_.get());
   }
   else if( this->attr_literal_.size() )
   {
@@ -210,12 +203,12 @@ void PatternBuilder::consume_capture_pattern()
 {
   if( this->bf_ )
   {
-    if( this->cap_regex_ )
+    if( this->regex_ )
       this->cp_.push_back(
         MakeUnique<BuiltinCapture>(
           this->cap_var_,
           this->bf_,
-          this->cap_regex_.get()
+          this->regex_.get()
         )
       );
     else
@@ -225,10 +218,10 @@ void PatternBuilder::consume_capture_pattern()
   }
   else
   {
-    if( this->cap_regex_ )
+    if( this->regex_ )
       this->cp_.push_back(
         MakeUnique<AttributeCapture>(
-          this->cap_var_, this->attr_name_, this->cap_regex_.get()
+          this->cap_var_, this->attr_name_, this->regex_.get()
         )
       );
     else

@@ -26,8 +26,7 @@ attr_name     = ( alpha (alnum | '-' | '_')** );
 builtin_name  = ( alpha (alnum | '-' | '_')** );
 cap_var       = ( [^/{}][^/{}]** );
 match_literal = ( ( [^"] | '\\"' )** );
-cap_regex     = ( ( [^/] | '\\/' )** );
-match_regex   = ( ( [^/] | '\\/' )** );
+regex_content = ( ( [^/] | '\\/' )** );
 
 
 #### NTH_PATTERN ###############################################################
@@ -117,6 +116,15 @@ literal_value = '"' ( match_literal
   >{ TK_START; } %{ TK_STOP; pattern.set_attr_literal(tok); }
 ) '"';
 
+# regular expression
+regex = '/' ( regex_content
+  >{ TK_START; }
+  %{ TK_STOP;
+     try{ pattern.set_regex(tok); }
+     catch( const boost::regex_error& e )
+     { this->throw_regex_error(tok, e.code()); } }
+) '/';
+
 
 #### ATTRIBUTES ################################################################
 attributes = (
@@ -148,24 +156,13 @@ attributes = (
         (
           # capture variable, e.g. id={html_node_attr_id}, @text={heading}
           ( '{' cap_var >{ TK_START; } %{ TK_STOP; pattern.set_cap_var(tok); }
-            # optional capture regex, e.g. @text={time/(\d\d+:\d+\d+)/}
-            ( '/' cap_regex >{ TK_START; }
-                            %{ TK_STOP;
-                               try{ pattern.set_cap_regex(tok); }
-                               catch( const boost::regex_error& e )
-                               { this->throw_regex_error(tok, e.code()); } }
-              '/'
-            )?
+                # optional capture regex, e.g. @text={time/(\d\d:\d\d)/}
+                regex?
             '}' )
           |
 
           # match regex, e.g. id=/article_[0-9]+/
-          ( '/' match_regex >{ TK_START; }
-                            %{ TK_STOP;
-                               try{ pattern.set_attr_regex(tok); }
-                               catch( const boost::regex_error& e )
-                               { this->throw_regex_error(tok, e.code()); } }
-            '/' )
+          regex
           |
 
           # match literal, e.g. id="article_23"
