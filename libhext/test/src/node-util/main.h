@@ -84,14 +84,14 @@ TEST(Node_GetNodeChildCount, ChildCount)
   EXPECT_EQ(hext::GetNodeChildCount(body), 4);
 }
 
-TEST(Node_GetNodeText, NiceTextAndRawText)
+TEST(Node_GetNodeText, NiceText)
 {
   const char * html = R"html(
 <html><head></head><body>
  
-   This is  <span> a</span>badly 
-
-formatted<div><div>html</div>document.
+   This is  <span> a</span><span> b</span>adly
+f<span>ormatte</span>d<div><div>html</div>doc<a>ume</a>nt<span></span>.
+<div><span></span>
 
 </div>
 </body></html>
@@ -102,15 +102,6 @@ formatted<div><div>html</div>document.
 
   const char * expected = "This is a badly formatted html document.";
   EXPECT_EQ(hext::GetNodeText(body), expected);
-
-  const char * expected_raw = R"html( 
- 
-   This is     a badly 
-
-formatted   html document.
-
-)html";
-  EXPECT_EQ(hext::GetNodeRawText(body), expected_raw);
 }
 
 TEST(Node_GetNodeInnerHtml, Empty)
