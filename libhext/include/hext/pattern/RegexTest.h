@@ -3,8 +3,6 @@
 
 #include "hext/pattern/ValueTest.h"
 
-#include <string>
-
 #include <boost/regex.hpp>
 
 
