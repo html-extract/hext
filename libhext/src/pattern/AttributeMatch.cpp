@@ -9,7 +9,7 @@ AttributeMatch::AttributeMatch(
   std::unique_ptr<ValueTest> value_test
 )
 : ValueMatch(std::move(value_test))
-, attr_(attr_name)
+, attr_name_(attr_name)
 {
 }
 
@@ -20,7 +20,7 @@ MatchResult AttributeMatch::matches(const GumboNode * node) const
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
-    this->attr_.c_str()
+    this->attr_name_.c_str()
   );
 
   if( !g_attr )
