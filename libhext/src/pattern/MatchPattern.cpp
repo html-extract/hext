@@ -4,10 +4,6 @@
 namespace hext {
 
 
-MatchPattern::MatchPattern()
-{
-}
-
 MatchPattern::~MatchPattern()
 {
 }
