@@ -15,6 +15,7 @@
 #include "hext/pattern/ContainsWordTest.h"
 #include "hext/pattern/EndsWithTest.h"
 #include "hext/pattern/IsNotLiteralTest.h"
+#include "hext/pattern/IsNotRegexTest.h"
 #include "hext/pattern/LiteralTest.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NthChildMatch.h"
@@ -68,8 +69,18 @@ public:
   /// Set literal attribute value of the Pattern.
   void set_attr_literal(const std::string& attribute_literal);
 
-  /// Set regex of the Pattern.
-  void set_regex(const std::string& regex);
+  /// Return current regex str length.
+  std::string::size_type regex_length() const;
+
+  /// Set regex str of the Pattern.
+  void set_regex_str(const std::string& regex);
+
+  /// Set regex modifier.
+  /// Return false on invalid modifier.
+  bool set_regex_mod(const std::string& regex_mod);
+
+  /// Build regex of the Pattern.
+  void consume_regex();
 
   /// Set the CapturePattern's result name.
   void set_cap_var(const std::string& capture_var);
@@ -108,10 +119,19 @@ private:
   /// The current CapturePattern's result name.
   std::string cap_var_;
 
+  // The current Pattern's regex string.
+  std::string regex_str_;
+
   /// The current Pattern's regex.
   /// boost::optional is used to be able to distinguish between empty regex
   /// and no regex.
   boost::optional<boost::regex> regex_;
+
+  /// The current regex options.
+  boost::regex::flag_type regex_opt_;
+
+  /// True if the current regex is to be negated.
+  bool negate_regex_;
 
   /// The current NthChildMatch's multiplier.
   int nth_multiplier_;

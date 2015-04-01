@@ -87,7 +87,7 @@ private:
   /// Throw `ParseError` with an error message marking an invalid regular
   /// expression.
   void throw_regex_error(
-    const std::string& tok,
+    std::string::size_type mark_len,
     boost::regex_constants::error_type e_code
   ) const;
 

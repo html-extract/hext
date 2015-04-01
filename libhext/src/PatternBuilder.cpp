@@ -10,7 +10,10 @@ PatternBuilder::PatternBuilder(Option flags)
 , attr_name_()
 , attr_literal_()
 , cap_var_()
+, regex_str_()
 , regex_()
+, regex_opt_(boost::regex::perl)
+, negate_regex_(false)
 , nth_multiplier_(0)
 , nth_addend_(-1)
 , literal_operator_('0')
@@ -112,9 +115,42 @@ void PatternBuilder::set_attr_literal(const std::string& attribute_literal)
   this->attr_literal_ = attribute_literal;
 }
 
-void PatternBuilder::set_regex(const std::string& regex)
+std::string::size_type PatternBuilder::regex_length() const
 {
-  this->regex_ = boost::regex(regex);
+  return this->regex_str_.size();
+}
+
+void PatternBuilder::set_regex_str(const std::string& regex)
+{
+  this->regex_str_ = regex;
+}
+
+bool PatternBuilder::set_regex_mod(const std::string& regex_mod)
+{
+  for(const auto c : regex_mod)
+  {
+    switch( c )
+    {
+      case 'i':
+        this->regex_opt_ |= boost::regex::icase;
+        break;
+      case 'c':
+        this->regex_opt_ |= boost::regex::collate;
+        break;
+      case '!':
+        this->negate_regex_ = true;
+        break;
+      default:
+        return false;
+    }
+  }
+
+  return true;
+}
+
+void PatternBuilder::consume_regex()
+{
+  this->regex_ = boost::regex(this->regex_str_, this->regex_opt_);
 }
 
 void PatternBuilder::set_cap_var(const std::string& capture_var)
@@ -143,7 +179,10 @@ void PatternBuilder::reset()
   this->attr_name_ = "";
   this->attr_literal_ = "";
   this->cap_var_ = "";
+  this->regex_str_ = "";
   this->regex_ = boost::none;
+  this->regex_opt_ = boost::regex::perl;
+  this->negate_regex_ = false;
   this->nth_multiplier_ = 0;
   this->nth_addend_ = -1;
   this->literal_operator_ = '0';
@@ -179,7 +218,10 @@ void PatternBuilder::consume_match_pattern()
   }
   else if( this->regex_ )
   {
-    test = MakeUnique<RegexTest>(this->regex_.get());
+    if( this->negate_regex_ )
+      test = MakeUnique<IsNotRegexTest>(this->regex_.get());
+    else
+      test = MakeUnique<RegexTest>(this->regex_.get());
   }
   else if( this->attr_literal_.size() )
   {

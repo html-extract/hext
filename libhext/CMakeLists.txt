@@ -66,6 +66,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/ContainsWordTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/EndsWithTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/IsNotLiteralTest.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/IsNotRegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/LiteralTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/MatchPattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"

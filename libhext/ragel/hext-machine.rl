@@ -118,12 +118,24 @@ literal_value = '"' ( match_literal
 
 # regular expression
 regex = '/' ( regex_content
+    >{ TK_START; }
+    %{ TK_STOP; pattern.set_regex_str(tok); }
+  ) '/'
+  # regex modifier:
+  # 'i': case insensitive
+  # 'c': collate (locale aware character groups)
+  # '!': negate regex
+  # Capture all characters to provide better error diagnostics.
+  ( [a-zA-Z!]+ )?
   >{ TK_START; }
   %{ TK_STOP;
-     try{ pattern.set_regex(tok); }
+     if( !pattern.set_regex_mod(tok) )
+       this->throw_unknown_token(tok, "regex modifier");
+     try{ pattern.consume_regex(); }
      catch( const boost::regex_error& e )
-     { this->throw_regex_error(tok, e.code()); } }
-) '/';
+     { // Mark whole regex as error, including slashes
+       auto mark_len = pattern.regex_length() + tok.size() + 2;
+       this->throw_regex_error(mark_len, e.code()); } };
 
 
 #### ATTRIBUTES ################################################################

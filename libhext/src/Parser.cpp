@@ -243,75 +243,87 @@ _match:
 	break;
 	case 24:
 #line 122 "hext-machine.rl"
-	{ TK_STOP;
-     try{ pattern.set_regex(tok); }
-     catch( const boost::regex_error& e )
-     { this->throw_regex_error(tok, e.code()); } }
+	{ TK_STOP; pattern.set_regex_str(tok); }
 	break;
 	case 25:
-#line 138 "hext-machine.rl"
+#line 130 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 26:
-#line 139 "hext-machine.rl"
-	{ TK_STOP; { if( !pattern.set_builtin(tok) )
-                        this->throw_unknown_token(tok, "builtin"); } }
+#line 131 "hext-machine.rl"
+	{ TK_STOP;
+     if( !pattern.set_regex_mod(tok) )
+       this->throw_unknown_token(tok, "regex modifier");
+     try{ pattern.consume_regex(); }
+     catch( const boost::regex_error& e )
+     { // Mark whole regex as error, including slashes
+       auto mark_len = pattern.regex_length() + tok.size() + 2;
+       this->throw_regex_error(mark_len, e.code()); } }
 	break;
 	case 27:
-#line 144 "hext-machine.rl"
+#line 150 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 28:
-#line 144 "hext-machine.rl"
-	{ TK_STOP; pattern.set_attr_name(tok); }
+#line 151 "hext-machine.rl"
+	{ TK_STOP; { if( !pattern.set_builtin(tok) )
+                        this->throw_unknown_token(tok, "builtin"); } }
 	break;
 	case 29:
-#line 150 "hext-machine.rl"
-	{ pattern.set_literal_op(*this->p); }
+#line 156 "hext-machine.rl"
+	{ TK_START; }
 	break;
 	case 30:
-#line 158 "hext-machine.rl"
-	{ TK_START; }
+#line 156 "hext-machine.rl"
+	{ TK_STOP; pattern.set_attr_name(tok); }
 	break;
 	case 31:
-#line 158 "hext-machine.rl"
-	{ TK_STOP; pattern.set_cap_var(tok); }
+#line 162 "hext-machine.rl"
+	{ pattern.set_literal_op(*this->p); }
 	break;
 	case 32:
-#line 173 "hext-machine.rl"
-	{ pattern.consume_pattern(); }
-	break;
-	case 33:
-#line 185 "hext-machine.rl"
-	{ rule.increment_indent(); }
-	break;
-	case 34:
-#line 189 "hext-machine.rl"
-	{ rule_start = true; }
-	break;
-	case 35:
-#line 191 "hext-machine.rl"
-	{ rule_start = true; rule.set_any_descendant(true); }
-	break;
-	case 36:
-#line 195 "hext-machine.rl"
-	{ rule.set_optional(true); }
-	break;
-	case 37:
-#line 198 "hext-machine.rl"
+#line 170 "hext-machine.rl"
 	{ TK_START; }
 	break;
+	case 33:
+#line 170 "hext-machine.rl"
+	{ TK_STOP; pattern.set_cap_var(tok); }
+	break;
+	case 34:
+#line 185 "hext-machine.rl"
+	{ pattern.consume_pattern(); }
+	break;
+	case 35:
+#line 197 "hext-machine.rl"
+	{ rule.increment_indent(); }
+	break;
+	case 36:
+#line 201 "hext-machine.rl"
+	{ rule_start = true; }
+	break;
+	case 37:
+#line 203 "hext-machine.rl"
+	{ rule_start = true; rule.set_any_descendant(true); }
+	break;
 	case 38:
-#line 199 "hext-machine.rl"
+#line 207 "hext-machine.rl"
+	{ rule.set_optional(true); }
+	break;
+	case 39:
+#line 210 "hext-machine.rl"
+	{ TK_START; }
+	break;
+	case 40:
+#line 211 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
 	break;
-	case 39:
-#line 211 "hext-machine.rl"
+	case 41:
+#line 223 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-#line 314 "Parser.cpp.tmp"
+#line 326 "Parser.cpp.tmp"
 		}
 	}
 
@@ -392,46 +404,61 @@ _again:
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child();
        pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); }
 	break;
+	case 25:
+#line 130 "hext-machine.rl"
+	{ TK_START; }
+	break;
 	case 26:
-#line 139 "hext-machine.rl"
+#line 131 "hext-machine.rl"
+	{ TK_STOP;
+     if( !pattern.set_regex_mod(tok) )
+       this->throw_unknown_token(tok, "regex modifier");
+     try{ pattern.consume_regex(); }
+     catch( const boost::regex_error& e )
+     { // Mark whole regex as error, including slashes
+       auto mark_len = pattern.regex_length() + tok.size() + 2;
+       this->throw_regex_error(mark_len, e.code()); } }
+	break;
+	case 28:
+#line 151 "hext-machine.rl"
 	{ TK_STOP; { if( !pattern.set_builtin(tok) )
                         this->throw_unknown_token(tok, "builtin"); } }
 	break;
-	case 28:
-#line 144 "hext-machine.rl"
+	case 30:
+#line 156 "hext-machine.rl"
 	{ TK_STOP; pattern.set_attr_name(tok); }
 	break;
-	case 32:
-#line 173 "hext-machine.rl"
+	case 34:
+#line 185 "hext-machine.rl"
 	{ pattern.consume_pattern(); }
 	break;
-	case 34:
-#line 189 "hext-machine.rl"
+	case 36:
+#line 201 "hext-machine.rl"
 	{ rule_start = true; }
 	break;
-	case 35:
-#line 191 "hext-machine.rl"
+	case 37:
+#line 203 "hext-machine.rl"
 	{ rule_start = true; rule.set_any_descendant(true); }
 	break;
-	case 36:
-#line 195 "hext-machine.rl"
+	case 38:
+#line 207 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
-	case 38:
-#line 199 "hext-machine.rl"
+	case 40:
+#line 211 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
 	break;
-	case 39:
-#line 211 "hext-machine.rl"
+	case 41:
+#line 223 "hext-machine.rl"
 	{ rule.set_closed(true); }
 	break;
-	case 40:
-#line 216 "hext-machine.rl"
+	case 42:
+#line 228 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 434 "Parser.cpp.tmp"
+#line 461 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -473,7 +500,7 @@ void Parser::throw_unknown_token(
 }
 
 void Parser::throw_regex_error(
-  const std::string& tok,
+  std::string::size_type mark_len,
   boost::regex_constants::error_type e_code
 ) const
 {
@@ -481,7 +508,7 @@ void Parser::throw_regex_error(
 
   std::stringstream error_msg;
   error_msg << "In regular expression ";
-  this->print_error_location(tok.size(), error_msg);
+  this->print_error_location(mark_len, error_msg);
 
   // regex_error::what() not only contains an error message, but also adds the
   // error location. Therefore we use regex_traits::error_string to get a

@@ -84,7 +84,7 @@ void Parser::throw_unknown_token(
 }
 
 void Parser::throw_regex_error(
-  const std::string& tok,
+  std::string::size_type mark_len,
   boost::regex_constants::error_type e_code
 ) const
 {
@@ -92,7 +92,7 @@ void Parser::throw_regex_error(
 
   std::stringstream error_msg;
   error_msg << "In regular expression ";
-  this->print_error_location(tok.size(), error_msg);
+  this->print_error_location(mark_len, error_msg);
 
   // regex_error::what() not only contains an error message, but also adds the
   // error location. Therefore we use regex_traits::error_string to get a
