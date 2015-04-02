@@ -111,12 +111,13 @@ trait = ':' (
 );
 
 
-# attr="literal"
+# Literal value, e.g. attr="literal"
 literal_value = '"' ( match_literal
   >{ TK_START; } %{ TK_STOP; pattern.set_attr_literal(tok); }
 ) '"';
 
-# regular expression
+
+# Regular expression
 regex = '/' ( regex_content
     >{ TK_START; }
     %{ TK_STOP; pattern.set_regex_str(tok); }
@@ -196,6 +197,7 @@ main := (
   ( ' '* '#' (any - '\n')* ( '\n' %act_newline ) )
   |
 
+  # rules
   (
     # groups of two spaces indent a rule
     ( '  ' %{ rule.increment_indent(); } )*
