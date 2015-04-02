@@ -488,7 +488,7 @@ private:
   ) const;
 
   /// Throw `ParseError` with error message `error_msg`. Mark the error location
-  /// in hext with `mark_len` amomunt of characters up to the currently
+  /// in hext with `mark_len` amount of characters up to the currently
   /// processed character.
   void throw_error(
     const std::string& error_msg,
