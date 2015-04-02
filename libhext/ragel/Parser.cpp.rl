@@ -104,6 +104,20 @@ void Parser::throw_regex_error(
   throw ParseError(error_msg.str());
 }
 
+void Parser::throw_error(
+  const std::string& error_msg,
+  std::string::size_type mark_len
+) const
+{
+  assert(this->p && this->p_begin_ && this->pe);
+
+  std::stringstream error_msg_stream;
+  error_msg_stream << error_msg << ", ";
+  this->print_error_location(mark_len, error_msg_stream);
+
+  throw ParseError(error_msg_stream.str());
+}
+
 void Parser::print_error_location(
   std::string::size_type mark_len,
   std::ostream& out

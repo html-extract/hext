@@ -12,6 +12,7 @@ RuleBuilder::RuleBuilder(Option flags)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)
 , is_any_descendant_(false)
+, is_path_(false)
 , is_closed_(false)
 {
 }
@@ -30,6 +31,7 @@ void RuleBuilder::reset()
 {
   this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
   this->indent_ = 0;
+  this->is_path_ = false;
   this->is_closed_ = false;
   this->is_any_descendant_ = false;
   this->is_optional_ = false;
@@ -45,6 +47,7 @@ void RuleBuilder::consume_rule()
       ?
       true : this->is_any_descendant_
     ),
+    this->is_path_,
     this->is_closed_,
     RulePatterns(
       std::move(this->pattern_builder_.take_match_patterns()),
@@ -103,6 +106,11 @@ void RuleBuilder::set_any_descendant(bool is_any_descendant)
   this->is_any_descendant_ = is_any_descendant;
 }
 
+void RuleBuilder::set_path(bool is_path)
+{
+  this->is_path_ = is_path;
+}
+
 void RuleBuilder::set_closed(bool is_closed)
 {
   this->is_closed_ = is_closed;
@@ -111,6 +119,11 @@ void RuleBuilder::set_closed(bool is_closed)
 GumboTag RuleBuilder::tag() const
 {
   return this->gumbo_tag_;
+}
+
+bool RuleBuilder::path() const
+{
+  return this->is_path_;
 }
 
 

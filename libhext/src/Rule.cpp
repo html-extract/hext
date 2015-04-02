@@ -9,6 +9,7 @@ Rule::Rule(
   GumboTag tag,
   bool is_optional,
   bool is_any_descendant,
+  bool is_path,
   bool is_closed,
   RulePatterns&& r_patterns
 )
@@ -17,6 +18,7 @@ Rule::Rule(
 , gumbo_tag_(tag)
 , is_optional_(is_optional)
 , is_any_descendant_(is_any_descendant)
+, is_path_(is_path)
 , is_closed_(is_closed)
 {
 }
@@ -54,6 +56,7 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
     if( this->is_any_descendant_ )
       this->extract_node_children(node, rt);
 
+    if( !this->is_path_ )
     {
       std::vector<ResultTree::NameValuePair> values
         = this->patterns_.capture(node);

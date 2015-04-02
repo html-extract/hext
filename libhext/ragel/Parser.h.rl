@@ -91,6 +91,14 @@ private:
     boost::regex_constants::error_type e_code
   ) const;
 
+  /// Throw `ParseError` with error message `error_msg`. Mark the error location
+  /// in hext with `mark_len` amount of characters up to the currently
+  /// processed character.
+  void throw_error(
+    const std::string& error_msg,
+    std::string::size_type mark_len
+  ) const;
+
   /// Print an error at the current location within hext. Print hext with line
   /// numbers up to the currently examined character. `mark_len` denotes the
   /// amount of '^' characters that are used to mark the error location up to

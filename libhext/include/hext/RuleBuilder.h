@@ -37,8 +37,10 @@ public:
   bool set_tag_name(const std::string& tag_name);
   void set_optional(bool is_optional);
   void set_any_descendant(bool is_any_descendant);
+  void set_path(bool is_path);
   void set_closed(bool is_closed);
   GumboTag tag() const;
+  bool path() const;
 
 private:
   PatternBuilder pattern_builder_;
@@ -48,6 +50,7 @@ private:
   GumboTag gumbo_tag_;
   bool is_optional_;
   bool is_any_descendant_;
+  bool is_path_;
   bool is_closed_;
 };
 

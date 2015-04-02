@@ -49,6 +49,10 @@ class ResultTree;
 ///    opposed to direct descendants (default) which may only match if its
 ///    immediate parent node was matched.
 ///
+/// \param   is_path
+///    Rules that are paths do not capture values, they only describe a path to
+///    an html-node from which to start extracting.
+///
 /// \param   is_closed
 ///    For a closed Rule to match an html-node, all html-attributes must be
 ///    covered by the Rule definition. This is especially useful to match
@@ -64,6 +68,7 @@ public:
     GumboTag gumbo_tag,
     bool is_optional,
     bool is_any_descendant,
+    bool is_path,
     bool is_closed,
     RulePatterns&& r_patterns
   );
@@ -130,6 +135,9 @@ private:
   /// If true, matching html-nodes may appear anywhere in the html.
   /// If false, Rule matches only if its immediate parent was matched.
   const bool is_any_descendant_;
+
+  /// If true, do not capture values.
+  const bool is_path_;
 
   /// If a rule is closed, html-nodes matching this rule must have all
   /// attributes specified in the rule definition, but no more.
