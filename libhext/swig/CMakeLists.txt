@@ -27,6 +27,9 @@ FIND_PACKAGE(PythonLibs)
 ### RUBY
 FIND_PACKAGE(Ruby)
 
+### PHP
+FIND_PACKAGE(Php)
+
 ### LIBHEXT
 IF(NOT LIBHEXT_LOADED)
   SET(LIBHEXT_NO_TESTING "true")
@@ -70,4 +73,13 @@ IF(RUBY_FOUND)
   SWIG_ADD_MODULE(rbhext ruby rbhext.i)
   SWIG_LINK_LIBRARIES(rbhext hext ${RUBY_LIBRARY})
 ENDIF(RUBY_FOUND)
+
+
+###### PHP #####################################################################
+IF(PHP_FOUND)
+  INCLUDE_DIRECTORIES(SYSTEM ${PHP_INCLUDE_DIRS})
+  SET_SOURCE_FILES_PROPERTIES(phphext.i PROPERTIES CPLUSPLUS ON)
+  SWIG_ADD_MODULE(phphext php phphext.i)
+  SWIG_LINK_LIBRARIES(phphext hext)
+ENDIF(PHP_FOUND)
 
