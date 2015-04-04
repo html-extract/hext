@@ -12,7 +12,7 @@ ResultTree::ResultTree(const Rule * rule)
 {
 }
 
-ResultTree::ResultTree(const Rule * rule, std::vector<NameValuePair> values)
+ResultTree::ResultTree(const Rule * rule, std::vector<ResultPair> values)
 : children_(),
   values_(values),
   matching_rule_(rule)
@@ -21,7 +21,7 @@ ResultTree::ResultTree(const Rule * rule, std::vector<NameValuePair> values)
 
 ResultTree * ResultTree::create_branch(
   const Rule * rule,
-  std::vector<NameValuePair> values
+  std::vector<ResultPair> values
 )
 {
   this->children_.push_back(MakeUnique<ResultTree>(rule, values));

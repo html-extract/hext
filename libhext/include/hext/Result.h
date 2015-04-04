@@ -9,10 +9,13 @@
 namespace hext {
 
 
-/// A ResultMap contains the values produced by capturing.
+/// A string-pair containg a name and a value.
+typedef std::pair<std::string, std::string> ResultPair;
+
+/// A multimap containing the values produced by capturing.
 typedef std::multimap<std::string, std::string> ResultMap;
 
-/// Convenience typedef for a collection of ResultMaps.
+/// A collection of ResultMaps.
 typedef std::vector<ResultMap> Result;
 
 

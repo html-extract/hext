@@ -22,12 +22,6 @@ class Rule;
 class ResultTree
 {
 public:
-  /// Convenience typedef for name-value-pairs. First member is the name of a
-  /// capture, the second member is the value of a capture.
-  typedef
-    std::pair<std::string, std::string>
-    NameValuePair;
-
   /// Construct a ResultTree.
   /// \param rule
   ///     The rule that caused the creation of this ResultTree.
@@ -38,7 +32,7 @@ public:
   ///     The rule that caused the creation of this ResultTree.
   /// \param values
   ///     Values for this ResultTree branch.
-  ResultTree(const Rule * rule, std::vector<NameValuePair> values);
+  ResultTree(const Rule * rule, std::vector<ResultPair> values);
 
   ResultTree(ResultTree&&) = default;
 
@@ -49,7 +43,7 @@ public:
   ///     Values for the new ResultTree branch.
   ResultTree * create_branch(
     const Rule * rule,
-    std::vector<NameValuePair> values
+    std::vector<ResultPair> values
   );
 
   /// Remove incomplete branches. An incomplete branch occurs if a Rule matches
@@ -82,7 +76,7 @@ private:
   std::vector<std::unique_ptr<ResultTree>> children_;
 
   /// The values captured by extracting.
-  const std::vector<NameValuePair> values_;
+  const std::vector<ResultPair> values_;
 
   /// The Rule that produced this ResultTree.
   const Rule * const matching_rule_;

@@ -23,25 +23,24 @@ BuiltinCapture::BuiltinCapture(
 {
 }
 
-ResultTree::NameValuePair
-BuiltinCapture::capture(const GumboNode * node) const
+ResultPair BuiltinCapture::capture(const GumboNode * node) const
 {
   assert(this->func_);
   if( !this->func_ )
-    return ResultTree::NameValuePair(this->name_, "");
+    return ResultPair(this->name_, "");
 
   std::string val = this->func_(node);
 
   if( this->rx_ )
   {
-    return ResultTree::NameValuePair(
+    return ResultPair(
       this->name_,
       this->regex_filter(val.c_str())
     );
   }
   else
   {
-    return ResultTree::NameValuePair(this->name_, val);
+    return ResultPair(this->name_, val);
   }
 }
 

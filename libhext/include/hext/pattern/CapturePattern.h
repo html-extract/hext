@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 #define HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
 
-#include "hext/ResultTree.h"
+#include "hext/Result.h"
 
 #include <string>
 #include <cstring>
@@ -49,7 +49,7 @@ public:
 
   /// Return a string pair containing the captured value. Implementation is
   /// provided by sub classes.
-  virtual ResultTree::NameValuePair capture(const GumboNode * node) const = 0;
+  virtual ResultPair capture(const GumboNode * node) const = 0;
 
 protected:
   /// Apply regex `rx_` to `str` and return captured contents.

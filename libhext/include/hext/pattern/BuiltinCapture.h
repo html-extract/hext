@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 
-#include "hext/ResultTree.h"
+#include "hext/Result.h"
 #include "hext/pattern/CapturePattern.h"
 #include "hext/Builtins.h"
 
@@ -53,7 +53,7 @@ public:
   /// `result_name_`, second member is the result of the builtin function
   /// `func` when applied to `node`. If a regex was given, it will be applied
   /// to the result of the builtin function, capturing only the desired result.
-  ResultTree::NameValuePair capture(const GumboNode * node) const final;
+  ResultPair capture(const GumboNode * node) const final;
 
 private:
   /// A pointer to a builtin function that is applied to a node to obtain the

@@ -58,7 +58,7 @@ void Rule::extract(const GumboNode * node, ResultTree * rt) const
 
     if( !this->is_path_ )
     {
-      std::vector<ResultTree::NameValuePair> values
+      std::vector<ResultPair> values
         = this->patterns_.capture(node);
       rt = rt->create_branch(this, values);
     }

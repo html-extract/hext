@@ -1,6 +1,7 @@
 #ifndef HEXT_RULE_H_INCLUDED
 #define HEXT_RULE_H_INCLUDED
 
+#include "hext/Result.h"
 #include "hext/NodeUtil.h"
 #include "hext/MakeUnique.h"
 #include "hext/RulePatterns.h"

@@ -60,10 +60,9 @@ bool RulePatterns::matches_all_attributes(const GumboNode * node) const
   return true;
 }
 
-std::vector<ResultTree::NameValuePair>
-RulePatterns::capture(const GumboNode * node) const
+std::vector<ResultPair> RulePatterns::capture(const GumboNode * node) const
 {
-  typedef std::vector<ResultTree::NameValuePair> values_type;
+  typedef std::vector<ResultPair> values_type;
   typedef std::vector<std::unique_ptr<CapturePattern>> patterns_type;
 
   if( !node || node->type != GUMBO_NODE_ELEMENT )
