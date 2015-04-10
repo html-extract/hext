@@ -6,7 +6,16 @@ namespace hext {
 
 RuleBuilder::RuleBuilder(Option flags)
 : pattern_builder_(flags)
-, rules_()
+, rule_(
+    MakeUnique<Rule>(
+      GUMBO_TAG_UNKNOWN,
+      true,
+      true,
+      true,
+      false,
+      RulePatterns()
+    )
+  )
 , flags_(flags)
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
@@ -16,14 +25,13 @@ RuleBuilder::RuleBuilder(Option flags)
 {
 }
 
-std::vector<Rule> RuleBuilder::take_rules()
+std::unique_ptr<Rule> RuleBuilder::take_rule()
 {
-  std::vector<Rule> rs = std::move(this->rules_);
+  std::unique_ptr<Rule> r = std::move(this->rule_);
 
   this->reset();
-  this->rules_.clear();
 
-  return std::move(rs);
+  return std::move(r);
 }
 
 void RuleBuilder::reset()
@@ -40,22 +48,13 @@ void RuleBuilder::consume_rule()
   Rule r(
     this->gumbo_tag_,
     this->is_optional_,
-    (
-      this->indent_ == 0 && (this->flags_ & Option::ForceTopRuleAnyDesc)
-      ?
-      true : this->is_any_descendant_
-    ),
+    this->is_any_descendant_,
     this->is_path_,
     std::move(this->pattern_builder_.take_match_patterns()),
     std::move(this->pattern_builder_.take_capture_patterns())
   );
 
-  // either top-level rule or first rule
-  if( this->indent_ == 0 || this->rules_.empty() )
-    this->rules_.push_back(std::move(r));
-  else
-    this->rules_.back().append_child(std::move(r), this->indent_);
-
+  this->rule_->append_child(std::move(r), this->indent_);
   this->reset();
 }
 

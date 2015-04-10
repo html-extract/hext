@@ -22,8 +22,8 @@ public:
   /// Construct a RuleBuilder.
   explicit RuleBuilder(Option flags);
 
-  /// Move all stored rules to caller.
-  std::vector<Rule> take_rules();
+  /// Move stored rule to caller.
+  std::unique_ptr<Rule> take_rule();
 
   /// Reset to original state.
   void reset();
@@ -62,8 +62,8 @@ private:
   /// The PatternBuilder for this Rule.
   PatternBuilder pattern_builder_;
 
-  /// The previously built Rules.
-  std::vector<Rule> rules_;
+  /// The Rule.
+  std::unique_ptr<Rule> rule_;
 
   /// Options.
   const Option flags_;

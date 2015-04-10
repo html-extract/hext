@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <utility>
 #include <algorithm>
+#include <memory>
 
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
@@ -70,9 +71,9 @@ public:
   /// `Parser::parse()`.
   Parser(const char * begin, const char * end);
 
-  /// Parse hext and produce a vector of rules.
+  /// Parse hext and produce a Rule.
   /// Throw `ParseError` on invalid input.
-  std::vector<Rule> parse(Option flags = DefaultOption);
+  std::unique_ptr<Rule> parse(Option flags = DefaultOption);
 
 private:
   /// Throw `ParseError` with an error message marking an unexpected character.

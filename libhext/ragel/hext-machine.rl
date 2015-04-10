@@ -219,7 +219,7 @@ main := (
         |
         ( '>' %{ rule.set_any_descendant(true); } )
         |
-        ( '~' %{ rule.set_any_descendant(true); rule.set_path(true); } )
+        ( '~' %{ rule.set_path(true); } )
       ) %{ rule_start = true; }
     )
 

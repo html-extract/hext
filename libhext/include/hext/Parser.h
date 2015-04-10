@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <utility>
 #include <algorithm>
+#include <memory>
 
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
@@ -57,7 +58,7 @@ public:
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 60 "Parser.h.tmp"
+#line 61 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 5, 1, 6, 1, 
@@ -436,7 +437,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 203;
 
 
-#line 60 "Parser.h.rl"
+#line 61 "Parser.h.rl"
 
 } // namespace ragel
 
@@ -450,9 +451,9 @@ public:
   /// `Parser::parse()`.
   Parser(const char * begin, const char * end);
 
-  /// Parse hext and produce a vector of rules.
+  /// Parse hext and produce a Rule.
   /// Throw `ParseError` on invalid input.
-  std::vector<Rule> parse(Option flags = DefaultOption);
+  std::unique_ptr<Rule> parse(Option flags = DefaultOption);
 
 private:
   /// Throw `ParseError` with an error message marking an unexpected character.

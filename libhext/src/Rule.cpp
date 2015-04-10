@@ -25,7 +25,7 @@ Rule::Rule(
 
 void Rule::append_child(Rule&& r, int level)
 {
-  if( level > 1 && !this->children_.empty() )
+  if( level > 0 && !this->children_.empty() )
   {
     this->children_.back().append_child(std::move(r), level - 1);
     return;
@@ -59,7 +59,7 @@ void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
   if( this->matches(node) )
   {
     // Although we have a match, this may not be the html-node that the user
-    // is searching for, so we have to keep matching.
+    // is searching for, therefore matching has to continue down the tree.
     if( this->is_any_descendant_ )
       this->extract_node_children(node, rt);
 

@@ -96,8 +96,8 @@ public:
   Result extract(const Html& html) const;
 
 private:
-  /// A vector of top-level rules.
-  std::vector<Rule> rules_;
+  /// Implicit top rule
+  std::unique_ptr<Rule> rule_;
 
   /// Options.
   const Option flags_;
