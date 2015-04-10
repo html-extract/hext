@@ -7,6 +7,7 @@
 #include "parser/main.h"
 #include "pattern/attribute-capture.h"
 #include "pattern/attribute-match.h"
+#include "pattern/attributecount-match.h"
 #include "pattern/beginswith-test.h"
 #include "pattern/builtin-capture.h"
 #include "pattern/builtin-match.h"
