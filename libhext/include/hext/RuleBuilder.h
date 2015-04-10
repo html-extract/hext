@@ -53,9 +53,6 @@ public:
   /// Set the current Rule to path.
   void set_path(bool is_path);
 
-  /// Set the current Rule to closed.
-  void set_closed(bool is_closed);
-
   /// Return the GumboTag of the current Rule.
   GumboTag tag() const;
 
@@ -86,9 +83,6 @@ private:
 
   /// Whether the current Rule is a path.
   bool is_path_;
-
-  /// Whether the current Rule is closed.
-  bool is_closed_;
 };
 
 

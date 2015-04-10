@@ -228,8 +228,8 @@ main := (
     # a rule can have multple attributes, e.g. <div class="menu"
     attributes?
 
-    # a rule can be closed ("nodes may not have more attributes than specified")
-    ( '>' %{ rule.set_closed(true); } )?
+    # close the rule
+    '>'
   )
 
   # rules and comments may terminate with a newline

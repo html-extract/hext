@@ -10,7 +10,6 @@ Rule::Rule(
   bool is_optional,
   bool is_any_descendant,
   bool is_path,
-  bool is_closed,
   RulePatterns&& r_patterns
 )
 : children_()
@@ -19,7 +18,6 @@ Rule::Rule(
 , is_optional_(is_optional)
 , is_any_descendant_(is_any_descendant)
 , is_path_(is_path)
-, is_closed_(is_closed)
 {
 }
 
@@ -83,10 +81,7 @@ bool Rule::matches(const GumboNode * node) const
     if( node->v.element.tag != this->gumbo_tag_ )
       return false;
 
-  if( this->is_closed_ )
-    return this->patterns_.matches_all_attributes(node);
-  else
-    return this->patterns_.matches(node);
+  return this->patterns_.matches(node);
 }
 
 void Rule::extract_node_children(const GumboNode * node, ResultTree * rt) const

@@ -54,11 +54,6 @@ class ResultTree;
 ///    Rules that are paths do not capture values, they only describe a path to
 ///    an html-node from which to start extracting.
 ///
-/// \param   is_closed
-///    For a closed Rule to match an html-node, all html-attributes must be
-///    covered by the Rule definition. This is especially useful to match
-///    html-nodes that have no attributes.
-///
 /// \param   r_patterns
 ///    RulePattern contains the MatchPatterns and CapturePatterns of a Rule. It
 ///    is responsible for applying Match- and CapturePatterns to html-nodes.
@@ -70,7 +65,6 @@ public:
     bool is_optional,
     bool is_any_descendant,
     bool is_path,
-    bool is_closed,
     RulePatterns&& r_patterns
   );
   Rule(Rule&&) = default;
@@ -139,10 +133,6 @@ private:
 
   /// If true, do not capture values.
   const bool is_path_;
-
-  /// If a rule is closed, html-nodes matching this rule must have all
-  /// attributes specified in the rule definition, but no more.
-  const bool is_closed_;
 }; 
 
 
