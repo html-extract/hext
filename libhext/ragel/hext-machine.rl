@@ -58,6 +58,12 @@ trait = ':' (
   ( 'empty' %{ pattern.consume_child_count("0"); } )
   |
 
+  # :attribute-count(5)
+  ( 'attribute-count('
+    ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.consume_attribute_count(tok); } )
+    ')' )
+  |
+
   # :child-count(5)
   ( 'child-count('
     ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.consume_child_count(tok); } )

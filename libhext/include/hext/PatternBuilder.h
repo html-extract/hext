@@ -5,6 +5,7 @@
 #include "hext/MakeUnique.h"
 #include "hext/Option.h"
 #include "hext/pattern/AttributeCapture.h"
+#include "hext/pattern/AttributeCountMatch.h"
 #include "hext/pattern/AttributeMatch.h"
 #include "hext/pattern/BeginsWithTest.h"
 #include "hext/pattern/BuiltinCapture.h"
@@ -56,6 +57,9 @@ public:
     NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front,
     GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
+
+  /// Consume an AttributeCountMatch.
+  void consume_attribute_count(const std::string& attribute_count);
 
   /// Consume a ChildCountMatch.
   void consume_child_count(const std::string& child_count);

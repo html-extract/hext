@@ -88,6 +88,13 @@ void PatternBuilder::consume_nth_child(
   this->nth_addend_ = -1;
 }
 
+void PatternBuilder::consume_attribute_count(const std::string& attribute_count)
+{
+  this->mp_.push_back(
+    MakeUnique<AttributeCountMatch>(std::stoi(attribute_count))
+  );
+}
+
 void PatternBuilder::consume_child_count(const std::string& child_count)
 {
   this->mp_.push_back(

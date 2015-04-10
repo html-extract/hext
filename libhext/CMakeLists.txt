@@ -56,6 +56,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/NodeUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/Parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/AttributeCapture.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/AttributeCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/AttributeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/BeginsWithTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinCapture.cpp"

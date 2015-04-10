@@ -74,6 +74,15 @@ unsigned int GetNodePositionWithinParentReverse(
   return 0;
 }
 
+unsigned int GetNodeAttributeCount(const GumboNode * node)
+{
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return 0;
+
+  const GumboVector& attributes = node->v.element.attributes;
+  return attributes.length;
+}
+
 unsigned int GetNodeChildCount(const GumboNode * node)
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )

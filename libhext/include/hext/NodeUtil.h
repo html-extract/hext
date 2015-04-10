@@ -34,6 +34,9 @@ unsigned int GetNodePositionWithinParentReverse(
   GumboTag count_tag = GUMBO_TAG_UNKNOWN
 );
 
+/// Return amount of node's attributes.
+unsigned int GetNodeAttributeCount(const GumboNode * node);
+
 /// Count amount of children with node type `GUMBO_NODE_ELEMENT` (which excludes
 /// text-nodes).
 unsigned int GetNodeChildCount(const GumboNode * node);
