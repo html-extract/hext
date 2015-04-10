@@ -15,26 +15,27 @@ TEST(Parser, Empty)
 TEST(Parser, Throws)
 {
   const char * strs[] = {
-    "<unknown_html_tag",
-    "<:unknown_trait",
-    "<:nth-child()",
-    "<:nth-child(n)",
-    " <",
-    "<0",
-    "<0a",
-    "<a0",
-    "<a!",
-    "<1a?",
-    "<1a ?",
-    "<'a",
-    "a",
-    "< a=",
-    "< a=\"",
-    "< a=/",
-    "< a={",
-    "< @a",
-    "< @a=/a",
-    "<\n <\n"
+    "<unknown_html_tag>",
+    "<:unknown_trait>",
+    "<:nth-child()>",
+    "<:nth-child(n)>",
+    " <>",
+    "<0>",
+    "<0a>",
+    "<a0>",
+    "<a!>",
+    "<1a?>",
+    "<1a ?>",
+    "<'a>",
+    "a>",
+    "<a",
+    "< a=>",
+    "< a=\">",
+    "< a=/>",
+    "< a={>",
+    "< @a>",
+    "< @a=/a>",
+    "<>\n <>\n"
   };
 
   for(const char * str : strs)
@@ -49,11 +50,11 @@ TEST(Parser, Comment)
   const char * strs[] = {
     "# single comment\n",
     "# multiple comments\n# multiple comments\n# multiple comments\n",
-    "# a comment and\n<a\n# and a comment\n",
-    "# a comment and\n<a\n # and a comment\n",
-    "# a comment and\n<a\n  # and a comment\n",
-    "<a\n# and a comment\n",
-    "#a comment and\n<a\n"
+    "# a comment and\n<a>\n# and a comment\n",
+    "# a comment and\n<a>\n # and a comment\n",
+    "# a comment and\n<a>\n  # and a comment\n",
+    "<a>\n# and a comment\n",
+    "#a comment and\n<a>\n"
   };
 
   for(const char * str : strs)
@@ -66,17 +67,17 @@ TEST(Parser, Comment)
 TEST(Parser, Patterns)
 {
   const char * strs[] = {
-    "<a href\n",
-    "<a href=\"http...\"\n",
-    "<a href=/http.../\n",
-    "<a href=/http:\\/\\//\n",
-    "<a href={href}\n",
-    "<a @text={text}\n",
-    "<a @text={text/regex/}\n",
-    "<a @text={text/http:\\/\\//}\n",
-    "<a @text=\"text\"\n",
-    "<a @text=/text/\n",
-    "<a @text=/http:\\/\\//\n"
+    "<a href>",
+    "<a href=\"http...\">",
+    "<a href=/http.../>",
+    "<a href=/http:\\/\\//>",
+    "<a href={href}>",
+    "<a @text={text}>",
+    "<a @text={text/regex/}>",
+    "<a @text={text/http:\\/\\//}>",
+    "<a @text=\"text\">\n",
+    "<a @text=/text/>",
+    "<a @text=/http:\\/\\//>"
   };
 
   for(const char * str : strs)
@@ -89,7 +90,7 @@ TEST(Parser, Patterns)
 
 TEST(Parser, RepeatedParse)
 {
-  const char * hxt = "<?a href={href}\n  <a bla=/test/";
+  const char * hxt = "<?a href={href}>\n  <a bla=/test/>";
   hext::Parser p(hxt, hxt + strlen(hxt));
 
   for(int i = 0; i < 5; ++i)

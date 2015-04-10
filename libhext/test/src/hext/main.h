@@ -11,7 +11,7 @@ TEST(Hext_Hext, DoesNotHideParseErrors)
 
 TEST(Hext_Hext, Extracts)
 {
-  hext::Hext h("<a href={link}");
+  hext::Hext h("<a href={link}>");
 
   auto v = h.extract(R"(
     <div>
