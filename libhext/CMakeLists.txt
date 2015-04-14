@@ -78,7 +78,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/ResultTree.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"
-  "${PROJECT_SOURCE_DIR}/src/RulePatterns.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 ADD_DEPENDENCIES(hext gumbo-parser)

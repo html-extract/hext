@@ -46,10 +46,8 @@ void RuleBuilder::consume_rule()
       true : this->is_any_descendant_
     ),
     this->is_path_,
-    RulePatterns(
-      std::move(this->pattern_builder_.take_match_patterns()),
-      std::move(this->pattern_builder_.take_capture_patterns())
-    )
+    std::move(this->pattern_builder_.take_match_patterns()),
+    std::move(this->pattern_builder_.take_capture_patterns())
   );
 
   // either top-level rule or first rule

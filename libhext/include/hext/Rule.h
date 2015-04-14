@@ -4,7 +4,8 @@
 #include "hext/Result.h"
 #include "hext/NodeUtil.h"
 #include "hext/MakeUnique.h"
-#include "hext/RulePatterns.h"
+#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/CapturePattern.h"
 
 #include <string>
 #include <vector>
@@ -35,42 +36,48 @@ class ResultTree;
 /// greatly simplifies recursive matching.
 /// `ResultTree::remove_incomplete_branches()` is provided to remove incomplete
 /// ResultTree branches.
-///
-/// \param   gumbo_tag
-///    The tag_name of the rule, as parsed by gumbo. Matches if the node's tag
-///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
-///
-/// \param   is_optional
-///    When `ResultTree::remove_incomplete_branches()` is called, invalid
-///    ResultTree branches are removed, unless the Rule that produced the branch
-///    is optional.
-///
-/// \param   is_any_descendant
-///    Matching html-nodes may appear anywhere in the current subtree, as
-///    opposed to direct descendants (default) which may only match if its
-///    immediate parent node was matched.
-///
-/// \param   is_path
-///    Rules that are paths do not capture values, they only describe a path to
-///    an html-node from which to start extracting.
-///
-/// \param   r_patterns
-///    RulePattern contains the MatchPatterns and CapturePatterns of a Rule. It
-///    is responsible for applying Match- and CapturePatterns to html-nodes.
 class Rule
 {
 public:
+  /// Construct a Rule.
+  ///
+  /// \param gumbo_tag
+  ///    The tag_name of the rule, as parsed by gumbo. Matches if the node's tag
+  ///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
+  ///
+  /// \param is_optional
+  ///    When `ResultTree::remove_incomplete_branches()` is called, invalid
+  ///    ResultTree branches are removed, unless the Rule that produced the
+  ///    branch is optional.
+  ///
+  /// \param is_any_descendant
+  ///    Matching html-nodes may appear anywhere in the current subtree, as
+  ///    opposed to direct descendants (default) which may only match if its
+  ///    immediate parent node was matched.
+  ///
+  /// \param is_path
+  ///    Rules that are paths do not capture values, they only describe a path
+  ///    to an html-node from which to start extracting.
+  ///
+  /// \param match_patterns
+  ///    A vector of MatchPatterns. MatchPatterns check whether an html-node
+  ///    matches. MatchPatterns are wrapped in a std::unique_ptr to allow for
+  ///    polymorphism.
+  ///
+  /// \param capture_patterns
+  ///    A vector of CapturePatterns. CapturePatterns extract name-value pairs
+  ///    from html-nodes. Like `match_patterns`, the CapturePatterns are wrapped
+  ///    in a std::unique_ptr to allow for polymorphism.
   Rule(
     GumboTag gumbo_tag,
     bool is_optional,
     bool is_any_descendant,
     bool is_path,
-    RulePatterns&& r_patterns
+    std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
+    std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
   );
   Rule(Rule&&) = default;
-  Rule(const Rule&) = default;
   Rule& operator=(Rule&&) = default;
-  Rule& operator=(const Rule&) = default;
 
   /// Append child-rule after last element at tree-level level.
   /// Example Rule:
@@ -108,15 +115,20 @@ private:
   /// Check wheter this Rule matches a single GumboNode.
   bool matches(const GumboNode * node) const;
 
+  /// Return the result of applying all CapturePatterns to node.
+  std::vector<ResultPair> capture(const GumboNode * node) const;
+
   /// Helper method that calls Rule::extract for each child of GumboNode.
   void extract_node_children(const GumboNode * node, ResultTree * rt) const;
 
   /// The children of this rule.
   std::vector<Rule> children_;
 
-  /// RulePatterns contain both MatchPatterns and CapturePatterns. RulePatterns
-  /// were introduced to lessen the amount of code in Rule.
-  RulePatterns patterns_;
+  /// The MatchPatterns of this rule.
+  std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
+
+  /// The CapturePatterns of this rule.
+  std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
 
   /// The type of html-tag this rule matches, as parsed by gumbo. Set to
   /// GUMBO_TAG_UNKNOWN if this rule should match any tag. Html-tags that

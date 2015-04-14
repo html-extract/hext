@@ -3,7 +3,6 @@
 
 #include "hext/Rule.h"
 #include "hext/Option.h"
-#include "hext/RulePatterns.h"
 #include "hext/PatternBuilder.h"
 
 #include <string>
