@@ -17,15 +17,13 @@ TEST(Pattern_ChildCountMatch, Matches)
       <div></div>\
         </body></html>");
     hext::ChildCountMatch p(5);
-    auto res = p.matches(h.body());
-    EXPECT_TRUE(res.first);
+    EXPECT_TRUE(p.matches(h.body()));
   }
 
   {
     helper::Html h("<html><head></head><body></body></html>");
     hext::ChildCountMatch p(0);
-    auto res = p.matches(h.body());
-    EXPECT_TRUE(res.first);
+    EXPECT_TRUE(p.matches(h.body()));
   }
 }
 
@@ -40,20 +38,17 @@ TEST(Pattern_ChildCountMatch, Fails)
       </body></html>");
   {
     hext::ChildCountMatch p(6);
-    auto res = p.matches(h.body());
-    EXPECT_FALSE(res.first);
+    EXPECT_FALSE(p.matches(h.body()));
   }
 
   {
     hext::ChildCountMatch p(4);
-    auto res = p.matches(h.body());
-    EXPECT_FALSE(res.first);
+    EXPECT_FALSE(p.matches(h.body()));
   }
 
   {
     hext::ChildCountMatch p(0);
-    auto res = p.matches(h.body());
-    EXPECT_FALSE(res.first);
+    EXPECT_FALSE(p.matches(h.body()));
   }
 }
 

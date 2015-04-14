@@ -54,8 +54,7 @@ TEST(Pattern_NthChildMatch, MatchesWithoutStep)
 
     {
       hext::NthChildMatch p(0, pos);
-      auto res = p.matches(node);
-      EXPECT_TRUE(res.first);
+      EXPECT_TRUE(p.matches(node));
     }
     {
       hext::NthChildMatch p(
@@ -64,8 +63,7 @@ TEST(Pattern_NthChildMatch, MatchesWithoutStep)
         GUMBO_TAG_UNKNOWN,
         hext::NthChildMatch::OffsetOf::Back
       );
-      auto res = p.matches(node);
-      EXPECT_TRUE(res.first);
+      EXPECT_TRUE(p.matches(node));
     }
     {
       hext::NthChildMatch p(
@@ -73,8 +71,7 @@ TEST(Pattern_NthChildMatch, MatchesWithoutStep)
         tag_pos,
         tag(node)
       );
-      auto res = p.matches(node);
-      EXPECT_TRUE(res.first);
+      EXPECT_TRUE(p.matches(node));
     }
     {
       hext::NthChildMatch p(
@@ -83,8 +80,7 @@ TEST(Pattern_NthChildMatch, MatchesWithoutStep)
         tag(node),
         hext::NthChildMatch::OffsetOf::Back
       );
-      auto res = p.matches(node);
-      EXPECT_TRUE(res.first);
+      EXPECT_TRUE(p.matches(node));
     }
   }
 }
@@ -118,8 +114,7 @@ TEST(Pattern_NthChildMatch, MatchesWithStepAndShift)
       {
         {
           hext::NthChildMatch p(step, shift);
-          auto res = p.matches(node);
-          EXPECT_EQ(pos % step == shift % step, res.first);
+          EXPECT_EQ(pos % step == shift % step, p.matches(node));
         }
 
         {
@@ -129,14 +124,12 @@ TEST(Pattern_NthChildMatch, MatchesWithStepAndShift)
             GUMBO_TAG_UNKNOWN,
             hext::NthChildMatch::OffsetOf::Back
           );
-          auto res = p.matches(node);
-          EXPECT_EQ(rev_pos % step == shift % step, res.first);
+          EXPECT_EQ(rev_pos % step == shift % step, p.matches(node));
         }
 
         {
           hext::NthChildMatch p(step, shift, tag(node));
-          auto res = p.matches(node);
-          EXPECT_EQ(tag_pos % step == shift % step, res.first);
+          EXPECT_EQ(tag_pos % step == shift % step, p.matches(node));
         }
 
         {
@@ -146,8 +139,7 @@ TEST(Pattern_NthChildMatch, MatchesWithStepAndShift)
             tag(node),
             hext::NthChildMatch::OffsetOf::Back
           );
-          auto res = p.matches(node);
-          EXPECT_EQ(tag_rev_pos % step == shift % step, res.first);
+          EXPECT_EQ(tag_rev_pos % step == shift % step, p.matches(node));
         }
       }
     }
