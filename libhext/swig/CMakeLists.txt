@@ -78,6 +78,7 @@ ENDIF(RUBY_FOUND)
 ###### PHP #####################################################################
 IF(PHP_FOUND)
   INCLUDE_DIRECTORIES(SYSTEM ${PHP_INCLUDE_DIRS})
+  INCLUDE_DIRECTORIES(SYSTEM ${CMAKE_SWIG_OUTDIR})
 
   # Hide swig's horrible compiler warnings when building release.
   IF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
