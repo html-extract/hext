@@ -9,16 +9,13 @@ AttributeCountMatch::AttributeCountMatch(int attribute_count)
 {
 }
 
-MatchResult AttributeCountMatch::matches(const GumboNode * node) const
+bool AttributeCountMatch::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return MatchResult(false, nullptr);
+    return false;
 
   unsigned int attr_count = GetNodeAttributeCount(node);
-  return MatchResult(
-    static_cast<unsigned int>(this->attribute_count_) == attr_count,
-    nullptr
-  );
+  return static_cast<unsigned int>(this->attribute_count_) == attr_count;
 }
 
 

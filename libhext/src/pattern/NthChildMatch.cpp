@@ -17,10 +17,10 @@ NthChildMatch::NthChildMatch(
 {
 }
 
-MatchResult NthChildMatch::matches(const GumboNode * node) const
+bool NthChildMatch::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return MatchResult(false, nullptr);
+    return false;
 
   int node_pos = 0;
   if( this->offset_of_ == OffsetOf::Front )
@@ -29,12 +29,9 @@ MatchResult NthChildMatch::matches(const GumboNode * node) const
     node_pos = GetNodePositionWithinParentReverse(node, this->count_tag_);
 
   if( this->step_ )
-    return MatchResult(
-      node_pos % this->step_ == this->shift_ % this->step_,
-      nullptr
-    );
+    return node_pos % this->step_ == this->shift_ % this->step_;
   else
-    return MatchResult(node_pos == this->shift_, nullptr);
+    return node_pos == this->shift_;
 }
 
 

@@ -13,16 +13,16 @@ BuiltinMatch::BuiltinMatch(
 {
 }
 
-MatchResult BuiltinMatch::matches(const GumboNode * node) const
+bool BuiltinMatch::matches(const GumboNode * node) const
 {
   if( !this->func_ )
-    return MatchResult(false, nullptr);
+    return false;
 
   std::string t = this->func_(node);
   if( this->test_ )
-    return MatchResult(this->test_->test(t.c_str()), nullptr);
+    return this->test_->test(t.c_str());
   else
-    return MatchResult(true, nullptr);
+    return true;
 }
 
 

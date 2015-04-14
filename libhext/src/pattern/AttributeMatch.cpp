@@ -13,10 +13,10 @@ AttributeMatch::AttributeMatch(
 {
 }
 
-MatchResult AttributeMatch::matches(const GumboNode * node) const
+bool AttributeMatch::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return MatchResult(false, nullptr);
+    return false;
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
@@ -24,12 +24,12 @@ MatchResult AttributeMatch::matches(const GumboNode * node) const
   );
 
   if( !g_attr )
-    return MatchResult(false, nullptr);
+    return false;
 
   if( !this->test_ || this->test_->test(g_attr->value) )
-    return MatchResult(true, g_attr);
+    return true;
 
-  return MatchResult(false, nullptr);
+  return false;
 }
 
 

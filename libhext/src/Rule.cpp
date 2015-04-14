@@ -83,7 +83,7 @@ bool Rule::matches(const GumboNode * node) const
       return false;
 
   for(const auto& pattern : this->match_patterns_)
-    if( !pattern->matches(node).first )
+    if( !pattern->matches(node) )
       return false;
 
   return true;

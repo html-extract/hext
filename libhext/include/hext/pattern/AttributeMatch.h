@@ -29,11 +29,9 @@ public:
     std::unique_ptr<ValueTest> value_test
   );
 
-  /// Return a pair: First member is true if `node` has an attribute called
-  /// `attr_name` whose value is passed by `value_test`, false otherwise.
-  /// Second member is a pointer to the GumboAttribute that was matched,
-  /// nullptr otherwise.
-  MatchResult matches(const GumboNode * node) const final;
+  /// Return true if `node` has an attribute called `attr_name` whose value is
+  /// passed by `value_test`, false otherwise.
+  bool matches(const GumboNode * node) const final;
 
 protected:
   /// The name of the html-node-attribute whose value is to be matched.

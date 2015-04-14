@@ -9,15 +9,13 @@ ChildCountMatch::ChildCountMatch(int child_count)
 {
 }
 
-MatchResult ChildCountMatch::matches(const GumboNode * node) const
+bool ChildCountMatch::matches(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return MatchResult(false, nullptr);
+    return false;
 
-  return MatchResult(
-    static_cast<unsigned int>(this->child_count_) == GetNodeChildCount(node),
-    nullptr
-  );
+  return
+    static_cast<unsigned int>(this->child_count_) == GetNodeChildCount(node);
 }
 
 

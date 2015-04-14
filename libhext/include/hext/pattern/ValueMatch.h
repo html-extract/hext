@@ -23,7 +23,7 @@ public:
   explicit ValueMatch(std::unique_ptr<ValueTest> value_test);
 
   /// Implementation must be provided in sub classes.
-  virtual MatchResult matches(const GumboNode * node) const = 0;
+  virtual bool matches(const GumboNode * node) const = 0;
 
 protected:
   /// The value_test that is to be applied to a result.

@@ -19,9 +19,8 @@ public:
   /// of children. If child_count is negative, child_count will be set to zero.
   explicit ChildCountMatch(int child_count);
 
-  /// Return MatchResult<true, nullptr> if node has child_count children.
-  /// Second member is always nullptr.
-  MatchResult matches(const GumboNode * node) const final;
+  /// Return true if node has child_count amount of children.
+  bool matches(const GumboNode * node) const final;
 
 private:
   int child_count_;

@@ -37,9 +37,8 @@ public:
     OffsetOf offset_of = OffsetOf::Front
   );
 
-  /// Return MatchResult(true, nullptr) if node matches. Second member is
-  /// always nullptr.
-  MatchResult matches(const GumboNode * node) const final;
+  /// Return true if node matches.
+  bool matches(const GumboNode * node) const final;
 
 private:
   const int step_;

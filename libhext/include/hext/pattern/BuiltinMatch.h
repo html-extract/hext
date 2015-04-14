@@ -31,10 +31,9 @@ public:
     std::unique_ptr<ValueTest> value_test
   );
 
-  /// Return a pair: First member is true if the result of applying `func`
-  /// to node passes `value_test`, false otherwise. Second member is always
-  /// a nullptr and can be ignored.
-  MatchResult matches(const GumboNode * node) const final;
+  /// Return true if the result of applying `func` to node passes `value_test`,
+  /// false otherwise.
+  bool matches(const GumboNode * node) const final;
 
 private:
   /// A pointer to a builtin function that is to be applied to a node.

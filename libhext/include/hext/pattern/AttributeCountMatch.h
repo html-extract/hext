@@ -20,9 +20,8 @@ public:
   /// attribute_count will be set to zero.
   explicit AttributeCountMatch(int attribute_count);
 
-  /// Return MatchResult<true, nullptr> if node has attribute_count attributes.
-  /// Second member is always nullptr.
-  MatchResult matches(const GumboNode * node) const final;
+  /// Return true if node has attribute_count amount of attributes.
+  bool matches(const GumboNode * node) const final;
 
 private:
   int attribute_count_;
