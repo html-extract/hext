@@ -10,6 +10,8 @@
 
 #include <vector>
 #include <string>
+#include <utility>
+#include <algorithm>
 
 
 /// The hext namespace is the top level namespace for everything in libhext.
