@@ -18,7 +18,10 @@ enum Option
   ForceTopRuleAnyDesc = 1 << 1,
 
   /// Insert an AttributeMatch for every AttributeCapture.
-  CapAttribMustExist  = 1 << 2
+  CapAttribMustExist  = 1 << 2,
+
+  /// After capturing values, interleave the results from all top level rules.
+  InterleaveResults   = 1 << 3
 };
 
 /// Default options.
@@ -26,6 +29,7 @@ constexpr const Option DefaultOption = static_cast<Option>(
     Option::RemoveIncomplete
   | Option::ForceTopRuleAnyDesc
   | Option::CapAttribMustExist
+  | Option::InterleaveResults
 );
 
 /// Option OR.

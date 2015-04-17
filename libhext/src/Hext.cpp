@@ -14,7 +14,9 @@ Hext::Hext(const std::string& hext, Option flags)
 
 Result Hext::extract(const std::string& html) const
 {
-  Result result;
+  std::vector<Result> results(this->rules_.size());
+  std::vector<Result>::size_type result_index = 0;
+  std::vector<Result>::size_type max_size = 0;
   Html h(html.c_str(), html.c_str() + html.size());
 
   for(const auto& rule : this->rules_)
@@ -24,8 +26,44 @@ Result Hext::extract(const std::string& html) const
     if( this->flags_ & Option::RemoveIncomplete )
       rt.remove_incomplete_branches();
 
-    hext::Result sub_result = rt.to_result();
-    result.insert(result.end(), sub_result.begin(), sub_result.end());
+    auto result = rt.to_result();
+    max_size = std::max(max_size, result.size());
+    results[result_index++] = result;
+  }
+
+  hext::Result result;
+  if( this->flags_ & Option::InterleaveResults )
+  {
+    result_index = 0;
+    std::vector<std::pair<Result::const_iterator, Result::const_iterator>>
+      iterators;
+    for(const auto& sub_result : results)
+    {
+      iterators.push_back(std::make_pair(sub_result.begin(), sub_result.end()));
+    }
+
+    for(std::vector<Result>::size_type i = 0; i < max_size; ++i)
+    {
+      result.push_back(ResultMap());
+      for(auto& ip : iterators)
+      {
+        if( ip.first != ip.second )
+        {
+          result.at(i).insert(
+            ip.first->begin(),
+            ip.first->end()
+          );
+          ip.first++;
+        }
+      }
+    }
+  }
+  else
+  {
+    for(const auto& sub_result : results)
+    {
+      result.insert(result.end(), sub_result.begin(), sub_result.end());
+    }
   }
 
   return result;
