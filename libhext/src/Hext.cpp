@@ -34,9 +34,9 @@ Result Hext::extract(const Html& html) const
   hext::Result result;
   if( this->flags_ & Option::InterleaveResults )
   {
+    typedef Result::const_iterator result_iter;
+    std::vector<std::pair<result_iter, result_iter>> iterators;
     std::vector<Result>::size_type max_size = 0;
-    std::vector<std::pair<Result::const_iterator, Result::const_iterator>>
-      iterators;
     for(const auto& sub_result : results)
     {
       iterators.push_back(std::make_pair(sub_result.begin(), sub_result.end()));
