@@ -43,6 +43,7 @@ Result Hext::extract(const Html& html) const
       max_size = std::max(max_size, sub_result.size());
     }
 
+    flat_result.reserve(max_size);
     for(std::vector<Result>::size_type i = 0; i < max_size; ++i)
     {
       flat_result.push_back(ResultMap());
