@@ -20,8 +20,6 @@ Result Hext::extract(const std::string& html) const
 Result Hext::extract(const Html& html) const
 {
   std::vector<Result> results;
-  std::vector<Result>::size_type max_size = 0;
-
   for(const auto& rule : this->rules_)
   {
     ResultTree rt = html.extract(rule);
@@ -30,18 +28,19 @@ Result Hext::extract(const Html& html) const
       rt.remove_incomplete_branches();
 
     auto result = rt.to_result();
-    max_size = std::max(max_size, result.size());
     results.push_back(result);
   }
 
   hext::Result result;
   if( this->flags_ & Option::InterleaveResults )
   {
+    std::vector<Result>::size_type max_size = 0;
     std::vector<std::pair<Result::const_iterator, Result::const_iterator>>
       iterators;
     for(const auto& sub_result : results)
     {
       iterators.push_back(std::make_pair(sub_result.begin(), sub_result.end()));
+      max_size = std::max(max_size, sub_result.size());
     }
 
     for(std::vector<Result>::size_type i = 0; i < max_size; ++i)
@@ -51,10 +50,7 @@ Result Hext::extract(const Html& html) const
       {
         if( ip.first != ip.second )
         {
-          result.at(i).insert(
-            ip.first->begin(),
-            ip.first->end()
-          );
+          result.at(i).insert(ip.first->begin(), ip.first->end());
           ip.first++;
         }
       }
