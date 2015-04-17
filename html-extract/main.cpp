@@ -39,6 +39,8 @@ int main(int argc, const char ** argv)
       flags &= ~hext::Option::ForceTopRuleAnyDesc;
     if( po.contains("cap-attrib-optional") )
       flags &= ~hext::Option::CapAttribMustExist;
+    if( po.contains("no-merge-results") )
+      flags &= ~hext::Option::InterleaveResults;
 
     std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext"));
     hext::Hext extractor(hext_str, flags);
