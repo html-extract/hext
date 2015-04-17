@@ -14,14 +14,18 @@ Hext::Hext(const std::string& hext, Option flags)
 
 Result Hext::extract(const std::string& html) const
 {
+  return this->extract(Html(html.c_str(), html.c_str() + html.size()));
+}
+
+Result Hext::extract(const Html& html) const
+{
   std::vector<Result> results(this->rules_.size());
   std::vector<Result>::size_type result_index = 0;
   std::vector<Result>::size_type max_size = 0;
-  Html h(html.c_str(), html.c_str() + html.size());
 
   for(const auto& rule : this->rules_)
   {
-    ResultTree rt = h.extract(rule);
+    ResultTree rt = html.extract(rule);
 
     if( this->flags_ & Option::RemoveIncomplete )
       rt.remove_incomplete_branches();
