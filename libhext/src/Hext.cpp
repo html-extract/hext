@@ -31,7 +31,7 @@ Result Hext::extract(const Html& html) const
     results.push_back(result);
   }
 
-  hext::Result result;
+  hext::Result flat_result;
   if( this->flags_ & Option::InterleaveResults )
   {
     typedef Result::const_iterator result_iter;
@@ -45,12 +45,12 @@ Result Hext::extract(const Html& html) const
 
     for(std::vector<Result>::size_type i = 0; i < max_size; ++i)
     {
-      result.push_back(ResultMap());
+      flat_result.push_back(ResultMap());
       for(auto& ip : iterators)
       {
         if( ip.first != ip.second )
         {
-          result.at(i).insert(ip.first->begin(), ip.first->end());
+          flat_result[i].insert(ip.first->begin(), ip.first->end());
           ip.first++;
         }
       }
@@ -60,11 +60,11 @@ Result Hext::extract(const Html& html) const
   {
     for(const auto& sub_result : results)
     {
-      result.insert(result.end(), sub_result.begin(), sub_result.end());
+      flat_result.insert(flat_result.end(), sub_result.begin(), sub_result.end());
     }
   }
 
-  return result;
+  return flat_result;
 }
 
 
