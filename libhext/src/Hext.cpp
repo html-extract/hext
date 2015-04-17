@@ -19,8 +19,7 @@ Result Hext::extract(const std::string& html) const
 
 Result Hext::extract(const Html& html) const
 {
-  std::vector<Result> results(this->rules_.size());
-  std::vector<Result>::size_type result_index = 0;
+  std::vector<Result> results;
   std::vector<Result>::size_type max_size = 0;
 
   for(const auto& rule : this->rules_)
@@ -32,13 +31,12 @@ Result Hext::extract(const Html& html) const
 
     auto result = rt.to_result();
     max_size = std::max(max_size, result.size());
-    results[result_index++] = result;
+    results.push_back(result);
   }
 
   hext::Result result;
   if( this->flags_ & Option::InterleaveResults )
   {
-    result_index = 0;
     std::vector<std::pair<Result::const_iterator, Result::const_iterator>>
       iterators;
     for(const auto& sub_result : results)
