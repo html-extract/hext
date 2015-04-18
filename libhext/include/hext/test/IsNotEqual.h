@@ -10,8 +10,8 @@ namespace hext {
 namespace test {
 
 
-/// IsNotLiteral is a ValueTest that checks whether another string does not
-/// equal a given literal.
+/// IsNotEqual is a ValueTest that checks whether another string does not equal
+/// a given literal.
 class IsNotEqual : public ValueTest
 {
 public:
