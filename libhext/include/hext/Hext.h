@@ -20,7 +20,7 @@ namespace hext {
 
 /// Hext takes a string containing hext rule definitions. Once constructed, the
 /// rules can be applied to html by calling Hext::extract, which returns a
-/// Result containing all captured values.
+/// hext::Result containing all captured values.
 ///
 /// Result flattening:
 /// ----------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace hext {
 ///   individual results need to be merged into one. The simple way is to put
 ///   all multimaps into a single vector. A better way is to interleave the
 ///   results. Consider the following html:
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///     <table>
 ///       <tr><td><a href="/article/1">How foo became bar</a></td></tr>
 ///       <tr><td>Comments: <span>42</span></td></tr>
@@ -42,27 +42,27 @@ namespace hext {
 ///       <tr><td><a href="/article/3">10 reasons why bar is foo</a></td></tr>
 ///       <tr><td>Comments: <span>1</span></td></tr>
 ///     </table>
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 ///   And the following hext:
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///     <tr>                            # will produce Result#1
 ///       <td>
 ///         <a @text={title}>
 ///     <tr>                            # will produce Result#2
 ///       <td>
 ///         <span @text={comment_cnt}>
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 ///   Producing the following Results:
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///     Result#1: [{"title": "How foo became bar"},
 ///                {"title": "Foo? Why not bar?"},
 ///                {"title": "10 reasons why bar is foo"}]
 ///     Result#2: [{"comment_cnt": "42"},
 ///                {"comment_cnt": "23"},
 ///                {"comment_cnt": "1"}]
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 ///   Now the indvidual results have to be merged into a single hext::Result.
 ///   Naively appending Result#2 to Result#1 isn't useful in this case - A
@@ -70,11 +70,11 @@ namespace hext {
 ///   hext rule definitions. This behaviour is enabled by setting
 ///   Option::InterleaveResults (default on), which produces the following
 ///   hext::Result:
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///     [{"title": "How foo became bar", "comment_cnt": "42},
 ///      {"title": "Foo? Why not bar?", "comment_cnt": "23"},
 ///      {"title": "10 Reasons why bar is foo", "comment_cnt": "1"}]
-///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class Hext
 {
 public:
