@@ -197,46 +197,46 @@ void PatternBuilder::reset()
 
 void PatternBuilder::consume_match_pattern()
 {
-  std::unique_ptr<ValueTest> test;
+  std::unique_ptr<test::ValueTest> test;
 
   if( this->literal_operator_ != '0' )
   {
     switch(this->literal_operator_)
     {
       case '^':
-        test = MakeUnique<BeginsWithTest>(this->attr_literal_);
+        test = MakeUnique<test::BeginsWith>(this->attr_literal_);
         break;
       case '*':
-        test = MakeUnique<ContainsTest>(this->attr_literal_);
+        test = MakeUnique<test::Contains>(this->attr_literal_);
         break;
       case '!':
-        test = MakeUnique<IsNotLiteralTest>(this->attr_literal_);
+        test = MakeUnique<test::IsNotEqual>(this->attr_literal_);
         break;
       case '~':
-        test = MakeUnique<ContainsWordTest>(this->attr_literal_);
+        test = MakeUnique<test::ContainsWord>(this->attr_literal_);
         break;
       case '$':
-        test = MakeUnique<EndsWithTest>(this->attr_literal_);
+        test = MakeUnique<test::EndsWith>(this->attr_literal_);
         break;
       default:
-        test = MakeUnique<LiteralTest>(this->attr_literal_);
+        test = MakeUnique<test::Equals>(this->attr_literal_);
         break;
     }
   }
   else if( this->regex_ )
   {
     if( this->negate_regex_ )
-      test = MakeUnique<IsNotRegexTest>(this->regex_.get());
+      test = MakeUnique<test::IsNotRegex>(this->regex_.get());
     else
-      test = MakeUnique<RegexTest>(this->regex_.get());
+      test = MakeUnique<test::Regex>(this->regex_.get());
   }
   else if( this->attr_literal_.size() )
   {
-    test = MakeUnique<LiteralTest>(this->attr_literal_);
+    test = MakeUnique<test::Equals>(this->attr_literal_);
   }
   else
   {
-    test = MakeUnique<ValueTest>();
+    test = MakeUnique<test::True>();
   }
 
   std::unique_ptr<MatchPattern> p;
@@ -282,7 +282,7 @@ void PatternBuilder::consume_capture_pattern()
 
     if( this->flags_ & Option::CapAttribMustExist )
       this->mp_.push_back(
-        MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<ValueTest>())
+        MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<test::True>())
       );
   }
 }

@@ -1,15 +1,16 @@
-#include "hext/pattern/BeginsWithTest.h"
+#include "hext/test/BeginsWith.h"
 
 
 namespace hext {
+namespace test {
 
 
-BeginsWithTest::BeginsWithTest(std::string literal)
+BeginsWith::BeginsWith(std::string literal)
 : lit_(literal)
 {
 }
 
-bool BeginsWithTest::test(const char * subject) const
+bool BeginsWith::test(const char * subject) const
 {
   if( !subject )
     return false;
@@ -21,5 +22,6 @@ bool BeginsWithTest::test(const char * subject) const
 }
 
 
+} // namespace test
 } // namespace hext
 

@@ -1,15 +1,16 @@
-#include "hext/pattern/ContainsWordTest.h"
+#include "hext/test/ContainsWord.h"
 
 
 namespace hext {
+namespace test {
 
 
-ContainsWordTest::ContainsWordTest(std::string literal)
+ContainsWord::ContainsWord(std::string literal)
 : lit_(literal)
 {
 }
 
-bool ContainsWordTest::test(const char * subject) const
+bool ContainsWord::test(const char * subject) const
 {
   if( !subject || this->lit_.empty() )
     return false;
@@ -37,5 +38,6 @@ bool ContainsWordTest::test(const char * subject) const
 }
 
 
+} // namespace test
 } // namespace hext
 

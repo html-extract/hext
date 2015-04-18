@@ -6,7 +6,7 @@ namespace hext {
 
 BuiltinMatch::BuiltinMatch(
   BuiltinFuncPtr func,
-  std::unique_ptr<ValueTest> value_test
+  std::unique_ptr<test::ValueTest> value_test
 )
 : ValueMatch(std::move(value_test))
 , func_(func)

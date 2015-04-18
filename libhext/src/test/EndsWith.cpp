@@ -1,15 +1,16 @@
-#include "hext/pattern/EndsWithTest.h"
+#include "hext/test/EndsWith.h"
 
 
 namespace hext {
+namespace test {
 
 
-EndsWithTest::EndsWithTest(std::string literal)
+EndsWith::EndsWith(std::string literal)
 : lit_(literal)
 {
 }
 
-bool EndsWithTest::test(const char * subject) const
+bool EndsWith::test(const char * subject) const
 {
   if( !subject )
     return false;
@@ -23,5 +24,6 @@ bool EndsWithTest::test(const char * subject) const
 }
 
 
+} // namespace test
 } // namespace hext
 

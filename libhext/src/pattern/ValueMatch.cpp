@@ -4,7 +4,7 @@
 namespace hext {
 
 
-ValueMatch::ValueMatch(std::unique_ptr<ValueTest> value_test)
+ValueMatch::ValueMatch(std::unique_ptr<test::ValueTest> value_test)
 : test_(std::move(value_test))
 {
 }

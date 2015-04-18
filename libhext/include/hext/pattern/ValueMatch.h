@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_VALUE_MATCH_H_INCLUDED
 #define HEXT_PATTERN_VALUE_MATCH_H_INCLUDED
 
-#include "hext/pattern/ValueTest.h"
+#include "hext/test/ValueTest.h"
 #include "hext/pattern/MatchPattern.h"
 
 #include <memory>
@@ -20,14 +20,14 @@ public:
   ///
   /// \param value_test
   ///     A value_test that is to be applied to a result.
-  explicit ValueMatch(std::unique_ptr<ValueTest> value_test);
+  explicit ValueMatch(std::unique_ptr<test::ValueTest> value_test);
 
   /// Implementation must be provided in sub classes.
   virtual bool matches(const GumboNode * node) const = 0;
 
 protected:
   /// The value_test that is to be applied to a result.
-  const std::unique_ptr<ValueTest> test_;
+  const std::unique_ptr<test::ValueTest> test_;
 };
 
 

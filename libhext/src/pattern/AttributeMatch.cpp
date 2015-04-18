@@ -6,7 +6,7 @@ namespace hext {
 
 AttributeMatch::AttributeMatch(
   const std::string& attr_name,
-  std::unique_ptr<ValueTest> value_test
+  std::unique_ptr<test::ValueTest> value_test
 )
 : ValueMatch(std::move(value_test))
 , attr_name_(attr_name)

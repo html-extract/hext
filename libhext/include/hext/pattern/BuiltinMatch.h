@@ -1,6 +1,7 @@
 #ifndef HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 
+#include "hext/test/ValueTest.h"
 #include "hext/pattern/ValueMatch.h"
 #include "hext/Builtins.h"
 
@@ -28,7 +29,7 @@ public:
   ///     The ValueTest which is to be applied to the result of `func`.
   BuiltinMatch(
     BuiltinFuncPtr func,
-    std::unique_ptr<ValueTest> value_test
+    std::unique_ptr<test::ValueTest> value_test
   );
 
   /// Return true if the result of applying `func` to node passes `value_test`,
