@@ -18,7 +18,7 @@ public:
   explicit IsNotRegex(const boost::regex& regex);
 
   /// Return true if regex does not match subject.
-  bool test(const char * subject) const final;
+  bool operator()(const char * subject) const final;
 
 private:
   const boost::regex rx_;

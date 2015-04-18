@@ -5,7 +5,7 @@ namespace hext {
 namespace test {
 
 
-bool True::test(const char * /* dummy */) const
+bool True::operator()(const char * /* dummy */) const
 {
   return true;
 }

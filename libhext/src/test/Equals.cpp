@@ -10,7 +10,7 @@ Equals::Equals(std::string literal)
 {
 }
 
-bool Equals::test(const char * subject) const
+bool Equals::operator()(const char * subject) const
 {
   return subject && this->lit_.compare(subject) == 0;
 }

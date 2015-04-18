@@ -10,7 +10,7 @@ IsNotEqual::IsNotEqual(std::string literal)
 {
 }
 
-bool IsNotEqual::test(const char * subject) const
+bool IsNotEqual::operator()(const char * subject) const
 {
   return subject && this->lit_.compare(subject) != 0;
 }

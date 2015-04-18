@@ -10,7 +10,7 @@ BeginsWith::BeginsWith(std::string literal)
 {
 }
 
-bool BeginsWith::test(const char * subject) const
+bool BeginsWith::operator()(const char * subject) const
 {
   if( !subject )
     return false;

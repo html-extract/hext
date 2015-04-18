@@ -19,7 +19,7 @@ public:
   explicit ContainsWord(std::string literal);
 
   /// Return true if subject contains literal as a word.
-  bool test(const char * subject) const final;
+  bool operator()(const char * subject) const final;
 
 private:
   const std::string lit_;

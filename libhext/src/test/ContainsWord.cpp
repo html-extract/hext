@@ -10,7 +10,7 @@ ContainsWord::ContainsWord(std::string literal)
 {
 }
 
-bool ContainsWord::test(const char * subject) const
+bool ContainsWord::operator()(const char * subject) const
 {
   if( !subject || this->lit_.empty() )
     return false;

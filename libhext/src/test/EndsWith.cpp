@@ -10,7 +10,7 @@ EndsWith::EndsWith(std::string literal)
 {
 }
 
-bool EndsWith::test(const char * subject) const
+bool EndsWith::operator()(const char * subject) const
 {
   if( !subject )
     return false;

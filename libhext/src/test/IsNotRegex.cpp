@@ -10,7 +10,7 @@ IsNotRegex::IsNotRegex(const boost::regex& regex)
 {
 }
 
-bool IsNotRegex::test(const char * subject) const
+bool IsNotRegex::operator()(const char * subject) const
 {
   return !boost::regex_search(subject, this->rx_);
 }

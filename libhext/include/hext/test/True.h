@@ -13,7 +13,7 @@ class True : public ValueTest
 {
 public:
   /// Return true.
-  bool test(const char * /* dummy */) const final;
+  bool operator()(const char * /* dummy */) const final;
 };
 
 

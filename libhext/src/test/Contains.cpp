@@ -10,7 +10,7 @@ Contains::Contains(std::string literal)
 {
 }
 
-bool Contains::test(const char * subject) const
+bool Contains::operator()(const char * subject) const
 {
   if( !subject )
     return false;

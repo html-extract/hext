@@ -20,7 +20,7 @@ bool BuiltinMatch::matches(const GumboNode * node) const
 
   std::string t = this->func_(node);
   if( this->test_ )
-    return this->test_->test(t.c_str());
+    return (*this->test_)(t.c_str());
   else
     return true;
 }

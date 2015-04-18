@@ -18,7 +18,7 @@ public:
   explicit IsNotEqual(std::string literal);
 
   /// Return true if subject is not literal.
-  bool test(const char * subject) const final;
+  bool operator()(const char * subject) const final;
 private:
   const std::string lit_;
 };

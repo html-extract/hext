@@ -26,7 +26,7 @@ bool AttributeMatch::matches(const GumboNode * node) const
   if( !g_attr )
     return false;
 
-  if( !this->test_ || this->test_->test(g_attr->value) )
+  if( !this->test_ || (*this->test_)(g_attr->value) )
     return true;
 
   return false;
