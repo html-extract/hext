@@ -22,7 +22,8 @@ Result Hext::extract(const Html& html) const
   std::vector<Result> results;
   for(const auto& rule : this->rules_)
   {
-    ResultTree rt = html.extract(rule);
+    ResultTree rt(nullptr);
+    rule.extract(html.root(), &rt);
 
     if( this->flags_ & Option::RemoveIncomplete )
       rt.remove_incomplete_branches();

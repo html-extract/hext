@@ -1,8 +1,7 @@
 #ifndef HEXT_HTML_H_INCLUDED
 #define HEXT_HTML_H_INCLUDED
 
-#include "hext/Rule.h"
-#include "hext/ResultTree.h"
+#include <iterator>
 
 #include <gumbo.h>
 
@@ -10,8 +9,8 @@
 namespace hext {
 
 
-/// Html is responsible for parsing html and, given a Rule, extraction of
-/// content. Html is simply a RAII wrapper around gumbo.
+/// Html is responsible for parsing html.
+/// Html is simply a RAII wrapper around gumbo.
 class Html
 {
 public:
@@ -19,9 +18,8 @@ public:
   Html(const char * begin, const char * end);
   ~Html();
 
-  /// Apply Rule to all html-nodes and return a ResultTree containing all
-  /// captured values.
-  ResultTree extract(const Rule& r) const;
+  /// Return a handle to the root of the html document.
+  const GumboNode * root() const;
 
 private:
   Html(const Html&) = delete;

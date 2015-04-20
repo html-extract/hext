@@ -21,14 +21,9 @@ Html::~Html()
     gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
 }
 
-ResultTree Html::extract(const Rule& r) const
+const GumboNode * Html::root() const
 {
-  ResultTree rt(nullptr);
-
-  if( this->g_outp_ )
-    r.extract(this->g_outp_->root, &rt);
-
-  return rt;
+  return this->g_outp_ ? this->g_outp_->root : nullptr;
 }
 
 
