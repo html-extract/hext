@@ -1,0 +1,6 @@
+/*!
+
+\mainpage Main page
+\htmlinclude mainpage.html
+
+*/

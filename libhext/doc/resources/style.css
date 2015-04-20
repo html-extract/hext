@@ -1312,4 +1312,6 @@ table.params .paramname {
   padding: 2px 20px;
   text-align: right;
 }
-
+#mainpage .image {
+  padding:20px 0 0 0;
+}
