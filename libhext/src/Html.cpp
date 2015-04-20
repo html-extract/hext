@@ -4,6 +4,17 @@
 namespace hext {
 
 
+Html::Html(const std::string& html)
+: g_outp_(
+    gumbo_parse_with_options(
+      &kGumboDefaultOptions,
+      html.c_str(),
+      html.size()
+    )
+  )
+{
+}
+
 Html::Html(const char * begin, const char * end)
 : g_outp_(
     gumbo_parse_with_options(

@@ -14,7 +14,7 @@ Hext::Hext(const std::string& hext, Option flags)
 
 Result Hext::extract(const std::string& html) const
 {
-  return this->extract(Html(html.c_str(), html.c_str() + html.size()));
+  return this->extract(Html(html));
 }
 
 Result Hext::extract(const Html& html) const
