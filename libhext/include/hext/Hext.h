@@ -9,6 +9,7 @@
 #include "hext/Html.h"
 
 #include <vector>
+#include <memory>
 #include <string>
 #include <utility>
 #include <algorithm>

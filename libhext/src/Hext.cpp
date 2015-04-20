@@ -22,13 +22,12 @@ Result Hext::extract(const Html& html) const
   std::vector<Result> results;
   for(const auto& rule : this->rules_)
   {
-    ResultTree rt(nullptr);
-    rule.extract(html.root(), &rt);
+    std::unique_ptr<ResultTree> rt = rule.extract(html.root());
 
     if( this->flags_ & Option::RemoveIncomplete )
-      rt.remove_incomplete_branches();
+      rt->remove_incomplete_branches();
 
-    results.push_back(rt.to_result());
+    results.push_back(rt->to_result());
   }
 
   hext::Result flat_result;

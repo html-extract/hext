@@ -104,14 +104,18 @@ public:
   /// know about the complete rule tree to decide if all rules were matched.
   const std::vector<Rule>& children() const;
 
-  /// Returns true if this rule is optional. A rule is optional, if it does not
+  /// Return true if this rule is optional. A rule is optional, if it does not
   /// participate in validation.
   bool optional() const;
 
   /// Recursively try to find and capture matches.
-  void extract(const GumboNode * node, ResultTree * r) const;
+  /// A wrapper for `Rule::extract_recursive()` to provide a cleaner interface.
+  std::unique_ptr<ResultTree> extract(const GumboNode * node) const;
 
 private:
+  /// Recursively try to find and capture matches.
+  void extract_recursive(const GumboNode * node, ResultTree * r) const;
+
   /// Check wheter this Rule matches a single GumboNode.
   bool matches(const GumboNode * node) const;
 

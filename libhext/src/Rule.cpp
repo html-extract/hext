@@ -44,7 +44,14 @@ bool Rule::optional() const
   return this->is_optional_;
 }
 
-void Rule::extract(const GumboNode * node, ResultTree * rt) const
+std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
+{
+  auto rt = MakeUnique<ResultTree>(nullptr);
+  this->extract_recursive(node, rt.get());
+  return std::move(rt);
+}
+
+void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
 {
   if( !rt || !node || node->type != GUMBO_NODE_ELEMENT )
     return;
@@ -113,7 +120,7 @@ void Rule::extract_node_children(const GumboNode * node, ResultTree * rt) const
   const GumboVector * node_children = &node->v.element.children;
   for(unsigned int i = 0; i < node_children->length; ++i)
   {
-    this->extract(
+    this->extract_recursive(
       static_cast<const GumboNode *>(node_children->data[i]),
       rt
     );
