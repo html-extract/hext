@@ -39,13 +39,13 @@ Result Hext::extract(const Html& html) const
     std::vector<std::pair<result_iter, result_iter>> iterators;
     iterators.reserve(this->rules_.size());
 
-    // The size of the biggest ResultMap.
-    std::vector<Result>::size_type max_size = 0;
+    // The size of the biggest Result.
+    std::vector<Result>::size_type result_max = 0;
 
     for(const auto& sub_result : results)
     {
       iterators.push_back(std::make_pair(sub_result.begin(), sub_result.end()));
-      max_size = std::max(max_size, sub_result.size());
+      result_max = std::max(result_max, sub_result.size());
     }
 
     // Merge multiple results into a single hext::Result. See "Result
@@ -57,8 +57,8 @@ Result Hext::extract(const Html& html) const
     //   Result#3: [X,Y,Z]
     // Expected flat_result:
     //   Result: [1AX, 2BY, 3CZ, 4D, E]
-    flat_result.reserve(max_size);
-    for(std::vector<Result>::size_type i = 0; i < max_size; ++i)
+    flat_result.reserve(result_max);
+    for(std::vector<Result>::size_type i = 0; i < result_max; ++i)
     {
       flat_result.push_back(ResultMap());
       for(auto& ip : iterators)
