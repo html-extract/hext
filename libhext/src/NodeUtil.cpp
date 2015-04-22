@@ -102,10 +102,10 @@ unsigned int GetNodeChildCount(const GumboNode * node)
 
 std::string GetNodeText(const GumboNode * node)
 {
-  return TrimAndCollapseWs(GetNodeRawText(node));
+  return TrimAndCollapseWs(StripTags(node, /* smart_wrap: */ true));
 }
 
-std::string GetNodeRawText(const GumboNode * node)
+std::string StripTags(const GumboNode * node, bool smart_wrap)
 {
   if( !node )
     return "";
@@ -117,23 +117,19 @@ std::string GetNodeRawText(const GumboNode * node)
     for(unsigned int i = 0; i < children->length; ++i)
     {
       auto child_node = static_cast<const GumboNode *>(children->data[i]);
-      assert(child_node != nullptr);
+      assert(child_node);
 
-      if( child_node->type == GUMBO_NODE_ELEMENT )
+      if( smart_wrap && child_node->type == GUMBO_NODE_ELEMENT )
       {
-        bool requires_spaces = RequiresSpaces(child_node->v.element.tag);
+        bool wrap = TagWrapsText(child_node->v.element.tag);
 
-        if( requires_spaces )
-          inner_text.push_back(' ');
-
-        inner_text.append(GetNodeRawText(child_node));
-
-        if( requires_spaces )
-          inner_text.push_back(' ');
+        if( wrap ) inner_text.push_back('\n');
+        inner_text.append(StripTags(child_node));
+        if( wrap ) inner_text.push_back('\n');
       }
       else
       {
-        inner_text.append(GetNodeRawText(child_node));
+        inner_text.append(StripTags(child_node));
       }
     }
   }
@@ -167,7 +163,7 @@ std::string GetNodeInnerHtml(const GumboNode * node)
   return "";
 }
 
-bool RequiresSpaces(GumboTag tag)
+bool TagWrapsText(GumboTag tag)
 {
   switch( tag )
   {

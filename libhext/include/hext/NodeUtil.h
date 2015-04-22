@@ -45,16 +45,20 @@ unsigned int GetNodeChildCount(const GumboNode * node);
 /// multiple whitespace into a single space.
 std::string GetNodeText(const GumboNode * node);
 
-/// Get inner text of a `node`, as is, untouched.
-std::string GetNodeRawText(const GumboNode * node);
+/// Strip html tags of a `node`. If `smart_wrap` is enabled, the content of
+/// some elements is embedded in newlines. For example,
+/// `This is<div>a</div>sentence.` becomes `This is\na\nsentence.`. If
+/// `smart_wrap` is disabled, the result will be `This isasentence.`.
+/// See implementation of hext::TagWrapsText for a list of affected elements.
+std::string StripTags(const GumboNode * node, bool smart_wrap = false);
 
 /// Get inner html of a `node`, as is, untouched.
 std::string GetNodeInnerHtml(const GumboNode * node);
 
 /// Return true if `tag` is a tag for an element that is to be embedded
-/// in spaces when converting html to text (that excludes most inline
+/// in newlines when converting html to text (that excludes most inline
 /// elements, e.g. `<span>`).
-bool RequiresSpaces(GumboTag tag);
+bool TagWrapsText(GumboTag tag);
 
 
 } // namespace hext
