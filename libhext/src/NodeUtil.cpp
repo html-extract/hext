@@ -133,7 +133,8 @@ std::string StripTags(const GumboNode * node, bool smart_wrap)
       }
     }
   }
-  else if( node->type == GUMBO_NODE_TEXT )
+  else if( node->type == GUMBO_NODE_TEXT ||
+           node->type == GUMBO_NODE_WHITESPACE )
   {
     const GumboText& node_text = node->v.text;
     assert(node_text.text);
