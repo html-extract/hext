@@ -107,36 +107,41 @@ std::string GetNodeText(const GumboNode * node)
 
 std::string GetNodeRawText(const GumboNode * node)
 {
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
+  if( !node )
     return "";
 
   std::string inner_text;
-
-  const GumboVector * children = &node->v.element.children;
-  for(unsigned int i = 0; i < children->length; ++i)
+  if( node->type == GUMBO_NODE_ELEMENT )
   {
-    auto child_node = static_cast<const GumboNode *>(children->data[i]);
-    assert(child_node != nullptr);
-
-    if( child_node->type == GUMBO_NODE_TEXT )
+    const GumboVector * children = &node->v.element.children;
+    for(unsigned int i = 0; i < children->length; ++i)
     {
-      const GumboText * node_text = &child_node->v.text;
-      assert(node_text != nullptr);
-      assert(node_text->text != nullptr);
-      inner_text.append(node_text->text);
+      auto child_node = static_cast<const GumboNode *>(children->data[i]);
+      assert(child_node != nullptr);
+
+      if( child_node->type == GUMBO_NODE_ELEMENT )
+      {
+        bool requires_spaces = RequiresSpaces(child_node->v.element.tag);
+
+        if( requires_spaces )
+          inner_text.push_back(' ');
+
+        inner_text.append(GetNodeRawText(child_node));
+
+        if( requires_spaces )
+          inner_text.push_back(' ');
+      }
+      else
+      {
+        inner_text.append(GetNodeRawText(child_node));
+      }
     }
-    else if( child_node->type == GUMBO_NODE_ELEMENT )
-    {
-      bool requires_spaces = RequiresSpaces(child_node->v.element.tag);
-
-      if( requires_spaces )
-        inner_text.push_back(' ');
-
-      inner_text.append(GetNodeRawText(child_node));
-
-      if( requires_spaces )
-        inner_text.push_back(' ');
-    }
+  }
+  else if( node->type == GUMBO_NODE_TEXT )
+  {
+    const GumboText& node_text = node->v.text;
+    assert(node_text.text);
+    inner_text.append(node_text.text);
   }
 
   return inner_text;
