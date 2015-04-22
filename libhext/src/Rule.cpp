@@ -53,14 +53,14 @@ std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 
 void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
 {
-  if( !rt || !node || node->type != GUMBO_NODE_ELEMENT )
+  if( !rt || !node )
     return;
 
   if( this->matches(node) )
   {
     // Although we have a match, this may not be the html-node that the user
     // is searching for, so we have to keep matching.
-    if( this->is_any_descendant_ )
+    if( node->type == GUMBO_NODE_ELEMENT && this->is_any_descendant_ )
       this->extract_node_children(node, rt);
 
     if( !this->is_path_ )
@@ -69,24 +69,26 @@ void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
       rt = rt->create_branch(this, values);
     }
 
-    for(const auto& c : this->children_)
-      c.extract_node_children(node, rt);
+    if( node->type == GUMBO_NODE_ELEMENT )
+      for(const auto& c : this->children_)
+        c.extract_node_children(node, rt);
   }
   else
   {
     // Only continue matching if this Rule matches any descendant.
-    if( this->is_any_descendant_ )
+    if( node->type == GUMBO_NODE_ELEMENT && this->is_any_descendant_ )
       this->extract_node_children(node, rt);
   }
 }
 
 bool Rule::matches(const GumboNode * node) const
 {
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
+  if( !node )
     return false;
 
   if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
-    if( node->v.element.tag != this->gumbo_tag_ )
+    if( node->type != GUMBO_NODE_ELEMENT ||
+        node->v.element.tag != this->gumbo_tag_ )
       return false;
 
   for(const auto& pattern : this->match_patterns_)
@@ -101,7 +103,7 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
   typedef std::vector<ResultPair> values_type;
   typedef std::vector<std::unique_ptr<CapturePattern>> patterns_type;
 
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
+  if( !node )
     return values_type();
 
   patterns_type::size_type patterns_size = this->capture_patterns_.size();
