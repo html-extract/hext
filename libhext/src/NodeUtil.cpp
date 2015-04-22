@@ -124,12 +124,12 @@ std::string StripTags(const GumboNode * node, bool smart_wrap)
         bool wrap = TagWrapsText(child_node->v.element.tag);
 
         if( wrap ) inner_text.push_back('\n');
-        inner_text.append(StripTags(child_node));
+        inner_text.append(StripTags(child_node, smart_wrap));
         if( wrap ) inner_text.push_back('\n');
       }
       else
       {
-        inner_text.append(StripTags(child_node));
+        inner_text.append(StripTags(child_node, smart_wrap));
       }
     }
   }
