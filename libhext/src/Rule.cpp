@@ -100,16 +100,13 @@ bool Rule::matches(const GumboNode * node) const
 
 std::vector<ResultPair> Rule::capture(const GumboNode * node) const
 {
-  typedef std::vector<ResultPair> values_type;
-  typedef std::vector<std::unique_ptr<CapturePattern>> patterns_type;
-
   if( !node )
-    return values_type();
+    return std::vector<ResultPair>();
 
-  patterns_type::size_type patterns_size = this->capture_patterns_.size();
-  values_type values(patterns_size);
-  for(patterns_type::size_type i = 0; i < patterns_size; ++i)
-    values[i] = this->capture_patterns_[i]->capture(node);
+  std::vector<ResultPair> values;
+  values.reserve(this->capture_patterns_.size());
+  for(const auto& pattern : this->capture_patterns_ )
+    values.push_back(pattern->capture(node));
 
   return values;
 }
