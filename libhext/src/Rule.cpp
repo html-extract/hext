@@ -60,7 +60,7 @@ void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
   {
     // Although we have a match, this may not be the html-node that the user
     // is searching for, so we have to keep matching.
-    if( node->type == GUMBO_NODE_ELEMENT && this->is_any_descendant_ )
+    if( this->is_any_descendant_ )
       this->extract_node_children(node, rt);
 
     if( !this->is_path_ )
@@ -69,14 +69,13 @@ void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
       rt = rt->create_branch(this, values);
     }
 
-    if( node->type == GUMBO_NODE_ELEMENT )
-      for(const auto& c : this->children_)
-        c.extract_node_children(node, rt);
+    for(const auto& c : this->children_)
+      c.extract_node_children(node, rt);
   }
   else
   {
     // Only continue matching if this Rule matches any descendant.
-    if( node->type == GUMBO_NODE_ELEMENT && this->is_any_descendant_ )
+    if( this->is_any_descendant_ )
       this->extract_node_children(node, rt);
   }
 }
