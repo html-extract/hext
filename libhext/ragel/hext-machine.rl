@@ -114,6 +114,11 @@ trait = ':' (
   ( 'only-child'
     %{ pattern.set_nth_mul("1"); pattern.consume_nth_child();
        pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); } )
+  |
+
+  # :text
+  ( 'text'
+    %{ pattern.consume_trait_text(); } )
 );
 
 

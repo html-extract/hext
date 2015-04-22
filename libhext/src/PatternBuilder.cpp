@@ -102,6 +102,11 @@ void PatternBuilder::consume_child_count(const std::string& child_count)
   );
 }
 
+void PatternBuilder::consume_trait_text()
+{
+  this->mp_.push_back(MakeUnique<TextNodeMatch>());
+}
+
 bool PatternBuilder::set_builtin(const std::string& bi)
 {
   BuiltinFuncPtr func = GetBuiltinByName(bi);

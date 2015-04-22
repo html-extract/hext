@@ -13,6 +13,7 @@
 #include "hext/pattern/ChildCountMatch.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NthChildMatch.h"
+#include "hext/pattern/TextNodeMatch.h"
 #include "hext/test/BeginsWith.h"
 #include "hext/test/Contains.h"
 #include "hext/test/ContainsWord.h"
@@ -64,6 +65,9 @@ public:
 
   /// Consume a ChildCountMatch.
   void consume_child_count(const std::string& child_count);
+
+  /// Consume a TextNodeMatch.
+  void consume_trait_text();
 
   /// Set builtin function. Return false if builtin cannot be found.
   bool set_builtin(const std::string& bi);
