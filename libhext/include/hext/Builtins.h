@@ -20,6 +20,10 @@ typedef std::string (*BuiltinFuncPtr)(const GumboNode *);
 /// Return nullptr for unknown builtin.
 BuiltinFuncPtr GetBuiltinByName(const std::string& builtin_name);
 
+/// A wrapper for hext::StripTags with disabled smart_wrap. Builtin functions
+/// can only have a single paramter (node).
+std::string StripTagsWrapper(const GumboNode * node);
+
 
 } // namespace hext
 
