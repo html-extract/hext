@@ -9,11 +9,11 @@ RuleBuilder::RuleBuilder(Option flags)
 , rule_(
     MakeUnique<Rule>(
       GUMBO_TAG_UNKNOWN,
-      true,
-      true,
-      true,
       false,
-      RulePatterns()
+      true,
+      true,
+      std::vector<std::unique_ptr<MatchPattern>>(),
+      std::vector<std::unique_ptr<CapturePattern>>()
     )
   )
 , flags_(flags)

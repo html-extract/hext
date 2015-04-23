@@ -22,7 +22,7 @@ Parser::Parser(const char * begin, const char * end)
 {
 }
 
-std::vector<Rule> Parser::parse(Option flags)
+std::unique_ptr<Rule> Parser::parse(Option flags)
 {
   // Ragel generates state machines in plain C and knows nothing about
   // namespaces.
@@ -35,7 +35,7 @@ std::vector<Rule> Parser::parse(Option flags)
   // Provide shortcut to keep hext-machine's code smaller.
   typedef NthChildMatch::OffsetOf NthOff;
 
-  // In the hext-machine, rules will be contructed with a RuleBuilder.
+  // In the hext-machine, rules will be constructed with a RuleBuilder.
   RuleBuilder rule(flags);
 
   // Same with patterns.
@@ -318,7 +318,7 @@ _match:
 	break;
 	case 40:
 #line 222 "hext-machine.rl"
-	{ rule.set_any_descendant(true); rule.set_path(true); }
+	{ rule.set_path(true); }
 	break;
 	case 41:
 #line 223 "hext-machine.rl"
@@ -391,7 +391,7 @@ _again:
 #line 54 "Parser.cpp.rl"
 
 
-  return rule.take_rules();
+  return rule.take_rule();
 }
 
 void Parser::throw_unexpected() const

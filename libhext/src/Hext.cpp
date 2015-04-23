@@ -19,12 +19,13 @@ Result Hext::extract(const std::string& html) const
 
 Result Hext::extract(const Html& html) const
 {
-  std::unique_ptr<ResultTree> rt = rule.extract(html.root());
+  assert(this->rule_);
+  std::unique_ptr<ResultTree> rt = this->rule_->extract(html.root());
 
   if( this->flags_ & Option::RemoveIncomplete )
-    rt.remove_incomplete_branches();
+    rt->remove_incomplete_branches();
 
-  return rt.to_result();
+  return rt->to_result();
 }
 
 
