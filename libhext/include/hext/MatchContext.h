@@ -22,8 +22,7 @@ public:
   MatchContext(
     rule_iter rule_begin,
     rule_iter rule_end,
-    const GumboVector * nodes,
-    unsigned int nodes_length
+    const GumboVector * nodes
   );
 
   boost::optional<match_group> match_next();
@@ -36,7 +35,6 @@ private:
   std::size_t r_manda_cnt_;
 
   const GumboVector * nodes_;
-  unsigned int nodes_length_;
   unsigned int current_node_;
 };
 

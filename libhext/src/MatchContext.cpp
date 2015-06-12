@@ -8,8 +8,7 @@ namespace hext {
 MatchContext::MatchContext(
   rule_iter rule_begin,
   rule_iter rule_end,
-  const GumboVector * nodes,
-  unsigned int nodes_length
+  const GumboVector * nodes
 )
 : r_begin_(rule_begin),
   r_end_(rule_end),
@@ -21,7 +20,6 @@ MatchContext::MatchContext(
     )
   ),
   nodes_(nodes),
-  nodes_length_(nodes_length),
   current_node_(0)
 {
 }
@@ -31,18 +29,18 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
   if( this->r_begin_ == this->r_end_ )
     return boost::optional<MatchContext::match_group>();
 
-  if( !this->nodes_ || !this->nodes_length_ )
+  if( !this->nodes_ || !this->nodes_->length )
     return boost::optional<MatchContext::match_group>();
 
-  if( this->current_node_ >= this->nodes_length_ )
+  if( this->current_node_ >= this->nodes_->length )
     return boost::optional<MatchContext::match_group>();
 
   auto rule = this->r_begin_;
   unsigned int manda_match_cnt = 0;
   MatchContext::match_group mg;
-  while( this->current_node_ < this->nodes_length_ )
+  while( this->current_node_ < this->nodes_->length )
   {
-    assert(this->current_node_ < this->nodes_length_);
+    assert(this->current_node_ < this->nodes_->length);
     auto node = static_cast<const GumboNode *>(
       this->nodes_->data[this->current_node_]
     );
