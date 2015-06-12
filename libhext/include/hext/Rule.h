@@ -4,6 +4,7 @@
 #include "hext/Result.h"
 #include "hext/NodeUtil.h"
 #include "hext/MakeUnique.h"
+#include "hext/MatchContext.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/CapturePattern.h"
 
@@ -24,18 +25,12 @@ class ResultTree;
 /// found, the Rule appends a new branch to a ResultTree (which is supplied by
 /// the caller), containing the captured values of an html-node.
 ///
-/// A Rule is also a tree. A Rule can have multiple Rule children.
+/// A Rule is also a tree: A Rule can have multiple Rule children.
 ///
 /// Matching is done in a recursive and brute-force manner: A Rule is matched
 /// against every child of the given GumboNode tree. Additionally, if a Rule
 /// matches a subnode of the html-tree, all its Rule children are matched
 /// against this subtree.
-///
-/// A Rule may produce incomplete ResultTrees. An incomplete ResultTree occurs
-/// if a Rule matches, but its children or siblings do not. This omission
-/// greatly simplifies recursive matching.
-/// `ResultTree::remove_incomplete_branches()` is provided to remove incomplete
-/// ResultTree branches.
 class Rule
 {
 public:
@@ -55,10 +50,6 @@ public:
   ///    opposed to direct descendants (default) which may only match if its
   ///    immediate parent node was matched.
   ///
-  /// \param is_path
-  ///    Rules that are paths do not capture values, they only describe a path
-  ///    to an html-node from which to start extracting.
-  ///
   /// \param match_patterns
   ///    A vector of MatchPatterns. MatchPatterns check whether an html-node
   ///    matches. MatchPatterns are wrapped in a std::unique_ptr to allow for
@@ -72,7 +63,6 @@ public:
     GumboTag gumbo_tag,
     bool is_optional,
     bool is_any_descendant,
-    bool is_path,
     std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
     std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
   );
@@ -100,30 +90,21 @@ public:
   /// Only used when constructing Rules in the parser.
   void append_child(Rule&& r, int level = 1);
 
-  /// Expose child rules. `ResultTree::remove_incomplete_branches()` needs to
-  /// know about the complete rule tree to decide if all rules were matched.
-  const std::vector<Rule>& children() const;
-
-  /// Return true if this rule is optional. A rule is optional, if it does not
-  /// participate in validation.
+  /// Return true if this rule is optional, i.e. if a match has to be found.
   bool optional() const;
 
   /// Recursively try to find and capture matches.
-  /// A wrapper for `Rule::extract_recursive()` to provide a cleaner interface.
   std::unique_ptr<ResultTree> extract(const GumboNode * node) const;
 
-private:
-  /// Recursively try to find and capture matches.
-  void extract_recursive(const GumboNode * node, ResultTree * r) const;
-
-  /// Check wheter this Rule matches a single GumboNode.
+  /// Check if this Rule matches a single GumboNode.
   bool matches(const GumboNode * node) const;
 
   /// Return the result of applying all CapturePatterns to node.
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
-  /// Helper method that calls Rule::extract for each child of GumboNode.
-  void extract_node_children(const GumboNode * node, ResultTree * rt) const;
+private:
+  /// Apply this rule to `node`, store results in `rt`
+  bool extract_top(const GumboNode * node, ResultTree * rt) const;
 
   /// The children of this rule.
   std::vector<Rule> children_;
@@ -146,9 +127,6 @@ private:
   /// If true, matching html-nodes may appear anywhere in the html.
   /// If false, Rule matches only if its immediate parent was matched.
   const bool is_any_descendant_;
-
-  /// If true, do not capture values.
-  const bool is_path_;
 }; 
 
 

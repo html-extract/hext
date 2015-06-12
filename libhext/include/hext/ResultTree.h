@@ -46,10 +46,9 @@ public:
     std::vector<ResultPair> values
   );
 
-  /// Remove incomplete branches. An incomplete branch occurs if a Rule matches
-  /// an html-subtree, but its Rule siblings or children do not match.
-  /// Branches that were created by optional Rules are not removed.
-  void remove_incomplete_branches();
+  /// Deletes a child branch pointed to by `child`. If `child` is not found
+  /// nothing is done.
+  void delete_branch(const ResultTree * child);
 
   /// Return a vector containing multimaps of string pairs. Each element in the
   /// vector represents a child of this ResultTree. The multimaps are the result
@@ -62,12 +61,6 @@ private:
   ResultTree(const ResultTree&) = delete;
   ResultTree& operator=(const ResultTree&) = delete;
 
-  /// Remove incomplete branches. `ResultTree::remove_incomplete_branches` is
-  /// an alias of this function, with the sole purpose of hiding the return
-  /// type.
-  /// Return true if this branch is incomplete.
-  bool filter();
-
   /// Recursively insert all `values_` into `map`, including this instance's
   /// `values_`.
   void save(ResultMap& map) const;
@@ -76,10 +69,10 @@ private:
   std::vector<std::unique_ptr<ResultTree>> children_;
 
   /// The values captured by extracting.
-  const std::vector<ResultPair> values_;
+  std::vector<ResultPair> values_;
 
   /// The Rule that produced this ResultTree.
-  const Rule * const matching_rule_;
+  const Rule * matching_rule_;
 };
 
 

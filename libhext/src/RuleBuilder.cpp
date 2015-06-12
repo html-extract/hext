@@ -11,7 +11,6 @@ RuleBuilder::RuleBuilder(Option flags)
       GUMBO_TAG_UNKNOWN,
       false,
       true,
-      true,
       std::vector<std::unique_ptr<MatchPattern>>(),
       std::vector<std::unique_ptr<CapturePattern>>()
     )
@@ -20,8 +19,6 @@ RuleBuilder::RuleBuilder(Option flags)
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)
-, is_any_descendant_(false)
-, is_path_(false)
 {
 }
 
@@ -38,8 +35,6 @@ void RuleBuilder::reset()
 {
   this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
   this->indent_ = 0;
-  this->is_path_ = false;
-  this->is_any_descendant_ = false;
   this->is_optional_ = false;
 }
 
@@ -48,8 +43,7 @@ void RuleBuilder::consume_rule()
   Rule r(
     this->gumbo_tag_,
     this->is_optional_,
-    this->is_any_descendant_,
-    this->is_path_,
+    false,
     std::move(this->pattern_builder_.take_match_patterns()),
     std::move(this->pattern_builder_.take_capture_patterns())
   );
@@ -95,24 +89,9 @@ void RuleBuilder::set_optional(bool is_optional)
   this->is_optional_ = is_optional;
 }
 
-void RuleBuilder::set_any_descendant(bool is_any_descendant)
-{
-  this->is_any_descendant_ = is_any_descendant;
-}
-
-void RuleBuilder::set_path(bool is_path)
-{
-  this->is_path_ = is_path;
-}
-
 GumboTag RuleBuilder::tag() const
 {
   return this->gumbo_tag_;
-}
-
-bool RuleBuilder::path() const
-{
-  return this->is_path_;
 }
 
 

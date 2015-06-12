@@ -180,10 +180,7 @@ attributes = (
         (
           # capture variable, e.g. id={html_node_attr_id}, @text={heading}
           ( '{' cap_var >{ TK_START; }
-                %{ TK_STOP;
-                   if( rule.path() )
-                     this->throw_error("Paths cannot have captures", tok.size());
-                   pattern.set_cap_var(tok); }
+                %{ TK_STOP; pattern.set_cap_var(tok); }
                 # optional capture regex, e.g. @text={time/(\d\d:\d\d)/}
                 regex?
             '}' )
@@ -213,15 +210,8 @@ main := (
     # groups of two spaces indent a rule
     ( '  ' %{ rule.increment_indent(); } )*
 
-    # a rule starts with either '<' (direct descendant), '>' (any descendant)
-    # or '~' (path)
-    ( ( ( '<' )
-        |
-        ( '>' %{ rule.set_any_descendant(true); } )
-        |
-        ( '~' %{ rule.set_path(true); } )
-      ) %{ rule_start = true; }
-    )
+    # a rule starts with '<'
+    ( '<' %{ rule_start = true; } )
 
     # a rule can be optional, e.g. <?
     ( '?' %{ rule.set_optional(true); } )?

@@ -46,17 +46,8 @@ public:
   /// Set the current Rule to optional.
   void set_optional(bool is_optional);
 
-  /// Set the current Rule to any_descendant.
-  void set_any_descendant(bool is_any_descendant);
-
-  /// Set the current Rule to path.
-  void set_path(bool is_path);
-
   /// Return the GumboTag of the current Rule.
   GumboTag tag() const;
-
-  /// Return whether the current Rule is a path.
-  bool path() const;
 
 private:
   /// The PatternBuilder for this Rule.
@@ -76,12 +67,6 @@ private:
 
   /// Whether the current Rule is optional.
   bool is_optional_;
-
-  /// Whether the current Rule is any_descendant.
-  bool is_any_descendant_;
-
-  /// Whether the current Rule is a path.
-  bool is_path_;
 };
 
 

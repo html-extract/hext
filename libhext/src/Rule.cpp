@@ -9,7 +9,6 @@ Rule::Rule(
   GumboTag tag,
   bool is_optional,
   bool is_any_descendant,
-  bool is_path,
   std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
   std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
 )
@@ -19,7 +18,6 @@ Rule::Rule(
 , gumbo_tag_(tag)
 , is_optional_(is_optional)
 , is_any_descendant_(is_any_descendant)
-, is_path_(is_path)
 {
 }
 
@@ -34,11 +32,6 @@ void Rule::append_child(Rule&& r, int level)
   this->children_.push_back(std::move(r));
 }
 
-const std::vector<Rule>& Rule::children() const
-{
-  return this->children_;
-}
-
 bool Rule::optional() const
 {
   return this->is_optional_;
@@ -47,37 +40,8 @@ bool Rule::optional() const
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
   auto rt = MakeUnique<ResultTree>(nullptr);
-  this->extract_recursive(node, rt.get());
+  this->extract_top(node, rt.get());
   return std::move(rt);
-}
-
-void Rule::extract_recursive(const GumboNode * node, ResultTree * rt) const
-{
-  if( !rt || !node )
-    return;
-
-  if( this->matches(node) )
-  {
-    // Although we have a match, this may not be the html-node that the user
-    // is searching for, therefore matching has to continue down the tree.
-    if( this->is_any_descendant_ )
-      this->extract_node_children(node, rt);
-
-    if( !this->is_path_ )
-    {
-      std::vector<ResultPair> values = this->capture(node);
-      rt = rt->create_branch(this, values);
-    }
-
-    for(const auto& c : this->children_)
-      c.extract_node_children(node, rt);
-  }
-  else
-  {
-    // Only continue matching if this Rule matches any descendant.
-    if( this->is_any_descendant_ )
-      this->extract_node_children(node, rt);
-  }
 }
 
 bool Rule::matches(const GumboNode * node) const
@@ -110,19 +74,58 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
   return values;
 }
 
-void Rule::extract_node_children(const GumboNode * node, ResultTree * rt) const
+bool Rule::extract_top(const GumboNode * node, ResultTree * rt) const
 {
-  if( !rt || !node || node->type != GUMBO_NODE_ELEMENT )
-    return;
+  if( !node || !rt )
+    return false;
 
-  const GumboVector * node_children = &node->v.element.children;
-  for(unsigned int i = 0; i < node_children->length; ++i)
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return false;
+
+  if( this->children_.empty() )
+    return true;
+
+  int match_count = 0;
+  const GumboVector * child_nodes = &node->v.element.children;
+  MatchContext mc(
+    this->children_.cbegin(),
+    this->children_.cend(),
+    child_nodes,
+    child_nodes->length
+  );
+  while( auto grouped_match = mc.match_next() )
   {
-    this->extract_recursive(
-      static_cast<const GumboNode *>(node_children->data[i]),
-      rt
-    );
+    ++match_count;
+    auto branch = rt->create_branch(nullptr, std::vector<ResultPair>());
+    for( const auto& match_pair : *grouped_match )
+    {
+      const Rule * child_rule = match_pair.first;
+      const GumboNode * child_node = match_pair.second;
+      assert(child_rule && child_node);
+      auto child_rt = branch->create_branch(
+        child_rule,
+        child_rule->capture(child_node)
+      );
+      if( !child_rule->extract_top(child_node, child_rt) )
+      {
+        rt->delete_branch(branch);
+        --match_count;
+        break;
+      }
+    }
   }
+
+  if( this->is_any_descendant_ )
+  {
+    const GumboVector * node_children = &node->v.element.children;
+    for(unsigned int i = 0; i < node_children->length; ++i)
+    {
+      auto child_node = static_cast<const GumboNode *>(node_children->data[i]);
+      this->extract_top(child_node, rt);
+    }
+  }
+
+  return match_count > 0;
 }
 
 

@@ -28,10 +28,21 @@ ResultTree * ResultTree::create_branch(
   return this->children_.back().get();
 }
 
-void ResultTree::remove_incomplete_branches()
+void ResultTree::delete_branch(const ResultTree * child)
 {
-  // Hide return type of `ResultTree::filter()`.
-  this->filter();
+  // std::unique_ptr has no operator==(T*)
+
+  for(auto it = this->children_.begin(); it != this->children_.end(); ++it)
+  {
+    if( it->get() == child )
+    {
+      this->children_.erase(it);
+      // careful: it is now invalid
+      return;
+    }
+  }
+
+  assert(false);
 }
 
 Result ResultTree::to_result() const
@@ -44,58 +55,6 @@ Result ResultTree::to_result() const
     this->children_[i]->save(results[i]);
 
   return results;
-}
-
-bool ResultTree::filter()
-{
-  // Depth first.
-  for(auto& c : this->children_)
-    if( c->filter() )
-      c.reset(nullptr);
-
-  // Erase all empty unique_ptr.
-  this->children_.erase(
-    std::remove(this->children_.begin(), this->children_.end(), nullptr),
-    this->children_.end()
-  );
-
-  // Check if all rules are present in this ResultTree.
-  if( this->matching_rule_ )
-  {
-    auto c_begin = this->children_.begin();
-    auto c_end = this->children_.end();
-
-    const auto& rule_children = this->matching_rule_->children();
-    auto r_begin = rule_children.begin();
-    auto r_end = rule_children.end();
-
-    // All rule-children of the matching rule must be contained in this RuleTree
-    // branch's children. Duplicates are safe to ignore.
-    // We can take advantage of the fact that ResultTrees are appended in the
-    // same order as Rule-children are stored.
-    while( r_begin != r_end )
-    {
-      // Skip matching rules.
-      if( c_begin != c_end && (*c_begin)->matching_rule_ == &(*r_begin) )
-      {
-        // Skip all duplicates.
-        while( c_begin != c_end && (*c_begin)->matching_rule_ == &(*r_begin) )
-          c_begin++;
-      }
-      // Skip optional rules.
-      else if( !r_begin->optional() )
-      {
-        // remove
-        return true;
-      }
-
-      // Rule is satisfied, proceed.
-      r_begin++;
-    }
-  }
-
-  // keep
-  return false;
 }
 
 void ResultTree::save(std::multimap<std::string, std::string>& map) const

@@ -21,10 +21,6 @@ Result Hext::extract(const Html& html) const
 {
   assert(this->rule_);
   std::unique_ptr<ResultTree> rt = this->rule_->extract(html.root());
-
-  if( this->flags_ & Option::RemoveIncomplete )
-    rt->remove_incomplete_branches();
-
   return rt->to_result();
 }
 

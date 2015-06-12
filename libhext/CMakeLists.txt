@@ -53,6 +53,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/Builtins.cpp"
   "${PROJECT_SOURCE_DIR}/src/Hext.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
+  "${PROJECT_SOURCE_DIR}/src/MatchContext.cpp"
   "${PROJECT_SOURCE_DIR}/src/NodeUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/Parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/AttributeCapture.cpp"
