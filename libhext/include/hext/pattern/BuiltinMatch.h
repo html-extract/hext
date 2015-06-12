@@ -14,10 +14,8 @@
 namespace hext {
 
 
-/// A BuiltinMatch is a MatchPattern that checks whether the result of a
-/// builtin matches value_test. An BuiltinMatch is a ValueMatch that matches
-/// if the result of applying a builtin function to an html-node passes
-/// `value_test`.
+/// A BuiltinMatch is a ValueMatch that matches if the result of applying a
+/// builtin function to an html-node passes `value_test`.
 class BuiltinMatch : public ValueMatch
 {
 public:
