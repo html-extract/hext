@@ -156,6 +156,9 @@ attributes = (
   (
     # attribute name
     (
+      # negate match pattern, e.g. !style="display:none"
+      ( '!' >{ pattern.set_negate(); } )?
+
       # builtin function, e.g. @text
       ( '@'
         ( builtin_name
@@ -166,8 +169,6 @@ attributes = (
 
       # html node attribute, e.g. class
       (
-        # negate match pattern, e.g. !style="display:none"
-        ( '!' >{ pattern.set_negate(); } )?
         ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
       )
     )
