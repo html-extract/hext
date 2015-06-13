@@ -136,7 +136,6 @@ regex = '/' ( regex_content
   # regex modifier:
   # 'i': case insensitive
   # 'c': collate (locale aware character groups)
-  # '!': negate regex
   # Capture all characters to provide better error diagnostics.
   ( [a-zA-Z!]+ )?
   >{ TK_START; }
@@ -159,24 +158,26 @@ attributes = (
       # negate match pattern, e.g. !style="display:none"
       ( '!' >{ pattern.set_negate(); } )?
 
-      # builtin function, e.g. @text
-      ( '@'
-        ( builtin_name
-          >{ TK_START; }
-          %{ TK_STOP; { if( !pattern.set_builtin(tok) )
-                        this->throw_unknown_token(tok, "builtin"); } } ) )
-      |
-
-      # html node attribute, e.g. class
       (
-        ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
+        # builtin function, e.g. @text
+        ( '@'
+          ( builtin_name
+            >{ TK_START; }
+            %{ TK_STOP; { if( !pattern.set_builtin(tok) )
+                          this->throw_unknown_token(tok, "builtin"); } } ) )
+        |
+
+        # html node attribute, e.g. class
+        (
+          ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
+        )
       )
     )
 
     # attribute value
     (
       # literal operator, e.g. @text^="Lorem ", class~="menu"
-      ( ( '^' | '*' | '!' | '~' | '$' ) >{ pattern.set_literal_op(*this->p); }
+      ( ( '^' | '*' | '~' | '$' ) >{ pattern.set_literal_op(*this->p); }
         '=' literal_value )
       |
 

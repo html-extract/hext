@@ -258,11 +258,11 @@ _match:
 	{ TK_STOP; pattern.set_regex_str(tok); }
 	break;
 	case 28:
-#line 142 "hext-machine.rl"
+#line 141 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 29:
-#line 143 "hext-machine.rl"
+#line 142 "hext-machine.rl"
 	{ TK_STOP;
      if( !pattern.set_regex_mod(tok) )
        this->throw_unknown_token(tok, "regex modifier");
@@ -273,7 +273,7 @@ _match:
        this->throw_regex_error(mark_len, e.code()); } }
 	break;
 	case 30:
-#line 160 "hext-machine.rl"
+#line 159 "hext-machine.rl"
 	{ pattern.set_negate(); }
 	break;
 	case 31:
@@ -283,7 +283,7 @@ _match:
 	case 32:
 #line 166 "hext-machine.rl"
 	{ TK_STOP; { if( !pattern.set_builtin(tok) )
-                        this->throw_unknown_token(tok, "builtin"); } }
+                          this->throw_unknown_token(tok, "builtin"); } }
 	break;
 	case 33:
 #line 172 "hext-machine.rl"
@@ -294,39 +294,39 @@ _match:
 	{ TK_STOP; pattern.set_attr_name(tok); }
 	break;
 	case 35:
-#line 179 "hext-machine.rl"
+#line 180 "hext-machine.rl"
 	{ pattern.set_literal_op(*this->p); }
 	break;
 	case 36:
-#line 187 "hext-machine.rl"
+#line 188 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 37:
-#line 188 "hext-machine.rl"
+#line 189 "hext-machine.rl"
 	{ TK_STOP; pattern.set_cap_var(tok); }
 	break;
 	case 38:
-#line 203 "hext-machine.rl"
+#line 204 "hext-machine.rl"
 	{ pattern.consume_pattern(); }
 	break;
 	case 39:
-#line 216 "hext-machine.rl"
+#line 217 "hext-machine.rl"
 	{ rule.increment_indent(); }
 	break;
 	case 40:
-#line 219 "hext-machine.rl"
+#line 220 "hext-machine.rl"
 	{ rule_start = true; }
 	break;
 	case 41:
-#line 222 "hext-machine.rl"
+#line 223 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
 	case 42:
-#line 225 "hext-machine.rl"
+#line 226 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 43:
-#line 226 "hext-machine.rl"
+#line 227 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
@@ -370,7 +370,7 @@ _again:
 }
 	break;
 	case 44:
-#line 243 "hext-machine.rl"
+#line 244 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
 #line 376 "Parser.cpp.tmp"

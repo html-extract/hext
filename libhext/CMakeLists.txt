@@ -77,8 +77,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/test/ContainsWord.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/EndsWith.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Equals.cpp"
-  "${PROJECT_SOURCE_DIR}/src/test/IsNotEqual.cpp"
-  "${PROJECT_SOURCE_DIR}/src/test/IsNotRegex.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/NegateValueTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Regex.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/True.cpp"

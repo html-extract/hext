@@ -14,7 +14,6 @@ PatternBuilder::PatternBuilder(Option flags)
 , regex_str_()
 , regex_()
 , regex_opt_(boost::regex::perl)
-, negate_regex_(false)
 , nth_multiplier_(0)
 , nth_addend_(-1)
 , literal_operator_('0')
@@ -155,9 +154,6 @@ bool PatternBuilder::set_regex_mod(const std::string& regex_mod)
       case 'c':
         this->regex_opt_ |= boost::regex::collate;
         break;
-      case '!':
-        this->negate_regex_ = true;
-        break;
       default:
         return false;
     }
@@ -201,7 +197,6 @@ void PatternBuilder::reset()
   this->regex_str_ = "";
   this->regex_ = boost::none;
   this->regex_opt_ = boost::regex::perl;
-  this->negate_regex_ = false;
   this->nth_multiplier_ = 0;
   this->nth_addend_ = -1;
   this->literal_operator_ = '0';
@@ -221,9 +216,6 @@ void PatternBuilder::consume_match_pattern()
       case '*':
         test = MakeUnique<test::Contains>(this->attr_literal_);
         break;
-      case '!':
-        test = MakeUnique<test::IsNotEqual>(this->attr_literal_);
-        break;
       case '~':
         test = MakeUnique<test::ContainsWord>(this->attr_literal_);
         break;
@@ -237,10 +229,7 @@ void PatternBuilder::consume_match_pattern()
   }
   else if( this->regex_ )
   {
-    if( this->negate_regex_ )
-      test = MakeUnique<test::IsNotRegex>(this->regex_.get());
-    else
-      test = MakeUnique<test::Regex>(this->regex_.get());
+    test = MakeUnique<test::Regex>(this->regex_.get());
   }
   else if( this->attr_literal_.size() )
   {

@@ -19,8 +19,6 @@
 #include "hext/test/ContainsWord.h"
 #include "hext/test/EndsWith.h"
 #include "hext/test/Equals.h"
-#include "hext/test/IsNotEqual.h"
-#include "hext/test/IsNotRegex.h"
 #include "hext/test/NegateValueTest.h"
 #include "hext/test/Regex.h"
 #include "hext/test/True.h"
@@ -146,9 +144,6 @@ private:
 
   /// The current regex options.
   boost::regex::flag_type regex_opt_;
-
-  /// True if the current regex is to be negated.
-  bool negate_regex_;
 
   /// The current NthChildMatch's multiplier.
   int nth_multiplier_;
