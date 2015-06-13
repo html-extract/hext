@@ -168,9 +168,7 @@ attributes = (
         |
 
         # html node attribute, e.g. class
-        (
-          ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
-        )
+        ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
       )
     )
 
