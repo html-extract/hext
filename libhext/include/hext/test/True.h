@@ -12,8 +12,8 @@ namespace test {
 class True : public ValueTest
 {
 public:
-  /// Return true.
-  bool operator()(const char * /* dummy */) const final;
+  /// Return true if subject is not nullptr.
+  bool operator()(const char * subject) const final;
 };
 
 

@@ -19,7 +19,7 @@ Parser::Parser(const char * begin, const char * end)
 {
 }
 
-std::unique_ptr<Rule> Parser::parse(Option flags)
+std::unique_ptr<Rule> Parser::parse()
 {
   // Ragel generates state machines in plain C and knows nothing about
   // namespaces.
@@ -33,7 +33,7 @@ std::unique_ptr<Rule> Parser::parse(Option flags)
   typedef NthChildMatch::OffsetOf NthOff;
 
   // In the hext-machine, rules will be constructed with a RuleBuilder.
-  RuleBuilder rule(flags);
+  RuleBuilder rule;
 
   // Same with patterns.
   PatternBuilder& pattern = rule.pattern();

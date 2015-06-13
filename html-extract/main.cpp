@@ -32,12 +32,8 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    hext::Option flags = hext::DefaultOption;
-    if( po.contains("cap-attrib-optional") )
-      flags &= ~hext::Option::CapAttribMustExist;
-
     std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext"));
-    hext::Hext extractor(hext_str, flags);
+    hext::Hext extractor(hext_str);
 
     if( po.contains("lint") )
       return EXIT_SUCCESS;

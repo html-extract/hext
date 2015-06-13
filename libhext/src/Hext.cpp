@@ -4,12 +4,11 @@
 namespace hext {
 
 
-Hext::Hext(const std::string& hext, Option flags)
+Hext::Hext(const std::string& hext)
 : rule_(nullptr)
-, flags_(flags)
 {
   Parser p(hext.c_str(), hext.c_str() + hext.size());
-  this->rule_ = std::move(p.parse(this->flags_));
+  this->rule_ = std::move(p.parse());
 }
 
 Result Hext::extract(const std::string& html) const

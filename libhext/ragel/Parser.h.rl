@@ -73,7 +73,7 @@ public:
 
   /// Parse hext and produce a Rule.
   /// Throw `ParseError` on invalid input.
-  std::unique_ptr<Rule> parse(Option flags = DefaultOption);
+  std::unique_ptr<Rule> parse();
 
 private:
   /// Throw `ParseError` with an error message marking an unexpected character.

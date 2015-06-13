@@ -3,7 +3,6 @@
 
 #include "hext/Builtins.h"
 #include "hext/MakeUnique.h"
-#include "hext/Option.h"
 #include "hext/pattern/AttributeCapture.h"
 #include "hext/pattern/AttributeCountMatch.h"
 #include "hext/pattern/AttributeMatch.h"
@@ -41,7 +40,7 @@ namespace hext {
 class PatternBuilder
 {
 public:
-  PatternBuilder(Option flags_ = DefaultOption);
+  PatternBuilder();
 
   /// Consume either a MatchPattern or a CapturePattern, depending on which
   /// parameters were given previously. Reset members.
@@ -70,6 +69,9 @@ public:
 
   /// Set builtin function. Return false if builtin cannot be found.
   bool set_builtin(const std::string& bi);
+
+  /// Set the current capture pattern to be optional.
+  void set_optional();
 
   /// Set the current match pattern to wrap its ValueTest into a
   /// NegateValueTest.
@@ -116,11 +118,11 @@ private:
   /// Append a CapturePattern.
   void consume_capture_pattern();
 
-  /// Options.
-  const Option flags_;
-
   /// The current builtin function.
   BuiltinFuncPtr bf_;
+
+  /// Whether the current CapturePattern is optional.
+  bool optional_;
 
   /// Whether the current MatchPattern's ValueTest should be negated.
   bool negate_;

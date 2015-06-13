@@ -187,7 +187,9 @@ attributes = (
                 %{ TK_STOP; pattern.set_cap_var(tok); }
                 # optional capture regex, e.g. @text={time/(\d\d:\d\d)/}
                 regex?
-            '}' )
+            '}'
+            ( '?' %{ pattern.set_optional(); } )?
+          )
           |
 
           # match regex, e.g. id=/article_[0-9]+/

@@ -4,8 +4,8 @@
 namespace hext {
 
 
-RuleBuilder::RuleBuilder(Option flags)
-: pattern_builder_(flags)
+RuleBuilder::RuleBuilder()
+: pattern_builder_()
 , rule_(
     MakeUnique<Rule>(
       GUMBO_TAG_UNKNOWN,
@@ -15,7 +15,6 @@ RuleBuilder::RuleBuilder(Option flags)
       std::vector<std::unique_ptr<CapturePattern>>()
     )
   )
-, flags_(flags)
 , indent_(0)
 , gumbo_tag_(GUMBO_TAG_UNKNOWN)
 , is_optional_(false)

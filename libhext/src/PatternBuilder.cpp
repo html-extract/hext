@@ -4,9 +4,9 @@
 namespace hext {
 
 
-PatternBuilder::PatternBuilder(Option flags)
-: flags_(flags)
-, bf_(nullptr)
+PatternBuilder::PatternBuilder()
+: bf_(nullptr)
+, optional_(false)
 , negate_(false)
 , attr_name_()
 , attr_literal_()
@@ -117,6 +117,11 @@ bool PatternBuilder::set_builtin(const std::string& bi)
   return true;
 }
 
+void PatternBuilder::set_optional()
+{
+  this->optional_ = true;
+}
+
 void PatternBuilder::set_negate()
 {
   this->negate_ = true;
@@ -190,6 +195,7 @@ void PatternBuilder::set_literal_op(char op)
 void PatternBuilder::reset()
 {
   this->bf_ = nullptr;
+  this->optional_ = false;
   this->negate_ = false;
   this->attr_name_ = "";
   this->attr_literal_ = "";
@@ -286,7 +292,7 @@ void PatternBuilder::consume_capture_pattern()
         )
       );
 
-    if( this->flags_ & Option::CapAttribMustExist )
+    if( !this->optional_ )
       this->mp_.push_back(
         MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<test::True>())
       );

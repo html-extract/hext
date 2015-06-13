@@ -5,9 +5,9 @@ namespace hext {
 namespace test {
 
 
-bool True::operator()(const char * /* dummy */) const
+bool True::operator()(const char * subject) const
 {
-  return true;
+  return subject != nullptr;
 }
 
 

@@ -22,7 +22,7 @@ Parser::Parser(const char * begin, const char * end)
 {
 }
 
-std::unique_ptr<Rule> Parser::parse(Option flags)
+std::unique_ptr<Rule> Parser::parse()
 {
   // Ragel generates state machines in plain C and knows nothing about
   // namespaces.
@@ -36,7 +36,7 @@ std::unique_ptr<Rule> Parser::parse(Option flags)
   typedef NthChildMatch::OffsetOf NthOff;
 
   // In the hext-machine, rules will be constructed with a RuleBuilder.
-  RuleBuilder rule(flags);
+  RuleBuilder rule;
 
   // Same with patterns.
   PatternBuilder& pattern = rule.pattern();
@@ -306,32 +306,36 @@ _match:
 	{ TK_STOP; pattern.set_cap_var(tok); }
 	break;
 	case 38:
-#line 202 "hext-machine.rl"
-	{ pattern.consume_pattern(); }
+#line 191 "hext-machine.rl"
+	{ pattern.set_optional(); }
 	break;
 	case 39:
-#line 215 "hext-machine.rl"
-	{ rule.increment_indent(); }
+#line 204 "hext-machine.rl"
+	{ pattern.consume_pattern(); }
 	break;
 	case 40:
-#line 218 "hext-machine.rl"
-	{ rule_start = true; }
+#line 217 "hext-machine.rl"
+	{ rule.increment_indent(); }
 	break;
 	case 41:
-#line 221 "hext-machine.rl"
-	{ rule.set_optional(true); }
+#line 220 "hext-machine.rl"
+	{ rule_start = true; }
 	break;
 	case 42:
-#line 224 "hext-machine.rl"
-	{ TK_START; }
+#line 223 "hext-machine.rl"
+	{ rule.set_optional(true); }
 	break;
 	case 43:
-#line 225 "hext-machine.rl"
+#line 226 "hext-machine.rl"
+	{ TK_START; }
+	break;
+	case 44:
+#line 227 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
 	break;
-#line 334 "Parser.cpp.tmp"
+#line 338 "Parser.cpp.tmp"
 		}
 	}
 
@@ -369,11 +373,11 @@ _again:
   }
 }
 	break;
-	case 44:
-#line 242 "hext-machine.rl"
+	case 45:
+#line 244 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 376 "Parser.cpp.tmp"
+#line 380 "Parser.cpp.tmp"
 		}
 	}
 	}

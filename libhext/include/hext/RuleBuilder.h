@@ -2,7 +2,6 @@
 #define HEXT_RULE_BUILDER_H_INCLUDED
 
 #include "hext/Rule.h"
-#include "hext/Option.h"
 #include "hext/PatternBuilder.h"
 
 #include <string>
@@ -20,7 +19,7 @@ class RuleBuilder
 {
 public:
   /// Construct a RuleBuilder.
-  explicit RuleBuilder(Option flags);
+  RuleBuilder();
 
   /// Move stored rule to caller.
   std::unique_ptr<Rule> take_rule();
@@ -55,9 +54,6 @@ private:
 
   /// The Rule.
   std::unique_ptr<Rule> rule_;
-
-  /// Options.
-  const Option flags_;
 
   /// The indentation level of the current Rule.
   unsigned int indent_;
