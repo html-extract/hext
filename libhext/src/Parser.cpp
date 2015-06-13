@@ -282,52 +282,56 @@ _match:
                         this->throw_unknown_token(tok, "builtin"); } }
 	break;
 	case 32:
-#line 168 "hext-machine.rl"
-	{ TK_START; }
+#line 170 "hext-machine.rl"
+	{ pattern.set_negate(); }
 	break;
 	case 33:
-#line 168 "hext-machine.rl"
-	{ TK_STOP; pattern.set_attr_name(tok); }
+#line 171 "hext-machine.rl"
+	{ TK_START; }
 	break;
 	case 34:
-#line 174 "hext-machine.rl"
-	{ pattern.set_literal_op(*this->p); }
+#line 171 "hext-machine.rl"
+	{ TK_STOP; pattern.set_attr_name(tok); }
 	break;
 	case 35:
-#line 182 "hext-machine.rl"
-	{ TK_START; }
+#line 178 "hext-machine.rl"
+	{ pattern.set_literal_op(*this->p); }
 	break;
 	case 36:
-#line 183 "hext-machine.rl"
-	{ TK_STOP; pattern.set_cap_var(tok); }
-	break;
-	case 37:
-#line 198 "hext-machine.rl"
-	{ pattern.consume_pattern(); }
-	break;
-	case 38:
-#line 211 "hext-machine.rl"
-	{ rule.increment_indent(); }
-	break;
-	case 39:
-#line 214 "hext-machine.rl"
-	{ rule_start = true; }
-	break;
-	case 40:
-#line 217 "hext-machine.rl"
-	{ rule.set_optional(true); }
-	break;
-	case 41:
-#line 220 "hext-machine.rl"
+#line 186 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 42:
+	case 37:
+#line 187 "hext-machine.rl"
+	{ TK_STOP; pattern.set_cap_var(tok); }
+	break;
+	case 38:
+#line 202 "hext-machine.rl"
+	{ pattern.consume_pattern(); }
+	break;
+	case 39:
+#line 215 "hext-machine.rl"
+	{ rule.increment_indent(); }
+	break;
+	case 40:
+#line 218 "hext-machine.rl"
+	{ rule_start = true; }
+	break;
+	case 41:
 #line 221 "hext-machine.rl"
+	{ rule.set_optional(true); }
+	break;
+	case 42:
+#line 224 "hext-machine.rl"
+	{ TK_START; }
+	break;
+	case 43:
+#line 225 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
 	break;
-#line 330 "Parser.cpp.tmp"
+#line 334 "Parser.cpp.tmp"
 		}
 	}
 
@@ -365,11 +369,11 @@ _again:
   }
 }
 	break;
-	case 43:
-#line 238 "hext-machine.rl"
+	case 44:
+#line 242 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 372 "Parser.cpp.tmp"
+#line 376 "Parser.cpp.tmp"
 		}
 	}
 	}

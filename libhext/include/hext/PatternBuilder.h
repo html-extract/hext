@@ -21,6 +21,7 @@
 #include "hext/test/Equals.h"
 #include "hext/test/IsNotEqual.h"
 #include "hext/test/IsNotRegex.h"
+#include "hext/test/NegateValueTest.h"
 #include "hext/test/Regex.h"
 #include "hext/test/True.h"
 #include "hext/test/ValueTest.h"
@@ -72,6 +73,10 @@ public:
   /// Set builtin function. Return false if builtin cannot be found.
   bool set_builtin(const std::string& bi);
 
+  /// Set the current match pattern to wrap its ValueTest into a
+  /// NegateValueTest.
+  void set_negate();
+
   /// Set attribute name of the Pattern.
   void set_attr_name(const std::string& attribute_name);
 
@@ -118,6 +123,9 @@ private:
 
   /// The current builtin function.
   BuiltinFuncPtr bf_;
+
+  /// Whether the current MatchPattern's ValueTest should be negated.
+  bool negate_;
 
   /// The current attribute name.
   std::string attr_name_;

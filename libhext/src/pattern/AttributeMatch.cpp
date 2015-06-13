@@ -15,21 +15,20 @@ AttributeMatch::AttributeMatch(
 
 bool AttributeMatch::matches(const GumboNode * node) const
 {
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
+  if( !node || node->type != GUMBO_NODE_ELEMENT || !this->test_ )
     return false;
+
+  const char * subject = nullptr;
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
     this->attr_name_.c_str()
   );
 
-  if( !g_attr )
-    return false;
+  if( g_attr )
+    subject = g_attr->value;
 
-  if( !this->test_ || (*this->test_)(g_attr->value) )
-    return true;
-
-  return false;
+  return (*this->test_)(subject);
 }
 
 

@@ -165,7 +165,11 @@ attributes = (
       |
 
       # html node attribute, e.g. class
-      ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
+      (
+        # negate match pattern, e.g. !style="display:none"
+        ( '!' >{ pattern.set_negate(); } )?
+        ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
+      )
     )
 
     # attribute value

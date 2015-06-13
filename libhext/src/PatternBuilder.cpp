@@ -7,6 +7,7 @@ namespace hext {
 PatternBuilder::PatternBuilder(Option flags)
 : flags_(flags)
 , bf_(nullptr)
+, negate_(false)
 , attr_name_()
 , attr_literal_()
 , cap_var_()
@@ -117,6 +118,11 @@ bool PatternBuilder::set_builtin(const std::string& bi)
   return true;
 }
 
+void PatternBuilder::set_negate()
+{
+  this->negate_ = true;
+}
+
 void PatternBuilder::set_attr_name(const std::string& attribute_name)
 {
   this->attr_name_ = attribute_name;
@@ -188,6 +194,7 @@ void PatternBuilder::set_literal_op(char op)
 void PatternBuilder::reset()
 {
   this->bf_ = nullptr;
+  this->negate_ = false;
   this->attr_name_ = "";
   this->attr_literal_ = "";
   this->cap_var_ = "";
@@ -242,6 +249,11 @@ void PatternBuilder::consume_match_pattern()
   else
   {
     test = MakeUnique<test::True>();
+  }
+
+  if( this->negate_ )
+  {
+    test = MakeUnique<test::NegateValueTest>(std::move(test));
   }
 
   std::unique_ptr<MatchPattern> p;
