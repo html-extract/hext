@@ -92,11 +92,11 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
   if( !node || !rt )
     return false;
 
-  if( node->type != GUMBO_NODE_ELEMENT )
-    return false;
-
   if( this->children_.empty() )
     return true;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return false;
 
   int match_count = 0;
   const GumboVector * child_nodes = &node->v.element.children;
