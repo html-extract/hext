@@ -141,7 +141,7 @@ regex = '/' ( regex_content
 
 #### ATTRIBUTES ################################################################
 attributes = (
-  ' '+
+  space+
   (
     # attribute name
     (
