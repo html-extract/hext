@@ -19,18 +19,19 @@ regex_content = ( ( [^/] | '\\/' )** );
 # Examples: :nth-child(1)  :nth-child(even)  :nth-child(2n)  :nth-child(2n+1)
 nth_pattern = (
   # nth-child(even)
-  ( 'even' %{ pattern.set_nth_mul("2"); pattern.set_nth_add("0"); } )
+  ( 'even' %{ pattern.set_nth_mul(2); pattern.set_nth_add(0); } )
   |
 
   # nth-child(odd)
-  ( 'odd' %{ pattern.set_nth_mul("2"); pattern.set_nth_add("1"); } )
+  ( 'odd' %{ pattern.set_nth_mul(2); pattern.set_nth_add(1); } )
   |
 
   # nth-child(2n+1)
-  ( ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.set_nth_mul(tok); } )
-    ( 'n'    %{ pattern.set_nth_add("0"); }
+  ( ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.set_nth_mul(std::stoi(tok)); } )
+    ( 'n'    %{ pattern.set_nth_add(0); }
       ( '+'
-        ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.set_nth_add(tok); } )
+        ( [0-9]+ >{ TK_START; }
+                 %{ TK_STOP; pattern.set_nth_add(std::stoi(tok)); } )
       )?
     )?
   )
@@ -74,23 +75,23 @@ trait = ':' (
   |
 
   # :first-child
-  ( 'first-child' %{ pattern.set_nth_mul("1"); pattern.consume_nth_child(); } )
+  ( 'first-child' %{ pattern.set_nth_mul(1); pattern.consume_nth_child(); } )
   |
 
   # :first-of-type
   ( 'first-of-type'
-    %{ pattern.set_nth_mul("1");
+    %{ pattern.set_nth_mul(1);
        pattern.consume_nth_child(NthOff::Front, rule.tag()); } )
   |
 
   # :last-child
   ( 'last-child'
-    %{ pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); } )
+    %{ pattern.set_nth_mul(1); pattern.consume_nth_child(NthOff::Back); } )
   |
 
   # :last-of-type
   ( 'last-of-type'
-    %{ pattern.set_nth_mul("1");
+    %{ pattern.set_nth_mul(1);
        pattern.consume_nth_child(NthOff::Back, rule.tag()); } )
   |
 
@@ -101,8 +102,8 @@ trait = ':' (
 
   # :only-child
   ( 'only-child'
-    %{ pattern.set_nth_mul("1"); pattern.consume_nth_child();
-       pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); } )
+    %{ pattern.set_nth_mul(1); pattern.consume_nth_child();
+       pattern.set_nth_mul(1); pattern.consume_nth_child(NthOff::Back); } )
   |
 
   # :text

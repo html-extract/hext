@@ -101,12 +101,12 @@ public:
   void set_cap_var(const std::string& capture_var);
 
   /// Set the NthChildMatch's multiplier.
-  void set_nth_mul(const std::string& multiplier);
+  void set_nth_mul(int multiplier);
 
   /// Set the NthChildMatch's addend.
-  void set_nth_add(const std::string& addend);
+  void set_nth_add(int addend);
 
-  /// Set literal operator-
+  /// Set literal operator.
   void set_literal_op(char op);
 
 private:

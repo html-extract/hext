@@ -158,14 +158,14 @@ void PatternBuilder::set_cap_var(const std::string& capture_var)
   this->cap_var_ = capture_var;
 }
 
-void PatternBuilder::set_nth_mul(const std::string& multiplier)
+void PatternBuilder::set_nth_mul(int multiplier)
 {
-  this->nth_multiplier_ = std::stoi(multiplier);
+  this->nth_multiplier_ = multiplier;
 }
 
-void PatternBuilder::set_nth_add(const std::string& addend)
+void PatternBuilder::set_nth_add(int addend)
 {
-  this->nth_addend_ = std::stoi(addend);
+  this->nth_addend_ = addend;
 }
 
 void PatternBuilder::set_literal_op(char op)
