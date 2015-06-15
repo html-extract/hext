@@ -21,7 +21,7 @@ Rule::Rule(
 {
 }
 
-void Rule::append_child(Rule&& r, int level)
+void Rule::append_child(Rule&& r, std::size_t level)
 {
   if( level > 0 && !this->children_.empty() )
   {

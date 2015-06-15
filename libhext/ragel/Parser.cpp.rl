@@ -43,15 +43,16 @@ std::unique_ptr<Rule> Parser::parse()
   const char * tok_end = nullptr;
   std::string tok = "";
 
-  // A flag to tell whether we are currently parsing a rule.
-  bool rule_start = false;
-
   %%{
     machine hext;
     include "hext-machine.rl";
     write init;
     write exec;
   }%%
+
+  // Throw error if there are missing closing tags.
+  if( auto expected_closing_tag = rule.expected_closing_tag() )
+    this->throw_expected_closing_tag("", expected_closing_tag);
 
   return rule.take_rule();
 }
@@ -102,6 +103,39 @@ void Parser::throw_regex_error(
             << traits.error_string(e_code);
 
   throw ParseError(error_msg.str());
+}
+
+void Parser::throw_expected_closing_tag(
+  const std::string& input,
+  boost::optional<GumboTag> expected_closing_tag
+) const
+{
+  if( expected_closing_tag )
+  {
+    std::string closing_tag_name =
+      std::string("</");
+    if( *expected_closing_tag != GUMBO_TAG_UNKNOWN )
+      closing_tag_name += gumbo_normalized_tagname(*expected_closing_tag);
+    closing_tag_name += ">";
+
+    this->throw_error(
+      std::string("Expected closing tag '")
+      + gumbo_normalized_tagname(*expected_closing_tag)
+      + "'",
+      input.size() + 3 // strlen("</>")
+    );
+  }
+  else
+  {
+    std::string closing_tag_name = std::string("</") + input + ">";
+
+    this->throw_error(
+      std::string("Unexpected closing tag '")
+      + input
+      + "'",
+      closing_tag_name.size()
+    );
+  }
 }
 
 void Parser::throw_error(

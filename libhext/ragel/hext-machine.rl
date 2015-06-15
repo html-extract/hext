@@ -6,21 +6,6 @@ action error {
   this->throw_unexpected();
 }
 
-action act_newline {
-  if( rule_start )
-  {
-    rule.consume_rule();
-    rule_start = false;
-  }
-  else
-  {
-    // If a newline is encountered, reset indent, because the spaces could have
-    // been used to indent a comment.
-    rule.reset_indent();
-  }
-}
-
-
 #### HELPERS ###################################################################
 attr_name     = ( alpha (alnum | '-' | '_')** );
 builtin_name  = ( alpha (alnum | '-' | '_')** );
@@ -208,16 +193,16 @@ attributes = (
 #### RULES #####################################################################
 main := (
   # comments may be prefixed with any spaces and must terminate with a newline
-  ( ' '* '#' (any - '\n')* ( '\n' %act_newline ) )
+  ( ' '* '#' (any - '\n')* '\n' )
   |
 
-  # rules
+  # open rule
   (
-    # groups of two spaces indent a rule
-    ( '  ' %{ rule.increment_indent(); } )*
+    # ignore whitespace
+    space*
 
     # a rule starts with '<'
-    ( '<' %{ rule_start = true; } )
+    '<'
 
     # a rule can be optional, e.g. <?
     ( '?' %{ rule.set_optional(true); } )?
@@ -235,12 +220,34 @@ main := (
     # a rule can have multple attributes, e.g. <div class="menu"
     attributes?
 
-    # close the rule
-    '>'
-  )
+    space*
 
-  # rules and comments may terminate with a newline
-  ( '\n' %act_newline )?
-)** $err(error) $/act_newline $/{ fbreak; };
+    # a rule can be self-closing, e.g. <p/>
+    ( '/' %{ rule.set_self_closing(true); } )?
+
+    # a rule ends with a '>'
+    ( '>' %{ rule.consume_rule(); } )
+
+    space*
+  )
+  |
+
+  # end rule
+  (
+    space*
+
+    '</'
+    (
+      attr_name?
+      >{ TK_START; }
+      %{ TK_STOP; }
+    )
+    '>'
+    %{ if( !rule.consume_closing_tag(tok) )
+         this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
+
+    space*
+  )
+)** $err(error) $/{ fbreak; };
 
 }%%

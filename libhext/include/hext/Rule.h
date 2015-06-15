@@ -8,9 +8,10 @@
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/CapturePattern.h"
 
+#include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include <gumbo.h>
 
@@ -88,7 +89,7 @@ public:
   /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ///
   /// Only used when constructing Rules in the parser.
-  void append_child(Rule&& r, int level = 1);
+  void append_child(Rule&& r, std::size_t level);
 
   /// Return true if this rule is optional, i.e. if a match has to be found.
   bool optional() const;

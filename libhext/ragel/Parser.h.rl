@@ -15,8 +15,10 @@
 #include <algorithm>
 #include <memory>
 
+#include <boost/optional.hpp>
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
+#include <gumbo.h>
 
 
 /// Convenience macro to store the start of a token. Used within the hext
@@ -90,6 +92,13 @@ private:
   void throw_regex_error(
     std::string::size_type mark_len,
     boost::regex_constants::error_type e_code
+  ) const;
+
+  /// Throw `ParseError` with an error message marking an invalid or missing
+  /// closing tag.
+  void throw_expected_closing_tag(
+    const std::string& input,
+    boost::optional<GumboTag> expected_closing_tag
   ) const;
 
   /// Throw `ParseError` with error message `error_msg`. Mark the error location

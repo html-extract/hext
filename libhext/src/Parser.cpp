@@ -46,16 +46,13 @@ std::unique_ptr<Rule> Parser::parse()
   const char * tok_end = nullptr;
   std::string tok = "";
 
-  // A flag to tell whether we are currently parsing a rule.
-  bool rule_start = false;
-
   
-#line 53 "Parser.cpp.tmp"
+#line 50 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 58 "Parser.cpp.tmp"
+#line 55 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -135,134 +132,118 @@ _match:
 }
 	break;
 	case 1:
-#line 9 "hext-machine.rl"
-	{
-  if( rule_start )
-  {
-    rule.consume_rule();
-    rule_start = false;
-  }
-  else
-  {
-    // If a newline is encountered, reset indent, because the spaces could have
-    // been used to indent a comment.
-    rule.reset_indent();
-  }
-}
-	break;
-	case 2:
-#line 37 "hext-machine.rl"
+#line 22 "hext-machine.rl"
 	{ pattern.set_nth_mul("2"); pattern.set_nth_add("0"); }
 	break;
-	case 3:
-#line 41 "hext-machine.rl"
+	case 2:
+#line 26 "hext-machine.rl"
 	{ pattern.set_nth_mul("2"); pattern.set_nth_add("1"); }
 	break;
-	case 4:
-#line 45 "hext-machine.rl"
+	case 3:
+#line 30 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 5:
-#line 45 "hext-machine.rl"
+	case 4:
+#line 30 "hext-machine.rl"
 	{ TK_STOP; pattern.set_nth_mul(tok); }
 	break;
-	case 6:
-#line 46 "hext-machine.rl"
+	case 5:
+#line 31 "hext-machine.rl"
 	{ pattern.set_nth_add("0"); }
 	break;
-	case 7:
-#line 48 "hext-machine.rl"
+	case 6:
+#line 33 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 8:
-#line 48 "hext-machine.rl"
+	case 7:
+#line 33 "hext-machine.rl"
 	{ TK_STOP; pattern.set_nth_add(tok); }
 	break;
-	case 9:
-#line 58 "hext-machine.rl"
+	case 8:
+#line 43 "hext-machine.rl"
 	{ pattern.consume_child_count("0"); }
 	break;
-	case 10:
-#line 63 "hext-machine.rl"
+	case 9:
+#line 48 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 11:
-#line 63 "hext-machine.rl"
+	case 10:
+#line 48 "hext-machine.rl"
 	{ TK_STOP; pattern.consume_attribute_count(tok); }
 	break;
-	case 12:
-#line 69 "hext-machine.rl"
+	case 11:
+#line 54 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 13:
-#line 69 "hext-machine.rl"
+	case 12:
+#line 54 "hext-machine.rl"
 	{ TK_STOP; pattern.consume_child_count(tok); }
 	break;
-	case 14:
-#line 74 "hext-machine.rl"
+	case 13:
+#line 59 "hext-machine.rl"
 	{ pattern.consume_nth_child(); }
 	break;
-	case 15:
-#line 79 "hext-machine.rl"
+	case 14:
+#line 64 "hext-machine.rl"
 	{ pattern.consume_nth_child(NthOff::Back); }
 	break;
-	case 16:
-#line 84 "hext-machine.rl"
+	case 15:
+#line 69 "hext-machine.rl"
 	{ pattern.consume_nth_child(NthOff::Front, rule.tag()); }
 	break;
-	case 17:
-#line 88 "hext-machine.rl"
+	case 16:
+#line 73 "hext-machine.rl"
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child(); }
 	break;
-	case 18:
-#line 93 "hext-machine.rl"
+	case 17:
+#line 78 "hext-machine.rl"
 	{ pattern.set_nth_mul("1");
        pattern.consume_nth_child(NthOff::Front, rule.tag()); }
 	break;
-	case 19:
-#line 99 "hext-machine.rl"
+	case 18:
+#line 84 "hext-machine.rl"
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); }
 	break;
-	case 20:
-#line 104 "hext-machine.rl"
+	case 19:
+#line 89 "hext-machine.rl"
 	{ pattern.set_nth_mul("1");
        pattern.consume_nth_child(NthOff::Back, rule.tag()); }
 	break;
-	case 21:
-#line 110 "hext-machine.rl"
+	case 20:
+#line 95 "hext-machine.rl"
 	{ pattern.consume_nth_child(NthOff::Back, rule.tag()); }
 	break;
-	case 22:
-#line 115 "hext-machine.rl"
+	case 21:
+#line 100 "hext-machine.rl"
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child();
        pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); }
 	break;
-	case 23:
-#line 121 "hext-machine.rl"
+	case 22:
+#line 106 "hext-machine.rl"
 	{ pattern.consume_trait_text(); }
 	break;
-	case 24:
-#line 127 "hext-machine.rl"
+	case 23:
+#line 112 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 25:
-#line 127 "hext-machine.rl"
+	case 24:
+#line 112 "hext-machine.rl"
 	{ TK_STOP; pattern.set_attr_literal(tok); }
 	break;
-	case 26:
-#line 133 "hext-machine.rl"
+	case 25:
+#line 118 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 27:
-#line 134 "hext-machine.rl"
+	case 26:
+#line 119 "hext-machine.rl"
 	{ TK_STOP; pattern.set_regex_str(tok); }
 	break;
-	case 28:
-#line 141 "hext-machine.rl"
+	case 27:
+#line 126 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 29:
-#line 142 "hext-machine.rl"
+	case 28:
+#line 127 "hext-machine.rl"
 	{ TK_STOP;
      if( !pattern.set_regex_mod(tok) )
        this->throw_unknown_token(tok, "regex modifier");
@@ -272,70 +253,83 @@ _match:
        auto mark_len = pattern.regex_length() + tok.size() + 2;
        this->throw_regex_error(mark_len, e.code()); } }
 	break;
-	case 30:
-#line 159 "hext-machine.rl"
+	case 29:
+#line 144 "hext-machine.rl"
 	{ pattern.set_negate(); }
 	break;
-	case 31:
-#line 165 "hext-machine.rl"
+	case 30:
+#line 150 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 32:
-#line 166 "hext-machine.rl"
+	case 31:
+#line 151 "hext-machine.rl"
 	{ TK_STOP; { if( !pattern.set_builtin(tok) )
                           this->throw_unknown_token(tok, "builtin"); } }
 	break;
-	case 33:
-#line 171 "hext-machine.rl"
+	case 32:
+#line 156 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 34:
-#line 171 "hext-machine.rl"
+	case 33:
+#line 156 "hext-machine.rl"
 	{ TK_STOP; pattern.set_attr_name(tok); }
 	break;
-	case 35:
-#line 178 "hext-machine.rl"
+	case 34:
+#line 163 "hext-machine.rl"
 	{ pattern.set_literal_op(*this->p); }
 	break;
-	case 36:
-#line 186 "hext-machine.rl"
+	case 35:
+#line 171 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 37:
-#line 187 "hext-machine.rl"
+	case 36:
+#line 172 "hext-machine.rl"
 	{ TK_STOP; pattern.set_cap_var(tok); }
 	break;
-	case 38:
-#line 191 "hext-machine.rl"
+	case 37:
+#line 176 "hext-machine.rl"
 	{ pattern.set_optional(); }
 	break;
-	case 39:
-#line 204 "hext-machine.rl"
+	case 38:
+#line 189 "hext-machine.rl"
 	{ pattern.consume_pattern(); }
 	break;
-	case 40:
-#line 217 "hext-machine.rl"
-	{ rule.increment_indent(); }
-	break;
-	case 41:
-#line 220 "hext-machine.rl"
-	{ rule_start = true; }
-	break;
-	case 42:
-#line 223 "hext-machine.rl"
+	case 39:
+#line 208 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
-	case 43:
-#line 226 "hext-machine.rl"
+	case 40:
+#line 211 "hext-machine.rl"
 	{ TK_START; }
 	break;
-	case 44:
-#line 227 "hext-machine.rl"
+	case 41:
+#line 212 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
 	break;
-#line 338 "Parser.cpp.tmp"
+	case 42:
+#line 226 "hext-machine.rl"
+	{ rule.set_self_closing(true); }
+	break;
+	case 43:
+#line 229 "hext-machine.rl"
+	{ rule.consume_rule(); }
+	break;
+	case 44:
+#line 242 "hext-machine.rl"
+	{ TK_START; }
+	break;
+	case 45:
+#line 243 "hext-machine.rl"
+	{ TK_STOP; }
+	break;
+	case 46:
+#line 246 "hext-machine.rl"
+	{ if( !rule.consume_closing_tag(tok) )
+         this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
+	break;
+#line 332 "Parser.cpp.tmp"
 		}
 	}
 
@@ -357,27 +351,20 @@ _again:
   this->throw_unexpected();
 }
 	break;
-	case 1:
-#line 9 "hext-machine.rl"
-	{
-  if( rule_start )
-  {
-    rule.consume_rule();
-    rule_start = false;
-  }
-  else
-  {
-    // If a newline is encountered, reset indent, because the spaces could have
-    // been used to indent a comment.
-    rule.reset_indent();
-  }
-}
+	case 43:
+#line 229 "hext-machine.rl"
+	{ rule.consume_rule(); }
 	break;
-	case 45:
-#line 244 "hext-machine.rl"
+	case 46:
+#line 246 "hext-machine.rl"
+	{ if( !rule.consume_closing_tag(tok) )
+         this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
+	break;
+	case 47:
+#line 251 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 380 "Parser.cpp.tmp"
+#line 367 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -385,8 +372,12 @@ _again:
 	_out: {}
 	}
 
-#line 54 "Parser.cpp.rl"
+#line 51 "Parser.cpp.rl"
 
+
+  // Throw error if there are missing closing tags.
+  if( auto expected_closing_tag = rule.expected_closing_tag() )
+    this->throw_expected_closing_tag("", expected_closing_tag);
 
   return rule.take_rule();
 }
@@ -437,6 +428,39 @@ void Parser::throw_regex_error(
             << traits.error_string(e_code);
 
   throw ParseError(error_msg.str());
+}
+
+void Parser::throw_expected_closing_tag(
+  const std::string& input,
+  boost::optional<GumboTag> expected_closing_tag
+) const
+{
+  if( expected_closing_tag )
+  {
+    std::string closing_tag_name =
+      std::string("</");
+    if( *expected_closing_tag != GUMBO_TAG_UNKNOWN )
+      closing_tag_name += gumbo_normalized_tagname(*expected_closing_tag);
+    closing_tag_name += ">";
+
+    this->throw_error(
+      std::string("Expected closing tag '")
+      + gumbo_normalized_tagname(*expected_closing_tag)
+      + "'",
+      input.size() + 3 // strlen("</>")
+    );
+  }
+  else
+  {
+    std::string closing_tag_name = std::string("</") + input + ">";
+
+    this->throw_error(
+      std::string("Unexpected closing tag '")
+      + input
+      + "'",
+      closing_tag_name.size()
+    );
+  }
 }
 
 void Parser::throw_error(

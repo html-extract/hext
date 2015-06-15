@@ -43,16 +43,20 @@ highlight link hextTag Statement
 syntax match hextAttributeName "\v [a-zA-Z][a-zA-Z0-9\-_]*"
 highlight link hextAttributeName Type
 
-" Literal attibute value
+" Literal attribute value
 syntax region hextLiteral start=/\v"/ skip=/\v\\"/ end=/\v"/
 highlight link hextLiteral String
 
 " Capture attribute value
-syntax region hextCapture start=/{/ skip=/\/[^/]*\// end=/}/ contains=hextRegex
+syntax region hextCapture start=/{/ end=/}/ contains=hextCapRegex
 highlight link hextCapture Special
 
+" Regex in capture attribute
+syntax region hextCapRegex start=/\v\// skip=/\v\\\// end=/\v\// contained
+highlight link hextCapRegex Structure
+
 " Regex attribute value
-syntax region hextRegex start=/\v\// skip=/\v\\\// end=/\v\//
+syntax region hextRegex start=/\v\=\// skip=/\v\\\// end=/\v\//
 highlight link hextRegex Structure
 
 " Builtin attribute name
