@@ -1,5 +1,4 @@
 #include "hext/Rule.h"
-#include "hext/ResultTree.h"
 
 
 namespace hext {

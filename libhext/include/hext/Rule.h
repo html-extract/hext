@@ -2,6 +2,7 @@
 #define HEXT_RULE_H_INCLUDED
 
 #include "hext/Result.h"
+#include "hext/ResultTree.h"
 #include "hext/NodeUtil.h"
 #include "hext/MakeUnique.h"
 #include "hext/MatchContext.h"
@@ -18,8 +19,6 @@
 
 namespace hext {
 
-
-class ResultTree;
 
 /// A Rule defines how to match and capture html-nodes. It can be applied to a
 /// GumboNode tree, where it recursively tries to find matches. Once a match is
