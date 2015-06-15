@@ -25,6 +25,7 @@
 
 #include <string>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include <boost/regex.hpp>
@@ -58,14 +59,14 @@ public:
     GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
 
-  /// Consume an AttributeCountMatch.
-  void consume_attribute_count(const std::string& attribute_count);
-
-  /// Consume a ChildCountMatch.
-  void consume_child_count(const std::string& child_count);
-
-  /// Consume a TextNodeMatch.
-  void consume_trait_text();
+  /// Consume generic MatchPattern.
+  template<typename MatchPatternType, typename... Args>
+  void push_match(Args&&... arg)
+  {
+    this->mp_.push_back(
+      MakeUnique<MatchPatternType>(std::forward<Args>(arg)...)
+    );
+  }
 
   /// Set builtin function. Return false if builtin cannot be found.
   bool set_builtin(const std::string& bi);

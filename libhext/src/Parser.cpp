@@ -161,89 +161,89 @@ _match:
 	break;
 	case 8:
 #line 43 "hext-machine.rl"
-	{ pattern.consume_child_count("0"); }
+	{ pattern.push_match<ChildCountMatch>(0); }
 	break;
 	case 9:
-#line 48 "hext-machine.rl"
+#line 49 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 10:
-#line 48 "hext-machine.rl"
-	{ TK_STOP; pattern.consume_attribute_count(tok); }
+#line 50 "hext-machine.rl"
+	{ TK_STOP; pattern.push_match<AttributeCountMatch>(std::stoi(tok)); }
 	break;
 	case 11:
-#line 54 "hext-machine.rl"
+#line 57 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 12:
-#line 54 "hext-machine.rl"
-	{ TK_STOP; pattern.consume_child_count(tok); }
+#line 58 "hext-machine.rl"
+	{ TK_STOP; pattern.push_match<ChildCountMatch>(std::stoi(tok)); }
 	break;
 	case 13:
-#line 59 "hext-machine.rl"
+#line 63 "hext-machine.rl"
 	{ pattern.consume_nth_child(); }
 	break;
 	case 14:
-#line 64 "hext-machine.rl"
+#line 68 "hext-machine.rl"
 	{ pattern.consume_nth_child(NthOff::Back); }
 	break;
 	case 15:
-#line 69 "hext-machine.rl"
+#line 73 "hext-machine.rl"
 	{ pattern.consume_nth_child(NthOff::Front, rule.tag()); }
 	break;
 	case 16:
-#line 73 "hext-machine.rl"
+#line 77 "hext-machine.rl"
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child(); }
 	break;
 	case 17:
-#line 78 "hext-machine.rl"
+#line 82 "hext-machine.rl"
 	{ pattern.set_nth_mul("1");
        pattern.consume_nth_child(NthOff::Front, rule.tag()); }
 	break;
 	case 18:
-#line 84 "hext-machine.rl"
+#line 88 "hext-machine.rl"
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); }
 	break;
 	case 19:
-#line 89 "hext-machine.rl"
+#line 93 "hext-machine.rl"
 	{ pattern.set_nth_mul("1");
        pattern.consume_nth_child(NthOff::Back, rule.tag()); }
 	break;
 	case 20:
-#line 95 "hext-machine.rl"
+#line 99 "hext-machine.rl"
 	{ pattern.consume_nth_child(NthOff::Back, rule.tag()); }
 	break;
 	case 21:
-#line 100 "hext-machine.rl"
+#line 104 "hext-machine.rl"
 	{ pattern.set_nth_mul("1"); pattern.consume_nth_child();
        pattern.set_nth_mul("1"); pattern.consume_nth_child(NthOff::Back); }
 	break;
 	case 22:
-#line 106 "hext-machine.rl"
-	{ pattern.consume_trait_text(); }
+#line 110 "hext-machine.rl"
+	{ pattern.push_match<TextNodeMatch>(); }
 	break;
 	case 23:
-#line 112 "hext-machine.rl"
+#line 116 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 24:
-#line 112 "hext-machine.rl"
+#line 116 "hext-machine.rl"
 	{ TK_STOP; pattern.set_attr_literal(tok); }
 	break;
 	case 25:
-#line 118 "hext-machine.rl"
+#line 122 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 26:
-#line 119 "hext-machine.rl"
+#line 123 "hext-machine.rl"
 	{ TK_STOP; pattern.set_regex_str(tok); }
 	break;
 	case 27:
-#line 126 "hext-machine.rl"
+#line 130 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 28:
-#line 127 "hext-machine.rl"
+#line 131 "hext-machine.rl"
 	{ TK_STOP;
      if( !pattern.set_regex_mod(tok) )
        this->throw_unknown_token(tok, "regex modifier");
@@ -254,78 +254,78 @@ _match:
        this->throw_regex_error(mark_len, e.code()); } }
 	break;
 	case 29:
-#line 144 "hext-machine.rl"
+#line 148 "hext-machine.rl"
 	{ pattern.set_negate(); }
 	break;
 	case 30:
-#line 150 "hext-machine.rl"
+#line 154 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 31:
-#line 151 "hext-machine.rl"
+#line 155 "hext-machine.rl"
 	{ TK_STOP; { if( !pattern.set_builtin(tok) )
                           this->throw_unknown_token(tok, "builtin"); } }
 	break;
 	case 32:
-#line 156 "hext-machine.rl"
+#line 160 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 33:
-#line 156 "hext-machine.rl"
+#line 160 "hext-machine.rl"
 	{ TK_STOP; pattern.set_attr_name(tok); }
 	break;
 	case 34:
-#line 163 "hext-machine.rl"
+#line 167 "hext-machine.rl"
 	{ pattern.set_literal_op(*this->p); }
 	break;
 	case 35:
-#line 171 "hext-machine.rl"
+#line 175 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 36:
-#line 172 "hext-machine.rl"
+#line 176 "hext-machine.rl"
 	{ TK_STOP; pattern.set_cap_var(tok); }
 	break;
 	case 37:
-#line 176 "hext-machine.rl"
+#line 180 "hext-machine.rl"
 	{ pattern.set_optional(); }
 	break;
 	case 38:
-#line 189 "hext-machine.rl"
+#line 193 "hext-machine.rl"
 	{ pattern.consume_pattern(); }
 	break;
 	case 39:
-#line 208 "hext-machine.rl"
+#line 212 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
 	case 40:
-#line 211 "hext-machine.rl"
+#line 215 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 41:
-#line 212 "hext-machine.rl"
+#line 216 "hext-machine.rl"
 	{ TK_STOP;
                    if( !rule.set_tag_name(tok) )
                      this->throw_unknown_token(tok, "html-tag"); }
 	break;
 	case 42:
-#line 226 "hext-machine.rl"
+#line 230 "hext-machine.rl"
 	{ rule.set_self_closing(true); }
 	break;
 	case 43:
-#line 229 "hext-machine.rl"
+#line 233 "hext-machine.rl"
 	{ rule.consume_rule(); }
 	break;
 	case 44:
-#line 242 "hext-machine.rl"
+#line 246 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 45:
-#line 243 "hext-machine.rl"
+#line 247 "hext-machine.rl"
 	{ TK_STOP; }
 	break;
 	case 46:
-#line 246 "hext-machine.rl"
+#line 250 "hext-machine.rl"
 	{ if( !rule.consume_closing_tag(tok) )
          this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
 	break;
@@ -352,16 +352,16 @@ _again:
 }
 	break;
 	case 43:
-#line 229 "hext-machine.rl"
+#line 233 "hext-machine.rl"
 	{ rule.consume_rule(); }
 	break;
 	case 46:
-#line 246 "hext-machine.rl"
+#line 250 "hext-machine.rl"
 	{ if( !rule.consume_closing_tag(tok) )
          this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
 	break;
 	case 47:
-#line 251 "hext-machine.rl"
+#line 255 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
 #line 367 "Parser.cpp.tmp"

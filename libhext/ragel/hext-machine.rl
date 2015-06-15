@@ -40,18 +40,22 @@ nth_pattern = (
 #### TRAITS ####################################################################
 trait = ':' (
   # :empty
-  ( 'empty' %{ pattern.consume_child_count("0"); } )
+  ( 'empty' %{ pattern.push_match<ChildCountMatch>(0); } )
   |
 
   # :attribute-count(5)
   ( 'attribute-count('
-    ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.consume_attribute_count(tok); } )
+    ( [0-9]+
+      >{ TK_START; }
+      %{ TK_STOP; pattern.push_match<AttributeCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
   # :child-count(5)
   ( 'child-count('
-    ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.consume_child_count(tok); } )
+    ( [0-9]+
+      >{ TK_START; }
+      %{ TK_STOP; pattern.push_match<ChildCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
@@ -103,7 +107,7 @@ trait = ':' (
 
   # :text
   ( 'text'
-    %{ pattern.consume_trait_text(); } )
+    %{ pattern.push_match<TextNodeMatch>(); } )
 );
 
 
