@@ -41,18 +41,20 @@ std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
   auto rt = MakeUnique<ResultTree>();
 
-  auto first_child = this->children_.begin();
-  if( this->children_.size() && first_child->matches(node) )
+  if( this->children_.size() == 1 )
   {
-    auto values = first_child->capture(node);
-    auto child_rt = rt->create_branch(values);
-    this->extract_children(node, child_rt);
-  }
-  else
-  {
-    this->extract_children(node, rt.get());
+    auto first_child = this->children_.begin();
+    if( first_child->matches(node) )
+    {
+      auto values = first_child->capture(node);
+      auto child_rt = rt->create_branch(values);
+      if( !first_child->extract_children(node, child_rt) )
+        rt->delete_branch(child_rt);
+      return std::move(rt);
+    }
   }
 
+  this->extract_children(node, rt.get());
   return std::move(rt);
 }
 
