@@ -39,15 +39,13 @@ bool Rule::optional() const
 
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
-  auto rt = MakeUnique<ResultTree>(nullptr);
+  auto rt = MakeUnique<ResultTree>();
 
   auto first_child = this->children_.begin();
   if( this->children_.size() && first_child->matches(node) )
   {
-    auto child_rt = rt->create_branch(
-      &(*first_child),
-      first_child->capture(node)
-    );
+    auto values = first_child->capture(node);
+    auto child_rt = rt->create_branch(values);
     this->extract_children(node, child_rt);
   }
   else
@@ -109,16 +107,16 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
   while( auto grouped_match = mc.match_next() )
   {
     ++match_count;
-    auto branch = rt->create_branch(nullptr, std::vector<ResultPair>());
+    auto branch = rt->create_branch();
     for( const auto& match_pair : *grouped_match )
     {
       const Rule * child_rule = match_pair.first;
       const GumboNode * child_node = match_pair.second;
       assert(child_rule && child_node);
-      auto child_rt = branch->create_branch(
-        child_rule,
-        child_rule->capture(child_node)
-      );
+
+      auto values = child_rule->capture(child_node);
+      auto child_rt = branch->create_branch(values);
+
       if( !child_rule->extract_children(child_node, child_rt) )
       {
         rt->delete_branch(branch);

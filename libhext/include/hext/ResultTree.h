@@ -2,48 +2,37 @@
 #define HEXT_RESULT_TREE_H_INCLUDED
 
 #include "hext/Result.h"
+#include "hext/MakeUnique.h"
 
+#include <cassert>
 #include <string>
-#include <utility>
 #include <vector>
 #include <memory>
-#include <algorithm>
 #include <map>
 
 
 namespace hext {
 
 
-/// Forward declare Rule because it depends on ResultTree.
-class Rule;
-
 /// A ResultTree contains the result of matching a Rule to GumboNodes through
 /// `Rule::extract()`.
 class ResultTree
 {
 public:
-  /// Construct a ResultTree.
-  /// \param rule
-  ///     The rule that caused the creation of this ResultTree.
-  explicit ResultTree(const Rule * rule);
-
   /// Construct a ResultTree with values.
-  /// \param rule
-  ///     The rule that caused the creation of this ResultTree.
   /// \param values
   ///     Values for this ResultTree branch.
-  ResultTree(const Rule * rule, std::vector<ResultPair> values);
+  explicit ResultTree(
+    std::vector<ResultPair> values = std::vector<ResultPair>()
+  );
 
   ResultTree(ResultTree&&) = default;
 
   /// Create a new branch. Return a non-owning pointer to the new branch.
-  /// \param rule
-  ///     The rule that caused the creation of this ResultTree.
   /// \param values
   ///     Values for the new ResultTree branch.
   ResultTree * create_branch(
-    const Rule * rule,
-    std::vector<ResultPair> values
+    std::vector<ResultPair> values = std::vector<ResultPair>()
   );
 
   /// Deletes a child branch pointed to by `child`. If `child` is not found
@@ -70,9 +59,6 @@ private:
 
   /// The values captured by extracting.
   std::vector<ResultPair> values_;
-
-  /// The Rule that produced this ResultTree.
-  const Rule * matching_rule_;
 };
 
 

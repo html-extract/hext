@@ -1,30 +1,18 @@
 #include "hext/ResultTree.h"
-#include "hext/Rule.h"
 
 
 namespace hext {
 
 
-ResultTree::ResultTree(const Rule * rule)
+ResultTree::ResultTree(std::vector<ResultPair> values)
 : children_(),
-  values_(),
-  matching_rule_(rule)
+  values_(values)
 {
 }
 
-ResultTree::ResultTree(const Rule * rule, std::vector<ResultPair> values)
-: children_(),
-  values_(values),
-  matching_rule_(rule)
+ResultTree * ResultTree::create_branch(std::vector<ResultPair> values)
 {
-}
-
-ResultTree * ResultTree::create_branch(
-  const Rule * rule,
-  std::vector<ResultPair> values
-)
-{
-  this->children_.push_back(MakeUnique<ResultTree>(rule, values));
+  this->children_.push_back(MakeUnique<ResultTree>(values));
   return this->children_.back().get();
 }
 
