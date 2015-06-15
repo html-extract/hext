@@ -40,7 +40,21 @@ bool Rule::optional() const
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
   auto rt = MakeUnique<ResultTree>(nullptr);
-  this->extract_top(node, rt.get());
+
+  auto first_child = this->children_.begin();
+  if( this->children_.size() && first_child->matches(node) )
+  {
+    auto child_rt = rt->create_branch(
+      &(*first_child),
+      first_child->capture(node)
+    );
+    this->extract_children(node, child_rt);
+  }
+  else
+  {
+    this->extract_children(node, rt.get());
+  }
+
   return std::move(rt);
 }
 
@@ -74,7 +88,7 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
   return values;
 }
 
-bool Rule::extract_top(const GumboNode * node, ResultTree * rt) const
+bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
 {
   if( !node || !rt )
     return false;
@@ -105,7 +119,7 @@ bool Rule::extract_top(const GumboNode * node, ResultTree * rt) const
         child_rule,
         child_rule->capture(child_node)
       );
-      if( !child_rule->extract_top(child_node, child_rt) )
+      if( !child_rule->extract_children(child_node, child_rt) )
       {
         rt->delete_branch(branch);
         --match_count;
@@ -120,7 +134,7 @@ bool Rule::extract_top(const GumboNode * node, ResultTree * rt) const
     for(unsigned int i = 0; i < node_children->length; ++i)
     {
       auto child_node = static_cast<const GumboNode *>(node_children->data[i]);
-      this->extract_top(child_node, rt);
+      this->extract_children(child_node, rt);
     }
   }
 

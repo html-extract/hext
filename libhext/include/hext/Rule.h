@@ -105,7 +105,7 @@ public:
 
 private:
   /// Apply this rule to `node`, store results in `rt`
-  bool extract_top(const GumboNode * node, ResultTree * rt) const;
+  bool extract_children(const GumboNode * node, ResultTree * rt) const;
 
   /// The children of this rule.
   std::vector<Rule> children_;
