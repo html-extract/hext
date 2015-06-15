@@ -8,19 +8,14 @@ namespace hext {
 MatchContext::MatchContext(
   rule_iter rule_begin,
   rule_iter rule_end,
-  const GumboVector * nodes
+  const GumboVector * nodes,
+  std::size_t mandatory_rule_cnt
 )
 : r_begin_(rule_begin),
   r_end_(rule_end),
-  r_manda_cnt_(
-    std::count_if(
-      rule_begin,
-      rule_end,
-      [](const Rule& r) { return !r.optional(); }
-    )
-  ),
   nodes_(nodes),
-  current_node_(0)
+  current_node_(0),
+  r_manda_cnt_(mandatory_rule_cnt)
 {
 }
 

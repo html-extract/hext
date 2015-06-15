@@ -101,10 +101,16 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
 
   int match_count = 0;
   const GumboVector * child_nodes = &node->v.element.children;
+  std::size_t mandatory_rule_cnt = std::count_if(
+    this->children_.begin(),
+    this->children_.end(),
+    [](const Rule& r) { return !r.is_optional_; }
+  );
   MatchContext mc(
     this->children_.cbegin(),
     this->children_.cend(),
-    child_nodes
+    child_nodes,
+    mandatory_rule_cnt
   );
   while( auto grouped_match = mc.match_next() )
   {
@@ -138,7 +144,7 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
     }
   }
 
-  return match_count > 0;
+  return !mandatory_rule_cnt || match_count > 0;
 }
 
 
