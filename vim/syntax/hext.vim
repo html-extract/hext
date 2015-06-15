@@ -53,15 +53,11 @@ highlight link hextCapture Special
 
 " Regex in capture attribute
 syntax region hextCapRegex start=/\v\// skip=/\v\\\// end=/\v\// contained
-highlight link hextCapRegex Structure
-
-" Regex attribute value
-syntax region hextRegex start=/\v\=\// skip=/\v\\\// end=/\v\//
-highlight link hextRegex Structure
+highlight link hextCapRegex Normal
 
 " Builtin attribute name
-syntax match hextBuiltin "\v\@[a-z0-9\-_]*"
-highlight link hextBuiltin PreProc
+syntax match hextBuiltin "\v\@[a-z0-9\-_]+"
+highlight link hextBuiltin Type
 
 let b:current_syntax = "hext"
 
