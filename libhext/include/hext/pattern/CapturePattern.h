@@ -34,15 +34,12 @@ public:
   ///
   /// \param result_name
   ///     The name of the capture.
-  explicit CapturePattern(const std::string& result_name);
-
-  /// Construct a CapturePattern that has a regex.
-  ///
-  /// \param result_name
-  ///     The name of the capture.
   /// \param regex
-  ///     A regular expression that is applied to the captured value.
-  CapturePattern(const std::string& result_name, const boost::regex& regex);
+  ///     An optional regular expression that is applied to the captured value.
+  CapturePattern(
+    const std::string& result_name,
+    const boost::optional<boost::regex>& regex
+  );
 
   /// Virtual destructor to allow inheriting from CapturePattern.
   virtual ~CapturePattern();

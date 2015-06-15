@@ -6,17 +6,8 @@ namespace hext {
 
 BuiltinCapture::BuiltinCapture(
   const std::string& result_name,
-  BuiltinFuncPtr func
-)
-: CapturePattern(result_name)
-, func_(func)
-{
-}
-
-BuiltinCapture::BuiltinCapture(
-  const std::string& result_name,
   BuiltinFuncPtr func,
-  const boost::regex& regex
+  const boost::optional<boost::regex>& regex
 )
 : CapturePattern(result_name, regex)
 , func_(func)

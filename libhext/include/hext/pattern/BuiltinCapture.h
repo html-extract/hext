@@ -8,6 +8,7 @@
 #include <string>
 
 #include <gumbo.h>
+#include <boost/optional.hpp>
 #include <boost/regex.hpp>
 
 
@@ -19,21 +20,8 @@ namespace hext {
 class BuiltinCapture : public CapturePattern
 {
 public:
-  /// Construct a BuiltinCapture.
-  ///
-  /// \param result_name
-  ///     The name of the capture.
-  /// \param func
-  ///     A pointer to a builtin function that is applied to a node to obtain the
-  ///     captured value.
-  BuiltinCapture(
-    const std::string& result_name,
-    BuiltinFuncPtr func
-  );
-
-  /// Construct a BuiltinCapture that has a regex. See class CapturePattern
-  /// for an explanation on how the regex is applied to the result of the
-  /// builtin function `func`.
+  /// Construct a BuiltinCapture. See class CapturePattern for an explanation
+  /// on how the regex is applied to the result of the builtin function `func`.
   ///
   /// \param result_name
   ///     The name of the capture.
@@ -41,12 +29,12 @@ public:
   ///     A pointer to a builtin function that is applied to a node to obtain
   ///     the captured value.
   /// \param regex
-  ///     A regular expression that is applied to the result of the builtin
-  ///     function `func`.
+  ///     An optional regular expression that is applied to the result of the
+  ///     builtin function `func`.
   BuiltinCapture(
     const std::string& result_name,
     BuiltinFuncPtr func,
-    const boost::regex& regex
+    const boost::optional<boost::regex>& regex
   );
 
   /// Return a string pair containing the captured value. First member is

@@ -264,33 +264,21 @@ void PatternBuilder::consume_capture_pattern()
 {
   if( this->bf_ )
   {
-    if( this->regex_ )
-      this->cp_.push_back(
-        MakeUnique<BuiltinCapture>(
-          this->cap_var_,
-          this->bf_,
-          this->regex_.get()
-        )
-      );
-    else
-      this->cp_.push_back(
-        MakeUnique<BuiltinCapture>(this->cap_var_, this->bf_)
-      );
+    this->cp_.push_back(
+      MakeUnique<BuiltinCapture>(
+        this->cap_var_,
+        this->bf_,
+        this->regex_
+      )
+    );
   }
   else
   {
-    if( this->regex_ )
-      this->cp_.push_back(
-        MakeUnique<AttributeCapture>(
-          this->cap_var_, this->attr_name_, this->regex_.get()
-        )
-      );
-    else
-      this->cp_.push_back(
-        MakeUnique<AttributeCapture>(
-          this->cap_var_, this->attr_name_
-        )
-      );
+    this->cp_.push_back(
+      MakeUnique<AttributeCapture>(
+        this->cap_var_, this->attr_name_, this->regex_
+      )
+    );
 
     if( !this->optional_ )
       this->mp_.push_back(

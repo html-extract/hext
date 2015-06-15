@@ -4,15 +4,9 @@
 namespace hext {
 
 
-CapturePattern::CapturePattern(const std::string& result_name)
-: name_(result_name)
-, rx_()
-{
-}
-
 CapturePattern::CapturePattern(
   const std::string& result_name,
-  const boost::regex& regex
+  const boost::optional<boost::regex>& regex
 )
 : name_(result_name)
 , rx_(regex)
