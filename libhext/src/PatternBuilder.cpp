@@ -212,9 +212,7 @@ void PatternBuilder::consume_match_pattern()
   }
 
   if( this->negate_ )
-  {
-    test = MakeUnique<test::NegateValueTest>(std::move(test));
-  }
+    test = MakeUnique<test::Negate>(std::move(test));
 
   std::unique_ptr<MatchPattern> p;
   if( this->bf_ )

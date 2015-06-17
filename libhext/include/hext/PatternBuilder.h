@@ -18,7 +18,7 @@
 #include "hext/test/ContainsWord.h"
 #include "hext/test/EndsWith.h"
 #include "hext/test/Equals.h"
-#include "hext/test/NegateValueTest.h"
+#include "hext/test/Negate.h"
 #include "hext/test/Regex.h"
 #include "hext/test/True.h"
 #include "hext/test/ValueTest.h"
