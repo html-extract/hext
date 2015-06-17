@@ -19,22 +19,22 @@ regex_content = ( ( [^/] | '\\/' )** );
 # Examples: :nth-child(1)  :nth-child(even)  :nth-child(2n)  :nth-child(2n+1)
 nth_pattern = (
   # nth-child(even)
-  ( 'even' %{ pattern.set_nth_mul(2); pattern.set_nth_add(0); } )
+  ( 'even' %{ pattern.nth = {2, 0}; } )
   |
 
   # nth-child(odd)
-  ( 'odd' %{ pattern.set_nth_mul(2); pattern.set_nth_add(1); } )
+  ( 'odd' %{ pattern.nth = {2, 1}; } )
   |
 
   # nth-child(2n+1)
   ( ( ( '-'? [0-9]+ )
       >{ TK_START; }
-      %{ TK_STOP; pattern.set_nth_mul(std::stoi(tok)); }
+      %{ TK_STOP; pattern.nth = {std::stoi(tok), 0}; }
     )
     ( 'n'
       ( ( ('+'|'-') [0-9]+ )
         >{ TK_START; }
-        %{ TK_STOP; pattern.set_nth_add(std::stoi(tok)); }
+        %{ TK_STOP; pattern.nth.second = std::stoi(tok); }
       )?
     )?
   )
@@ -64,49 +64,49 @@ trait = ':' (
   |
 
   # :nth-child(2n+1)
-  ( 'nth-child(' nth_pattern ')' %{ pattern.consume_nth_child(); } )
+  ( 'nth-child(' nth_pattern ')' %{ pattern.push_nth_child(); } )
   |
 
   # :nth-last-child(2n+1)
   ( 'nth-last-child(' nth_pattern ')'
-    %{ pattern.consume_nth_child(NthOff::Back); } )
+    %{ pattern.push_nth_child(NthOff::Back); } )
   |
 
   # :nth-of-type(2n+1)
   ( 'nth-of-type(' nth_pattern ')'
-    %{ pattern.consume_nth_child(NthOff::Front, rule.tag()); } )
+    %{ pattern.push_nth_child(NthOff::Front, rule.tag()); } )
   |
 
   # :first-child
-  ( 'first-child' %{ pattern.set_nth_mul(1); pattern.consume_nth_child(); } )
+  ( 'first-child' %{ pattern.nth = {1, 0}; pattern.push_nth_child(); } )
   |
 
   # :first-of-type
   ( 'first-of-type'
-    %{ pattern.set_nth_mul(1);
-       pattern.consume_nth_child(NthOff::Front, rule.tag()); } )
+    %{ pattern.nth = {1, 0};
+       pattern.push_nth_child(NthOff::Front, rule.tag()); } )
   |
 
   # :last-child
   ( 'last-child'
-    %{ pattern.set_nth_mul(1); pattern.consume_nth_child(NthOff::Back); } )
+    %{ pattern.nth = {1, 0}; pattern.push_nth_child(NthOff::Back); } )
   |
 
   # :last-of-type
   ( 'last-of-type'
-    %{ pattern.set_nth_mul(1);
-       pattern.consume_nth_child(NthOff::Back, rule.tag()); } )
+    %{ pattern.nth = {1, 0};
+       pattern.push_nth_child(NthOff::Back, rule.tag()); } )
   |
 
   # :nth-last-of-type(2n+1)
   ( 'nth-last-of-type(' nth_pattern ')'
-    %{ pattern.consume_nth_child(NthOff::Back, rule.tag()); } )
+    %{ pattern.push_nth_child(NthOff::Back, rule.tag()); } )
   |
 
   # :only-child
   ( 'only-child'
-    %{ pattern.set_nth_mul(1); pattern.consume_nth_child();
-       pattern.set_nth_mul(1); pattern.consume_nth_child(NthOff::Back); } )
+    %{ pattern.nth = {1, 0}; pattern.push_nth_child();
+       pattern.nth = {1, 0}; pattern.push_nth_child(NthOff::Back); } )
   |
 
   # :text
@@ -157,7 +157,7 @@ attributes = (
           ( builtin_name
             >{ TK_START; }
             %{ TK_STOP; { if( !pattern.set_builtin(tok) )
-                          this->throw_unknown_token(tok, "builtin"); } } ) )
+                            this->throw_unknown_token(tok, "builtin"); } } ) )
         |
 
         # html node attribute, e.g. class

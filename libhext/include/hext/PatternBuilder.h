@@ -54,7 +54,7 @@ public:
   std::vector<std::unique_ptr<CapturePattern>> take_capture_patterns();
 
   /// Consume an NthChildMatch.
-  void consume_nth_child(
+  void push_nth_child(
     NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front,
     GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
@@ -100,14 +100,10 @@ public:
   /// Set the CapturePattern's result name.
   void set_cap_var(const std::string& capture_var);
 
-  /// Set the NthChildMatch's multiplier.
-  void set_nth_mul(int multiplier);
-
-  /// Set the NthChildMatch's addend.
-  void set_nth_add(int addend);
-
   /// Set literal operator.
   void set_literal_op(char op);
+
+  std::pair<int, int> nth;
 
 private:
   /// Reset all members to their original state.
@@ -147,12 +143,6 @@ private:
 
   /// The current regex options.
   boost::regex::flag_type regex_opt_;
-
-  /// The current NthChildMatch's multiplier.
-  int nth_multiplier_;
-
-  /// The current NthChildMatch's addend.
-  int nth_addend_;
 
   /// The current literal operator.
   char literal_operator_;

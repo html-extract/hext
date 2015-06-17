@@ -5,7 +5,8 @@ namespace hext {
 
 
 PatternBuilder::PatternBuilder()
-: bf_(nullptr)
+: nth(0, 0)
+, bf_(nullptr)
 , optional_(false)
 , negate_(false)
 , attr_name_()
@@ -14,8 +15,6 @@ PatternBuilder::PatternBuilder()
 , regex_str_()
 , regex_()
 , regex_opt_(boost::regex::perl)
-, nth_multiplier_(0)
-, nth_addend_(0)
 , literal_operator_('0')
 , mp_()
 , cp_()
@@ -54,22 +53,21 @@ PatternBuilder::take_capture_patterns()
   return std::move(vec);
 }
 
-void PatternBuilder::consume_nth_child(
+void PatternBuilder::push_nth_child(
   NthChildMatch::OffsetOf offset_of,
   GumboTag count_tag
 )
 {
   this->mp_.push_back(
     MakeUnique<NthChildMatch>(
-      this->nth_multiplier_,
-      this->nth_addend_,
+      this->nth.first,
+      this->nth.second,
       count_tag,
       offset_of
     )
   );
 
-  this->nth_multiplier_ = 0;
-  this->nth_addend_ = 0;
+  this->nth = {0, 0};
 }
 
 bool PatternBuilder::set_builtin(const std::string& bi)
@@ -142,16 +140,6 @@ void PatternBuilder::set_cap_var(const std::string& capture_var)
   this->cap_var_ = capture_var;
 }
 
-void PatternBuilder::set_nth_mul(int multiplier)
-{
-  this->nth_multiplier_ = multiplier;
-}
-
-void PatternBuilder::set_nth_add(int addend)
-{
-  this->nth_addend_ = addend;
-}
-
 void PatternBuilder::set_literal_op(char op)
 {
   this->literal_operator_ = op;
@@ -168,8 +156,7 @@ void PatternBuilder::reset()
   this->regex_str_ = "";
   this->regex_ = boost::none;
   this->regex_opt_ = boost::regex::perl;
-  this->nth_multiplier_ = 0;
-  this->nth_addend_ = 0;
+  this->nth = {0, 0};
   this->literal_operator_ = '0';
 }
 
