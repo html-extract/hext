@@ -15,7 +15,7 @@ PatternBuilder::PatternBuilder()
 , regex_()
 , regex_opt_(boost::regex::perl)
 , nth_multiplier_(0)
-, nth_addend_(-1)
+, nth_addend_(0)
 , literal_operator_('0')
 , mp_()
 , cp_()
@@ -59,33 +59,17 @@ void PatternBuilder::consume_nth_child(
   GumboTag count_tag
 )
 {
-  // If nth_addend_ hasn't been set yet, use nth_multiplier_ as the shift
-  // argument to NthChildMatch. This makes lexing easier.
-  if( this->nth_addend_ < 0 )
-  {
-    this->mp_.push_back(
-      MakeUnique<NthChildMatch>(
-        0,
-        this->nth_multiplier_,
-        count_tag,
-        offset_of
-      )
-    );
-  }
-  else
-  {
-    this->mp_.push_back(
-      MakeUnique<NthChildMatch>(
-        this->nth_multiplier_,
-        this->nth_addend_,
-        count_tag,
-        offset_of
-      )
-    );
-  }
+  this->mp_.push_back(
+    MakeUnique<NthChildMatch>(
+      this->nth_multiplier_,
+      this->nth_addend_,
+      count_tag,
+      offset_of
+    )
+  );
 
   this->nth_multiplier_ = 0;
-  this->nth_addend_ = -1;
+  this->nth_addend_ = 0;
 }
 
 bool PatternBuilder::set_builtin(const std::string& bi)
@@ -185,7 +169,7 @@ void PatternBuilder::reset()
   this->regex_ = boost::none;
   this->regex_opt_ = boost::regex::perl;
   this->nth_multiplier_ = 0;
-  this->nth_addend_ = -1;
+  this->nth_addend_ = 0;
   this->literal_operator_ = '0';
 }
 

@@ -27,11 +27,14 @@ nth_pattern = (
   |
 
   # nth-child(2n+1)
-  ( ( [0-9]+ >{ TK_START; } %{ TK_STOP; pattern.set_nth_mul(std::stoi(tok)); } )
-    ( 'n'    %{ pattern.set_nth_add(0); }
-      ( '+'
-        ( [0-9]+ >{ TK_START; }
-                 %{ TK_STOP; pattern.set_nth_add(std::stoi(tok)); } )
+  ( ( ( '-'? [0-9]+ )
+      >{ TK_START; }
+      %{ TK_STOP; pattern.set_nth_mul(std::stoi(tok)); }
+    )
+    ( 'n'
+      ( ( ('+'|'-') [0-9]+ )
+        >{ TK_START; }
+        %{ TK_STOP; pattern.set_nth_add(std::stoi(tok)); }
       )?
     )?
   )
