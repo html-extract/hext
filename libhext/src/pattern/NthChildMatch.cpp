@@ -7,13 +7,25 @@ namespace hext {
 NthChildMatch::NthChildMatch(
   int step,
   int shift,
-  GumboTag count_tag,
-  OffsetOf offset_of
+  OffsetOf offset_of,
+  GumboTag count_tag
 )
 : step_(step)
 , shift_(shift)
-, count_tag_(count_tag)
 , offset_of_(offset_of)
+, count_tag_(count_tag)
+{
+}
+
+NthChildMatch::NthChildMatch(
+  std::pair<int, int> step_and_shift,
+  OffsetOf offset_of,
+  GumboTag count_tag
+)
+: step_(step_and_shift.first)
+, shift_(step_and_shift.second)
+, offset_of_(offset_of)
+, count_tag_(count_tag)
 {
 }
 

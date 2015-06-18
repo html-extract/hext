@@ -53,23 +53,6 @@ PatternBuilder::take_capture_patterns()
   return std::move(vec);
 }
 
-void PatternBuilder::push_nth_child(
-  NthChildMatch::OffsetOf offset_of,
-  GumboTag count_tag
-)
-{
-  this->mp_.push_back(
-    MakeUnique<NthChildMatch>(
-      this->nth.first,
-      this->nth.second,
-      count_tag,
-      offset_of
-    )
-  );
-
-  this->nth = {0, 0};
-}
-
 bool PatternBuilder::set_builtin(const std::string& bi)
 {
   BuiltinFuncPtr func = GetBuiltinByName(bi);

@@ -64,49 +64,48 @@ trait = ':' (
   |
 
   # :nth-child(2n+1)
-  ( 'nth-child(' nth_pattern ')' %{ pattern.push_nth_child(); } )
+  ( 'nth-child(' nth_pattern ')'
+    %{ pattern.push_match<NthChildMatch>(pattern.nth); } )
   |
 
   # :nth-last-child(2n+1)
   ( 'nth-last-child(' nth_pattern ')'
-    %{ pattern.push_nth_child(NthOff::Back); } )
+    %{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Back); } )
   |
 
   # :nth-of-type(2n+1)
   ( 'nth-of-type(' nth_pattern ')'
-    %{ pattern.push_nth_child(NthOff::Front, rule.tag()); } )
+    %{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Front, rule.tag()); } )
   |
 
   # :first-child
-  ( 'first-child' %{ pattern.nth = {1, 0}; pattern.push_nth_child(); } )
+  ( 'first-child' %{ pattern.push_match<NthChildMatch>(1, 0); } )
   |
 
   # :first-of-type
   ( 'first-of-type'
-    %{ pattern.nth = {1, 0};
-       pattern.push_nth_child(NthOff::Front, rule.tag()); } )
+    %{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Front, rule.tag()); } )
   |
 
   # :last-child
   ( 'last-child'
-    %{ pattern.nth = {1, 0}; pattern.push_nth_child(NthOff::Back); } )
+    %{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Back); } )
   |
 
   # :last-of-type
   ( 'last-of-type'
-    %{ pattern.nth = {1, 0};
-       pattern.push_nth_child(NthOff::Back, rule.tag()); } )
+    %{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Back, rule.tag()); } )
   |
 
   # :nth-last-of-type(2n+1)
   ( 'nth-last-of-type(' nth_pattern ')'
-    %{ pattern.push_nth_child(NthOff::Back, rule.tag()); } )
+    %{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Back, rule.tag()); } )
   |
 
   # :only-child
   ( 'only-child'
-    %{ pattern.nth = {1, 0}; pattern.push_nth_child();
-       pattern.nth = {1, 0}; pattern.push_nth_child(NthOff::Back); } )
+    %{ pattern.push_match<NthChildMatch>(1, 0);
+       pattern.push_match<NthChildMatch>(1, 0, NthOff::Back); } )
   |
 
   # :text

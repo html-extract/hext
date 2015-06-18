@@ -4,6 +4,8 @@
 #include "hext/pattern/MatchPattern.h"
 #include "hext/NodeUtil.h"
 
+#include <utility>
+
 #include <gumbo.h>
 
 
@@ -33,18 +35,25 @@ public:
   NthChildMatch(
     int step,
     int shift,
-    GumboTag count_tag = GUMBO_TAG_UNKNOWN,
-    OffsetOf offset_of = OffsetOf::Front
+    OffsetOf offset_of = OffsetOf::Front,
+    GumboTag count_tag = GUMBO_TAG_UNKNOWN
+  );
+
+  /// Construct an NthChildMatch with step and shift given as std::pair.
+  explicit NthChildMatch(
+    std::pair<int, int> step_and_shift,
+    OffsetOf offset_of = OffsetOf::Front,
+    GumboTag count_tag = GUMBO_TAG_UNKNOWN
   );
 
   /// Return true if node matches.
   bool matches(const GumboNode * node) const final;
 
 private:
-  const int step_;
-  const int shift_;
-  const GumboTag count_tag_;
-  const OffsetOf offset_of_;
+  int step_;
+  int shift_;
+  OffsetOf offset_of_;
+  GumboTag count_tag_;
 };
 
 

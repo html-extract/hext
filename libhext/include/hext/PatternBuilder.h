@@ -53,12 +53,6 @@ public:
   /// Move all previously created CapturePatterns to caller.
   std::vector<std::unique_ptr<CapturePattern>> take_capture_patterns();
 
-  /// Consume an NthChildMatch.
-  void push_nth_child(
-    NthChildMatch::OffsetOf offset_of = NthChildMatch::OffsetOf::Front,
-    GumboTag count_tag = GUMBO_TAG_UNKNOWN
-  );
-
   /// Consume generic MatchPattern.
   template<typename MatchPatternType, typename... Args>
   void push_match(Args&&... arg)
