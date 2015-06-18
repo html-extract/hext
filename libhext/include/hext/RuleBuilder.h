@@ -2,7 +2,6 @@
 #define HEXT_RULE_BUILDER_H_INCLUDED
 
 #include "hext/Rule.h"
-#include "hext/PatternBuilder.h"
 
 #include <memory>
 #include <stack>

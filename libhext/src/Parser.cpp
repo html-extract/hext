@@ -41,7 +41,8 @@ std::unique_ptr<Rule> Parser::parse()
   // The rule that is currently being built.
   Rule rule;
 
-  PatternBuilder pv;
+  // All values required to construct match and capture patterns.
+  PatternValues pv;
 
   // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;
@@ -49,12 +50,12 @@ std::unique_ptr<Rule> Parser::parse()
   std::string tok = "";
 
   
-#line 52 "Parser.cpp.tmp"
+#line 53 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 57 "Parser.cpp.tmp"
+#line 58 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -399,7 +400,7 @@ _match:
 	{ if( !builder.pop_closing_tag(tok) )
          this->throw_expected_closing_tag(tok, builder.get_expected_closing_tag()); }
 	break;
-#line 402 "Parser.cpp.tmp"
+#line 403 "Parser.cpp.tmp"
 		}
 	}
 
@@ -442,7 +443,7 @@ _again:
 #line 289 "hext-machine.rl"
 	{ {p++; goto _out; } }
 	break;
-#line 445 "Parser.cpp.tmp"
+#line 446 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -450,7 +451,7 @@ _again:
 	_out: {}
 	}
 
-#line 53 "Parser.cpp.rl"
+#line 54 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.

@@ -38,7 +38,8 @@ std::unique_ptr<Rule> Parser::parse()
   // The rule that is currently being built.
   Rule rule;
 
-  PatternBuilder pv;
+  // All values required to construct match and capture patterns.
+  PatternValues pv;
 
   // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;

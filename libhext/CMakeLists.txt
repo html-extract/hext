@@ -67,7 +67,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/TextNodeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ValueMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/PatternBuilder.cpp"
+  "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
   "${PROJECT_SOURCE_DIR}/src/ResultTree.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"

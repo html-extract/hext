@@ -4,11 +4,31 @@
 #ifndef HEXT_PARSER_H_INCLUDED
 #define HEXT_PARSER_H_INCLUDED
 
-#include "hext/StringUtil.h"
 #include "hext/Builtins.h"
+#include "hext/MakeUnique.h"
+#include "hext/pattern/AttributeCapture.h"
+#include "hext/pattern/AttributeCountMatch.h"
+#include "hext/pattern/AttributeMatch.h"
+#include "hext/pattern/BuiltinCapture.h"
+#include "hext/pattern/BuiltinMatch.h"
+#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/ChildCountMatch.h"
+#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/NthChildMatch.h"
+#include "hext/pattern/TextNodeMatch.h"
+#include "hext/PatternValues.h"
 #include "hext/Rule.h"
 #include "hext/RuleBuilder.h"
-#include "hext/PatternBuilder.h"
+#include "hext/StringUtil.h"
+#include "hext/test/BeginsWith.h"
+#include "hext/test/Contains.h"
+#include "hext/test/ContainsWord.h"
+#include "hext/test/EndsWith.h"
+#include "hext/test/Equals.h"
+#include "hext/test/Negate.h"
+#include "hext/test/Regex.h"
+#include "hext/test/True.h"
+#include "hext/test/ValueTest.h"
 
 #include <string>
 #include <vector>
@@ -60,7 +80,7 @@ public:
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 63 "Parser.h.tmp"
+#line 83 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 5, 1, 7, 1, 
@@ -656,7 +676,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 306;
 
 
-#line 63 "Parser.h.rl"
+#line 83 "Parser.h.rl"
 
 } // namespace ragel
 
