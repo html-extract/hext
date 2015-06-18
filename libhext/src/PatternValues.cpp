@@ -25,6 +25,7 @@ void PatternValues::reset()
   this->literal_value = "";
   this->cap_var = "";
   this->regex_flag = boost::regex::perl;
+  this->regex = boost::optional<boost::regex>();
   this->nth = {0, 0};
   assert(this->test.get() == nullptr);
   this->test = nullptr;
