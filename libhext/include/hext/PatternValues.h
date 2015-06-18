@@ -3,7 +3,7 @@
 
 #include "hext/Builtins.h"
 #include "hext/MakeUnique.h"
-#include "hext/test/True.h"
+#include "hext/test/ValueTest.h"
 
 #include <string>
 #include <memory>
