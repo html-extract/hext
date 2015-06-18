@@ -36,40 +36,25 @@ class Rule
 public:
   /// Construct a Rule.
   ///
-  /// \param gumbo_tag
-  ///    The tag_name of the rule, as parsed by gumbo. Matches if the node's tag
+  /// \param tag
+  ///    The tag-name of the rule, as parsed by gumbo. Matches if the node's tag
   ///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
   ///
   /// \param is_optional
-  ///    When `ResultTree::remove_incomplete_branches()` is called, invalid
-  ///    ResultTree branches are removed, unless the Rule that produced the
-  ///    branch is optional.
+  ///    A subtree matches only if all mandatory rules were matched. Optional
+  ///    rules on the other hand are ignored if not found.
   ///
   /// \param is_any_descendant
   ///    Matching html-nodes may appear anywhere in the current subtree, as
   ///    opposed to direct descendants (default) which may only match if its
   ///    immediate parent node was matched.
-  ///
-  /// \param match_patterns
-  ///    A vector of MatchPatterns. MatchPatterns check whether an html-node
-  ///    matches. MatchPatterns are wrapped in a std::unique_ptr to allow for
-  ///    polymorphism.
-  ///
-  /// \param capture_patterns
-  ///    A vector of CapturePatterns. CapturePatterns extract name-value pairs
-  ///    from html-nodes. Like `match_patterns`, the CapturePatterns are wrapped
-  ///    in a std::unique_ptr to allow for polymorphism.
-  Rule(
-    GumboTag gumbo_tag,
-    bool is_optional,
-    bool is_any_descendant,
-    std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
-    std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
+  explicit Rule(
+    GumboTag tag = GUMBO_TAG_UNKNOWN,
+    bool optional = false,
+    bool any_descendant = false
   );
-  Rule(Rule&&) = default;
-  Rule& operator=(Rule&&) = default;
 
-  /// Append child-rule after last element at tree-level level.
+  /// Append a child-rule after the last element at the given tree depth.
   /// Example Rule:
   /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ///   level0  <div>       # this
@@ -86,12 +71,48 @@ public:
   ///   level2      <img>
   ///   level2      <a>    # new
   /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ///
-  /// Only used when constructing Rules in the parser.
-  void append_child(Rule&& r, std::size_t level);
+  void append_child(Rule&& r, std::size_t tree_depth);
+
+  /// Emplace a MatchPattern.
+  template<typename MatchPatternType, typename... Args>
+  void add_match_pattern(Args&&... arg)
+  {
+    this->match_patterns_.push_back(
+      MakeUnique<MatchPatternType>(std::forward<Args>(arg)...)
+    );
+  }
+
+  /// Emplace a CapturePattern.
+  template<typename CapturePatternType, typename... Args>
+  void add_capture_pattern(Args&&... arg)
+  {
+    this->capture_patterns_.push_back(
+      MakeUnique<CapturePatternType>(std::forward<Args>(arg)...)
+    );
+  }
+
+  /// Return the type of html-tag this rule matches, as parsed by gumbo.
+  /// Return GUMBO_TAG_UNKNOWN if this rule matches any tag.
+  GumboTag get_tag() const { return this->tag_; }
+
+  /// Set the type of html-tag this rule matches, as parsed by gumbo. Set to
+  /// GUMBO_TAG_UNKNOWN if this rule should match any tag.
+  void set_tag(GumboTag tag) { this->tag_ = tag; }
 
   /// Return true if this rule is optional, i.e. if a match has to be found.
-  bool optional() const;
+  bool is_optional() const { return this->is_optional_; }
+
+  /// Set whether this rule is optional, i.e. if a match has to be found.
+  void set_optional(bool optional) { this->is_optional_ = optional; }
+
+  /// Return true if matching html-nodes may appear anywhere in the html.
+  /// If false, this Rule matches only if its immediate parent was matched.
+  bool is_any_descendant() const { return this->is_any_descendant_; }
+
+  /// Set whether matching html-nodes may appear anywhere in the html.
+  /// If false, this Rule matches only if its immediate parent was matched.
+  void set_any_descendant(bool any_descendant)
+    { this->is_any_descendant_ = any_descendant; }
 
   /// Recursively try to find and capture matches.
   std::unique_ptr<ResultTree> extract(const GumboNode * node) const;
@@ -109,24 +130,28 @@ private:
   /// The children of this rule.
   std::vector<Rule> children_;
 
-  /// The MatchPatterns of this rule.
+  /// A vector of MatchPatterns. MatchPatterns check whether an html-node
+  /// matches. MatchPatterns are wrapped in a std::unique_ptr to allow for
+  /// polymorphism.
   std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
 
-  /// The CapturePatterns of this rule.
+  /// A vector of CapturePatterns. CapturePatterns extract name-value pairs
+  /// from html-nodes. Like `match_patterns`, the CapturePatterns are wrapped
+  /// in a std::unique_ptr to allow for polymorphism.
   std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
 
   /// The type of html-tag this rule matches, as parsed by gumbo. Set to
   /// GUMBO_TAG_UNKNOWN if this rule should match any tag. Html-tags that
   /// aren't defined by the html spec have at this stage already been rejected
   /// by the parser.
-  const GumboTag gumbo_tag_;
+  GumboTag tag_;
 
   /// A rule is optional if it does not participate in validation.
-  const bool is_optional_;
+  bool is_optional_;
 
   /// If true, matching html-nodes may appear anywhere in the html.
   /// If false, Rule matches only if its immediate parent was matched.
-  const bool is_any_descendant_;
+  bool is_any_descendant_;
 }; 
 
 

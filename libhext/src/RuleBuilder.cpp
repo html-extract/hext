@@ -5,58 +5,37 @@ namespace hext {
 
 
 RuleBuilder::RuleBuilder()
-: pattern_builder_()
-, rule_(
+: top_rule_(
+    // Implicit top rule that matches everything.
     MakeUnique<Rule>(
       GUMBO_TAG_UNKNOWN,
       false,
-      true,
-      std::vector<std::unique_ptr<MatchPattern>>(),
-      std::vector<std::unique_ptr<CapturePattern>>()
+      true
     )
   )
 , tag_stack_()
-, gumbo_tag_(GUMBO_TAG_UNKNOWN)
-, is_optional_(false)
-, is_self_closing_(false)
 {
 }
 
-std::unique_ptr<Rule> RuleBuilder::take_rule()
+std::unique_ptr<Rule> RuleBuilder::take_rule_tree()
 {
-  std::unique_ptr<Rule> r = std::move(this->rule_);
-
-  this->reset();
-
-  return std::move(r);
+  return std::move(this->top_rule_);
 }
 
-void RuleBuilder::reset()
+void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
 {
-  this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
-  this->is_optional_ = false;
-  this->is_self_closing_ = false;
-}
+  GumboTag tag = rule.get_tag();
 
-void RuleBuilder::consume_rule()
-{
-  Rule r(
-    this->gumbo_tag_,
-    this->is_optional_,
-    false,
-    std::move(this->pattern_builder_.take_match_patterns()),
-    std::move(this->pattern_builder_.take_capture_patterns())
+  this->top_rule_->append_child(
+    std::move(rule),
+    this->tag_stack_.size()
   );
 
-  this->rule_->append_child(std::move(r), this->tag_stack_.size());
-
-  if( !this->is_self_closing_ )
-    this->tag_stack_.push(this->gumbo_tag_);
-
-  this->reset();
+  if( !self_closing )
+    this->tag_stack_.push(tag);
 }
 
-bool RuleBuilder::consume_closing_tag(const std::string& tag_name)
+bool RuleBuilder::pop_closing_tag(const std::string& tag_name)
 {
   if( this->tag_stack_.empty() )
     return false;
@@ -82,49 +61,12 @@ bool RuleBuilder::consume_closing_tag(const std::string& tag_name)
   return false;
 }
 
-boost::optional<GumboTag> RuleBuilder::expected_closing_tag() const
+boost::optional<GumboTag> RuleBuilder::get_expected_closing_tag() const
 {
   if( this->tag_stack_.empty() )
     return boost::optional<GumboTag>();
   else
     return boost::optional<GumboTag>(this->tag_stack_.top());
-}
-
-PatternBuilder& RuleBuilder::pattern()
-{
-  return this->pattern_builder_;
-}
-
-bool RuleBuilder::set_tag_name(const std::string& tag_name)
-{
-  if( tag_name.empty() )
-  {
-    this->gumbo_tag_ = GUMBO_TAG_UNKNOWN;
-  }
-  else
-  {
-    GumboTag t = gumbo_tag_enum(tag_name.c_str());
-    if( t == GUMBO_TAG_UNKNOWN )
-      return false;
-    this->gumbo_tag_ = t;
-  }
-
-  return true;
-}
-
-void RuleBuilder::set_optional(bool is_optional)
-{
-  this->is_optional_ = is_optional;
-}
-
-void RuleBuilder::set_self_closing(bool is_self_closing)
-{
-  this->is_self_closing_ = is_self_closing;
-}
-
-GumboTag RuleBuilder::tag() const
-{
-  return this->gumbo_tag_;
 }
 
 

@@ -42,7 +42,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
     assert(node);
 
     bool skip = false;
-    if( rule->optional() )
+    if( rule->is_optional() )
     {
       // Prefer matching mandatory rules to optional rules
       auto next_mandatory = this->next_mandatory_rule(rule);
@@ -65,7 +65,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
 
     if( !skip && rule->matches(node) )
     {
-      if( !rule->optional() )
+      if( !rule->is_optional() )
         ++manda_match_cnt;
       mg.push_back(std::make_pair(&(*rule), node));
       rule++;
@@ -82,7 +82,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
     }
   }
 
-  while( rule != this->r_end_ && rule->optional() )
+  while( rule != this->r_end_ && rule->is_optional() )
     rule++;
 
   if( rule == this->r_end_ && manda_match_cnt >= this->r_manda_cnt_ )
@@ -96,7 +96,7 @@ MatchContext::rule_iter MatchContext::next_mandatory_rule(rule_iter it) const
   assert(it >= this->r_begin_ && it <= this->r_end_);
 
   auto pred = [](const Rule& r) {
-    return !r.optional();
+    return !r.is_optional();
   };
 
   if( it == this->r_end_ )

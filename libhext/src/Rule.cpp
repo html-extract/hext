@@ -6,34 +6,27 @@ namespace hext {
 
 Rule::Rule(
   GumboTag tag,
-  bool is_optional,
-  bool is_any_descendant,
-  std::vector<std::unique_ptr<MatchPattern>>&& match_patterns,
-  std::vector<std::unique_ptr<CapturePattern>>&& capture_patterns
+  bool optional,
+  bool any_descendant
 )
 : children_()
-, match_patterns_(std::move(match_patterns))
-, capture_patterns_(std::move(capture_patterns))
-, gumbo_tag_(tag)
-, is_optional_(is_optional)
-, is_any_descendant_(is_any_descendant)
+, match_patterns_()
+, capture_patterns_()
+, tag_(tag)
+, is_optional_(optional)
+, is_any_descendant_(any_descendant)
 {
 }
 
-void Rule::append_child(Rule&& r, std::size_t level)
+void Rule::append_child(Rule&& r, std::size_t tree_depth)
 {
-  if( level > 0 && !this->children_.empty() )
+  if( tree_depth > 0 && !this->children_.empty() )
   {
-    this->children_.back().append_child(std::move(r), level - 1);
+    this->children_.back().append_child(std::move(r), tree_depth - 1);
     return;
   }
 
   this->children_.push_back(std::move(r));
-}
-
-bool Rule::optional() const
-{
-  return this->is_optional_;
 }
 
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
@@ -62,9 +55,9 @@ bool Rule::matches(const GumboNode * node) const
   if( !node )
     return false;
 
-  if( this->gumbo_tag_ != GUMBO_TAG_UNKNOWN )
+  if( this->tag_ != GUMBO_TAG_UNKNOWN )
     if( node->type != GUMBO_NODE_ELEMENT ||
-        node->v.element.tag != this->gumbo_tag_ )
+        node->v.element.tag != this->tag_ )
       return false;
 
   for(const auto& pattern : this->match_patterns_)
@@ -101,8 +94,8 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
   int match_count = 0;
   const GumboVector * child_nodes = &node->v.element.children;
   std::size_t mandatory_rule_cnt = std::count_if(
-    this->children_.begin(),
-    this->children_.end(),
+    this->children_.cbegin(),
+    this->children_.cend(),
     [](const Rule& r) { return !r.is_optional_; }
   );
   MatchContext mc(

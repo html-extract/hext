@@ -36,60 +36,60 @@ nth_pattern = (
 
 #### TRAITS ####################################################################
 trait = ':' (
-  ( 'empty' %{ pv.push_match<ChildCountMatch>(0); } )
+  ( 'empty' %{ rule.add_match_pattern<ChildCountMatch>(0); } )
   |
 
   ( 'child-count('
     ( [0-9]+
       >{ TK_START; }
-      %{ TK_STOP; pv.push_match<ChildCountMatch>(std::stoi(tok)); } )
+      %{ TK_STOP; rule.add_match_pattern<ChildCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
   ( 'attribute-count('
     ( [0-9]+
       >{ TK_START; }
-      %{ TK_STOP; pv.push_match<AttributeCountMatch>(std::stoi(tok)); } )
+      %{ TK_STOP; rule.add_match_pattern<AttributeCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
   ( 'nth-child(' nth_pattern ')'
-    %{ pv.push_match<NthChildMatch>(pv.nth); } )
+    %{ rule.add_match_pattern<NthChildMatch>(pv.nth); } )
   |
 
   ( 'nth-last-child(' nth_pattern ')'
-    %{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Back); } )
+    %{ rule.add_match_pattern<NthChildMatch>(pv.nth, NthOff::Back); } )
   |
 
   ( 'nth-of-type(' nth_pattern ')'
-    %{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Front, rule.tag()); } )
+    %{ rule.add_match_pattern<NthChildMatch>(pv.nth, NthOff::Front, rule.get_tag()); } )
   |
 
   ( 'first-child'
-    %{ pv.push_match<NthChildMatch>(0, 1); } )
+    %{ rule.add_match_pattern<NthChildMatch>(0, 1); } )
   |
 
   ( 'first-of-type'
-    %{ pv.push_match<NthChildMatch>(0, 1, NthOff::Front, rule.tag()); } )
+    %{ rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Front, rule.get_tag()); } )
   |
 
   ( 'last-child'
-    %{ pv.push_match<NthChildMatch>(0, 1, NthOff::Back); } )
+    %{ rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Back); } )
   |
 
   ( 'last-of-type'
-    %{ pv.push_match<NthChildMatch>(0, 1, NthOff::Back, rule.tag()); } )
+    %{ rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Back, rule.get_tag()); } )
   |
 
   ( 'nth-last-of-type(' nth_pattern ')'
-    %{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Back, rule.tag()); } )
+    %{ rule.add_match_pattern<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); } )
   |
 
-  ( 'only-child' %{ pv.push_match<NthChildMatch>(0, 1);
-                    pv.push_match<NthChildMatch>(0, 1, NthOff::Back); } )
+  ( 'only-child' %{ rule.add_match_pattern<NthChildMatch>(0, 1);
+                    rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Back); } )
   |
 
-  ( 'text' %{ pv.push_match<TextNodeMatch>(); } )
+  ( 'text' %{ rule.add_match_pattern<TextNodeMatch>(); } )
 );
 
 
@@ -187,37 +187,37 @@ literal = (
 pattern = (
   space+
   ( ( ( builtin '=' capture )
-      %{ pv.push_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); } )
+      %{ rule.add_capture_pattern<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); } )
     |
 
     ( ( builtin '=' regex_test negate? )
-      %{ pv.push_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( builtin literal negate? )
-      %{ pv.push_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( attr_name '=' capture optional? )
-      %{ pv.push_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+      %{ rule.add_capture_pattern<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
          if( !pv.optional )
-           pv.push_match<AttributeMatch>(pv.attr_name, MakeUnique<test::True>());
+           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::True>());
        } )
     |
 
     ( ( attr_name '=' regex_test negate? )
-      %{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name literal negate? )
-      %{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name
         %{ pv.set_test<test::True>(); }
         negate?
       )
-      %{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
   ) %{ pv.reset(); }
 );
 
@@ -241,10 +241,14 @@ main := (
     ( '?' %{ rule.set_optional(true); } )?
 
     # a rule can have a tag name, e.g. <div
-    ( tag_name >{ TK_START; }
-               %{ TK_STOP;
-                  if( !rule.set_tag_name(tok) )
-                    this->throw_unknown_token(tok, "html-tag"); }
+    ( tag_name
+      >{ TK_START; }
+      %{ TK_STOP;
+         auto tag = gumbo_tag_enum(tok.c_str());
+         if( tag != GUMBO_TAG_UNKNOWN )
+           rule.set_tag(tag);
+         else
+           this->throw_unknown_token(tok, "html-tag"); }
     )?
 
     # a rule can have multiple traits, e.g. :first-child, :empty
@@ -256,11 +260,11 @@ main := (
 
     space*
 
-    # a rule can be self-closing, e.g. <p/>
-    ( '/' %{ rule.set_self_closing(true); } )?
-
-    # a rule definition ends with a '>'
-    ( '>' %{ rule.consume_rule(); } )
+    (
+      ( '/>' %{ builder.push_rule(std::move(rule), /* self_closing: */ true); } )
+      |
+      ( '>' %{ builder.push_rule(std::move(rule), /* self_closing: */ false); } )
+    ) %{ rule = Rule(); }
 
     space*
   )
@@ -277,8 +281,8 @@ main := (
       %{ TK_STOP; }
     )
     '>'
-    %{ if( !rule.consume_closing_tag(tok) )
-         this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
+    %{ if( !builder.pop_closing_tag(tok) )
+         this->throw_expected_closing_tag(tok, builder.get_expected_closing_tag()); }
 
     space*
   )

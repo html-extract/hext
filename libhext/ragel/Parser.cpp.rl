@@ -32,11 +32,13 @@ std::unique_ptr<Rule> Parser::parse()
   // Provide shortcut to keep hext-machine's code smaller.
   typedef NthChildMatch::OffsetOf NthOff;
 
-  // In the hext-machine, rules will be constructed with a RuleBuilder.
-  RuleBuilder rule;
+  // In the hext-machine, the rule tree will be constructed with a RuleBuilder.
+  RuleBuilder builder;
 
-  // Same with patterns.
-  PatternBuilder& pv = rule.pattern();
+  // The rule that is currently being built.
+  Rule rule;
+
+  PatternBuilder pv;
 
   // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;
@@ -51,10 +53,10 @@ std::unique_ptr<Rule> Parser::parse()
   }%%
 
   // Throw error if there are missing closing tags.
-  if( auto expected_closing_tag = rule.expected_closing_tag() )
+  if( auto expected_closing_tag = builder.get_expected_closing_tag() )
     this->throw_expected_closing_tag("", expected_closing_tag);
 
-  return rule.take_rule();
+  return builder.take_rule_tree();
 }
 
 void Parser::throw_unexpected() const
