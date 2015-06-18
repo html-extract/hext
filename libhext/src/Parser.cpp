@@ -1,6 +1,6 @@
 // This file was generated from Parser.cpp.rl.
 
-#line 1 "Parser.cpp.rl"
+/* #line 1 "Parser.cpp.rl" */
 #include "hext/Parser.h"
 
 
@@ -39,7 +39,7 @@ std::unique_ptr<Rule> Parser::parse()
   RuleBuilder rule;
 
   // Same with patterns.
-  PatternBuilder& pattern = rule.pattern();
+  PatternBuilder& pv = rule.pattern();
 
   // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;
@@ -47,12 +47,12 @@ std::unique_ptr<Rule> Parser::parse()
   std::string tok = "";
 
   
-#line 50 "Parser.cpp.tmp"
+/* #line 50 "Parser.cpp.tmp" */
 	{
 	cs = hext_start;
 	}
 
-#line 55 "Parser.cpp.tmp"
+/* #line 55 "Parser.cpp.tmp" */
 	{
 	int _klen;
 	unsigned int _trans;
@@ -126,204 +126,271 @@ _match:
 		switch ( *_acts++ )
 		{
 	case 0:
-#line 5 "hext-machine.rl"
+/* #line 7 "hext-machine.rl" */
 	{
   this->throw_unexpected();
 }
 	break;
 	case 1:
-#line 22 "hext-machine.rl"
-	{ pattern.nth = {2, 0}; }
+/* #line 16 "hext-machine.rl" */
+	{ pv.nth = {2, 0}; }
 	break;
 	case 2:
-#line 26 "hext-machine.rl"
-	{ pattern.nth = {2, 1}; }
+/* #line 19 "hext-machine.rl" */
+	{ pv.nth = {2, 1}; }
 	break;
 	case 3:
-#line 31 "hext-machine.rl"
+/* #line 23 "hext-machine.rl" */
 	{ TK_START; }
 	break;
 	case 4:
-#line 32 "hext-machine.rl"
-	{ TK_STOP; pattern.nth = {std::stoi(tok), 0}; }
+/* #line 24 "hext-machine.rl" */
+	{ TK_STOP; pv.nth = {0, std::stoi(tok)}; }
 	break;
 	case 5:
-#line 36 "hext-machine.rl"
-	{ TK_START; }
+/* #line 27 "hext-machine.rl" */
+	{ pv.nth = {pv.nth.second, 0}; }
 	break;
 	case 6:
-#line 37 "hext-machine.rl"
-	{ TK_STOP; pattern.nth.second = std::stoi(tok); }
+/* #line 29 "hext-machine.rl" */
+	{ TK_START; }
 	break;
 	case 7:
-#line 47 "hext-machine.rl"
-	{ pattern.push_match<ChildCountMatch>(0); }
+/* #line 30 "hext-machine.rl" */
+	{ TK_STOP; pv.nth.second = std::stoi(tok); }
 	break;
 	case 8:
-#line 53 "hext-machine.rl"
-	{ TK_START; }
+/* #line 39 "hext-machine.rl" */
+	{ pv.push_match<ChildCountMatch>(0); }
 	break;
 	case 9:
-#line 54 "hext-machine.rl"
-	{ TK_STOP; pattern.push_match<AttributeCountMatch>(std::stoi(tok)); }
+/* #line 44 "hext-machine.rl" */
+	{ TK_START; }
 	break;
 	case 10:
-#line 61 "hext-machine.rl"
-	{ TK_START; }
+/* #line 45 "hext-machine.rl" */
+	{ TK_STOP; pv.push_match<ChildCountMatch>(std::stoi(tok)); }
 	break;
 	case 11:
-#line 62 "hext-machine.rl"
-	{ TK_STOP; pattern.push_match<ChildCountMatch>(std::stoi(tok)); }
+/* #line 51 "hext-machine.rl" */
+	{ TK_START; }
 	break;
 	case 12:
-#line 68 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(pattern.nth); }
+/* #line 52 "hext-machine.rl" */
+	{ TK_STOP; pv.push_match<AttributeCountMatch>(std::stoi(tok)); }
 	break;
 	case 13:
-#line 73 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Back); }
+/* #line 57 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(pv.nth); }
 	break;
 	case 14:
-#line 78 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Front, rule.tag()); }
+/* #line 61 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Back); }
 	break;
 	case 15:
-#line 82 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(1, 0); }
+/* #line 65 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Front, rule.tag()); }
 	break;
 	case 16:
-#line 87 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Front, rule.tag()); }
+/* #line 69 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(0, 1); }
 	break;
 	case 17:
-#line 92 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Back); }
+/* #line 73 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(0, 1, NthOff::Front, rule.tag()); }
 	break;
 	case 18:
-#line 97 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Back, rule.tag()); }
+/* #line 77 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(0, 1, NthOff::Back); }
 	break;
 	case 19:
-#line 102 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Back, rule.tag()); }
+/* #line 81 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(0, 1, NthOff::Back, rule.tag()); }
 	break;
 	case 20:
-#line 107 "hext-machine.rl"
-	{ pattern.push_match<NthChildMatch>(1, 0);
-       pattern.push_match<NthChildMatch>(1, 0, NthOff::Back); }
+/* #line 85 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Back, rule.tag()); }
 	break;
 	case 21:
-#line 113 "hext-machine.rl"
-	{ pattern.push_match<TextNodeMatch>(); }
+/* #line 88 "hext-machine.rl" */
+	{ pv.push_match<NthChildMatch>(0, 1);
+                    pv.push_match<NthChildMatch>(0, 1, NthOff::Back); }
 	break;
 	case 22:
-#line 119 "hext-machine.rl"
-	{ TK_START; }
+/* #line 92 "hext-machine.rl" */
+	{ pv.push_match<TextNodeMatch>(); }
 	break;
 	case 23:
-#line 119 "hext-machine.rl"
-	{ TK_STOP; pattern.set_attr_literal(tok); }
+/* #line 98 "hext-machine.rl" */
+	{ TK_START; }
 	break;
 	case 24:
-#line 125 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 25:
-#line 126 "hext-machine.rl"
-	{ TK_STOP; pattern.set_regex_str(tok); }
-	break;
-	case 26:
-#line 133 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 27:
-#line 134 "hext-machine.rl"
-	{ TK_STOP;
-     if( !pattern.set_regex_mod(tok) )
-       this->throw_unknown_token(tok, "regex modifier");
-     try{ pattern.consume_regex(); }
-     catch( const boost::regex_error& e )
-     { // Mark whole regex as error, including slashes
-       auto mark_len = pattern.regex_length() + tok.size() + 2;
-       this->throw_regex_error(mark_len, e.code()); } }
-	break;
-	case 28:
-#line 151 "hext-machine.rl"
-	{ pattern.set_negate(); }
-	break;
-	case 29:
-#line 157 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 30:
-#line 158 "hext-machine.rl"
-	{ TK_STOP; { if( !pattern.set_builtin(tok) )
-                            this->throw_unknown_token(tok, "builtin"); } }
-	break;
-	case 31:
-#line 163 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 32:
-#line 163 "hext-machine.rl"
-	{ TK_STOP; pattern.set_attr_name(tok); }
-	break;
-	case 33:
-#line 170 "hext-machine.rl"
-	{ pattern.set_literal_op(*this->p); }
-	break;
-	case 34:
-#line 178 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 35:
-#line 179 "hext-machine.rl"
-	{ TK_STOP; pattern.set_cap_var(tok); }
-	break;
-	case 36:
-#line 183 "hext-machine.rl"
-	{ pattern.set_optional(); }
-	break;
-	case 37:
-#line 196 "hext-machine.rl"
-	{ pattern.consume_pattern(); }
-	break;
-	case 38:
-#line 215 "hext-machine.rl"
-	{ rule.set_optional(true); }
-	break;
-	case 39:
-#line 218 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 40:
-#line 219 "hext-machine.rl"
-	{ TK_STOP;
-                   if( !rule.set_tag_name(tok) )
-                     this->throw_unknown_token(tok, "html-tag"); }
-	break;
-	case 41:
-#line 233 "hext-machine.rl"
-	{ rule.set_self_closing(true); }
-	break;
-	case 42:
-#line 236 "hext-machine.rl"
-	{ rule.consume_rule(); }
-	break;
-	case 43:
-#line 249 "hext-machine.rl"
-	{ TK_START; }
-	break;
-	case 44:
-#line 250 "hext-machine.rl"
+/* #line 98 "hext-machine.rl" */
 	{ TK_STOP; }
 	break;
+	case 25:
+/* #line 102 "hext-machine.rl" */
+	{ pv.regex_flag |= boost::regex::icase; }
+	break;
+	case 26:
+/* #line 105 "hext-machine.rl" */
+	{ pv.regex_flag |= boost::regex::collate; }
+	break;
+	case 27:
+/* #line 107 "hext-machine.rl" */
+	{ try {
+     pv.regex = boost::regex(tok, pv.regex_flag);
+   }
+   catch( const boost::regex_error& e ) {
+     // Mark whole regex as error, including slashes and flags
+     auto mark_len = this->p - tok_begin + 2;
+     this->throw_regex_error(mark_len, e.code());
+   }
+}
+	break;
+	case 28:
+/* #line 117 "hext-machine.rl" */
+	{ assert(pv.regex); pv.set_test<test::Regex>(*pv.regex); }
+	break;
+	case 29:
+/* #line 123 "hext-machine.rl" */
+	{ pv.builtin = GetNodeText; }
+	break;
+	case 30:
+/* #line 125 "hext-machine.rl" */
+	{ pv.builtin = GetNodeInnerHtml; }
+	break;
+	case 31:
+/* #line 127 "hext-machine.rl" */
+	{ pv.builtin = StripTagsWrapper; }
+	break;
+	case 32:
+/* #line 136 "hext-machine.rl" */
+	{ TK_START; }
+	break;
+	case 33:
+/* #line 137 "hext-machine.rl" */
+	{ TK_STOP; pv.cap_var = tok; }
+	break;
+	case 34:
+/* #line 148 "hext-machine.rl" */
+	{ pv.optional = true; }
+	break;
+	case 35:
+/* #line 152 "hext-machine.rl" */
+	{ pv.test = MakeUnique<test::Negate>(std::move(pv.test)); }
+	break;
+	case 36:
+/* #line 157 "hext-machine.rl" */
+	{ TK_START; }
+	break;
+	case 37:
+/* #line 158 "hext-machine.rl" */
+	{ TK_STOP; pv.attr_name = tok; }
+	break;
+	case 38:
+/* #line 163 "hext-machine.rl" */
+	{ TK_START; }
+	break;
+	case 39:
+/* #line 163 "hext-machine.rl" */
+	{ TK_STOP; pv.literal_value = tok; }
+	break;
+	case 40:
+/* #line 170 "hext-machine.rl" */
+	{ pv.set_test<test::Equals>(pv.literal_value); }
+	break;
+	case 41:
+/* #line 173 "hext-machine.rl" */
+	{ pv.set_test<test::BeginsWith>(pv.literal_value); }
+	break;
+	case 42:
+/* #line 176 "hext-machine.rl" */
+	{ pv.set_test<test::Contains>(pv.literal_value); }
+	break;
+	case 43:
+/* #line 179 "hext-machine.rl" */
+	{ pv.set_test<test::ContainsWord>(pv.literal_value); }
+	break;
+	case 44:
+/* #line 182 "hext-machine.rl" */
+	{ pv.set_test<test::EndsWith>(pv.literal_value); }
+	break;
 	case 45:
-#line 253 "hext-machine.rl"
+/* #line 190 "hext-machine.rl" */
+	{ pv.push_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); }
+	break;
+	case 46:
+/* #line 194 "hext-machine.rl" */
+	{ pv.push_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	break;
+	case 47:
+/* #line 198 "hext-machine.rl" */
+	{ pv.push_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	break;
+	case 48:
+/* #line 202 "hext-machine.rl" */
+	{ pv.push_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+         if( !pv.optional )
+           pv.push_match<AttributeMatch>(pv.attr_name, MakeUnique<test::True>());
+       }
+	break;
+	case 49:
+/* #line 209 "hext-machine.rl" */
+	{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	break;
+	case 50:
+/* #line 213 "hext-machine.rl" */
+	{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	break;
+	case 51:
+/* #line 217 "hext-machine.rl" */
+	{ pv.set_test<test::True>(); }
+	break;
+	case 52:
+/* #line 220 "hext-machine.rl" */
+	{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	break;
+	case 53:
+/* #line 221 "hext-machine.rl" */
+	{ pv.reset(); }
+	break;
+	case 54:
+/* #line 241 "hext-machine.rl" */
+	{ rule.set_optional(true); }
+	break;
+	case 55:
+/* #line 244 "hext-machine.rl" */
+	{ TK_START; }
+	break;
+	case 56:
+/* #line 245 "hext-machine.rl" */
+	{ TK_STOP;
+                  if( !rule.set_tag_name(tok) )
+                    this->throw_unknown_token(tok, "html-tag"); }
+	break;
+	case 57:
+/* #line 260 "hext-machine.rl" */
+	{ rule.set_self_closing(true); }
+	break;
+	case 58:
+/* #line 263 "hext-machine.rl" */
+	{ rule.consume_rule(); }
+	break;
+	case 59:
+/* #line 276 "hext-machine.rl" */
+	{ TK_START; }
+	break;
+	case 60:
+/* #line 277 "hext-machine.rl" */
+	{ TK_STOP; }
+	break;
+	case 61:
+/* #line 280 "hext-machine.rl" */
 	{ if( !rule.consume_closing_tag(tok) )
          this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
 	break;
-#line 326 "Parser.cpp.tmp"
+/* #line 393 "Parser.cpp.tmp" */
 		}
 	}
 
@@ -340,25 +407,25 @@ _again:
 	while ( __nacts-- > 0 ) {
 		switch ( *__acts++ ) {
 	case 0:
-#line 5 "hext-machine.rl"
+/* #line 7 "hext-machine.rl" */
 	{
   this->throw_unexpected();
 }
 	break;
-	case 42:
-#line 236 "hext-machine.rl"
+	case 58:
+/* #line 263 "hext-machine.rl" */
 	{ rule.consume_rule(); }
 	break;
-	case 45:
-#line 253 "hext-machine.rl"
+	case 61:
+/* #line 280 "hext-machine.rl" */
 	{ if( !rule.consume_closing_tag(tok) )
          this->throw_expected_closing_tag(tok, rule.expected_closing_tag()); }
 	break;
-	case 46:
-#line 258 "hext-machine.rl"
+	case 62:
+/* #line 285 "hext-machine.rl" */
 	{ {p++; goto _out; } }
 	break;
-#line 361 "Parser.cpp.tmp"
+/* #line 428 "Parser.cpp.tmp" */
 		}
 	}
 	}
@@ -366,7 +433,7 @@ _again:
 	_out: {}
 	}
 
-#line 51 "Parser.cpp.rl"
+/* #line 51 "Parser.cpp.rl" */
 
 
   // Throw error if there are missing closing tags.

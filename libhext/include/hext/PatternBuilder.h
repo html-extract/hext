@@ -36,16 +36,12 @@
 namespace hext {
 
 
-/// When parsing hext rule definitions, PatternBuilder is responsible for
-/// creating MatchPatterns and CapturePatterns.
+/// When parsing hext rule definitions, PatternBuilder is responsible for holding
+/// all values required to create MatchPatterns and CapturePatterns.
 class PatternBuilder
 {
 public:
   PatternBuilder();
-
-  /// Consume either a MatchPattern or a CapturePattern, depending on which
-  /// parameters were given previously. Reset members.
-  void consume_pattern();
 
   /// Move all previously created MatchPatterns to caller.
   std::vector<std::unique_ptr<MatchPattern>> take_match_patterns();
@@ -62,85 +58,55 @@ public:
     );
   }
 
-  /// Set builtin function. Return false if builtin cannot be found.
-  bool set_builtin(const std::string& bi);
+  /// Append generic CapturePattern.
+  template<typename CapturePatternType, typename... Args>
+  void push_capture(Args&&... arg)
+  {
+    this->cp_.push_back(
+      MakeUnique<CapturePatternType>(std::forward<Args>(arg)...)
+    );
+  }
 
-  /// Set the current capture pattern to be optional.
-  void set_optional();
+  /// Consume generic ValueTest.
+  template<typename ValueTestType, typename... Args>
+  void set_test(Args&&... arg)
+  {
+    this->test = MakeUnique<ValueTestType>(std::forward<Args>(arg)...);
+  }
 
-  /// Set the current match pattern to wrap its ValueTest into a
-  /// NegateValueTest.
-  void set_negate();
-
-  /// Set attribute name of the Pattern.
-  void set_attr_name(const std::string& attribute_name);
-
-  /// Set literal attribute value of the Pattern.
-  void set_attr_literal(const std::string& attribute_literal);
-
-  /// Return current regex str length.
-  std::string::size_type regex_length() const;
-
-  /// Set regex str of the Pattern.
-  void set_regex_str(const std::string& regex);
-
-  /// Set regex modifier.
-  /// Return false on invalid modifier.
-  bool set_regex_mod(const std::string& regex_mod);
-
-  /// Build regex of the Pattern.
-  void consume_regex();
-
-  /// Set the CapturePattern's result name.
-  void set_cap_var(const std::string& capture_var);
-
-  /// Set literal operator.
-  void set_literal_op(char op);
-
-  std::pair<int, int> nth;
-
-private:
-  /// Reset all members to their original state.
+  /// Reset all public members to their original state.
   void reset();
 
-  /// Append a MatchPattern.
-  void consume_match_pattern();
-
-  /// Append a CapturePattern.
-  void consume_capture_pattern();
+  /// The current nth-pattern for NthChildMatch.
+  std::pair<int, int> nth;
 
   /// The current builtin function.
-  BuiltinFuncPtr bf_;
+  BuiltinFuncPtr builtin;
 
   /// Whether the current CapturePattern is optional.
-  bool optional_;
-
-  /// Whether the current MatchPattern's ValueTest should be negated.
-  bool negate_;
+  bool optional;
 
   /// The current attribute name.
-  std::string attr_name_;
+  std::string attr_name;
 
   /// The current attribute literal value.
-  std::string attr_literal_;
+  std::string literal_value;
 
   /// The current CapturePattern's result name.
-  std::string cap_var_;
+  std::string cap_var;
 
-  // The current Pattern's regex string.
-  std::string regex_str_;
+  /// The current regex options.
+  boost::regex::flag_type regex_flag;
 
   /// The current Pattern's regex.
   /// boost::optional is used to be able to distinguish between empty regex
   /// and no regex.
-  boost::optional<boost::regex> regex_;
+  boost::optional<boost::regex> regex;
 
-  /// The current regex options.
-  boost::regex::flag_type regex_opt_;
+  /// The current ValueTest
+  std::unique_ptr<test::ValueTest> test;
 
-  /// The current literal operator.
-  char literal_operator_;
-
+private:
   /// Consumed MatchPatterns.
   std::vector<std::unique_ptr<MatchPattern>> mp_;
 

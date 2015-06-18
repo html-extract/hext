@@ -36,7 +36,7 @@ std::unique_ptr<Rule> Parser::parse()
   RuleBuilder rule;
 
   // Same with patterns.
-  PatternBuilder& pattern = rule.pattern();
+  PatternBuilder& pv = rule.pattern();
 
   // These variables will be accessed by the macros TK_START and TK_STOP.
   const char * tok_begin = nullptr;

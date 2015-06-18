@@ -6,29 +6,17 @@ namespace hext {
 
 PatternBuilder::PatternBuilder()
 : nth(0, 0)
-, bf_(nullptr)
-, optional_(false)
-, negate_(false)
-, attr_name_()
-, attr_literal_()
-, cap_var_()
-, regex_str_()
-, regex_()
-, regex_opt_(boost::regex::perl)
-, literal_operator_('0')
+, builtin(nullptr)
+, optional(false)
+, attr_name()
+, literal_value()
+, cap_var()
+, regex_flag(boost::regex::perl)
+, regex()
+, test(nullptr)
 , mp_()
 , cp_()
 {
-}
-
-void PatternBuilder::consume_pattern()
-{
-  if( this->cap_var_.size() )
-    this->consume_capture_pattern();
-  else
-    this->consume_match_pattern();
-
-  this->reset();
 }
 
 std::vector<std::unique_ptr<MatchPattern>>
@@ -53,171 +41,17 @@ PatternBuilder::take_capture_patterns()
   return std::move(vec);
 }
 
-bool PatternBuilder::set_builtin(const std::string& bi)
-{
-  BuiltinFuncPtr func = GetBuiltinByName(bi);
-  if( !func )
-    return false;
-
-  this->bf_ = func;
-  return true;
-}
-
-void PatternBuilder::set_optional()
-{
-  this->optional_ = true;
-}
-
-void PatternBuilder::set_negate()
-{
-  this->negate_ = true;
-}
-
-void PatternBuilder::set_attr_name(const std::string& attribute_name)
-{
-  this->attr_name_ = attribute_name;
-}
-
-void PatternBuilder::set_attr_literal(const std::string& attribute_literal)
-{
-  this->attr_literal_ = attribute_literal;
-}
-
-std::string::size_type PatternBuilder::regex_length() const
-{
-  return this->regex_str_.size();
-}
-
-void PatternBuilder::set_regex_str(const std::string& regex)
-{
-  this->regex_str_ = regex;
-}
-
-bool PatternBuilder::set_regex_mod(const std::string& regex_mod)
-{
-  for(const auto c : regex_mod)
-  {
-    switch( c )
-    {
-      case 'i':
-        this->regex_opt_ |= boost::regex::icase;
-        break;
-      case 'c':
-        this->regex_opt_ |= boost::regex::collate;
-        break;
-      default:
-        return false;
-    }
-  }
-
-  return true;
-}
-
-void PatternBuilder::consume_regex()
-{
-  this->regex_ = boost::regex(this->regex_str_, this->regex_opt_);
-}
-
-void PatternBuilder::set_cap_var(const std::string& capture_var)
-{
-  this->cap_var_ = capture_var;
-}
-
-void PatternBuilder::set_literal_op(char op)
-{
-  this->literal_operator_ = op;
-}
-
 void PatternBuilder::reset()
 {
-  this->bf_ = nullptr;
-  this->optional_ = false;
-  this->negate_ = false;
-  this->attr_name_ = "";
-  this->attr_literal_ = "";
-  this->cap_var_ = "";
-  this->regex_str_ = "";
-  this->regex_ = boost::none;
-  this->regex_opt_ = boost::regex::perl;
+  this->builtin = nullptr;
+  this->optional = false;
+  this->attr_name = "";
+  this->literal_value = "";
+  this->cap_var = "";
+  this->regex_flag = boost::regex::perl;
   this->nth = {0, 0};
-  this->literal_operator_ = '0';
-}
-
-void PatternBuilder::consume_match_pattern()
-{
-  std::unique_ptr<test::ValueTest> test;
-
-  if( this->literal_operator_ != '0' )
-  {
-    switch(this->literal_operator_)
-    {
-      case '^':
-        test = MakeUnique<test::BeginsWith>(this->attr_literal_);
-        break;
-      case '*':
-        test = MakeUnique<test::Contains>(this->attr_literal_);
-        break;
-      case '~':
-        test = MakeUnique<test::ContainsWord>(this->attr_literal_);
-        break;
-      case '$':
-        test = MakeUnique<test::EndsWith>(this->attr_literal_);
-        break;
-      default:
-        test = MakeUnique<test::Equals>(this->attr_literal_);
-        break;
-    }
-  }
-  else if( this->regex_ )
-  {
-    test = MakeUnique<test::Regex>(this->regex_.get());
-  }
-  else if( this->attr_literal_.size() )
-  {
-    test = MakeUnique<test::Equals>(this->attr_literal_);
-  }
-  else
-  {
-    test = MakeUnique<test::True>();
-  }
-
-  if( this->negate_ )
-    test = MakeUnique<test::Negate>(std::move(test));
-
-  std::unique_ptr<MatchPattern> p;
-  if( this->bf_ )
-    p = MakeUnique<BuiltinMatch>(this->bf_, std::move(test));
-  else
-    p = MakeUnique<AttributeMatch>(this->attr_name_, std::move(test));
-
-  this->mp_.push_back(std::move(p));
-}
-
-void PatternBuilder::consume_capture_pattern()
-{
-  if( this->bf_ )
-  {
-    this->cp_.push_back(
-      MakeUnique<BuiltinCapture>(
-        this->cap_var_,
-        this->bf_,
-        this->regex_
-      )
-    );
-  }
-  else
-  {
-    this->cp_.push_back(
-      MakeUnique<AttributeCapture>(
-        this->cap_var_, this->attr_name_, this->regex_
-      )
-    );
-
-    if( !this->optional_ )
-      this->mp_.push_back(
-        MakeUnique<AttributeMatch>(this->attr_name_, MakeUnique<test::True>())
-      );
-  }
+  assert(this->test.get() == nullptr);
+  this->test = nullptr;
 }
 
 

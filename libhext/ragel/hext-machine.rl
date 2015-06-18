@@ -1,40 +1,33 @@
 %%{
-# This ragel machine lexes hext. It is embedded in Parser::parse.
+
+# This ragel machine parses/lexes hext. It is embedded in ragel/Parser.cpp.rl.
 machine hext;
+
 
 action error {
   this->throw_unexpected();
 }
 
-#### HELPERS ###################################################################
-attr_name     = ( alpha (alnum | '-' | '_')** );
-builtin_name  = ( alpha (alnum | '-' | '_')** );
-cap_var       = ( [^/{}][^/{}]** );
-match_literal = ( ( [^"] | '\\"' )** );
-regex_content = ( ( [^/] | '\\/' )** );
-
 
 #### NTH_PATTERN ###############################################################
-# nth_pattern is used in some traits, e.g. nth-child(nth_pattern).
+# nth_pattern is used by traits, e.g. nth-last-child(nth_pattern).
 # Examples: :nth-child(1)  :nth-child(even)  :nth-child(2n)  :nth-child(2n+1)
 nth_pattern = (
-  # nth-child(even)
-  ( 'even' %{ pattern.nth = {2, 0}; } )
+  ( 'even' %{ pv.nth = {2, 0}; } )
   |
 
-  # nth-child(odd)
-  ( 'odd' %{ pattern.nth = {2, 1}; } )
+  ( 'odd' %{ pv.nth = {2, 1}; } )
   |
 
-  # nth-child(2n+1)
   ( ( ( '-'? [0-9]+ )
       >{ TK_START; }
-      %{ TK_STOP; pattern.nth = {std::stoi(tok), 0}; }
+      %{ TK_STOP; pv.nth = {0, std::stoi(tok)}; }
     )
     ( 'n'
+      %{ pv.nth = {pv.nth.second, 0}; }
       ( ( ('+'|'-') [0-9]+ )
         >{ TK_START; }
-        %{ TK_STOP; pattern.nth.second = std::stoi(tok); }
+        %{ TK_STOP; pv.nth.second = std::stoi(tok); }
       )?
     )?
   )
@@ -43,161 +36,194 @@ nth_pattern = (
 
 #### TRAITS ####################################################################
 trait = ':' (
-  # :empty
-  ( 'empty' %{ pattern.push_match<ChildCountMatch>(0); } )
+  ( 'empty' %{ pv.push_match<ChildCountMatch>(0); } )
   |
 
-  # :attribute-count(5)
-  ( 'attribute-count('
-    ( [0-9]+
-      >{ TK_START; }
-      %{ TK_STOP; pattern.push_match<AttributeCountMatch>(std::stoi(tok)); } )
-    ')' )
-  |
-
-  # :child-count(5)
   ( 'child-count('
     ( [0-9]+
       >{ TK_START; }
-      %{ TK_STOP; pattern.push_match<ChildCountMatch>(std::stoi(tok)); } )
+      %{ TK_STOP; pv.push_match<ChildCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
-  # :nth-child(2n+1)
+  ( 'attribute-count('
+    ( [0-9]+
+      >{ TK_START; }
+      %{ TK_STOP; pv.push_match<AttributeCountMatch>(std::stoi(tok)); } )
+    ')' )
+  |
+
   ( 'nth-child(' nth_pattern ')'
-    %{ pattern.push_match<NthChildMatch>(pattern.nth); } )
+    %{ pv.push_match<NthChildMatch>(pv.nth); } )
   |
 
-  # :nth-last-child(2n+1)
   ( 'nth-last-child(' nth_pattern ')'
-    %{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Back); } )
+    %{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Back); } )
   |
 
-  # :nth-of-type(2n+1)
   ( 'nth-of-type(' nth_pattern ')'
-    %{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Front, rule.tag()); } )
+    %{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Front, rule.tag()); } )
   |
 
-  # :first-child
-  ( 'first-child' %{ pattern.push_match<NthChildMatch>(1, 0); } )
+  ( 'first-child'
+    %{ pv.push_match<NthChildMatch>(0, 1); } )
   |
 
-  # :first-of-type
   ( 'first-of-type'
-    %{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Front, rule.tag()); } )
+    %{ pv.push_match<NthChildMatch>(0, 1, NthOff::Front, rule.tag()); } )
   |
 
-  # :last-child
   ( 'last-child'
-    %{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Back); } )
+    %{ pv.push_match<NthChildMatch>(0, 1, NthOff::Back); } )
   |
 
-  # :last-of-type
   ( 'last-of-type'
-    %{ pattern.push_match<NthChildMatch>(1, 0, NthOff::Back, rule.tag()); } )
+    %{ pv.push_match<NthChildMatch>(0, 1, NthOff::Back, rule.tag()); } )
   |
 
-  # :nth-last-of-type(2n+1)
   ( 'nth-last-of-type(' nth_pattern ')'
-    %{ pattern.push_match<NthChildMatch>(pattern.nth, NthOff::Back, rule.tag()); } )
+    %{ pv.push_match<NthChildMatch>(pv.nth, NthOff::Back, rule.tag()); } )
   |
 
-  # :only-child
-  ( 'only-child'
-    %{ pattern.push_match<NthChildMatch>(1, 0);
-       pattern.push_match<NthChildMatch>(1, 0, NthOff::Back); } )
+  ( 'only-child' %{ pv.push_match<NthChildMatch>(0, 1);
+                    pv.push_match<NthChildMatch>(0, 1, NthOff::Back); } )
   |
 
-  # :text
-  ( 'text'
-    %{ pattern.push_match<TextNodeMatch>(); } )
+  ( 'text' %{ pv.push_match<TextNodeMatch>(); } )
 );
 
 
+#### REGULAR EXPRESSIONS #######################################################
+regex =
+'/' ( ( [^/] | '\\/' )** >{ TK_START; } %{ TK_STOP; } ) '/'
+# regex flags
+(
+  # case insensitive
+  ( 'i' %{ pv.regex_flag |= boost::regex::icase; } )
+  |
+  # collate (locale aware character groups)
+  ( 'c' %{ pv.regex_flag |= boost::regex::collate; } )
+)*
+%{ try {
+     pv.regex = boost::regex(tok, pv.regex_flag);
+   }
+   catch( const boost::regex_error& e ) {
+     // Mark whole regex as error, including slashes and flags
+     auto mark_len = this->p - tok_begin + 2;
+     this->throw_regex_error(mark_len, e.code());
+   }
+};
+# Wrap a regular expression into a test::Regex.
+regex_test = regex %{ assert(pv.regex); pv.set_test<test::Regex>(*pv.regex); };
+
+
+#### BUILTIN FUNCTION ##########################################################
+builtin = (
+  '@'
+  ( ( 'text'       %{ pv.builtin = GetNodeText; } )
+    |
+    ( 'inner-html' %{ pv.builtin = GetNodeInnerHtml; } )
+    |
+    ( 'strip-tags' %{ pv.builtin = StripTagsWrapper; } )
+  )
+);
+
+
+#### CAPTURE ###################################################################
+# capture variable, e.g. id={cap_var}, @text={cap_var}
+capture = (
+  '{' ( ( [^/{}][^/{}]** )
+        >{ TK_START; }
+        %{ TK_STOP; pv.cap_var = tok; } )
+      # optional capture regex, e.g. @text={time/(\d\d:\d\d)/}
+      regex?
+  '}'
+);
+
+
+#### HELPERS ###################################################################
+# Set an attribute capture to optional. By default, attribute captures are
+# mandatory, i.e. the attribute has to exist in a node for it to match.
+optional = (
+  '?' %{ pv.optional = true; }
+);
+# Negate a match pattern, e.g. style!, class="menu"!, @text=/foo/!
+negate = (
+  '!' %{ pv.test = MakeUnique<test::Negate>(std::move(pv.test)); }
+);
+# The name of an HTML-element's attribute
+attr_name = (
+  ( alpha (alnum | '-' | '_')** )
+  >{ TK_START; }
+  %{ TK_STOP; pv.attr_name = tok; }
+);
 # Literal value, e.g. attr="literal"
-literal_value = '"' ( match_literal
-  >{ TK_START; } %{ TK_STOP; pattern.set_attr_literal(tok); }
+literal_value = '"' (
+  ( [^"] | '\\"' )**
+  >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
 ) '"';
 
 
-# Regular expression
-regex = '/' ( regex_content
-    >{ TK_START; }
-    %{ TK_STOP; pattern.set_regex_str(tok); }
-  ) '/'
-  # regex modifier:
-  # 'i': case insensitive
-  # 'c': collate (locale aware character groups)
-  # Capture all characters to provide better error diagnostics.
-  ( [a-zA-Z!]+ )?
-  >{ TK_START; }
-  %{ TK_STOP;
-     if( !pattern.set_regex_mod(tok) )
-       this->throw_unknown_token(tok, "regex modifier");
-     try{ pattern.consume_regex(); }
-     catch( const boost::regex_error& e )
-     { // Mark whole regex as error, including slashes
-       auto mark_len = pattern.regex_length() + tok.size() + 2;
-       this->throw_regex_error(mark_len, e.code()); } };
+#### LITERAL ###################################################################
+literal = (
+  ( '=' literal_value
+    %{ pv.set_test<test::Equals>(pv.literal_value); } )
+  |
+  ( '^=' literal_value
+    %{ pv.set_test<test::BeginsWith>(pv.literal_value); } )
+  |
+  ( '*=' literal_value
+    %{ pv.set_test<test::Contains>(pv.literal_value); } )
+  |
+  ( '~=' literal_value
+    %{ pv.set_test<test::ContainsWord>(pv.literal_value); } )
+  |
+  ( '$=' literal_value
+    %{ pv.set_test<test::EndsWith>(pv.literal_value); } )
+);
 
 
-#### ATTRIBUTES ################################################################
-attributes = (
+#### PATTERNS ##################################################################
+pattern = (
   space+
-  (
-    # attribute name
-    (
-      # negate match pattern, e.g. !style="display:none"
-      ( '!' >{ pattern.set_negate(); } )?
+  ( ( ( builtin '=' capture )
+      %{ pv.push_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); } )
+    |
 
-      (
-        # builtin function, e.g. @text
-        ( '@'
-          ( builtin_name
-            >{ TK_START; }
-            %{ TK_STOP; { if( !pattern.set_builtin(tok) )
-                            this->throw_unknown_token(tok, "builtin"); } } ) )
-        |
+    ( ( builtin '=' regex_test negate? )
+      %{ pv.push_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+    |
 
-        # html node attribute, e.g. class
-        ( attr_name >{ TK_START; } %{ TK_STOP; pattern.set_attr_name(tok); } )
+    ( ( builtin literal negate? )
+      %{ pv.push_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+    |
+
+    ( ( attr_name '=' capture optional? )
+      %{ pv.push_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+         if( !pv.optional )
+           pv.push_match<AttributeMatch>(pv.attr_name, MakeUnique<test::True>());
+       } )
+    |
+
+    ( ( attr_name '=' regex_test negate? )
+      %{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+    |
+
+    ( ( attr_name literal negate? )
+      %{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+    |
+
+    ( ( attr_name
+        %{ pv.set_test<test::True>(); }
+        negate?
       )
-    )
-
-    # attribute value
-    (
-      # literal operator, e.g. @text^="Lorem ", class~="menu"
-      ( ( '^' | '*' | '~' | '$' ) >{ pattern.set_literal_op(*this->p); }
-        '=' literal_value )
-      |
-
-      # capture variable, match regex or match literal
-      ( '='
-        (
-          # capture variable, e.g. id={html_node_attr_id}, @text={heading}
-          ( '{' cap_var >{ TK_START; }
-                %{ TK_STOP; pattern.set_cap_var(tok); }
-                # optional capture regex, e.g. @text={time/(\d\d:\d\d)/}
-                regex?
-            '}'
-            ( '?' %{ pattern.set_optional(); } )?
-          )
-          |
-
-          # match regex, e.g. id=/article_[0-9]+/
-          regex
-          |
-
-          # match literal, e.g. id="article_23"
-          literal_value
-        )
-      )
-    )?
-  ) %{ pattern.consume_pattern(); }
-)+;
+      %{ pv.push_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+  ) %{ pv.reset(); }
+);
 
 
 #### RULES #####################################################################
+tag_name = ( alpha (alnum | '-' | '_')** );
 main := (
   # comments may be prefixed with any spaces and must terminate with a newline
   ( ' '* '#' (any - '\n')* '\n' )
@@ -215,24 +241,25 @@ main := (
     ( '?' %{ rule.set_optional(true); } )?
 
     # a rule can have a tag name, e.g. <div
-    ( attr_name >{ TK_START; }
-                %{ TK_STOP;
-                   if( !rule.set_tag_name(tok) )
-                     this->throw_unknown_token(tok, "html-tag"); }
+    ( tag_name >{ TK_START; }
+               %{ TK_STOP;
+                  if( !rule.set_tag_name(tok) )
+                    this->throw_unknown_token(tok, "html-tag"); }
     )?
 
-    # a rule can have multiple traits, e.g. <div:first-child
+    # a rule can have multiple traits, e.g. :first-child, :empty
     trait*
 
-    # a rule can have multple attributes, e.g. <div class="menu"
-    attributes?
+    # a rule can have multiple match or capture patterns,
+    # e.g. class="menu", @text={heading}
+    pattern*
 
     space*
 
     # a rule can be self-closing, e.g. <p/>
     ( '/' %{ rule.set_self_closing(true); } )?
 
-    # a rule ends with a '>'
+    # a rule definition ends with a '>'
     ( '>' %{ rule.consume_rule(); } )
 
     space*
@@ -245,7 +272,7 @@ main := (
 
     '</'
     (
-      attr_name?
+      tag_name?
       >{ TK_START; }
       %{ TK_STOP; }
     )
