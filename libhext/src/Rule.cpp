@@ -39,9 +39,9 @@ std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
     if( first_child->matches(node) )
     {
       auto values = first_child->capture(node);
-      auto child_rt = rt->create_branch(values);
+      auto child_rt = rt->create_child(values);
       if( !first_child->extract_children(node, child_rt) )
-        rt->delete_branch(child_rt);
+        rt->delete_child(child_rt);
       return std::move(rt);
     }
   }
@@ -107,7 +107,7 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
   while( auto grouped_match = mc.match_next() )
   {
     ++match_count;
-    auto branch = rt->create_branch();
+    auto branch = rt->create_child();
     for( const auto& match_pair : *grouped_match )
     {
       const Rule * child_rule = match_pair.first;
@@ -115,11 +115,11 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
       assert(child_rule && child_node);
 
       auto values = child_rule->capture(child_node);
-      auto child_rt = branch->create_branch(values);
+      auto child_rt = branch->create_child(values);
 
       if( !child_rule->extract_children(child_node, child_rt) )
       {
-        rt->delete_branch(branch);
+        rt->delete_child(branch);
         --match_count;
         break;
       }

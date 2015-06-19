@@ -31,13 +31,13 @@ public:
   /// Create a new branch. Return a non-owning pointer to the new branch.
   /// \param values
   ///     Values for the new ResultTree branch.
-  ResultTree * create_branch(
+  ResultTree * create_child(
     std::vector<ResultPair> values = std::vector<ResultPair>()
   );
 
-  /// Deletes a child branch pointed to by `child`. If `child` is not found
+  /// Delete a child branch pointed to by `child`. If `child` is not found
   /// nothing is done.
-  void delete_branch(const ResultTree * child);
+  void delete_child(const ResultTree * child);
 
   /// Return a vector containing multimaps of string pairs. Each element in the
   /// vector represents a child of this ResultTree. The multimaps are the result

@@ -10,13 +10,13 @@ ResultTree::ResultTree(std::vector<ResultPair> values)
 {
 }
 
-ResultTree * ResultTree::create_branch(std::vector<ResultPair> values)
+ResultTree * ResultTree::create_child(std::vector<ResultPair> values)
 {
   this->children_.push_back(MakeUnique<ResultTree>(values));
   return this->children_.back().get();
 }
 
-void ResultTree::delete_branch(const ResultTree * child)
+void ResultTree::delete_child(const ResultTree * child)
 {
   // std::unique_ptr has no operator==(T*)
 
