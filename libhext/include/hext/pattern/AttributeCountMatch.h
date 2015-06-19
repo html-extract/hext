@@ -2,8 +2,8 @@
 #define HEXT_PATTERN_ATTRIBUTE_COUNT_MATCH_H_INCLUDED
 
 #include "hext/pattern/MatchPattern.h"
-#include "hext/NodeUtil.h"
 
+#include <cassert>
 #include <gumbo.h>
 
 

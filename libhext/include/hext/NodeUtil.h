@@ -14,9 +14,6 @@
 namespace hext {
 
 
-/// Return amount of node's attributes.
-unsigned int GetNodeAttributeCount(const GumboNode * node);
-
 /// Get inner text of a `node`. Trim left and right whitespace and collapse
 /// multiple whitespace into a single space.
 std::string GetNodeText(const GumboNode * node);

@@ -4,15 +4,6 @@
 namespace hext {
 
 
-unsigned int GetNodeAttributeCount(const GumboNode * node)
-{
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return 0;
-
-  const GumboVector& attributes = node->v.element.attributes;
-  return attributes.length;
-}
-
 std::string GetNodeText(const GumboNode * node)
 {
   return TrimAndCollapseWs(StripTags(node, /* smart_wrap: */ true));

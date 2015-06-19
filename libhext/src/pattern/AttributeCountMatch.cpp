@@ -11,11 +11,12 @@ AttributeCountMatch::AttributeCountMatch(int attribute_count)
 
 bool AttributeCountMatch::matches(const GumboNode * node) const
 {
+  assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  unsigned int attr_count = GetNodeAttributeCount(node);
-  return static_cast<unsigned int>(this->attribute_count_) == attr_count;
+  int attr_count = node->v.element.attributes.length;
+  return this->attribute_count_ == attr_count;
 }
 
 
