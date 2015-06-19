@@ -11,11 +11,29 @@ ChildCountMatch::ChildCountMatch(int child_count)
 
 bool ChildCountMatch::matches(const GumboNode * node) const
 {
+  assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
-  return
-    static_cast<unsigned int>(this->child_count_) == GetNodeChildCount(node);
+  return this->child_count_ == this->count_child_elements(node);
+}
+
+int ChildCountMatch::count_child_elements(const GumboNode * node) const
+{
+  assert(node);
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
+    return 0;
+
+  int count = 0;
+  const GumboVector& children = node->v.element.children;
+  for(unsigned int i = 0; i < children.length; ++i)
+  {
+    auto child = static_cast<const GumboNode *>(children.data[i]);
+    if( child->type == GUMBO_NODE_ELEMENT )
+      ++count;
+  }
+
+  return count;
 }
 
 

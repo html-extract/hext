@@ -83,23 +83,6 @@ unsigned int GetNodeAttributeCount(const GumboNode * node)
   return attributes.length;
 }
 
-unsigned int GetNodeChildCount(const GumboNode * node)
-{
-  if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return 0;
-
-  unsigned int count = 0;
-  const GumboVector& children = node->v.element.children;
-  for(unsigned int i = 0; i < children.length; ++i)
-  {
-    auto child = static_cast<const GumboNode *>(children.data[i]);
-    if( child->type == GUMBO_NODE_ELEMENT )
-      count++;
-  }
-
-  return count;
-}
-
 std::string GetNodeText(const GumboNode * node)
 {
   return TrimAndCollapseWs(StripTags(node, /* smart_wrap: */ true));

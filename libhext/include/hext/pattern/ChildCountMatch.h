@@ -2,7 +2,8 @@
 #define HEXT_PATTERN_CHILD_COUNT_MATCH_H_INCLUDED
 
 #include "hext/pattern/MatchPattern.h"
-#include "hext/NodeUtil.h"
+
+#include <cassert>
 
 #include <gumbo.h>
 
@@ -23,6 +24,10 @@ public:
   bool matches(const GumboNode * node) const final;
 
 private:
+  /// Count amount of children with node type `GUMBO_NODE_ELEMENT` (which
+  /// excludes text-nodes).
+  int count_child_elements(const GumboNode * node) const;
+
   int child_count_;
 };
 
