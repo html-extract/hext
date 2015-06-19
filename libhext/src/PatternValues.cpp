@@ -14,6 +14,8 @@ PatternValues::PatternValues()
 , regex_flag(boost::regex::perl)
 , regex()
 , test(nullptr)
+, trait(nullptr)
+, negate(nullptr)
 {
 }
 
@@ -29,6 +31,10 @@ void PatternValues::reset()
   this->nth = {0, 0};
   assert(this->test.get() == nullptr);
   this->test = nullptr;
+  assert(this->trait.get() == nullptr);
+  this->trait = nullptr;
+  assert(this->negate.get() == nullptr);
+  this->negate = nullptr;
 }
 
 

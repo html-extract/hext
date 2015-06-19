@@ -12,6 +12,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <gumbo.h>
@@ -73,6 +74,12 @@ public:
   /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   void append_child(Rule&& r, std::size_t tree_depth);
 
+  /// Take a MatchPattern.
+  void take_match_pattern(std::unique_ptr<MatchPattern>&& pattern)
+  {
+    this->match_patterns_.push_back(std::move(pattern));
+  }
+
   /// Emplace a MatchPattern.
   template<typename MatchPatternType, typename... Args>
   void add_match_pattern(Args&&... arg)
@@ -80,6 +87,12 @@ public:
     this->match_patterns_.push_back(
       MakeUnique<MatchPatternType>(std::forward<Args>(arg)...)
     );
+  }
+
+  /// Take a CapturePattern.
+  void take_capture_pattern(std::unique_ptr<CapturePattern>&& pattern)
+  {
+    this->capture_patterns_.push_back(std::move(pattern));
   }
 
   /// Emplace a CapturePattern.

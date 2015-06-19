@@ -64,6 +64,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/CapturePattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ChildCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/MatchPattern.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/NegateMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/TextNodeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ValueMatch.cpp"

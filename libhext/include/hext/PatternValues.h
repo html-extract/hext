@@ -3,6 +3,8 @@
 
 #include "hext/Builtins.h"
 #include "hext/MakeUnique.h"
+#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/NegateMatch.h"
 #include "hext/test/ValueTest.h"
 
 #include <string>
@@ -28,6 +30,13 @@ public:
   void set_test(Args&&... arg)
   {
     this->test = MakeUnique<ValueTestType>(std::forward<Args>(arg)...);
+  }
+
+  /// Consume generic Trait.
+  template<typename MatchPatternType, typename... Args>
+  void set_trait(Args&&... arg)
+  {
+    this->trait = MakeUnique<MatchPatternType>(std::forward<Args>(arg)...);
   }
 
   /// Reset all members to their original state.
@@ -61,6 +70,12 @@ public:
 
   /// The current ValueTest
   std::unique_ptr<test::ValueTest> test;
+
+  /// The current Trait.
+  std::unique_ptr<MatchPattern> trait;
+
+  /// The current NegateMatch.
+  std::unique_ptr<NegateMatch> negate;
 };
 
 

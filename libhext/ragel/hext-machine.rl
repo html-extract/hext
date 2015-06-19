@@ -36,61 +36,72 @@ nth_pattern = (
 
 #### TRAITS ####################################################################
 trait = ':' (
-  ( 'empty' %{ rule.add_match_pattern<ChildCountMatch>(0); } )
+  ( 'empty' %{ pv.set_trait<ChildCountMatch>(0); } )
   |
 
   ( 'child-count('
     ( [0-9]+
       >{ TK_START; }
-      %{ TK_STOP; rule.add_match_pattern<ChildCountMatch>(std::stoi(tok)); } )
+      %{ TK_STOP; pv.set_trait<ChildCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
   ( 'attribute-count('
     ( [0-9]+
       >{ TK_START; }
-      %{ TK_STOP; rule.add_match_pattern<AttributeCountMatch>(std::stoi(tok)); } )
+      %{ TK_STOP; pv.set_trait<AttributeCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
   ( 'nth-child(' nth_pattern ')'
-    %{ rule.add_match_pattern<NthChildMatch>(pv.nth); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth); } )
   |
 
   ( 'nth-last-child(' nth_pattern ')'
-    %{ rule.add_match_pattern<NthChildMatch>(pv.nth, NthOff::Back); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back); } )
   |
 
   ( 'nth-of-type(' nth_pattern ')'
-    %{ rule.add_match_pattern<NthChildMatch>(pv.nth, NthOff::Front, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Front, rule.get_tag()); } )
   |
 
   ( 'first-child'
-    %{ rule.add_match_pattern<NthChildMatch>(0, 1); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1); } )
   |
 
   ( 'first-of-type'
-    %{ rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Front, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Front, rule.get_tag()); } )
   |
 
   ( 'last-child'
-    %{ rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Back); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); } )
   |
 
   ( 'last-of-type'
-    %{ rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Back, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back, rule.get_tag()); } )
   |
 
   ( 'nth-last-of-type(' nth_pattern ')'
-    %{ rule.add_match_pattern<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); } )
   |
 
-  ( 'only-child' %{ rule.add_match_pattern<NthChildMatch>(0, 1);
-                    rule.add_match_pattern<NthChildMatch>(0, 1, NthOff::Back); } )
+  ( 'only-child' %{ pv.set_trait<NthChildMatch>(0, 1);
+                    pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); } )
   |
 
-  ( 'text' %{ rule.add_match_pattern<TextNodeMatch>(); } )
+  ( 'text' %{ pv.set_trait<TextNodeMatch>(); } )
 );
+not_trait =
+':not('
+  %{ pv.negate = MakeUnique<NegateMatch>(); }
+  (
+    trait
+    %{
+       assert(pv.negate);
+       pv.negate->take_match_pattern(std::move(pv.trait));
+     }
+  )+
+')';
 
 
 #### REGULAR EXPRESSIONS #######################################################
@@ -252,7 +263,12 @@ main := (
     )?
 
     # a rule can have multiple traits, e.g. :first-child, :empty
-    trait*
+    (
+      ( not_trait %{ rule.take_match_pattern(std::move(pv.negate)); } )
+      |
+
+      ( trait %{ rule.take_match_pattern(std::move(pv.trait)); } )
+    )*
 
     # a rule can have multiple match or capture patterns,
     # e.g. class="menu", @text={heading}

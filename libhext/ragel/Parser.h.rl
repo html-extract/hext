@@ -11,6 +11,7 @@
 #include "hext/pattern/CapturePattern.h"
 #include "hext/pattern/ChildCountMatch.h"
 #include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/NegateMatch.h"
 #include "hext/pattern/NthChildMatch.h"
 #include "hext/pattern/TextNodeMatch.h"
 #include "hext/PatternValues.h"
