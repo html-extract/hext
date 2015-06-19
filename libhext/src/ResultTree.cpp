@@ -4,15 +4,15 @@
 namespace hext {
 
 
-ResultTree::ResultTree(std::vector<ResultPair> values)
+ResultTree::ResultTree()
 : children_(),
-  values_(values)
+  values_()
 {
 }
 
-ResultTree * ResultTree::create_child(std::vector<ResultPair> values)
+ResultTree * ResultTree::create_child()
 {
-  this->children_.push_back(MakeUnique<ResultTree>(values));
+  this->children_.push_back(MakeUnique<ResultTree>());
   return this->children_.back().get();
 }
 
