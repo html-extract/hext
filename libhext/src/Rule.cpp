@@ -43,6 +43,7 @@ std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
         rt->delete_child(child_rt);
       else
         child_rt->set_values(first_child->capture(node));
+      this->extract_children(node, rt.get());
       return std::move(rt);
     }
   }
