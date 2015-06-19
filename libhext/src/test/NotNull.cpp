@@ -1,11 +1,11 @@
-#include "hext/test/True.h"
+#include "hext/test/NotNull.h"
 
 
 namespace hext {
 namespace test {
 
 
-bool True::operator()(const char * subject) const
+bool NotNull::operator()(const char * subject) const
 {
   return subject != nullptr;
 }

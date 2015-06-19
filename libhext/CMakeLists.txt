@@ -79,8 +79,8 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/test/EndsWith.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Equals.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Negate.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/NotNull.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Regex.cpp"
-  "${PROJECT_SOURCE_DIR}/src/test/True.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/ValueTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 ADD_DEPENDENCIES(hext gumbo-parser)

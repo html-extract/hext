@@ -1,5 +1,5 @@
-#ifndef HEXT_TEST_TRUE_H_INCLUDED
-#define HEXT_TEST_TRUE_H_INCLUDED
+#ifndef HEXT_TEST_NOT_NULL_H_INCLUDED
+#define HEXT_TEST_NOT_NULL_H_INCLUDED
 
 #include "hext/test/ValueTest.h"
 
@@ -8,8 +8,8 @@ namespace hext {
 namespace test {
 
 
-/// True is a ValueTest that always returns true.
-class True : public ValueTest
+/// NotNull is a ValueTest that checks if subject is not nullptr.
+class NotNull : public ValueTest
 {
 public:
   /// Return true if subject is not nullptr.
@@ -21,5 +21,5 @@ public:
 } // namespace hext
 
 
-#endif // HEXT_TEST_TRUE_H_INCLUDED
+#endif // HEXT_TEST_NOT_NULL_H_INCLUDED
 

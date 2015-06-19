@@ -346,7 +346,7 @@ _match:
 #line 213 "hext-machine.rl"
 	{ rule.add_capture_pattern<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
          if( !pv.optional )
-           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::True>());
+           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        }
 	break;
 	case 51:
@@ -359,7 +359,7 @@ _match:
 	break;
 	case 53:
 #line 228 "hext-machine.rl"
-	{ pv.set_test<test::True>(); }
+	{ pv.set_test<test::NotNull>(); }
 	break;
 	case 54:
 #line 231 "hext-machine.rl"

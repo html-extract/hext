@@ -212,7 +212,7 @@ pattern = (
     ( ( attr_name '=' capture optional? )
       %{ rule.add_capture_pattern<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
          if( !pv.optional )
-           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::True>());
+           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        } )
     |
 
@@ -225,7 +225,7 @@ pattern = (
     |
 
     ( ( attr_name
-        %{ pv.set_test<test::True>(); }
+        %{ pv.set_test<test::NotNull>(); }
         negate?
       )
       %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
