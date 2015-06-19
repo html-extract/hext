@@ -37,9 +37,9 @@ bool NthChildMatch::matches(const GumboNode * node) const
 
   int node_pos = 0;
   if( this->offset_of_ == OffsetOf::Front )
-    node_pos = GetNodePositionWithinParent(node, this->count_tag_);
+    node_pos = this->count_preceding_siblings(node, this->count_tag_);
   else
-    node_pos = GetNodePositionWithinParentReverse(node, this->count_tag_);
+    node_pos = this->count_following_siblings(node, this->count_tag_);
 
   // If step is zero, the user gave a specific number of the child element to
   // match. E.g. nth-child(23) or nth-child(0n+23).
@@ -66,6 +66,78 @@ bool NthChildMatch::matches(const GumboNode * node) const
 
     return ( this->shift_ - node_pos ) % ( -1 * this->step_ ) == 0;
   }
+}
+
+int NthChildMatch::count_preceding_siblings(
+  const GumboNode * node,
+  GumboTag count_tag
+) const
+{
+  assert(node);
+  if( !node )
+    return 0;
+
+  const GumboNode * parent = node->parent;
+  if( !parent || /* should never happen: */ parent->type != GUMBO_NODE_ELEMENT )
+    return 0;
+
+  int count = 0;
+  const GumboVector& child_nodes = parent->v.element.children;
+  assert(node->index_within_parent < child_nodes.length);
+  // We only have to traverse up to node->index_within_parent, and not the
+  // whole GumboVector. node->index_within_parent includes text nodes.
+  for(unsigned int i = 0; i <= node->index_within_parent; ++i)
+  {
+    assert(i < child_nodes.length);
+    auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
+
+    if( child && child->type == GUMBO_NODE_ELEMENT )
+      if( count_tag == GUMBO_TAG_UNKNOWN || child->v.element.tag == count_tag )
+        ++count;
+
+    if( node == child )
+      return count;
+  }
+
+  return 0;
+}
+
+int NthChildMatch::count_following_siblings(
+  const GumboNode * node,
+  GumboTag count_tag
+) const
+{
+  assert(node);
+  if( !node )
+    return 0;
+
+  const GumboNode * parent = node->parent;
+  if( !parent || /* should never happen: */ parent->type != GUMBO_NODE_ELEMENT )
+    return 0;
+
+  const GumboVector& child_nodes = parent->v.element.children;
+  if( !child_nodes.length )
+    return 0;
+
+  assert(node->index_within_parent < child_nodes.length);
+  int count = 0;
+  // We only have to traverse down to node->index_within_parent, and not the
+  // whole GumboVector. node->index_within_parent includes text nodes.
+  for(unsigned int i = child_nodes.length; i-- > node->index_within_parent; )
+  {
+    assert(i < child_nodes.length);
+    auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
+
+    assert(child != nullptr);
+    if( child && child->type == GUMBO_NODE_ELEMENT )
+      if( count_tag == GUMBO_TAG_UNKNOWN || child->v.element.tag == count_tag )
+        ++count;
+
+    if( node == child )
+      return count;
+  }
+
+  return 0;
 }
 
 
