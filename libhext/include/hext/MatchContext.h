@@ -5,14 +5,17 @@
 #include <vector>
 #include <cstddef>
 
-#include <gumbo.h>
 #include <boost/optional.hpp>
+#include <gumbo.h>
 
 
 namespace hext {
 
+
 class Rule;
 
+
+/// A MatchContext matches a group of rules against a GumboVector of nodes.
 class MatchContext
 {
 public:
@@ -26,9 +29,12 @@ public:
     std::size_t mandatory_rule_cnt
   );
 
+  /// Return next match_group. Returns empty if there are no more matches.
   boost::optional<match_group> match_next();
 
 private:
+  /// Return the next mandatory rule after `it`.
+  /// Return this->r_end_ if there are no mandatory rules.
   rule_iter next_mandatory_rule(rule_iter it) const;
 
   rule_iter r_begin_;
