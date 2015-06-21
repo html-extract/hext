@@ -162,11 +162,17 @@ attr_name = (
   >{ TK_START; }
   %{ TK_STOP; pv.attr_name = tok; }
 );
-# Literal value, e.g. attr="literal"
-literal_value = '"' (
-  ( [^"] | '\\"' )**
-  >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
-) '"';
+# Literal value, e.g. attr="literal", class='single'
+literal_value =
+( '"' (
+    ( [^"] | '\\"' )**
+    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+  ) '"' )
+|
+( '\'' (
+    ( [^'] | '\\\'' )**
+    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+  ) '\'' );
 
 
 #### LITERAL ###################################################################

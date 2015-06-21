@@ -47,6 +47,10 @@ highlight link hextAttributeName Type
 syntax region hextLiteral start=/\v"/ skip=/\v\\"/ end=/\v"/
 highlight link hextLiteral String
 
+" Literal attribute value with single quotes
+syntax region hextLiteral start=/\v'/ skip=/\v\\'/ end=/\v'/
+highlight link hextLiteral String
+
 " Capture attribute value
 syntax region hextCapture start=/{/ end=/}/ contains=hextCapRegex
 highlight link hextCapture Special
