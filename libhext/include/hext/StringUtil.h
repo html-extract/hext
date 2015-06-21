@@ -38,7 +38,7 @@ bool IsSpace(char c);
 
 /// Return a visual representation for every char, including control
 /// characters like the nullbyte.
-std::string GetCharName(char c);
+std::string CharName(char c);
 
 /// Convenience typedefs for GetCharPosition.
 typedef std::iterator_traits<const char *>::difference_type CharPosType;
@@ -46,10 +46,10 @@ typedef std::pair<CharPosType, CharPosType> CharPosPair;
 
 /// Return a pair<line_offset, character_offset> for the position of `c` after
 /// `begin`. Numbering is zero-based.
-CharPosPair GetCharPosition(const char * begin, const char * c);
+CharPosPair CharPosition(const char * begin, const char * c);
 
-/// Get width of number when printed as decimal, excluding sign.
-int GetDecNumberWidth(int number);
+/// Return width of number when printed as decimal, excluding sign.
+int DecimalWidth(int number);
 
 /// Print `begin` to `end` into `out`, but when printing lines, insert line
 /// number, colon and one space. `number_width` is the space needed to print a

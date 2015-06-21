@@ -67,7 +67,7 @@ bool IsSpace(char c)
   return false;
 }
 
-std::string GetCharName(char c)
+std::string CharName(char c)
 {
   switch( c )
   {
@@ -92,7 +92,7 @@ std::string GetCharName(char c)
     return std::string("[ascii: ") + std::to_string(ci) + "]";
 }
 
-CharPosPair GetCharPosition(const char * begin, const char * c)
+CharPosPair CharPosition(const char * begin, const char * c)
 {
   assert(begin && c && begin <= c);
   if( !begin || !c || c < begin )
@@ -124,13 +124,12 @@ CharPosPair GetCharPosition(const char * begin, const char * c)
   return CharPosPair(line_count, char_offset_in_line);
 }
 
-int GetDecNumberWidth(int number)
+int DecimalWidth(int number)
 {
-  number = std::abs(number);
-  int number_width = 1;
-  while( (number /= 10) > 0 )
-    number_width++;
-  return number_width;
+  int width = 1;
+  while( number /= 10 )
+    ++width;
+  return width;
 }
 
 void PrintWithLineNumbers(

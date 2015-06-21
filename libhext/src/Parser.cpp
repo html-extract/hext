@@ -483,7 +483,7 @@ void Parser::throw_unexpected() const
   else
   {
     error_msg << "Unexpected character '"
-              << GetCharName(*(this->p))
+              << CharName(*(this->p))
               << "' ";
   }
 
@@ -574,7 +574,7 @@ void Parser::print_error_location(
     return;
 
   // The zero-based line and char offset of the unexpected character
-  CharPosPair pos = GetCharPosition(this->p_begin_, uc);
+  CharPosPair pos = CharPosition(this->p_begin_, uc);
 
   if( uc == this->pe )
   {
@@ -590,7 +590,7 @@ void Parser::print_error_location(
   }
 
   // The amount of chars needed to print the biggest line number.
-  int number_width = GetDecNumberWidth(static_cast<int>(pos.first + 1));
+  int number_width = DecimalWidth(static_cast<int>(pos.first + 1));
 
   // Don't print the unexpected character if it is a newline
   if( uc == this->pe || *uc == '\n' )
