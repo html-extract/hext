@@ -41,11 +41,11 @@ public:
   ///    The tag-name of the rule, as parsed by gumbo. Matches if the node's tag
   ///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
   ///
-  /// \param is_optional
+  /// \param optional
   ///    A subtree matches only if all mandatory rules were matched. Optional
   ///    rules on the other hand are ignored if not found.
   ///
-  /// \param is_any_descendant
+  /// \param any_descendant
   ///    Matching html-nodes may appear anywhere in the current subtree, as
   ///    opposed to direct descendants (default) which may only match if its
   ///    immediate parent node was matched.
