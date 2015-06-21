@@ -50,7 +50,6 @@ ENDIF(LIBGUMBO_FOUND)
 ###### SOURCES #################################################################
 ADD_LIBRARY(
   hext SHARED
-  "${PROJECT_SOURCE_DIR}/src/Builtins.cpp"
   "${PROJECT_SOURCE_DIR}/src/Hext.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
   "${PROJECT_SOURCE_DIR}/src/MatchContext.cpp"
