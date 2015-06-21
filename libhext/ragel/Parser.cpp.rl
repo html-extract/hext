@@ -21,8 +21,7 @@ Parser::Parser(const char * begin, const char * end)
 
 std::unique_ptr<Rule> Parser::parse()
 {
-  // Ragel generates state machines in plain C and knows nothing about
-  // namespaces.
+  // Allow ragel to access its namespace.
   using namespace ragel;
 
   // When calling Parser::parse repeatedly, ensure we are always in a valid
@@ -111,7 +110,7 @@ void Parser::throw_regex_error(
   // error location. Therefore we use regex_traits::error_string to get a
   // shorter error description.
   boost::regex_traits<boost::regex::value_type> traits;
-  error_msg << "\n\nError: "
+  error_msg << "\nError: "
             << traits.error_string(e_code);
 
   throw ParseError(error_msg.str());
@@ -194,6 +193,10 @@ void Parser::print_error_location(
   if( mark_len < 1 )
     return;
 
+  // If there are non-ascii characters in the input, lazily bail out.
+  if( std::any_of(this->p_begin_, this->pe, [](signed char c){return c < 0;}) )
+    return;
+
   // The longest the mark can be is the length of the last line.
   mark_len = std::min(pos.second + 1, static_cast<CharPosType>(mark_len));
 
@@ -211,7 +214,7 @@ void Parser::print_error_location(
 
   out << std::string(indent, ' ')
       << std::string(mark_len, '^')
-      << " here";
+      << " here\n";
 }
 
 

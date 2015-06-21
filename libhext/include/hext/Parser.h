@@ -1,6 +1,6 @@
 // This file was generated from Parser.h.rl.
 
-/* #line 1 "Parser.h.rl" */
+#line 1 "Parser.h.rl"
 #ifndef HEXT_PARSER_H_INCLUDED
 #define HEXT_PARSER_H_INCLUDED
 
@@ -82,7 +82,7 @@ public:
 namespace ragel {
   /// Embed the ragel state machine.
   
-/* #line 85 "Parser.h.tmp" */
+#line 85 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -921,7 +921,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 485;
 
 
-/* #line 85 "Parser.h.rl" */
+#line 85 "Parser.h.rl"
 
 } // namespace ragel
 
