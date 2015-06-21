@@ -30,7 +30,7 @@ public:
   ///   The rule. Rules must be moved because they contain std::unique_ptrs.
   ///
   /// \param self_closing:
-  ///   Whether the current Rule is self-closing, e.g. <a href=".." /> is a
+  ///   Whether the current Rule is self-closing, e.g. `<a href=".." />` is a
   ///   self-closing rule.
   void push_rule(Rule&& rule, bool self_closing);
 
