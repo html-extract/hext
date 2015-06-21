@@ -1,6 +1,6 @@
 // This file was generated from Parser.cpp.rl.
 
-#line 1 "Parser.cpp.rl"
+/* #line 1 "Parser.cpp.rl" */
 #include "hext/Parser.h"
 
 
@@ -50,12 +50,12 @@ std::unique_ptr<Rule> Parser::parse()
   std::string tok = "";
 
   
-#line 53 "Parser.cpp.tmp"
+/* #line 53 "Parser.cpp.tmp" */
 	{
 	cs = hext_start;
 	}
 
-#line 58 "Parser.cpp.tmp"
+/* #line 58 "Parser.cpp.tmp" */
 	{
 	int _klen;
 	unsigned int _trans;
@@ -129,297 +129,296 @@ _match:
 		switch ( *_acts++ )
 		{
 	case 0:
-#line 7 "hext-machine.rl"
-	{
-  this->throw_unexpected();
-}
-	break;
-	case 1:
-#line 16 "hext-machine.rl"
+/* #line 11 "hext-machine.rl" */
 	{ pv.nth = {2, 0}; }
 	break;
-	case 2:
-#line 19 "hext-machine.rl"
+	case 1:
+/* #line 14 "hext-machine.rl" */
 	{ pv.nth = {2, 1}; }
 	break;
-	case 3:
-#line 23 "hext-machine.rl"
+	case 2:
+/* #line 18 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 4:
-#line 24 "hext-machine.rl"
+	case 3:
+/* #line 19 "hext-machine.rl" */
 	{ TK_STOP; pv.nth = {0, std::stoi(tok)}; }
 	break;
-	case 5:
-#line 27 "hext-machine.rl"
+	case 4:
+/* #line 22 "hext-machine.rl" */
 	{ pv.nth = {pv.nth.second, 0}; }
 	break;
-	case 6:
-#line 29 "hext-machine.rl"
+	case 5:
+/* #line 24 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 7:
-#line 30 "hext-machine.rl"
+	case 6:
+/* #line 25 "hext-machine.rl" */
 	{ TK_STOP; pv.nth.second = std::stoi(tok); }
 	break;
-	case 8:
-#line 39 "hext-machine.rl"
+	case 7:
+/* #line 34 "hext-machine.rl" */
 	{ pv.set_trait<ChildCountMatch>(0); }
 	break;
-	case 9:
-#line 44 "hext-machine.rl"
+	case 8:
+/* #line 39 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 10:
-#line 45 "hext-machine.rl"
+	case 9:
+/* #line 40 "hext-machine.rl" */
 	{ TK_STOP; pv.set_trait<ChildCountMatch>(std::stoi(tok)); }
 	break;
-	case 11:
-#line 51 "hext-machine.rl"
+	case 10:
+/* #line 46 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 12:
-#line 52 "hext-machine.rl"
+	case 11:
+/* #line 47 "hext-machine.rl" */
 	{ TK_STOP; pv.set_trait<AttributeCountMatch>(std::stoi(tok)); }
 	break;
-	case 13:
-#line 57 "hext-machine.rl"
+	case 12:
+/* #line 52 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(pv.nth); }
 	break;
-	case 14:
-#line 61 "hext-machine.rl"
+	case 13:
+/* #line 56 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back); }
 	break;
-	case 15:
-#line 65 "hext-machine.rl"
+	case 14:
+/* #line 60 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Front, rule.get_tag()); }
 	break;
-	case 16:
-#line 69 "hext-machine.rl"
+	case 15:
+/* #line 64 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(0, 1); }
 	break;
-	case 17:
-#line 73 "hext-machine.rl"
+	case 16:
+/* #line 68 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Front, rule.get_tag()); }
 	break;
-	case 18:
-#line 77 "hext-machine.rl"
+	case 17:
+/* #line 72 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); }
 	break;
-	case 19:
-#line 81 "hext-machine.rl"
+	case 18:
+/* #line 76 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back, rule.get_tag()); }
 	break;
-	case 20:
-#line 85 "hext-machine.rl"
+	case 19:
+/* #line 80 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); }
 	break;
-	case 21:
-#line 88 "hext-machine.rl"
+	case 20:
+/* #line 83 "hext-machine.rl" */
 	{ pv.set_trait<NthChildMatch>(0, 1);
                     pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); }
 	break;
-	case 22:
-#line 92 "hext-machine.rl"
+	case 21:
+/* #line 87 "hext-machine.rl" */
 	{ pv.set_trait<TextNodeMatch>(); }
 	break;
-	case 23:
-#line 96 "hext-machine.rl"
+	case 22:
+/* #line 91 "hext-machine.rl" */
 	{ pv.negate = MakeUnique<NegateMatch>(); }
 	break;
-	case 24:
-#line 99 "hext-machine.rl"
+	case 23:
+/* #line 94 "hext-machine.rl" */
 	{
        assert(pv.negate);
        pv.negate->take_match_pattern(std::move(pv.trait));
      }
 	break;
-	case 25:
-#line 109 "hext-machine.rl"
+	case 24:
+/* #line 104 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 26:
-#line 109 "hext-machine.rl"
+	case 25:
+/* #line 104 "hext-machine.rl" */
 	{ TK_STOP; }
 	break;
-	case 27:
-#line 113 "hext-machine.rl"
+	case 26:
+/* #line 108 "hext-machine.rl" */
 	{ pv.regex_flag |= boost::regex::icase; }
 	break;
-	case 28:
-#line 116 "hext-machine.rl"
+	case 27:
+/* #line 111 "hext-machine.rl" */
 	{ pv.regex_flag |= boost::regex::collate; }
 	break;
-	case 29:
-#line 118 "hext-machine.rl"
+	case 28:
+/* #line 113 "hext-machine.rl" */
 	{ try {
      pv.regex = boost::regex(tok, pv.regex_flag);
    }
    catch( const boost::regex_error& e ) {
      // Mark whole regex as error, including slashes and flags
-     auto mark_len = this->p - tok_begin + 2;
+     auto mark_len = this->p - tok_begin + 1;
      this->throw_regex_error(mark_len, e.code());
    }
 }
 	break;
-	case 30:
-#line 128 "hext-machine.rl"
+	case 29:
+/* #line 123 "hext-machine.rl" */
 	{ assert(pv.regex); pv.set_test<test::Regex>(*pv.regex); }
 	break;
-	case 31:
-#line 134 "hext-machine.rl"
+	case 30:
+/* #line 129 "hext-machine.rl" */
 	{ pv.builtin = GetNodeText; }
 	break;
-	case 32:
-#line 136 "hext-machine.rl"
+	case 31:
+/* #line 131 "hext-machine.rl" */
 	{ pv.builtin = GetNodeInnerHtml; }
 	break;
-	case 33:
-#line 138 "hext-machine.rl"
+	case 32:
+/* #line 133 "hext-machine.rl" */
 	{ pv.builtin = StripTagsWrapper; }
 	break;
-	case 34:
-#line 147 "hext-machine.rl"
+	case 33:
+/* #line 141 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 35:
-#line 148 "hext-machine.rl"
+	case 34:
+/* #line 142 "hext-machine.rl" */
 	{ TK_STOP; pv.cap_var = tok; }
 	break;
-	case 36:
-#line 159 "hext-machine.rl"
+	case 35:
+/* #line 153 "hext-machine.rl" */
 	{ pv.optional = true; }
 	break;
-	case 37:
-#line 163 "hext-machine.rl"
+	case 36:
+/* #line 157 "hext-machine.rl" */
 	{ pv.test = MakeUnique<test::Negate>(std::move(pv.test)); }
 	break;
-	case 38:
-#line 168 "hext-machine.rl"
+	case 37:
+/* #line 162 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 39:
-#line 169 "hext-machine.rl"
+	case 38:
+/* #line 163 "hext-machine.rl" */
 	{ TK_STOP; pv.attr_name = tok; }
 	break;
-	case 40:
-#line 174 "hext-machine.rl"
+	case 39:
+/* #line 168 "hext-machine.rl" */
 	{ TK_START; }
 	break;
-	case 41:
-#line 174 "hext-machine.rl"
+	case 40:
+/* #line 168 "hext-machine.rl" */
 	{ TK_STOP; pv.literal_value = tok; }
 	break;
-	case 42:
-#line 181 "hext-machine.rl"
+	case 41:
+/* #line 175 "hext-machine.rl" */
 	{ pv.set_test<test::Equals>(pv.literal_value); }
 	break;
-	case 43:
-#line 184 "hext-machine.rl"
+	case 42:
+/* #line 178 "hext-machine.rl" */
 	{ pv.set_test<test::BeginsWith>(pv.literal_value); }
 	break;
-	case 44:
-#line 187 "hext-machine.rl"
+	case 43:
+/* #line 181 "hext-machine.rl" */
 	{ pv.set_test<test::Contains>(pv.literal_value); }
 	break;
-	case 45:
-#line 190 "hext-machine.rl"
+	case 44:
+/* #line 184 "hext-machine.rl" */
 	{ pv.set_test<test::ContainsWord>(pv.literal_value); }
 	break;
-	case 46:
-#line 193 "hext-machine.rl"
+	case 45:
+/* #line 187 "hext-machine.rl" */
 	{ pv.set_test<test::EndsWith>(pv.literal_value); }
 	break;
-	case 47:
-#line 201 "hext-machine.rl"
+	case 46:
+/* #line 195 "hext-machine.rl" */
 	{ rule.add_capture_pattern<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); }
 	break;
+	case 47:
+/* #line 199 "hext-machine.rl" */
+	{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	break;
 	case 48:
-#line 205 "hext-machine.rl"
+/* #line 203 "hext-machine.rl" */
 	{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 49:
-#line 209 "hext-machine.rl"
-	{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
-	break;
-	case 50:
-#line 213 "hext-machine.rl"
+/* #line 207 "hext-machine.rl" */
 	{ rule.add_capture_pattern<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
          if( !pv.optional )
            rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        }
 	break;
+	case 50:
+/* #line 214 "hext-machine.rl" */
+	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	break;
 	case 51:
-#line 220 "hext-machine.rl"
+/* #line 218 "hext-machine.rl" */
 	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 52:
-#line 224 "hext-machine.rl"
-	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
-	break;
-	case 53:
-#line 228 "hext-machine.rl"
+/* #line 222 "hext-machine.rl" */
 	{ pv.set_test<test::NotNull>(); }
 	break;
-	case 54:
-#line 231 "hext-machine.rl"
+	case 53:
+/* #line 225 "hext-machine.rl" */
 	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
-	case 55:
-#line 232 "hext-machine.rl"
+	case 54:
+/* #line 226 "hext-machine.rl" */
 	{ pv.reset(); }
 	break;
-	case 56:
-#line 252 "hext-machine.rl"
+	case 55:
+/* #line 247 "hext-machine.rl" */
 	{ rule.set_optional(true); }
 	break;
+	case 56:
+/* #line 251 "hext-machine.rl" */
+	{ rule.set_tag(GUMBO_TAG_UNKNOWN); }
+	break;
 	case 57:
-#line 256 "hext-machine.rl"
+/* #line 256 "hext-machine.rl" */
 	{ TK_START; }
 	break;
 	case 58:
-#line 257 "hext-machine.rl"
+/* #line 257 "hext-machine.rl" */
 	{ TK_STOP;
-         auto tag = gumbo_tag_enum(tok.c_str());
-         if( tag != GUMBO_TAG_UNKNOWN )
-           rule.set_tag(tag);
-         else
-           this->throw_unknown_token(tok, "html-tag"); }
+           auto tag = gumbo_tag_enum(tok.c_str());
+           if( tag != GUMBO_TAG_UNKNOWN )
+             rule.set_tag(tag);
+           else
+             this->throw_invalid_tag(tok); }
 	break;
 	case 59:
-#line 267 "hext-machine.rl"
+/* #line 268 "hext-machine.rl" */
 	{ rule.take_match_pattern(std::move(pv.negate)); }
 	break;
 	case 60:
-#line 270 "hext-machine.rl"
+/* #line 271 "hext-machine.rl" */
 	{ rule.take_match_pattern(std::move(pv.trait)); }
 	break;
 	case 61:
-#line 280 "hext-machine.rl"
+/* #line 281 "hext-machine.rl" */
 	{ builder.push_rule(std::move(rule), /* self_closing: */ true); }
 	break;
 	case 62:
-#line 282 "hext-machine.rl"
+/* #line 283 "hext-machine.rl" */
 	{ builder.push_rule(std::move(rule), /* self_closing: */ false); }
 	break;
 	case 63:
-#line 283 "hext-machine.rl"
+/* #line 284 "hext-machine.rl" */
 	{ rule = Rule(); }
 	break;
 	case 64:
-#line 296 "hext-machine.rl"
+/* #line 293 "hext-machine.rl" */
 	{ TK_START; }
 	break;
 	case 65:
-#line 297 "hext-machine.rl"
-	{ TK_STOP; }
+/* #line 294 "hext-machine.rl" */
+	{ TK_STOP;
+         if( !builder.pop_tag(tok) )
+           this->throw_unexpected_tag(tok, builder.get_expected_tag()); }
 	break;
 	case 66:
-#line 300 "hext-machine.rl"
-	{ if( !builder.pop_closing_tag(tok) )
-         this->throw_expected_closing_tag(tok, builder.get_expected_closing_tag()); }
+/* #line 300 "hext-machine.rl" */
+	{ this->throw_unexpected(); }
 	break;
-#line 422 "Parser.cpp.tmp"
+/* #line 421 "Parser.cpp.tmp" */
 		}
 	}
 
@@ -435,34 +434,23 @@ _again:
 	unsigned int __nacts = (unsigned int) *__acts++;
 	while ( __nacts-- > 0 ) {
 		switch ( *__acts++ ) {
-	case 0:
-#line 7 "hext-machine.rl"
-	{
-  this->throw_unexpected();
-}
-	break;
 	case 61:
-#line 280 "hext-machine.rl"
+/* #line 281 "hext-machine.rl" */
 	{ builder.push_rule(std::move(rule), /* self_closing: */ true); }
 	break;
 	case 62:
-#line 282 "hext-machine.rl"
+/* #line 283 "hext-machine.rl" */
 	{ builder.push_rule(std::move(rule), /* self_closing: */ false); }
 	break;
 	case 63:
-#line 283 "hext-machine.rl"
+/* #line 284 "hext-machine.rl" */
 	{ rule = Rule(); }
 	break;
 	case 66:
-#line 300 "hext-machine.rl"
-	{ if( !builder.pop_closing_tag(tok) )
-         this->throw_expected_closing_tag(tok, builder.get_expected_closing_tag()); }
+/* #line 300 "hext-machine.rl" */
+	{ this->throw_unexpected(); }
 	break;
-	case 67:
-#line 305 "hext-machine.rl"
-	{ {p++; goto _out; } }
-	break;
-#line 465 "Parser.cpp.tmp"
+/* #line 453 "Parser.cpp.tmp" */
 		}
 	}
 	}
@@ -470,53 +458,62 @@ _again:
 	_out: {}
 	}
 
-#line 54 "Parser.cpp.rl"
+/* #line 54 "Parser.cpp.rl" */
 
 
   // Throw error if there are missing closing tags.
-  if( auto expected_closing_tag = builder.get_expected_closing_tag() )
-    this->throw_expected_closing_tag("", expected_closing_tag);
+  if( auto expected_tag = builder.get_expected_tag() )
+    this->throw_missing_tag(*expected_tag);
 
-  return builder.take_rule_tree();
+  return std::move(builder.take_rule_tree());
 }
 
 void Parser::throw_unexpected() const
 {
   assert(this->p && this->p_begin_ && this->pe);
+  assert(this->p <= this->pe && this->p >= this->p_begin_);
+
+  if( !this->p || !this->pe )
+    return;
 
   std::stringstream error_msg;
-  error_msg << "Unexpected character '"
-            << ( this->p >= this->pe ? "[eof]" : GetCharName(*this->p) )
-            << "' ";
-  this->print_error_location(0, error_msg);
+  if( this->p == this->pe )
+  {
+    error_msg << "Premature termination ";
+  }
+  else
+  {
+    error_msg << "Unexpected character '"
+              << GetCharName(*(this->p))
+              << "' ";
+  }
+
+  this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
 
   throw ParseError(error_msg.str());
 }
 
-void Parser::throw_unknown_token(
-  const std::string& tok,
-  const std::string& tok_name
-) const
+void Parser::throw_invalid_tag(const std::string& tag) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
-
   std::stringstream error_msg;
-  error_msg << "Unknown " << tok_name << " '" << tok << "' ";
-  this->print_error_location(tok.size(), error_msg);
+  error_msg << "Unknown HTML tag '" << tag << "' ";
+
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, tag.size(), error_msg);
 
   throw ParseError(error_msg.str());
 }
 
 void Parser::throw_regex_error(
-  std::string::size_type mark_len,
+  std::size_t mark_len,
   boost::regex_constants::error_type e_code
 ) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
-
   std::stringstream error_msg;
   error_msg << "In regular expression ";
-  this->print_error_location(mark_len, error_msg);
+
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, mark_len, error_msg);
 
   // regex_error::what() not only contains an error message, but also adds the
   // error location. Therefore we use regex_traits::error_string to get a
@@ -528,104 +525,97 @@ void Parser::throw_regex_error(
   throw ParseError(error_msg.str());
 }
 
-void Parser::throw_expected_closing_tag(
-  const std::string& input,
-  boost::optional<GumboTag> expected_closing_tag
-) const
+void Parser::throw_missing_tag(GumboTag missing) const
 {
-  if( expected_closing_tag )
-  {
-    std::string closing_tag_name =
-      std::string("</");
-    if( *expected_closing_tag != GUMBO_TAG_UNKNOWN )
-      closing_tag_name += gumbo_normalized_tagname(*expected_closing_tag);
-    closing_tag_name += ">";
+  std::stringstream error_msg;
+  error_msg << "Missing closing tag '</"
+            << ( missing == GUMBO_TAG_UNKNOWN
+                ? "*" : gumbo_normalized_tagname(missing) )
+            << ">' ";
 
-    this->throw_error(
-      std::string("Expected closing tag '")
-      + gumbo_normalized_tagname(*expected_closing_tag)
-      + "'",
-      input.size() + 3 // strlen("</>")
-    );
-  }
-  else
-  {
-    std::string closing_tag_name = std::string("</") + input + ">";
+  this->print_error_location(this->pe, /* mark_len: */ 0, error_msg);
 
-    this->throw_error(
-      std::string("Unexpected closing tag '")
-      + input
-      + "'",
-      closing_tag_name.size()
-    );
-  }
+  throw ParseError(error_msg.str());
 }
 
-void Parser::throw_error(
-  const std::string& error_msg,
-  std::string::size_type mark_len
+void Parser::throw_unexpected_tag(
+  const std::string& tag,
+  boost::optional<GumboTag> expected
 ) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
+  std::stringstream error_msg;
+  error_msg << "Unexpected closing tag '</"
+            << tag
+            << ">'";
 
-  std::stringstream error_msg_stream;
-  error_msg_stream << error_msg << ", ";
-  this->print_error_location(mark_len, error_msg_stream);
+  if( expected )
+  {
+    error_msg << ", expected '</"
+              << ( *expected == GUMBO_TAG_UNKNOWN
+                  ? "*" : gumbo_normalized_tagname(*expected) )
+              << ">'";
+  }
 
-  throw ParseError(error_msg_stream.str());
+  auto mark_len = tag.size() + 2; // strlen("</")
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, mark_len, error_msg);
+
+  throw ParseError(error_msg.str());
 }
 
 void Parser::print_error_location(
-  std::string::size_type mark_len,
+  const char * uc,
+  std::size_t mark_len,
   std::ostream& out
 ) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
+  assert(uc && this->p_begin_ && this->pe);
+  assert(uc <= this->pe && uc >= this->p_begin_);
+  if( !uc || !this->p_begin_ || !this->pe || uc > this->pe )
+    return;
 
-  // The zero-based line and char offset of the unexpected character.
-  CharPosPair pos =
-    GetCharPosition(this->p, this->p_begin_, this->pe);
+  // The zero-based line and char offset of the unexpected character
+  CharPosPair pos = GetCharPosition(this->p_begin_, uc);
 
-  out << "at line "
-      << pos.first + 1 // line_count
-      << ", char "
-      << pos.second + 1 // char_count
-      << ": "
-      << "\n\n";
-
-  // We need a 'past-the-last-element' iterator.
-  const char * end = this->p;
-
-  // this->p points to the unexpected character. We want to include this
-  // character when printing error location, unless it is a newline, then it
-  // would just mess up the output.
-  if( this->p < this->pe && *this->p != '\n' )
-    end++;
+  if( uc == this->pe )
+  {
+    out << "at end of input:\n\n";
+  }
+  else
+  {
+    out << "at line "
+        << pos.first + 1 // line_count
+        << ", char "
+        << pos.second + 1 // char_count
+        << ":\n\n";
+  }
 
   // The amount of chars needed to print the biggest line number.
-  // If line_count is bigger than INT_MAX the only thing that breaks is the
-  // formatting of output.
   int number_width = GetDecNumberWidth(static_cast<int>(pos.first + 1));
 
-  PrintWithLineNumbers(this->p_begin_, end, number_width, out);
+  // Don't print the unexpected character if it is a newline
+  if( uc == this->pe || *uc == '\n' )
+    PrintWithLineNumbers(this->p_begin_, uc, number_width, out);
+  else
+    PrintWithLineNumbers(this->p_begin_, uc + 1, number_width, out);
+
+  if( mark_len < 1 )
+    return;
 
   // The longest the mark can be is the length of the last line.
-  mark_len = std::min(pos.second, static_cast<CharPosType>(mark_len));
+  mark_len = std::min(pos.second + 1, static_cast<CharPosType>(mark_len));
 
-  // Print a visual indicator right under the unexpected token.
-  // We need to know the amount of indentation required.
+  // Print a visual indicator directly under the unexpected token ('^').
+  // The required amount of indentation must be known.
   // PrintWithLineNumbers prints lines like this:
   // 1: An SQL query goes into a bar,
   // 2: walks up to two tables and asks,
   // 3: 'Can I join you?'
   std::size_t indent = number_width // chars required to print the line number
                      + 2            // ": "
-                     + pos.second   // offset of the unexpected character from
+                     + pos.second+1 // position of the unexpected character from
                                     // the beginning of the line.
                      - mark_len;    // the length of the '^' mark
-
-  if( mark_len < 1 )
-    mark_len = 1;
 
   out << std::string(indent, ' ')
       << std::string(mark_len, '^')

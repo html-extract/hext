@@ -4,11 +4,6 @@
 machine hext;
 
 
-action error {
-  this->throw_unexpected();
-}
-
-
 #### NTH_PATTERN ###############################################################
 # nth_pattern is used by traits, e.g. nth-last-child(nth_pattern).
 # Examples: :nth-child(1)  :nth-child(even)  :nth-child(2n)  :nth-child(2n+1)
@@ -120,7 +115,7 @@ regex =
    }
    catch( const boost::regex_error& e ) {
      // Mark whole regex as error, including slashes and flags
-     auto mark_len = this->p - tok_begin + 2;
+     auto mark_len = this->p - tok_begin + 1;
      this->throw_regex_error(mark_len, e.code());
    }
 };
@@ -135,8 +130,7 @@ builtin = (
     |
     ( 'inner-html' %{ pv.builtin = GetNodeInnerHtml; } )
     |
-    ( 'strip-tags' %{ pv.builtin = StripTagsWrapper; } )
-  )
+    ( 'strip-tags' %{ pv.builtin = StripTagsWrapper; } ) )
 );
 
 
@@ -236,31 +230,38 @@ pattern = (
 #### RULES #####################################################################
 tag_name = ( alpha (alnum | '-' | '_')** );
 main := (
-  # comments may be prefixed with any spaces and must terminate with a newline
-  ( ' '* '#' (any - '\n')* '\n' )
+  # ignore whitespace
+  space
+  |
+
+  # comment
+  ( '#' (any - '\n')* '\n' )
   |
 
   # open rule
   (
-    # ignore whitespace
-    space*
-
     # a rule starts with '<'
     '<'
 
     # a rule can be optional, e.g. <?
     ( '?' %{ rule.set_optional(true); } )?
 
-    # a rule can have a tag name, e.g. <div
-    ( tag_name
-      >{ TK_START; }
-      %{ TK_STOP;
-         auto tag = gumbo_tag_enum(tok.c_str());
-         if( tag != GUMBO_TAG_UNKNOWN )
-           rule.set_tag(tag);
-         else
-           this->throw_unknown_token(tok, "html-tag"); }
-    )?
+    # a rule must have a tag name, e.g. <div
+    (
+      ('*' %{ rule.set_tag(GUMBO_TAG_UNKNOWN); } )
+      |
+
+      (
+        tag_name
+        >{ TK_START; }
+        %{ TK_STOP;
+           auto tag = gumbo_tag_enum(tok.c_str());
+           if( tag != GUMBO_TAG_UNKNOWN )
+             rule.set_tag(tag);
+           else
+             this->throw_invalid_tag(tok); }
+      )
+    )
 
     # a rule can have multiple traits, e.g. :first-child, :empty
     (
@@ -281,27 +282,21 @@ main := (
       |
       ( '>' %{ builder.push_rule(std::move(rule), /* self_closing: */ false); } )
     ) %{ rule = Rule(); }
-
-    space*
   )
   |
 
   # end rule
   (
-    space*
-
     '</'
     (
-      tag_name?
+      ( '*' | tag_name )
       >{ TK_START; }
-      %{ TK_STOP; }
+      %{ TK_STOP;
+         if( !builder.pop_tag(tok) )
+           this->throw_unexpected_tag(tok, builder.get_expected_tag()); }
     )
     '>'
-    %{ if( !builder.pop_closing_tag(tok) )
-         this->throw_expected_closing_tag(tok, builder.get_expected_closing_tag()); }
-
-    space*
   )
-)** $err(error) $/{ fbreak; };
+)* $err{ this->throw_unexpected(); };
 
 }%%

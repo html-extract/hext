@@ -92,28 +92,22 @@ std::string GetCharName(char c)
     return std::string("[ascii: ") + std::to_string(ci) + "]";
 }
 
-CharPosPair GetCharPosition(
-  const char * c,
-  const char * begin,
-  const char * end
-)
+CharPosPair GetCharPosition(const char * begin, const char * c)
 {
-  if( !begin || !c || !end )
-    return CharPosPair(0, 0);
-
-  // expect c to be within range begin to end
-  if( c < begin || c > end || begin == end )
+  assert(begin && c && begin <= c);
+  if( !begin || !c || c < begin )
     return CharPosPair(0, 0);
 
   // the position of the newline prior to c
   CharPosType line_offset = 0;
+
   // the line number of c
   CharPosType line_count = std::count(begin, c, '\n');
 
   if( line_count )
   {
     // find the position of the last newline
-    std::reverse_iterator<const char *> last_line = std::find(
+    auto last_line = std::find(
       std::reverse_iterator<const char *>(c),
       std::reverse_iterator<const char *>(begin),
       '\n'
@@ -123,6 +117,7 @@ CharPosPair GetCharPosition(
 
   // the position of c in the overall input
   CharPosType char_offset = std::distance(begin, c);
+
   // the position of c in the current line
   CharPosType char_offset_in_line = char_offset - line_offset;
 
@@ -145,7 +140,8 @@ void PrintWithLineNumbers(
   std::ostream& out
 )
 {
-  if( !begin || !end )
+  assert(begin && end && begin <= end);
+  if( !begin || !end || begin > end )
     return;
 
   boost::tokenizer<boost::char_separator<char>, const char *> lines(
@@ -155,6 +151,7 @@ void PrintWithLineNumbers(
     boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
   );
 
+  assert(number_width > 0);
   if( number_width < 1 )
     number_width = 1;
 

@@ -35,13 +35,13 @@ void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
     this->tag_stack_.push(tag);
 }
 
-bool RuleBuilder::pop_closing_tag(const std::string& tag_name)
+bool RuleBuilder::pop_tag(const std::string& tag_name)
 {
   if( this->tag_stack_.empty() )
     return false;
 
   GumboTag closing_tag;
-  if( tag_name.empty() )
+  if( tag_name.size() == 1 && tag_name[0] == '*' )
   {
     closing_tag = GUMBO_TAG_UNKNOWN;
   }
@@ -61,7 +61,7 @@ bool RuleBuilder::pop_closing_tag(const std::string& tag_name)
   return false;
 }
 
-boost::optional<GumboTag> RuleBuilder::get_expected_closing_tag() const
+boost::optional<GumboTag> RuleBuilder::get_expected_tag() const
 {
   if( this->tag_stack_.empty() )
     return boost::optional<GumboTag>();

@@ -54,49 +54,58 @@ std::unique_ptr<Rule> Parser::parse()
   }%%
 
   // Throw error if there are missing closing tags.
-  if( auto expected_closing_tag = builder.get_expected_closing_tag() )
-    this->throw_expected_closing_tag("", expected_closing_tag);
+  if( auto expected_tag = builder.get_expected_tag() )
+    this->throw_missing_tag(*expected_tag);
 
-  return builder.take_rule_tree();
+  return std::move(builder.take_rule_tree());
 }
 
 void Parser::throw_unexpected() const
 {
   assert(this->p && this->p_begin_ && this->pe);
+  assert(this->p <= this->pe && this->p >= this->p_begin_);
+
+  if( !this->p || !this->pe )
+    return;
 
   std::stringstream error_msg;
-  error_msg << "Unexpected character '"
-            << ( this->p >= this->pe ? "[eof]" : GetCharName(*this->p) )
-            << "' ";
-  this->print_error_location(0, error_msg);
+  if( this->p == this->pe )
+  {
+    error_msg << "Premature termination ";
+  }
+  else
+  {
+    error_msg << "Unexpected character '"
+              << GetCharName(*(this->p))
+              << "' ";
+  }
+
+  this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
 
   throw ParseError(error_msg.str());
 }
 
-void Parser::throw_unknown_token(
-  const std::string& tok,
-  const std::string& tok_name
-) const
+void Parser::throw_invalid_tag(const std::string& tag) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
-
   std::stringstream error_msg;
-  error_msg << "Unknown " << tok_name << " '" << tok << "' ";
-  this->print_error_location(tok.size(), error_msg);
+  error_msg << "Unknown HTML tag '" << tag << "' ";
+
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, tag.size(), error_msg);
 
   throw ParseError(error_msg.str());
 }
 
 void Parser::throw_regex_error(
-  std::string::size_type mark_len,
+  std::size_t mark_len,
   boost::regex_constants::error_type e_code
 ) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
-
   std::stringstream error_msg;
   error_msg << "In regular expression ";
-  this->print_error_location(mark_len, error_msg);
+
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, mark_len, error_msg);
 
   // regex_error::what() not only contains an error message, but also adds the
   // error location. Therefore we use regex_traits::error_string to get a
@@ -108,104 +117,97 @@ void Parser::throw_regex_error(
   throw ParseError(error_msg.str());
 }
 
-void Parser::throw_expected_closing_tag(
-  const std::string& input,
-  boost::optional<GumboTag> expected_closing_tag
-) const
+void Parser::throw_missing_tag(GumboTag missing) const
 {
-  if( expected_closing_tag )
-  {
-    std::string closing_tag_name =
-      std::string("</");
-    if( *expected_closing_tag != GUMBO_TAG_UNKNOWN )
-      closing_tag_name += gumbo_normalized_tagname(*expected_closing_tag);
-    closing_tag_name += ">";
+  std::stringstream error_msg;
+  error_msg << "Missing closing tag '</"
+            << ( missing == GUMBO_TAG_UNKNOWN
+                ? "*" : gumbo_normalized_tagname(missing) )
+            << ">' ";
 
-    this->throw_error(
-      std::string("Expected closing tag '")
-      + gumbo_normalized_tagname(*expected_closing_tag)
-      + "'",
-      input.size() + 3 // strlen("</>")
-    );
-  }
-  else
-  {
-    std::string closing_tag_name = std::string("</") + input + ">";
+  this->print_error_location(this->pe, /* mark_len: */ 0, error_msg);
 
-    this->throw_error(
-      std::string("Unexpected closing tag '")
-      + input
-      + "'",
-      closing_tag_name.size()
-    );
-  }
+  throw ParseError(error_msg.str());
 }
 
-void Parser::throw_error(
-  const std::string& error_msg,
-  std::string::size_type mark_len
+void Parser::throw_unexpected_tag(
+  const std::string& tag,
+  boost::optional<GumboTag> expected
 ) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
+  std::stringstream error_msg;
+  error_msg << "Unexpected closing tag '</"
+            << tag
+            << ">'";
 
-  std::stringstream error_msg_stream;
-  error_msg_stream << error_msg << ", ";
-  this->print_error_location(mark_len, error_msg_stream);
+  if( expected )
+  {
+    error_msg << ", expected '</"
+              << ( *expected == GUMBO_TAG_UNKNOWN
+                  ? "*" : gumbo_normalized_tagname(*expected) )
+              << ">'";
+  }
 
-  throw ParseError(error_msg_stream.str());
+  auto mark_len = tag.size() + 2; // strlen("</")
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, mark_len, error_msg);
+
+  throw ParseError(error_msg.str());
 }
 
 void Parser::print_error_location(
-  std::string::size_type mark_len,
+  const char * uc,
+  std::size_t mark_len,
   std::ostream& out
 ) const
 {
-  assert(this->p && this->p_begin_ && this->pe);
+  assert(uc && this->p_begin_ && this->pe);
+  assert(uc <= this->pe && uc >= this->p_begin_);
+  if( !uc || !this->p_begin_ || !this->pe || uc > this->pe )
+    return;
 
-  // The zero-based line and char offset of the unexpected character.
-  CharPosPair pos =
-    GetCharPosition(this->p, this->p_begin_, this->pe);
+  // The zero-based line and char offset of the unexpected character
+  CharPosPair pos = GetCharPosition(this->p_begin_, uc);
 
-  out << "at line "
-      << pos.first + 1 // line_count
-      << ", char "
-      << pos.second + 1 // char_count
-      << ": "
-      << "\n\n";
-
-  // We need a 'past-the-last-element' iterator.
-  const char * end = this->p;
-
-  // this->p points to the unexpected character. We want to include this
-  // character when printing error location, unless it is a newline, then it
-  // would just mess up the output.
-  if( this->p < this->pe && *this->p != '\n' )
-    end++;
+  if( uc == this->pe )
+  {
+    out << "at end of input:\n\n";
+  }
+  else
+  {
+    out << "at line "
+        << pos.first + 1 // line_count
+        << ", char "
+        << pos.second + 1 // char_count
+        << ":\n\n";
+  }
 
   // The amount of chars needed to print the biggest line number.
-  // If line_count is bigger than INT_MAX the only thing that breaks is the
-  // formatting of output.
   int number_width = GetDecNumberWidth(static_cast<int>(pos.first + 1));
 
-  PrintWithLineNumbers(this->p_begin_, end, number_width, out);
+  // Don't print the unexpected character if it is a newline
+  if( uc == this->pe || *uc == '\n' )
+    PrintWithLineNumbers(this->p_begin_, uc, number_width, out);
+  else
+    PrintWithLineNumbers(this->p_begin_, uc + 1, number_width, out);
+
+  if( mark_len < 1 )
+    return;
 
   // The longest the mark can be is the length of the last line.
-  mark_len = std::min(pos.second, static_cast<CharPosType>(mark_len));
+  mark_len = std::min(pos.second + 1, static_cast<CharPosType>(mark_len));
 
-  // Print a visual indicator right under the unexpected token.
-  // We need to know the amount of indentation required.
+  // Print a visual indicator directly under the unexpected token ('^').
+  // The required amount of indentation must be known.
   // PrintWithLineNumbers prints lines like this:
   // 1: An SQL query goes into a bar,
   // 2: walks up to two tables and asks,
   // 3: 'Can I join you?'
   std::size_t indent = number_width // chars required to print the line number
                      + 2            // ": "
-                     + pos.second   // offset of the unexpected character from
+                     + pos.second+1 // position of the unexpected character from
                                     // the beginning of the line.
                      - mark_len;    // the length of the '^' mark
-
-  if( mark_len < 1 )
-    mark_len = 1;
 
   out << std::string(indent, ' ')
       << std::string(mark_len, '^')

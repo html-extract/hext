@@ -36,10 +36,10 @@ public:
 
   /// Push and validate a closing tag.
   /// Return false on invalid or unexpected closing tag.
-  bool pop_closing_tag(const std::string& tag_name);
+  bool pop_tag(const std::string& tag_name);
 
   /// Return the next expected closing tag.
-  boost::optional<GumboTag> get_expected_closing_tag() const;
+  boost::optional<GumboTag> get_expected_tag() const;
 
 private:
   /// The top-most Rule.

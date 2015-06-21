@@ -53,6 +53,7 @@
 /// machine defintion. Accesses local variables of `Parser::parse()`.
 #define TK_STOP                 \
   assert(tok_begin != nullptr); \
+  assert(p != nullptr);         \
   tok_end = p;                  \
   tok = std::string(tok_begin, std::distance(tok_begin, tok_end));
 
@@ -94,48 +95,53 @@ public:
   /// `Parser::parse()`.
   Parser(const char * begin, const char * end);
 
-  /// Parse hext and produce a Rule.
-  /// Throw `ParseError` on invalid input.
+  /// Parse hext and return the top level Rule. Throw `ParseError` on invalid
+  /// input.
   std::unique_ptr<Rule> parse();
 
 private:
   /// Throw `ParseError` with an error message marking an unexpected character.
   void throw_unexpected() const;
 
-  /// Throw `ParseError` with an error message marking an unknown token.
-  void throw_unknown_token(
-    const std::string& tok,
-    const std::string& tok_name
-  ) const;
+  /// Throw `ParseError` with an error message marking an invalid html tag.
+  void throw_invalid_tag(const std::string& tag) const;
 
   /// Throw `ParseError` with an error message marking an invalid regular
   /// expression.
   void throw_regex_error(
-    std::string::size_type mark_len,
+    std::size_t mark_len,
     boost::regex_constants::error_type e_code
   ) const;
 
-  /// Throw `ParseError` with an error message marking an invalid or missing
+  /// Throw `ParseError` with an error message complaining about a missing
   /// closing tag.
-  void throw_expected_closing_tag(
-    const std::string& input,
-    boost::optional<GumboTag> expected_closing_tag
-  ) const;
+  void throw_missing_tag(GumboTag missing) const;
 
-  /// Throw `ParseError` with error message `error_msg`. Mark the error location
-  /// in hext with `mark_len` amount of characters up to the currently
-  /// processed character.
-  void throw_error(
-    const std::string& error_msg,
-    std::string::size_type mark_len
+  /// Throw `ParseError` with an error message marking an invalid closing tag.
+  ///
+  /// \param tag
+  ///   The invalid tag name.
+  ///
+  /// \param expected
+  ///   The next expected closing GumboTag. If empty, a closing tag was
+  ///   given but none expected.
+  void throw_unexpected_tag(
+    const std::string& tag,
+    boost::optional<GumboTag> expected
   ) const;
 
   /// Print an error at the current location within hext. Print hext with line
-  /// numbers up to the currently examined character. `mark_len` denotes the
-  /// amount of '^' characters that are used to mark the error location up to
-  /// the current character.
+  /// numbers up to the unexpected character.
+  ///
+  /// \param uc
+  ///   A pointer to the unexpected character.
+  ///
+  /// \param mark_len
+  ///   Amount of '^' characters that are used to mark the error location up to
+  ///   the unexpected character.
   void print_error_location(
-    std::string::size_type mark_len,
+    const char * uc,
+    std::size_t mark_len,
     std::ostream& out
   ) const;
 

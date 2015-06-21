@@ -36,21 +36,17 @@ std::string TrimAndCollapseWs(std::string str);
 /// http://www.w3.org/TR/html5/infrastructure.html#space-character
 bool IsSpace(char c);
 
-/// Convenience typedefs for GetCharPosition.
-typedef std::iterator_traits<const char *>::difference_type CharPosType;
-typedef std::pair<CharPosType, CharPosType> CharPosPair;
-
 /// Return a visual representation for every char, including control
 /// characters like the nullbyte.
 std::string GetCharName(char c);
 
-/// Return a pair<line_offset, character_offset> for the position of `c` in
-/// the range from `begin` to `end`. Numbering is zero-based.
-CharPosPair GetCharPosition(
-  const char * c,
-  const char * begin,
-  const char * end
-);
+/// Convenience typedefs for GetCharPosition.
+typedef std::iterator_traits<const char *>::difference_type CharPosType;
+typedef std::pair<CharPosType, CharPosType> CharPosPair;
+
+/// Return a pair<line_offset, character_offset> for the position of `c` after
+/// `begin`. Numbering is zero-based.
+CharPosPair GetCharPosition(const char * begin, const char * c);
 
 /// Get width of number when printed as decimal, excluding sign.
 int GetDecNumberWidth(int number);
