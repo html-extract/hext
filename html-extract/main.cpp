@@ -42,10 +42,8 @@ int main(int argc, const char ** argv)
     for(const auto& file : html_input)
     {
       std::string html = htmlext::ReadFileOrThrow(file);
-      hext::Result result = extractor.extract(html);
-
-      for(const auto& v : result)
-        htmlext::PrintJson(v);
+      std::unique_ptr<hext::ResultTree> result = extractor.extract(html);
+      htmlext::PrintJson(result.get(), std::cout);
     }
   }
   catch( const boost::program_options::error& e )

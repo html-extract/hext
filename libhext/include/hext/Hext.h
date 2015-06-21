@@ -31,12 +31,12 @@ public:
   explicit Hext(const std::string& hext);
 
   /// Extract values from a string containing html.
-  /// Return a hext::Result containing captured values.
-  Result extract(const std::string& html) const;
+  /// Return a hext::ResultTree containing captured values.
+  std::unique_ptr<ResultTree> extract(const std::string& html) const;
 
   /// Extract values from a hext::Html.
-  /// Return a hext::Result containing captured values.
-  Result extract(const Html& html) const;
+  /// Return a hext::ResultTree containing captured values.
+  std::unique_ptr<ResultTree> extract(const Html& html) const;
 
 private:
   /// Implicit top rule

@@ -11,16 +11,15 @@ Hext::Hext(const std::string& hext)
   this->rule_ = std::move(p.parse());
 }
 
-Result Hext::extract(const std::string& html) const
+std::unique_ptr<ResultTree> Hext::extract(const std::string& html) const
 {
-  return this->extract(Html(html));
+  return std::move(this->extract(Html(html)));
 }
 
-Result Hext::extract(const Html& html) const
+std::unique_ptr<ResultTree> Hext::extract(const Html& html) const
 {
   assert(this->rule_);
-  std::unique_ptr<ResultTree> rt = this->rule_->extract(html.root());
-  return rt->to_result();
+  return std::move(this->rule_->extract(html.root()));
 }
 
 

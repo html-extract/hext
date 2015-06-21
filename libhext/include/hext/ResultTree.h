@@ -29,8 +29,16 @@ public:
   /// nothing is done.
   void delete_child(const ResultTree * child);
 
-  void set_values(std::vector<ResultPair> values)
-    { this->values_ = std::move(values); }
+  void set_values(std::vector<ResultPair> v)
+    { this->values_ = std::move(v); }
+
+  /// Return read-only access to values.
+  const std::vector<ResultPair>& values() const
+    { return this->values_; }
+
+  /// Return read-only access to children.
+  const std::vector<std::unique_ptr<ResultTree>>& children() const
+    { return this->children_; }
 
   /// Return a vector containing multimaps of string pairs. Each element in the
   /// vector represents a child of this ResultTree. The multimaps are the result
