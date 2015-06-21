@@ -22,7 +22,7 @@ void PrintJson(const hext::ResultTree * rt, std::ostream& out)
   }
 
   rapidjson::StringBuffer buffer;
-  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
   doc.Accept(writer);
   out << buffer.GetString() << "\n";
 }
