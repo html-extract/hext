@@ -25,7 +25,7 @@ public:
   /// \param value_test
   ///     The ValueTest which is to be applied to a node's attribute value.
   AttributeMatch(
-    const std::string& attr_name,
+    std::string attr_name,
     std::unique_ptr<test::ValueTest> value_test
   );
 
@@ -35,7 +35,7 @@ public:
 
 protected:
   /// The name of the html-node-attribute whose value is to be matched.
-  const std::string attr_name_;
+  std::string attr_name_;
 };
 
 

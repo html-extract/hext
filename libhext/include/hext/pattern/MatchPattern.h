@@ -12,7 +12,7 @@ namespace hext {
 class MatchPattern
 {
 public:
-  /// Virtual destructor to allow inheriting.
+  /// Virtual destructor to allow inheritance.
   virtual ~MatchPattern();
 
   /// Implemenation must be provided in subclasses.

@@ -30,9 +30,9 @@ public:
   ///     An optional regular expression that is applied to the captured
   ///     attribute-value.
   AttributeCapture(
-    const std::string& result_name,
-    const std::string& attr_name,
-    const boost::optional<boost::regex>& regex
+    std::string result_name,
+    std::string attr_name,
+    boost::optional<boost::regex> regex
   );
 
   /// Return a string pair containing the captured value. First member is
@@ -44,7 +44,7 @@ public:
 
 private:
   /// The name of the html-node-attribute whose value should be captured
-  const std::string attr_name_;
+  std::string attr_name_;
 };
 
 

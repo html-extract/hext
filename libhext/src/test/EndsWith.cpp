@@ -6,7 +6,7 @@ namespace test {
 
 
 EndsWith::EndsWith(std::string literal)
-: lit_(literal)
+: lit_(std::move(literal))
 {
 }
 

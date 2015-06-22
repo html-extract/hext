@@ -5,8 +5,8 @@ namespace hext {
 namespace test {
 
 
-Regex::Regex(const boost::regex& regex)
-: rx_(regex)
+Regex::Regex(boost::regex regex)
+: rx_(std::move(regex))
 {
 }
 

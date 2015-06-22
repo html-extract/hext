@@ -21,7 +21,7 @@ public:
   bool operator()(const char * subject) const final;
 
 private:
-  const std::string lit_;
+  std::string lit_;
 };
 
 

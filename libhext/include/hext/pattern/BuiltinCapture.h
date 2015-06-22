@@ -32,9 +32,9 @@ public:
   ///     An optional regular expression that is applied to the result of the
   ///     builtin function `func`.
   BuiltinCapture(
-    const std::string& result_name,
+    std::string result_name,
     BuiltinFuncPtr func,
-    const boost::optional<boost::regex>& regex
+    boost::optional<boost::regex> regex
   );
 
   /// Return a string pair containing the captured value. First member is
@@ -46,7 +46,7 @@ public:
 private:
   /// A pointer to a builtin function that is applied to a node to obtain the
   /// captured value.
-  const BuiltinFuncPtr func_;
+  BuiltinFuncPtr func_;
 };
 
 

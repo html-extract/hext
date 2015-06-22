@@ -5,11 +5,11 @@ namespace hext {
 
 
 AttributeMatch::AttributeMatch(
-  const std::string& attr_name,
+  std::string attr_name,
   std::unique_ptr<test::ValueTest> value_test
 )
 : ValueMatch(std::move(value_test))
-, attr_name_(attr_name)
+, attr_name_(std::move(attr_name))
 {
 }
 

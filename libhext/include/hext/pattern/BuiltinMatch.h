@@ -36,7 +36,7 @@ public:
 
 private:
   /// A pointer to a builtin function that is to be applied to a node.
-  const BuiltinFuncPtr func_;
+  BuiltinFuncPtr func_;
 };
 
 

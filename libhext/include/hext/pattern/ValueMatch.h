@@ -27,7 +27,7 @@ public:
 
 protected:
   /// The value_test that is to be applied to a result.
-  const std::unique_ptr<test::ValueTest> test_;
+  std::unique_ptr<test::ValueTest> test_;
 };
 
 

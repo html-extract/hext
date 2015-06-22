@@ -6,7 +6,7 @@ namespace test {
 
 
 BeginsWith::BeginsWith(std::string literal)
-: lit_(literal)
+: lit_(std::move(literal))
 {
 }
 

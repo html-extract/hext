@@ -6,7 +6,7 @@ namespace test {
 
 
 ContainsWord::ContainsWord(std::string literal)
-: lit_(literal)
+: lit_(std::move(literal))
 {
 }
 

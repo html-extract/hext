@@ -6,7 +6,7 @@ namespace test {
 
 
 Equals::Equals(std::string literal)
-: lit_(literal)
+: lit_(std::move(literal))
 {
 }
 

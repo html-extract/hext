@@ -5,11 +5,11 @@ namespace hext {
 
 
 CapturePattern::CapturePattern(
-  const std::string& result_name,
-  const boost::optional<boost::regex>& regex
+  std::string result_name,
+  boost::optional<boost::regex> regex
 )
-: name_(result_name)
-, rx_(regex)
+: name_(std::move(result_name))
+, rx_(std::move(regex))
 {
 }
 

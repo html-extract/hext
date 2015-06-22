@@ -15,13 +15,13 @@ namespace test {
 class Regex : public ValueTest
 {
 public:
-  explicit Regex(const boost::regex& regex);
+  explicit Regex(boost::regex regex);
 
   /// Returns true if regex matches subject.
   bool operator()(const char * subject) const final;
 
 private:
-  const boost::regex rx_;
+  boost::regex rx_;
 };
 
 

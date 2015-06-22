@@ -37,8 +37,8 @@ public:
   /// \param regex
   ///     An optional regular expression that is applied to the captured value.
   CapturePattern(
-    const std::string& result_name,
-    const boost::optional<boost::regex>& regex
+    std::string result_name,
+    boost::optional<boost::regex> regex
   );
 
   /// Virtual destructor to allow inheriting from CapturePattern.
@@ -54,10 +54,10 @@ protected:
   std::string regex_filter(const char * str) const;
 
   /// The result name of the captured contents.
-  const std::string name_;
+  std::string name_;
 
   /// Optional regex.
-  const boost::optional<const boost::regex> rx_;
+  boost::optional<const boost::regex> rx_;
 };
 
 

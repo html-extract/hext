@@ -5,11 +5,11 @@ namespace hext {
 
 
 BuiltinCapture::BuiltinCapture(
-  const std::string& result_name,
+  std::string result_name,
   BuiltinFuncPtr func,
-  const boost::optional<boost::regex>& regex
+  boost::optional<boost::regex> regex
 )
-: CapturePattern(result_name, regex)
+: CapturePattern(std::move(result_name), std::move(regex))
 , func_(func)
 {
 }
