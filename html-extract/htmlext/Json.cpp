@@ -4,7 +4,7 @@
 namespace htmlext {
 
 
-void PrintJson(const hext::ResultTree * rt, std::ostream& out)
+void PrintJson(const hext::ResultTree * rt, JsonOption opt, std::ostream& out)
 {
   assert(rt);
   if( !rt )
@@ -21,10 +21,43 @@ void PrintJson(const hext::ResultTree * rt, std::ostream& out)
     doc.PushBack(obj, alloc);
   }
 
+  if( (opt & JsonOption::ArrayEnvelope) == JsonOption::ArrayEnvelope )
+  {
+    PrintJsonValue(doc, opt, out);
+    out << "\n";
+  }
+  else
+  {
+    // Print each child object on a seperate line
+    rapidjson::Value::ConstValueIterator it = doc.Begin();
+    for(; it != doc.End(); ++it)
+    {
+      assert(it->IsObject());
+      PrintJsonValue(*it, opt, out);
+      out << "\n";
+    }
+  }
+}
+
+void PrintJsonValue(
+  const rapidjson::Value& value,
+  JsonOption opt,
+  std::ostream& out
+)
+{
   rapidjson::StringBuffer buffer;
-  rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-  doc.Accept(writer);
-  out << buffer.GetString() << "\n";
+  if( (opt & JsonOption::PrettyPrint) == JsonOption::PrettyPrint )
+  {
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    value.Accept(writer);
+  }
+  else
+  {
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    value.Accept(writer);
+  }
+
+  out << buffer.GetString();
 }
 
 void AppendValuesJson(

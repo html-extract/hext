@@ -38,12 +38,21 @@ int main(int argc, const char ** argv)
     if( po.contains("lint") )
       return EXIT_SUCCESS;
 
+    htmlext::JsonOption opt = htmlext::JsonOption::NoOption;
+    {
+      using htmlext::operator|;
+      if( !po.contains("compact") )
+        opt = opt | htmlext::JsonOption::PrettyPrint;
+      if( po.contains("array") )
+        opt = opt | htmlext::JsonOption::ArrayEnvelope;
+    }
+
     std::vector<std::string> html_input = po.get_html_input();
     for(const auto& file : html_input)
     {
       std::string html = htmlext::ReadFileOrThrow(file);
       std::unique_ptr<hext::ResultTree> result = extractor.extract(html);
-      htmlext::PrintJson(result.get(), std::cout);
+      htmlext::PrintJson(result.get(), opt, std::cout);
     }
   }
   catch( const boost::program_options::error& e )
