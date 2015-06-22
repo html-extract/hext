@@ -62,7 +62,10 @@ int main(int argc, const char ** argv)
     {
       std::string html = htmlext::ReadFileOrThrow(file);
       std::unique_ptr<hext::ResultTree> result = extractor.extract(html);
-      htmlext::PrintJson(result.get(), opt, std::cout);
+      if( po.contains("print-result-dot") )
+        htmlext::PrintResultTreeDot(result.get(), std::cout);
+      else
+        htmlext::PrintJson(result.get(), opt, std::cout);
     }
   }
   catch( const boost::program_options::error& e )

@@ -17,6 +17,7 @@ void PrintHtmlDotNodes(const GumboNode * node, int parent_id, std::ostream& out)
   static int node_index = 0;
   int this_node = ++node_index;
 
+  assert(node);
   if( !node )
     return;
 
@@ -48,6 +49,51 @@ void PrintHtmlDotNodes(const GumboNode * node, int parent_id, std::ostream& out)
       auto child_node = static_cast<const GumboNode *>(node_children->data[i]);
       PrintHtmlDotNodes(child_node, this_node, out);
     }
+  }
+}
+
+void PrintResultTreeDot(const hext::ResultTree * rt, std::ostream& out)
+{
+  out << "digraph result_tree {\n"
+      << "    node [fontname=\"Arial\"];\n";
+  PrintResultTreeDotNodes(rt, 0, out);
+  out << "}\n";
+}
+
+void PrintResultTreeDotNodes(
+  const hext::ResultTree * rt,
+  int parent_id,
+  std::ostream& out
+)
+{
+  static int node_index = 0;
+  int this_node = ++node_index;
+
+  assert(rt);
+  if( !rt )
+    return;
+
+  std::string label;
+  if( rt->values().empty() )
+  {
+    label = '-';
+  }
+  else
+  {
+    for(const auto& p : rt->values())
+    {
+      label.append(p.first);
+      label.append(" ");
+    }
+  }
+
+  out << "    node_" << this_node << " [label=\"" << label << "\"];\n";
+  if( parent_id )
+    out << "    node_" << parent_id << " -> node_" << this_node << ";\n";
+
+  for( const auto& child : rt->children() )
+  {
+    PrintResultTreeDotNodes(child.get(), this_node, out);
   }
 }
 
