@@ -165,6 +165,31 @@ void PrintWithLineNumbers(
   }
 }
 
+bool ContainsWord(const std::string& subject, const std::string& word)
+{
+  if( subject.empty() || word.empty() || word.size() > subject.size() )
+    return false;
+
+  std::string::size_type begin = 0;
+  while( (begin = subject.find(word, begin)) != std::string::npos )
+  {
+    std::string::size_type end = begin + word.size();
+
+    // Check if either at start of string or prefixed with space.
+    bool start_is_bound = ( begin == 0 || subject[begin-1] == ' ' );
+
+    // Check if either at end of string or suffixed with space.
+    bool end_is_bound = ( end == subject.size() || subject[end] == ' ' );
+
+    if( start_is_bound && end_is_bound )
+      return true;
+
+    begin = end;
+  }
+
+  return false;
+}
+
 
 } // namespace hext
 

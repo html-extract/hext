@@ -20,6 +20,7 @@
 #include "hext/StringUtil.h"
 #include "hext/test/BeginsWith.h"
 #include "hext/test/Contains.h"
+#include "hext/test/ContainsAllWords.h"
 #include "hext/test/ContainsWord.h"
 #include "hext/test/EndsWith.h"
 #include "hext/test/Equals.h"

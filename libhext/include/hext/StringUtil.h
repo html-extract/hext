@@ -74,6 +74,10 @@ void PrintWithLineNumbers(
   std::ostream& out
 );
 
+/// Return true if subject contains word. Word boundaries are the beginning and
+/// end of subject, and spaces.
+bool ContainsWord(const std::string& subject, const std::string& word);
+
 
 } // namespace hext
 

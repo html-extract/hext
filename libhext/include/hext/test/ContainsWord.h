@@ -1,6 +1,7 @@
 #ifndef HEXT_TEST_CONTAINS_WORD_H_INCLUDED
 #define HEXT_TEST_CONTAINS_WORD_H_INCLUDED
 
+#include "hext/StringUtil.h"
 #include "hext/test/ValueTest.h"
 
 #include <string>

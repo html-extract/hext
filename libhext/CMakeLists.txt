@@ -74,6 +74,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/BeginsWith.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Contains.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/ContainsAllWords.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/ContainsWord.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/EndsWith.cpp"
   "${PROJECT_SOURCE_DIR}/src/test/Equals.cpp"
