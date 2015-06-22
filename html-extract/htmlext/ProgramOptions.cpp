@@ -11,10 +11,11 @@ ProgramOptions::ProgramOptions()
   namespace po = boost::program_options;
   this->desc_.add_options()
     ("hext,x", po::value<std::string>(), "Hext file")
-    ("html-input,i", po::value<std::vector<std::string>>(), "Html input file(s)")
+    ("html-input,i", po::value<std::vector<std::string>>(), "HTML input file(s)")
     ("lint,l", "Hext syntax check: parse hext and exit")
     ("compact,c", "Do not pretty-print JSON")
     ("array,a", "Put results into one top-level JSON array")
+    ("print-html-dot", po::value<std::string>(), "Print HTML input file as DOT")
     ("help,h", "Print this help message and exit")
     ("version,V", "Print version information and exit")
   ;
@@ -38,6 +39,9 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   po::notify(this->vm_);
 
   if( this->contains("help") || this->contains("version") )
+    return;
+
+  if( this->contains("print-html-dot") )
     return;
 
   if( !this->contains("hext") )
@@ -75,7 +79,10 @@ void ProgramOptions::print(const char * program_name, std::ostream& out) const
       << program_name
       << " -l hext-file\n"
          "      Parse hext-file and exit silently on success.\n"
-         "      On failure, print error information to stderr.\n\n"
+         "      On failure, print error information to stderr.\n\n  "
+      << program_name
+      << " --print-html-dot html-file\n"
+         "      Parse and print html-file as DOT.\n\n"
       << this->desc_;
 }
 

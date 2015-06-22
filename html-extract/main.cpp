@@ -1,8 +1,10 @@
-#include "htmlext/Json.h"
+#include "hext/Hext.h"
+
 #include "htmlext/File.h"
+#include "htmlext/Json.h"
+#include "htmlext/PrintDot.h"
 #include "htmlext/ProgramOptions.h"
 #include "htmlext/Version.h"
-#include "hext/Hext.h"
 
 #include <cassert>
 #include <cstdlib>
@@ -29,6 +31,14 @@ int main(int argc, const char ** argv)
     if( po.contains("version") )
     {
       htmlext::PrintVersion(std::cout);
+      return EXIT_SUCCESS;
+    }
+
+    if( po.contains("print-html-dot") )
+    {
+      std::string file = po.get("print-html-dot");
+      std::string html = htmlext::ReadFileOrThrow(file);
+      htmlext::PrintHtmlDot(hext::Html(html), std::cout);
       return EXIT_SUCCESS;
     }
 

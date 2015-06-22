@@ -46,6 +46,7 @@ ADD_EXECUTABLE(
   html-extract
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/File.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Json.cpp"
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/PrintDot.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
