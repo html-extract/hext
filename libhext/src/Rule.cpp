@@ -18,15 +18,11 @@ Rule::Rule(
 {
 }
 
-void Rule::take_child(Rule&& r, std::size_t insert_at_depth)
+Rule& Rule::take_child(Rule&& r, std::size_t insert_at_depth)
 {
-  if( insert_at_depth > 0 && this->children_.size() )
-  {
-    this->children_.back().take_child(std::move(r), insert_at_depth - 1);
-    return;
-  }
-
-  this->children_.push_back(std::move(r));
+  // Use a recursive helper function to preserve *this.
+  this->append_child_at_depth(std::move(r), insert_at_depth);
+  return *this;
 }
 
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
@@ -139,6 +135,20 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
   }
 
   return !mandatory_rule_cnt || match_count > 0;
+}
+
+void Rule::append_child_at_depth(Rule&& r, std::size_t insert_at_depth)
+{
+  if( insert_at_depth > 0 && this->children_.size() )
+  {
+    this->children_.back().append_child_at_depth(
+      std::move(r),
+      insert_at_depth - 1
+    );
+    return;
+  }
+
+  this->children_.push_back(std::move(r));
 }
 
 

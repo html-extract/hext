@@ -201,37 +201,37 @@ literal = (
 pattern = (
   space+
   ( ( ( builtin '=' capture )
-      %{ rule.add_capture_pattern<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); } )
+      %{ rule.add_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); } )
     |
 
     ( ( builtin '=' regex_test negate? )
-      %{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( builtin literal negate? )
-      %{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( attr_name '=' capture optional? )
-      %{ rule.add_capture_pattern<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+      %{ rule.add_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
          if( !pv.optional )
-           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
+           rule.add_match<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        } )
     |
 
     ( ( attr_name '=' regex_test negate? )
-      %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name literal negate? )
-      %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name
         %{ pv.set_test<test::NotNull>(); }
         negate?
       )
-      %{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
   ) %{ pv.reset(); }
 );
 
@@ -274,10 +274,10 @@ main := (
 
     # a rule can have multiple traits, e.g. :first-child, :empty
     (
-      ( not_trait %{ rule.take_match_pattern(std::move(pv.negate)); } )
+      ( not_trait %{ rule.take_match(std::move(pv.negate)); } )
       |
 
-      ( trait %{ rule.take_match_pattern(std::move(pv.trait)); } )
+      ( trait %{ rule.take_match(std::move(pv.trait)); } )
     )*
 
     # a rule can have multiple match or capture patterns,

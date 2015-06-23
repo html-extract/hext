@@ -224,7 +224,7 @@ _match:
 #line 94 "hext-machine.rl"
 	{
        assert(pv.negate);
-       pv.negate->take_match_pattern(std::move(pv.trait));
+       pv.negate->take_match(std::move(pv.trait));
      }
 	break;
 	case 24:
@@ -337,30 +337,30 @@ _match:
 	break;
 	case 49:
 #line 204 "hext-machine.rl"
-	{ rule.add_capture_pattern<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); }
+	{ rule.add_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); }
 	break;
 	case 50:
 #line 208 "hext-machine.rl"
-	{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 51:
 #line 212 "hext-machine.rl"
-	{ rule.add_match_pattern<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 52:
 #line 216 "hext-machine.rl"
-	{ rule.add_capture_pattern<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+	{ rule.add_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
          if( !pv.optional )
-           rule.add_match_pattern<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
+           rule.add_match<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        }
 	break;
 	case 53:
 #line 223 "hext-machine.rl"
-	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 54:
 #line 227 "hext-machine.rl"
-	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 55:
 #line 231 "hext-machine.rl"
@@ -368,7 +368,7 @@ _match:
 	break;
 	case 56:
 #line 234 "hext-machine.rl"
-	{ rule.add_match_pattern<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 57:
 #line 235 "hext-machine.rl"
@@ -397,11 +397,11 @@ _match:
 	break;
 	case 62:
 #line 277 "hext-machine.rl"
-	{ rule.take_match_pattern(std::move(pv.negate)); }
+	{ rule.take_match(std::move(pv.negate)); }
 	break;
 	case 63:
 #line 280 "hext-machine.rl"
-	{ rule.take_match_pattern(std::move(pv.trait)); }
+	{ rule.take_match(std::move(pv.trait)); }
 	break;
 	case 64:
 #line 290 "hext-machine.rl"
