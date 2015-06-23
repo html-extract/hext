@@ -27,11 +27,6 @@ namespace hext {
 /// the caller), containing the captured values of an html-node.
 ///
 /// A Rule is also a tree: A Rule can have multiple Rule children.
-///
-/// Matching is done in a recursive and brute-force manner: A Rule is matched
-/// against every child of the given GumboNode tree. Additionally, if a Rule
-/// matches a subnode of the html-tree, all its Rule children are matched
-/// against this subtree.
 class Rule
 {
 public:
@@ -72,7 +67,7 @@ public:
   ///   level2      <img>
   ///   level2      <a>    # new
   /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  void append_child(Rule&& r, std::size_t tree_depth);
+  void take_child(Rule&& r, std::size_t insert_at_depth = 0);
 
   /// Take a MatchPattern.
   void take_match_pattern(std::unique_ptr<MatchPattern>&& pattern)

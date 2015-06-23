@@ -18,11 +18,11 @@ Rule::Rule(
 {
 }
 
-void Rule::append_child(Rule&& r, std::size_t tree_depth)
+void Rule::take_child(Rule&& r, std::size_t insert_at_depth)
 {
-  if( tree_depth > 0 && !this->children_.empty() )
+  if( insert_at_depth > 0 && this->children_.size() )
   {
-    this->children_.back().append_child(std::move(r), tree_depth - 1);
+    this->children_.back().take_child(std::move(r), insert_at_depth - 1);
     return;
   }
 

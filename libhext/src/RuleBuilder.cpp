@@ -8,9 +8,9 @@ RuleBuilder::RuleBuilder()
 : top_rule_(
     // Implicit top rule that matches everything.
     MakeUnique<Rule>(
-      GUMBO_TAG_UNKNOWN,
-      false,
-      true
+      /*  match any tag: */ GUMBO_TAG_UNKNOWN,
+      /*       optional: */ false,
+      /* any_descendant: */ true
     )
   )
 , tag_stack_()
@@ -26,9 +26,9 @@ void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
 {
   GumboTag tag = rule.get_tag();
 
-  this->top_rule_->append_child(
+  this->top_rule_->take_child(
     std::move(rule),
-    this->tag_stack_.size()
+    /* insert_at_depth: */ this->tag_stack_.size()
   );
 
   if( !self_closing )
