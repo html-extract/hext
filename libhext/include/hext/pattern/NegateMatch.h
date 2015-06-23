@@ -24,7 +24,7 @@ public:
       std::vector<std::unique_ptr<MatchPattern>>()
   );
 
-  void take_match_pattern(std::unique_ptr<MatchPattern>&& pattern);
+  void take_match(std::unique_ptr<MatchPattern>&& pattern);
 
   // Return true if all contained MatchPatterns return false.
   // Return true on empty MatchPatterns.

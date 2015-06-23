@@ -11,7 +11,7 @@ NegateMatch::NegateMatch(
 {
 }
 
-void NegateMatch::take_match_pattern(std::unique_ptr<MatchPattern>&& pattern)
+void NegateMatch::take_match(std::unique_ptr<MatchPattern>&& pattern)
 {
   this->match_patterns_.push_back(std::move(pattern));
 }
