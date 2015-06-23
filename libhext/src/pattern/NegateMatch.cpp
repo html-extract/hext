@@ -4,8 +4,10 @@
 namespace hext {
 
 
-NegateMatch::NegateMatch()
-: match_patterns_()
+NegateMatch::NegateMatch(
+  std::vector<std::unique_ptr<MatchPattern>>&& match_patterns
+)
+: match_patterns_(std::move(match_patterns))
 {
 }
 
@@ -21,10 +23,8 @@ bool NegateMatch::matches(const GumboNode * node) const
     return false;
 
   for(const auto& mp : this->match_patterns_)
-  {
     if( mp->matches(node) )
       return false;
-  }
 
   return true;
 }

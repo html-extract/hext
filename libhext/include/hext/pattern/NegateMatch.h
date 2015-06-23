@@ -19,7 +19,10 @@ namespace hext {
 class NegateMatch : public MatchPattern
 {
 public:
-  NegateMatch();
+  explicit NegateMatch(
+    std::vector<std::unique_ptr<MatchPattern>>&& match_patterns =
+      std::vector<std::unique_ptr<MatchPattern>>()
+  );
 
   void take_match_pattern(std::unique_ptr<MatchPattern>&& pattern);
 
