@@ -33,7 +33,7 @@ void ResultTree::delete_child(const ResultTree * child)
   assert(false);
 }
 
-Result ResultTree::to_result() const
+Result ResultTree::flatten() const
 {
   typedef std::vector<std::unique_ptr<ResultTree>>::size_type c_size_type;
 

@@ -45,7 +45,7 @@ public:
   /// of recursively appending each subtree, flattening all values to a single
   /// map.
   /// Note: Values from this instance are omitted.
-  Result to_result() const;
+  Result flatten() const;
 
 private:
   ResultTree(const ResultTree&) = delete;
