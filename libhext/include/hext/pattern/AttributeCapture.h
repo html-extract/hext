@@ -32,7 +32,7 @@ public:
   AttributeCapture(
     std::string result_name,
     std::string attr_name,
-    boost::optional<boost::regex> regex
+    boost::optional<boost::regex> regex = boost::optional<boost::regex>()
   );
 
   /// Return a string pair containing the captured value. First member is
