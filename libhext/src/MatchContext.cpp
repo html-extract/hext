@@ -8,14 +8,12 @@ namespace hext {
 MatchContext::MatchContext(
   rule_iter rule_begin,
   rule_iter rule_end,
-  const GumboVector * nodes,
-  std::size_t mandatory_rule_cnt
+  const GumboVector * nodes
 )
 : r_begin_(rule_begin),
   r_end_(rule_end),
   nodes_(nodes),
-  current_node_(0),
-  r_manda_cnt_(mandatory_rule_cnt)
+  current_node_(0)
 {
 }
 
@@ -31,11 +29,9 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
     return boost::optional<MatchContext::match_group>();
 
   auto rule = this->r_begin_;
-  unsigned int manda_match_cnt = 0;
   MatchContext::match_group mg;
   while( this->current_node_ < this->nodes_->length )
   {
-    assert(this->current_node_ < this->nodes_->length);
     auto node = static_cast<const GumboNode *>(
       this->nodes_->data[this->current_node_]
     );
@@ -55,9 +51,8 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
         }
         else
         {
-          ++manda_match_cnt;
           rule = next_mandatory + 1;
-          mg.push_back(std::make_pair(&(*rule), node));
+          mg.push_back(std::make_pair(&(*next_mandatory), node));
           skip = true;
         }
       }
@@ -65,8 +60,6 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
 
     if( !skip && rule->matches(node) )
     {
-      if( !rule->is_optional() )
-        ++manda_match_cnt;
       mg.push_back(std::make_pair(&(*rule), node));
       rule++;
     }
@@ -74,18 +67,13 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
     this->current_node_++;
 
     if( rule == this->r_end_ )
-    {
-      if( manda_match_cnt >= this->r_manda_cnt_ )
-        return mg;
-      else
-        return this->match_next();
-    }
+      return mg;
   }
 
   while( rule != this->r_end_ && rule->is_optional() )
     rule++;
 
-  if( rule == this->r_end_ && manda_match_cnt >= this->r_manda_cnt_ )
+  if( rule == this->r_end_ )
     return mg;
 
   return boost::optional<MatchContext::match_group>();

@@ -25,8 +25,7 @@ public:
   MatchContext(
     rule_iter rule_begin,
     rule_iter rule_end,
-    const GumboVector * nodes,
-    std::size_t mandatory_rule_cnt
+    const GumboVector * nodes
   );
 
   /// Return next match_group. Returns empty if there are no more matches.
@@ -42,8 +41,6 @@ private:
 
   const GumboVector * nodes_;
   unsigned int current_node_;
-
-  std::size_t r_manda_cnt_;
 };
 
 

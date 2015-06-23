@@ -99,8 +99,7 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
   MatchContext mc(
     this->children_.cbegin(),
     this->children_.cend(),
-    child_nodes,
-    mandatory_rule_cnt
+    child_nodes
   );
   while( auto grouped_match = mc.match_next() )
   {
