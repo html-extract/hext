@@ -40,7 +40,7 @@ bool IsSpace(char c);
 /// characters like the nullbyte.
 std::string CharName(char c);
 
-/// Convenience typedefs for GetCharPosition.
+/// Convenience typedefs for CharPosition().
 typedef std::iterator_traits<const char *>::difference_type CharPosType;
 typedef std::pair<CharPosType, CharPosType> CharPosPair;
 

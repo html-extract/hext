@@ -4,7 +4,7 @@
 namespace hext {
 
 
-std::string GetNodeText(const GumboNode * node)
+std::string NodeText(const GumboNode * node)
 {
   return TrimAndCollapseWs(StripTags(node, /* smart_wrap: */ true));
 }
@@ -48,7 +48,7 @@ std::string StripTags(const GumboNode * node, bool smart_wrap)
   return inner_text;
 }
 
-std::string GetNodeInnerHtml(const GumboNode * node)
+std::string NodeInnerHtml(const GumboNode * node)
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return "";

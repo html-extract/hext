@@ -261,11 +261,11 @@ _match:
 	break;
 	case 30:
 #line 129 "hext-machine.rl"
-	{ pv.builtin = GetNodeText; }
+	{ pv.builtin = NodeText; }
 	break;
 	case 31:
 #line 131 "hext-machine.rl"
-	{ pv.builtin = GetNodeInnerHtml; }
+	{ pv.builtin = NodeInnerHtml; }
 	break;
 	case 32:
 #line 133 "hext-machine.rl"

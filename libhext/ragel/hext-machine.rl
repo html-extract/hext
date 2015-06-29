@@ -126,9 +126,9 @@ regex_test = regex %{ assert(pv.regex); pv.set_test<test::Regex>(*pv.regex); };
 #### BUILTIN FUNCTION ##########################################################
 builtin = (
   '@'
-  ( ( 'text'       %{ pv.builtin = GetNodeText; } )
+  ( ( 'text'       %{ pv.builtin = NodeText; } )
     |
-    ( 'inner-html' %{ pv.builtin = GetNodeInnerHtml; } )
+    ( 'inner-html' %{ pv.builtin = NodeInnerHtml; } )
     |
     ( 'strip-tags' %{ pv.builtin = StripTagsWrapper; } ) )
 );
