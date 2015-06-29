@@ -147,6 +147,9 @@ private:
   /// Recursive helper function for Rule::take_child.
   void append_child_at_depth(Rule&& r, std::size_t insert_at_depth);
 
+  /// Return if all immediate children are optional.
+  bool all_children_are_optional() const;
+
   /// The children of this rule.
   std::vector<Rule> children_;
 

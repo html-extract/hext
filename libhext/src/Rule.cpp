@@ -90,11 +90,6 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
     return false;
 
   int match_count = 0;
-  std::size_t mandatory_rule_cnt = std::count_if(
-    this->children_.cbegin(),
-    this->children_.cend(),
-    [](const Rule& r) { return !r.is_optional_; }
-  );
   MatchContext mc(
     this->children_.cbegin(),
     this->children_.cend(),
@@ -113,12 +108,21 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
       auto child_rt = branch->create_child();
       if( !child_rule->extract_children(child_node, child_rt) )
       {
-        rt->delete_child(branch);
-        --match_count;
-        break;
+        if( child_rule->is_optional_ )
+        {
+          branch->delete_child(child_rt);
+        }
+        else
+        {
+          --match_count;
+          rt->delete_child(branch);
+          break;
+        }
       }
-
-      child_rt->set_values(child_rule->capture(child_node));
+      else
+      {
+        child_rt->set_values(child_rule->capture(child_node));
+      }
     }
   }
 
@@ -132,7 +136,7 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
     }
   }
 
-  return !mandatory_rule_cnt || match_count > 0;
+  return match_count > 0 || this->all_children_are_optional();
 }
 
 void Rule::append_child_at_depth(Rule&& r, std::size_t insert_at_depth)
@@ -147,6 +151,15 @@ void Rule::append_child_at_depth(Rule&& r, std::size_t insert_at_depth)
   }
 
   this->children_.push_back(std::move(r));
+}
+
+bool Rule::all_children_are_optional() const
+{
+  for( const auto& r : this->children_ )
+    if( !r.is_optional_ )
+      return false;
+
+  return true;
 }
 
 
