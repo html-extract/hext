@@ -6,80 +6,116 @@ namespace hext {
 
 
 MatchContext::MatchContext(
-  rule_iter rule_begin,
-  rule_iter rule_end,
-  const GumboVector * nodes
+  rule_it rule_begin,
+  rule_it rule_end,
+  const GumboVector& nodes
 )
 : r_begin_(rule_begin),
   r_end_(rule_end),
   nodes_(nodes),
-  current_node_(0)
+  n_(0),
+  n_len_(nodes.length)
 {
 }
 
 boost::optional<MatchContext::match_group> MatchContext::match_next()
 {
+  assert(this->r_begin_ <= this->r_end_);
   if( this->r_begin_ == this->r_end_ )
-    return boost::optional<MatchContext::match_group>();
+    return boost::optional<match_group>();
 
-  if( !this->nodes_ || !this->nodes_->length )
-    return boost::optional<MatchContext::match_group>();
+  assert(this->n_ <= this->n_len_);
+  if( this->n_ == this->n_len_ )
+    return boost::optional<match_group>();
 
-  if( this->current_node_ >= this->nodes_->length )
-    return boost::optional<MatchContext::match_group>();
-
+  match_group mg;
   auto rule = this->r_begin_;
-  MatchContext::match_group mg;
-  while( this->current_node_ < this->nodes_->length )
+  while( rule != this->r_end_ && this->n_ < this->n_len_ )
   {
-    auto node = static_cast<const GumboNode *>(
-      this->nodes_->data[this->current_node_]
-    );
-    assert(node);
-
-    bool skip = false;
     if( rule->is_optional() )
     {
-      // Prefer matching mandatory rules to optional rules
-      auto next_mandatory = this->next_mandatory_rule(rule);
-      if( next_mandatory != this->r_end_ && next_mandatory->matches(node) )
+      // Optional rules can be matched anywhere up to the next match of a
+      // mandatory rule
+      auto stop_rule = this->find_mandatory_rule(rule);
+      assert(rule != stop_rule);
+
+      // If there are no mandatory rules, match until end
+      if( stop_rule == this->r_end_ )
       {
-        // Check if the next mandatory rule is in the next result set
-        if( next_mandatory <= rule )
+        this->match_to_node(mg, rule, stop_rule, this->n_len_);
+        if( mg.size() )
         {
-          return this->match_next();
+          return mg;
         }
         else
         {
-          rule = next_mandatory + 1;
-          mg.push_back(std::make_pair(&(*next_mandatory), node));
-          skip = true;
+          // If there wasn't matched anything now, there won't be later matches
+          this->n_ = this->n_len_;
+          return boost::optional<match_group>();
+        }
+      }
+      else
+      {
+        // Find the matching node of the next mandatory rule
+        auto stop_node = this->find_match(this->n_, this->n_len_, *stop_rule);
+
+        // If the stop_rule is not included in this match_group
+        if( stop_rule < rule )
+        {
+          // match until the last rule
+          this->match_to_node(mg, rule, this->r_end_, stop_node);
+          // If there was no match found for the mandatory rule, then don't
+          // search for it in the next call to match_next()
+          if( stop_node == this->n_len_ )
+            this->n_ = this->n_len_;
+          return mg;
+        }
+        // If stop_rule wasn't found, abort (stop_rule is mandatory)
+        else if( stop_node == this->n_len_ )
+        {
+          this->n_ = this->n_len_;
+          return boost::optional<match_group>();
+        }
+        // If stop_rule is included in this match_group
+        else
+        {
+          this->match_to_node(mg, rule, stop_rule, stop_node);
+          // Also include the already matched stop_rule
+          this->push_match_pair(mg, stop_rule, stop_node);
+          rule = stop_rule + 1;
+          this->n_ = stop_node + 1;
         }
       }
     }
-
-    if( !skip && rule->matches(node) )
+    else // rule is mandatory
     {
-      mg.push_back(std::make_pair(&(*rule), node));
-      rule++;
+      this->n_ = this->find_match(this->n_, this->n_len_, *rule);
+
+      // If a mandatory rule isn't found, abort immediately
+      if( this->n_ == this->n_len_ )
+        return boost::optional<match_group>();
+
+      this->push_match_pair(mg, rule, this->n_);
+      ++this->n_;
+      ++rule;
     }
 
-    this->current_node_++;
-
-    if( rule == this->r_end_ )
-      return mg;
+    assert(this->n_ <= this->n_len_);
+    assert(this->r_begin_ <= this->r_end_);
   }
 
+  // Optional rules can be skipped
   while( rule != this->r_end_ && rule->is_optional() )
-    rule++;
+    ++rule;
 
   if( rule == this->r_end_ )
     return mg;
 
-  return boost::optional<MatchContext::match_group>();
+  this->n_ = this->n_len_;
+  return boost::optional<match_group>();
 }
 
-MatchContext::rule_iter MatchContext::next_mandatory_rule(rule_iter it) const
+MatchContext::rule_it MatchContext::find_mandatory_rule(rule_it it) const
 {
   assert(it >= this->r_begin_ && it <= this->r_end_);
 
@@ -87,20 +123,68 @@ MatchContext::rule_iter MatchContext::next_mandatory_rule(rule_iter it) const
     return !r.is_optional();
   };
 
-  if( it == this->r_end_ )
-    it = this->r_begin_;
-  else
-    ++it;
-
   auto result = std::find_if(it, this->r_end_, pred);
   if( result != this->r_end_ )
     return result;
 
   result = std::find_if(this->r_begin_, it, pred);
-  if( result == it )
-    return this->r_end_;
-  else
-    return result;
+  return ( result == it ? this->r_end_ : result );
+}
+
+unsigned int MatchContext::find_match(
+  unsigned int begin,
+  unsigned int end,
+  const Rule& rule
+) const
+{
+  assert(begin <= end);
+
+  for(; begin != end; ++begin)
+  {
+    auto node = static_cast<const GumboNode *>(this->nodes_.data[begin]);
+    if( rule.matches(node) )
+      return begin;
+  }
+
+  return end;
+}
+
+void MatchContext::match_to_node(
+  match_group& mg,
+  rule_it rule,
+  rule_it stop_rule,
+  unsigned int stop_node
+)
+{
+  assert(rule >= this->r_begin_ && rule < this->r_end_);
+  assert(rule < stop_rule);
+  assert(stop_rule >= this->r_begin_ && stop_rule <= this->r_end_);
+  assert(stop_node >= this->n_ && stop_node <= this->n_len_);
+
+  while( this->n_ < stop_node && rule != stop_rule )
+  {
+    auto matching_node = this->find_match(this->n_, stop_node, *rule);
+    if( matching_node < stop_node )
+    {
+      this->push_match_pair(mg, rule, matching_node);
+      this->n_ = matching_node + 1;
+    }
+    ++rule;
+  }
+}
+
+void MatchContext::push_match_pair(
+  match_group& mg,
+  rule_it rule,
+  unsigned int n
+) const
+{
+  assert(rule != this->r_end_);
+  assert(n < this->n_len_);
+  mg.push_back(std::make_pair(
+    &(*rule),
+    static_cast<const GumboNode *>(this->nodes_.data[n])
+  ));
 }
 
 
