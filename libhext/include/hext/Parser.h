@@ -16,6 +16,7 @@
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NegateMatch.h"
 #include "hext/pattern/NthChildMatch.h"
+#include "hext/pattern/OnlyChildMatch.h"
 #include "hext/pattern/TextNodeMatch.h"
 #include "hext/PatternValues.h"
 #include "hext/Rule.h"
@@ -83,7 +84,7 @@ public:
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 86 "Parser.h.tmp"
+#line 87 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -1001,7 +1002,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 531;
 
 
-#line 86 "Parser.h.rl"
+#line 87 "Parser.h.rl"
 
 } // namespace ragel
 

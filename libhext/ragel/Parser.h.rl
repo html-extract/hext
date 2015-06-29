@@ -13,6 +13,7 @@
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NegateMatch.h"
 #include "hext/pattern/NthChildMatch.h"
+#include "hext/pattern/OnlyChildMatch.h"
 #include "hext/pattern/TextNodeMatch.h"
 #include "hext/PatternValues.h"
 #include "hext/Rule.h"

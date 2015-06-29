@@ -80,8 +80,7 @@ trait = ':' (
     %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); } )
   |
 
-  ( 'only-child' %{ pv.set_trait<NthChildMatch>(0, 1);
-                    pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); } )
+  ( 'only-child' %{ pv.set_trait<OnlyChildMatch>(); } )
   |
 
   ( 'text' %{ pv.set_trait<TextNodeMatch>(); } )
