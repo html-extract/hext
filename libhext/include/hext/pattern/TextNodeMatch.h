@@ -14,7 +14,8 @@ class TextNodeMatch : public MatchPattern
 {
 public:
   /// Return true if node is a text node.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const final
+    { return ( node && node->type == GUMBO_NODE_TEXT ); }
 };
 
 

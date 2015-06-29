@@ -20,7 +20,9 @@ public:
   ///
   /// \param value_test
   ///     A value_test that is to be applied to a result.
-  explicit ValueMatch(std::unique_ptr<test::ValueTest> value_test);
+  explicit ValueMatch(std::unique_ptr<test::ValueTest> value_test)
+  : test_(std::move(value_test))
+    {}
 
   /// Implementation must be provided in sub classes.
   virtual bool matches(const GumboNode * node) const = 0;
