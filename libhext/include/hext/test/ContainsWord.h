@@ -11,16 +11,23 @@ namespace hext {
 namespace test {
 
 
-/// ContainsWord is a ValueTest that checks whether another string contains a
-/// word given as literal. Word boundaries are the beginning and end of
-/// subject, and spaces.
+/// Check whether another string contains a word given as literal. Word
+/// boundaries are the beginning and end of subject, and spaces.
 class ContainsWord : public ValueTest
 {
 public:
-  explicit ContainsWord(std::string literal);
+  explicit ContainsWord(std::string literal)
+  : lit_(std::move(literal))
+    {}
 
   /// Return true if subject contains literal as a word.
-  bool operator()(const char * subject) const final;
+  bool operator()(const char * subject) const final
+  {
+    if( !subject )
+      return false;
+
+    return hext::ContainsWord(std::string(subject), this->lit_);
+  }
 
 private:
   std::string lit_;

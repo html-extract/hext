@@ -10,15 +10,19 @@ namespace hext {
 namespace test {
 
 
-/// Regex is a ValueTest that checks whether another string matches a given
-/// regex.
+/// Check whether another string matches a given regex.
 class Regex : public ValueTest
 {
 public:
-  explicit Regex(boost::regex regex);
+  explicit Regex(boost::regex regex)
+  : rx_(std::move(regex))
+    {}
 
   /// Returns true if regex matches subject.
-  bool operator()(const char * subject) const final;
+  bool operator()(const char * subject) const final
+  {
+    return boost::regex_search(subject, this->rx_);
+  }
 
 private:
   boost::regex rx_;

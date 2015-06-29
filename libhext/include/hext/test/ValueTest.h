@@ -8,12 +8,13 @@ namespace hext {
 namespace test {
 
 
-/// ValueTest is the base class for all value tests. Values tests are used
-/// to validate attribute values of nodes according to a Rule's definition.
+/// Base class for all value tests. Value tests are used to validate attribute
+/// values of nodes according to a Rule's definition.
 class ValueTest
 {
 public:
-  virtual ~ValueTest();
+  virtual ~ValueTest()
+    {}
 
   /// Implementation must be provided in subclasses.
   virtual bool operator()(const char * /* dummy */) const = 0;

@@ -14,17 +14,41 @@ namespace hext {
 namespace test {
 
 
-/// ContainsAllWords is a ValueTest that checks whether another string contains
-/// all given words. Word boundaries are the beginning and end of subject, and
-/// spaces.
+/// Check whether another string contains all given words. Word boundaries are
+/// the beginning and end of subject, and spaces.
 class ContainsAllWords : public ValueTest
 {
 public:
-  explicit ContainsAllWords(std::string words);
-  explicit ContainsAllWords(std::vector<std::string> words);
+  explicit ContainsAllWords(std::string words)
+  : words_()
+  {
+    boost::trim_if(words, boost::is_any_of(" "));
+    boost::split(
+      this->words_,
+      words,
+      boost::is_any_of(" "),
+      boost::token_compress_on
+    );
+  }
+
+  explicit ContainsAllWords(std::vector<std::string> words)
+  : words_(std::move(words))
+    {}
 
   /// Return true if subject contains all words.
-  bool operator()(const char * subject) const final;
+  bool operator()(const char * subject) const final
+  {
+    if( !subject || this->words_.empty() )
+      return false;
+
+    std::string str_subject = subject;
+
+    for(const auto& w : this->words_)
+      if( !hext::ContainsWord(str_subject, w) )
+        return false;
+
+    return true;
+  }
 
 private:
   std::vector<std::string> words_;

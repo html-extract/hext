@@ -11,15 +11,25 @@ namespace hext {
 namespace test {
 
 
-/// BeginsWith is a ValueTest that checks whether another string begins
-/// with a given literal.
+/// Check whether a string begins with a given literal.
 class BeginsWith : public ValueTest
 {
 public:
-  explicit BeginsWith(std::string literal);
+  explicit BeginsWith(std::string literal)
+  : lit_(std::move(literal))
+    {}
 
   /// Return true if subject begins with literal.
-  bool operator()(const char * subject) const final;
+  bool operator()(const char * subject) const final
+  {
+    if( !subject )
+      return false;
+
+    std::size_t length = std::strlen(subject);
+    return
+      this->lit_.size() <= length &&
+      this->lit_.compare(0, this->lit_.size(), subject, this->lit_.size()) == 0;
+  }
 
 private:
   std::string lit_;

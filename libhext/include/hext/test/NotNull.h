@@ -13,7 +13,8 @@ class NotNull : public ValueTest
 {
 public:
   /// Return true if subject is not nullptr.
-  bool operator()(const char * subject) const final;
+  bool operator()(const char * subject) const final
+    { return subject != nullptr; }
 };
 
 
