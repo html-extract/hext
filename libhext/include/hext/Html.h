@@ -2,7 +2,6 @@
 #define HEXT_HTML_H_INCLUDED
 
 #include <string>
-#include <iterator>
 
 #include <gumbo.h>
 
@@ -15,12 +14,11 @@ namespace hext {
 class Html
 {
 public:
-  /// Construct Html. String must be valid until destruction.
-  explicit Html(const std::string& html);
-
-  /// Construct Html. Pointers must be valid until destruction.
-  Html(const char * begin, const char * end);
+  explicit Html(std::string html);
   ~Html();
+
+  Html(Html&&) = default;
+  Html& operator=(Html&&) = default;
 
   /// Return a handle to the root of the html document.
   const GumboNode * root() const;
@@ -28,6 +26,8 @@ public:
 private:
   Html(const Html&) = delete;
   Html& operator=(const Html&) = delete;
+
+  std::string html_;
 
   /// Gumbo's resource handle.
   GumboOutput * g_outp_;
