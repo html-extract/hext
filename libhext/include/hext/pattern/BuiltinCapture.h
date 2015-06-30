@@ -23,17 +23,17 @@ public:
   /// Construct a BuiltinCapture. See class CapturePattern for an explanation
   /// on how the regex is applied to the result of the builtin function `func`.
   ///
-  /// \param result_name
-  ///     The name of the capture.
   /// \param func
   ///     A pointer to a builtin function that is applied to a node to obtain
   ///     the captured value.
+  /// \param result_name
+  ///     The name of the capture.
   /// \param regex
   ///     An optional regular expression that is applied to the result of the
   ///     builtin function `func`.
   BuiltinCapture(
-    std::string result_name,
     BuiltinFuncPtr func,
+    std::string result_name,
     boost::optional<boost::regex> regex = boost::optional<boost::regex>()
   );
 

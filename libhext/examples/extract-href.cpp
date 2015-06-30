@@ -23,7 +23,7 @@ int main()
             MakeUnique<test::BeginsWith>("#")
           )
         )
-        .add_capture<AttributeCapture>("link", "href");
+        .add_capture<AttributeCapture>("href", "link");
 
   std::stringstream in_sstr;
   {

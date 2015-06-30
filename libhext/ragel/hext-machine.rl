@@ -200,7 +200,7 @@ literal = (
 pattern = (
   space+
   ( ( ( builtin '=' capture )
-      %{ rule.add_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); } )
+      %{ rule.add_capture<BuiltinCapture>(pv.builtin, pv.cap_var, pv.regex); } )
     |
 
     ( ( builtin '=' regex_test negate? )
@@ -212,7 +212,7 @@ pattern = (
     |
 
     ( ( attr_name '=' capture optional? )
-      %{ rule.add_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+      %{ rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, pv.regex);
          if( !pv.optional )
            rule.add_match<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        } )

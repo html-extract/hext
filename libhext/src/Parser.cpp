@@ -336,7 +336,7 @@ _match:
 	break;
 	case 49:
 #line 203 "hext-machine.rl"
-	{ rule.add_capture<BuiltinCapture>(pv.cap_var, pv.builtin, pv.regex); }
+	{ rule.add_capture<BuiltinCapture>(pv.builtin, pv.cap_var, pv.regex); }
 	break;
 	case 50:
 #line 207 "hext-machine.rl"
@@ -348,7 +348,7 @@ _match:
 	break;
 	case 52:
 #line 215 "hext-machine.rl"
-	{ rule.add_capture<AttributeCapture>(pv.cap_var, pv.attr_name, pv.regex);
+	{ rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, pv.regex);
          if( !pv.optional )
            rule.add_match<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
        }

@@ -22,16 +22,16 @@ public:
   /// Construct an AttributeCapture. See class CapturePattern for an explanation
   /// on how the regex is applied to the attribute-value.
   ///
-  /// \param result_name
-  ///     The name of the capture.
   /// \param attr_name
   ///     The name of the attribute whose value should be captured.
+  /// \param result_name
+  ///     The name of the capture.
   /// \param regex
   ///     An optional regular expression that is applied to the captured
   ///     attribute-value.
   AttributeCapture(
-    std::string result_name,
     std::string attr_name,
+    std::string result_name,
     boost::optional<boost::regex> regex = boost::optional<boost::regex>()
   );
 
