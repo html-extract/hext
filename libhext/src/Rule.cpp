@@ -6,15 +6,13 @@ namespace hext {
 
 Rule::Rule(
   GumboTag tag,
-  bool optional,
-  bool any_descendant
+  bool optional
 )
 : children_()
 , match_patterns_()
 , capture_patterns_()
 , tag_(tag)
 , is_optional_(optional)
-, is_any_descendant_(any_descendant)
 {
 }
 
@@ -28,23 +26,7 @@ Rule& Rule::take_child(Rule&& r, std::size_t insert_at_depth)
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
   auto rt = MakeUnique<ResultTree>();
-
-  if( this->children_.size() == 1 )
-  {
-    auto first_child = this->children_.begin();
-    if( first_child->matches(node) )
-    {
-      auto child_rt = rt->create_child();
-      if( !first_child->extract_children(node, child_rt) )
-        rt->delete_child(child_rt);
-      else
-        child_rt->set_values(first_child->capture(node));
-      this->extract_children(node, rt.get());
-      return std::move(rt);
-    }
-  }
-
-  this->extract_children(node, rt.get());
+  this->extract_this_rule(node, rt.get());
   return std::move(rt);
 }
 
@@ -76,6 +58,37 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
     values.push_back(pattern->capture(node));
 
   return values;
+}
+
+void Rule::extract_this_rule(const GumboNode * node, ResultTree * rt) const
+{
+  if( !node || !rt )
+    return;
+
+  if( node->type != GUMBO_NODE_ELEMENT )
+    return;
+
+  if( this->matches(node) )
+  {
+    std::vector<ResultPair> result = this->capture(node);
+    if( result.size() )
+    {
+      auto branch = rt->create_child();
+      branch->set_values(std::move(result));
+      this->extract_children(node, branch);
+    }
+    else
+    {
+      this->extract_children(node, rt);
+    }
+  }
+
+  const GumboVector& node_children = node->v.element.children;
+  for(unsigned int i = 0; i < node_children.length; ++i)
+  {
+    auto child_node = static_cast<const GumboNode *>(node_children.data[i]);
+    this->extract_this_rule(child_node, rt);
+  }
 }
 
 bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
@@ -123,16 +136,6 @@ bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
       {
         child_rt->set_values(child_rule->capture(child_node));
       }
-    }
-  }
-
-  if( this->is_any_descendant_ )
-  {
-    const GumboVector * node_children = &node->v.element.children;
-    for(unsigned int i = 0; i < node_children->length; ++i)
-    {
-      auto child_node = static_cast<const GumboNode *>(node_children->data[i]);
-      this->extract_children(child_node, rt);
     }
   }
 

@@ -99,7 +99,7 @@ public:
 
   /// Parse hext and return the top level Rule. Throw `ParseError` on invalid
   /// input.
-  std::unique_ptr<Rule> parse();
+  Rule parse();
 
 private:
   /// Throw `ParseError` with an error message marking an unexpected character.

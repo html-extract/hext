@@ -22,7 +22,7 @@ Parser::Parser(const char * begin, const char * end)
 {
 }
 
-std::unique_ptr<Rule> Parser::parse()
+Rule Parser::parse()
 {
   // Allow ragel to access its namespace.
   using namespace ragel;

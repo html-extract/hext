@@ -39,15 +39,9 @@ public:
   /// \param optional
   ///    A subtree matches only if all mandatory rules were matched. Optional
   ///    rules on the other hand are ignored if not found.
-  ///
-  /// \param any_descendant
-  ///    Matching html-nodes may appear anywhere in the current subtree, as
-  ///    opposed to direct descendants (default) which may only match if its
-  ///    immediate parent node was matched.
   explicit Rule(
     GumboTag tag = GUMBO_TAG_UNKNOWN,
-    bool optional = false,
-    bool any_descendant = false
+    bool optional = false
   );
 
   /// Append a child-rule after the last element at the given tree depth.
@@ -121,16 +115,6 @@ public:
   Rule& set_optional(bool optional)
     { this->is_optional_ = optional; return *this; }
 
-  /// Return true if matching html-nodes may appear anywhere in the html.
-  /// If false, this Rule matches only if its immediate parent was matched.
-  bool is_any_descendant() const
-    { return this->is_any_descendant_; }
-
-  /// Set whether matching html-nodes may appear anywhere in the html.
-  /// If false, this Rule matches only if its immediate parent was matched.
-  Rule& set_any_descendant(bool any_descendant)
-    { this->is_any_descendant_ = any_descendant; return *this; }
-
   /// Recursively try to find and capture matches.
   std::unique_ptr<ResultTree> extract(const GumboNode * node) const;
 
@@ -141,7 +125,11 @@ public:
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
 private:
-  /// Apply this rule to `node`, store results in `rt`
+  /// Match this rule recursively against node and its child nodes.
+  void extract_this_rule(const GumboNode * node, ResultTree * rt) const;
+
+  /// Apply this rule's children to the children of `node`, store results in
+  /// `rt`.
   bool extract_children(const GumboNode * node, ResultTree * rt) const;
 
   /// Recursive helper function for Rule::take_child.
@@ -171,10 +159,6 @@ private:
 
   /// A rule is optional if it does not participate in validation.
   bool is_optional_;
-
-  /// If true, matching html-nodes may appear anywhere in the html.
-  /// If false, Rule matches only if its immediate parent was matched.
-  bool is_any_descendant_;
 }; 
 
 

@@ -20,7 +20,7 @@ namespace hext {
 
 /// Hext takes a string containing hext rule definitions. Once constructed, the
 /// rules can be applied to html by calling Hext::extract, which returns a
-/// hext::Result containing all captured values.
+/// hext::ResultTree containing all captured values.
 class Hext
 {
 public:
@@ -39,8 +39,8 @@ public:
   std::unique_ptr<ResultTree> extract(const Html& html) const;
 
 private:
-  /// Implicit top rule
-  std::unique_ptr<Rule> rule_;
+  /// Top rule
+  Rule rule_;
 };
 
 
