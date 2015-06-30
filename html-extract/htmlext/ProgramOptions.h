@@ -11,7 +11,7 @@
 namespace htmlext {
 
 
-// The project's program options.
+// The htmlext's program options.
 class ProgramOptions
 {
 public:
@@ -26,7 +26,10 @@ public:
   /// Get value from parameter.
   std::string get(const char * key) const;
 
-  /// Get all html-input filenames.
+  /// Return all hext-input filenames.
+  std::vector<std::string> get_hext_input() const;
+
+  /// Return all html-input filenames.
   std::vector<std::string> get_html_input() const;
 
   /// Print usage and options.

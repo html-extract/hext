@@ -10,8 +10,8 @@ ProgramOptions::ProgramOptions()
 {
   namespace po = boost::program_options;
   this->desc_.add_options()
-    ("hext,x", po::value<std::string>(), "Hext file")
-    ("html-input,i", po::value<std::vector<std::string>>(), "HTML input file(s)")
+    ("hext,x", po::value<std::vector<std::string>>(), "Hext file(s)")
+    ("html,i", po::value<std::vector<std::string>>(), "HTML input file(s)")
     ("compact,c", "Do not pretty-print JSON")
     ("array,a", "Put results into one top-level JSON array")
     ("print-html-dot", po::value<std::string>(), "Print HTML input file as DOT")
@@ -28,7 +28,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
 
   po::positional_options_description pos_opt;
   pos_opt.add("hext", 1);
-  pos_opt.add("html-input", -1);
+  pos_opt.add("html", -1);
 
   po::store(
     po::command_line_parser(argc, argv)
@@ -51,7 +51,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   if( this->contains("lint") )
     return;
 
-  if( !this->contains("html-input") )
+  if( !this->contains("html") )
     throw po::error("missing option --html-input");
 }
 
@@ -65,9 +65,14 @@ std::string ProgramOptions::get(const char * key) const
   return this->vm_[key].as<std::string>();
 }
 
+std::vector<std::string> ProgramOptions::get_hext_input() const
+{
+  return this->vm_["hext"].as<std::vector<std::string>>();
+}
+
 std::vector<std::string> ProgramOptions::get_html_input() const
 {
-  return this->vm_["html-input"].as<std::vector<std::string>>();
+  return this->vm_["html"].as<std::vector<std::string>>();
 }
 
 void ProgramOptions::print(const char * program_name, std::ostream& out) const

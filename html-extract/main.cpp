@@ -42,11 +42,41 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    std::string hext_str = htmlext::ReadFileOrThrow(po.get("hext"));
-    hext::Hext extractor(hext_str);
+    auto hext_filenames = po.get_hext_input();
+    std::vector<hext::Hext> extractors;
+    extractors.reserve(hext_filenames.size());
 
-    if( po.contains("lint") )
-      return EXIT_SUCCESS;
+    auto html_filenames = po.get_html_input();
+    std::vector<hext::Html> inputs;
+    inputs.reserve(html_filenames.size());
+
+    try
+    {
+      for(const auto& filename : hext_filenames)
+      {
+        try
+        {
+          extractors.emplace_back(htmlext::ReadFileOrThrow(filename));
+        }
+        catch( const hext::ParseError& e )
+        {
+          std::cerr << argv[0] << ": Error in " << filename << ": "
+                    << e.what() << "\n";
+          return EXIT_FAILURE;
+        }
+      }
+
+      if( po.contains("lint") )
+        return EXIT_SUCCESS;
+
+      for(const auto& filename : html_filenames)
+        inputs.emplace_back(htmlext::ReadFileOrThrow(filename));
+    }
+    catch( const htmlext::FileError& e )
+    {
+      std::cerr << argv[0] << ": Error: " << e.what() << "\n";
+      return EXIT_FAILURE;
+    }
 
     htmlext::JsonOption opt = htmlext::JsonOption::NoOption;
     {
@@ -57,32 +87,21 @@ int main(int argc, const char ** argv)
         opt = opt | htmlext::JsonOption::ArrayEnvelope;
     }
 
-    std::vector<std::string> html_input = po.get_html_input();
-    for(const auto& file : html_input)
+    for(const auto& hext : extractors)
     {
-      std::string html = htmlext::ReadFileOrThrow(file);
-      std::unique_ptr<hext::ResultTree> result = extractor.extract(html);
-      if( po.contains("print-result-dot") )
-        htmlext::PrintResultTreeDot(result.get(), std::cout);
-      else
-        htmlext::PrintJson(result.get(), opt, std::cout);
+      for(const auto& html : inputs)
+      {
+        std::unique_ptr<hext::ResultTree> result = hext.extract(html);
+        if( po.contains("print-result-dot") )
+          htmlext::PrintResultTreeDot(result.get(), std::cout);
+        else
+          htmlext::PrintJson(result.get(), opt, std::cout);
+      }
     }
   }
   catch( const boost::program_options::error& e )
   {
     std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
-    return EXIT_FAILURE;
-  }
-  catch( const htmlext::FileError& e )
-  {
-    std::cerr << argv[0] << ": Error: " << e.what() << "\n";
-    return EXIT_FAILURE;
-  }
-  catch( const hext::ParseError& e )
-  {
-    std::cerr << argv[0] << ": Error in "
-              << ( po.contains("hext") ? po.get("hext") : "unknown" )
-              << ": " << e.what() << "\n";
     return EXIT_FAILURE;
   }
 
