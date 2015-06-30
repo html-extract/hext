@@ -90,6 +90,31 @@ IF(NOT LIBHEXT_NO_SWIG_HEXT)
 ENDIF(NOT LIBHEXT_NO_SWIG_HEXT)
 
 
+###### EXAMPLE #################################################################
+IF(NOT LIBHEXT_NO_EXAMPLE)
+  ADD_EXECUTABLE(
+    hext-example-chaining
+    "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
+  ADD_DEPENDENCIES(hext-example-chaining hext)
+  TARGET_LINK_LIBRARIES(
+    hext-example-chaining
+    hext)
+  SET_TARGET_PROPERTIES(
+    hext-example-chaining
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+  ADD_EXECUTABLE(
+    hext-example-href
+    "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
+  ADD_DEPENDENCIES(hext-example-href hext)
+  TARGET_LINK_LIBRARIES(
+    hext-example-href
+    hext)
+  SET_TARGET_PROPERTIES(
+    hext-example-href
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+ENDIF(NOT LIBHEXT_NO_EXAMPLE)
+
+
 ###### TEST ####################################################################
 IF(NOT LIBHEXT_NO_TESTING)
   ENABLE_TESTING()
