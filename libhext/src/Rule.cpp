@@ -1,168 +1,239 @@
 #include "hext/Rule.h"
+#include "hext/NodeUtil.h"
+#include "hext/MatchContext.h"
 
 
 namespace hext {
+
+
+struct Rule::Impl
+{
+  Impl(GumboTag tag, bool optional)
+  : children_()
+  , match_patterns_()
+  , capture_patterns_()
+  , tag_(tag)
+  , is_optional_(optional)
+  {
+  }
+
+  Impl(Impl&&) = default;
+  Impl& operator=(Impl&&) = default;
+
+  bool matches(const GumboNode * node) const
+  {
+    if( !node )
+      return false;
+
+    if( this->tag_ != GUMBO_TAG_UNKNOWN )
+      if( node->type != GUMBO_NODE_ELEMENT ||
+          node->v.element.tag != this->tag_ )
+        return false;
+
+    for( const auto& pattern : this->match_patterns_ )
+      if( !pattern->matches(node) )
+        return false;
+
+    return true;
+  }
+
+  std::vector<ResultPair> capture(const GumboNode * node) const
+  {
+    if( !node )
+      return std::vector<ResultPair>();
+
+    std::vector<ResultPair> values;
+    values.reserve(this->capture_patterns_.size());
+    for( const auto& pattern : this->capture_patterns_ )
+      values.push_back(pattern->capture(node));
+
+    return values;
+  }
+
+  /// Match this rule recursively against node and its child nodes.
+  void extract_this_rule(const GumboNode * node, ResultTree * rt) const
+  {
+    if( !node || !rt )
+      return;
+
+    if( node->type != GUMBO_NODE_ELEMENT )
+      return;
+
+    if( this->matches(node) )
+    {
+      std::vector<ResultPair> result = this->capture(node);
+      if( result.size() )
+      {
+        auto branch = rt->create_child();
+        branch->set_values(std::move(result));
+        this->extract_children(node, branch);
+      }
+      else
+      {
+        this->extract_children(node, rt);
+      }
+    }
+
+    const GumboVector& node_children = node->v.element.children;
+    for(unsigned int i = 0; i < node_children.length; ++i)
+    {
+      auto child_node = static_cast<const GumboNode *>(node_children.data[i]);
+      this->extract_this_rule(child_node, rt);
+    }
+  }
+
+  /// Apply this rule's children to the children of `node`, store results in
+  /// `rt`.
+  bool extract_children(const GumboNode * node, ResultTree * rt) const
+  {
+    if( !node || !rt )
+      return false;
+
+    if( this->children_.empty() )
+      return true;
+
+    if( node->type != GUMBO_NODE_ELEMENT )
+      return false;
+
+    int match_count = 0;
+    MatchContext mc(
+      this->children_.cbegin(),
+      this->children_.cend(),
+      node->v.element.children
+    );
+    while( auto grouped_match = mc.match_next() )
+    {
+      ++match_count;
+      auto branch = rt->create_child();
+      for( const auto& match_pair : *grouped_match )
+      {
+        const Rule * child_rule = match_pair.first;
+        const GumboNode * child_node = match_pair.second;
+        assert(child_rule && child_node);
+
+        auto child_rt = branch->create_child();
+        if( !child_rule->impl_->extract_children(child_node, child_rt) )
+        {
+          if( child_rule->impl_->is_optional_ )
+          {
+            branch->delete_child(child_rt);
+          }
+          else
+          {
+            --match_count;
+            rt->delete_child(branch);
+            break;
+          }
+        }
+        else
+        {
+          child_rt->set_values(child_rule->capture(child_node));
+        }
+      }
+    }
+
+    return match_count > 0 || this->all_children_are_optional();
+  }
+
+  void append_child_at_depth(Rule&& r, std::size_t insert_at_depth)
+  {
+    if( insert_at_depth > 0 && this->children_.size() )
+    {
+      this->children_.back().impl_->append_child_at_depth(
+        std::move(r),
+        insert_at_depth - 1
+      );
+      return;
+    }
+
+    this->children_.push_back(std::move(r));
+  }
+
+  /// Return true if all immediate children are optional.
+  bool all_children_are_optional() const
+  {
+    for( const auto& r : this->children_ )
+      if( !r.impl_->is_optional_ )
+        return false;
+
+    return true;
+  }
+
+  std::vector<Rule> children_;
+  std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
+  std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
+  GumboTag tag_;
+  bool is_optional_;
+};
 
 
 Rule::Rule(
   GumboTag tag,
   bool optional
 )
-: children_()
-, match_patterns_()
-, capture_patterns_()
-, tag_(tag)
-, is_optional_(optional)
+: impl_(MakeUnique<Rule::Impl>(tag, optional))
 {
 }
 
+Rule::Rule(Rule&&) = default;
+Rule& Rule::operator=(Rule&&) = default;
+Rule::~Rule() = default;
+
 Rule& Rule::take_child(Rule&& r, std::size_t insert_at_depth)
 {
-  // Use a recursive helper function to preserve *this.
-  this->append_child_at_depth(std::move(r), insert_at_depth);
+  this->impl_->append_child_at_depth(std::move(r), insert_at_depth);
+  return *this;
+}
+
+Rule& Rule::take_match(std::unique_ptr<MatchPattern>&& pattern)
+{
+  this->impl_->match_patterns_.push_back(std::move(pattern));
+  return *this;
+}
+
+Rule& Rule::take_capture(std::unique_ptr<CapturePattern>&& pattern)
+{
+  this->impl_->capture_patterns_.push_back(std::move(pattern));
+  return *this;
+}
+
+GumboTag Rule::get_tag() const
+{
+  return this->impl_->tag_;
+}
+
+Rule& Rule::set_tag(GumboTag tag)
+{
+  this->impl_->tag_ = tag;
+  return *this;
+}
+
+bool Rule::is_optional() const
+{
+  return this->impl_->is_optional_;
+}
+
+Rule& Rule::set_optional(bool optional)
+{
+  this->impl_->is_optional_ = optional;
   return *this;
 }
 
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
   auto rt = MakeUnique<ResultTree>();
-  this->extract_this_rule(node, rt.get());
+  this->impl_->extract_this_rule(node, rt.get());
   return std::move(rt);
 }
 
 bool Rule::matches(const GumboNode * node) const
 {
-  if( !node )
-    return false;
-
-  if( this->tag_ != GUMBO_TAG_UNKNOWN )
-    if( node->type != GUMBO_NODE_ELEMENT ||
-        node->v.element.tag != this->tag_ )
-      return false;
-
-  for(const auto& pattern : this->match_patterns_)
-    if( !pattern->matches(node) )
-      return false;
-
-  return true;
+  return this->impl_->matches(node);
 }
 
 std::vector<ResultPair> Rule::capture(const GumboNode * node) const
 {
-  if( !node )
-    return std::vector<ResultPair>();
-
-  std::vector<ResultPair> values;
-  values.reserve(this->capture_patterns_.size());
-  for(const auto& pattern : this->capture_patterns_ )
-    values.push_back(pattern->capture(node));
-
-  return values;
-}
-
-void Rule::extract_this_rule(const GumboNode * node, ResultTree * rt) const
-{
-  if( !node || !rt )
-    return;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
-    return;
-
-  if( this->matches(node) )
-  {
-    std::vector<ResultPair> result = this->capture(node);
-    if( result.size() )
-    {
-      auto branch = rt->create_child();
-      branch->set_values(std::move(result));
-      this->extract_children(node, branch);
-    }
-    else
-    {
-      this->extract_children(node, rt);
-    }
-  }
-
-  const GumboVector& node_children = node->v.element.children;
-  for(unsigned int i = 0; i < node_children.length; ++i)
-  {
-    auto child_node = static_cast<const GumboNode *>(node_children.data[i]);
-    this->extract_this_rule(child_node, rt);
-  }
-}
-
-bool Rule::extract_children(const GumboNode * node, ResultTree * rt) const
-{
-  if( !node || !rt )
-    return false;
-
-  if( this->children_.empty() )
-    return true;
-
-  if( node->type != GUMBO_NODE_ELEMENT )
-    return false;
-
-  int match_count = 0;
-  MatchContext mc(
-    this->children_.cbegin(),
-    this->children_.cend(),
-    node->v.element.children
-  );
-  while( auto grouped_match = mc.match_next() )
-  {
-    ++match_count;
-    auto branch = rt->create_child();
-    for( const auto& match_pair : *grouped_match )
-    {
-      const Rule * child_rule = match_pair.first;
-      const GumboNode * child_node = match_pair.second;
-      assert(child_rule && child_node);
-
-      auto child_rt = branch->create_child();
-      if( !child_rule->extract_children(child_node, child_rt) )
-      {
-        if( child_rule->is_optional_ )
-        {
-          branch->delete_child(child_rt);
-        }
-        else
-        {
-          --match_count;
-          rt->delete_child(branch);
-          break;
-        }
-      }
-      else
-      {
-        child_rt->set_values(child_rule->capture(child_node));
-      }
-    }
-  }
-
-  return match_count > 0 || this->all_children_are_optional();
-}
-
-void Rule::append_child_at_depth(Rule&& r, std::size_t insert_at_depth)
-{
-  if( insert_at_depth > 0 && this->children_.size() )
-  {
-    this->children_.back().append_child_at_depth(
-      std::move(r),
-      insert_at_depth - 1
-    );
-    return;
-  }
-
-  this->children_.push_back(std::move(r));
-}
-
-bool Rule::all_children_are_optional() const
-{
-  for( const auto& r : this->children_ )
-    if( !r.is_optional_ )
-      return false;
-
-  return true;
+  return this->impl_->capture(node);
 }
 
 
