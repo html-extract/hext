@@ -4,12 +4,6 @@
 namespace hext {
 
 
-ParseError::ParseError(const std::string& msg)
-: std::runtime_error(msg)
-{
-}
-
-
 Parser::Parser(const char * begin, const char * end)
 : p_begin_(begin),
   p(begin),
@@ -81,7 +75,7 @@ void Parser::throw_unexpected() const
 
   this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_invalid_tag(const std::string& tag) const
@@ -92,7 +86,7 @@ void Parser::throw_invalid_tag(const std::string& tag) const
   auto unexpected_char = this->p - 1;
   this->print_error_location(unexpected_char, tag.size(), error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_regex_error(
@@ -113,7 +107,7 @@ void Parser::throw_regex_error(
   error_msg << "\nError: "
             << traits.error_string(e_code);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_missing_tag(GumboTag missing) const
@@ -126,7 +120,7 @@ void Parser::throw_missing_tag(GumboTag missing) const
 
   this->print_error_location(this->pe, /* mark_len: */ 0, error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_unexpected_tag(
@@ -151,7 +145,7 @@ void Parser::throw_unexpected_tag(
   auto unexpected_char = this->p - 1;
   this->print_error_location(unexpected_char, mark_len, error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::print_error_location(

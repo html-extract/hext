@@ -7,12 +7,6 @@
 namespace hext {
 
 
-ParseError::ParseError(const std::string& msg)
-: std::runtime_error(msg)
-{
-}
-
-
 Parser::Parser(const char * begin, const char * end)
 : p_begin_(begin),
   p(begin),
@@ -49,12 +43,12 @@ Rule Parser::parse()
   std::string tok = "";
 
   
-#line 52 "Parser.cpp.tmp"
+#line 46 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 57 "Parser.cpp.tmp"
+#line 51 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -428,7 +422,7 @@ _match:
 #line 308 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 431 "Parser.cpp.tmp"
+#line 425 "Parser.cpp.tmp"
 		}
 	}
 
@@ -460,7 +454,7 @@ _again:
 #line 308 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 463 "Parser.cpp.tmp"
+#line 457 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -468,7 +462,7 @@ _again:
 	_out: {}
 	}
 
-#line 53 "Parser.cpp.rl"
+#line 47 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.
@@ -500,7 +494,7 @@ void Parser::throw_unexpected() const
 
   this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_invalid_tag(const std::string& tag) const
@@ -511,7 +505,7 @@ void Parser::throw_invalid_tag(const std::string& tag) const
   auto unexpected_char = this->p - 1;
   this->print_error_location(unexpected_char, tag.size(), error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_regex_error(
@@ -532,7 +526,7 @@ void Parser::throw_regex_error(
   error_msg << "\nError: "
             << traits.error_string(e_code);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_missing_tag(GumboTag missing) const
@@ -545,7 +539,7 @@ void Parser::throw_missing_tag(GumboTag missing) const
 
   this->print_error_location(this->pe, /* mark_len: */ 0, error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::throw_unexpected_tag(
@@ -570,7 +564,7 @@ void Parser::throw_unexpected_tag(
   auto unexpected_char = this->p - 1;
   this->print_error_location(unexpected_char, mark_len, error_msg);
 
-  throw ParseError(error_msg.str());
+  throw SyntaxError(error_msg.str());
 }
 
 void Parser::print_error_location(

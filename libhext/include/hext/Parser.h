@@ -22,6 +22,7 @@
 #include "hext/Rule.h"
 #include "hext/RuleBuilder.h"
 #include "hext/StringUtil.h"
+#include "hext/SyntaxError.h"
 #include "hext/test/BeginsWith.h"
 #include "hext/test/Contains.h"
 #include "hext/test/ContainsAllWords.h"
@@ -36,7 +37,6 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <stdexcept>
 #include <utility>
 #include <algorithm>
 #include <memory>
@@ -66,25 +66,11 @@
 namespace hext {
 
 
-/// ParseError is a custom exception class thrown for all errors that occur
-/// while parsing hext.
-/// Note: Clang warns (-Wweak-vtables) that a vtable for ParseError may be
-/// placed in every translation unit, because ParseError doesn't have any
-/// 'out-of-line virtual method definitions', where it would normally put
-/// the vtable. But http://stackoverflow.com/a/23749273 suggests that this
-/// is a non-issue; the linker will clean it up.
-class ParseError : public std::runtime_error
-{
-public:
-  explicit ParseError(const std::string& msg);
-};
-
-
 /// The ragel namespace holds ragel's static data.
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 87 "Parser.h.tmp"
+#line 73 "Parser.h.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -1002,7 +988,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 531;
 
 
-#line 87 "Parser.h.rl"
+#line 73 "Parser.h.rl"
 
 } // namespace ragel
 
@@ -1016,29 +1002,29 @@ public:
   /// `Parser::parse()`.
   Parser(const char * begin, const char * end);
 
-  /// Parse hext and return the top level Rule. Throw `ParseError` on invalid
+  /// Parse hext and return the top level Rule. Throw `SyntaxError` on invalid
   /// input.
   Rule parse();
 
 private:
-  /// Throw `ParseError` with an error message marking an unexpected character.
+  /// Throw `SyntaxError` with an error message marking an unexpected character.
   void throw_unexpected() const;
 
-  /// Throw `ParseError` with an error message marking an invalid html tag.
+  /// Throw `SyntaxError` with an error message marking an invalid html tag.
   void throw_invalid_tag(const std::string& tag) const;
 
-  /// Throw `ParseError` with an error message marking an invalid regular
+  /// Throw `SyntaxError` with an error message marking an invalid regular
   /// expression.
   void throw_regex_error(
     std::size_t mark_len,
     boost::regex_constants::error_type e_code
   ) const;
 
-  /// Throw `ParseError` with an error message complaining about a missing
+  /// Throw `SyntaxError` with an error message complaining about a missing
   /// closing tag.
   void throw_missing_tag(GumboTag missing) const;
 
-  /// Throw `ParseError` with an error message marking an invalid closing tag.
+  /// Throw `SyntaxError` with an error message marking an invalid closing tag.
   ///
   /// \param tag
   ///   The invalid tag name.

@@ -58,7 +58,7 @@ int main(int argc, const char ** argv)
         {
           extractors.emplace_back(htmlext::ReadFileOrThrow(filename));
         }
-        catch( const hext::ParseError& e )
+        catch( const hext::SyntaxError& e )
         {
           std::cerr << argv[0] << ": Error in " << filename << ": "
                     << e.what() << "\n";
