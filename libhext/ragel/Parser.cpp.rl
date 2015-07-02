@@ -1,19 +1,165 @@
 #include "hext/Parser.h"
 
+#include "hext/Builtins.h"
+#include "hext/MakeUnique.h"
+#include "hext/pattern/AttributeCapture.h"
+#include "hext/pattern/AttributeCountMatch.h"
+#include "hext/pattern/AttributeMatch.h"
+#include "hext/pattern/BuiltinCapture.h"
+#include "hext/pattern/BuiltinMatch.h"
+#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/ChildCountMatch.h"
+#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/NegateMatch.h"
+#include "hext/pattern/NthChildMatch.h"
+#include "hext/pattern/OnlyChildMatch.h"
+#include "hext/pattern/TextNodeMatch.h"
+#include "hext/PatternValues.h"
+#include "hext/RuleBuilder.h"
+#include "hext/StringUtil.h"
+#include "hext/test/BeginsWith.h"
+#include "hext/test/Contains.h"
+#include "hext/test/ContainsAllWords.h"
+#include "hext/test/ContainsWord.h"
+#include "hext/test/EndsWith.h"
+#include "hext/test/Equals.h"
+#include "hext/test/Negate.h"
+#include "hext/test/NotNull.h"
+#include "hext/test/Regex.h"
+#include "hext/test/ValueTest.h"
+
+#include <string>
+#include <vector>
+#include <sstream>
+#include <utility>
+#include <algorithm>
+
+#include <boost/optional.hpp>
+#include <boost/regex/regex_traits.hpp>
+#include <boost/regex/pattern_except.hpp>
+#include <gumbo.h>
+
 
 namespace hext {
 
 
+/// Convenience macro to store the start of a token. Used within the hext
+/// machine definition. Accesses local variables of `Parser::parse()`.
+#define TK_START \
+  tok_begin = p; \
+  tok_end = nullptr;
+
+
+/// Convenience macro to complete a token. Used within the hext
+/// machine defintion. Accesses local variables of `Parser::parse()`.
+#define TK_STOP                 \
+  assert(tok_begin != nullptr); \
+  assert(p != nullptr);         \
+  tok_end = p;                  \
+  tok = std::string(tok_begin, std::distance(tok_begin, tok_end));
+
+
+/// The ragel namespace holds ragel's static data.
+namespace ragel {
+  /// Embed the ragel state machine.
+  %%{
+    machine hext;
+    include "hext-machine.rl";
+    write data;
+  }%%
+} // namespace ragel
+
+
+struct Parser::Impl
+{
+  Impl(const char * begin, const char * end)
+  : p_begin_(begin),
+    p(begin),
+    pe(end),
+    eof(end),
+    cs(0)
+  {
+  }
+
+  Rule parse();
+
+  /// Throw `SyntaxError` with an error message marking an unexpected character.
+  void throw_unexpected() const;
+
+  /// Throw `SyntaxError` with an error message marking an invalid html tag.
+  void throw_invalid_tag(const std::string& tag) const;
+
+  /// Throw `SyntaxError` with an error message marking an invalid regular
+  /// expression.
+  void throw_regex_error(
+    std::size_t mark_len,
+    boost::regex_constants::error_type e_code
+  ) const;
+
+  /// Throw `SyntaxError` with an error message complaining about a missing
+  /// closing tag.
+  void throw_missing_tag(GumboTag missing) const;
+
+  /// Throw `SyntaxError` with an error message marking an invalid closing tag.
+  ///
+  /// \param tag
+  ///   The invalid tag name.
+  ///
+  /// \param expected
+  ///   The next expected closing GumboTag. If empty, a closing tag was
+  ///   given but none expected.
+  void throw_unexpected_tag(
+    const std::string& tag,
+    boost::optional<GumboTag> expected
+  ) const;
+
+  /// Print an error at the current location within hext. Print hext with line
+  /// numbers up to the unexpected character.
+  ///
+  /// \param uc
+  ///   A pointer to the unexpected character.
+  ///
+  /// \param mark_len
+  ///   Amount of '^' characters that are used to mark the error location up to
+  ///   the unexpected character.
+  void print_error_location(
+    const char * uc,
+    std::size_t mark_len,
+    std::ostream& out
+  ) const;
+
+  /// The beginning of the hext input.
+  const char * p_begin_;
+
+  /// The current character that ragel is processing within the hext input.
+  const char * p;
+
+  /// The end of the hext input.
+  const char * pe;
+
+  /// The end of the hext input. Same as `Parser::pe`.
+  const char * eof;
+
+  /// Ragel's current state.
+  int cs;
+};
+
+
 Parser::Parser(const char * begin, const char * end)
-: p_begin_(begin),
-  p(begin),
-  pe(end),
-  eof(end),
-  cs(0)
+: impl_(MakeUnique<Impl>(begin, end))
 {
 }
 
+Parser::Parser(Parser&&) = default;
+Parser& Parser::operator=(Parser&&) = default;
+Parser::~Parser() = default;
+
 Rule Parser::parse()
+{
+  return this->impl_->parse();
+}
+
+Rule Parser::Impl::parse()
 {
   // Allow ragel to access its namespace.
   using namespace ragel;
@@ -53,7 +199,7 @@ Rule Parser::parse()
   return std::move(builder.take_rule_tree());
 }
 
-void Parser::throw_unexpected() const
+void Parser::Impl::throw_unexpected() const
 {
   assert(this->p && this->p_begin_ && this->pe);
   assert(this->p <= this->pe && this->p >= this->p_begin_);
@@ -78,7 +224,7 @@ void Parser::throw_unexpected() const
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::throw_invalid_tag(const std::string& tag) const
+void Parser::Impl::throw_invalid_tag(const std::string& tag) const
 {
   std::stringstream error_msg;
   error_msg << "Unknown HTML tag '" << tag << "' ";
@@ -89,7 +235,7 @@ void Parser::throw_invalid_tag(const std::string& tag) const
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::throw_regex_error(
+void Parser::Impl::throw_regex_error(
   std::size_t mark_len,
   boost::regex_constants::error_type e_code
 ) const
@@ -110,7 +256,7 @@ void Parser::throw_regex_error(
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::throw_missing_tag(GumboTag missing) const
+void Parser::Impl::throw_missing_tag(GumboTag missing) const
 {
   std::stringstream error_msg;
   error_msg << "Missing closing tag '</"
@@ -123,7 +269,7 @@ void Parser::throw_missing_tag(GumboTag missing) const
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::throw_unexpected_tag(
+void Parser::Impl::throw_unexpected_tag(
   const std::string& tag,
   boost::optional<GumboTag> expected
 ) const
@@ -148,7 +294,7 @@ void Parser::throw_unexpected_tag(
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::print_error_location(
+void Parser::Impl::print_error_location(
   const char * uc,
   std::size_t mark_len,
   std::ostream& out

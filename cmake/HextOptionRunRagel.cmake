@@ -1,7 +1,6 @@
 # Option RUNRAGEL, default OFF
-# If ON, Parser.h and Parser.cpp will be generated. Files are only
-# written if they would actually change (or else we would have to recompile
-# everytime). Linux only.
+# If ON, Parser.cpp will be generated. File is only written if it would actually
+# change (or else we would have to recompile everytime).
 
 OPTION(RUNRAGEL "Call run_ragel.sh to generate the parser" OFF)
 IF(RUNRAGEL)
@@ -9,11 +8,6 @@ IF(RUNRAGEL)
   # force cmake to run it on every call to make.
   # The best way for now is to manually call cmake every time there is a change
   # in the parser.
-  EXECUTE_PROCESS(
-    COMMAND
-    "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
-    "${PROJECT_SOURCE_DIR}/ragel/Parser.h.rl"
-    "${PROJECT_SOURCE_DIR}/include/hext/Parser.h")
   EXECUTE_PROCESS(
     COMMAND
     "${PROJECT_SOURCE_DIR}/scripts/run_ragel.sh"
