@@ -94,24 +94,25 @@ ENDIF(NOT LIBHEXT_NO_SWIG_HEXT)
 ###### EXAMPLE #################################################################
 IF(NOT LIBHEXT_NO_EXAMPLE)
   ADD_EXECUTABLE(
-    hext-example-chaining
+    chaining-rules
     "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
-  ADD_DEPENDENCIES(hext-example-chaining hext)
+  ADD_DEPENDENCIES(chaining-rules hext)
   TARGET_LINK_LIBRARIES(
-    hext-example-chaining
+    chaining-rules
     hext)
   SET_TARGET_PROPERTIES(
-    hext-example-chaining
+    chaining-rules
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
   ADD_EXECUTABLE(
-    hext-example-href
+    extract-href
     "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
-  ADD_DEPENDENCIES(hext-example-href hext)
+  ADD_DEPENDENCIES(extract-href hext)
   TARGET_LINK_LIBRARIES(
-    hext-example-href
+    extract-href
+    PocoFoundation
     hext)
   SET_TARGET_PROPERTIES(
-    hext-example-href
+    extract-href
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
 ENDIF(NOT LIBHEXT_NO_EXAMPLE)
 
