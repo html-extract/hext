@@ -14,13 +14,11 @@
 namespace hext {
 
 
-/// AttributeCapture is a CapturePattern that extracts an html-attribute from
-/// an html-node.
+/// A CapturePattern that extracts an html-attribute from an html-node.
 class AttributeCapture : public CapturePattern
 {
 public:
-  /// Construct an AttributeCapture. See class CapturePattern for an explanation
-  /// on how the regex is applied to the attribute-value.
+  /// Construct an AttributeCapture.
   ///
   /// \param attr_name
   ///     The name of the attribute whose value should be captured.
@@ -45,6 +43,12 @@ public:
 private:
   /// The name of the html-node-attribute whose value should be captured
   std::string attr_name_;
+
+  /// The result name of the captured contents.
+  std::string name_;
+
+  /// Optional regex.
+  boost::optional<const boost::regex> rx_;
 };
 
 

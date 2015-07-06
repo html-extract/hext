@@ -15,13 +15,12 @@
 namespace hext {
 
 
-/// A BuiltinCapture is a CapturePattern that captures the result of applying
-/// a builtin function to a node.
+/// A CapturePattern that captures the result of applying a builtin function to
+/// a node.
 class BuiltinCapture : public CapturePattern
 {
 public:
-  /// Construct a BuiltinCapture. See class CapturePattern for an explanation
-  /// on how the regex is applied to the result of the builtin function `func`.
+  /// Construct a BuiltinCapture.
   ///
   /// \param func
   ///     A pointer to a builtin function that is applied to a node to obtain
@@ -47,6 +46,12 @@ private:
   /// A pointer to a builtin function that is applied to a node to obtain the
   /// captured value.
   BuiltinFuncPtr func_;
+
+  /// The result name of the captured contents.
+  std::string name_;
+
+  /// Optional regex.
+  boost::optional<const boost::regex> rx_;
 };
 
 

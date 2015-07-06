@@ -9,8 +9,9 @@ AttributeCapture::AttributeCapture(
   std::string result_name,
   boost::optional<boost::regex> regex
 )
-: CapturePattern(std::move(result_name), std::move(regex))
-, attr_name_(std::move(attr_name))
+: attr_name_(std::move(attr_name))
+, name_(std::move(result_name))
+, rx_(std::move(regex))
 {
 }
 
@@ -24,15 +25,25 @@ ResultPair AttributeCapture::capture(const GumboNode * node) const
     this->attr_name_.c_str()
   );
 
-  if( !g_attr )
+  if( !g_attr || !g_attr->value )
     return ResultPair(this->name_, "");
 
   if( this->rx_ )
   {
-    return ResultPair(
-      this->name_,
-      this->regex_filter(g_attr->value)
-    );
+    boost::match_results<const char *> mr;
+    if( boost::regex_search(g_attr->value, mr, this->rx_.get()) )
+    {
+      // If there are no parentheses contained within the regex, return whole
+      // regex capture (mr[0]), if there are, then return the first one.
+      return ResultPair(
+        this->name_,
+        mr.size() > 1 ? mr[1] : mr[0]
+      );
+    }
+    else
+    {
+      return ResultPair(this->name_, "");
+    }
   }
   else
   {
