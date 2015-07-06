@@ -2,6 +2,7 @@
 #include "hext/MakeUnique.h"
 
 #include <cassert>
+#include <iostream> // remove me
 
 
 namespace hext {
@@ -82,12 +83,14 @@ const std::vector<std::unique_ptr<ResultTree>>& ResultTree::children() const
 
 Result ResultTree::flatten() const
 {
-  typedef std::vector<std::unique_ptr<ResultTree>>::size_type c_size_type;
-
-  Result results(this->impl_->children_.size());
-
-  for(c_size_type i = 0; i < this->impl_->children_.size(); ++i)
-    this->impl_->children_[i]->impl_->save(results[i]);
+  Result results;
+  for(const auto& child : this->impl_->children_)
+  {
+    ResultMap map;
+    child->impl_->save(map);
+    if( map.size() )
+      results.push_back(std::move(map));
+  }
 
   return results;
 }
