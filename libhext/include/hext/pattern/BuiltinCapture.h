@@ -40,7 +40,7 @@ public:
   /// `result_name_`, second member is the result of the builtin function
   /// `func` when applied to `node`. If a regex was given, it will be applied
   /// to the result of the builtin function, capturing only the desired result.
-  ResultPair capture(const GumboNode * node) const final;
+  boost::optional<ResultPair> capture(const GumboNode * node) const final;
 
 private:
   /// A pointer to a builtin function that is applied to a node to obtain the

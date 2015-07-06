@@ -15,11 +15,12 @@ BuiltinCapture::BuiltinCapture(
 {
 }
 
-ResultPair BuiltinCapture::capture(const GumboNode * node) const
+boost::optional<ResultPair>
+BuiltinCapture::capture(const GumboNode * node) const
 {
   assert(this->func_);
   if( !this->func_ )
-    return ResultPair(this->name_, "");
+    return boost::optional<ResultPair>();
 
   std::string val = this->func_(node);
   if( this->rx_ )
@@ -36,7 +37,7 @@ ResultPair BuiltinCapture::capture(const GumboNode * node) const
     }
     else
     {
-      return ResultPair(this->name_, "");
+      return boost::optional<ResultPair>();
     }
   }
   else

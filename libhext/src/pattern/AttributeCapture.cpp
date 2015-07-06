@@ -15,10 +15,11 @@ AttributeCapture::AttributeCapture(
 {
 }
 
-ResultPair AttributeCapture::capture(const GumboNode * node) const
+boost::optional<ResultPair>
+AttributeCapture::capture(const GumboNode * node) const
 {
   if( !node || node->type != GUMBO_NODE_ELEMENT )
-    return ResultPair(this->name_, "");
+    return boost::optional<ResultPair>();
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
@@ -26,7 +27,7 @@ ResultPair AttributeCapture::capture(const GumboNode * node) const
   );
 
   if( !g_attr || !g_attr->value )
-    return ResultPair(this->name_, "");
+    return boost::optional<ResultPair>();
 
   if( this->rx_ )
   {
@@ -42,7 +43,7 @@ ResultPair AttributeCapture::capture(const GumboNode * node) const
     }
     else
     {
-      return ResultPair(this->name_, "");
+      return boost::optional<ResultPair>();
     }
   }
   else

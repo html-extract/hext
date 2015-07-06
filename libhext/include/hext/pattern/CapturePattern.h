@@ -21,9 +21,9 @@ public:
   CapturePattern();
   virtual ~CapturePattern();
 
-  /// Return a string pair containing the captured value. Implementation is
-  /// provided by sub classes.
-  virtual ResultPair capture(const GumboNode * node) const = 0;
+  /// Return a string pair containing the captured value, if any. Implementation
+  /// is provided by sub classes.
+  virtual boost::optional<ResultPair> capture(const GumboNode * node) const = 0;
 };
 
 

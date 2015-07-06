@@ -4,14 +4,15 @@
 #include <fstream>
 #include <sstream>
 
+#include <Poco/URI.h>
+#include <boost/optional.hpp>
+
 #include "hext/Hext.h"
 #include "hext/Rule.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/AttributeCapture.h"
 
 #include "gumbo.h"
-
-#include <Poco/URI.h>
 
 
 /// Match nodes that have an attribute href, whose value
@@ -60,7 +61,7 @@ public:
   {
   }
 
-  hext::ResultPair capture(const GumboNode * node) const final
+  boost::optional<hext::ResultPair> capture(const GumboNode * node) const final
   {
     if( !node || node->type != GUMBO_NODE_ELEMENT )
       return hext::ResultPair("href", "");

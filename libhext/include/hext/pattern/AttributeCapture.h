@@ -38,7 +38,7 @@ public:
   /// `attr_name_`. If the attribute isn't found, an empty string is used
   /// instead. If a regex was given, it will be applied to attribute-value,
   /// capturing only the desired result.
-  ResultPair capture(const GumboNode * node) const final;
+  boost::optional<ResultPair> capture(const GumboNode * node) const final;
 
 private:
   /// The name of the html-node-attribute whose value should be captured

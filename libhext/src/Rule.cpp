@@ -45,7 +45,8 @@ struct Rule::Impl
     std::vector<ResultPair> values;
     values.reserve(this->capture_patterns_.size());
     for( const auto& pattern : this->capture_patterns_ )
-      values.push_back(pattern->capture(node));
+      if( auto pair = pattern->capture(node) )
+        values.push_back(*pair);
 
     return values;
   }
@@ -61,17 +62,9 @@ struct Rule::Impl
 
     if( this->matches(node) )
     {
-      std::vector<ResultPair> result = this->capture(node);
-      if( result.size() )
-      {
-        auto branch = rt->create_child();
-        branch->set_values(std::move(result));
-        this->extract_children(node, branch);
-      }
-      else
-      {
-        this->extract_children(node, rt);
-      }
+      auto branch = rt->create_child();
+      branch->set_values(std::move(this->capture(node)));
+      this->extract_children(node, branch);
     }
 
     const GumboVector& node_children = node->v.element.children;
