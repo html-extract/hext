@@ -83,14 +83,6 @@ INSTALL(TARGETS hext DESTINATION lib)
 INSTALL(DIRECTORY include/hext DESTINATION include)
 
 
-###### SWIG-HEXT ###############################################################
-IF(NOT LIBHEXT_NO_SWIG_HEXT)
-  IF(NOT SWIG_HEXT_LOADED)
-    ADD_SUBDIRECTORY("swig/")
-  ENDIF(NOT SWIG_HEXT_LOADED)
-ENDIF(NOT LIBHEXT_NO_SWIG_HEXT)
-
-
 ###### EXAMPLE #################################################################
 IF(NOT LIBHEXT_NO_EXAMPLE)
   ADD_EXECUTABLE(
