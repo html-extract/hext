@@ -18,13 +18,17 @@ void PrintJson(const hext::ResultTree * rt, JsonOption opt, std::ostream& out)
   {
     rapidjson::Value obj(rapidjson::kObjectType);
     AppendValuesJson(group.get(), obj, alloc);
-    doc.PushBack(obj, alloc);
+    if( !obj.ObjectEmpty() )
+      doc.PushBack(obj, alloc);
   }
 
   if( (opt & JsonOption::ArrayEnvelope) == JsonOption::ArrayEnvelope )
   {
-    PrintJsonValue(doc, opt, out);
-    out << "\n";
+    if( !doc.Empty() )
+    {
+      PrintJsonValue(doc, opt, out);
+      out << "\n";
+    }
   }
   else
   {
