@@ -1,7 +1,7 @@
 #ifndef HEXT_RESULT_H_INCLUDED
 #define HEXT_RESULT_H_INCLUDED
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <utility>
@@ -14,7 +14,10 @@ namespace hext {
 typedef std::pair<std::string, std::string> ResultPair;
 
 /// A multimap containing the values produced by capturing.
-typedef std::multimap<std::string, std::string> ResultMap;
+typedef std::unordered_multimap<
+  ResultPair::first_type,
+  ResultPair::second_type
+> ResultMap;
 
 /// A collection of ResultMaps.
 typedef std::vector<ResultMap> Result;
