@@ -5,7 +5,7 @@
 namespace hext {
 
 
-enum HtmlTag
+enum class HtmlTag
 {
   HTML,
   HEAD,
