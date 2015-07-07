@@ -8,20 +8,20 @@ int main()
   using namespace hext;
 
   Rule rdiv;
-  rdiv.set_tag(GUMBO_TAG_DIV)
+  rdiv.set_tag(HtmlTag::DIV)
   // <div>
       .add_match<AttributeCountMatch>(0)
       .take_child(std::move(
   //    <ul>
-        Rule(GUMBO_TAG_UL)
+        Rule(HtmlTag::UL)
   //      :attribute-count(0)
           .add_match<AttributeCountMatch>(0)
           .take_child(std::move(
   //        <li>
-            Rule(GUMBO_TAG_LI)
+            Rule(HtmlTag::LI)
               .take_child(std::move(
   //            <a>
-                Rule(GUMBO_TAG_A)
+                Rule(HtmlTag::A)
   //               href
                   .add_match<AttributeMatch>("href")
   //               href={link}

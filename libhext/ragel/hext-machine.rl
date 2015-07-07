@@ -251,12 +251,12 @@ main := (
     # a rule starts with '<'
     '<'
 
-    # a rule can be optional, e.g. <?
+    # a rule can be optional, i.e. starts with <?
     ( '?' %{ rule.set_optional(true); } )?
 
     # a rule must have a tag name, e.g. <div
     (
-      ('*' %{ rule.set_tag(GUMBO_TAG_UNKNOWN); } )
+      ('*' %{ rule.set_tag(HtmlTag::ANY); } )
       |
 
       (
@@ -264,10 +264,10 @@ main := (
         >{ TK_START; }
         %{ TK_STOP;
            auto tag = gumbo_tag_enum(tok.c_str());
-           if( tag != GUMBO_TAG_UNKNOWN )
-             rule.set_tag(tag);
+           if( tag == GUMBO_TAG_UNKNOWN )
+             this->throw_invalid_tag(tok);
            else
-             this->throw_invalid_tag(tok); }
+             rule.set_tag(static_cast<HtmlTag>(tag)); }
       )
     )
 

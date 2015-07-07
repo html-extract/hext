@@ -2,6 +2,7 @@
 #define HEXT_PATTERN_NTHCHILD_MATCH_H_INCLUDED
 
 #include "hext/pattern/MatchPattern.h"
+#include "hext/HtmlTag.h"
 
 #include <cassert>
 #include <utility>
@@ -36,14 +37,14 @@ public:
     int step,
     int shift,
     OffsetOf offset_of = OffsetOf::Front,
-    GumboTag count_tag = GUMBO_TAG_UNKNOWN
+    HtmlTag count_tag = HtmlTag::ANY
   );
 
   /// Construct an NthChildMatch with step and shift given as std::pair.
   explicit NthChildMatch(
     std::pair<int, int> step_and_shift,
     OffsetOf offset_of = OffsetOf::Front,
-    GumboTag count_tag = GUMBO_TAG_UNKNOWN
+    HtmlTag count_tag = HtmlTag::ANY
   );
 
   /// Return true if node matches.
@@ -57,7 +58,7 @@ private:
   /// only nodes that have a tag equal to `count_tag`.
   int count_preceding_siblings(
     const GumboNode * node,
-    GumboTag count_tag
+    HtmlTag count_tag
   ) const;
 
   /// Get the position of `node` within its parent in reverse. Only count nodes
@@ -67,13 +68,13 @@ private:
   /// count only nodes that have tag equal to `count_tag`.
   int count_following_siblings(
     const GumboNode * node,
-    GumboTag count_tag
+    HtmlTag count_tag
   ) const;
 
   int step_;
   int shift_;
   OffsetOf offset_of_;
-  GumboTag count_tag_;
+  HtmlTag count_tag_;
 };
 
 

@@ -8,7 +8,7 @@ NthChildMatch::NthChildMatch(
   int step,
   int shift,
   OffsetOf offset_of,
-  GumboTag count_tag
+  HtmlTag count_tag
 )
 : step_(step)
 , shift_(shift)
@@ -20,7 +20,7 @@ NthChildMatch::NthChildMatch(
 NthChildMatch::NthChildMatch(
   std::pair<int, int> step_and_shift,
   OffsetOf offset_of,
-  GumboTag count_tag
+  HtmlTag count_tag
 )
 : step_(step_and_shift.first)
 , shift_(step_and_shift.second)
@@ -70,7 +70,7 @@ bool NthChildMatch::matches(const GumboNode * node) const
 
 int NthChildMatch::count_preceding_siblings(
   const GumboNode * node,
-  GumboTag count_tag
+  HtmlTag count_tag
 ) const
 {
   assert(node);
@@ -92,7 +92,8 @@ int NthChildMatch::count_preceding_siblings(
     auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
 
     if( child && child->type == GUMBO_NODE_ELEMENT )
-      if( count_tag == GUMBO_TAG_UNKNOWN || child->v.element.tag == count_tag )
+      if( count_tag == HtmlTag::ANY
+          || child->v.element.tag == static_cast<GumboTag>(count_tag) )
         ++count;
 
     if( node == child )
@@ -104,7 +105,7 @@ int NthChildMatch::count_preceding_siblings(
 
 int NthChildMatch::count_following_siblings(
   const GumboNode * node,
-  GumboTag count_tag
+  HtmlTag count_tag
 ) const
 {
   assert(node);
@@ -130,7 +131,8 @@ int NthChildMatch::count_following_siblings(
 
     assert(child != nullptr);
     if( child && child->type == GUMBO_NODE_ELEMENT )
-      if( count_tag == GUMBO_TAG_UNKNOWN || child->v.element.tag == count_tag )
+      if( count_tag == HtmlTag::ANY ||
+          child->v.element.tag == static_cast<GumboTag>(count_tag) )
         ++count;
 
     if( node == child )

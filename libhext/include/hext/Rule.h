@@ -1,6 +1,7 @@
 #ifndef HEXT_RULE_H_INCLUDED
 #define HEXT_RULE_H_INCLUDED
 
+#include "hext/HtmlTag.h"
 #include "hext/Result.h"
 #include "hext/ResultTree.h"
 #include "hext/MakeUnique.h"
@@ -29,13 +30,13 @@ public:
   /// Construct a Rule.
   ///
   /// \param tag
-  ///    The tag-name of the rule, as parsed by gumbo. Matches if the node's tag
-  ///    is the same. Set to GUMBO_TAG_UNKNOWN if any tag may match.
+  ///    The tag-name of the rule. Matches if the node's tag is the same. Set to
+  ///    HtmlTag::ANY if any tag may match.
   ///
   /// \param optional
   ///    A subtree matches only if all mandatory rules were matched. Optional
   ///    rules on the other hand are ignored if not found.
-  explicit Rule(GumboTag tag = GUMBO_TAG_UNKNOWN, bool optional = false);
+  explicit Rule(HtmlTag tag = HtmlTag::ANY, bool optional = false);
   ~Rule();
   Rule(Rule&&);
   Rule& operator=(Rule&&);
@@ -67,13 +68,11 @@ public:
     );
   }
 
-  /// Return the type of html-tag this rule matches, as parsed by gumbo.
-  /// Return GUMBO_TAG_UNKNOWN if this rule matches any tag.
-  GumboTag get_tag() const;
+  /// Return the type of html-tag this rule matches.
+  HtmlTag get_tag() const;
 
-  /// Set the type of html-tag this rule matches, as parsed by gumbo. Set to
-  /// GUMBO_TAG_UNKNOWN if this rule should match any tag.
-  Rule& set_tag(GumboTag tag);
+  /// Set the type of html-tag this rule matches.
+  Rule& set_tag(HtmlTag tag);
 
   /// Return true if this rule is optional, i.e. if a match does not have to be
   /// found.

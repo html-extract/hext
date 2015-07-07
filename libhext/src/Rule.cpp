@@ -8,7 +8,7 @@ namespace hext {
 
 struct Rule::Impl
 {
-  Impl(GumboTag tag, bool optional)
+  Impl(HtmlTag tag, bool optional)
   : children_()
   , match_patterns_()
   , capture_patterns_()
@@ -25,9 +25,9 @@ struct Rule::Impl
     if( !node )
       return false;
 
-    if( this->tag_ != GUMBO_TAG_UNKNOWN )
+    if( this->tag_ != HtmlTag::ANY )
       if( node->type != GUMBO_NODE_ELEMENT ||
-          node->v.element.tag != this->tag_ )
+          node->v.element.tag != static_cast<GumboTag>(this->tag_) )
         return false;
 
     for( const auto& pattern : this->match_patterns_ )
@@ -155,13 +155,13 @@ struct Rule::Impl
   std::vector<Rule> children_;
   std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
   std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
-  GumboTag tag_;
+  HtmlTag tag_;
   bool is_optional_;
 };
 
 
 Rule::Rule(
-  GumboTag tag,
+  HtmlTag tag,
   bool optional
 )
 : impl_(MakeUnique<Rule::Impl>(tag, optional))
@@ -190,12 +190,12 @@ Rule& Rule::take_capture(std::unique_ptr<CapturePattern>&& pattern)
   return *this;
 }
 
-GumboTag Rule::get_tag() const
+HtmlTag Rule::get_tag() const
 {
   return this->impl_->tag_;
 }
 
-Rule& Rule::set_tag(GumboTag tag)
+Rule& Rule::set_tag(HtmlTag tag)
 {
   this->impl_->tag_ = tag;
   return *this;

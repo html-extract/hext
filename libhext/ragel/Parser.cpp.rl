@@ -98,7 +98,7 @@ struct Parser::Impl
 
   /// Throw `SyntaxError` with an error message complaining about a missing
   /// closing tag.
-  void throw_missing_tag(GumboTag missing) const;
+  void throw_missing_tag(HtmlTag missing) const;
 
   /// Throw `SyntaxError` with an error message marking an invalid closing tag.
   ///
@@ -106,11 +106,11 @@ struct Parser::Impl
   ///   The invalid tag name.
   ///
   /// \param expected
-  ///   The next expected closing GumboTag. If empty, a closing tag was
+  ///   The next expected closing HtmlTag. If empty, a closing tag was
   ///   given but none expected.
   void throw_unexpected_tag(
     const std::string& tag,
-    boost::optional<GumboTag> expected
+    boost::optional<HtmlTag> expected
   ) const;
 
   /// Print an error at the current location within hext. Print hext with line
@@ -256,12 +256,13 @@ void Parser::Impl::throw_regex_error(
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::Impl::throw_missing_tag(GumboTag missing) const
+void Parser::Impl::throw_missing_tag(HtmlTag missing) const
 {
   std::stringstream error_msg;
   error_msg << "Missing closing tag '</"
-            << ( missing == GUMBO_TAG_UNKNOWN
-                ? "*" : gumbo_normalized_tagname(missing) )
+            << ( missing == HtmlTag::ANY
+                 ? "*"
+                 : gumbo_normalized_tagname(static_cast<GumboTag>(missing)) )
             << ">' ";
 
   this->print_error_location(this->pe, /* mark_len: */ 0, error_msg);
@@ -271,7 +272,7 @@ void Parser::Impl::throw_missing_tag(GumboTag missing) const
 
 void Parser::Impl::throw_unexpected_tag(
   const std::string& tag,
-  boost::optional<GumboTag> expected
+  boost::optional<HtmlTag> expected
 ) const
 {
   std::stringstream error_msg;
@@ -282,8 +283,9 @@ void Parser::Impl::throw_unexpected_tag(
   if( expected )
   {
     error_msg << ", expected '</"
-              << ( *expected == GUMBO_TAG_UNKNOWN
-                  ? "*" : gumbo_normalized_tagname(*expected) )
+              << ( *expected == HtmlTag::ANY
+                   ? "*"
+                   : gumbo_normalized_tagname(static_cast<GumboTag>(*expected)) )
               << ">'";
   }
 

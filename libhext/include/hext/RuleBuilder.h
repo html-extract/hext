@@ -2,6 +2,7 @@
 #define HEXT_RULE_BUILDER_H_INCLUDED
 
 #include "hext/Rule.h"
+#include "hext/HtmlTag.h"
 
 #include <memory>
 #include <stack>
@@ -39,14 +40,14 @@ public:
   bool pop_tag(const std::string& tag_name);
 
   /// Return the next expected closing tag.
-  boost::optional<GumboTag> get_expected_tag() const;
+  boost::optional<HtmlTag> get_expected_tag() const;
 
 private:
   /// The current Rules.
   std::vector<Rule> rules_;
 
   /// A stack of previously encountered open tags.
-  std::stack<GumboTag> tag_stack_;
+  std::stack<HtmlTag> tag_stack_;
 };
 
 

@@ -10,6 +10,7 @@
 #include "hext/Hext.h"
 #include "hext/Rule.h"
 #include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/CapturePattern.h"
 #include "hext/pattern/AttributeCapture.h"
 
 #include "gumbo.h"
@@ -87,7 +88,7 @@ private:
 /// Return empty string if no base tag href found.
 std::string BaseUri(const hext::Html& html)
 {
-  hext::Rule base_href(GUMBO_TAG_BASE);
+  hext::Rule base_href(hext::HtmlTag::BASE);
   base_href
     .add_capture<hext::AttributeCapture>("href", "href");
 
@@ -132,7 +133,7 @@ int main(int argc, char * argv[])
   else
     base_uri = BaseUri(html);
 
-  Rule a_href(GUMBO_TAG_A);
+  Rule a_href(HtmlTag::A);
   a_href.add_match<UsefulHrefMatch>()
         .add_capture<HrefCapture>(base_uri);
 

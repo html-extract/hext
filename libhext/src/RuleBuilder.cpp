@@ -13,7 +13,7 @@ RuleBuilder::RuleBuilder()
 Rule RuleBuilder::take_rule_tree()
 {
   assert(this->tag_stack_.empty());
-  this->tag_stack_ = std::stack<GumboTag>();
+  this->tag_stack_ = std::stack<HtmlTag>();
 
   if( !this->rules_.size() )
     return Rule();
@@ -35,7 +35,7 @@ Rule RuleBuilder::take_rule_tree()
 
 void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
 {
-  GumboTag tag = rule.get_tag();
+  HtmlTag tag = rule.get_tag();
 
   std::size_t insert_at_depth = this->tag_stack_.size();
   if( !insert_at_depth )
@@ -55,16 +55,17 @@ bool RuleBuilder::pop_tag(const std::string& tag_name)
   if( this->tag_stack_.empty() )
     return false;
 
-  GumboTag closing_tag;
+  HtmlTag closing_tag;
   if( tag_name.size() == 1 && tag_name[0] == '*' )
   {
-    closing_tag = GUMBO_TAG_UNKNOWN;
+    closing_tag = HtmlTag::ANY;
   }
   else
   {
-    closing_tag = gumbo_tag_enum(tag_name.c_str());
-    if( closing_tag == GUMBO_TAG_UNKNOWN )
+    GumboTag tag = gumbo_tag_enum(tag_name.c_str());
+    if( tag == GUMBO_TAG_UNKNOWN )
       return false;
+    closing_tag = static_cast<HtmlTag>(tag);
   }
 
   if( this->tag_stack_.top() == closing_tag )
@@ -76,12 +77,12 @@ bool RuleBuilder::pop_tag(const std::string& tag_name)
   return false;
 }
 
-boost::optional<GumboTag> RuleBuilder::get_expected_tag() const
+boost::optional<HtmlTag> RuleBuilder::get_expected_tag() const
 {
   if( this->tag_stack_.empty() )
-    return boost::optional<GumboTag>();
+    return boost::optional<HtmlTag>();
   else
-    return boost::optional<GumboTag>(this->tag_stack_.top());
+    return boost::optional<HtmlTag>(this->tag_stack_.top());
 }
 
 
