@@ -36,7 +36,12 @@ public:
   /// \param optional
   ///    A subtree matches only if all mandatory rules were matched. Optional
   ///    rules on the other hand are ignored if not found.
-  explicit Rule(HtmlTag tag = HtmlTag::ANY, bool optional = false);
+  ///
+  /// \param path
+  ///    Paths do not modify the ResultTree (i.e. no branching for matches, no
+  ///    capturing of values).
+  explicit
+  Rule(HtmlTag tag = HtmlTag::ANY, bool optional = false, bool path = false);
   ~Rule();
   Rule(Rule&&);
   Rule& operator=(Rule&&);
@@ -89,6 +94,14 @@ public:
 
   /// Return the result of applying all CapturePatterns to node.
   std::vector<ResultPair> capture(const GumboNode * node) const;
+
+  /// Return if this Rule is a path. Paths do not modify the ResultTree (i.e.
+  /// no branching for matches, no capturing of values).
+  bool is_path() const;
+
+  /// Set whether this Rule is a path. Paths do not modify the ResultTree (i.e.
+  /// no branching for matches, no capturing of values).
+  Rule& set_path(bool path);
 
 private:
   Rule(const Rule&) = delete;

@@ -26,6 +26,7 @@ Rule RuleBuilder::take_rule_tree()
   }
 
   Rule implicit_top_rule;
+  implicit_top_rule.set_path(true);
   for(auto&& r : this->rules_)
     implicit_top_rule.take_child(std::move(r));
   this->rules_.clear();

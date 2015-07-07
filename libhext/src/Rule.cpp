@@ -8,12 +8,13 @@ namespace hext {
 
 struct Rule::Impl
 {
-  Impl(HtmlTag tag, bool optional)
+  Impl(HtmlTag tag, bool optional, bool path)
   : children_()
   , match_patterns_()
   , capture_patterns_()
   , tag_(tag)
   , is_optional_(optional)
+  , is_path_(path)
   {
   }
 
@@ -62,9 +63,22 @@ struct Rule::Impl
 
     if( this->matches(node) )
     {
-      auto branch = rt->create_child();
-      branch->set_values(std::move(this->capture(node)));
-      this->extract_children(node, branch);
+      if( !this->is_path_ )
+      {
+        auto branch = rt->create_child();
+        if( !this->extract_children(node, branch) )
+        {
+          rt->delete_child(branch);
+        }
+        else
+        {
+          branch->set_values(std::move(this->capture(node)));
+        }
+      }
+      else
+      {
+        this->extract_children(node, rt);
+      }
     }
 
     const GumboVector& node_children = node->v.element.children;
@@ -104,21 +118,25 @@ struct Rule::Impl
         const GumboNode * child_node = match_pair.second;
         assert(child_rule && child_node);
 
-        auto child_rt = branch->create_child();
+        ResultTree * child_rt = rt;
+        if( !child_rule->impl_->is_path_ )
+          child_rt = branch->create_child();
+
         if( !child_rule->impl_->extract_children(child_node, child_rt) )
         {
-          if( child_rule->impl_->is_optional_ )
+          if( child_rule->impl_->is_optional_ && !child_rule->impl_->is_path_ )
           {
             branch->delete_child(child_rt);
           }
           else
           {
             --match_count;
-            rt->delete_child(branch);
+            if( !child_rule->impl_->is_path_ )
+              rt->delete_child(branch);
             break;
           }
         }
-        else
+        else if( !child_rule->impl_->is_path_ )
         {
           child_rt->set_values(child_rule->capture(child_node));
         }
@@ -157,14 +175,16 @@ struct Rule::Impl
   std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
   HtmlTag tag_;
   bool is_optional_;
+  bool is_path_;
 };
 
 
 Rule::Rule(
   HtmlTag tag,
-  bool optional
+  bool optional,
+  bool path
 )
-: impl_(MakeUnique<Rule::Impl>(tag, optional))
+: impl_(MakeUnique<Rule::Impl>(tag, optional, path))
 {
 }
 
@@ -209,6 +229,17 @@ bool Rule::is_optional() const
 Rule& Rule::set_optional(bool optional)
 {
   this->impl_->is_optional_ = optional;
+  return *this;
+}
+
+bool Rule::is_path() const
+{
+  return this->impl_->is_path_;
+}
+
+Rule& Rule::set_path(bool path)
+{
+  this->impl_->is_path_ = path;
   return *this;
 }
 
