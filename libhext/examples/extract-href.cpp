@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 #include <Poco/URI.h>
 #include <boost/optional.hpp>
@@ -84,31 +85,43 @@ private:
 };
 
 
+/// Return the value of a capture with given name.
+boost::optional<std::string>
+ResultValueByName(hext::ResultTree * rt, const std::string& name)
+{
+  assert(rt);
+  if( rt == nullptr )
+    return boost::optional<std::string>();
+
+  for(const auto& p : rt->values())
+    if( p.first == name )
+      return boost::optional<std::string>(p.second);
+
+  for(const auto& child : rt->children())
+    if( auto result = ResultValueByName(child.get(), name) )
+      return result;
+
+  return boost::optional<std::string>();
+}
+
+
 /// Return the first base tag's href value.
 /// Return empty string if no base tag href found.
-std::string BaseUri(const hext::Html& html)
+boost::optional<std::string> BaseUri(const hext::Html& html)
 {
   hext::Rule base_href(hext::HtmlTag::BASE);
   base_href
     .add_capture<hext::AttributeCapture>("href", "href");
 
   auto rt = base_href.extract(html.root());
-  auto result = rt->flatten();
 
-  if( result.size() )
-  {
-    auto it = result.front().find("href");
-    if( it != result.front().end() )
-      return it->second;
-  }
-
-  return "";
+  return ResultValueByName(rt.get(), "href");
 }
 
 
 /// Slurp the contents of STDIN, extract all href attributes from anchor
 /// elements and print them to STDOUT, separated by newline.
-/// Excludes empty URIs and URIs that begin with either "javascript:" or "#".
+/// Exclude empty URIs and URIs that begin with either "javascript:" or "#".
 /// If a parameter is passed, it is used as the base-URI for all URIs.
 /// If no parameter is passed and there is a <base> element in the document, its
 /// href attribute will be used as the base-URI for all URIs.
@@ -130,8 +143,8 @@ int main(int argc, char * argv[])
   std::string base_uri = "";
   if( argc > 1 )
     base_uri = argv[1];
-  else
-    base_uri = BaseUri(html);
+  else if( auto uri = BaseUri(html) )
+    base_uri = *uri;
 
   Rule a_href(HtmlTag::A);
   a_href.add_match<UsefulHrefMatch>()
