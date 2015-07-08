@@ -8,6 +8,8 @@ const int version_major = @PROJECT_VERSION_MAJOR@;
 
 const int version_minor = @PROJECT_VERSION_MINOR@;
 
+const int version_patch = @PROJECT_VERSION_PATCH@;
+
 const char * version_git_sha1 = "@PROJECT_VERSION_GIT_SHA1@";
 
 

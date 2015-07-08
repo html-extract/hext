@@ -11,6 +11,9 @@ extern const int version_major;
 /// Minor version number.
 extern const int version_minor;
 
+/// Patch version number.
+extern const int version_patch;
+
 /// Git SHA-1 of this build.
 extern const char * version_git_sha1;
 

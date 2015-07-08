@@ -24,6 +24,7 @@ INCLUDE(HextDefaultBuildRelease)
 ###### VERSION #################################################################
 SET(PROJECT_VERSION_MAJOR 0)
 SET(PROJECT_VERSION_MINOR 1)
+SET(PROJECT_VERSION_PATCH 0)
 SET(
   HEXT_VERSION_FILE_SOURCE
   "${PROJECT_SOURCE_DIR}/src/Version.cpp.in")
