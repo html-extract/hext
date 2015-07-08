@@ -22,11 +22,11 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
 {
   assert(this->r_begin_ <= this->r_end_);
   if( this->r_begin_ == this->r_end_ )
-    return boost::optional<match_group>();
+    return {};
 
   assert(this->n_ <= this->n_len_);
   if( this->n_ == this->n_len_ )
-    return boost::optional<match_group>();
+    return {};
 
   match_group mg;
   auto rule = this->r_begin_;
@@ -51,7 +51,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
         {
           // If there wasn't matched anything now, there won't be later matches
           this->n_ = this->n_len_;
-          return boost::optional<match_group>();
+          return {};
         }
       }
       else
@@ -74,7 +74,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
         else if( stop_node == this->n_len_ )
         {
           this->n_ = this->n_len_;
-          return boost::optional<match_group>();
+          return {};
         }
         // If stop_rule is included in this match_group
         else
@@ -93,7 +93,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
 
       // If a mandatory rule isn't found, abort immediately
       if( this->n_ == this->n_len_ )
-        return boost::optional<match_group>();
+        return {};
 
       this->push_match_pair(mg, rule, this->n_);
       ++this->n_;
@@ -112,7 +112,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
     return mg;
 
   this->n_ = this->n_len_;
-  return boost::optional<match_group>();
+  return {};
 }
 
 MatchContext::rule_it MatchContext::find_mandatory_rule(rule_it it) const

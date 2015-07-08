@@ -41,7 +41,7 @@ struct Rule::Impl
   std::vector<ResultPair> capture(const GumboNode * node) const
   {
     if( !node )
-      return std::vector<ResultPair>();
+      return {};
 
     std::vector<ResultPair> values;
     values.reserve(this->capture_patterns_.size());

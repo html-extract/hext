@@ -66,7 +66,7 @@ public:
   boost::optional<hext::ResultPair> capture(const GumboNode * node) const final
   {
     if( !node || node->type != GUMBO_NODE_ELEMENT )
-      return hext::ResultPair("href", "");
+      return {};
 
     const GumboAttribute * g_attr = gumbo_get_attribute(
       &node->v.element.attributes,
@@ -74,7 +74,7 @@ public:
     );
 
     if( !g_attr || !g_attr->value )
-      return hext::ResultPair("href", "");
+      return {};
 
     Poco::URI uri(this->base_uri_, g_attr->value);
     return hext::ResultPair("href", uri.toString());
@@ -91,17 +91,17 @@ ResultValueByName(hext::ResultTree * rt, const std::string& name)
 {
   assert(rt);
   if( rt == nullptr )
-    return boost::optional<std::string>();
+    return {};
 
   for(const auto& p : rt->values())
     if( p.first == name )
-      return boost::optional<std::string>(p.second);
+      return p.second;
 
   for(const auto& child : rt->children())
     if( auto result = ResultValueByName(child.get(), name) )
       return result;
 
-  return boost::optional<std::string>();
+  return {};
 }
 
 

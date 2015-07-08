@@ -16,7 +16,7 @@ Rule RuleBuilder::take_rule_tree()
   this->tag_stack_ = std::stack<HtmlTag>();
 
   if( !this->rules_.size() )
-    return Rule();
+    return {};
 
   if( this->rules_.size() == 1 )
   {
@@ -81,9 +81,9 @@ bool RuleBuilder::pop_tag(const std::string& tag_name)
 boost::optional<HtmlTag> RuleBuilder::get_expected_tag() const
 {
   if( this->tag_stack_.empty() )
-    return boost::optional<HtmlTag>();
+    return {};
   else
-    return boost::optional<HtmlTag>(this->tag_stack_.top());
+    return this->tag_stack_.top();
 }
 
 
