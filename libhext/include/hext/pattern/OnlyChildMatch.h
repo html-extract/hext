@@ -3,8 +3,6 @@
 
 #include "hext/pattern/MatchPattern.h"
 
-#include <cassert>
-
 #include <gumbo.h>
 
 
@@ -16,27 +14,7 @@ class OnlyChildMatch : public MatchPattern
 {
 public:
   /// Return true if node is the only child of its parent.
-  bool matches(const GumboNode * node) const final
-  {
-    assert(node);
-    if( !node )
-      return false;
-
-    const GumboNode * parent = node->parent;
-    if( !parent || parent->type != GUMBO_NODE_ELEMENT )
-      return false;
-
-    const GumboVector& child_nodes = parent->v.element.children;
-    for(unsigned int i = 0; i < child_nodes.length; ++i)
-    {
-      auto child = static_cast<const GumboNode *>(child_nodes.data[i]);
-
-      if( child && child->type == GUMBO_NODE_ELEMENT && node != child )
-        return false;
-    }
-
-    return true;
-  }
+  bool matches(const GumboNode * node) const final;
 };
 
 

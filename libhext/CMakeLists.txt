@@ -70,6 +70,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/ChildCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NegateMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/OnlyChildMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/ResultTree.cpp"
