@@ -1,12 +1,13 @@
 #ifndef HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 #define HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 
-#include "hext/test/ValueTest.h"
-#include "hext/pattern/ValueMatch.h"
 #include "hext/Builtins.h"
+#include "hext/pattern/MatchPattern.h"
+#include "hext/test/ValueTest.h"
 
-#include <string>
+#include <cassert>
 #include <memory>
+#include <string>
 
 #include <gumbo.h>
 
@@ -14,9 +15,9 @@
 namespace hext {
 
 
-/// A BuiltinMatch is a ValueMatch that matches if the result of applying a
-/// builtin function to an html-node passes `value_test`.
-class BuiltinMatch : public ValueMatch
+/// Match if the result of applying a builtin function to an html-node passes
+/// `value_test`.
+class BuiltinMatch : public MatchPattern
 {
 public:
   /// Construct a BuiltinMatch.
@@ -37,6 +38,7 @@ public:
 private:
   /// A pointer to a builtin function that is to be applied to a node.
   BuiltinFuncPtr func_;
+  std::unique_ptr<test::ValueTest> test_;
 };
 
 

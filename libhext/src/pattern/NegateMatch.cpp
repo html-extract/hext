@@ -20,10 +20,10 @@ bool NegateMatch::matches(const GumboNode * node) const
 {
   assert(node);
   if( !node )
-    return false;
+    return true;
 
   for(const auto& mp : this->match_patterns_)
-    if( mp->matches(node) )
+    if( mp && mp->matches(node) )
       return false;
 
   return true;

@@ -8,21 +8,19 @@ BuiltinMatch::BuiltinMatch(
   BuiltinFuncPtr func,
   std::unique_ptr<test::ValueTest> value_test
 )
-: ValueMatch(std::move(value_test))
-, func_(func)
+: func_(func)
+, test_(std::move(value_test))
 {
 }
 
 bool BuiltinMatch::matches(const GumboNode * node) const
 {
-  if( !this->func_ )
+  assert(this->func_);
+  if( !this->func_ || !this->test_ )
     return false;
 
-  std::string t = this->func_(node);
-  if( this->test_ )
-    return (*this->test_)(t.c_str());
-  else
-    return true;
+  std::string str = this->func_(node);
+  return (*this->test_)(str.c_str());
 }
 
 

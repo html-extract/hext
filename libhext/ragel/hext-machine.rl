@@ -153,7 +153,7 @@ optional = (
 );
 # Negate a match pattern, e.g. style!, class="menu"!, @text=/foo/!
 negate = (
-  '!' %{ pv.test = MakeUnique<test::Negate>(std::move(pv.test)); }
+  '!' %{ pv.set_test<test::Negate>(std::move(pv.test)); }
 );
 # The name of an HTML-element's attribute
 attr_name = (
@@ -214,7 +214,7 @@ pattern = (
     ( ( attr_name '=' capture optional? )
       %{ rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, pv.regex);
          if( !pv.optional )
-           rule.add_match<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
+           rule.add_match<AttributeMatch>(pv.attr_name);
        } )
     |
 
@@ -227,7 +227,7 @@ pattern = (
     |
 
     ( ( attr_name
-        %{ pv.set_test<test::NotNull>(); }
+        %{ pv.test = nullptr; }
         negate?
       )
       %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )

@@ -8,27 +8,31 @@ AttributeMatch::AttributeMatch(
   std::string attr_name,
   std::unique_ptr<test::ValueTest> value_test
 )
-: ValueMatch(std::move(value_test))
-, attr_name_(std::move(attr_name))
+: attr_name_(std::move(attr_name))
+, test_(std::move(value_test))
 {
 }
 
 bool AttributeMatch::matches(const GumboNode * node) const
 {
-  if( !node || node->type != GUMBO_NODE_ELEMENT || !this->test_ )
+  assert(node);
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
-
-  const char * subject = nullptr;
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
     &node->v.element.attributes,
     this->attr_name_.c_str()
   );
 
-  if( g_attr )
-    subject = g_attr->value;
+  if( !this->test_ )
+    return g_attr;
 
-  return (*this->test_)(subject);
+  if( !g_attr )
+    return (*this->test_)(nullptr);
+  else if( g_attr->value )
+    return (*this->test_)(g_attr->value);
+  else
+    return false;
 }
 
 

@@ -27,7 +27,6 @@
 #include "hext/test/EndsWith.h"
 #include "hext/test/Equals.h"
 #include "hext/test/Negate.h"
-#include "hext/test/NotNull.h"
 #include "hext/test/Regex.h"
 #include "hext/test/ValueTest.h"
 
@@ -66,7 +65,7 @@ namespace hext {
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 69 "Parser.cpp.tmp"
+#line 68 "Parser.cpp.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -984,7 +983,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 531;
 
 
-#line 69 "Parser.cpp.rl"
+#line 68 "Parser.cpp.rl"
 
 } // namespace ragel
 
@@ -1105,12 +1104,12 @@ Rule Parser::Impl::parse()
   std::string tok = "";
 
   
-#line 1108 "Parser.cpp.tmp"
+#line 1107 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1113 "Parser.cpp.tmp"
+#line 1112 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1340,7 +1339,7 @@ _match:
 	break;
 	case 36:
 #line 156 "hext-machine.rl"
-	{ pv.test = MakeUnique<test::Negate>(std::move(pv.test)); }
+	{ pv.set_test<test::Negate>(std::move(pv.test)); }
 	break;
 	case 37:
 #line 161 "hext-machine.rl"
@@ -1406,7 +1405,7 @@ _match:
 #line 215 "hext-machine.rl"
 	{ rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, pv.regex);
          if( !pv.optional )
-           rule.add_match<AttributeMatch>(pv.attr_name, MakeUnique<test::NotNull>());
+           rule.add_match<AttributeMatch>(pv.attr_name);
        }
 	break;
 	case 53:
@@ -1419,7 +1418,7 @@ _match:
 	break;
 	case 55:
 #line 230 "hext-machine.rl"
-	{ pv.set_test<test::NotNull>(); }
+	{ pv.test = nullptr; }
 	break;
 	case 56:
 #line 233 "hext-machine.rl"
@@ -1484,7 +1483,7 @@ _match:
 #line 308 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1487 "Parser.cpp.tmp"
+#line 1486 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1516,7 +1515,7 @@ _again:
 #line 308 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1519 "Parser.cpp.tmp"
+#line 1518 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1524,7 +1523,7 @@ _again:
 	_out: {}
 	}
 
-#line 193 "Parser.cpp.rl"
+#line 192 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.

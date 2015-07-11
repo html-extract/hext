@@ -20,10 +20,10 @@ public:
 
   bool operator()(const char * subject) const final
   {
-    if( subject && this->value_test_ )
+    if( this->value_test_ )
       return !this->value_test_->operator()(subject);
-
-    return true;
+    else
+      return subject == nullptr;
   }
 
 private:

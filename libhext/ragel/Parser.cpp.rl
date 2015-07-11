@@ -24,7 +24,6 @@
 #include "hext/test/EndsWith.h"
 #include "hext/test/Equals.h"
 #include "hext/test/Negate.h"
-#include "hext/test/NotNull.h"
 #include "hext/test/Regex.h"
 #include "hext/test/ValueTest.h"
 
