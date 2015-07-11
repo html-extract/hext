@@ -1,9 +1,13 @@
 #ifndef HTMLEXT_PROGRAM_OPTIONS_H_INCLUDED
 #define HTMLEXT_PROGRAM_OPTIONS_H_INCLUDED
 
+#include "htmlext/Json.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
+
+#include <unistd.h>
 
 #include <boost/program_options.hpp>
 
@@ -34,6 +38,9 @@ public:
 
   /// Print usage and options.
   void print(const char * program_name, std::ostream& out = std::cout) const;
+
+  /// Return JSON options as given on the command line.
+  JsonOption get_json_options() const;
 
 private:
   boost::program_options::options_description desc_;

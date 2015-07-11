@@ -12,10 +12,13 @@ ProgramOptions::ProgramOptions()
   this->desc_.add_options()
     ("hext,x", po::value<std::vector<std::string>>(), "Hext file(s)")
     ("html,i", po::value<std::vector<std::string>>(), "HTML input file(s)")
-    ("compact,c", "Do not pretty-print JSON")
-    ("array,a", "Put results into one top-level JSON array")
-    ("print-html-dot", po::value<std::string>(), "Print HTML input file as DOT")
-    ("print-result-dot,d", "Print ResultTree as DOT")
+    ("compact,c", "Print one JSON object per line")
+    ("pretty,p", "Force pretty-printing JSON. Overrrides --compact")
+    ("array,a", "Put results into one top-level JSON array. If combined"
+                " with --compact, only print a single line")
+    ("print-html-dot,d", po::value<std::string>(),
+                         "Print HTML input file as DOT")
+    ("print-result-dot,r", "Print ResultTree as DOT")
     ("lint,l", "Hext syntax check: parse hext and exit")
     ("help,h", "Print this help message and exit")
     ("version,V", "Print version information and exit")
@@ -79,17 +82,34 @@ void ProgramOptions::print(const char * program_name, std::ostream& out) const
 {
   out << "Usage:\n  "
       << program_name
-      << " [options] hext-file html-file...\n"
+      << " [options] <hext-file> <html-file...>\n"
          "      Apply extraction rules from hext-file to each html-file.\n"
          "      Print result as JSON.\n\n  "
       << program_name
-      << " -l hext-file\n"
+      << " -l <hext-file>\n"
          "      Parse hext-file and exit silently on success.\n"
          "      On failure, print error information to stderr.\n\n  "
       << program_name
-      << " --print-html-dot html-file\n"
+      << " --print-html-dot <html-file>\n"
          "      Parse and print html-file as DOT.\n\n"
       << this->desc_;
+}
+
+JsonOption ProgramOptions::get_json_options() const
+{
+  using htmlext::operator|;
+  htmlext::JsonOption opt = htmlext::JsonOption::NoOption;
+
+  // --pretty takes precedence over --compact
+  if( this->contains("pretty") ||
+      // by default, pretty print JSON if not piping to a file or pipe
+      ( !this->contains("compact") && isatty(STDOUT_FILENO) ) )
+    opt = opt | htmlext::JsonOption::PrettyPrint;
+
+  if( this->contains("array") )
+    opt = opt | htmlext::JsonOption::ArrayEnvelope;
+
+  return opt;
 }
 
 

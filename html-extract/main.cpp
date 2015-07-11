@@ -78,24 +78,20 @@ int main(int argc, const char ** argv)
       return EXIT_FAILURE;
     }
 
-    htmlext::JsonOption opt = htmlext::JsonOption::NoOption;
-    {
-      using htmlext::operator|;
-      if( !po.contains("compact") )
-        opt = opt | htmlext::JsonOption::PrettyPrint;
-      if( po.contains("array") )
-        opt = opt | htmlext::JsonOption::ArrayEnvelope;
-    }
-
     for(const auto& hext : extractors)
     {
       for(const auto& html : inputs)
       {
         std::unique_ptr<hext::ResultTree> result = hext.extract(html);
         if( po.contains("print-result-dot") )
+        {
           htmlext::PrintResultTreeDot(result.get(), std::cout);
+        }
         else
-          htmlext::PrintJson(result.get(), opt, std::cout);
+        {
+          auto json_opt = po.get_json_options();
+          htmlext::PrintJson(result.get(), json_opt, std::cout);
+        }
       }
     }
   }
