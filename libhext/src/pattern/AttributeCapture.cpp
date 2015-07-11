@@ -1,5 +1,8 @@
 #include "hext/pattern/AttributeCapture.h"
 
+#include <cassert>
+#include <utility>
+
 
 namespace hext {
 
@@ -18,6 +21,7 @@ AttributeCapture::AttributeCapture(
 boost::optional<ResultPair>
 AttributeCapture::capture(const GumboNode * node) const
 {
+  assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return {};
 

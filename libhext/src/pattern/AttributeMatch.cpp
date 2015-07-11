@@ -2,6 +2,7 @@
 #include "hext/MakeUnique.h"
 
 #include <cassert>
+#include <utility>
 
 
 namespace hext {

@@ -1,5 +1,7 @@
 #include "hext/pattern/ChildCountMatch.h"
 
+#include <cassert>
+
 
 namespace hext {
 

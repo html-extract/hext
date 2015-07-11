@@ -4,7 +4,6 @@
 #include "hext/pattern/MatchPattern.h"
 #include "hext/HtmlTag.h"
 
-#include <cassert>
 #include <utility>
 
 #include <gumbo.h>
@@ -13,8 +12,8 @@
 namespace hext {
 
 
-/// An NthChildMatch is a MatchPattern that matches if a node's position within
-/// its parent node is in set {step * n + shift}.
+/// Match if a node's position within its parent node matches
+/// pattern step*n+shift.
 class NthChildMatch : public MatchPattern
 {
 public:

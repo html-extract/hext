@@ -1,5 +1,8 @@
 #include "hext/pattern/NegateMatch.h"
 
+#include <cassert>
+#include <utility>
+
 
 namespace hext {
 

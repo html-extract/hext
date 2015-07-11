@@ -1,5 +1,7 @@
 #include "hext/pattern/AttributeCountMatch.h"
 
+#include <cassert>
+
 
 namespace hext {
 

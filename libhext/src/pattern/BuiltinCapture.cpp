@@ -1,5 +1,8 @@
 #include "hext/pattern/BuiltinCapture.h"
 
+#include <cassert>
+#include <utility>
+
 
 namespace hext {
 

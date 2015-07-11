@@ -3,9 +3,7 @@
 
 #include "hext/pattern/MatchPattern.h"
 
-#include <cassert>
 #include <memory>
-#include <utility>
 #include <vector>
 
 #include <gumbo.h>
@@ -14,8 +12,7 @@
 namespace hext {
 
 
-/// A NegateMatch is a MatchPattern that matches if all contained MatchPatterns
-/// return false for a given GumboNode.
+/// Match if all contained MatchPatterns return false for a given GumboNode.
 class NegateMatch : public MatchPattern
 {
 public:

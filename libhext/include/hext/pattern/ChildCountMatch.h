@@ -3,8 +3,6 @@
 
 #include "hext/pattern/MatchPattern.h"
 
-#include <cassert>
-
 #include <gumbo.h>
 
 

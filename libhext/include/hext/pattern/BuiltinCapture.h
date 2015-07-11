@@ -33,7 +33,7 @@ public:
   BuiltinCapture(
     BuiltinFuncPtr func,
     std::string result_name,
-    boost::optional<boost::regex> regex = boost::optional<boost::regex>()
+    boost::optional<boost::regex> regex = {}
   );
 
   /// Return a string pair containing the captured value. First member is

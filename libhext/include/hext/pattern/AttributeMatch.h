@@ -26,7 +26,7 @@ public:
   ///     The ValueTest which is to be applied to a node's attribute value.
   explicit AttributeMatch(
     std::string attr_name,
-    std::unique_ptr<ValueTest> value_test = nullptr
+    std::unique_ptr<ValueTest> value_test = {}
   );
 
   /// Return true if `node` has an attribute called `attr_name` whose value is

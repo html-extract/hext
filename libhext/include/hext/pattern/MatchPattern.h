@@ -13,8 +13,7 @@ class MatchPattern
 {
 public:
   /// Virtual destructor to allow inheritance.
-  virtual ~MatchPattern()
-    {}
+  virtual ~MatchPattern() {}
 
   /// Implemenation must be provided in subclasses.
   virtual bool matches(const GumboNode * node) const = 0;
