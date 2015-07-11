@@ -2,7 +2,7 @@
 #define HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
 
 #include "hext/Builtins.h"
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 #include "hext/ValueTest.h"
 
 #include <memory>
@@ -15,7 +15,7 @@ namespace hext {
 
 /// Match if the result of applying a builtin function to an html-node passes
 /// `value_test`.
-class BuiltinMatch : public MatchPattern
+class BuiltinMatch : public Match
 {
 public:
   /// Construct a BuiltinMatch.

@@ -13,9 +13,9 @@
 #include "hext/pattern/AttributeMatch.h"
 #include "hext/pattern/BuiltinCapture.h"
 #include "hext/pattern/BuiltinMatch.h"
-#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/Capture.h"
 #include "hext/pattern/ChildCountMatch.h"
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 #include "hext/pattern/NegateMatch.h"
 #include "hext/pattern/NthChildMatch.h"
 #include "hext/pattern/OnlyChildMatch.h"
@@ -175,7 +175,7 @@ Rule Parser::Impl::parse()
   // The rule that is currently being built.
   Rule rule;
 
-  // All values required to construct match and capture patterns.
+  // All values required to construct Matches and Captures.
   PatternValues pv;
 
   // These variables will be accessed by the macros TK_START and TK_STOP.

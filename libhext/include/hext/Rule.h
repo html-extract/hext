@@ -5,8 +5,8 @@
 #include "hext/Result.h"
 #include "hext/ResultTree.h"
 #include "hext/MakeUnique.h"
-#include "hext/pattern/MatchPattern.h"
-#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/Match.h"
+#include "hext/pattern/Capture.h"
 
 #include <cstddef>
 #include <memory>
@@ -49,27 +49,27 @@ public:
   /// Append a child-rule after the last element at the given tree depth.
   Rule& take_child(Rule&& r, std::size_t insert_at_depth = 0);
 
-  /// Take a MatchPattern.
-  Rule& take_match(std::unique_ptr<MatchPattern>&& pattern);
+  /// Take a Match.
+  Rule& take_match(std::unique_ptr<Match>&& match);
 
-  /// Emplace a MatchPattern.
-  template<typename MatchPatternType, typename... Args>
+  /// Emplace a Match.
+  template<typename MatchType, typename... Args>
   Rule& add_match(Args&&... arg)
   {
     return this->take_match(
-      MakeUnique<MatchPatternType>(std::forward<Args>(arg)...)
+      MakeUnique<MatchType>(std::forward<Args>(arg)...)
     );
   }
 
-  /// Take a CapturePattern.
-  Rule& take_capture(std::unique_ptr<CapturePattern>&& pattern);
+  /// Take a Capture.
+  Rule& take_capture(std::unique_ptr<Capture>&& cap);
 
-  /// Emplace a CapturePattern.
-  template<typename CapturePatternType, typename... Args>
+  /// Emplace a Capture.
+  template<typename CaptureType, typename... Args>
   Rule& add_capture(Args&&... arg)
   {
     return this->take_capture(
-      MakeUnique<CapturePatternType>(std::forward<Args>(arg)...)
+      MakeUnique<CaptureType>(std::forward<Args>(arg)...)
     );
   }
 
@@ -92,7 +92,7 @@ public:
   /// Check if this Rule matches a single GumboNode.
   bool matches(const GumboNode * node) const;
 
-  /// Return the result of applying all CapturePatterns to node.
+  /// Return the result of applying all Captures to node.
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
   /// Return if this Rule is a path. Paths do not modify the ResultTree (i.e.

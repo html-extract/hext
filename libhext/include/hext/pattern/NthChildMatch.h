@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_NTHCHILD_MATCH_H_INCLUDED
 #define HEXT_PATTERN_NTHCHILD_MATCH_H_INCLUDED
 
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 #include "hext/HtmlTag.h"
 
 #include <utility>
@@ -14,7 +14,7 @@ namespace hext {
 
 /// Match if a node's position within its parent node matches
 /// pattern step*n+shift.
-class NthChildMatch : public MatchPattern
+class NthChildMatch : public Match
 {
 public:
   /// Flag to specify how to determine a node's position within its parent.

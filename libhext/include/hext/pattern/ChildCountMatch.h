@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_CHILD_COUNT_MATCH_H_INCLUDED
 #define HEXT_PATTERN_CHILD_COUNT_MATCH_H_INCLUDED
 
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 
 #include <gumbo.h>
 
@@ -9,9 +9,9 @@
 namespace hext {
 
 
-/// A ChildCountMatch is a MatchPattern that matches nodes that have a certain
+/// A ChildCountMatch is a Match that matches nodes that have a certain
 /// amount of children (exluding text-nodes).
-class ChildCountMatch : public MatchPattern
+class ChildCountMatch : public Match
 {
 public:
   /// Construct a ChildCountMatch that matches nodes with a child_count amount

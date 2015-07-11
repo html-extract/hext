@@ -2,7 +2,7 @@
 #define HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
 
 #include "hext/Result.h"
-#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/Capture.h"
 #include "hext/Builtins.h"
 
 #include <string>
@@ -15,9 +15,9 @@
 namespace hext {
 
 
-/// A CapturePattern that captures the result of applying a builtin function to
+/// A Capture that captures the result of applying a builtin function to
 /// a node.
-class BuiltinCapture : public CapturePattern
+class BuiltinCapture : public Capture
 {
 public:
   /// Construct a BuiltinCapture.

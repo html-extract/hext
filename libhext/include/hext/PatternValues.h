@@ -3,7 +3,7 @@
 
 #include "hext/Builtins.h"
 #include "hext/MakeUnique.h"
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 #include "hext/pattern/NegateMatch.h"
 #include "hext/ValueTest.h"
 
@@ -19,7 +19,7 @@ namespace hext {
 
 
 /// When parsing hext rule definitions, PatternValues is responsible for holding
-/// all values required to create MatchPatterns and CapturePatterns.
+/// all values required to create Matches and Captures.
 class PatternValues
 {
 public:
@@ -33,10 +33,10 @@ public:
   }
 
   /// Consume generic Trait.
-  template<typename MatchPatternType, typename... Args>
+  template<typename MatchType, typename... Args>
   void set_trait(Args&&... arg)
   {
-    this->trait = MakeUnique<MatchPatternType>(std::forward<Args>(arg)...);
+    this->trait = MakeUnique<MatchType>(std::forward<Args>(arg)...);
   }
 
   /// Reset all members to their original state.
@@ -48,7 +48,7 @@ public:
   /// The current builtin function.
   BuiltinFuncPtr builtin;
 
-  /// Whether the current CapturePattern is optional.
+  /// Whether the current Capture is optional.
   bool optional;
 
   /// The current attribute name.
@@ -57,7 +57,7 @@ public:
   /// The current attribute literal value.
   std::string literal_value;
 
-  /// The current CapturePattern's result name.
+  /// The current Capture's result name.
   std::string cap_var;
 
   /// The current regex options.
@@ -72,7 +72,7 @@ public:
   std::unique_ptr<ValueTest> test;
 
   /// The current Trait.
-  std::unique_ptr<MatchPattern> trait;
+  std::unique_ptr<Match> trait;
 
   /// The current NegateMatch.
   std::unique_ptr<NegateMatch> negate;

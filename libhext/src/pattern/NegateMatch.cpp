@@ -8,15 +8,15 @@ namespace hext {
 
 
 NegateMatch::NegateMatch(
-  std::vector<std::unique_ptr<MatchPattern>>&& match_patterns
+  std::vector<std::unique_ptr<Match>>&& v_matches
 )
-: match_patterns_(std::move(match_patterns))
+: matches_(std::move(v_matches))
 {
 }
 
-void NegateMatch::take_match(std::unique_ptr<MatchPattern>&& pattern)
+void NegateMatch::take_match(std::unique_ptr<Match>&& match)
 {
-  this->match_patterns_.push_back(std::move(pattern));
+  this->matches_.push_back(std::move(match));
 }
 
 bool NegateMatch::matches(const GumboNode * node) const
@@ -25,8 +25,8 @@ bool NegateMatch::matches(const GumboNode * node) const
   if( !node )
     return true;
 
-  for(const auto& mp : this->match_patterns_)
-    if( mp && mp->matches(node) )
+  for(const auto& match : this->matches_)
+    if( match && match->matches(node) )
       return false;
 
   return true;

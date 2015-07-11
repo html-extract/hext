@@ -1,5 +1,5 @@
-#ifndef HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
-#define HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
+#ifndef HEXT_PATTERN_CAPTURE_H_INCLUDED
+#define HEXT_PATTERN_CAPTURE_H_INCLUDED
 
 #include "hext/Result.h"
 
@@ -11,11 +11,11 @@
 namespace hext {
 
 
-/// An abstract base class for all patterns that capture values from html-nodes.
-class CapturePattern
+/// Abstract base for all Captures that can be applied to html-nodes.
+class Capture
 {
 public:
-  virtual ~CapturePattern() {}
+  virtual ~Capture() {}
 
   /// Return a string pair containing the captured value, if any. Implementation
   /// is provided by sub classes.
@@ -26,5 +26,5 @@ public:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_CAPTURE_PATTERN_H_INCLUDED
+#endif // HEXT_PATTERN_CAPTURE_H_INCLUDED
 

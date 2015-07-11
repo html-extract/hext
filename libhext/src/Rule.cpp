@@ -10,8 +10,8 @@ struct Rule::Impl
 {
   Impl(HtmlTag tag, bool optional, bool path)
   : children_()
-  , match_patterns_()
-  , capture_patterns_()
+  , matches_()
+  , captures_()
   , tag_(tag)
   , is_optional_(optional)
   , is_path_(path)
@@ -31,8 +31,8 @@ struct Rule::Impl
           node->v.element.tag != static_cast<GumboTag>(this->tag_) )
         return false;
 
-    for( const auto& pattern : this->match_patterns_ )
-      if( !pattern->matches(node) )
+    for( const auto& match : this->matches_ )
+      if( !match->matches(node) )
         return false;
 
     return true;
@@ -44,9 +44,9 @@ struct Rule::Impl
       return {};
 
     std::vector<ResultPair> values;
-    values.reserve(this->capture_patterns_.size());
-    for( const auto& pattern : this->capture_patterns_ )
-      if( auto pair = pattern->capture(node) )
+    values.reserve(this->captures_.size());
+    for( const auto& cap : this->captures_ )
+      if( auto pair = cap->capture(node) )
         values.push_back(*pair);
 
     return values;
@@ -171,8 +171,8 @@ struct Rule::Impl
   }
 
   std::vector<Rule> children_;
-  std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
-  std::vector<std::unique_ptr<CapturePattern>> capture_patterns_;
+  std::vector<std::unique_ptr<Match>> matches_;
+  std::vector<std::unique_ptr<Capture>> captures_;
   HtmlTag tag_;
   bool is_optional_;
   bool is_path_;
@@ -198,15 +198,15 @@ Rule& Rule::take_child(Rule&& r, std::size_t insert_at_depth)
   return *this;
 }
 
-Rule& Rule::take_match(std::unique_ptr<MatchPattern>&& pattern)
+Rule& Rule::take_match(std::unique_ptr<Match>&& match)
 {
-  this->impl_->match_patterns_.push_back(std::move(pattern));
+  this->impl_->matches_.push_back(std::move(match));
   return *this;
 }
 
-Rule& Rule::take_capture(std::unique_ptr<CapturePattern>&& pattern)
+Rule& Rule::take_capture(std::unique_ptr<Capture>&& cap)
 {
-  this->impl_->capture_patterns_.push_back(std::move(pattern));
+  this->impl_->captures_.push_back(std::move(cap));
   return *this;
 }
 

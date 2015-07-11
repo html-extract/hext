@@ -10,8 +10,8 @@
 
 #include "hext/Hext.h"
 #include "hext/Rule.h"
-#include "hext/pattern/MatchPattern.h"
-#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/Match.h"
+#include "hext/pattern/Capture.h"
 #include "hext/pattern/AttributeCapture.h"
 
 #include "gumbo.h"
@@ -21,7 +21,7 @@
 /// * is not empty
 /// * does not begin with '#'
 /// * does not begin with 'javascript:'
-class UsefulHrefMatch : public hext::MatchPattern
+class UsefulHrefMatch : public hext::Match
 {
 public:
   bool matches(const GumboNode * node) const final
@@ -55,7 +55,7 @@ public:
 /// Capture the href attribute of a node, store it with name "href".
 /// All URIs are passed to Poco::URI, which normalizes and applies
 /// a base URI, if given.
-class HrefCapture : public hext::CapturePattern
+class HrefCapture : public hext::Capture
 {
 public:
   explicit HrefCapture(const std::string& base_uri = "")

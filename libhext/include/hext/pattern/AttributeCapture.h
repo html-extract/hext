@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
 #define HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
 
-#include "hext/pattern/CapturePattern.h"
+#include "hext/pattern/Capture.h"
 #include "hext/Result.h"
 
 #include <string>
@@ -14,8 +14,8 @@
 namespace hext {
 
 
-/// A CapturePattern that extracts an html-attribute from an html-node.
-class AttributeCapture : public CapturePattern
+/// A Capture that extracts an html-attribute from an html-node.
+class AttributeCapture : public Capture
 {
 public:
   /// Construct an AttributeCapture.

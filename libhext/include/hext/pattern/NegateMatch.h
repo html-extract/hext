@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_NEGATE_MATCH_H_INCLUDED
 #define HEXT_PATTERN_NEGATE_MATCH_H_INCLUDED
 
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 
 #include <memory>
 #include <vector>
@@ -12,23 +12,23 @@
 namespace hext {
 
 
-/// Match if all contained MatchPatterns return false for a given GumboNode.
-class NegateMatch : public MatchPattern
+/// Match if all contained Matches return false for a given GumboNode.
+class NegateMatch : public Match
 {
 public:
   explicit NegateMatch(
-    std::vector<std::unique_ptr<MatchPattern>>&& match_patterns =
-      std::vector<std::unique_ptr<MatchPattern>>()
+    std::vector<std::unique_ptr<Match>>&& v_matches =
+      std::vector<std::unique_ptr<Match>>()
   );
 
-  void take_match(std::unique_ptr<MatchPattern>&& pattern);
+  void take_match(std::unique_ptr<Match>&& match);
 
-  // Return true if all contained MatchPatterns return false.
-  // Return true on empty MatchPatterns.
+  // Return true if all contained Matches return false.
+  // Return true on empty Matches.
   bool matches(const GumboNode * node) const final;
 
 private:
-  std::vector<std::unique_ptr<MatchPattern>> match_patterns_;
+  std::vector<std::unique_ptr<Match>> matches_;
 };
 
 

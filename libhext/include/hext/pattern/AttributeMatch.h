@@ -1,7 +1,7 @@
 #ifndef HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
 #define HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
 
-#include "hext/pattern/MatchPattern.h"
+#include "hext/pattern/Match.h"
 #include "hext/ValueTest.h"
 
 #include <memory>
@@ -15,7 +15,7 @@ namespace hext {
 
 /// Match if an html-node has an attribute called `attr_name` whose value
 /// passes `value_test`, if given.
-class AttributeMatch : public MatchPattern
+class AttributeMatch : public Match
 {
 public:
   /// Construct an AttributeMatch.
