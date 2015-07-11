@@ -1,18 +1,17 @@
-#include "hext/test/Contains.h"
+#include "hext/ContainsTest.h"
 
 #include <utility>
 
 
 namespace hext {
-namespace test {
 
 
-Contains::Contains(std::string literal)
+ContainsTest::ContainsTest(std::string literal)
 : lit_(std::move(literal))
 {
 }
 
-bool Contains::operator()(const char * subject) const
+bool ContainsTest::operator()(const char * subject) const
 {
   if( !subject )
     return false;
@@ -22,6 +21,5 @@ bool Contains::operator()(const char * subject) const
 }
 
 
-} // namespace test
 } // namespace hext
 

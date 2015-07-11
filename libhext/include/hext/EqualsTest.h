@@ -1,20 +1,19 @@
-#ifndef HEXT_TEST_EQUALS_H_INCLUDED
-#define HEXT_TEST_EQUALS_H_INCLUDED
+#ifndef HEXT_EQUALS_TEST_H_INCLUDED
+#define HEXT_EQUALS_TEST_H_INCLUDED
 
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <string>
 
 
 namespace hext {
-namespace test {
 
 
 /// Test whether another string equals a given literal.
-class Equals : public ValueTest
+class EqualsTest : public ValueTest
 {
 public:
-  explicit Equals(std::string literal);
+  explicit EqualsTest(std::string literal);
 
   /// Return true if subject equals literal.
   bool operator()(const char * subject) const final;
@@ -24,9 +23,8 @@ private:
 };
 
 
-} // namespace test
 } // namespace hext
 
 
-#endif // HEXT_TEST_EQUALS_H_INCLUDED
+#endif // HEXT_EQUALS_TEST_H_INCLUDED
 

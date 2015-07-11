@@ -1,5 +1,7 @@
 #include "hext/PatternValues.h"
 
+#include <cassert>
+
 
 namespace hext {
 

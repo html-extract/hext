@@ -1,20 +1,19 @@
-#ifndef HEXT_TEST_CONTAINS_H_INCLUDED
-#define HEXT_TEST_CONTAINS_H_INCLUDED
+#ifndef HEXT_CONTAINS_TEST_H_INCLUDED
+#define HEXT_CONTAINS_TEST_H_INCLUDED
 
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <string>
 
 
 namespace hext {
-namespace test {
 
 
 /// Test whether a string is contained in another string.
-class Contains : public ValueTest
+class ContainsTest : public ValueTest
 {
 public:
-  explicit Contains(std::string literal);
+  explicit ContainsTest(std::string literal);
 
   /// Return true if subject contains literal.
   bool operator()(const char * subject) const final;
@@ -24,9 +23,8 @@ private:
 };
 
 
-} // namespace test
 } // namespace hext
 
 
-#endif // HEXT_TEST_CONTAINS_H_INCLUDED
+#endif // HEXT_CONTAINS_TEST_H_INCLUDED
 

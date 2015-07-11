@@ -1,4 +1,7 @@
 #include "hext/pattern/AttributeMatch.h"
+#include "hext/MakeUnique.h"
+
+#include <cassert>
 
 
 namespace hext {
@@ -6,7 +9,7 @@ namespace hext {
 
 AttributeMatch::AttributeMatch(
   std::string attr_name,
-  std::unique_ptr<test::ValueTest> value_test
+  std::unique_ptr<ValueTest> value_test
 )
 : attr_name_(std::move(attr_name))
 , test_(std::move(value_test))

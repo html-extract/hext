@@ -118,8 +118,8 @@ regex =
      this->throw_regex_error(mark_len, e.code());
    }
 };
-# Wrap a regular expression into a test::Regex.
-regex_test = regex %{ assert(pv.regex); pv.set_test<test::Regex>(*pv.regex); };
+# Wrap a regular expression into a RegexTest.
+regex_test = regex %{ assert(pv.regex); pv.set_test<RegexTest>(*pv.regex); };
 
 
 #### BUILTIN FUNCTION ##########################################################
@@ -153,7 +153,7 @@ optional = (
 );
 # Negate a match pattern, e.g. style!, class="menu"!, @text=/foo/!
 negate = (
-  '!' %{ pv.set_test<test::Negate>(std::move(pv.test)); }
+  '!' %{ pv.set_test<NegateTest>(std::move(pv.test)); }
 );
 # The name of an HTML-element's attribute
 attr_name = (
@@ -177,19 +177,19 @@ literal_value =
 #### LITERAL ###################################################################
 literal = (
   ( '=' literal_value
-    %{ pv.set_test<test::ContainsWords>(pv.literal_value); } )
+    %{ pv.set_test<ContainsWordsTest>(pv.literal_value); } )
   |
   ( '==' literal_value
-    %{ pv.set_test<test::Equals>(pv.literal_value); } )
+    %{ pv.set_test<EqualsTest>(pv.literal_value); } )
   |
   ( '^=' literal_value
-    %{ pv.set_test<test::BeginsWith>(pv.literal_value); } )
+    %{ pv.set_test<BeginsWithTest>(pv.literal_value); } )
   |
   ( '*=' literal_value
-    %{ pv.set_test<test::Contains>(pv.literal_value); } )
+    %{ pv.set_test<ContainsTest>(pv.literal_value); } )
   |
   ( '$=' literal_value
-    %{ pv.set_test<test::EndsWith>(pv.literal_value); } )
+    %{ pv.set_test<EndsWithTest>(pv.literal_value); } )
 );
 
 

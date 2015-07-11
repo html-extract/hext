@@ -3,8 +3,14 @@
 #line 1 "Parser.cpp.rl"
 #include "hext/Parser.h"
 
+#include "hext/BeginsWithTest.h"
 #include "hext/Builtins.h"
+#include "hext/ContainsTest.h"
+#include "hext/ContainsWordsTest.h"
+#include "hext/EndsWithTest.h"
+#include "hext/EqualsTest.h"
 #include "hext/MakeUnique.h"
+#include "hext/NegateTest.h"
 #include "hext/pattern/AttributeCapture.h"
 #include "hext/pattern/AttributeCountMatch.h"
 #include "hext/pattern/AttributeMatch.h"
@@ -18,16 +24,10 @@
 #include "hext/pattern/OnlyChildMatch.h"
 #include "hext/pattern/TextNodeMatch.h"
 #include "hext/PatternValues.h"
+#include "hext/RegexTest.h"
 #include "hext/RuleBuilder.h"
 #include "hext/StringUtil.h"
-#include "hext/test/BeginsWith.h"
-#include "hext/test/Contains.h"
-#include "hext/test/ContainsWords.h"
-#include "hext/test/EndsWith.h"
-#include "hext/test/Equals.h"
-#include "hext/test/Negate.h"
-#include "hext/test/Regex.h"
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <string>
 #include <vector>
@@ -1279,7 +1279,7 @@ _match:
 	break;
 	case 29:
 #line 122 "hext-machine.rl"
-	{ assert(pv.regex); pv.set_test<test::Regex>(*pv.regex); }
+	{ assert(pv.regex); pv.set_test<RegexTest>(*pv.regex); }
 	break;
 	case 30:
 #line 128 "hext-machine.rl"
@@ -1307,7 +1307,7 @@ _match:
 	break;
 	case 36:
 #line 156 "hext-machine.rl"
-	{ pv.set_test<test::Negate>(std::move(pv.test)); }
+	{ pv.set_test<NegateTest>(std::move(pv.test)); }
 	break;
 	case 37:
 #line 161 "hext-machine.rl"
@@ -1335,23 +1335,23 @@ _match:
 	break;
 	case 43:
 #line 180 "hext-machine.rl"
-	{ pv.set_test<test::ContainsWords>(pv.literal_value); }
+	{ pv.set_test<ContainsWordsTest>(pv.literal_value); }
 	break;
 	case 44:
 #line 183 "hext-machine.rl"
-	{ pv.set_test<test::Equals>(pv.literal_value); }
+	{ pv.set_test<EqualsTest>(pv.literal_value); }
 	break;
 	case 45:
 #line 186 "hext-machine.rl"
-	{ pv.set_test<test::BeginsWith>(pv.literal_value); }
+	{ pv.set_test<BeginsWithTest>(pv.literal_value); }
 	break;
 	case 46:
 #line 189 "hext-machine.rl"
-	{ pv.set_test<test::Contains>(pv.literal_value); }
+	{ pv.set_test<ContainsTest>(pv.literal_value); }
 	break;
 	case 47:
 #line 192 "hext-machine.rl"
-	{ pv.set_test<test::EndsWith>(pv.literal_value); }
+	{ pv.set_test<EndsWithTest>(pv.literal_value); }
 	break;
 	case 48:
 #line 200 "hext-machine.rl"

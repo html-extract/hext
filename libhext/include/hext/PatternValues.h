@@ -5,7 +5,7 @@
 #include "hext/MakeUnique.h"
 #include "hext/pattern/MatchPattern.h"
 #include "hext/pattern/NegateMatch.h"
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <string>
 #include <memory>
@@ -69,7 +69,7 @@ public:
   boost::optional<boost::regex> regex;
 
   /// The current ValueTest
-  std::unique_ptr<test::ValueTest> test;
+  std::unique_ptr<ValueTest> test;
 
   /// The current Trait.
   std::unique_ptr<MatchPattern> trait;

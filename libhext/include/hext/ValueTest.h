@@ -1,11 +1,8 @@
-#ifndef HEXT_TEST_VALUE_TEST_H_INCLUDED
-#define HEXT_TEST_VALUE_TEST_H_INCLUDED
+#ifndef HEXT_VALUE_TEST_H_INCLUDED
+#define HEXT_VALUE_TEST_H_INCLUDED
 
 
 namespace hext {
-
-/// The test namespace contains all value tests.
-namespace test {
 
 
 /// Base class for all ValueTests. ValueTests are used to validate attribute
@@ -20,9 +17,8 @@ public:
 };
 
 
-} // namespace test
 } // namespace hext
 
 
-#endif // HEXT_TEST_VALUE_TEST_H_INCLUDED
+#endif // HEXT_VALUE_TEST_H_INCLUDED
 

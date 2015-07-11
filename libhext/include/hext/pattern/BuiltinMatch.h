@@ -3,11 +3,9 @@
 
 #include "hext/Builtins.h"
 #include "hext/pattern/MatchPattern.h"
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
-#include <cassert>
 #include <memory>
-#include <string>
 
 #include <gumbo.h>
 
@@ -28,7 +26,7 @@ public:
   ///     The ValueTest which is to be applied to the result of `func`.
   BuiltinMatch(
     BuiltinFuncPtr func,
-    std::unique_ptr<test::ValueTest> value_test
+    std::unique_ptr<ValueTest> value_test
   );
 
   /// Return true if the result of applying `func` to node passes `value_test`,
@@ -38,7 +36,7 @@ public:
 private:
   /// A pointer to a builtin function that is to be applied to a node.
   BuiltinFuncPtr func_;
-  std::unique_ptr<test::ValueTest> test_;
+  std::unique_ptr<ValueTest> test_;
 };
 
 

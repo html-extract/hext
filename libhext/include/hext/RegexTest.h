@@ -1,20 +1,19 @@
-#ifndef HEXT_TEST_REGEX_H_INCLUDED
-#define HEXT_TEST_REGEX_H_INCLUDED
+#ifndef HEXT_REGEX_TEST_H_INCLUDED
+#define HEXT_REGEX_TEST_H_INCLUDED
 
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <boost/regex.hpp>
 
 
 namespace hext {
-namespace test {
 
 
 /// Test whether another string matches a given regex.
-class Regex : public ValueTest
+class RegexTest : public ValueTest
 {
 public:
-  explicit Regex(boost::regex regex);
+  explicit RegexTest(boost::regex regex);
 
   /// Return true if regex matches subject.
   bool operator()(const char * subject) const final;
@@ -24,9 +23,8 @@ private:
 };
 
 
-} // namespace test
 } // namespace hext
 
 
-#endif // HEXT_TEST_REGEX_H_INCLUDED
+#endif // HEXT_REGEX_TEST_H_INCLUDED
 

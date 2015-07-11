@@ -1,20 +1,19 @@
-#ifndef HEXT_TEST_NEGATE_H_INCLUDED
-#define HEXT_TEST_NEGATE_H_INCLUDED
+#ifndef HEXT_NEGATE_TEST_H_INCLUDED
+#define HEXT_NEGATE_TEST_H_INCLUDED
 
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <memory>
 
 
 namespace hext {
-namespace test {
 
 
 /// Negate the result of another ValueTest.
-class Negate : public ValueTest
+class NegateTest : public ValueTest
 {
 public:
-  explicit Negate(std::unique_ptr<ValueTest>&& value_test);
+  explicit NegateTest(std::unique_ptr<ValueTest>&& value_test);
 
   /// Return true if value_test fails for subject.
   bool operator()(const char * subject) const final;
@@ -24,9 +23,8 @@ private:
 };
 
 
-} // namespace test
 } // namespace hext
 
 
-#endif // HEXT_TEST_NEGATE_H_INCLUDED
+#endif // HEXT_NEGATE_TEST_H_INCLUDED
 

@@ -1,5 +1,5 @@
 #include "hext/StringUtil.h"
-#include "hext/test/ContainsWords.h"
+#include "hext/ContainsWordsTest.h"
 
 #include <utility>
 
@@ -7,10 +7,9 @@
 
 
 namespace hext {
-namespace test {
 
 
-ContainsWords::ContainsWords(std::string words)
+ContainsWordsTest::ContainsWordsTest(std::string words)
 : words_()
 {
   boost::trim_if(words, boost::is_any_of(" "));
@@ -22,12 +21,12 @@ ContainsWords::ContainsWords(std::string words)
   );
 }
 
-ContainsWords::ContainsWords(std::vector<std::string> words)
+ContainsWordsTest::ContainsWordsTest(std::vector<std::string> words)
 : words_(std::move(words))
 {
 }
 
-bool ContainsWords::operator()(const char * subject) const
+bool ContainsWordsTest::operator()(const char * subject) const
 {
   if( !subject || this->words_.empty() )
     return false;
@@ -42,6 +41,5 @@ bool ContainsWords::operator()(const char * subject) const
 }
 
 
-} // namespace test
 } // namespace hext
 

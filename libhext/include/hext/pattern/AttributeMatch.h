@@ -1,11 +1,9 @@
 #ifndef HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
 #define HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
 
-#include "hext/MakeUnique.h"
 #include "hext/pattern/MatchPattern.h"
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
-#include <cassert>
 #include <memory>
 #include <string>
 
@@ -28,7 +26,7 @@ public:
   ///     The ValueTest which is to be applied to a node's attribute value.
   explicit AttributeMatch(
     std::string attr_name,
-    std::unique_ptr<test::ValueTest> value_test = nullptr
+    std::unique_ptr<ValueTest> value_test = nullptr
   );
 
   /// Return true if `node` has an attribute called `attr_name` whose value is
@@ -38,7 +36,7 @@ public:
 private:
   /// The name of the html-node-attribute whose value is to be matched.
   std::string attr_name_;
-  std::unique_ptr<test::ValueTest> test_;
+  std::unique_ptr<ValueTest> test_;
 };
 
 

@@ -1,18 +1,17 @@
-#include "hext/test/Regex.h"
+#include "hext/RegexTest.h"
 
 #include <utility>
 
 
 namespace hext {
-namespace test {
 
 
-Regex::Regex(boost::regex regex)
+RegexTest::RegexTest(boost::regex regex)
 : rx_(std::move(regex))
 {
 }
 
-bool Regex::operator()(const char * subject) const
+bool RegexTest::operator()(const char * subject) const
 {
   if( !subject )
     return false;
@@ -21,6 +20,5 @@ bool Regex::operator()(const char * subject) const
 }
 
 
-} // namespace test
 } // namespace hext
 

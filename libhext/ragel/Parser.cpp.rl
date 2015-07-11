@@ -1,7 +1,13 @@
 #include "hext/Parser.h"
 
+#include "hext/BeginsWithTest.h"
 #include "hext/Builtins.h"
+#include "hext/ContainsTest.h"
+#include "hext/ContainsWordsTest.h"
+#include "hext/EndsWithTest.h"
+#include "hext/EqualsTest.h"
 #include "hext/MakeUnique.h"
+#include "hext/NegateTest.h"
 #include "hext/pattern/AttributeCapture.h"
 #include "hext/pattern/AttributeCountMatch.h"
 #include "hext/pattern/AttributeMatch.h"
@@ -15,16 +21,10 @@
 #include "hext/pattern/OnlyChildMatch.h"
 #include "hext/pattern/TextNodeMatch.h"
 #include "hext/PatternValues.h"
+#include "hext/RegexTest.h"
 #include "hext/RuleBuilder.h"
 #include "hext/StringUtil.h"
-#include "hext/test/BeginsWith.h"
-#include "hext/test/Contains.h"
-#include "hext/test/ContainsWords.h"
-#include "hext/test/EndsWith.h"
-#include "hext/test/Equals.h"
-#include "hext/test/Negate.h"
-#include "hext/test/Regex.h"
-#include "hext/test/ValueTest.h"
+#include "hext/ValueTest.h"
 
 #include <string>
 #include <vector>

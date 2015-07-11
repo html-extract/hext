@@ -1,12 +1,16 @@
 #include "hext/pattern/BuiltinMatch.h"
 
+#include <cassert>
+#include <string>
+#include <utility>
+
 
 namespace hext {
 
 
 BuiltinMatch::BuiltinMatch(
   BuiltinFuncPtr func,
-  std::unique_ptr<test::ValueTest> value_test
+  std::unique_ptr<ValueTest> value_test
 )
 : func_(func)
 , test_(std::move(value_test))
