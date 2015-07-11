@@ -55,7 +55,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
     return;
 
   if( !this->contains("html") )
-    throw po::error("missing option --html-input");
+    throw po::error("missing option --html");
 }
 
 bool ProgramOptions::contains(const char * key) const
