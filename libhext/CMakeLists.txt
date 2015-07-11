@@ -67,7 +67,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/pattern/AttributeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/CapturePattern.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/ChildCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NegateMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"

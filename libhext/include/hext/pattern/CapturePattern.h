@@ -3,11 +3,8 @@
 
 #include "hext/Result.h"
 
-#include <string>
-#include <cstring>
-
-#include <boost/regex.hpp>
 #include <boost/optional.hpp>
+
 #include <gumbo.h>
 
 
@@ -18,8 +15,7 @@ namespace hext {
 class CapturePattern
 {
 public:
-  CapturePattern();
-  virtual ~CapturePattern();
+  virtual ~CapturePattern() {}
 
   /// Return a string pair containing the captured value, if any. Implementation
   /// is provided by sub classes.
