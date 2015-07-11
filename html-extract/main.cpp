@@ -42,16 +42,13 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    auto hext_filenames = po.get_hext_input();
     std::vector<hext::Hext> extractors;
-    extractors.reserve(hext_filenames.size());
-
-    auto html_filenames = po.get_html_input();
     std::vector<hext::Html> inputs;
-    inputs.reserve(html_filenames.size());
 
     try
     {
+      auto hext_filenames = po.get_hext_input();
+      extractors.reserve(hext_filenames.size());
       for(const auto& filename : hext_filenames)
       {
         try
@@ -69,6 +66,8 @@ int main(int argc, const char ** argv)
       if( po.contains("lint") )
         return EXIT_SUCCESS;
 
+      auto html_filenames = po.get_html_input();
+      inputs.reserve(html_filenames.size());
       for(const auto& filename : html_filenames)
         inputs.emplace_back(htmlext::ReadFileOrThrow(filename));
     }
