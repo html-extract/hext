@@ -1,6 +1,7 @@
 #include "hext/Rule.h"
 #include "hext/NodeUtil.h"
-#include "hext/MatchContext.h"
+
+#include "MatchContext.h"
 
 
 namespace hext {

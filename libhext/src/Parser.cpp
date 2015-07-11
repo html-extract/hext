@@ -22,12 +22,13 @@
 #include "hext/NegateTest.h"
 #include "hext/NthChildMatch.h"
 #include "hext/OnlyChildMatch.h"
-#include "hext/PatternValues.h"
 #include "hext/RegexTest.h"
-#include "hext/RuleBuilder.h"
 #include "hext/StringUtil.h"
 #include "hext/TextNodeMatch.h"
 #include "hext/ValueTest.h"
+
+#include "PatternValues.h"
+#include "RuleBuilder.h"
 
 #include <string>
 #include <vector>
@@ -64,7 +65,7 @@ namespace hext {
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 67 "Parser.cpp.tmp"
+#line 68 "Parser.cpp.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -951,7 +952,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 513;
 
 
-#line 67 "Parser.cpp.rl"
+#line 68 "Parser.cpp.rl"
 
 } // namespace ragel
 
@@ -1072,12 +1073,12 @@ Rule Parser::Impl::parse()
   std::string tok = "";
 
   
-#line 1075 "Parser.cpp.tmp"
+#line 1076 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1080 "Parser.cpp.tmp"
+#line 1081 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1447,7 +1448,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1450 "Parser.cpp.tmp"
+#line 1451 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1479,7 +1480,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1482 "Parser.cpp.tmp"
+#line 1483 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1487,7 +1488,7 @@ _again:
 	_out: {}
 	}
 
-#line 191 "Parser.cpp.rl"
+#line 192 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.
