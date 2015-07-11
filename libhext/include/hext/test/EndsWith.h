@@ -10,27 +10,14 @@ namespace hext {
 namespace test {
 
 
-/// Check whether another string ends with a given literal.
+/// Test whether another string ends with a given literal.
 class EndsWith : public ValueTest
 {
 public:
-  explicit EndsWith(std::string literal)
-  : lit_(std::move(literal))
-    {}
+  explicit EndsWith(std::string literal);
 
   /// Return true if subject ends with literal.
-  bool operator()(const char * subject) const final
-  {
-    if( !subject )
-      return false;
-
-    auto str = std::string(subject);
-
-    if( this->lit_.size() > str.size() )
-      return false;
-
-    return std::equal(this->lit_.rbegin(), this->lit_.rend(), str.rbegin());
-  }
+  bool operator()(const char * subject) const final;
 
 private:
   std::string lit_;

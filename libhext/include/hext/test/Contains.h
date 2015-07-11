@@ -10,23 +10,14 @@ namespace hext {
 namespace test {
 
 
-/// Check whether a string is contained in another string.
+/// Test whether a string is contained in another string.
 class Contains : public ValueTest
 {
 public:
-  explicit Contains(std::string literal)
-  : lit_(std::move(literal))
-    {}
+  explicit Contains(std::string literal);
 
   /// Return true if subject contains literal.
-  bool operator()(const char * subject) const final
-  {
-    if( !subject )
-      return false;
-
-    auto str_subject = std::string(subject);
-    return str_subject.find(this->lit_) != std::string::npos;
-  }
+  bool operator()(const char * subject) const final;
 
 private:
   std::string lit_;

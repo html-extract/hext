@@ -4,32 +4,20 @@
 #include "hext/test/ValueTest.h"
 
 #include <string>
-#include <cstring>
 
 
 namespace hext {
 namespace test {
 
 
-/// Check whether a string begins with a given literal.
+/// Test whether a string begins with a given literal.
 class BeginsWith : public ValueTest
 {
 public:
-  explicit BeginsWith(std::string literal)
-  : lit_(std::move(literal))
-    {}
+  explicit BeginsWith(std::string literal);
 
   /// Return true if subject begins with literal.
-  bool operator()(const char * subject) const final
-  {
-    if( !subject )
-      return false;
-
-    std::size_t length = std::strlen(subject);
-    return
-      this->lit_.size() <= length &&
-      this->lit_.compare(0, this->lit_.size(), subject, this->lit_.size()) == 0;
-  }
+  bool operator()(const char * subject) const final;
 
 private:
   std::string lit_;

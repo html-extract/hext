@@ -71,6 +71,13 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/BeginsWith.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/Contains.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/ContainsWords.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/EndsWith.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/Equals.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/Negate.cpp"
+  "${PROJECT_SOURCE_DIR}/src/test/Regex.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 ADD_DEPENDENCIES(hext gumbo-parser)
 TARGET_LINK_LIBRARIES(

@@ -10,19 +10,14 @@ namespace hext {
 namespace test {
 
 
-/// Check whether another string equals a given literal.
+/// Test whether another string equals a given literal.
 class Equals : public ValueTest
 {
 public:
-  explicit Equals(std::string literal)
-  : lit_(std::move(literal))
-    {}
+  explicit Equals(std::string literal);
 
   /// Return true if subject equals literal.
-  bool operator()(const char * subject) const final
-  {
-    return subject && this->lit_.compare(subject) == 0;
-  }
+  bool operator()(const char * subject) const final;
 
 private:
   std::string lit_;
