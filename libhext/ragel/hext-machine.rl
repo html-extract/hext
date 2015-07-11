@@ -177,7 +177,7 @@ literal_value =
 #### LITERAL ###################################################################
 literal = (
   ( '=' literal_value
-    %{ pv.set_test<test::ContainsAllWords>(pv.literal_value); } )
+    %{ pv.set_test<test::ContainsWords>(pv.literal_value); } )
   |
   ( '==' literal_value
     %{ pv.set_test<test::Equals>(pv.literal_value); } )
@@ -187,9 +187,6 @@ literal = (
   |
   ( '*=' literal_value
     %{ pv.set_test<test::Contains>(pv.literal_value); } )
-  |
-  ( '~=' literal_value
-    %{ pv.set_test<test::ContainsWord>(pv.literal_value); } )
   |
   ( '$=' literal_value
     %{ pv.set_test<test::EndsWith>(pv.literal_value); } )

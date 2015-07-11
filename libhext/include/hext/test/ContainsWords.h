@@ -1,5 +1,5 @@
-#ifndef HEXT_TEST_CONTAINS_ALL_WORDS_H_INCLUDED
-#define HEXT_TEST_CONTAINS_ALL_WORDS_H_INCLUDED
+#ifndef HEXT_TEST_CONTAINS_WORDS_H_INCLUDED
+#define HEXT_TEST_CONTAINS_WORDS_H_INCLUDED
 
 #include "hext/test/ValueTest.h"
 #include "hext/StringUtil.h"
@@ -14,12 +14,12 @@ namespace hext {
 namespace test {
 
 
-/// Check whether another string contains all given words. Word boundaries are
+/// Test whether another string contains all given words. Word boundaries are
 /// the beginning and end of subject, and spaces.
-class ContainsAllWords : public ValueTest
+class ContainsWords : public ValueTest
 {
 public:
-  explicit ContainsAllWords(std::string words)
+  explicit ContainsWords(std::string words)
   : words_()
   {
     boost::trim_if(words, boost::is_any_of(" "));
@@ -31,7 +31,7 @@ public:
     );
   }
 
-  explicit ContainsAllWords(std::vector<std::string> words)
+  explicit ContainsWords(std::vector<std::string> words)
   : words_(std::move(words))
     {}
 
@@ -59,5 +59,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_TEST_CONTAINS_ALL_WORDS_H_INCLUDED
+#endif // HEXT_TEST_CONTAINS_WORDS_H_INCLUDED
 
