@@ -21,6 +21,9 @@ public:
   /// Returns true if regex matches subject.
   bool operator()(const char * subject) const final
   {
+    if( !subject )
+      return false;
+
     return boost::regex_search(subject, this->rx_);
   }
 
