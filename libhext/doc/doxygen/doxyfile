@@ -656,8 +656,6 @@ WARN_LOGFILE           =
 # with spaces.
 
 INPUT                  = ../../include \
-                         ../../src \
-                         ../../ragel \
                          mainpage.txt
 
 # This tag can be used to specify the character encoding of the source files
@@ -676,12 +674,7 @@ INPUT_ENCODING         = UTF-8
 # *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.dox *.py
 # *.f90 *.f *.for *.vhd *.vhdl
 
-FILE_PATTERNS          = *.txt \
-                         *.xml \
-                         *.cpp \
-                         *.h \
-                         *.hpp \
-                         *.rl
+FILE_PATTERNS          = *.h
 
 # The RECURSIVE tag can be used to turn specify whether or not subdirectories
 # should be searched for input files as well. Possible values are YES and NO.
@@ -695,8 +688,7 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = ../../include/hext/Parser.h \
-                         ../../src/Parser.cpp
+#EXCLUDE                =
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -1396,7 +1388,7 @@ MAN_LINKS              = NO
 # generate an XML file that captures the structure of
 # the code including all documentation.
 
-GENERATE_XML           = YES
+GENERATE_XML           = NO
 
 # The XML_OUTPUT tag is used to specify where the XML pages will be put.
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be
