@@ -8,7 +8,6 @@
 #include <Poco/URI.h>
 #include <boost/optional.hpp>
 
-#include "hext/Hext.h"
 #include "hext/Rule.h"
 #include "hext/Match.h"
 #include "hext/Capture.h"

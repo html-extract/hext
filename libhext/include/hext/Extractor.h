@@ -1,5 +1,5 @@
-#ifndef HEXT_HEXT_H_INCLUDED
-#define HEXT_HEXT_H_INCLUDED
+#ifndef HEXT_EXTRACTOR_H_INCLUDED
+#define HEXT_EXTRACTOR_H_INCLUDED
 
 #include "hext/Html.h"
 #include "hext/ResultTree.h"
@@ -13,20 +13,20 @@
 namespace hext {
 
 
-/// Hext takes a string containing hext rule definitions. Once constructed, the
-/// rules can be applied to html by calling Hext::extract, which returns a
+/// Extractor takes a string containing hext rule definitions. Once constructed, the
+/// rules can be applied to html by calling Extractor::extract, which returns a
 /// hext::ResultTree containing all captured values.
-class Hext
+class Extractor
 {
 public:
-  /// Construct Hext. Throws SyntaxError if given hext is invalid.
+  /// Construct Extractor. Throws SyntaxError if given hext is invalid.
   ///
   /// \param hext
   ///     A string containing hext rule definitions.
-  explicit Hext(const std::string& hext);
-  Hext(Hext&&);
-  Hext& operator=(Hext &&);
-  ~Hext();
+  explicit Extractor(const std::string& hext);
+  Extractor(Extractor&&);
+  Extractor& operator=(Extractor &&);
+  ~Extractor();
 
   /// Extract values from a string containing html.
   /// Return a hext::ResultTree containing captured values.
@@ -37,8 +37,8 @@ public:
   std::unique_ptr<ResultTree> extract(const Html& html) const;
 
 private:
-  Hext(const Hext&) = delete;
-  Hext& operator=(const Hext&) = delete;
+  Extractor(const Extractor&) = delete;
+  Extractor& operator=(const Extractor&) = delete;
 
   struct Impl;
   std::unique_ptr<Impl> impl_;
@@ -48,5 +48,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_HEXT_H_INCLUDED
+#endif // HEXT_EXTRACTOR_H_INCLUDED
 

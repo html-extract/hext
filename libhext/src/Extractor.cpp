@@ -1,4 +1,4 @@
-#include "hext/Hext.h"
+#include "hext/Extractor.h"
 #include "hext/Parser.h"
 #include "hext/Rule.h"
 
@@ -8,7 +8,7 @@
 namespace hext {
 
 
-struct Hext::Impl
+struct Extractor::Impl
 {
   Impl()
   : top_rule_()
@@ -22,23 +22,23 @@ struct Hext::Impl
 };
 
 
-Hext::Hext(const std::string& hext)
-: impl_(MakeUnique<Hext::Impl>())
+Extractor::Extractor(const std::string& hext)
+: impl_(MakeUnique<Extractor::Impl>())
 {
   Parser p(hext.c_str(), hext.c_str() + hext.size());
   this->impl_->top_rule_ = std::move(p.parse());
 }
 
-Hext::Hext(Hext&&) = default;
-Hext& Hext::operator=(Hext &&) = default;
-Hext::~Hext() = default;
+Extractor::Extractor(Extractor&&) = default;
+Extractor& Extractor::operator=(Extractor &&) = default;
+Extractor::~Extractor() = default;
 
-std::unique_ptr<ResultTree> Hext::extract(const std::string& html) const
+std::unique_ptr<ResultTree> Extractor::extract(const std::string& html) const
 {
   return std::move(this->extract(Html(html)));
 }
 
-std::unique_ptr<ResultTree> Hext::extract(const Html& html) const
+std::unique_ptr<ResultTree> Extractor::extract(const Html& html) const
 {
   return std::move(this->impl_->top_rule_.extract(html.root()));
 }

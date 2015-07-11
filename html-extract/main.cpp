@@ -1,4 +1,4 @@
-#include "hext/Hext.h"
+#include "hext/Extractor.h"
 
 #include "htmlext/File.h"
 #include "htmlext/Json.h"
@@ -42,7 +42,7 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    std::vector<hext::Hext> extractors;
+    std::vector<hext::Extractor> extractors;
     std::vector<hext::Html> inputs;
 
     try

@@ -62,7 +62,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/ContainsWordsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/EndsWithTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/EqualsTest.cpp"
-  "${PROJECT_SOURCE_DIR}/src/Hext.cpp"
+  "${PROJECT_SOURCE_DIR}/src/Extractor.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
   "${PROJECT_SOURCE_DIR}/src/MatchContext.cpp"
   "${PROJECT_SOURCE_DIR}/src/NegateMatch.cpp"
