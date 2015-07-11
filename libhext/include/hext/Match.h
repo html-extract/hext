@@ -1,5 +1,5 @@
-#ifndef HEXT_PATTERN_MATCH_H_INCLUDED
-#define HEXT_PATTERN_MATCH_H_INCLUDED
+#ifndef HEXT_MATCH_H_INCLUDED
+#define HEXT_MATCH_H_INCLUDED
 
 #include <gumbo.h>
 
@@ -23,5 +23,5 @@ public:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_MATCH_H_INCLUDED
+#endif // HEXT_MATCH_H_INCLUDED
 

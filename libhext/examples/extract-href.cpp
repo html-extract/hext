@@ -10,9 +10,9 @@
 
 #include "hext/Hext.h"
 #include "hext/Rule.h"
-#include "hext/pattern/Match.h"
-#include "hext/pattern/Capture.h"
-#include "hext/pattern/AttributeCapture.h"
+#include "hext/Match.h"
+#include "hext/Capture.h"
+#include "hext/AttributeCapture.h"
 
 #include "gumbo.h"
 

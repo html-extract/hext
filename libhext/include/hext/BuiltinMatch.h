@@ -1,8 +1,8 @@
-#ifndef HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
-#define HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
+#ifndef HEXT_BUILTIN_MATCH_H_INCLUDED
+#define HEXT_BUILTIN_MATCH_H_INCLUDED
 
 #include "hext/Builtins.h"
-#include "hext/pattern/Match.h"
+#include "hext/Match.h"
 #include "hext/ValueTest.h"
 
 #include <memory>
@@ -43,5 +43,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_BUILTIN_MATCH_H_INCLUDED
+#endif // HEXT_BUILTIN_MATCH_H_INCLUDED
 

@@ -1,4 +1,4 @@
-#include "hext/pattern/ChildCountMatch.h"
+#include "hext/ChildCountMatch.h"
 
 #include <cassert>
 

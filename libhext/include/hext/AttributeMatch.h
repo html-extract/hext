@@ -1,7 +1,7 @@
-#ifndef HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
-#define HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
+#ifndef HEXT_ATTRIBUTE_MATCH_H_INCLUDED
+#define HEXT_ATTRIBUTE_MATCH_H_INCLUDED
 
-#include "hext/pattern/Match.h"
+#include "hext/Match.h"
 #include "hext/ValueTest.h"
 
 #include <memory>
@@ -43,5 +43,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_ATTRIBUTE_MATCH_H_INCLUDED
+#endif // HEXT_ATTRIBUTE_MATCH_H_INCLUDED
 

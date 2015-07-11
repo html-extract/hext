@@ -1,4 +1,4 @@
-#include "hext/pattern/NegateMatch.h"
+#include "hext/NegateMatch.h"
 
 #include <cassert>
 #include <utility>

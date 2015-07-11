@@ -1,5 +1,5 @@
-#ifndef HEXT_PATTERN_CAPTURE_H_INCLUDED
-#define HEXT_PATTERN_CAPTURE_H_INCLUDED
+#ifndef HEXT_CAPTURE_H_INCLUDED
+#define HEXT_CAPTURE_H_INCLUDED
 
 #include "hext/Result.h"
 
@@ -26,5 +26,5 @@ public:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_CAPTURE_H_INCLUDED
+#endif // HEXT_CAPTURE_H_INCLUDED
 

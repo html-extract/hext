@@ -3,8 +3,8 @@
 
 #include "hext/Builtins.h"
 #include "hext/MakeUnique.h"
-#include "hext/pattern/Match.h"
-#include "hext/pattern/NegateMatch.h"
+#include "hext/Match.h"
+#include "hext/NegateMatch.h"
 #include "hext/ValueTest.h"
 
 #include <string>

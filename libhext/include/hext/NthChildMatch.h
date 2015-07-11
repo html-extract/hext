@@ -1,7 +1,7 @@
-#ifndef HEXT_PATTERN_NTHCHILD_MATCH_H_INCLUDED
-#define HEXT_PATTERN_NTHCHILD_MATCH_H_INCLUDED
+#ifndef HEXT_NTHCHILD_MATCH_H_INCLUDED
+#define HEXT_NTHCHILD_MATCH_H_INCLUDED
 
-#include "hext/pattern/Match.h"
+#include "hext/Match.h"
 #include "hext/HtmlTag.h"
 
 #include <utility>
@@ -80,5 +80,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_NTHCHILD_MATCH_H_INCLUDED
+#endif // HEXT_NTHCHILD_MATCH_H_INCLUDED
 

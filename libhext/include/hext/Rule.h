@@ -5,8 +5,8 @@
 #include "hext/Result.h"
 #include "hext/ResultTree.h"
 #include "hext/MakeUnique.h"
-#include "hext/pattern/Match.h"
-#include "hext/pattern/Capture.h"
+#include "hext/Match.h"
+#include "hext/Capture.h"
 
 #include <cstddef>
 #include <memory>

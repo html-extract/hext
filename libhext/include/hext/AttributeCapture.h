@@ -1,7 +1,7 @@
-#ifndef HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
-#define HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
+#ifndef HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
+#define HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
 
-#include "hext/pattern/Capture.h"
+#include "hext/Capture.h"
 #include "hext/Result.h"
 
 #include <string>
@@ -55,5 +55,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_ATTRIBUTE_CAPTURE_H_INCLUDED
+#endif // HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
 

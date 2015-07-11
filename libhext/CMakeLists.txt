@@ -51,7 +51,13 @@ ENDIF(LIBGUMBO_FOUND)
 ###### SOURCES #################################################################
 ADD_LIBRARY(
   hext SHARED
+  "${PROJECT_SOURCE_DIR}/src/AttributeCapture.cpp"
+  "${PROJECT_SOURCE_DIR}/src/AttributeCountMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/AttributeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/BeginsWithTest.cpp"
+  "${PROJECT_SOURCE_DIR}/src/BuiltinCapture.cpp"
+  "${PROJECT_SOURCE_DIR}/src/BuiltinMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/ChildCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/ContainsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/ContainsWordsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/EndsWithTest.cpp"
@@ -59,19 +65,12 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/Hext.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
   "${PROJECT_SOURCE_DIR}/src/MatchContext.cpp"
+  "${PROJECT_SOURCE_DIR}/src/NegateMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/NegateTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/NodeUtil.cpp"
+  "${PROJECT_SOURCE_DIR}/src/NthChildMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/OnlyChildMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/Parser.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/AttributeCapture.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/AttributeCountMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/AttributeMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinCapture.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/BuiltinMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/ChildCountMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/NegateMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/NthChildMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/OnlyChildMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/pattern/TextNodeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/ResultTree.cpp"
@@ -79,6 +78,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
+  "${PROJECT_SOURCE_DIR}/src/TextNodeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 ADD_DEPENDENCIES(hext gumbo-parser)
 TARGET_LINK_LIBRARIES(

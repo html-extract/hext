@@ -1,4 +1,4 @@
-#include "hext/pattern/TextNodeMatch.h"
+#include "hext/TextNodeMatch.h"
 
 #include <cassert>
 

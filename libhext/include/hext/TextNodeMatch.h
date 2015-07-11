@@ -1,7 +1,7 @@
-#ifndef HEXT_PATTERN_TEXT_NODE_MATCH_H_INCLUDED
-#define HEXT_PATTERN_TEXT_NODE_MATCH_H_INCLUDED
+#ifndef HEXT_TEXT_NODE_MATCH_H_INCLUDED
+#define HEXT_TEXT_NODE_MATCH_H_INCLUDED
 
-#include "hext/pattern/Match.h"
+#include "hext/Match.h"
 
 #include <gumbo.h>
 
@@ -21,5 +21,5 @@ public:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_TEXT_NODE_MATCH_H_INCLUDED
+#endif // HEXT_TEXT_NODE_MATCH_H_INCLUDED
 

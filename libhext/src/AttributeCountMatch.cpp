@@ -1,4 +1,4 @@
-#include "hext/pattern/AttributeCountMatch.h"
+#include "hext/AttributeCountMatch.h"
 
 #include <cassert>
 

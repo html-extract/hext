@@ -1,4 +1,4 @@
-#include "hext/pattern/BuiltinMatch.h"
+#include "hext/BuiltinMatch.h"
 
 #include <cassert>
 #include <string>

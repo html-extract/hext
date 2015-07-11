@@ -1,7 +1,7 @@
-#ifndef HEXT_PATTERN_CHILD_COUNT_MATCH_H_INCLUDED
-#define HEXT_PATTERN_CHILD_COUNT_MATCH_H_INCLUDED
+#ifndef HEXT_CHILD_COUNT_MATCH_H_INCLUDED
+#define HEXT_CHILD_COUNT_MATCH_H_INCLUDED
 
-#include "hext/pattern/Match.h"
+#include "hext/Match.h"
 
 #include <gumbo.h>
 
@@ -33,5 +33,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_CHILD_COUNT_MATCH_H_INCLUDED
+#endif // HEXT_CHILD_COUNT_MATCH_H_INCLUDED
 

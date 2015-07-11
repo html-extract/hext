@@ -1,8 +1,8 @@
-#ifndef HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
-#define HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
+#ifndef HEXT_BUILTIN_CAPTURE_H_INCLUDED
+#define HEXT_BUILTIN_CAPTURE_H_INCLUDED
 
 #include "hext/Result.h"
-#include "hext/pattern/Capture.h"
+#include "hext/Capture.h"
 #include "hext/Builtins.h"
 
 #include <string>
@@ -58,5 +58,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_PATTERN_BUILTIN_CAPTURE_H_INCLUDED
+#endif // HEXT_BUILTIN_CAPTURE_H_INCLUDED
 

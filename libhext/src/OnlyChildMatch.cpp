@@ -1,4 +1,4 @@
-#include "hext/pattern/OnlyChildMatch.h"
+#include "hext/OnlyChildMatch.h"
 
 #include <cassert>
 
