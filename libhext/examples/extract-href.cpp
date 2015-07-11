@@ -8,12 +8,9 @@
 #include <Poco/URI.h>
 #include <boost/optional.hpp>
 
-#include "hext/Rule.h"
-#include "hext/Match.h"
-#include "hext/Capture.h"
-#include "hext/AttributeCapture.h"
+#include "hext/Hext.h"
 
-#include "gumbo.h"
+#include <gumbo.h>
 
 
 /// Match nodes that have an attribute href, whose value

@@ -1,4 +1,4 @@
-#include "hext/Extractor.h"
+#include "hext/Hext.h"
 
 #include "htmlext/File.h"
 #include "htmlext/Json.h"

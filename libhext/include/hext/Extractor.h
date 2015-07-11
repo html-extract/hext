@@ -3,7 +3,6 @@
 
 #include "hext/Html.h"
 #include "hext/ResultTree.h"
-#include "hext/SyntaxError.h"
 
 #include <memory>
 #include <string>
@@ -13,9 +12,9 @@
 namespace hext {
 
 
-/// Extractor takes a string containing hext rule definitions. Once constructed, the
-/// rules can be applied to html by calling Extractor::extract, which returns a
-/// hext::ResultTree containing all captured values.
+/// Extractor takes a string containing hext rule definitions. Once constructed,
+/// the rules can be applied to html by calling Extractor::extract, which
+/// returns a hext::ResultTree containing all captured values.
 class Extractor
 {
 public:
