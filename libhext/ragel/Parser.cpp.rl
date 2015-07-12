@@ -83,13 +83,16 @@ struct Parser::Impl
   Rule parse();
 
   /// Throw `SyntaxError` with an error message marking an unexpected character.
+  [[noreturn]]
   void throw_unexpected() const;
 
   /// Throw `SyntaxError` with an error message marking an invalid html tag.
+  [[noreturn]]
   void throw_invalid_tag(const std::string& tag) const;
 
   /// Throw `SyntaxError` with an error message marking an invalid regular
   /// expression.
+  [[noreturn]]
   void throw_regex_error(
     std::size_t mark_len,
     boost::regex_constants::error_type e_code
@@ -97,6 +100,7 @@ struct Parser::Impl
 
   /// Throw `SyntaxError` with an error message complaining about a missing
   /// closing tag.
+  [[noreturn]]
   void throw_missing_tag(HtmlTag missing) const;
 
   /// Throw `SyntaxError` with an error message marking an invalid closing tag.
@@ -107,6 +111,7 @@ struct Parser::Impl
   /// \param expected
   ///   The next expected closing HtmlTag. If empty, a closing tag was
   ///   given but none expected.
+  [[noreturn]]
   void throw_unexpected_tag(
     const std::string& tag,
     boost::optional<HtmlTag> expected
