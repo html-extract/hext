@@ -1,9 +1,10 @@
-# Enable all (reasonable) warnings, depending on compiler. The only compilers covered
-# are Clang and GCC.
+# Enable reasonable warnings.
 
 # Clang
 IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  ADD_DEFINITIONS("-Weverything")
+  ADD_DEFINITIONS("-Weverything" "-Wno-c++98-compat" "-Wno-padded"
+    "-Wno-documentation-unknown-command" "-Wno-documentation-html"
+    "-Wno-documentation" "-Wno-weak-vtables" "-Wno-switch-enum")
 ENDIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 # G++
@@ -24,12 +25,11 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wunreachable-code" "-Wunused"
     "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
     "-Wunused-variable" "-Wvariadic-macros" "-Wvolatile-register-var"
-    "-Wwrite-strings"
+    "-Wwrite-strings" "-Wmissing-noreturn"
     # Unused switches:
     # "-Wswitch-enum": Listing every enum brings chaos, especially for GumboTag.
     # "-Wswitch-default": generated ragel code uses switch without default,
     #                     we cannot do anything about that
-    # "-Wmissing-noreturn": we dont care for gcc specific attributes
     # "-Wpadded": also warns when it's impossible to shrink padding
     # "-Wunsafe-loop-optimizations": emits a warning for each for-range loop
   )
