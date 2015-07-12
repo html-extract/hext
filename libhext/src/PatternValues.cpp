@@ -9,15 +9,15 @@ namespace hext {
 PatternValues::PatternValues()
 : nth(0, 0)
 , builtin(nullptr)
-, optional(false)
 , attr_name()
 , literal_value()
 , cap_var()
-, regex_flag(boost::regex::perl)
 , regex()
 , test(nullptr)
 , trait(nullptr)
 , negate(nullptr)
+, regex_flag(boost::regex::perl)
+, optional(false)
 {
 }
 

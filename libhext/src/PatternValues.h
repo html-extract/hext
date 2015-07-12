@@ -47,9 +47,6 @@ public:
   /// The current builtin function.
   BuiltinFuncPtr builtin;
 
-  /// Whether the current Capture is optional.
-  bool optional;
-
   /// The current attribute name.
   std::string attr_name;
 
@@ -58,9 +55,6 @@ public:
 
   /// The current Capture's result name.
   std::string cap_var;
-
-  /// The current regex options.
-  boost::regex::flag_type regex_flag;
 
   /// The current Pattern's regex.
   /// boost::optional is used to be able to distinguish between empty regex
@@ -75,6 +69,12 @@ public:
 
   /// The current NegateMatch.
   std::unique_ptr<NegateMatch> negate;
+
+  /// The current regex options.
+  boost::regex::flag_type regex_flag;
+
+  /// Whether the current Capture is optional.
+  bool optional;
 };
 
 
