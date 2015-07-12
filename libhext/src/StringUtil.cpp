@@ -124,45 +124,13 @@ CharPosPair CharPosition(const char * begin, const char * c)
   return CharPosPair(line_count, char_offset_in_line);
 }
 
-int DecimalWidth(int number)
+int DecimalWidth(std::size_t number)
 {
   int width = 1;
   while( number /= 10 )
+    // overflow is impossible
     ++width;
   return width;
-}
-
-void PrintWithLineNumbers(
-  const char * begin,
-  const char * end,
-  int number_width,
-  std::ostream& out
-)
-{
-  assert(begin && end && begin <= end);
-  if( !begin || !end || begin > end )
-    return;
-
-  boost::tokenizer<boost::char_separator<char>, const char *> lines(
-    begin,
-    end,
-    // keep_empty_tokens is neccessary because we also have to print empty lines
-    boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
-  );
-
-  assert(number_width > 0);
-  if( number_width < 1 )
-    number_width = 1;
-
-  unsigned int line_num = 1;
-  for(const auto& line : lines)
-  {
-    out << std::setw(number_width)
-        << line_num++
-        << ": "
-        << line
-        << '\n';
-  }
 }
 
 bool ContainsWord(const std::string& subject, const std::string& word)

@@ -48,31 +48,8 @@ typedef std::pair<CharPosType, CharPosType> CharPosPair;
 /// `begin`. Numbering is zero-based.
 CharPosPair CharPosition(const char * begin, const char * c);
 
-/// Return width of number when printed as decimal, excluding sign.
-int DecimalWidth(int number);
-
-/// Print `begin` to `end` into `out`, but when printing lines, insert line
-/// number, colon and one space. `number_width` is the space needed to print a
-/// line number as decimal.
-///
-/// Example:
-/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/// An SQL query goes into a bar,
-/// walks up to two tables and asks,
-/// Can I join you?
-/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/// becomes
-/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/// 1: An SQL query goes into a bar,
-/// 2: walks up to two tables and asks,
-/// 3: Can I join you?
-/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void PrintWithLineNumbers(
-  const char * begin,
-  const char * end,
-  int number_width,
-  std::ostream& out
-);
+/// Return width of number when printed as decimal.
+int DecimalWidth(std::size_t number);
 
 /// Return true if subject contains word. Word boundaries are the beginning and
 /// end of subject, and spaces.

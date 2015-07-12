@@ -1021,6 +1021,27 @@ struct Parser::Impl
     std::ostream& out
   ) const;
 
+  /// Print `begin` to `end` into `out`, prepending a line number, a colon and a
+  /// space for each line.
+  ///
+  /// Example:
+  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /// An SQL query goes into a bar,
+  /// walks up to two tables and asks,
+  /// Can I join you?
+  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /// becomes
+  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /// 1: An SQL query goes into a bar,
+  /// 2: walks up to two tables and asks,
+  /// 3: Can I join you?
+  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  void print_numbered_lines(
+    const char * begin,
+    const char * end,
+    std::ostream& out
+  ) const;
+
   /// The beginning of the hext input.
   const char * p_begin_;
 
@@ -1089,12 +1110,12 @@ Rule Parser::Impl::parse()
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
   
-#line 1092 "Parser.cpp.tmp"
+#line 1113 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1097 "Parser.cpp.tmp"
+#line 1118 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1464,7 +1485,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1467 "Parser.cpp.tmp"
+#line 1488 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1496,7 +1517,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1499 "Parser.cpp.tmp"
+#line 1520 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1504,7 +1525,7 @@ _again:
 	_out: {}
 	}
 
-#line 208 "Parser.cpp.rl"
+#line 229 "Parser.cpp.rl"
 
 #pragma GCC diagnostic pop
 
@@ -1619,28 +1640,20 @@ void Parser::Impl::print_error_location(
 
   // The zero-based line and char offset of the unexpected character
   CharPosPair pos = CharPosition(this->p_begin_, uc);
+  auto line_count = static_cast<std::size_t>(pos.first + 1);
+  auto char_count = static_cast<std::size_t>(pos.second + 1);
 
   if( uc == this->pe )
-  {
     out << "at end of input:\n\n";
-  }
   else
-  {
-    out << "at line "
-        << pos.first + 1 // line_count
-        << ", char "
-        << pos.second + 1 // char_count
-        << ":\n\n";
-  }
-
-  // The amount of chars needed to print the biggest line number.
-  int number_width = DecimalWidth(static_cast<int>(pos.first + 1));
+    out << "at line " << line_count
+        << ", char " << char_count << ":\n\n";
 
   // Don't print the unexpected character if it is a newline
   if( uc == this->pe || *uc == '\n' )
-    PrintWithLineNumbers(this->p_begin_, uc, number_width, out);
+    this->print_numbered_lines(this->p_begin_, uc, out);
   else
-    PrintWithLineNumbers(this->p_begin_, uc + 1, number_width, out);
+    this->print_numbered_lines(this->p_begin_, uc + 1, out);
 
   if( mark_len < 1 )
     return;
@@ -1649,26 +1662,55 @@ void Parser::Impl::print_error_location(
   if( std::any_of(this->p_begin_, this->pe, [](signed char c){return c < 0;}) )
     return;
 
-  auto char_pos = static_cast<std::size_t>(pos.second + 1);
-
   // The longest the mark can be is the length of the last line.
-  mark_len = std::min(char_pos, mark_len);
+  mark_len = std::min(char_count, mark_len);
 
   // Print a visual indicator directly under the unexpected token ('^').
   // The required amount of indentation must be known.
-  // PrintWithLineNumbers prints lines like this:
-  // 1: An SQL query goes into a bar,
-  // 2: walks up to two tables and asks,
-  // 3: 'Can I join you?'
-  std::size_t indent = number_width // chars required to print the line number
+  std::size_t indent = static_cast<std::size_t>(DecimalWidth(line_count))
                      + 2            // ": "
-                     + char_pos     // position of the unexpected character from
+                     + char_count   // position of the unexpected character from
                                     // the beginning of the line.
                      - mark_len;    // the length of the '^' mark
 
   out << std::string(indent, ' ')
       << std::string(mark_len, '^')
       << " here\n";
+}
+
+void Parser::Impl::print_numbered_lines(
+  const char * begin,
+  const char * end,
+  std::ostream& out
+) const
+{
+  assert(begin && end && begin <= end);
+  if( !begin || !end || begin > end )
+    return;
+
+  boost::tokenizer<boost::char_separator<char>, const char *> lines(
+    begin,
+    end,
+    // keep_empty_tokens is neccessary because we also have to print empty lines
+    boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
+  );
+
+  std::size_t line_count = 1 + static_cast<std::size_t>(
+    std::count(begin, end, '\n')
+  );
+
+  // Amount of digits needed to print the biggest line number
+  int number_width = DecimalWidth(line_count);
+
+  int line_num = 1;
+  for(const auto& line : lines)
+  {
+    out << std::setw(number_width)
+        << line_num++
+        << ": "
+        << line
+        << '\n';
+  }
 }
 
 
