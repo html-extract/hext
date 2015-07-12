@@ -16,7 +16,7 @@ Rule RuleBuilder::take_rule_tree()
   this->tag_stack_ = std::stack<HtmlTag>();
 
   if( !this->rules_.size() )
-    return {};
+    return Rule();
 
   if( this->rules_.size() == 1 )
   {
