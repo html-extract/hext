@@ -11,8 +11,8 @@ SET(
   ${PROJECT_SOURCE_DIR}/../cmake
   ${PROJECT_SOURCE_DIR}/../cmake/thirdparty)
 
-# Force flag -std=c++11.
-INCLUDE(HextForceCPP11)
+# Force flag -std=c++14.
+INCLUDE(HextForceCPP14)
 
 # Enable all (reasonable) warnings with Clang and GCC.
 INCLUDE(HextEnableWarnings)
