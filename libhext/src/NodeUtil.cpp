@@ -112,7 +112,7 @@ bool TagWrapsText(GumboTag tag)
       return true;
   }
 
-  return true;
+  assert(false);
 }
 
 
