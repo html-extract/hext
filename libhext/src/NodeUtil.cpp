@@ -61,7 +61,9 @@ std::string NodeInnerHtml(const GumboNode * node)
       ( b.data + b.length ) < e.data )
   {
     const char * inner_begin = b.data + b.length;
-    std::ptrdiff_t length = std::distance(inner_begin, e.data);
+    auto length = static_cast<std::string::size_type>(
+      std::distance(inner_begin, e.data)
+    );
     return std::string(inner_begin, length);
   }
 
