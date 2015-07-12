@@ -114,7 +114,7 @@ regex =
    }
    catch( const boost::regex_error& e ) {
      // Mark whole regex as error, including slashes and flags
-     auto mark_len = this->p - tok_begin + 1;
+     auto mark_len = static_cast<std::size_t>(this->p - tok_begin + 1);
      this->throw_regex_error(mark_len, e.code());
    }
 };

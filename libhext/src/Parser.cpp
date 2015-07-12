@@ -53,18 +53,20 @@ namespace hext {
 
 /// Convenience macro to complete a token. Used within the hext
 /// machine defintion. Accesses local variables of `Parser::parse()`.
-#define TK_STOP                 \
-  assert(tok_begin != nullptr); \
-  assert(p != nullptr);         \
-  tok_end = p;                  \
-  tok = std::string(tok_begin, std::distance(tok_begin, tok_end));
-
+#define TK_STOP      \
+  assert(tok_begin); \
+  assert(p);         \
+  tok_end = p;       \
+  tok = std::string( \
+    tok_begin,       \
+    static_cast<std::string::size_type>(std::distance(tok_begin, tok_end)) \
+  );
 
 /// The ragel namespace holds ragel's static data.
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 67 "Parser.cpp.tmp"
+#line 69 "Parser.cpp.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -951,7 +953,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 513;
 
 
-#line 67 "Parser.cpp.rl"
+#line 69 "Parser.cpp.rl"
 
 } // namespace ragel
 
@@ -1082,12 +1084,12 @@ Rule Parser::Impl::parse()
   std::string tok = "";
 
   
-#line 1085 "Parser.cpp.tmp"
+#line 1087 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1090 "Parser.cpp.tmp"
+#line 1092 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1282,7 +1284,7 @@ _match:
    }
    catch( const boost::regex_error& e ) {
      // Mark whole regex as error, including slashes and flags
-     auto mark_len = this->p - tok_begin + 1;
+     auto mark_len = static_cast<std::size_t>(this->p - tok_begin + 1);
      this->throw_regex_error(mark_len, e.code());
    }
 }
@@ -1457,7 +1459,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1460 "Parser.cpp.tmp"
+#line 1462 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1489,7 +1491,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1492 "Parser.cpp.tmp"
+#line 1494 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1497,7 +1499,7 @@ _again:
 	_out: {}
 	}
 
-#line 201 "Parser.cpp.rl"
+#line 203 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.
@@ -1512,22 +1514,16 @@ void Parser::Impl::throw_unexpected() const
   assert(this->p && this->p_begin_ && this->pe);
   assert(this->p <= this->pe && this->p >= this->p_begin_);
 
-  if( !this->p || !this->pe )
-    return;
-
   std::stringstream error_msg;
-  if( this->p == this->pe )
-  {
+  if( this->p == this->pe || !this->p )
     error_msg << "Premature termination ";
-  }
   else
-  {
     error_msg << "Unexpected character '"
               << CharName(*(this->p))
               << "' ";
-  }
 
-  this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
+  if( this->p && this->pe )
+    this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
 
   throw SyntaxError(error_msg.str());
 }
@@ -1647,8 +1643,10 @@ void Parser::Impl::print_error_location(
   if( std::any_of(this->p_begin_, this->pe, [](signed char c){return c < 0;}) )
     return;
 
+  auto char_pos = static_cast<std::size_t>(pos.second + 1);
+
   // The longest the mark can be is the length of the last line.
-  mark_len = std::min(pos.second + 1, static_cast<CharPosType>(mark_len));
+  mark_len = std::min(char_pos, mark_len);
 
   // Print a visual indicator directly under the unexpected token ('^').
   // The required amount of indentation must be known.
@@ -1658,7 +1656,7 @@ void Parser::Impl::print_error_location(
   // 3: 'Can I join you?'
   std::size_t indent = number_width // chars required to print the line number
                      + 2            // ": "
-                     + pos.second+1 // position of the unexpected character from
+                     + char_pos     // position of the unexpected character from
                                     // the beginning of the line.
                      - mark_len;    // the length of the '^' mark
 

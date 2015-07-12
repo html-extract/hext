@@ -50,12 +50,14 @@ namespace hext {
 
 /// Convenience macro to complete a token. Used within the hext
 /// machine defintion. Accesses local variables of `Parser::parse()`.
-#define TK_STOP                 \
-  assert(tok_begin != nullptr); \
-  assert(p != nullptr);         \
-  tok_end = p;                  \
-  tok = std::string(tok_begin, std::distance(tok_begin, tok_end));
-
+#define TK_STOP      \
+  assert(tok_begin); \
+  assert(p);         \
+  tok_end = p;       \
+  tok = std::string( \
+    tok_begin,       \
+    static_cast<std::string::size_type>(std::distance(tok_begin, tok_end)) \
+  );
 
 /// The ragel namespace holds ragel's static data.
 namespace ragel {
@@ -341,8 +343,10 @@ void Parser::Impl::print_error_location(
   if( std::any_of(this->p_begin_, this->pe, [](signed char c){return c < 0;}) )
     return;
 
+  auto char_pos = static_cast<std::size_t>(pos.second + 1);
+
   // The longest the mark can be is the length of the last line.
-  mark_len = std::min(pos.second + 1, static_cast<CharPosType>(mark_len));
+  mark_len = std::min(char_pos, mark_len);
 
   // Print a visual indicator directly under the unexpected token ('^').
   // The required amount of indentation must be known.
@@ -352,7 +356,7 @@ void Parser::Impl::print_error_location(
   // 3: 'Can I join you?'
   std::size_t indent = number_width // chars required to print the line number
                      + 2            // ": "
-                     + pos.second+1 // position of the unexpected character from
+                     + char_pos     // position of the unexpected character from
                                     // the beginning of the line.
                      - mark_len;    // the length of the '^' mark
 
