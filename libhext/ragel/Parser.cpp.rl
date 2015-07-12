@@ -212,22 +212,16 @@ void Parser::Impl::throw_unexpected() const
   assert(this->p && this->p_begin_ && this->pe);
   assert(this->p <= this->pe && this->p >= this->p_begin_);
 
-  if( !this->p || !this->pe )
-    return;
-
   std::stringstream error_msg;
-  if( this->p == this->pe )
-  {
+  if( this->p == this->pe || !this->p )
     error_msg << "Premature termination ";
-  }
   else
-  {
     error_msg << "Unexpected character '"
               << CharName(*(this->p))
               << "' ";
-  }
 
-  this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
+  if( this->p && this->pe )
+    this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
 
   throw SyntaxError(error_msg.str());
 }
