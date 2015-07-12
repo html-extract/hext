@@ -13,7 +13,6 @@
 #include "hext/ContainsWordsTest.h"
 #include "hext/EndsWithTest.h"
 #include "hext/EqualsTest.h"
-#include "hext/MakeUnique.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/NegateTest.h"
@@ -150,7 +149,7 @@ struct Parser::Impl
 
 
 Parser::Parser(const char * begin, const char * end)
-: impl_(MakeUnique<Impl>(begin, end))
+: impl_(std::make_unique<Impl>(begin, end))
 {
 }
 

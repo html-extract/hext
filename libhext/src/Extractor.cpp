@@ -23,7 +23,7 @@ struct Extractor::Impl
 
 
 Extractor::Extractor(const std::string& hext)
-: impl_(MakeUnique<Extractor::Impl>())
+: impl_(std::make_unique<Extractor::Impl>())
 {
   Parser p(hext.c_str(), hext.c_str() + hext.size());
   this->impl_->top_rule_ = std::move(p.parse());

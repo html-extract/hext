@@ -1,5 +1,4 @@
 #include "hext/AttributeMatch.h"
-#include "hext/MakeUnique.h"
 
 #include <cassert>
 #include <utility>

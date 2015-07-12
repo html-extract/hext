@@ -4,7 +4,6 @@
 #include "hext/HtmlTag.h"
 #include "hext/Result.h"
 #include "hext/ResultTree.h"
-#include "hext/MakeUnique.h"
 #include "hext/Match.h"
 #include "hext/Capture.h"
 
@@ -57,7 +56,7 @@ public:
   Rule& add_match(Args&&... arg)
   {
     return this->take_match(
-      MakeUnique<MatchType>(std::forward<Args>(arg)...)
+      std::make_unique<MatchType>(std::forward<Args>(arg)...)
     );
   }
 
@@ -69,7 +68,7 @@ public:
   Rule& add_capture(Args&&... arg)
   {
     return this->take_capture(
-      MakeUnique<CaptureType>(std::forward<Args>(arg)...)
+      std::make_unique<CaptureType>(std::forward<Args>(arg)...)
     );
   }
 

@@ -19,7 +19,6 @@
 #include "hext/Hext.h"
 #include "hext/Html.h"
 #include "hext/HtmlTag.h"
-#include "hext/MakeUnique.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/NegateTest.h"

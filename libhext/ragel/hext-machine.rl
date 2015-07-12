@@ -87,7 +87,7 @@ trait = ':' (
 );
 not_trait =
 ':not('
-  %{ pv.negate = MakeUnique<NegateMatch>(); }
+  %{ pv.negate = std::make_unique<NegateMatch>(); }
   (
     trait
     %{

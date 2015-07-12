@@ -1,5 +1,4 @@
 #include "hext/ResultTree.h"
-#include "hext/MakeUnique.h"
 
 #include <cassert>
 #include <iostream> // remove me
@@ -33,7 +32,7 @@ struct ResultTree::Impl
 
 
 ResultTree::ResultTree()
-: impl_(MakeUnique<Impl>())
+: impl_(std::make_unique<Impl>())
 {
 }
 
@@ -43,7 +42,7 @@ ResultTree::~ResultTree() = default;
 
 ResultTree * ResultTree::create_child()
 {
-  this->impl_->children_.push_back(MakeUnique<ResultTree>());
+  this->impl_->children_.push_back(std::make_unique<ResultTree>());
   return this->impl_->children_.back().get();
 }
 

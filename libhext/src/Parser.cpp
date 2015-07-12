@@ -16,7 +16,6 @@
 #include "hext/ContainsWordsTest.h"
 #include "hext/EndsWithTest.h"
 #include "hext/EqualsTest.h"
-#include "hext/MakeUnique.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/NegateTest.h"
@@ -65,7 +64,7 @@ namespace hext {
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 68 "Parser.cpp.tmp"
+#line 67 "Parser.cpp.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -952,7 +951,7 @@ static const int hext_error = 0;
 static const int hext_en_main = 513;
 
 
-#line 68 "Parser.cpp.rl"
+#line 67 "Parser.cpp.rl"
 
 } // namespace ragel
 
@@ -1038,7 +1037,7 @@ struct Parser::Impl
 
 
 Parser::Parser(const char * begin, const char * end)
-: impl_(MakeUnique<Impl>(begin, end))
+: impl_(std::make_unique<Impl>(begin, end))
 {
 }
 
@@ -1083,12 +1082,12 @@ Rule Parser::Impl::parse()
   std::string tok = "";
 
   
-#line 1086 "Parser.cpp.tmp"
+#line 1085 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1091 "Parser.cpp.tmp"
+#line 1090 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1251,7 +1250,7 @@ _match:
 	break;
 	case 22:
 #line 90 "hext-machine.rl"
-	{ pv.negate = MakeUnique<NegateMatch>(); }
+	{ pv.negate = std::make_unique<NegateMatch>(); }
 	break;
 	case 23:
 #line 93 "hext-machine.rl"
@@ -1458,7 +1457,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1461 "Parser.cpp.tmp"
+#line 1460 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1490,7 +1489,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1493 "Parser.cpp.tmp"
+#line 1492 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1498,7 +1497,7 @@ _again:
 	_out: {}
 	}
 
-#line 202 "Parser.cpp.rl"
+#line 201 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.

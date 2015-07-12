@@ -2,7 +2,6 @@
 #define HEXT_PATTERN_VALUES_H_INCLUDED
 
 #include "hext/Builtins.h"
-#include "hext/MakeUnique.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/ValueTest.h"
@@ -29,14 +28,14 @@ public:
   template<typename ValueTestType, typename... Args>
   void set_test(Args&&... arg)
   {
-    this->test = MakeUnique<ValueTestType>(std::forward<Args>(arg)...);
+    this->test = std::make_unique<ValueTestType>(std::forward<Args>(arg)...);
   }
 
   /// Consume generic Trait.
   template<typename MatchType, typename... Args>
   void set_trait(Args&&... arg)
   {
-    this->trait = MakeUnique<MatchType>(std::forward<Args>(arg)...);
+    this->trait = std::make_unique<MatchType>(std::forward<Args>(arg)...);
   }
 
   /// Reset all members to their original state.

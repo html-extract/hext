@@ -185,7 +185,7 @@ Rule::Rule(
   bool optional,
   bool path
 )
-: impl_(MakeUnique<Rule::Impl>(tag, optional, path))
+: impl_(std::make_unique<Rule::Impl>(tag, optional, path))
 {
 }
 
@@ -246,7 +246,7 @@ Rule& Rule::set_path(bool path)
 
 std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
 {
-  auto rt = MakeUnique<ResultTree>();
+  auto rt = std::make_unique<ResultTree>();
   this->impl_->extract_this_rule(node, rt.get());
   return std::move(rt);
 }
