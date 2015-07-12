@@ -13,13 +13,13 @@ namespace hext {
 class AttributeCountMatch : public Match
 {
 public:
-  explicit AttributeCountMatch(int attribute_count);
+  explicit AttributeCountMatch(unsigned int attribute_count);
 
   /// Return true if node has attribute_count amount of attributes.
   bool matches(const GumboNode * node) const final;
 
 private:
-  int attribute_count_;
+  unsigned int attribute_count_;
 };
 
 
