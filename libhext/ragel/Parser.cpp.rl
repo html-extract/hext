@@ -168,6 +168,11 @@ Rule Parser::Impl::parse()
   // Allow ragel to access its namespace.
   using namespace ragel;
 
+  // Hide clang's warning -Wunused-const-variable.
+  (void)hext_first_final;
+  (void)hext_error;
+  (void)hext_en_main;
+
   // When calling Parser::parse repeatedly, ensure we are always in a valid
   // state.
   this->p = this->p_begin_;

@@ -1056,6 +1056,11 @@ Rule Parser::Impl::parse()
   // Allow ragel to access its namespace.
   using namespace ragel;
 
+  // Hide clang's warning -Wunused-const-variable.
+  (void)hext_first_final;
+  (void)hext_error;
+  (void)hext_en_main;
+
   // When calling Parser::parse repeatedly, ensure we are always in a valid
   // state.
   this->p = this->p_begin_;
@@ -1078,12 +1083,12 @@ Rule Parser::Impl::parse()
   std::string tok = "";
 
   
-#line 1081 "Parser.cpp.tmp"
+#line 1086 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1086 "Parser.cpp.tmp"
+#line 1091 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1453,7 +1458,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1456 "Parser.cpp.tmp"
+#line 1461 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1485,7 +1490,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1488 "Parser.cpp.tmp"
+#line 1493 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1493,7 +1498,7 @@ _again:
 	_out: {}
 	}
 
-#line 197 "Parser.cpp.rl"
+#line 202 "Parser.cpp.rl"
 
 
   // Throw error if there are missing closing tags.
