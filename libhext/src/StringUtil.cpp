@@ -64,7 +64,7 @@ bool IsSpace(char c)
       return false;
   }
 
-  return false;
+  assert(false);
 }
 
 std::string CharName(char c)
