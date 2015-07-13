@@ -102,6 +102,9 @@ int main(int argc, const char ** argv)
   catch( const boost::program_options::error& e )
   {
     std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
+    // if no options were given at all, print --help
+    if( argc < 2 )
+      po.print(argv[0], std::cerr);
     return EXIT_FAILURE;
   }
 
