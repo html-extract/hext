@@ -59,13 +59,14 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
     return;
 
   if( !this->contains("hext") && !this->contains("str") )
-    throw po::error("missing option --hext");
+    throw po::error("missing Hext input, use --hext/-x <hext-file> "
+                    "or --str/-s <hext-string>");
 
   if( this->contains("lint") )
     return;
 
   if( !this->contains("html") )
-    throw po::error("missing option --html");
+    throw po::error("missing HTML input, use --html/-i <html-file>");
 }
 
 bool ProgramOptions::contains(const char * key) const
