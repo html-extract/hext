@@ -4,7 +4,8 @@
 IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   ADD_DEFINITIONS("-Weverything" "-Wno-c++98-compat" "-Wno-padded"
     "-Wno-documentation-unknown-command" "-Wno-documentation-html"
-    "-Wno-documentation" "-Wno-weak-vtables" "-Wno-switch-enum")
+    "-Wno-documentation" "-Wno-weak-vtables" "-Wno-switch-enum"
+    "-Wno-exit-time-destructors" "-Wno-global-constructors")
 ENDIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 # G++
