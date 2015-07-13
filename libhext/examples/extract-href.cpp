@@ -81,38 +81,42 @@ private:
 };
 
 
-/// Return the value of a capture with given name.
-boost::optional<std::string>
-ResultValueByName(hext::ResultTree * rt, const std::string& name)
-{
-  assert(rt);
-  if( rt == nullptr )
+namespace {
+
+  /// Return the value of a capture with given name.
+  boost::optional<std::string>
+  ResultValueByName(hext::ResultTree * rt, const std::string& name)
+  {
+    assert(rt);
+    if( rt == nullptr )
+      return {};
+
+    for(const auto& p : rt->values())
+      if( p.first == name )
+        return p.second;
+
+    for(const auto& child : rt->children())
+      if( auto result = ResultValueByName(child.get(), name) )
+        return result;
+
     return {};
-
-  for(const auto& p : rt->values())
-    if( p.first == name )
-      return p.second;
-
-  for(const auto& child : rt->children())
-    if( auto result = ResultValueByName(child.get(), name) )
-      return result;
-
-  return {};
-}
+  }
 
 
-/// Return the first base tag's href value.
-/// Return empty string if no base tag href found.
-boost::optional<std::string> BaseUri(const hext::Html& html)
-{
-  hext::Rule base_href(hext::HtmlTag::BASE);
-  base_href
-    .add_capture<hext::AttributeCapture>("href", "href");
+  /// Return the first base tag's href value.
+  /// Return empty string if no base tag href found.
+  boost::optional<std::string> BaseUri(const hext::Html& html)
+  {
+    hext::Rule base_href(hext::HtmlTag::BASE);
+    base_href
+      .add_capture<hext::AttributeCapture>("href", "href");
 
-  auto rt = base_href.extract(html.root());
+    auto rt = base_href.extract(html.root());
 
-  return ResultValueByName(rt.get(), "href");
-}
+    return ResultValueByName(rt.get(), "href");
+  }
+
+} // namespace
 
 
 /// Slurp the contents of STDIN, extract all href attributes from anchor
