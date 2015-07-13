@@ -7,8 +7,6 @@
 #include "hext/AttributeCountMatch.h"
 #include "hext/AttributeMatch.h"
 #include "hext/BeginsWithTest.h"
-#include "hext/BuiltinCapture.h"
-#include "hext/BuiltinMatch.h"
 #include "hext/Builtins.h"
 #include "hext/Capture.h"
 #include "hext/ChildCountMatch.h"
@@ -16,6 +14,8 @@
 #include "hext/ContainsWordsTest.h"
 #include "hext/EndsWithTest.h"
 #include "hext/EqualsTest.h"
+#include "hext/FunctionCapture.h"
+#include "hext/FunctionMatch.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/NegateTest.h"
@@ -1321,15 +1321,15 @@ _match:
 	break;
 	case 30:
 #line 128 "hext-machine.rl"
-	{ pv.builtin = NodeText; }
+	{ pv.builtin = TextBuiltin; }
 	break;
 	case 31:
 #line 130 "hext-machine.rl"
-	{ pv.builtin = NodeInnerHtml; }
+	{ pv.builtin = InnerHtmlBuiltin; }
 	break;
 	case 32:
 #line 132 "hext-machine.rl"
-	{ pv.builtin = StripTagsWrapper; }
+	{ pv.builtin = StripTagsBuiltin; }
 	break;
 	case 33:
 #line 140 "hext-machine.rl"
@@ -1393,15 +1393,15 @@ _match:
 	break;
 	case 48:
 #line 200 "hext-machine.rl"
-	{ rule.add_capture<BuiltinCapture>(pv.builtin, pv.cap_var, pv.regex); }
+	{ rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, pv.regex); }
 	break;
 	case 49:
 #line 204 "hext-machine.rl"
-	{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 50:
 #line 208 "hext-machine.rl"
-	{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 51:
 #line 212 "hext-machine.rl"

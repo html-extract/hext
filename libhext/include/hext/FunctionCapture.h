@@ -1,9 +1,9 @@
-#ifndef HEXT_BUILTIN_CAPTURE_H_INCLUDED
-#define HEXT_BUILTIN_CAPTURE_H_INCLUDED
+#ifndef HEXT_FUNCTION_CAPTURE_H_INCLUDED
+#define HEXT_FUNCTION_CAPTURE_H_INCLUDED
 
 #include "hext/Result.h"
 #include "hext/Capture.h"
-#include "hext/Builtins.h"
+#include "hext/CaptureFunction.h"
 
 #include <string>
 
@@ -15,23 +15,19 @@
 namespace hext {
 
 
-/// A Capture that captures the result of applying a builtin function to
-/// a node.
-class BuiltinCapture : public Capture
+/// Capture the result of applying a function to a node.
+class FunctionCapture : public Capture
 {
 public:
-  /// Construct a BuiltinCapture.
+  /// Construct a FunctionCapture.
   ///
-  /// \param func
-  ///     A pointer to a builtin function that is applied to a node to obtain
-  ///     the captured value.
   /// \param result_name
   ///     The name of the capture.
   /// \param regex
   ///     An optional regular expression that is applied to the result of the
   ///     builtin function `func`.
-  BuiltinCapture(
-    BuiltinFuncPtr func,
+  FunctionCapture(
+    CaptureFunction func,
     std::string result_name,
     boost::optional<boost::regex> regex = {}
   );
@@ -43,9 +39,7 @@ public:
   boost::optional<ResultPair> capture(const GumboNode * node) const final;
 
 private:
-  /// A pointer to a builtin function that is applied to a node to obtain the
-  /// captured value.
-  BuiltinFuncPtr func_;
+  CaptureFunction func_;
 
   /// The result name of the captured contents.
   std::string name_;
@@ -58,5 +52,5 @@ private:
 } // namespace hext
 
 
-#endif // HEXT_BUILTIN_CAPTURE_H_INCLUDED
+#endif // HEXT_FUNCTION_CAPTURE_H_INCLUDED
 

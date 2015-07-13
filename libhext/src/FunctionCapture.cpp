@@ -1,4 +1,4 @@
-#include "hext/BuiltinCapture.h"
+#include "hext/FunctionCapture.h"
 
 #include <cassert>
 #include <utility>
@@ -7,8 +7,8 @@
 namespace hext {
 
 
-BuiltinCapture::BuiltinCapture(
-  BuiltinFuncPtr func,
+FunctionCapture::FunctionCapture(
+  CaptureFunction func,
   std::string result_name,
   boost::optional<boost::regex> regex
 )
@@ -19,17 +19,17 @@ BuiltinCapture::BuiltinCapture(
 }
 
 boost::optional<ResultPair>
-BuiltinCapture::capture(const GumboNode * node) const
+FunctionCapture::capture(const GumboNode * node) const
 {
   assert(this->func_);
   if( !this->func_ )
     return {};
 
-  std::string val = this->func_(node);
+  auto str = this->func_(node);
   if( this->rx_ )
   {
     boost::match_results<std::string::iterator> mr;
-    if( boost::regex_search(val.begin(), val.end(), mr, this->rx_.get()) )
+    if( boost::regex_search(str.begin(), str.end(), mr, this->rx_.get()) )
     {
       // If there are no parentheses contained within the regex, return whole
       // regex capture (mr[0]), if there are, then return the first one.
@@ -38,15 +38,11 @@ BuiltinCapture::capture(const GumboNode * node) const
         mr.size() > 1 ? mr[1] : mr[0]
       );
     }
-    else
-    {
-      return {};
-    }
+
+    return {};
   }
-  else
-  {
-    return ResultPair(this->name_, val);
-  }
+
+  return ResultPair(this->name_, str);
 }
 
 

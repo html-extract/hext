@@ -1,5 +1,4 @@
 #include "hext/Rule.h"
-#include "hext/NodeUtil.h"
 
 #include "MatchContext.h"
 

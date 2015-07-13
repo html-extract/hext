@@ -1,4 +1,4 @@
-#include "hext/BuiltinMatch.h"
+#include "hext/FunctionMatch.h"
 
 #include <cassert>
 #include <string>
@@ -8,8 +8,8 @@
 namespace hext {
 
 
-BuiltinMatch::BuiltinMatch(
-  BuiltinFuncPtr func,
+FunctionMatch::FunctionMatch(
+  CaptureFunction func,
   std::unique_ptr<ValueTest> value_test
 )
 : func_(func)
@@ -17,13 +17,13 @@ BuiltinMatch::BuiltinMatch(
 {
 }
 
-bool BuiltinMatch::matches(const GumboNode * node) const
+bool FunctionMatch::matches(const GumboNode * node) const
 {
   assert(this->func_);
   if( !this->func_ || !this->test_ )
     return false;
 
-  std::string str = this->func_(node);
+  auto str = this->func_(node);
   return (*this->test_)(str.c_str());
 }
 

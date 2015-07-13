@@ -2,6 +2,7 @@
 #define HEXT_PATTERN_VALUES_H_INCLUDED
 
 #include "hext/Builtins.h"
+#include "hext/CaptureFunction.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/ValueTest.h"
@@ -45,7 +46,7 @@ public:
   std::pair<int, int> nth;
 
   /// The current builtin function.
-  BuiltinFuncPtr builtin;
+  CaptureFunction builtin;
 
   /// The current attribute name.
   std::string attr_name;

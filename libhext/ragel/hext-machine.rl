@@ -125,11 +125,11 @@ regex_test = regex %{ assert(pv.regex); pv.set_test<RegexTest>(*pv.regex); };
 #### BUILTIN FUNCTION ##########################################################
 builtin = (
   '@'
-  ( ( 'text'       %{ pv.builtin = NodeText; } )
+  ( ( 'text'       %{ pv.builtin = TextBuiltin; } )
     |
-    ( 'inner-html' %{ pv.builtin = NodeInnerHtml; } )
+    ( 'inner-html' %{ pv.builtin = InnerHtmlBuiltin; } )
     |
-    ( 'strip-tags' %{ pv.builtin = StripTagsWrapper; } ) )
+    ( 'strip-tags' %{ pv.builtin = StripTagsBuiltin; } ) )
 );
 
 
@@ -197,15 +197,15 @@ literal = (
 pattern = (
   space+
   ( ( ( builtin '=' capture )
-      %{ rule.add_capture<BuiltinCapture>(pv.builtin, pv.cap_var, pv.regex); } )
+      %{ rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, pv.regex); } )
     |
 
     ( ( builtin '=' regex_test negate? )
-      %{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( builtin literal negate? )
-      %{ rule.add_match<BuiltinMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( attr_name '=' capture optional? )
