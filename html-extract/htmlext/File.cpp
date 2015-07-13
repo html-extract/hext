@@ -15,9 +15,14 @@ std::string ReadFileOrThrow(const std::string& path)
   std::ifstream file(path, std::ios::in | std::ios::binary);
 
   if( file.fail() )
-    throw FileError(
-      "cannot access '" + path + "': " + std::strerror(errno)
-    );
+  {
+    if( path == "-" )
+      return ReadFileOrThrow("/dev/stdin");
+    else
+      throw FileError(
+        "cannot access '" + path + "': " + std::strerror(errno)
+      );
+  }
 
   std::stringstream buffer;
   buffer << file.rdbuf();
