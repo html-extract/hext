@@ -1,8 +1,9 @@
 ###### LIBHEXT #################################################################
-PROJECT(libhext)
+# Eable PROJECT() with VERSION parameter.
+CMAKE_POLICY(SET CMP0048 NEW)
+PROJECT(libhext VERSION 0.1.0)
 
-# Cmake module ExternalProject is available since 2.8.7.
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
 SET(LIBHEXT_LOADED "true")
 
@@ -22,9 +23,6 @@ INCLUDE(HextDefaultBuildRelease)
 
 
 ###### VERSION #################################################################
-SET(PROJECT_VERSION_MAJOR 0)
-SET(PROJECT_VERSION_MINOR 1)
-SET(PROJECT_VERSION_PATCH 0)
 SET(
   HEXT_VERSION_FILE_SOURCE
   "${PROJECT_SOURCE_DIR}/src/Version.cpp.in")
