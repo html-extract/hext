@@ -31,6 +31,9 @@ public:
   std::string get(const char * key) const;
 
   /// Return all hext-input filenames.
+  std::vector<std::string> get_hext_files() const;
+
+  /// Return all hext-input supplied directly on cmdline.
   std::vector<std::string> get_hext_input() const;
 
   /// Return all html-input filenames.

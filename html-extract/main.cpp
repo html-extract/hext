@@ -44,24 +44,31 @@ int main(int argc, const char ** argv)
 
     std::vector<hext::Extractor> extractors;
     std::vector<hext::Html> inputs;
+    auto hext_filenames = po.get_hext_files();
+    auto hext_inputs = po.get_hext_input();
+
+    assert((hext_filenames.size() + hext_inputs.size()) > 0);
+    extractors.reserve(hext_filenames.size() + hext_inputs.size());
 
     try
     {
-      auto hext_filenames = po.get_hext_input();
-      extractors.reserve(hext_filenames.size());
       for(const auto& filename : hext_filenames)
-      {
-        try
-        {
+        try {
           extractors.emplace_back(htmlext::ReadFileOrThrow(filename));
-        }
-        catch( const hext::SyntaxError& e )
-        {
+        } catch( const hext::SyntaxError& e ) {
           std::cerr << argv[0] << ": Error in " << filename << ": "
                     << e.what() << "\n";
           return EXIT_FAILURE;
         }
-      }
+
+      for(const auto& hext_input : hext_inputs)
+        try {
+          extractors.emplace_back(hext_input);
+        } catch( const hext::SyntaxError& e ) {
+          std::cerr << argv[0] << ": Error in argument -s: "
+                    << e.what() << "\n";
+          return EXIT_FAILURE;
+        }
 
       if( po.contains("lint") )
         return EXIT_SUCCESS;
@@ -78,7 +85,6 @@ int main(int argc, const char ** argv)
     }
 
     for(const auto& hext : extractors)
-    {
       for(const auto& html : inputs)
       {
         std::unique_ptr<hext::ResultTree> result = hext.extract(html);
@@ -92,7 +98,6 @@ int main(int argc, const char ** argv)
           htmlext::PrintJson(result.get(), json_opt, std::cout);
         }
       }
-    }
   }
   catch( const boost::program_options::error& e )
   {

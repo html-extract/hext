@@ -10,8 +10,13 @@ ProgramOptions::ProgramOptions()
 {
   namespace po = boost::program_options;
   this->desc_.add_options()
-    ("hext,x", po::value<std::vector<std::string>>(), "Hext file(s)")
+    ("hext,x", po::value<std::vector<std::string>>()
+                 ->default_value(std::vector<std::string>(), ""),
+               "Hext file(s)")
     ("html,i", po::value<std::vector<std::string>>(), "HTML input file(s)")
+    ("str,s", po::value<std::vector<std::string>>()
+                ->default_value(std::vector<std::string>(), ""),
+              "Hext from string(s)")
     ("compact,c", "Print one JSON object per line")
     ("pretty,p", "Force pretty-printing JSON. Overrrides --compact")
     ("array,a", "Put results into one top-level JSON array. If combined"
@@ -48,7 +53,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   if( this->contains("print-html-dot") )
     return;
 
-  if( !this->contains("hext") )
+  if( !this->contains("hext") && !this->contains("str") )
     throw po::error("missing option --hext");
 
   if( this->contains("lint") )
@@ -60,7 +65,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
 
 bool ProgramOptions::contains(const char * key) const
 {
-  return this->vm_.count(key);
+  return this->vm_.count(key) && !this->vm_[key].defaulted();
 }
 
 std::string ProgramOptions::get(const char * key) const
@@ -68,9 +73,14 @@ std::string ProgramOptions::get(const char * key) const
   return this->vm_[key].as<std::string>();
 }
 
-std::vector<std::string> ProgramOptions::get_hext_input() const
+std::vector<std::string> ProgramOptions::get_hext_files() const
 {
   return this->vm_["hext"].as<std::vector<std::string>>();
+}
+
+std::vector<std::string> ProgramOptions::get_hext_input() const
+{
+  return this->vm_["str"].as<std::vector<std::string>>();
 }
 
 std::vector<std::string> ProgramOptions::get_html_input() const
