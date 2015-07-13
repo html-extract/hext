@@ -11,17 +11,22 @@ ProgramOptions::ProgramOptions()
   namespace po = boost::program_options;
   this->desc_.add_options()
     ("hext,x", po::value<std::vector<std::string>>()
-                 ->default_value(std::vector<std::string>(), ""),
+                 ->default_value(std::vector<std::string>(), "")
+                 ->value_name("<hext-file>"),
                "Hext file(s)")
-    ("html,i", po::value<std::vector<std::string>>(), "HTML input file(s)")
+    ("html,i", po::value<std::vector<std::string>>()
+                 ->value_name("<html-file>"),
+               "HTML input file(s)")
     ("str,s", po::value<std::vector<std::string>>()
-                ->default_value(std::vector<std::string>(), ""),
+                ->default_value(std::vector<std::string>(), "")
+                ->value_name("<hext-string>"),
               "Hext from string(s)")
     ("compact,c", "Print one JSON object per line")
     ("pretty,p", "Force pretty-printing JSON. Overrrides --compact")
     ("array,a", "Put results into one top-level JSON array. If combined"
                 " with --compact, only print a single line")
-    ("print-html-dot,d", po::value<std::string>(),
+    ("print-html-dot,d", po::value<std::string>()
+                           ->value_name("<html-file>"),
                          "Print HTML input file as DOT")
     ("print-result-dot,r", "Print ResultTree as DOT")
     ("lint,l", "Hext syntax check: parse hext and exit")
