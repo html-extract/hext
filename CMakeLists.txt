@@ -29,15 +29,16 @@ INCLUDE(HextGenerateVersionFile)
 
 ###### DEPENDENCIES ############################################################
 ADD_SUBDIRECTORY("libhext")
-FIND_PACKAGE(Boost COMPONENTS program_options)
+FIND_PACKAGE(Boost COMPONENTS program_options REQUIRED)
+FIND_PACKAGE(RapidJSON REQUIRED)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
-INCLUDE(HextExternalProjectRapidJson)
 
 
 ###### INCLUDES ################################################################
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${RAPIDJSON_INCLUDE_DIRS})
 
 
 ###### SOURCES #################################################################
@@ -49,7 +50,7 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
-ADD_DEPENDENCIES(html-extract rapidjson hext)
+ADD_DEPENDENCIES(html-extract hext)
 TARGET_LINK_LIBRARIES(
   html-extract
   hext
