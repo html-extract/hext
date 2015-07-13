@@ -1,5 +1,6 @@
-#include "hext/StringUtil.h"
 #include "hext/ContainsWordsTest.h"
+
+#include "StringUtil.h"
 
 #include <utility>
 

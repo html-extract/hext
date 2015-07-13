@@ -1,7 +1,7 @@
 #ifndef HEXT_NODE_UTIL_H_INCLUDED
 #define HEXT_NODE_UTIL_H_INCLUDED
 
-#include "hext/StringUtil.h"
+#include "StringUtil.h"
 
 #include <cassert>
 #include <string>

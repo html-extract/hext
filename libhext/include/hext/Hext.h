@@ -30,7 +30,6 @@
 #include "hext/Result.h"
 #include "hext/ResultTree.h"
 #include "hext/Rule.h"
-#include "hext/StringUtil.h"
 #include "hext/SyntaxError.h"
 #include "hext/TextNodeMatch.h"
 #include "hext/ValueTest.h"
