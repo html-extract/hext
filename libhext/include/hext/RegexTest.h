@@ -16,7 +16,7 @@ public:
   explicit RegexTest(boost::regex regex);
 
   /// Return true if regex matches subject.
-  bool operator()(const char * subject) const final;
+  bool test(const char * subject) const final;
 
 private:
   boost::regex rx_;

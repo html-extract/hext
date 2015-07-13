@@ -16,7 +16,7 @@ public:
   explicit NegateTest(std::unique_ptr<ValueTest>&& value_test);
 
   /// Return true if value_test fails for subject.
-  bool operator()(const char * subject) const final;
+  bool test(const char * subject) const final;
 
 private:
   std::unique_ptr<ValueTest> value_test_;

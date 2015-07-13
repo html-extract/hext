@@ -16,7 +16,7 @@ public:
   explicit EqualsTest(std::string literal);
 
   /// Return true if subject equals literal.
-  bool operator()(const char * subject) const final;
+  bool test(const char * subject) const final;
 
 private:
   std::string lit_;

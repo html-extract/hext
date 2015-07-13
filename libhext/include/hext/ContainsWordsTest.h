@@ -19,7 +19,7 @@ public:
   explicit ContainsWordsTest(std::vector<std::string> words);
 
   /// Return true if subject contains all words.
-  bool operator()(const char * subject) const final;
+  bool test(const char * subject) const final;
 
 private:
   std::vector<std::string> words_;

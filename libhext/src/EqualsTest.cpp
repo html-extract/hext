@@ -11,7 +11,7 @@ EqualsTest::EqualsTest(std::string literal)
 {
 }
 
-bool EqualsTest::operator()(const char * subject) const
+bool EqualsTest::test(const char * subject) const
 {
   return subject && this->lit_.compare(subject) == 0;
 }

@@ -27,7 +27,7 @@ ContainsWordsTest::ContainsWordsTest(std::vector<std::string> words)
 {
 }
 
-bool ContainsWordsTest::operator()(const char * subject) const
+bool ContainsWordsTest::test(const char * subject) const
 {
   if( !subject || this->words_.empty() )
     return false;

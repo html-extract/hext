@@ -24,7 +24,7 @@ bool FunctionMatch::matches(const GumboNode * node) const
     return false;
 
   auto str = this->func_(node);
-  return (*this->test_)(str.c_str());
+  return this->test_->test(str.c_str());
 }
 
 

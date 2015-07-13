@@ -11,7 +11,7 @@ ContainsTest::ContainsTest(std::string literal)
 {
 }
 
-bool ContainsTest::operator()(const char * subject) const
+bool ContainsTest::test(const char * subject) const
 {
   if( !subject )
     return false;

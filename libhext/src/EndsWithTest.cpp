@@ -12,7 +12,7 @@ EndsWithTest::EndsWithTest(std::string literal)
 {
 }
 
-bool EndsWithTest::operator()(const char * subject) const
+bool EndsWithTest::test(const char * subject) const
 {
   if( !subject )
     return false;

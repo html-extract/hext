@@ -11,7 +11,7 @@ RegexTest::RegexTest(boost::regex regex)
 {
 }
 
-bool RegexTest::operator()(const char * subject) const
+bool RegexTest::test(const char * subject) const
 {
   if( !subject )
     return false;

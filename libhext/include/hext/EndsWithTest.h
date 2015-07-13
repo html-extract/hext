@@ -16,7 +16,7 @@ public:
   explicit EndsWithTest(std::string literal);
 
   /// Return true if subject ends with literal.
-  bool operator()(const char * subject) const final;
+  bool test(const char * subject) const final;
 
 private:
   std::string lit_;

@@ -13,7 +13,7 @@ public:
   virtual ~ValueTest() {}
 
   /// Implementation must be provided in subclasses.
-  virtual bool operator()(const char * /* dummy */) const = 0;
+  virtual bool test(const char * /* dummy */) const = 0;
 };
 
 

@@ -12,7 +12,7 @@ BeginsWithTest::BeginsWithTest(std::string literal)
 {
 }
 
-bool BeginsWithTest::operator()(const char * subject) const
+bool BeginsWithTest::test(const char * subject) const
 {
   if( !subject )
     return false;

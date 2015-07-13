@@ -11,10 +11,10 @@ NegateTest::NegateTest(std::unique_ptr<ValueTest>&& value_test)
 {
 }
 
-bool NegateTest::operator()(const char * subject) const
+bool NegateTest::test(const char * subject) const
 {
   if( this->value_test_ )
-    return !this->value_test_->operator()(subject);
+    return !this->value_test_->test(subject);
   else
     return subject == nullptr;
 }
