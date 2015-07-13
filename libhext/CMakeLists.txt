@@ -33,17 +33,12 @@ INCLUDE(HextGenerateVersionFile)
 FIND_PACKAGE(Boost COMPONENTS regex)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 FIND_PACKAGE(Gumbo)
-IF(NOT LIBGUMBO_FOUND)
-  INCLUDE(HextExternalProjectGumbo)
-ENDIF(NOT LIBGUMBO_FOUND)
 
 
 ###### INCLUDES ################################################################
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-IF(LIBGUMBO_FOUND)
-  INCLUDE_DIRECTORIES(${GUMBO_INCLUDE_DIR})
-ENDIF(LIBGUMBO_FOUND)
+INCLUDE_DIRECTORIES(${Gumbo_INCLUDE_DIR})
 
 
 ###### SOURCES #################################################################
@@ -78,10 +73,9 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TextNodeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
-ADD_DEPENDENCIES(hext gumbo-parser)
 TARGET_LINK_LIBRARIES(
   hext
-  gumbo
+  ${Gumbo_LIBRARY}
   ${Boost_REGEX_LIBRARY})
 
 

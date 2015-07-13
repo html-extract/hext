@@ -35,7 +35,7 @@ INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/include")
 ADD_EXECUTABLE(
   libhext-test
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
-ADD_DEPENDENCIES(libhext-test libhext googletest)
+ADD_DEPENDENCIES(libhext-test hext googletest)
 TARGET_LINK_LIBRARIES(
   libhext-test
   hext
