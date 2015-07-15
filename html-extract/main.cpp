@@ -1,5 +1,6 @@
 #include "hext/Hext.h"
 
+#include "htmlext/ErrorOutput.h"
 #include "htmlext/File.h"
 #include "htmlext/Json.h"
 #include "htmlext/PrintDot.h"
@@ -16,6 +17,7 @@ int main(int argc, const char ** argv)
 {
   std::ios_base::sync_with_stdio(false);
 
+  htmlext::ErrorOutput errout(/* error_source: */ argv[0]);
   htmlext::ProgramOptions po;
 
   try
@@ -50,61 +52,54 @@ int main(int argc, const char ** argv)
     assert((hext_filenames.size() + hext_inputs.size()) > 0);
     extractors.reserve(hext_filenames.size() + hext_inputs.size());
 
-    try
-    {
-      for(const auto& filename : hext_filenames)
-        try {
-          extractors.emplace_back(htmlext::ReadFileOrThrow(filename));
-        } catch( const hext::SyntaxError& e ) {
-          std::cerr << argv[0] << ": Error in " << filename << ": "
-                    << e.what() << "\n";
-          return EXIT_FAILURE;
-        }
+    for(const auto& filename : hext_filenames)
+      try {
+        extractors.emplace_back(htmlext::ReadFileOrThrow(filename));
+      } catch( const hext::SyntaxError& e ) {
+        errout.print(std::string("Error in " + filename), e.what());
+        return EXIT_FAILURE;
+      }
 
-      for(const auto& hext_input : hext_inputs)
-        try {
-          extractors.emplace_back(hext_input);
-        } catch( const hext::SyntaxError& e ) {
-          std::cerr << argv[0] << ": Error in argument -s: "
-                    << e.what() << "\n";
-          return EXIT_FAILURE;
-        }
+    for(const auto& hext_input : hext_inputs)
+      try {
+        extractors.emplace_back(hext_input);
+      } catch( const hext::SyntaxError& e ) {
+        errout.print("Error in <hext-string>", e.what());
+        return EXIT_FAILURE;
+      }
 
-      if( po.contains("lint") )
-        return EXIT_SUCCESS;
+    if( po.contains("lint") )
+      return EXIT_SUCCESS;
 
-      auto html_filenames = po.get_html_input();
-      inputs.reserve(html_filenames.size());
-      for(const auto& filename : html_filenames)
-        inputs.emplace_back(htmlext::ReadFileOrThrow(filename));
-    }
-    catch( const htmlext::FileError& e )
-    {
-      std::cerr << argv[0] << ": Error: " << e.what() << "\n";
-      return EXIT_FAILURE;
-    }
+    auto html_filenames = po.get_html_input();
+    inputs.reserve(html_filenames.size());
+    for(const auto& filename : html_filenames)
+      inputs.emplace_back(htmlext::ReadFileOrThrow(filename));
 
     for(const auto& hext : extractors)
       for(const auto& html : inputs)
       {
         std::unique_ptr<hext::ResultTree> result = hext.extract(html);
         if( po.contains("print-result-dot") )
-        {
           htmlext::PrintResultTreeDot(result.get(), std::cout);
-        }
         else
-        {
-          auto json_opt = po.get_json_options();
-          htmlext::PrintJson(result.get(), json_opt, std::cout);
-        }
+          htmlext::PrintJson(result.get(), po.get_json_options(), std::cout);
       }
+  }
+  catch( const htmlext::FileError& e )
+  {
+    errout.print("Error", e.what());
+    return EXIT_FAILURE;
   }
   catch( const boost::program_options::error& e )
   {
-    std::cerr << argv[0] << ": Argument error: " << e.what() << "\n";
+    errout.print("Argument error", e.what());
     // if no options were given at all, print --help
     if( argc < 2 )
+    {
+      std::cerr << "\n";
       po.print(argv[0], std::cerr);
+    }
     return EXIT_FAILURE;
   }
 

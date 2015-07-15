@@ -44,6 +44,7 @@ INCLUDE_DIRECTORIES(${RAPIDJSON_INCLUDE_DIRS})
 ###### SOURCES #################################################################
 ADD_EXECUTABLE(
   html-extract
+  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ErrorOutput.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/File.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Json.cpp"
   "${PROJECT_SOURCE_DIR}/html-extract/htmlext/PrintDot.cpp"
