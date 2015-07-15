@@ -112,31 +112,33 @@ struct Rule::Impl
     {
       ++match_count;
       auto branch = rt->create_child();
+
       for( const auto& match_pair : *grouped_match )
       {
         const Rule * child_rule = match_pair.first;
         const GumboNode * child_node = match_pair.second;
         assert(child_rule && child_node);
+        auto& cimpl = child_rule->impl_;
 
         ResultTree * child_rt = rt;
-        if( !child_rule->impl_->is_path_ )
+        if( !cimpl->is_path_ )
           child_rt = branch->create_child();
 
-        if( !child_rule->impl_->extract_children(child_node, child_rt) )
+        if( !cimpl->extract_children(child_node, child_rt) )
         {
-          if( child_rule->impl_->is_optional_ && !child_rule->impl_->is_path_ )
+          if( cimpl->is_optional_ && !cimpl->is_path_ )
           {
             branch->delete_child(child_rt);
           }
           else
           {
             --match_count;
-            if( !child_rule->impl_->is_path_ )
+            if( !cimpl->is_path_ )
               rt->delete_child(branch);
             break;
           }
         }
-        else if( !child_rule->impl_->is_path_ )
+        else if( !cimpl->is_path_ )
         {
           child_rt->set_values(child_rule->capture(child_node));
         }
