@@ -35,7 +35,7 @@ Extractor::~Extractor() = default;
 
 std::unique_ptr<ResultTree> Extractor::extract(const std::string& html) const
 {
-  return std::move(this->extract(Html(html)));
+  return std::move(this->extract(Html(html.c_str(), html.size())));
 }
 
 std::unique_ptr<ResultTree> Extractor::extract(const Html& html) const

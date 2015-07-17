@@ -138,7 +138,8 @@ int main(int argc, char * argv[])
     in_sstr << in.rdbuf();
   }
 
-  Html html(in_sstr.str());
+  auto str = in_sstr.str();
+  Html html(str.c_str(), str.size());
 
   std::string base_uri = "";
   if( argc > 1 )

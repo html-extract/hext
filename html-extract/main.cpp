@@ -9,8 +9,11 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <iostream>
 #include <ios>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
 
 int main(int argc, const char ** argv)
@@ -40,12 +43,13 @@ int main(int argc, const char ** argv)
     {
       std::string file = po.get("print-html-dot");
       std::string html = htmlext::ReadFileOrThrow(file);
-      htmlext::PrintHtmlDot(hext::Html(html), std::cout);
+      htmlext::PrintHtmlDot(hext::Html(html.c_str(), html.size()), std::cout);
       return EXIT_SUCCESS;
     }
 
     std::vector<hext::Extractor> extractors;
-    std::vector<hext::Html> inputs;
+    std::vector<std::string> html_contents;
+    std::vector<hext::Html> parsed_html;
     auto hext_filenames = po.get_hext_files();
     auto hext_inputs = po.get_hext_input();
 
@@ -72,12 +76,19 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
 
     auto html_filenames = po.get_html_input();
-    inputs.reserve(html_filenames.size());
+    parsed_html.reserve(html_filenames.size());
+    html_contents.reserve(html_filenames.size());
     for(const auto& filename : html_filenames)
-      inputs.emplace_back(htmlext::ReadFileOrThrow(filename));
+    {
+      html_contents.emplace_back(htmlext::ReadFileOrThrow(filename));
+      parsed_html.emplace_back(
+        html_contents.back().c_str(),
+        html_contents.back().size()
+      );
+    }
 
     for(const auto& hext : extractors)
-      for(const auto& html : inputs)
+      for(const auto& html : parsed_html)
       {
         std::unique_ptr<hext::ResultTree> result = hext.extract(html);
         if( po.contains("print-result-dot") )

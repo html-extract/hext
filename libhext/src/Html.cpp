@@ -4,13 +4,12 @@
 namespace hext {
 
 
-Html::Html(std::string html)
-: html_(std::move(html))
-, g_outp_(
+Html::Html(const char * buffer, std::size_t size)
+: g_outp_(
     gumbo_parse_with_options(
       &kGumboDefaultOptions,
-      this->html_.c_str(),
-      this->html_.size()
+      buffer,
+      size
     )
   )
 {

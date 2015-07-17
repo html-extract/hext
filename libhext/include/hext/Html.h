@@ -1,7 +1,7 @@
 #ifndef HEXT_HTML_H_INCLUDED
 #define HEXT_HTML_H_INCLUDED
 
-#include <string>
+#include <cstddef>
 
 #include <gumbo.h>
 
@@ -14,20 +14,21 @@ namespace hext {
 class Html
 {
 public:
-  explicit Html(std::string html);
+  /// Construct Html from non-owning pointer. Pointer must stay alive until
+  /// destruction of this object.
+  Html(const char * buffer, std::size_t size);
   ~Html();
 
   Html(Html&&) = default;
   Html& operator=(Html&&) = default;
 
   /// Return a handle to the root of the html document.
+  /// Pointer is valid as long as this object is alive.
   const GumboNode * root() const;
 
 private:
   Html(const Html&) = delete;
   Html& operator=(const Html&) = delete;
-
-  std::string html_;
 
   /// Gumbo's resource handle.
   GumboOutput * g_outp_;

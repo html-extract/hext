@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 
 #include "hext/Hext.h"
@@ -31,7 +32,7 @@ int main()
       ))
   ;
 
-  Html html(R"input(
+  const char * input = R"input(
     <html>
       <head></head>
       <body>
@@ -60,8 +61,9 @@ int main()
         </div>
       </body>
     </html>
-  )input");
+  )input";
 
+  Html html(input, std::strlen(input));
   auto result_tree = rdiv.extract(html.root());
   auto v = result_tree->flatten();
 
