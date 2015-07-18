@@ -11,14 +11,19 @@
 namespace hext {
 
 
-/// Abstract base for all Captures that can be applied to html-nodes.
+/// Abstract base for every Capture.
+///
+/// Captures are applied to HTML elements with Capture::capture() which will
+/// return either a ResultPair, or an empty optional if there was nothing to
+/// capture.
 class Capture
 {
 public:
+  /// Allow inheritance.
   virtual ~Capture() {}
 
-  /// Return a string pair containing the captured value, if any. Implementation
-  /// is provided by sub classes.
+  /// Return a name/value pair with the captured contents or an empty optional,
+  /// if there was nothing to capture.
   virtual boost::optional<ResultPair> capture(const GumboNode * node) const = 0;
 };
 
