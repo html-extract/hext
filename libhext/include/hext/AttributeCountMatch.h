@@ -19,11 +19,11 @@ namespace hext {
 ///   AttributeCountMatch m_no_attr (/* attribute count */ 0);
 ///   AttributeCountMatch m_two_attr(/* attribute count */ 2);
 ///
-///   assert(m_no_attr.match(no_attrs));
-///   assert(m_two_attr.match(two_attrs));
+///   assert(m_no_attr.matches(no_attrs));
+///   assert(m_two_attr.matches(two_attrs));
 ///
-///   assert(!m_two_attr.match(no_attrs));
-///   assert(!m_no_attr.match(two_attrs));
+///   assert(!m_two_attr.matches(no_attrs));
+///   assert(!m_no_attr.matches(two_attrs));
 /// ~~~~~~~~~~~~~
 class AttributeCountMatch : public Match
 {
