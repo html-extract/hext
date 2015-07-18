@@ -10,6 +10,7 @@
 namespace hext {
 
 
+/// A type of std::function that receives an HTML element and returns a string.
 typedef
   std::function<std::string (const GumboNode *)>
     CaptureFunction;
