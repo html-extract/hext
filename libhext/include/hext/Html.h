@@ -9,21 +9,38 @@
 namespace hext {
 
 
-/// Html is responsible for parsing html.
-/// Html is simply a RAII wrapper around gumbo.
+/// A RAII wrapper for Gumbo.
+///
+/// All HTML is expected to be UTF-8 encoded.
+/// Gumbo will parse anything you throw at it. When given invalid or incomplete
+/// HTML it will even fix it for you.
+///
+/// @par Example:
+/// ~~~~~~~~~~~~~
+///   std::string input = "<html>"
+///     "<body>This is a string containing html</body>"
+///     "</html>";
+///   Html page();
+///   const GumboNode * root = page.root();
+///   // root now points to the top most HTML element (<html>).
+///   assert(root);
+/// ~~~~~~~~~~~~~
 class Html
 {
 public:
-  /// Construct Html from non-owning pointer. Pointer must stay alive until
-  /// destruction of this object.
+  /// Constructs an Html from a non-owning pointer. The Pointer must stay alive
+  /// until the destruction of this instance.
+  ///
+  /// @param buffer:  A string containing HTML.
+  /// @param   size:  The length of the given buffer.
   Html(const char * buffer, std::size_t size);
-  ~Html();
 
+  ~Html();
   Html(Html&&) = default;
   Html& operator=(Html&&) = default;
 
-  /// Return a handle to the root of the html document.
-  /// Pointer is valid as long as this object is alive.
+  /// Returns a non-owning pointer to the root node of the HTML document.
+  /// The pointer is valid until the destruction of this instance.
   const GumboNode * root() const;
 
 private:
