@@ -1,6 +1,9 @@
 #ifndef HEXT_VERSION_H_INCLUDED
 #define HEXT_VERSION_H_INCLUDED
 
+/// @file
+///   Version numbers.
+
 
 namespace hext {
 
