@@ -9,16 +9,32 @@
 namespace hext {
 
 
-/// Test whether a string is contained in another string.
+/// Tests whether a string contains a given literal.
+///
+/// @par Example:
+/// ~~~~~~~~~~~~~
+///   ContainsTest contains("foo");
+///
+///   assert( contains.test("foo"));
+///   assert( contains.test("barfoobar"));
+///   assert(!contains.test("barfo"));
+/// ~~~~~~~~~~~~~
 class ContainsTest : public ValueTest
 {
 public:
+  /// Constructs a ContainsTest that succeeds for subjects that contain the
+  /// given literal.
+  ///
+  /// @param literal:  A string that a subject must contain.
   explicit ContainsTest(std::string literal);
 
-  /// Return true if subject contains literal.
+  /// Return true if subject contains the given literal.
+  ///
+  /// @param subject:  The string that is to be tested.
   bool test(const char * subject) const final;
 
 private:
+  /// The literal that must be matched.
   std::string lit_;
 };
 
