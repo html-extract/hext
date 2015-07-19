@@ -1,6 +1,9 @@
 #ifndef HEXT_TEXT_NODE_MATCH_H_INCLUDED
 #define HEXT_TEXT_NODE_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::TextNodeMatch
+
 #include "hext/Match.h"
 
 #include <gumbo.h>

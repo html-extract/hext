@@ -1,6 +1,9 @@
 #ifndef HEXT_NTHCHILD_MATCH_H_INCLUDED
 #define HEXT_NTHCHILD_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::NthChildMatch
+
 #include "hext/Match.h"
 #include "hext/HtmlTag.h"
 

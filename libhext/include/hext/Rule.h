@@ -1,6 +1,9 @@
 #ifndef HEXT_RULE_H_INCLUDED
 #define HEXT_RULE_H_INCLUDED
 
+/// @file
+///   Declares hext::Rule
+
 #include "hext/HtmlTag.h"
 #include "hext/Result.h"
 #include "hext/ResultTree.h"

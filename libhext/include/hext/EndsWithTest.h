@@ -1,6 +1,9 @@
 #ifndef HEXT_ENDS_WITH_TEST_H_INCLUDED
 #define HEXT_ENDS_WITH_TEST_H_INCLUDED
 
+/// @file
+///   Declares hext::EndsWithTest
+
 #include "hext/ValueTest.h"
 
 #include <string>

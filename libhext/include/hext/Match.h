@@ -1,6 +1,9 @@
 #ifndef HEXT_MATCH_H_INCLUDED
 #define HEXT_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::Match
+
 #include <gumbo.h>
 
 

@@ -1,6 +1,9 @@
 #ifndef HEXT_EQUALS_TEST_H_INCLUDED
 #define HEXT_EQUALS_TEST_H_INCLUDED
 
+/// @file
+///   Declares hext::EqualsTest
+
 #include "hext/ValueTest.h"
 
 #include <string>

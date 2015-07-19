@@ -1,6 +1,9 @@
 #ifndef HEXT_NEGATE_MATCH_H_INCLUDED
 #define HEXT_NEGATE_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::NegateMatch
+
 #include "hext/Match.h"
 
 #include <memory>

@@ -1,6 +1,9 @@
 #ifndef HEXT_ONLY_CHILD_MATCH_H_INCLUDED
 #define HEXT_ONLY_CHILD_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::OnlyChildMatch
+
 #include "hext/Match.h"
 
 #include <gumbo.h>

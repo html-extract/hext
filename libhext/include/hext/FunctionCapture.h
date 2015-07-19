@@ -1,6 +1,9 @@
 #ifndef HEXT_FUNCTION_CAPTURE_H_INCLUDED
 #define HEXT_FUNCTION_CAPTURE_H_INCLUDED
 
+/// @file
+///   Declares hext::FunctionCapture
+
 #include "hext/Result.h"
 #include "hext/Capture.h"
 #include "hext/CaptureFunction.h"

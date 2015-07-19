@@ -1,6 +1,9 @@
 #ifndef HEXT_REGEX_TEST_H_INCLUDED
 #define HEXT_REGEX_TEST_H_INCLUDED
 
+/// @file
+///   Declares hext::RegexTest
+
 #include "hext/ValueTest.h"
 
 #include <boost/regex.hpp>

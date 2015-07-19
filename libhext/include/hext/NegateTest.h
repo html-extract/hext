@@ -1,6 +1,9 @@
 #ifndef HEXT_NEGATE_TEST_H_INCLUDED
 #define HEXT_NEGATE_TEST_H_INCLUDED
 
+/// @file
+///   Declares hext::NegateTest
+
 #include "hext/ValueTest.h"
 
 #include <memory>

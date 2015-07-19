@@ -1,6 +1,9 @@
 #ifndef HEXT_FUNCTION_MATCH_H_INCLUDED
 #define HEXT_FUNCTION_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::FunctionMatch
+
 #include "hext/CaptureFunction.h"
 #include "hext/Match.h"
 #include "hext/ValueTest.h"

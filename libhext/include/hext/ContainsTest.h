@@ -1,6 +1,9 @@
 #ifndef HEXT_CONTAINS_TEST_H_INCLUDED
 #define HEXT_CONTAINS_TEST_H_INCLUDED
 
+/// @file
+///   Declares hext::ContainsTest
+
 #include "hext/ValueTest.h"
 
 #include <string>

@@ -1,6 +1,9 @@
 #ifndef HEXT_VALUE_TEST_H_INCLUDED
 #define HEXT_VALUE_TEST_H_INCLUDED
 
+/// @file
+///   Declares hext::ValueTest
+
 
 namespace hext {
 

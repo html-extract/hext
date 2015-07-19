@@ -1,6 +1,9 @@
 #ifndef HEXT_ATTRIBUTE_MATCH_H_INCLUDED
 #define HEXT_ATTRIBUTE_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::AttributeMatch
+
 #include "hext/Match.h"
 #include "hext/ValueTest.h"
 

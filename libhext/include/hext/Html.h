@@ -1,6 +1,9 @@
 #ifndef HEXT_HTML_H_INCLUDED
 #define HEXT_HTML_H_INCLUDED
 
+/// @file
+///   Declares hext::Html
+
 #include <cstddef>
 
 #include <gumbo.h>

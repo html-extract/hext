@@ -1,6 +1,9 @@
 #ifndef HEXT_RESULT_TREE_H_INCLUDED
 #define HEXT_RESULT_TREE_H_INCLUDED
 
+/// @file
+///   Declares hext::ResultTree
+
 #include "hext/Result.h"
 
 #include <vector>

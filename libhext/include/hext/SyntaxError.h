@@ -1,6 +1,9 @@
 #ifndef HEXT_SYNTAX_ERROR_H_INCLUDED
 #define HEXT_SYNTAX_ERROR_H_INCLUDED
 
+/// @file
+///   Declares hext::SyntaxError
+
 #include <stdexcept>
 #include <string>
 

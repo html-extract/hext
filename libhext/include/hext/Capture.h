@@ -1,6 +1,9 @@
 #ifndef HEXT_CAPTURE_H_INCLUDED
 #define HEXT_CAPTURE_H_INCLUDED
 
+/// @file
+///   Declares hext::Capture
+
 #include "hext/Result.h"
 
 #include <boost/optional.hpp>

@@ -1,6 +1,9 @@
 #ifndef HEXT_CHILD_COUNT_MATCH_H_INCLUDED
 #define HEXT_CHILD_COUNT_MATCH_H_INCLUDED
 
+/// @file
+///   Declares hext::ChildCountMatch
+
 #include "hext/Match.h"
 
 #include <gumbo.h>

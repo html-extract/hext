@@ -1,6 +1,9 @@
 #ifndef HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
 #define HEXT_ATTRIBUTE_CAPTURE_H_INCLUDED
 
+/// @file
+///   Declares hext::AttributeCapture
+
 #include "hext/Capture.h"
 #include "hext/Result.h"
 

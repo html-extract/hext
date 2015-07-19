@@ -1,6 +1,9 @@
 #ifndef HEXT_EXTRACTOR_H_INCLUDED
 #define HEXT_EXTRACTOR_H_INCLUDED
 
+/// @file
+///   Declares hext::Extractor
+
 #include "hext/Html.h"
 #include "hext/ResultTree.h"
 
