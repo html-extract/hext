@@ -9,11 +9,15 @@
 namespace hext {
 
 
-/// Matches if a node is the only child of its parent.
+/// Matches HTML nodes that are the only child of their parent HTML element.
+///
+/// The intent is to mimic the CSS pseudo-classes only-child.
+///
+/// See https://developer.mozilla.org/en-US/docs/Web/CSS/:only-child
 class OnlyChildMatch : public Match
 {
 public:
-  /// Return true if node is the only child of its parent.
+  /// Returns true if node is the only child of its parent.
   bool matches(const GumboNode * node) const final;
 };
 
