@@ -7,8 +7,10 @@
 namespace hext {
 
 
-/// Match is the abstract base for all Matches that can be applied to
-/// html-nodes.
+/// Abstract base for every Match.
+///
+/// Matches are applied to HTML nodes with Match::matches() which will
+/// return true if the HTML node matches.
 class Match
 {
 public:
