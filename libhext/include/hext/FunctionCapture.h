@@ -42,7 +42,7 @@ namespace hext {
 ///     assert(*result == ResultPair("centimeters", "25"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
 ///
-/// @anchor RegexBehavior
+/// @anchor FCRegexBehavior
 /// @par Regex behavior:
 ///   If FunctionCapture was given a regex it will be applied to the captured
 ///   value. A regex containing a capture group will produce only the matched
@@ -67,7 +67,7 @@ public:
   ///                      FuntionCapture::capture.
   /// @param       regex:  An optional regular expression that is applied to
   ///                      the result of the given CaptureFunction.
-  ///                      See @ref RegexBehavior.
+  ///                      See @ref FCRegexBehavior.
   FunctionCapture(
     CaptureFunction func,
     std::string result_name,
