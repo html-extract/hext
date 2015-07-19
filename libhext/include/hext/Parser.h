@@ -10,21 +10,35 @@
 namespace hext {
 
 
-/// Parser is responsible for parsing hext and producing Rules.
+/// Parses a string containing hext rule definitions.
+///
+/// @par Example:
+/// ~~~~~~~~~~~~~
+///   std::string hext_str("<a href={href}/>");
+///   Parser p(hext_str.begin(), hext_str.end());
+///   try {
+///     Rule rule = p.parse();
+///     // ... do sth. with rule ...
+///   } catch( SyntaxError& e ) {
+///     // e.what() will contain a detailed error message.
+///   }
+/// ~~~~~~~~~~~~~
 class Parser
 {
 public:
-  /// Construct a Parser to parse hext rule definitions described in range
-  /// `begin` to `end`. Pointers must stay valid until the last call to
-  /// `Parser::parse()`.
+  /// Constructs a Parser to parse hext rule definitions contained in
+  /// range [begin, end). Pointers are non-owning and must stay valid until the
+  /// last call to Parser::parse().
   Parser(const char * begin, const char * end);
 
   Parser(Parser&&);
   Parser& operator=(Parser&&);
   ~Parser();
 
-  /// Parse hext and return the top level Rule. Throw `SyntaxError` on invalid
-  /// input.
+  /// Parses hext rule definition from the given range and returns the top level
+  /// Rule. Throws SyntaxError with a detailed error message on invalid input.
+  ///
+  /// @throws SyntaxError
   Rule parse();
 
 private:
