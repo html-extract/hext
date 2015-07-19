@@ -12,27 +12,44 @@
 namespace hext {
 
 
-/// Extractor takes a string containing hext rule definitions. Once constructed,
-/// the rules can be applied to html by calling Extractor::extract, which
-/// returns a hext::ResultTree containing all captured values.
+/// Extracts ResultTrees from HTML.
+///
+/// @par Example:
+/// ~~~~~~~~~~~~~
+///   Extractor ext("<a href={href}/>");
+///   auto rt = ext.extract(
+///     "<a href='/link'>Link 1</a>"
+///     "<a href='/link'>Link 2</a>"
+///     "<a href='/link'>Link 3</a>"
+///   );
+///   auto result = rt->flatten();
+///   assert(result.size() == 3);
+///   for(const auto& group : result)
+///     for(const auto& p : group)
+///       assert(p.first == "href" && p.second == "/link")
+/// ~~~~~~~~~~~~~
 class Extractor
 {
 public:
-  /// Construct Extractor. Throws SyntaxError if given hext is invalid.
+  /// Constructs an Extractor with a string containing hext rule definitions.
+  /// Throws SyntaxError if given hext is invalid.
   ///
-  /// \param hext
-  ///     A string containing hext rule definitions.
+  /// @throws SyntaxError
+  /// @param hext:  A string containing hext rule definitions.
   explicit Extractor(const std::string& hext);
+
   Extractor(Extractor&&);
   Extractor& operator=(Extractor &&);
   ~Extractor();
 
-  /// Extract values from a string containing html.
-  /// Return a hext::ResultTree containing captured values.
+  /// Extracts a ResultTree from a string containing html.
+  ///
+  /// @returns  A hext::ResultTree containing the captured values.
   std::unique_ptr<ResultTree> extract(const std::string& html) const;
 
-  /// Extract values from a hext::Html.
-  /// Return a hext::ResultTree containing captured values.
+  /// Extracts a ResultTree from a hext::Html.
+  ///
+  /// @returns  A hext::ResultTree containing the captured values.
   std::unique_ptr<ResultTree> extract(const Html& html) const;
 
 private:
