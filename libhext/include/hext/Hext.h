@@ -1,6 +1,8 @@
 #ifndef HEXT_HEXT_H_INCLUDED
 #define HEXT_HEXT_H_INCLUDED
 
+/// @file
+///   Convenience header that includes all of hext.
 
 // Extraction
 #include "hext/Extractor.h"
