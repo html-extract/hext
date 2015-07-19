@@ -9,11 +9,11 @@
 namespace hext {
 
 
-/// A TextNodeMatch is a Match that matches text nodes.
+/// Matches if an HTML node is a text node.
 class TextNodeMatch : public Match
 {
 public:
-  /// Return true if node is a text node.
+  /// Returns true if node is a text node.
   bool matches(const GumboNode * node) const final;
 };
 
