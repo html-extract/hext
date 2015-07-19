@@ -9,16 +9,32 @@
 namespace hext {
 
 
-/// Test whether another string matches a given regex.
+/// Tests whether another string matches a given regex.
+///
+/// @par Example:
+/// ~~~~~~~~~~~~~
+///   RegexTest has_number("\d+");
+///   assert( has_number.test("Nr. 23!"));
+///   assert( has_number.test("23"));
+///   assert(!has_number.test("foo"));
+///
+///   RegexTest is_date("^\d{2}-\d{2}-\d{4}$");
+///   assert( is_date.test("01-01-1970"));
+///   assert( is_date.test("19-01-2038"));
+///   assert(!is_date.test("09-09-99"));
+///   assert(!is_date.test("Born on 09-09-1941."));
+/// ~~~~~~~~~~~~~
 class RegexTest : public ValueTest
 {
 public:
+  /// Constructs a RegexTest that succeeds if a subject matches regex.
   explicit RegexTest(boost::regex regex);
 
-  /// Return true if regex matches subject.
+  /// Returns true if given regex matches subject.
   bool test(const char * subject) const final;
 
 private:
+  /// The regex a subject has to match.
   boost::regex rx_;
 };
 
