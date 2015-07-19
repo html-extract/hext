@@ -5,11 +5,12 @@
 namespace hext {
 
 
-/// Base class for all ValueTests. ValueTests are used to validate attribute
-/// values of nodes according to a Rule's definition.
+/// Abstract base for every ValueTest.
+/// ValueTests determine whether a string passes a certain test.
 class ValueTest
 {
 public:
+  /// Allow inheritance.
   virtual ~ValueTest() {}
 
   /// Implementation must be provided in subclasses.
