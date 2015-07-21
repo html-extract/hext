@@ -166,10 +166,12 @@ public:
   std::unique_ptr<ResultTree> extract(const GumboNode * node) const;
 
   /// Returns true if this Rule matches node.
+  ///
   /// @param node:  A GumboNode that is to be matched.
   bool matches(const GumboNode * node) const;
 
   /// Returns the result of applying every Capture to node.
+  ///
   /// @param node:  A GumboNode that is to be captured.
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
@@ -177,6 +179,7 @@ public:
   bool is_path() const;
 
   /// Sets whether this Rule is a path.
+  ///
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_path(bool path);
 
