@@ -59,6 +59,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/FunctionCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/FunctionMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
+  "${PROJECT_SOURCE_DIR}/src/Match.cpp"
   "${PROJECT_SOURCE_DIR}/src/MatchContext.cpp"
   "${PROJECT_SOURCE_DIR}/src/NegateMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/NegateTest.cpp"

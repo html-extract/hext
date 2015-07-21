@@ -18,7 +18,7 @@ class Match
 {
 public:
   /// Virtual destructor to allow inheritance.
-  virtual ~Match() {}
+  virtual ~Match();
 
   /// Implemenation must be provided in subclasses.
   virtual bool matches(const GumboNode * node) const = 0;
