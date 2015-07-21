@@ -1,6 +1,9 @@
 #ifndef HEXT_PARSE_HEXT_H_INCLUDED
 #define HEXT_PARSE_HEXT_H_INCLUDED
 
+/// @file
+///   Declares hext::ParseHext
+
 #include <cstddef>
 
 #include "hext/Rule.h"
