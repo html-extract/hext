@@ -88,7 +88,7 @@ Result ResultTree::flatten() const
   {
     ResultMap map;
     child->impl_->save(map);
-    if( map.size() )
+    if( !map.empty() )
       results.push_back(std::move(map));
   }
 
