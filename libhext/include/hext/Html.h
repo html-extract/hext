@@ -20,17 +20,22 @@ namespace hext {
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   std::string input = "<html>"
-///     "<body>This is a string containing html</body>"
-///     "</html>";
-///   Html page();
+///   Html page("<html><body>This is a string containing html</body></html>");
 ///   const GumboNode * root = page.root();
 ///   // root now points to the top most HTML element (<html>).
 ///   assert(root);
+///   Rule head(HtmlTag::HEAD);
+///   assert(head.matches(root));
 /// ~~~~~~~~~~~~~
 class Html
 {
 public:
+  /// Constructs an Html from a non-owning null-terminated string. The Pointer
+  /// must stay alive until the destruction of this instance.
+  ///
+  /// @param buffer:  A null-terminated string containing HTML.
+  explicit Html(const char * buffer);
+
   /// Constructs an Html from a non-owning pointer. The Pointer must stay alive
   /// until the destruction of this instance.
   ///

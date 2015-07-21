@@ -1,5 +1,7 @@
 #include "hext/Html.h"
 
+#include <cstring>
+
 
 namespace hext {
 
@@ -10,6 +12,17 @@ Html::Html(const char * buffer, std::size_t size)
       &kGumboDefaultOptions,
       buffer,
       size
+    )
+  )
+{
+}
+
+Html::Html(const char * buffer)
+: g_outp_(
+    gumbo_parse_with_options(
+      &kGumboDefaultOptions,
+      buffer,
+      std::strlen(buffer)
     )
   )
 {
