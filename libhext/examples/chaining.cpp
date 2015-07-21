@@ -32,7 +32,7 @@ int main()
       ))
   ;
 
-  const char * input = R"input(
+  Html html(R"input(
     <html>
       <head></head>
       <body>
@@ -61,9 +61,8 @@ int main()
         </div>
       </body>
     </html>
-  )input";
+  )input");
 
-  Html html(input, std::strlen(input));
   auto result_tree = rdiv.extract(html.root());
   auto v = result_tree->flatten();
 
