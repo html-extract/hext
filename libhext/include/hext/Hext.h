@@ -4,6 +4,7 @@
 /// @file
 ///   Convenience header that includes all of hext.
 
+
 // Extraction
 #include "hext/Extractor.h"
 #include "hext/Html.h"
@@ -13,8 +14,8 @@
 #include "hext/Rule.h"
 
 
-// Hext-Parsing
-#include "hext/Parser.h"
+// Parsing
+#include "hext/ParseHext.h"
 #include "hext/SyntaxError.h"
 
 

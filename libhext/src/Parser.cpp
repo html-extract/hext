@@ -1,7 +1,7 @@
 // This file was generated from Parser.cpp.rl.
 
 #line 1 "Parser.cpp.rl"
-#include "hext/Parser.h"
+#include "Parser.h"
 
 #include "hext/AttributeCapture.h"
 #include "hext/AttributeCountMatch.h"
@@ -29,15 +29,11 @@
 #include "RuleBuilder.h"
 #include "StringUtil.h"
 
-#include <string>
 #include <vector>
 #include <sstream>
 #include <utility>
 #include <algorithm>
 
-#include <boost/optional.hpp>
-#include <boost/regex/regex_traits.hpp>
-#include <boost/regex/pattern_except.hpp>
 #include <gumbo.h>
 
 
@@ -66,7 +62,7 @@ namespace hext {
 namespace ragel {
   /// Embed the ragel state machine.
   
-#line 69 "Parser.cpp.tmp"
+#line 65 "Parser.cpp.tmp"
 static const char _hext_actions[] = {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	3, 1, 4, 1, 6, 1, 8, 1, 
@@ -953,114 +949,17 @@ static const int hext_error = 0;
 static const int hext_en_main = 513;
 
 
-#line 69 "Parser.cpp.rl"
+#line 65 "Parser.cpp.rl"
 
 } // namespace ragel
 
 
-struct Parser::Impl
-{
-  Impl(const char * begin, const char * end) noexcept
-  : p_begin_(begin),
-    p(begin),
-    pe(end),
-    eof(end),
-    cs(0)
-  {
-  }
-
-  Rule parse();
-
-  /// Throw `SyntaxError` with an error message marking an unexpected character.
-  [[noreturn]]
-  void throw_unexpected() const;
-
-  /// Throw `SyntaxError` with an error message marking an invalid html tag.
-  [[noreturn]]
-  void throw_invalid_tag(const std::string& tag) const;
-
-  /// Throw `SyntaxError` with an error message marking an invalid regular
-  /// expression.
-  [[noreturn]]
-  void throw_regex_error(
-    std::size_t mark_len,
-    boost::regex_constants::error_type e_code
-  ) const;
-
-  /// Throw `SyntaxError` with an error message complaining about a missing
-  /// closing tag.
-  [[noreturn]]
-  void throw_missing_tag(HtmlTag missing) const;
-
-  /// Throw `SyntaxError` with an error message marking an invalid closing tag.
-  ///
-  /// \param tag
-  ///   The invalid tag name.
-  ///
-  /// \param expected
-  ///   The next expected closing HtmlTag. If empty, a closing tag was
-  ///   given but none expected.
-  [[noreturn]]
-  void throw_unexpected_tag(
-    const std::string& tag,
-    boost::optional<HtmlTag> expected
-  ) const;
-
-  /// Print an error at the current location within hext. Print hext with line
-  /// numbers up to the unexpected character.
-  ///
-  /// \param uc
-  ///   A pointer to the unexpected character.
-  ///
-  /// \param mark_len
-  ///   Amount of '^' characters that are used to mark the error location up to
-  ///   the unexpected character.
-  void print_error_location(
-    const char * uc,
-    std::size_t mark_len,
-    std::ostream& out
-  ) const;
-
-  /// Print `begin` to `end` into `out`, prepending a line number, a colon and a
-  /// space for each line.
-  ///
-  /// Example:
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// An SQL query goes into a bar,
-  /// walks up to two tables and asks,
-  /// Can I join you?
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// becomes
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// 1: An SQL query goes into a bar,
-  /// 2: walks up to two tables and asks,
-  /// 3: Can I join you?
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  void print_numbered_lines(
-    const char * begin,
-    const char * end,
-    std::ostream& out
-  ) const;
-
-  /// The beginning of the hext input.
-  const char * p_begin_;
-
-  /// The current character that ragel is processing within the hext input.
-  const char * p;
-
-  /// The end of the hext input.
-  const char * pe;
-
-  /// The end of the hext input. Same as `Parser::pe`.
-  const char * eof;
-
-  /// Ragel's current state.
-  int cs;
-};
-
-
-Parser::Parser(const char * begin, const char * end)
-: impl_(std::make_unique<Impl>(begin, end))
+Parser::Parser(const char * begin, const char * end) noexcept
+: p_begin_(begin),
+  p(begin),
+  pe(end),
+  eof(end),
+  cs(0)
 {
 }
 
@@ -1069,11 +968,6 @@ Parser& Parser::operator=(Parser&&) noexcept = default;
 Parser::~Parser() noexcept = default;
 
 Rule Parser::parse()
-{
-  return this->impl_->parse();
-}
-
-Rule Parser::Impl::parse()
 {
   // Allow ragel to access its namespace.
   using namespace ragel;
@@ -1111,12 +1005,12 @@ Rule Parser::Impl::parse()
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
   
-#line 1114 "Parser.cpp.tmp"
+#line 1008 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1119 "Parser.cpp.tmp"
+#line 1013 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1486,7 +1380,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1489 "Parser.cpp.tmp"
+#line 1383 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1518,7 +1412,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1521 "Parser.cpp.tmp"
+#line 1415 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1526,7 +1420,7 @@ _again:
 	_out: {}
 	}
 
-#line 230 "Parser.cpp.rl"
+#line 124 "Parser.cpp.rl"
 
 #pragma GCC diagnostic pop
 
@@ -1537,7 +1431,7 @@ _again:
   return std::move(builder.take_rule_tree());
 }
 
-void Parser::Impl::throw_unexpected() const
+void Parser::throw_unexpected() const
 {
   assert(this->p && this->p_begin_ && this->pe);
   assert(this->p <= this->pe && this->p >= this->p_begin_);
@@ -1556,7 +1450,7 @@ void Parser::Impl::throw_unexpected() const
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::Impl::throw_invalid_tag(const std::string& tag) const
+void Parser::throw_invalid_tag(const std::string& tag) const
 {
   std::stringstream error_msg;
   error_msg << "Unknown HTML tag '" << tag << "' ";
@@ -1567,7 +1461,7 @@ void Parser::Impl::throw_invalid_tag(const std::string& tag) const
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::Impl::throw_regex_error(
+void Parser::throw_regex_error(
   std::size_t mark_len,
   boost::regex_constants::error_type e_code
 ) const
@@ -1588,7 +1482,7 @@ void Parser::Impl::throw_regex_error(
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::Impl::throw_missing_tag(HtmlTag missing) const
+void Parser::throw_missing_tag(HtmlTag missing) const
 {
   std::stringstream error_msg;
   error_msg << "Missing closing tag '</"
@@ -1602,7 +1496,7 @@ void Parser::Impl::throw_missing_tag(HtmlTag missing) const
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::Impl::throw_unexpected_tag(
+void Parser::throw_unexpected_tag(
   const std::string& tag,
   boost::optional<HtmlTag> expected
 ) const
@@ -1628,7 +1522,7 @@ void Parser::Impl::throw_unexpected_tag(
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::Impl::print_error_location(
+void Parser::print_error_location(
   const char * uc,
   std::size_t mark_len,
   std::ostream& out
@@ -1679,7 +1573,7 @@ void Parser::Impl::print_error_location(
       << " here\n";
 }
 
-void Parser::Impl::print_numbered_lines(
+void Parser::print_numbered_lines(
   const char * begin,
   const char * end,
   std::ostream& out

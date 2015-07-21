@@ -6,6 +6,7 @@
 
 #include "hext/Html.h"
 #include "hext/ResultTree.h"
+#include "hext/Rule.h"
 
 #include <memory>
 #include <string>
@@ -37,7 +38,7 @@ public:
   /// Constructs an Extractor with a string containing hext rule definitions.
   /// Throws SyntaxError if given hext is invalid.
   ///
-  /// @throws SyntaxError
+  /// @throws       SyntaxError
   /// @param hext:  A string containing hext rule definitions.
   explicit Extractor(const std::string& hext);
 
@@ -59,8 +60,7 @@ private:
   Extractor(const Extractor&) = delete;
   Extractor& operator=(const Extractor&) = delete;
 
-  struct Impl;
-  std::unique_ptr<Impl> impl_;
+  Rule rule_;
 };
 
 

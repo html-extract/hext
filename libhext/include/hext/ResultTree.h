@@ -17,12 +17,11 @@ namespace hext {
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   std::string hext_str(
+///   Rule rule = ParseHext(
 ///     "<a href={href}><img/></a>" // i.e. capture the attribute href from all
 ///                                 // anchor elements that have a child with
 ///                                 // HtmlTag <img>.
-///   Parser p(hext_str.begin(), hext_str.end());
-///   Rule rule = p.parse();
+///   );
 ///   std::unique_ptr<ResultTree> rt = rule.extract([html]);
 ///   Result result = rt->flatten();
 ///   // Each element of result is an unordered multimap, each containing one

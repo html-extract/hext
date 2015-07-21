@@ -66,6 +66,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/NodeUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/NthChildMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/OnlyChildMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/ParseHext.cpp"
   "${PROJECT_SOURCE_DIR}/src/Parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
