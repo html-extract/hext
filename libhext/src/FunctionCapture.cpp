@@ -10,11 +10,11 @@ namespace hext {
 FunctionCapture::FunctionCapture(
   CaptureFunction func,
   std::string result_name,
-  boost::optional<boost::regex> regex
+  boost::optional<boost::regex> filter
 )
 : func_(func)
 , name_(std::move(result_name))
-, rx_(std::move(regex))
+, filter_(std::move(filter))
 {
 }
 
@@ -26,10 +26,10 @@ FunctionCapture::capture(const GumboNode * node) const
     return {};
 
   auto str = this->func_(node);
-  if( this->rx_ )
+  if( this->filter_ )
   {
     boost::match_results<std::string::iterator> mr;
-    if( boost::regex_search(str.begin(), str.end(), mr, this->rx_.get()) )
+    if( boost::regex_search(str.begin(), str.end(), mr, this->filter_.get()) )
     {
       // If there are no parentheses contained within the regex, return whole
       // regex capture (mr[0]), if there are, then return the first one.
