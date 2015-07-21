@@ -4,8 +4,8 @@
 namespace htmlext {
 
 
-FileError::FileError(const std::string& msg)
-: std::runtime_error(msg)
+FileError::FileError(const std::string& msg) noexcept
+: std::runtime_error(msg)  // noexcept
 {
 }
 

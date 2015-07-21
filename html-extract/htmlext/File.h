@@ -16,7 +16,7 @@ namespace htmlext {
 class FileError : public std::runtime_error
 {
 public:
-  explicit FileError(const std::string& msg);
+  explicit FileError(const std::string& msg) noexcept;
 };
 
 

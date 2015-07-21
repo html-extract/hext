@@ -28,13 +28,13 @@ enum class JsonOption
 };
 
 /// Convenience JsonOption OR-operator that does all the casting.
-inline JsonOption operator|(JsonOption l, JsonOption r)
+inline JsonOption operator|(JsonOption l, JsonOption r) noexcept
 {
   return static_cast<JsonOption>(static_cast<int>(l) | static_cast<int>(r));
 }
 
 /// Convenience JsonOption AND-operator that does all the casting.
-inline JsonOption operator&(JsonOption l, JsonOption r)
+inline JsonOption operator&(JsonOption l, JsonOption r) noexcept
 {
   return static_cast<JsonOption>(static_cast<int>(l) & static_cast<int>(r));
 }

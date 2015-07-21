@@ -4,10 +4,10 @@
 namespace htmlext {
 
 
-ErrorOutput::ErrorOutput(const char * error_source, std::ostream& out)
-: out_(out)
-, source_(error_source)
-, isatty_(isatty(STDERR_FILENO))
+ErrorOutput::ErrorOutput(const char * error_source, std::ostream& out) noexcept
+: out_(out)                      // noexcept
+, source_(error_source)          // noexcept
+, isatty_(isatty(STDERR_FILENO)) // noexcept
 {
 }
 
