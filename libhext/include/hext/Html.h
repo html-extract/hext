@@ -30,14 +30,18 @@ namespace hext {
 class Html
 {
 public:
-  /// Constructs an Html from a non-owning null-terminated string. The Pointer
-  /// must stay alive until the destruction of this instance.
+  /// Constructs an Html from a non-owning null-terminated string.
+  ///
+  /// @warning  The buffer must stay alive until the destruction of this
+  ///           instance.
   ///
   /// @param buffer:  A null-terminated string containing HTML.
   explicit Html(const char * buffer) noexcept;
 
-  /// Constructs an Html from a non-owning pointer. The Pointer must stay alive
-  /// until the destruction of this instance.
+  /// Constructs an Html from a non-owning pointer.
+  ///
+  /// @warning  The buffer must stay alive until the destruction of this
+  ///           instance.
   ///
   /// @param buffer:  A string containing HTML.
   /// @param   size:  The length of the given buffer.
@@ -48,7 +52,9 @@ public:
   Html& operator=(Html&&) noexcept;
 
   /// Returns a non-owning pointer to the root node of the HTML document.
-  /// The pointer is valid until the destruction of this instance.
+  ///
+  /// @warning  The pointer may not be used after the destruction of this
+  ///           instance.
   const GumboNode * root() const noexcept;
 
 private:
