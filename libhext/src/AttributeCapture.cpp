@@ -10,11 +10,11 @@ namespace hext {
 AttributeCapture::AttributeCapture(
   std::string attr_name,
   std::string result_name,
-  boost::optional<boost::regex> regex
+  boost::optional<boost::regex> filter
 )
 : attr_name_(std::move(attr_name))
 , name_(std::move(result_name))
-, rx_(std::move(regex))
+, filter_(std::move(filter))
 {
 }
 
@@ -33,10 +33,10 @@ AttributeCapture::capture(const GumboNode * node) const
   if( !g_attr || !g_attr->value )
     return {};
 
-  if( this->rx_ )
+  if( this->filter_ )
   {
     boost::match_results<const char *> mr;
-    if( boost::regex_search(g_attr->value, mr, this->rx_.get()) )
+    if( boost::regex_search(g_attr->value, mr, this->filter_.get()) )
     {
       // If there are no parentheses contained within the regex, return whole
       // regex capture (mr[0]), if there are, then return the first one.
