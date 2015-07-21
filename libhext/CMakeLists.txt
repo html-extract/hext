@@ -75,6 +75,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TextNodeMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/ValueTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 TARGET_LINK_LIBRARIES(
   hext
