@@ -11,7 +11,7 @@ NthChildMatch::NthChildMatch(
   int shift,
   OffsetOf offset_of,
   HtmlTag count_tag
-)
+) noexcept
 : step_(step)
 , shift_(shift)
 , offset_of_(offset_of)
@@ -23,7 +23,7 @@ NthChildMatch::NthChildMatch(
   std::pair<int, int> step_and_shift,
   OffsetOf offset_of,
   HtmlTag count_tag
-)
+) noexcept
 : step_(step_and_shift.first)
 , shift_(step_and_shift.second)
 , offset_of_(offset_of)
@@ -31,7 +31,7 @@ NthChildMatch::NthChildMatch(
 {
 }
 
-bool NthChildMatch::matches(const GumboNode * node) const
+bool NthChildMatch::matches(const GumboNode * node) const noexcept
 {
   assert(node);
   if( !node )
@@ -73,7 +73,7 @@ bool NthChildMatch::matches(const GumboNode * node) const
 int NthChildMatch::count_preceding_siblings(
   const GumboNode * node,
   HtmlTag count_tag
-) const
+) const noexcept
 {
   assert(node);
   if( !node )
@@ -108,7 +108,7 @@ int NthChildMatch::count_preceding_siblings(
 int NthChildMatch::count_following_siblings(
   const GumboNode * node,
   HtmlTag count_tag
-) const
+) const noexcept
 {
   assert(node);
   if( !node )

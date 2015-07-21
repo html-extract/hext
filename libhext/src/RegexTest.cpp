@@ -7,7 +7,7 @@ namespace hext {
 
 
 RegexTest::RegexTest(boost::regex regex)
-: rx_(std::move(regex))
+: rx_(std::move(regex))  // not noexcept
 {
 }
 

@@ -51,7 +51,7 @@ public:
   explicit AttributeMatch(
     std::string attr_name,
     std::unique_ptr<ValueTest> value_test = {}
-  );
+  ) noexcept;
 
   /// Return true if node has an HTML attribute called attr_name (as given in
   /// the constructor). If a ValueTest was supplied, the ValueTest must return

@@ -70,7 +70,7 @@ std::string NodeInnerHtml(const GumboNode * node)
   return "";
 }
 
-bool TagWrapsText(GumboTag tag)
+bool TagWrapsText(GumboTag tag) noexcept
 {
   switch( tag )
   {

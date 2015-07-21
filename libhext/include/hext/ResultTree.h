@@ -34,9 +34,9 @@ public:
   /// Constructs an empty ResultTree.
   ResultTree();
 
-  ResultTree(ResultTree&&);
-  ResultTree& operator=(ResultTree&&);
-  ~ResultTree();
+  ~ResultTree() noexcept;
+  ResultTree(ResultTree&&) noexcept;
+  ResultTree& operator=(ResultTree&&) noexcept;
 
   /// Appends a new branch.
   ///
@@ -52,13 +52,13 @@ public:
   /// Sets the captured values for this branch.
   ///
   /// @param v:  A vector containing string-pairs.
-  void set_values(std::vector<ResultPair> v);
+  void set_values(std::vector<ResultPair> v) noexcept;
 
   /// Returns read-only access to the values of this tree node.
-  const std::vector<ResultPair>& values() const;
+  const std::vector<ResultPair>& values() const noexcept;
 
   /// Returns read-only access to the children of this tree node.
-  const std::vector<std::unique_ptr<ResultTree>>& children() const;
+  const std::vector<std::unique_ptr<ResultTree>>& children() const noexcept;
 
   /// Returns a vector<ResultMap> containing all values from all children.
   /// Each element of the vector represents a complete extraction done

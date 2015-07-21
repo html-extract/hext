@@ -6,12 +6,12 @@
 namespace hext {
 
 
-ChildCountMatch::ChildCountMatch(int child_count)
+ChildCountMatch::ChildCountMatch(int child_count) noexcept
 : child_count_(child_count > 0 ? child_count : 0)
 {
 }
 
-bool ChildCountMatch::matches(const GumboNode * node) const
+bool ChildCountMatch::matches(const GumboNode * node) const noexcept
 {
   assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )
@@ -20,7 +20,7 @@ bool ChildCountMatch::matches(const GumboNode * node) const
   return this->child_count_ == this->count_child_elements(node);
 }
 
-int ChildCountMatch::count_child_elements(const GumboNode * node) const
+int ChildCountMatch::count_child_elements(const GumboNode * node) const noexcept
 {
   assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )

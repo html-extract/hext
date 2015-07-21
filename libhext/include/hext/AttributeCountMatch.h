@@ -36,13 +36,13 @@ public:
   ///
   /// @param attribute_count:  The amount of HTML attributes a node must have
   ///                          in order to match.
-  explicit AttributeCountMatch(unsigned int attribute_count);
+  explicit AttributeCountMatch(unsigned int attribute_count) noexcept;
 
   /// Returns true if node has exactly attribute_count amount of HTML
   /// attributes.
   ///
   /// @param node:  A pointer to a GumboNode of type GUMBO_NODE_ELEMENT.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const noexcept final;
 
 private:
   /// The amount of HTML attributes an HTML element must have in order to match.

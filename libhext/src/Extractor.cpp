@@ -15,9 +15,6 @@ struct Extractor::Impl
   {
   }
 
-  Impl(Impl&&) = default;
-  Impl& operator=(Impl&&) = default;
-
   Rule top_rule_;
 };
 
@@ -29,9 +26,9 @@ Extractor::Extractor(const std::string& hext)
   this->impl_->top_rule_ = std::move(p.parse());
 }
 
-Extractor::Extractor(Extractor&&) = default;
-Extractor& Extractor::operator=(Extractor &&) = default;
-Extractor::~Extractor() = default;
+Extractor::Extractor(Extractor&&) noexcept = default;
+Extractor& Extractor::operator=(Extractor &&) noexcept = default;
+Extractor::~Extractor() noexcept = default;
 
 std::unique_ptr<ResultTree> Extractor::extract(const std::string& html) const
 {

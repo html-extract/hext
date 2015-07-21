@@ -51,7 +51,7 @@ void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
     this->tag_stack_.push(tag);
 }
 
-bool RuleBuilder::pop_tag(const std::string& tag_name)
+bool RuleBuilder::pop_tag(const std::string& tag_name) noexcept
 {
   if( this->tag_stack_.empty() )
     return false;

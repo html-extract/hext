@@ -14,7 +14,7 @@ class ValueTest
 {
 public:
   /// Allow inheritance.
-  virtual ~ValueTest();
+  virtual ~ValueTest() noexcept;
 
   /// Implementation must be provided in subclasses.
   virtual bool test(const char * /* dummy */) const = 0;

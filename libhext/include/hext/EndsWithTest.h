@@ -29,7 +29,7 @@ public:
   /// given literal.
   ///
   /// @param literal:  A string that a subject must end with.
-  explicit EndsWithTest(std::string literal);
+  explicit EndsWithTest(std::string literal) noexcept;
 
   /// Returns true if subject ends with the given literal.
   ///

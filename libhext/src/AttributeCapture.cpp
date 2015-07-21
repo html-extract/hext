@@ -12,9 +12,9 @@ AttributeCapture::AttributeCapture(
   std::string result_name,
   boost::optional<boost::regex> filter
 )
-: attr_name_(std::move(attr_name))
-, name_(std::move(result_name))
-, filter_(std::move(filter))
+: attr_name_(std::move(attr_name))  // noexcept
+, name_(std::move(result_name))     // noexcept
+, filter_(std::move(filter))        // not noexcept
 {
 }
 

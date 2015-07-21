@@ -10,12 +10,12 @@ MatchContext::MatchContext(
   rule_it rule_begin,
   rule_it rule_end,
   const GumboVector& nodes
-)
-: r_begin_(rule_begin),
-  r_end_(rule_end),
-  nodes_(nodes),
-  n_(0),
-  n_len_(nodes.length)
+) noexcept
+: r_begin_(rule_begin),  // noexcept
+  r_end_(rule_end),      // noexcept
+  nodes_(nodes),         // noexcept
+  n_(0),                 // noexcept
+  n_len_(nodes.length)   // noexcept
 {
 }
 
@@ -116,7 +116,7 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
   return {};
 }
 
-MatchContext::rule_it MatchContext::find_mandatory_rule(rule_it it) const
+MatchContext::rule_it MatchContext::find_mandatory_rule(rule_it it) const noexcept
 {
   assert(it >= this->r_begin_ && it <= this->r_end_);
 

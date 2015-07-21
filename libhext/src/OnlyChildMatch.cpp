@@ -6,7 +6,7 @@
 namespace hext {
 
 
-bool OnlyChildMatch::matches(const GumboNode * node) const
+bool OnlyChildMatch::matches(const GumboNode * node) const noexcept
 {
   assert(node);
   if( !node )

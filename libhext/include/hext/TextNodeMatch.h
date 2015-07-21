@@ -17,7 +17,7 @@ class TextNodeMatch : public Match
 {
 public:
   /// Returns true if node is a text node.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const noexcept final;
 };
 
 

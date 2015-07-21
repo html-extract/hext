@@ -29,7 +29,7 @@ public:
   /// given literal.
   ///
   /// @param literal:  A string that a subject must contain.
-  explicit ContainsTest(std::string literal);
+  explicit ContainsTest(std::string literal) noexcept;
 
   /// Return true if subject contains the given literal.
   ///

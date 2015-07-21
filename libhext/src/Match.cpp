@@ -4,7 +4,7 @@
 namespace hext {
 
 
-Match::~Match() {}
+Match::~Match() noexcept {}
 
 
 } // namespace hext

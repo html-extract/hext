@@ -16,7 +16,7 @@ namespace hext {
 class SyntaxError : public std::runtime_error
 {
 public:
-  explicit SyntaxError(const std::string& msg);
+  explicit SyntaxError(const std::string& msg) noexcept;
 };
 
 

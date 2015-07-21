@@ -4,7 +4,7 @@
 namespace hext {
 
 
-Capture::~Capture() {}
+Capture::~Capture() noexcept {}
 
 
 } // namespace hext

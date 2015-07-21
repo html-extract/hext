@@ -23,7 +23,7 @@ class Capture
 {
 public:
   /// Allow inheritance.
-  virtual ~Capture();
+  virtual ~Capture() noexcept;
 
   /// Return a name/value pair with the captured contents or an empty optional,
   /// if there was nothing to capture.

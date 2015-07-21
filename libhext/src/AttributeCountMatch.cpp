@@ -6,12 +6,12 @@
 namespace hext {
 
 
-AttributeCountMatch::AttributeCountMatch(unsigned int attribute_count)
+AttributeCountMatch::AttributeCountMatch(unsigned int attribute_count) noexcept
 : attribute_count_(attribute_count)
 {
 }
 
-bool AttributeCountMatch::matches(const GumboNode * node) const
+bool AttributeCountMatch::matches(const GumboNode * node) const noexcept
 {
   assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )

@@ -4,7 +4,7 @@
 namespace hext {
 
 
-ValueTest::~ValueTest() {}
+ValueTest::~ValueTest() noexcept {}
 
 
 } // namespace hext

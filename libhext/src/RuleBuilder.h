@@ -37,7 +37,7 @@ public:
 
   /// Push and validate a closing tag.
   /// Return false on invalid or unexpected closing tag.
-  bool pop_tag(const std::string& tag_name);
+  bool pop_tag(const std::string& tag_name) noexcept;
 
   /// Return the next expected closing tag.
   boost::optional<HtmlTag> get_expected_tag() const;

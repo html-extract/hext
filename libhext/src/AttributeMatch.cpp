@@ -10,9 +10,9 @@ namespace hext {
 AttributeMatch::AttributeMatch(
   std::string attr_name,
   std::unique_ptr<ValueTest> value_test
-)
-: attr_name_(std::move(attr_name))
-, test_(std::move(value_test))
+) noexcept
+: attr_name_(std::move(attr_name))  // noexcept
+, test_(std::move(value_test))      // noexcept
 {
 }
 

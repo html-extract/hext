@@ -26,7 +26,7 @@ public:
     rule_it rule_begin,
     rule_it rule_end,
     const GumboVector& nodes
-  );
+  ) noexcept;
 
   /// Return next match_group. Return empty if there are no more matches.
   boost::optional<match_group> match_next();
@@ -35,7 +35,7 @@ private:
   /// Return first mandatory rule. Searches range [it, this->r_end_) followed by
   /// [this->r_begin_, it).
   /// Return this->r_end_ if there are no mandatory rules.
-  rule_it find_mandatory_rule(rule_it it) const;
+  rule_it find_mandatory_rule(rule_it it) const noexcept;
 
   /// Return node index for the first node in [begin, end) that matches rule.
   /// Return end if no match.

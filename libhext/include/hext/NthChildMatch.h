@@ -96,7 +96,7 @@ public:
     int shift,
     OffsetOf offset_of = OffsetOf::Front,
     HtmlTag count_tag = HtmlTag::ANY
-  );
+  ) noexcept;
 
   /// Construct an NthChildMatch with step and shift given as std::pair.
   /// Constructs an NthChildMatch with the pattern <step * n + shift>, where
@@ -114,12 +114,12 @@ public:
     std::pair<int, int> step_and_shift,
     OffsetOf offset_of = OffsetOf::Front,
     HtmlTag count_tag = HtmlTag::ANY
-  );
+  ) noexcept;
 
   /// Returns true if HTML node matches pattern <step * n + shift>.
   ///
   /// @param node:  A pointer to a GumboNode.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const noexcept final;
 
 private:
   /// Count preceding siblings of an HTML node.
@@ -130,7 +130,7 @@ private:
   int count_preceding_siblings(
     const GumboNode * node,
     HtmlTag count_tag
-  ) const;
+  ) const noexcept;
 
   /// Count following siblings of an HTML node.
   ///
@@ -140,7 +140,7 @@ private:
   int count_following_siblings(
     const GumboNode * node,
     HtmlTag count_tag
-  ) const;
+  ) const noexcept;
 
   /// The step in the pattern <step * n + shift>
   int step_;

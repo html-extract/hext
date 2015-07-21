@@ -44,7 +44,7 @@ public:
   explicit NegateMatch(
     std::vector<std::unique_ptr<Match>>&& v_matches =
       std::vector<std::unique_ptr<Match>>()
-  );
+  ) noexcept;
 
   /// Appends a Match.
   ///

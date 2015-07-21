@@ -6,8 +6,8 @@
 namespace hext {
 
 
-EqualsTest::EqualsTest(std::string literal)
-: lit_(std::move(literal))
+EqualsTest::EqualsTest(std::string literal) noexcept
+: lit_(std::move(literal))  // noexcept
 {
 }
 

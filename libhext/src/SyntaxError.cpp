@@ -4,8 +4,8 @@
 namespace hext {
 
 
-SyntaxError::SyntaxError(const std::string& msg)
-: std::runtime_error(msg)
+SyntaxError::SyntaxError(const std::string& msg) noexcept
+: std::runtime_error(msg)  // noexcept
 {
 }
 

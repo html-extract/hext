@@ -18,9 +18,6 @@ struct Rule::Impl
   {
   }
 
-  Impl(Impl&&) = default;
-  Impl& operator=(Impl&&) = default;
-
   bool matches(const GumboNode * node) const
   {
     if( !node )
@@ -163,7 +160,7 @@ struct Rule::Impl
   }
 
   /// Return true if all immediate children are optional.
-  bool all_children_are_optional() const
+  bool all_children_are_optional() const noexcept
   {
     for( const auto& r : this->children_ )
       if( !r.impl_->is_optional_ )
@@ -190,9 +187,9 @@ Rule::Rule(
 {
 }
 
-Rule::Rule(Rule&&) = default;
-Rule& Rule::operator=(Rule&&) = default;
-Rule::~Rule() = default;
+Rule::Rule(Rule&&) noexcept = default;
+Rule& Rule::operator=(Rule&&) noexcept = default;
+Rule::~Rule() noexcept = default;
 
 Rule& Rule::take_child(Rule&& r, std::size_t insert_at_depth)
 {
@@ -212,34 +209,34 @@ Rule& Rule::take_capture(std::unique_ptr<Capture>&& cap)
   return *this;
 }
 
-HtmlTag Rule::get_tag() const
+HtmlTag Rule::get_tag() const noexcept
 {
   return this->impl_->tag_;
 }
 
-Rule& Rule::set_tag(HtmlTag tag)
+Rule& Rule::set_tag(HtmlTag tag) noexcept
 {
   this->impl_->tag_ = tag;
   return *this;
 }
 
-bool Rule::is_optional() const
+bool Rule::is_optional() const noexcept
 {
   return this->impl_->is_optional_;
 }
 
-Rule& Rule::set_optional(bool optional)
+Rule& Rule::set_optional(bool optional) noexcept
 {
   this->impl_->is_optional_ = optional;
   return *this;
 }
 
-bool Rule::is_path() const
+bool Rule::is_path() const noexcept
 {
   return this->impl_->is_path_;
 }
 
-Rule& Rule::set_path(bool path)
+Rule& Rule::set_path(bool path) noexcept
 {
   this->impl_->is_path_ = path;
   return *this;

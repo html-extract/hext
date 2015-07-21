@@ -31,7 +31,7 @@ std::string NodeInnerHtml(const GumboNode * node);
 /// Return true if `tag` is a tag for an element that is to be embedded
 /// in newlines when converting html to text (that excludes most inline
 /// elements, e.g. `<span>`).
-bool TagWrapsText(GumboTag tag);
+bool TagWrapsText(GumboTag tag) noexcept;
 
 
 } // namespace hext

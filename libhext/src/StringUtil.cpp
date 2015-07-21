@@ -46,7 +46,7 @@ std::string TrimAndCollapseWs(std::string str)
   return str;
 }
 
-bool IsSpace(char c)
+bool IsSpace(char c) noexcept
 {
   // http://www.w3.org/TR/html5/infrastructure.html#space-character
   // The space characters, for the purposes of this specification,
@@ -92,7 +92,7 @@ std::string CharName(char c)
     return std::string("[ascii: ") + std::to_string(ci) + "]";
 }
 
-CharPosPair CharPosition(const char * begin, const char * c)
+CharPosPair CharPosition(const char * begin, const char * c) noexcept
 {
   assert(begin && c && begin <= c);
   if( !begin || !c || c < begin )
@@ -124,7 +124,7 @@ CharPosPair CharPosition(const char * begin, const char * c)
   return CharPosPair(line_count, char_offset_in_line);
 }
 
-int DecimalWidth(std::size_t number)
+int DecimalWidth(std::size_t number) noexcept
 {
   int width = 1;
   while( number /= 10 )
@@ -133,7 +133,7 @@ int DecimalWidth(std::size_t number)
   return width;
 }
 
-bool ContainsWord(const std::string& subject, const std::string& word)
+bool ContainsWord(const std::string& subject, const std::string& word) noexcept
 {
   if( subject.empty() || word.empty() || word.size() > subject.size() )
     return false;

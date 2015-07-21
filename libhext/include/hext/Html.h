@@ -34,22 +34,22 @@ public:
   /// must stay alive until the destruction of this instance.
   ///
   /// @param buffer:  A null-terminated string containing HTML.
-  explicit Html(const char * buffer);
+  explicit Html(const char * buffer) noexcept;
 
   /// Constructs an Html from a non-owning pointer. The Pointer must stay alive
   /// until the destruction of this instance.
   ///
   /// @param buffer:  A string containing HTML.
   /// @param   size:  The length of the given buffer.
-  Html(const char * buffer, std::size_t size);
+  Html(const char * buffer, std::size_t size) noexcept;
 
-  ~Html();
-  Html(Html&&) = default;
-  Html& operator=(Html&&) = default;
+  ~Html() noexcept;
+  Html(Html&&) noexcept;
+  Html& operator=(Html&&) noexcept;
 
   /// Returns a non-owning pointer to the root node of the HTML document.
   /// The pointer is valid until the destruction of this instance.
-  const GumboNode * root() const;
+  const GumboNode * root() const noexcept;
 
 private:
   Html(const Html&) = delete;

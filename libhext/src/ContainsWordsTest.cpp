@@ -22,8 +22,8 @@ ContainsWordsTest::ContainsWordsTest(std::string words)
   );
 }
 
-ContainsWordsTest::ContainsWordsTest(std::vector<std::string> words)
-: words_(std::move(words))
+ContainsWordsTest::ContainsWordsTest(std::vector<std::string> words) noexcept
+: words_(std::move(words))  // noexcept
 {
 }
 

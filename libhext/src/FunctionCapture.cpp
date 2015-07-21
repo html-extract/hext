@@ -12,9 +12,10 @@ FunctionCapture::FunctionCapture(
   std::string result_name,
   boost::optional<boost::regex> filter
 )
-: func_(func)
-, name_(std::move(result_name))
-, filter_(std::move(filter))
+: func_(std::move(func))         // noexcept
+, name_(std::move(result_name))  // noexcept
+, filter_(std::move(filter))     // boost::optional: noexcept >=1.56,
+                                 // boost::regex:    not noexcept
 {
 }
 

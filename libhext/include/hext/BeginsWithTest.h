@@ -29,7 +29,7 @@ public:
   /// the given literal.
   ///
   /// @param literal:  A string that a subject must begin with.
-  explicit BeginsWithTest(std::string literal);
+  explicit BeginsWithTest(std::string literal) noexcept;
 
   /// Return true if subject begins with the given literal.
   ///

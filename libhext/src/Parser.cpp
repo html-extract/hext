@@ -960,7 +960,7 @@ static const int hext_en_main = 513;
 
 struct Parser::Impl
 {
-  Impl(const char * begin, const char * end)
+  Impl(const char * begin, const char * end) noexcept
   : p_begin_(begin),
     p(begin),
     pe(end),
@@ -1064,9 +1064,9 @@ Parser::Parser(const char * begin, const char * end)
 {
 }
 
-Parser::Parser(Parser&&) = default;
-Parser& Parser::operator=(Parser&&) = default;
-Parser::~Parser() = default;
+Parser::Parser(Parser&&) noexcept = default;
+Parser& Parser::operator=(Parser&&) noexcept = default;
+Parser::~Parser() noexcept = default;
 
 Rule Parser::parse()
 {

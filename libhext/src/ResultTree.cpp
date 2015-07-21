@@ -9,9 +9,9 @@ namespace hext {
 
 struct ResultTree::Impl
 {
-  Impl()
-  : children_(),
-    values_()
+  Impl() noexcept
+  : children_(),  // noexcept since C++17
+    values_()     // noexcept since C++17
   {
   }
 
@@ -36,9 +36,9 @@ ResultTree::ResultTree()
 {
 }
 
-ResultTree::ResultTree(ResultTree&&) = default;
-ResultTree& ResultTree::operator=(ResultTree&&) = default;
-ResultTree::~ResultTree() = default;
+ResultTree::~ResultTree() noexcept = default;
+ResultTree::ResultTree(ResultTree&&) noexcept = default;
+ResultTree& ResultTree::operator=(ResultTree&&) noexcept = default;
 
 ResultTree * ResultTree::create_child()
 {
@@ -65,17 +65,18 @@ void ResultTree::delete_child(const ResultTree * child)
   assert(false);
 }
 
-void ResultTree::set_values(std::vector<ResultPair> v)
+void ResultTree::set_values(std::vector<ResultPair> v) noexcept
 {
   this->impl_->values_ = std::move(v);
 }
 
-const std::vector<ResultPair>& ResultTree::values() const
+const std::vector<ResultPair>& ResultTree::values() const noexcept
 {
   return this->impl_->values_;
 }
 
-const std::vector<std::unique_ptr<ResultTree>>& ResultTree::children() const
+const std::vector<std::unique_ptr<ResultTree>>&
+ResultTree::children() const noexcept
 {
   return this->impl_->children_;
 }

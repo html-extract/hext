@@ -38,7 +38,7 @@ public:
   /// words given in a vector.
   ///
   /// @param words:  A vector of words.
-  explicit ContainsWordsTest(std::vector<std::string> words);
+  explicit ContainsWordsTest(std::vector<std::string> words) noexcept;
 
   /// Returns true if subject contains all given words.
   ///

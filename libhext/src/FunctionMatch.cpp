@@ -12,8 +12,8 @@ FunctionMatch::FunctionMatch(
   CaptureFunction func,
   std::unique_ptr<ValueTest> value_test
 )
-: func_(func)
-, test_(std::move(value_test))
+: func_(std::move(func))        // not noexcept (std::function move assignment)
+, test_(std::move(value_test))  // noexcept
 {
 }
 

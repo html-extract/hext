@@ -9,8 +9,8 @@ namespace hext {
 
 NegateMatch::NegateMatch(
   std::vector<std::unique_ptr<Match>>&& v_matches
-)
-: matches_(std::move(v_matches))
+) noexcept
+: matches_(std::move(v_matches))  // noexcept
 {
 }
 

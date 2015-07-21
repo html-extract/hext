@@ -21,7 +21,7 @@ class OnlyChildMatch : public Match
 {
 public:
   /// Returns true if node is the only child of its parent.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const noexcept final;
 };
 
 

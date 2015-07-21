@@ -94,9 +94,9 @@ public:
   explicit
   Rule(HtmlTag tag = HtmlTag::ANY, bool optional = false, bool path = false);
 
-  ~Rule();
-  Rule(Rule&&);
-  Rule& operator=(Rule&&);
+  ~Rule() noexcept;
+  Rule(Rule&&) noexcept;
+  Rule& operator=(Rule&&) noexcept;
 
   /// Appends a Rule after the last element at the given tree depth.
   ///
@@ -144,21 +144,21 @@ public:
   }
 
   /// Returns the HtmlTag this rule matches.
-  HtmlTag get_tag() const;
+  HtmlTag get_tag() const noexcept;
 
   /// Sets the HtmlTag this rule matches.
   ///
   /// @returns  A reference for this Rule to enable method chaining.
-  Rule& set_tag(HtmlTag tag);
+  Rule& set_tag(HtmlTag tag) noexcept;
 
   /// Returns true if this rule is optional, i.e. if a match does not have to
   /// be found.
-  bool is_optional() const;
+  bool is_optional() const noexcept;
 
   /// Sets whether this rule is optional, i.e. if a match has to be found.
   ///
   /// @returns  A reference for this Rule to enable method chaining.
-  Rule& set_optional(bool optional);
+  Rule& set_optional(bool optional) noexcept;
 
   /// Extracts values from an HTML tree recursivley.
   ///
@@ -176,12 +176,12 @@ public:
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
   /// Returns true if this Rule is a path.
-  bool is_path() const;
+  bool is_path() const noexcept;
 
   /// Sets whether this Rule is a path.
   ///
   /// @returns  A reference for this Rule to enable method chaining.
-  Rule& set_path(bool path);
+  Rule& set_path(bool path) noexcept;
 
 private:
   Rule(const Rule&) = delete;

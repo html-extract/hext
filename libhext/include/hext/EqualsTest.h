@@ -29,7 +29,7 @@ public:
   /// literal.
   ///
   /// @param literal:  A string that a subject must equal.
-  explicit EqualsTest(std::string literal);
+  explicit EqualsTest(std::string literal) noexcept;
 
   /// Returns true if subject equals literal.
   ///

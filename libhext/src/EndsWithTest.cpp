@@ -7,8 +7,8 @@
 namespace hext {
 
 
-EndsWithTest::EndsWithTest(std::string literal)
-: lit_(std::move(literal))
+EndsWithTest::EndsWithTest(std::string literal) noexcept
+: lit_(std::move(literal))  // noexcept
 {
 }
 
