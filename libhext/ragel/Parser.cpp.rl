@@ -220,6 +220,7 @@ Rule Parser::Impl::parse()
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
   %%{
     machine hext;
