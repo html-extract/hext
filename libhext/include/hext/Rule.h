@@ -51,13 +51,12 @@ namespace hext {
 ///   // anchor is now equivalent to the following hext:
 ///   // <a href={link}><img src={img}/></a>
 ///
-///   std::string input(
+///   Html html(
 ///     "<html><body>"
 ///       "<div><a href='/bob'>  <img src='bob.jpg'/>  </a></div>"
 ///       "<div><a href='/alice'><img src='alice.jpg'/></a></div>"
 ///       "<div><a href='/carol'><img src='carol.jpg'/></a></div>"
 ///     "</body></html>")
-///   Html html(input.begin(), input.end());
 ///
 ///   std::unique_ptr<ResultTree> rt = anchor.extract(html.root());
 ///
