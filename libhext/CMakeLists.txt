@@ -1,5 +1,5 @@
 ###### LIBHEXT #################################################################
-# Eable PROJECT() with VERSION parameter.
+# Enable PROJECT() with VERSION parameter.
 CMAKE_POLICY(SET CMP0048 NEW)
 PROJECT(libhext VERSION 0.1.0)
 

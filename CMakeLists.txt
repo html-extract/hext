@@ -1,5 +1,5 @@
 ###### HTML-EXTRACT ############################################################
-# Eable PROJECT() with VERSION parameter.
+# Enable PROJECT() with VERSION parameter.
 CMAKE_POLICY(SET CMP0048 NEW)
 PROJECT(html-extract VERSION 0.1)
 
