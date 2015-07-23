@@ -1,0 +1,6 @@
+<tr id^="row_0_">
+  <td class="entry">
+    <a @text={class_name}/>
+  </td>
+  <td class="desc" @text={class_desc}/>
+</tr>

@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+
+
+[[ $# -lt 1 ]] && {
+  echo "Usage: $0 <hext-file...>"
+  exit
+}
+
+
+# Assume this file's location in the project is /test
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+# The build directory for html-extract is expected in to be /build
+BUILD_DIR=$(realpath "${SCRIPT_DIR}/../build")
+
+C_RED=$(tput setaf 1)
+C_GRN=$(tput setaf 2)
+C_BLD=$(tput bold)
+C_RST=$(tput sgr0)
+
+# Use colordiff, if available
+DIFF="diff"
+colordiff --help 2>&1 > /dev/null && DIFF="colordiff"
+
+
+# Prints error message to stdout.
+perror() {
+  echo -e "${C_RED}${C_BLD}Error:${C_RST}" "$@"
+}
+
+
+# Prints a failed test case to stdout.
+perror_case() {
+  local case_name="unknown"
+  [[ $# -gt 0 ]] && case_name="$1"
+  echo "${C_RED}${C_BLD}✘ Test case <${case_name}>: Failure${C_RST}"
+}
+
+
+# Indents each line from stdin with two spaces and prints to stdout.
+# The amount of spaces can be overriden by providing a parameter greater than 0.
+pindent() {
+  local width="2"
+  [[ $# -gt 0 ]] && width=$1
+
+  # hax: generate a string filled with $width amount of spaces
+  local spaces=$(printf "%0.s " $(seq 1 $width))
+
+  # insert spaces at the beginning of each line
+  sed "s/^/${spaces}/" < /dev/stdin
+}
+
+
+# Prints a string that can be used to successfully invoke html-extract.
+# If given an argument, it will be used as a directory in which to look
+# for html-extract.
+# Returns 0 if successful.
+whereis_html_extract() {
+  local htmlext="html-extract"
+
+  # if a path was provided, use it
+  [[ $# -gt 0 ]] && htmlext="${1}/${htmlext}"
+
+  ${htmlext} --help 2>&1 > /dev/null && {
+    echo "${htmlext}"
+    return 0
+  }
+
+  return 1
+}
+
+
+# Try to find html-extract, it may be located either in PATH, or in the build
+# directory.
+HTML_EXTRACT=$(whereis_html_extract) || {
+  if [[ -d "${BUILD_DIR}" ]]
+  then
+    HTML_EXTRACT=$(whereis_html_extract "${BUILD_DIR}") || {
+      perror "html-extract is neither in PATH" \
+        "nor in the build directory (${BUILD_DIR})\n"\
+        "Build html-extract and run $0 again"
+      exit 1
+    }
+  else
+    perror "html-extract is not in PATH" \
+      "and the build directory was not found" \
+      "(tried to access: ${BUILD_DIR})"
+    exit 1
+  fi
+} >&2
+
+
+# jq is needed to normalize json
+jq --version 2>&1 > /dev/null || {
+  perror "cannot execute jq" >&2
+  exit 1
+}
+
+
+# Run a hext test case.
+# Expects a path to a file ending in hext, whose directory contains a
+# file with the same name but ending in ".html", which will be passed
+# to html-extract alongside the given hext file, and a file ending in
+# ".expected", whose contents will be compared to the output of
+# html-extract.
+#
+# Prints whether or not the test was successfull.
+# Returns 0 on success.
+#
+# Example:
+# $ ls case/nth-child.*
+#   nth-child.expected
+#   nth-child.hext
+#   nth-child.html
+# $ test_hext case/nth-child.hext
+test_hext() {
+  [[ $# -eq 1 ]] || {
+    perror "missing parameter <hext-file>" >&2
+    return 1
+  }
+
+  [[ "${1##*.}" == "hext" ]] || {
+    perror_case "$1"
+    perror "invalid format, expected <${1}.hext>" | pindent
+    return 1
+  } >&2
+
+  local t_case="${1%.*}"
+  local f_hext="$1"
+  local f_html="${t_case}.html"
+  local f_expe="${t_case}.expected"
+
+  for f in "$f_hext" "$f_html" "$f_expe" ; do
+    [[ -f "$f" && -r "$f" ]] || {
+      perror_case "$t_case"
+      perror "<$f> does not exist or is not readable" | pindent
+      return 1
+    } >&2
+  done
+
+  local actual=$($HTML_EXTRACT -c -x "$f_hext" -i "$f_html") || {
+    perror_case "$t_case"
+    perror "html-extract failed for <$f_hext>" | pindent
+    return 1
+  } >&2
+  actual=$(echo "$actual" | jq -c --sort-keys '.') || {
+    perror_case "$t_case"
+    perror "jq failed with output from hext:" | pindent
+    echo "$actual" | pindent 4
+    return 1
+  } >&2
+  actual=$(echo "$actual" | sort)
+
+  local expect=$(cat "$f_expe" | jq -c --sort-keys '.') || {
+    perror_case "$t_case"
+    perror "jq failed for <$f_expe>" | pindent
+    return 1
+  } >&2
+  expect=$(echo "$expect" | sort)
+
+  [[ "$actual" == "$expect" ]] || {
+    perror_case "$t_case"
+
+    echo "$DIFF <expected> <actual>:" | pindent
+    $DIFF <(echo "$expect") <(echo "$actual") | pindent 4
+
+    echo "See <$f_hext>, <$f_html> and <$f_expe>" | pindent
+
+    return 1
+  } >&2
+
+  echo "${C_GRN}${C_BLD}✔ <${t_case}>${C_RST}"
+  return 0
+}
+
+
+# Run a test for each parameter
+failure=0
+total=0
+while [[ $# -gt 0 ]] ; do
+  test_hext "$1" || {
+    failure=$(expr $failure + 1)
+    echo >&2
+  }
+  total=$(expr $total + 1)
+  shift
+done
+
+echo
+echo "$total tested, $failure failed"
+
+exit $failure
+

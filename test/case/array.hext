@@ -1,0 +1,4 @@
+<div>
+  <h2 @text={heading}/>
+  <p @text={paragraph}/>
+</div>

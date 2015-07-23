@@ -1,0 +1,26 @@
+{"class_desc":"Abstract base for every Capture","class_name":"Capture"}
+{"class_desc":"Abstract base for every Match","class_name":"Match"}
+{"class_desc":"Abstract base for every ValueTest","class_name":"ValueTest"}
+{"class_desc":"A RAII wrapper for Gumbo","class_name":"Html"}
+{"class_desc":"A self-managing tree containing all values captured from HTML","class_name":"ResultTree"}
+{"class_desc":"Captures an HTML Element's attribute","class_name":"AttributeCapture"}
+{"class_desc":"Captures the result of applying a function to an HTML node","class_name":"FunctionCapture"}
+{"class_desc":"Extracts ResultTrees from HTML","class_name":"Extractor"}
+{"class_desc":"Extracts values from HTML","class_name":"Rule"}
+{"class_desc":"Matches HTML elements having an HTML attribute with a certain name and, optionally, whose value is matched by a ValueTest","class_name":"AttributeMatch"}
+{"class_desc":"Matches HTML elements that have a certain amount of children of type element (exluding text nodes, document nodes and others)","class_name":"ChildCountMatch"}
+{"class_desc":"Matches HTML elements that have a certain amount of HTML attributes","class_name":"AttributeCountMatch"}
+{"class_desc":"Matches HTML nodes for which every given Match returns false","class_name":"NegateMatch"}
+{"class_desc":"Matches HTML nodes having a certain position within their parent HTML element","class_name":"NthChildMatch"}
+{"class_desc":"Matches HTML nodes that are the only child of their parent HTML element","class_name":"OnlyChildMatch"}
+{"class_desc":"Matches if an HTML node is a text node","class_name":"TextNodeMatch"}
+{"class_desc":"Matches if the result of applying a given CaptureFunction to an HTML node passes a ValueTest","class_name":"FunctionMatch"}
+{"class_desc":"Negates the result of another ValueTest","class_name":"NegateTest"}
+{"class_desc":"Tests whether another string matches a given regex","class_name":"RegexTest"}
+{"class_desc":"Tests whether a string begins with a given literal","class_name":"BeginsWithTest"}
+{"class_desc":"Tests whether a string contains a given literal","class_name":"ContainsTest"}
+{"class_desc":"Tests whether a string contains all given words","class_name":"ContainsWordsTest"}
+{"class_desc":"Tests whether a string ends with a given literal","class_name":"EndsWithTest"}
+{"class_desc":"Tests whether a string equals a given literal","class_name":"EqualsTest"}
+{"class_desc":"The exception that is thrown when parsing invalid hext","class_name":"SyntaxError"}
+{"class_desc":"The hext namespace is the top level namespace for everything in libhext","class_name":"hext"}
