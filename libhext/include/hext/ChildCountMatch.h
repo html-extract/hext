@@ -33,9 +33,8 @@ class ChildCountMatch : public Match
 {
 public:
   /// Construct a ChildCountMatch that matches HTML elements with a child_count
-  /// amount of children. If child_count is negative, child_count will be set to
-  /// zero.
-  explicit ChildCountMatch(int child_count) noexcept;
+  /// amount of children.
+  explicit ChildCountMatch(unsigned int child_count) noexcept;
 
   /// Return true if node has child_count amount of children.
   ///
@@ -44,10 +43,10 @@ public:
 
 private:
   /// Return amount of node's children that have node type GUMBO_NODE_ELEMENT.
-  int count_child_elements(const GumboNode * node) const noexcept;
+  unsigned int count_child_elements(const GumboNode * node) const noexcept;
 
   /// The amount of children an HTML element must have in order to match.
-  int child_count_;
+  unsigned int child_count_;
 };
 
 

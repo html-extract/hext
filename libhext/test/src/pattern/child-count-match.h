@@ -1,10 +1,8 @@
-#include "boost/range/irange.hpp"
 
 TEST(Pattern_ChildCountMatch, Matches)
 {
   {
     THtml h("<div></div>");
-    EXPECT_TRUE(ChildCountMatch(-1).matches(h.first()));
     EXPECT_TRUE(ChildCountMatch(0).matches(h.first()));
   }
 
@@ -32,9 +30,7 @@ TEST(Pattern_ChildCountMatch, Fails)
       <hr>\
     </div>");
 
-  auto range = boost::irange(-10, 10);
-  for(int i : range)
-    if( i != 5 )
-      EXPECT_FALSE(ChildCountMatch(i).matches(h.first()));
+  for(unsigned int i : {1u,2u,3u,4u,6u,7u,8u,9u,10u})
+    EXPECT_FALSE(ChildCountMatch(i).matches(h.first()));
 }
 
