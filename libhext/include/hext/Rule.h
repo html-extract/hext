@@ -56,7 +56,7 @@ namespace hext {
 ///       "<div><a href='/bob'>  <img src='bob.jpg'/>  </a></div>"
 ///       "<div><a href='/alice'><img src='alice.jpg'/></a></div>"
 ///       "<div><a href='/carol'><img src='carol.jpg'/></a></div>"
-///     "</body></html>")
+///     "</body></html>");
 ///
 ///   std::unique_ptr<ResultTree> rt = anchor.extract(html.root());
 ///
