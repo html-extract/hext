@@ -16,12 +16,12 @@ namespace hext {
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   RegexTest has_number("\d+");
+///   RegexTest has_number(boost::regex("\\d+"));
 ///   assert( has_number.test("Nr. 23!"));
 ///   assert( has_number.test("23"));
 ///   assert(!has_number.test("foo"));
 ///
-///   RegexTest is_date("^\d{2}-\d{2}-\d{4}$");
+///   RegexTest is_date(boost::regex("^\\d{2}-\\d{2}-\\d{4}$"));
 ///   assert( is_date.test("01-01-1970"));
 ///   assert( is_date.test("19-01-2038"));
 ///   assert(!is_date.test("09-09-99"));
