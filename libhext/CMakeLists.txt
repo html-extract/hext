@@ -49,7 +49,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/AttributeMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/BeginsWithTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Builtins.cpp"
-  "${PROJECT_SOURCE_DIR}/src/Capture.cpp"
   "${PROJECT_SOURCE_DIR}/src/ChildCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/ContainsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/ContainsWordsTest.cpp"
@@ -60,7 +59,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/FunctionMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/FunctionValueMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
-  "${PROJECT_SOURCE_DIR}/src/Match.cpp"
   "${PROJECT_SOURCE_DIR}/src/MatchContext.cpp"
   "${PROJECT_SOURCE_DIR}/src/NegateMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/NegateTest.cpp"
@@ -77,7 +75,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TextNodeMatch.cpp"
-  "${PROJECT_SOURCE_DIR}/src/ValueTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 TARGET_LINK_LIBRARIES(
   hext

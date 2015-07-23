@@ -13,8 +13,15 @@ namespace hext {
 class ValueTest
 {
 public:
+  // Rule of five
+  ValueTest() noexcept = default;
+  ValueTest(const ValueTest&) noexcept = default;
+  ValueTest(ValueTest&&) noexcept = default;
+  ValueTest& operator=(const ValueTest&) noexcept = default;
+  ValueTest& operator=(ValueTest&&) noexcept = default;
+
   /// Allow inheritance.
-  virtual ~ValueTest() noexcept;
+  virtual ~ValueTest() noexcept = default;
 
   /// Implementation must be provided in subclasses.
   virtual bool test(const char * /* dummy */) const = 0;

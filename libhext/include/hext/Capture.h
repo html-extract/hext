@@ -22,8 +22,15 @@ namespace hext {
 class Capture
 {
 public:
+  // Rule of five
+  Capture() noexcept = default;
+  Capture(const Capture&) noexcept = default;
+  Capture(Capture&&) noexcept = default;
+  Capture& operator=(const Capture&) noexcept = default;
+  Capture& operator=(Capture&&) noexcept = default;
+
   /// Allow inheritance.
-  virtual ~Capture() noexcept;
+  virtual ~Capture() noexcept = default;
 
   /// Return a name/value pair with the captured contents or an empty optional,
   /// if there was nothing to capture.

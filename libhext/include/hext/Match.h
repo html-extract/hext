@@ -17,8 +17,15 @@ namespace hext {
 class Match
 {
 public:
+  // Rule of five
+  Match() noexcept = default;
+  Match(const Match&) noexcept = default;
+  Match(Match&&) noexcept = default;
+  Match& operator=(const Match&) noexcept = default;
+  Match& operator=(Match&&) noexcept = default;
+
   /// Virtual destructor to allow inheritance.
-  virtual ~Match() noexcept;
+  virtual ~Match() noexcept = default;
 
   /// Implemenation must be provided in subclasses.
   virtual bool matches(const GumboNode * node) const = 0;
