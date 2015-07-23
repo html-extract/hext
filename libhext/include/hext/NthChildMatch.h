@@ -35,13 +35,13 @@ namespace hext {
 ///   NthChildMatch m_even(2, 0); // :nth-child(2n)
 ///   NthChildMatch m_odd (2, 1); // :nth-child(2n+1)
 ///
-///   assert(!m_even.matches(first))
-///   assert( m_even.matches(second))
-///   assert(!m_even.matches(third))
+///   assert(!m_even.matches(first));
+///   assert( m_even.matches(second));
+///   assert(!m_even.matches(third));
 ///
-///   assert( m_odd.matches(first))
-///   assert(!m_odd.matches(second))
-///   assert( m_odd.matches(third))
+///   assert( m_odd.matches(first));
+///   assert(!m_odd.matches(second));
+///   assert( m_odd.matches(third));
 /// ~~~~~~~~~~~~~
 ///
 /// @par last-of-type Example:
@@ -56,46 +56,44 @@ namespace hext {
 ///   const GumboNode * second = ...;
 ///   const GumboNode * third  = ...;
 ///
-///   NthChildMatch m_last_b(0, 1, NthChildMatch::Back, HtmlTag::B);
-///   NthChildMatch m_last_u(0, 1, NthChildMatch::Back, HtmlTag::U);
+///   NthChildMatch m_last_of_type(
+///     0,                        // no repition
+///     1,                        // last element
+///     NthChildMatch::Last |     // count following siblings and
+///       NthChildMatch::OfType   // only count elements with
+///                               // same tag.
+///   );
 ///
-///   assert(!m_last_b.matches(first))
-///   assert(!m_last_b.matches(second))
-///   assert( m_last_b.matches(third))
-///
-///   assert(!m_last_u.matches(first))
-///   assert( m_last_u.matches(second))
-///   assert(!m_last_u.matches(third))
+///   assert(!m_last_of_type.matches(first));
+///   assert( m_last_of_type.matches(second));
+///   assert( m_last_of_type.matches(third));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~
 class NthChildMatch : public Match
 {
 public:
-  /// When determining the node's position, either count preceding siblings or
-  /// following siblings.
-  enum OffsetOf
+  /// NthChildMatch's options.
+  enum Option
   {
-    /// Count preceding siblings.
-    Front = 0,
-    /// Count following siblings.
-    Back
+    /// Count preceding siblings (:nth-child).
+    First  = 1 << 1,
+
+    /// Count following siblings (:nth-last-child).
+    Last   = 1 << 2,
+
+    /// Only count siblings of the same type (:nth-of-type).
+    OfType = 1 << 3
   };
 
   /// Constructs an NthChildMatch with the pattern <step * n + shift>.
   ///
-  /// @param      step:  The step of the pattern.
-  /// @param     shift:  The shift of the pattern.
-  /// @param offset_of:  Whether the node's position should be determined by
-  ///                    counting preceding siblings or following siblings.
-  ///                    Default: Count preceding siblings.
-  /// @param count_tag:  If given any value other than HtmlTag::ANY, only count
-  ///                    siblings having this HtmlTag, when determining the
-  ///                    node's position.
-  ///                    Default: Count any HTML element.
+  /// @param    step:  The step of the pattern.
+  /// @param   shift:  The shift of the pattern.
+  /// @param options:  See NthChildMatch::Option.
+  ///                  Default: Count any preceding HTML element.
   NthChildMatch(
     int step,
     int shift,
-    OffsetOf offset_of = OffsetOf::Front,
-    HtmlTag count_tag = HtmlTag::ANY
+    Option options = Option::First
   ) noexcept;
 
   /// Construct an NthChildMatch with step and shift given as std::pair.
@@ -103,17 +101,11 @@ public:
   /// step and shift is given as a std::pair.
   ///
   /// @param step_and_shift:  The step and shift of the pattern.
-  /// @param      offset_of:  Whether the node's position should be determined by
-  ///                         counting preceding siblings or following siblings.
-  ///                         Default: Count preceding siblings.
-  /// @param      count_tag:  If given any value other than HtmlTag::ANY, only count
-  ///                         siblings having this HtmlTag, when determining the
-  ///                         node's position.
-  ///                         Default: Count any HTML element.
+  /// @param        options:  See NthChildMatch::Option.
+  ///                         Default: Count any preceding HTML element.
   explicit NthChildMatch(
     std::pair<int, int> step_and_shift,
-    OffsetOf offset_of = OffsetOf::Front,
-    HtmlTag count_tag = HtmlTag::ANY
+    Option options = Option::First
   ) noexcept;
 
   /// Returns true if HTML node matches pattern <step * n + shift>.
@@ -148,13 +140,28 @@ private:
   /// The shift in the pattern <step * n + shift>
   int shift_;
 
-  /// Whether to count preceding or following siblings when determining a node's
-  /// position within its parent.
-  OffsetOf offset_of_;
-
-  /// When counting siblings, only count siblings that match this HtmlTag.
-  HtmlTag count_tag_;
+  /// See NthChildMatch::Option.
+  Option options_;
 };
+
+
+/// Applies Bitwise-OR to NthChildMatch::Option.
+inline NthChildMatch::Option
+operator|(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
+{
+  return static_cast<NthChildMatch::Option>(
+    static_cast<int>(left) | static_cast<int>(right)
+  );
+}
+
+/// Applies Bitwise-AND to NthChildMatch::Option.
+inline NthChildMatch::Option
+operator&(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
+{
+  return static_cast<NthChildMatch::Option>(
+    static_cast<int>(left) & static_cast<int>(right)
+  );
+}
 
 
 } // namespace hext

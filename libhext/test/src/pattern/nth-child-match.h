@@ -28,7 +28,7 @@ const char * nth_table_html =
 TEST(Pattern_NthChildMatch, Front)
 {
   THtml h(nth_table_html);
-  auto front = NthChildMatch::Front;
+  auto first_of_type = NthChildMatch::First | NthChildMatch::OfType;
 
   EXPECT_FALSE(NthChildMatch(2, 0).matches(h.body_child(1)));
   EXPECT_FALSE(NthChildMatch(2, 0).matches(h.body_child(15)));
@@ -45,10 +45,9 @@ TEST(Pattern_NthChildMatch, Front)
   EXPECT_TRUE( NthChildMatch(-2, 15).matches(h.body_child(1)));
   EXPECT_TRUE( NthChildMatch(-2, 15).matches(h.body_child(15)));
 
-  EXPECT_FALSE(NthChildMatch(2, 1, front, HtmlTag::SPAN).matches(h.body_child(1)));
-  EXPECT_FALSE(NthChildMatch(2, 1, front, HtmlTag::SPAN).matches(h.body_child(15)));
-  EXPECT_FALSE(NthChildMatch(2, 1, front, HtmlTag::SPAN).matches(h.body_child(9)));
-  EXPECT_TRUE( NthChildMatch(2, 1, front, HtmlTag::SPAN).matches(h.body_child(4)));
+  EXPECT_FALSE(NthChildMatch(2, 1, first_of_type).matches(h.body_child(15)));
+  EXPECT_FALSE(NthChildMatch(2, 1, first_of_type).matches(h.body_child(9)));
+  EXPECT_TRUE( NthChildMatch(2, 1, first_of_type).matches(h.body_child(4)));
 
   EXPECT_FALSE(NthChildMatch(0, 3).matches(h.body_child(6)));
   EXPECT_TRUE( NthChildMatch(0, 3).matches(h.body_child(3)));
@@ -57,30 +56,59 @@ TEST(Pattern_NthChildMatch, Front)
 TEST(Pattern_NthChildMatch, Back)
 {
   THtml h(nth_table_html);
-  auto back = NthChildMatch::Back;
+  auto last = NthChildMatch::Last;
+  auto last_of_type = NthChildMatch::Last | NthChildMatch::OfType;
 
-  EXPECT_FALSE(NthChildMatch(2, 0, back).matches(h.body_child(1)));
-  EXPECT_FALSE(NthChildMatch(2, 0, back).matches(h.body_child(15)));
-  EXPECT_TRUE( NthChildMatch(2, 0, back).matches(h.body_child(2)));
-  EXPECT_TRUE( NthChildMatch(2, 0, back).matches(h.body_child(14)));
+  EXPECT_FALSE(NthChildMatch(2, 0, last).matches(h.body_child(1)));
+  EXPECT_FALSE(NthChildMatch(2, 0, last).matches(h.body_child(15)));
+  EXPECT_TRUE( NthChildMatch(2, 0, last).matches(h.body_child(2)));
+  EXPECT_TRUE( NthChildMatch(2, 0, last).matches(h.body_child(14)));
 
-  EXPECT_FALSE(NthChildMatch(2, 1, back).matches(h.body_child(2)));
-  EXPECT_FALSE(NthChildMatch(2, 1, back).matches(h.body_child(14)));
-  EXPECT_TRUE( NthChildMatch(2, 1, back).matches(h.body_child(1)));
-  EXPECT_TRUE( NthChildMatch(2, 1, back).matches(h.body_child(15)));
+  EXPECT_FALSE(NthChildMatch(2, 1, last).matches(h.body_child(2)));
+  EXPECT_FALSE(NthChildMatch(2, 1, last).matches(h.body_child(14)));
+  EXPECT_TRUE( NthChildMatch(2, 1, last).matches(h.body_child(1)));
+  EXPECT_TRUE( NthChildMatch(2, 1, last).matches(h.body_child(15)));
 
-  EXPECT_FALSE(NthChildMatch(-2, 15, back).matches(h.body_child(2)));
-  EXPECT_FALSE(NthChildMatch(-2, 15, back).matches(h.body_child(14)));
-  EXPECT_TRUE( NthChildMatch(-2, 15, back).matches(h.body_child(1)));
-  EXPECT_TRUE( NthChildMatch(-2, 15, back).matches(h.body_child(15)));
+  EXPECT_FALSE(NthChildMatch(-2, 15, last).matches(h.body_child(2)));
+  EXPECT_FALSE(NthChildMatch(-2, 15, last).matches(h.body_child(14)));
+  EXPECT_TRUE( NthChildMatch(-2, 15, last).matches(h.body_child(1)));
+  EXPECT_TRUE( NthChildMatch(-2, 15, last).matches(h.body_child(15)));
 
-  EXPECT_FALSE(NthChildMatch(2, 1, back, HtmlTag::SPAN).matches(h.body_child(1)));
-  EXPECT_FALSE(NthChildMatch(2, 1, back, HtmlTag::SPAN).matches(h.body_child(15)));
-  EXPECT_FALSE(NthChildMatch(2, 1, back, HtmlTag::SPAN).matches(h.body_child(4)));
-  EXPECT_TRUE( NthChildMatch(2, 1, back, HtmlTag::SPAN).matches(h.body_child(9)));
+  EXPECT_FALSE(NthChildMatch(2, 1, last_of_type).matches(h.body_child(1)));
+  EXPECT_FALSE(NthChildMatch(2, 1, last_of_type).matches(h.body_child(4)));
+  EXPECT_TRUE( NthChildMatch(2, 1, last_of_type).matches(h.body_child(9)));
 
-  EXPECT_FALSE(NthChildMatch(0, 3, back).matches(h.body_child(12)));
-  EXPECT_TRUE( NthChildMatch(0, 3, back).matches(h.body_child(13)));
+  EXPECT_FALSE(NthChildMatch(0, 3, last).matches(h.body_child(12)));
+  EXPECT_TRUE( NthChildMatch(0, 3, last).matches(h.body_child(13)));
+}
+
+TEST(Pattern_NthChildMatch, ExampleFromDocumentation)
+{
+  {
+    THtml h("<li>1</li><li>2</li><li>3</li>");
+    NthChildMatch m_even(2, 0);
+    NthChildMatch m_odd (2, 1);
+    EXPECT_FALSE(m_even.matches(h.body_child(1)));
+    EXPECT_TRUE( m_even.matches(h.body_child(2)));
+    EXPECT_FALSE(m_even.matches(h.body_child(3)));
+    EXPECT_TRUE(  m_odd.matches(h.body_child(1)));
+    EXPECT_FALSE( m_odd.matches(h.body_child(2)));
+    EXPECT_TRUE(  m_odd.matches(h.body_child(3)));
+  }
+
+  {
+    THtml h(
+      "<b>1</b>"
+      "<u>2</u>"
+      "<b>3</b>"
+    );
+    NthChildMatch m_last_of_type(
+      0, 1, NthChildMatch::Last | NthChildMatch::OfType
+    );
+    EXPECT_FALSE(m_last_of_type.matches(h.body_child(1)));
+    EXPECT_TRUE( m_last_of_type.matches(h.body_child(2)));
+    EXPECT_TRUE( m_last_of_type.matches(h.body_child(3)));
+  }
 }
 
 

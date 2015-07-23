@@ -981,9 +981,6 @@ Rule Parser::parse()
   // state.
   this->p = this->p_begin_;
 
-  // Provide shortcut to keep hext-machine's code smaller.
-  typedef NthChildMatch::OffsetOf NthOff;
-
   // In the hext-machine, the rule tree will be constructed with a RuleBuilder.
   RuleBuilder builder;
 
@@ -1005,12 +1002,12 @@ Rule Parser::parse()
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
   
-#line 1008 "Parser.cpp.tmp"
+#line 1005 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1013 "Parser.cpp.tmp"
+#line 1010 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1137,11 +1134,11 @@ _match:
 	break;
 	case 13:
 #line 56 "hext-machine.rl"
-	{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back); }
+	{ pv.set_trait<NthChildMatch>(pv.nth, NthChildMatch::Last); }
 	break;
 	case 14:
 #line 60 "hext-machine.rl"
-	{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Front, rule.get_tag()); }
+	{ pv.set_trait<NthChildMatch>(pv.nth, NthChildMatch::First|NthChildMatch::OfType); }
 	break;
 	case 15:
 #line 64 "hext-machine.rl"
@@ -1149,19 +1146,19 @@ _match:
 	break;
 	case 16:
 #line 68 "hext-machine.rl"
-	{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Front, rule.get_tag()); }
+	{ pv.set_trait<NthChildMatch>(0, 1, NthChildMatch::First|NthChildMatch::OfType); }
 	break;
 	case 17:
 #line 72 "hext-machine.rl"
-	{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); }
+	{ pv.set_trait<NthChildMatch>(0, 1, NthChildMatch::Last); }
 	break;
 	case 18:
 #line 76 "hext-machine.rl"
-	{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back, rule.get_tag()); }
+	{ pv.set_trait<NthChildMatch>(0, 1, NthChildMatch::Last|NthChildMatch::OfType); }
 	break;
 	case 19:
 #line 80 "hext-machine.rl"
-	{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); }
+	{ pv.set_trait<NthChildMatch>(pv.nth, NthChildMatch::Last|NthChildMatch::OfType); }
 	break;
 	case 20:
 #line 83 "hext-machine.rl"
@@ -1380,7 +1377,7 @@ _match:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1383 "Parser.cpp.tmp"
+#line 1380 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1412,7 +1409,7 @@ _again:
 #line 305 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1415 "Parser.cpp.tmp"
+#line 1412 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1420,7 +1417,7 @@ _again:
 	_out: {}
 	}
 
-#line 124 "Parser.cpp.rl"
+#line 121 "Parser.cpp.rl"
 
 #pragma GCC diagnostic pop
 

@@ -93,9 +93,6 @@ Rule Parser::parse()
   // state.
   this->p = this->p_begin_;
 
-  // Provide shortcut to keep hext-machine's code smaller.
-  typedef NthChildMatch::OffsetOf NthOff;
-
   // In the hext-machine, the rule tree will be constructed with a RuleBuilder.
   RuleBuilder builder;
 

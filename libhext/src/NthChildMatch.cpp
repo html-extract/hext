@@ -9,39 +9,39 @@ namespace hext {
 NthChildMatch::NthChildMatch(
   int step,
   int shift,
-  OffsetOf offset_of,
-  HtmlTag count_tag
+  Option options
 ) noexcept
 : step_(step)
 , shift_(shift)
-, offset_of_(offset_of)
-, count_tag_(count_tag)
+, options_(options)
 {
 }
 
 NthChildMatch::NthChildMatch(
   std::pair<int, int> step_and_shift,
-  OffsetOf offset_of,
-  HtmlTag count_tag
+  Option options
 ) noexcept
 : step_(step_and_shift.first)
 , shift_(step_and_shift.second)
-, offset_of_(offset_of)
-, count_tag_(count_tag)
+, options_(options)
 {
 }
 
 bool NthChildMatch::matches(const GumboNode * node) const noexcept
 {
   assert(node);
-  if( !node )
+  if( !node || node->type != GUMBO_NODE_ELEMENT )
     return false;
 
+  HtmlTag count_tag = HtmlTag::ANY;
+  if( this->options_ & Option::OfType )
+    count_tag = static_cast<HtmlTag>(node->v.element.tag);
+
   int node_pos = 0;
-  if( this->offset_of_ == OffsetOf::Front )
-    node_pos = this->count_preceding_siblings(node, this->count_tag_);
+  if( this->options_ & Option::First )
+    node_pos = this->count_preceding_siblings(node, count_tag);
   else
-    node_pos = this->count_following_siblings(node, this->count_tag_);
+    node_pos = this->count_following_siblings(node, count_tag);
 
   // If step is zero, the user gave a specific number of the child element to
   // match. E.g. nth-child(23) or nth-child(0n+23).

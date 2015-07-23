@@ -53,11 +53,11 @@ trait = ':' (
   |
 
   ( 'nth-last-child(' nth_pattern ')'
-    %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth, NthChildMatch::Last); } )
   |
 
   ( 'nth-of-type(' nth_pattern ')'
-    %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Front, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth, NthChildMatch::First|NthChildMatch::OfType); } )
   |
 
   ( 'first-child'
@@ -65,19 +65,19 @@ trait = ':' (
   |
 
   ( 'first-of-type'
-    %{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Front, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1, NthChildMatch::First|NthChildMatch::OfType); } )
   |
 
   ( 'last-child'
-    %{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1, NthChildMatch::Last); } )
   |
 
   ( 'last-of-type'
-    %{ pv.set_trait<NthChildMatch>(0, 1, NthOff::Back, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(0, 1, NthChildMatch::Last|NthChildMatch::OfType); } )
   |
 
   ( 'nth-last-of-type(' nth_pattern ')'
-    %{ pv.set_trait<NthChildMatch>(pv.nth, NthOff::Back, rule.get_tag()); } )
+    %{ pv.set_trait<NthChildMatch>(pv.nth, NthChildMatch::Last|NthChildMatch::OfType); } )
   |
 
   ( 'only-child' %{ pv.set_trait<OnlyChildMatch>(); } )
