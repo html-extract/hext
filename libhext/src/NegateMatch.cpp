@@ -14,6 +14,12 @@ NegateMatch::NegateMatch(
 {
 }
 
+NegateMatch::NegateMatch(std::unique_ptr<Match>&& match)
+: matches_()
+{
+  this->matches_.push_back(std::move(match));
+}
+
 void NegateMatch::take_match(std::unique_ptr<Match>&& match)
 {
   this->matches_.push_back(std::move(match));

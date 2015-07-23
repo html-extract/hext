@@ -7,6 +7,7 @@ TEST(Pattern_NegateMatch, Matches)
 
   THtml h("<a class='dummy'></a>");
   EXPECT_TRUE(no_href.matches(h.first()));
+  EXPECT_TRUE(NegateMatch(std::make_unique<AttributeMatch>("href")).matches(h.first()));
 }
 
 TEST(Pattern_NegateMatch, Fails)
@@ -16,5 +17,6 @@ TEST(Pattern_NegateMatch, Fails)
 
   THtml h("<a href='dummy'></a>");
   EXPECT_FALSE(no_href.matches(h.first()));
+  EXPECT_FALSE(NegateMatch(std::make_unique<AttributeMatch>("href")).matches(h.first()));
 }
 
