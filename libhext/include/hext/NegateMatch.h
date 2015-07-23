@@ -23,8 +23,10 @@ namespace hext {
 ///   GumboNode * attr_one  = ...; // <h1 class="main-heading"></h1>
 ///   GumboNode * attr_two  = ...; // <div id="cart" class="my-cart"></div>
 ///
-///   NegateMatch not_one( { std::make_unique<AttributeCountMatch>(1) });
-///   NegateMatch not_none({ std::make_unique<AttributeCountMatch>(0) });
+///   NegateMatch not_one;
+///   not_one.take_match(std::make_unique<AttributeCountMatch>(1));
+///   NegateMatch not_none;
+///   not_none.take_match(std::make_unique<AttributeCountMatch>(0));
 ///
 ///   assert(!not_none.matches(attr_none));
 ///   assert( not_none.matches(attr_one));
