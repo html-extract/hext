@@ -29,6 +29,7 @@ INCLUDE(HextExternalProjectGoogleTest)
 ###### INCLUDES ################################################################
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/include")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/src")
 
 
 ###### SOURCES #################################################################
