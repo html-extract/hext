@@ -24,8 +24,8 @@ namespace hext {
 ///   const GumboNode * root = page.root();
 ///   // root now points to the top most HTML element (<html>).
 ///   assert(root);
-///   Rule head(HtmlTag::HEAD);
-///   assert(head.matches(root));
+///   Rule html_root(HtmlTag::HTML);
+///   assert(html_root.matches(root));
 /// ~~~~~~~~~~~~~
 class Html
 {
