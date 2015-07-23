@@ -1,5 +1,5 @@
-#ifndef HEXT_NTHCHILD_MATCH_H_INCLUDED
-#define HEXT_NTHCHILD_MATCH_H_INCLUDED
+#ifndef HEXT_NTH_CHILD_MATCH_H_INCLUDED
+#define HEXT_NTH_CHILD_MATCH_H_INCLUDED
 
 /// @file
 ///   Declares hext::NthChildMatch
@@ -167,5 +167,5 @@ operator&(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
 } // namespace hext
 
 
-#endif // HEXT_NTHCHILD_MATCH_H_INCLUDED
+#endif // HEXT_NTH_CHILD_MATCH_H_INCLUDED
 
