@@ -15,7 +15,7 @@
 #include "hext/EndsWithTest.h"
 #include "hext/EqualsTest.h"
 #include "hext/FunctionCapture.h"
-#include "hext/FunctionMatch.h"
+#include "hext/FunctionValueMatch.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/NegateTest.h"
@@ -1317,11 +1317,11 @@ _match:
 	break;
 	case 50:
 #line 207 "hext-machine.rl"
-	{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 51:
 #line 211 "hext-machine.rl"
-	{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 52:
 #line 215 "hext-machine.rl"

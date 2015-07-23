@@ -4,11 +4,8 @@
 /// @file
 ///   Declares hext::FunctionMatch
 
-#include "hext/CaptureFunction.h"
 #include "hext/Match.h"
-#include "hext/ValueTest.h"
-
-#include <memory>
+#include "hext/MatchFunction.h"
 
 #include <gumbo.h>
 
@@ -16,56 +13,43 @@
 namespace hext {
 
 
-/// Matches if the result of applying a given CaptureFunction to an HTML node
-/// passes a ValueTest.
+/// Matches if the result of applying a given MatchFunction to an HTML node
+/// returns true.
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   GumboNode * foo = ...; // <div>This is a foo!</div>
-///   GumboNode * bar = ...; // <div>This is a bar!</div>
+///   GumboNode * div  = ...; // <div>This is a div!</div>
+///   GumboNode * span = ...; // <span>This is a span!</span>
 ///
-///   FunctionMatch m_foo(
-///     InnerHtmlBuiltin,                     // CaptureFunction
-///     std::unique_ptr<ContainsTest>("foo")  // ValueTest
-///   );
-///   FunctionMatch m_bar(
-///     InnerHtmlBuiltin,                     // CaptureFunction
-///     std::unique_ptr<ContainsTest>("bar")  // ValueTest
-///   );
+///   MatchFunction is_div = [](const GumboNode * node) {
+///     return node->type == GUMBO_NODE_ELEMENT &&
+///            node->v.element.tag == GUMBO_TAG_DIV;
+///   };
 ///
-///   assert(m_foo.matches(foo));
-///   assert(m_bar.matches(bar));
+///   FunctionMatch m_is_div(is_div);
 ///
-///   assert(!m_foo.matches(bar));
-///   assert(!m_bar.matches(foo));
+///   assert( m_is_div.matches(div));
+///   assert(!m_is_div.matches(span));
 /// ~~~~~~~~~~~~~
 class FunctionMatch : public Match
 {
 public:
   /// Constructs a FunctionMatch that matches HTML nodes for which a given
-  /// CaptureFunction returns a result that passes a ValueTest.
+  /// MatchFunction returns true.
   ///
-  /// @param       func:  The CaptureFunction that will be applied to an HTML
-  ///                     node.
-  /// @param value_test:  The ValueTest that the result of the given
-  ///                     CaptureFunction must pass.
-  FunctionMatch(
-    CaptureFunction func,
-    std::unique_ptr<ValueTest> value_test
-  );
+  /// @param func:  The MatchFunction that will be applied to an HTML
+  ///               node.
+  explicit FunctionMatch(MatchFunction func);
 
-  /// Returns true if the result of calling the given CaptureFunction with node
-  /// as its first argument passes the given ValueTest.
+  /// Returns true if the result of calling the given MatchFunction with node
+  /// as its first argument returns true.
   ///
-  /// @param node:  A pointer to a GumboNode.
+  /// @param node:  The node which is to be matched.
   bool matches(const GumboNode * node) const final;
 
 private:
-  /// The CaptureFunction that will be applied to an HTML node.
-  CaptureFunction func_;
-
-  /// The ValueTest that the result of the given CaptureFunction must pass.
-  std::unique_ptr<ValueTest> test_;
+  /// The MatchFunction that will be applied to an HTML node.
+  MatchFunction func_;
 };
 
 

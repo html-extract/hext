@@ -1,29 +1,25 @@
-#include <memory>
 
 TEST(Pattern_FunctionMatch, Matches)
 {
-  auto test = std::make_unique<EqualsTest>("Inner Text");
+  THtml h("<div></div>");
 
-  THtml h("<div>Inner Text</div>");
-  EXPECT_TRUE(FunctionMatch(TextBuiltin, std::move(test)).matches(h.first()));
+  MatchFunction is_div = [](const GumboNode * node) {
+    return node->type == GUMBO_NODE_ELEMENT &&
+           node->v.element.tag == GUMBO_TAG_DIV;
+  };
+
+  EXPECT_TRUE(FunctionMatch(is_div).matches(h.first()));
 }
 
 TEST(Pattern_FunctionMatch, Fails)
 {
-  auto test = std::make_unique<EqualsTest>("Inner Text");
+  THtml h("<span></span>");
 
-  THtml h("<div>Nope</div>");
-  EXPECT_FALSE(FunctionMatch(TextBuiltin, std::move(test)).matches(h.first()));
-}
+  MatchFunction is_div = [](const GumboNode * node) {
+    return node->type == GUMBO_NODE_ELEMENT &&
+           node->v.element.tag == GUMBO_TAG_DIV;
+  };
 
-TEST(Pattern_FunctionMatch, CustomFunction)
-{
-  const char * secret = "secret";
-  auto test = std::make_unique<EqualsTest>(secret);
-
-  CaptureFunction my_func = [secret](const GumboNode *) { return secret; };
-
-  THtml h("<div>dummy</div>");
-  EXPECT_TRUE(FunctionMatch(my_func, std::move(test)).matches(h.first()));
+  EXPECT_FALSE(FunctionMatch(is_div).matches(h.first()));
 }
 

@@ -204,11 +204,11 @@ pattern = (
     |
 
     ( ( builtin '=' regex_test negate? )
-      %{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( builtin literal negate? )
-      %{ rule.add_match<FunctionMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( attr_name '=' capture optional? )

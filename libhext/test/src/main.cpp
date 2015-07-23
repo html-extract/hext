@@ -19,6 +19,7 @@ using namespace helper;
 #include "pattern/equals-test.h"
 #include "pattern/function-capture.h"
 #include "pattern/function-match.h"
+#include "pattern/function-value-match.h"
 #include "pattern/negate-match.h"
 #include "pattern/negate-test.h"
 #include "pattern/nth-child-match.h"

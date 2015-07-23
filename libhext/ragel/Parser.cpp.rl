@@ -12,7 +12,7 @@
 #include "hext/EndsWithTest.h"
 #include "hext/EqualsTest.h"
 #include "hext/FunctionCapture.h"
-#include "hext/FunctionMatch.h"
+#include "hext/FunctionValueMatch.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
 #include "hext/NegateTest.h"
