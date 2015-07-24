@@ -1445,6 +1445,10 @@ tr.heading h2 {
 body {
   min-width:850px;
 }
+#top {
+  min-height:60px;
+}
+#nav-path { display: none; }
 #titlearea {
   background: url("hext-logo-white-x50.png") no-repeat scroll 10px center #000;
   height:60px;
@@ -1564,11 +1568,13 @@ body {
   background: #337ab7;
 }
 div.contents {
-  clear:both;
-  margin: 20px 40px 0 40px;
+  clear: both;
+  margin: 0;
+  padding: 20px 40px 0 40px;
 }
-.header {
-  display:none;
+div.header {
+  background-image:none;
+  background-color:transparent;
 }
 .navpath ul, .navpath li {
   background-image:none;
