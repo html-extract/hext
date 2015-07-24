@@ -15,7 +15,8 @@
 namespace hext {
 
 
-/// Matches HTML nodes having a certain position within their parent HTML element.
+/// Matches HTML nodes having a certain position within their parent HTML
+/// element.
 ///
 /// The intent is to mimic the following CSS pseudo-classes:
 ///   nth-child,   nth-of-type, nth-last-of-type, first-of-type, last-of-type,

@@ -36,8 +36,8 @@ public:
   boost::optional<match_group> match_next();
 
 private:
-  /// Returns first mandatory rule. Searches range [it, this->r_end_) followed by
-  /// [this->r_begin_, it).
+  /// Returns first mandatory rule. Searches range [it, this->r_end_) followed
+  /// by [this->r_begin_, it).
   /// Returns this->r_end_ if there are no mandatory rules.
   ///
   /// @param it:  The iterator at which to start searching.
@@ -47,7 +47,8 @@ private:
   /// rule.
   /// Returns end if no match.
   ///
-  /// @param begin:  The index of a node in this->nodes_ where to start matching.
+  /// @param begin:  The index of a node in this->nodes_ where to start
+  ///                matching.
   /// @param   end:  The index of a node in this->nodes_ where to stop matching.
   /// @param  rule:  The rule that is to be matched against nodes.
   unsigned int find_match(unsigned int begin,
