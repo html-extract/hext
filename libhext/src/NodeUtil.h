@@ -19,7 +19,7 @@ namespace hext {
 std::string NodeText(const GumboNode * node);
 
 
-/// Strips html tags of an HTML element. If smart_wrap is enabled, the content
+/// Strips HTML tags of an HTML element. If smart_wrap is enabled, the content
 /// of some elements is embedded in newlines. For example,
 /// `This is<div>a</div>sentence.` becomes `This is\na\nsentence.`. If
 /// smart_wrap is disabled, the result will be `This isasentence.`.
@@ -27,7 +27,7 @@ std::string NodeText(const GumboNode * node);
 std::string StripTags(const GumboNode * node, bool smart_wrap = false);
 
 
-/// Returns inner html of an HTML node, as is, untouched.
+/// Returns inner HTML of an HTML node, as is, untouched.
 std::string NodeInnerHtml(const GumboNode * node);
 
 

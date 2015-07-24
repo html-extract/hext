@@ -18,7 +18,7 @@ namespace hext {
 
 
 /// Removes whitespace from beginning and end and collapses multiple whitespace
-/// to a single space, as is expected when extracting text from html. See
+/// to a single space, as is expected when extracting text from HTML. See
 /// http://www.w3.org/TR/html5/infrastructure.html#strip-and-collapse-whitespace
 ///
 /// @par Example:

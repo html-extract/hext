@@ -41,14 +41,14 @@ namespace hext {
 
 
 /// Convenience macro to store the start of a token. Used within the hext
-/// machine definition. Accesses local variables of `Parser::parse()`.
+/// machine definition. Accesses local variables of Parser::parse().
 #define TK_START \
   tok_begin = p; \
   tok_end = nullptr;
 
 
 /// Convenience macro to complete a token. Used within the hext
-/// machine defintion. Accesses local variables of `Parser::parse()`.
+/// machine definition. Accesses local variables of Parser::parse().
 #define TK_STOP      \
   assert(tok_begin); \
   assert(p);         \
