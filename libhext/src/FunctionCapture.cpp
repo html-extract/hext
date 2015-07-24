@@ -17,8 +17,8 @@ FunctionCapture::FunctionCapture(CaptureFunction               func,
 {
 }
 
-boost::optional<ResultPair>
-FunctionCapture::capture(const GumboNode * node) const
+boost::optional<ResultPair> FunctionCapture::capture(
+    const GumboNode * node) const
 {
   assert(this->func_);
   if( !this->func_ )
@@ -32,10 +32,8 @@ FunctionCapture::capture(const GumboNode * node) const
     {
       // If there are no parentheses contained within the regex, return whole
       // regex capture (mr[0]), if there are, then return the first one.
-      return ResultPair(
-          this->name_,
-          mr.size() > 1 ? mr[1] : mr[0]
-      );
+      return ResultPair(this->name_,
+                        mr.size() > 1 ? mr[1] : mr[0]);
     }
 
     return {};

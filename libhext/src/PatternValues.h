@@ -18,8 +18,8 @@
 namespace hext {
 
 
-/// When parsing hext rule definitions, PatternValues is responsible for holding
-/// all values required to create Matches and Captures.
+/// Holds all values required to create every Match and Capture when parsing
+/// hext rule definitions.
 class PatternValues
 {
 public:

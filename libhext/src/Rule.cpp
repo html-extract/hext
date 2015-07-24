@@ -49,7 +49,7 @@ struct Rule::Impl
     return values;
   }
 
-  /// Match this rule recursively against node and its child nodes.
+  /// Matches this rule recursively against node and its child nodes.
   void extract_this_rule(const GumboNode * node, ResultTree * rt) const
   {
     if( !node || !rt )
@@ -86,8 +86,12 @@ struct Rule::Impl
     }
   }
 
-  /// Apply this rule's children to the children of `node`, store results in
-  /// `rt`.
+  /// Applies this rule's children to the children of node, and stores the
+  /// results in a ResultTree.
+  ///
+  /// @param node:  The node whose children are to be matched against
+  ///               this->children_.
+  /// @param   rt:  The ResultTree where the values will be stored.
   bool extract_children(const GumboNode * node, ResultTree * rt) const
   {
     if( !node || !rt )
@@ -155,7 +159,7 @@ struct Rule::Impl
     this->children_.push_back(std::move(r));
   }
 
-  /// Return true if all immediate children are optional.
+  /// Returns true if all immediate children are optional.
   bool all_children_are_optional() const noexcept
   {
     for( const auto& r : this->children_ )

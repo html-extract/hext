@@ -20,8 +20,8 @@ bool ChildCountMatch::matches(const GumboNode * node) const noexcept
   return this->child_count_ == this->count_child_elements(node);
 }
 
-unsigned int
-ChildCountMatch::count_child_elements(const GumboNode * node) const noexcept
+unsigned int ChildCountMatch::count_child_elements(
+    const GumboNode * node) const noexcept
 {
   assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )

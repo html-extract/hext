@@ -15,8 +15,8 @@ struct ResultTree::Impl
   {
   }
 
-  /// Recursively insert all `values_` into `map`, including this instance's
-  /// `values_`.
+  /// Recursively insert all values into map, including this instance's
+  /// values.
   void save(ResultMap& map) const
   {
     for(const auto& p : this->values_)

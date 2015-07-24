@@ -53,60 +53,61 @@ private:
   Parser(const Parser&) = delete;
   Parser& operator=(const Parser&) = delete;
 
-  /// Throw `SyntaxError` with an error message marking an unexpected character.
+  /// Throws SyntaxError with an error message marking an unexpected character.
   [[noreturn]]
   void throw_unexpected() const;
 
-  /// Throw `SyntaxError` with an error message marking an invalid html tag.
+  /// Throws SyntaxError with an error message marking an invalid HTML tag.
+  ///
+  /// @param tag:  A string containing the name of an invalid HTML tag.
   [[noreturn]]
   void throw_invalid_tag(const std::string& tag) const;
 
-  /// Throw `SyntaxError` with an error message marking an invalid regular
+  /// Throws SyntaxError with an error message marking an invalid regular
   /// expression.
+  ///
+  /// @param mark_len:  The length of the error marker.
+  /// @param   e_code:  The error code given by boost::regex.
   [[noreturn]]
   void throw_regex_error(std::size_t                        mark_len,
                          boost::regex_constants::error_type e_code) const;
 
-  /// Throw `SyntaxError` with an error message complaining about a missing
+  /// Throws SyntaxError with an error message complaining about a missing
   /// closing tag.
+  ///
+  /// @param missing:  The HTML tag that was expected.
   [[noreturn]]
   void throw_missing_tag(HtmlTag missing) const;
 
-  /// Throw `SyntaxError` with an error message marking an invalid closing tag.
+  /// Throws SyntaxError with an error message marking an invalid closing tag.
   ///
-  /// \param tag
-  ///   The invalid tag name.
-  ///
-  /// \param expected
-  ///   The next expected closing HtmlTag. If empty, a closing tag was
-  ///   given but none expected.
+  /// @param      tag: A string containing the invalid HTML closing tag.
+  /// @param expected: The next expected closing HtmlTag. If empty, a closing
+  ///                  tag was given but none expected.
   [[noreturn]]
   void throw_unexpected_tag(const std::string&       tag,
                             boost::optional<HtmlTag> expected) const;
 
-  /// Print an error at the current location within hext. Print hext with line
+  /// Prints an error at the current location within hext. Prints hext with line
   /// numbers up to the unexpected character.
   ///
-  /// \param uc
-  ///   A pointer to the unexpected character.
-  ///
-  /// \param mark_len
-  ///   Amount of '^' characters that are used to mark the error location up to
-  ///   the unexpected character.
+  /// @param       uc:  A pointer to the unexpected character.
+  /// @param mark_len:  The length of the error marker.
+  /// @param      out:  Where to put the error message.
   void print_error_location(const char *  uc,
                             std::size_t   mark_len,
                             std::ostream& out) const;
 
-  /// The beginning of the hext input.
+  /// The beginning of the hext input as given in the constructor.
   const char * p_begin_;
 
   /// The current character that ragel is processing within the hext input.
   const char * p;
 
-  /// The end of the hext input.
+  /// The end of the hext input as given in the constructor.
   const char * pe;
 
-  /// The end of the hext input. Same as `Parser::pe`.
+  /// The end of the hext input. Same as Parser::pe.
   const char * eof;
 
   /// Ragel's current state.

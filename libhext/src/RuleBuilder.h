@@ -16,30 +16,30 @@
 namespace hext {
 
 
-/// When parsing hext a RuleBuilder is responsible for creating Rules.
+/// Stores every Rule when parsing hext.
 class RuleBuilder
 {
 public:
   RuleBuilder();
 
-  /// Move the current rule tree to caller.
+  /// Moves the current rule tree to caller.
   Rule take_rule_tree();
 
-  /// Push a Rule into the rule tree.
+  /// Pushes a Rule into the rule tree.
   ///
-  /// \param rule:
-  ///   The rule. Rules must be moved because they contain std::unique_ptrs.
-  ///
-  /// \param self_closing:
-  ///   Whether the current Rule is self-closing, e.g. `<a/>` is a self-closing
-  ///   rule.
+  /// @param         rule: The rule that is to be appended.
+  /// @param self_closing: Whether the given Rule is self-closing, e.g. `<a/>`
+  ///                      is a self-closing rule.
   void push_rule(Rule&& rule, bool self_closing);
 
-  /// Push and validate a closing tag.
-  /// Return false on invalid or unexpected closing tag.
+  /// Pushes and validates a closing tag.
+  /// Returns false on invalid or unexpected closing tag.
+  ///
+  /// @param tag_name:  The name of an HTML tag as given by the user.
   bool pop_tag(const std::string& tag_name) noexcept;
 
-  /// Return the next expected closing tag.
+  /// Returns the next expected closing tag.
+  /// Returns empty if there are no more expected closing tags.
   boost::optional<HtmlTag> get_expected_tag() const;
 
 private:
