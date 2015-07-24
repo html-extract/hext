@@ -161,6 +161,14 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_optional(bool optional) noexcept;
 
+  /// Returns true if this Rule is a path.
+  bool is_path() const noexcept;
+
+  /// Sets whether this Rule is a path.
+  ///
+  /// @returns  A reference for this Rule to enable method chaining.
+  Rule& set_path(bool path) noexcept;
+
   /// Extracts values from an HTML tree recursively.
   ///
   /// @returns  A ResultTree containing the captured values.
@@ -175,14 +183,6 @@ public:
   ///
   /// @param node:  A GumboNode that is to be captured.
   std::vector<ResultPair> capture(const GumboNode * node) const;
-
-  /// Returns true if this Rule is a path.
-  bool is_path() const noexcept;
-
-  /// Sets whether this Rule is a path.
-  ///
-  /// @returns  A reference for this Rule to enable method chaining.
-  Rule& set_path(bool path) noexcept;
 
 private:
   Rule(const Rule&) = delete;
