@@ -1111,7 +1111,8 @@ HTML_EXTRA_STYLESHEET  =
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_EXTRA_FILES       = resources/hext-logo-white-x50.png \
-                         resources/libhext-overview.png
+                         resources/libhext-overview.png \
+                         resources/bootstrap.min.css
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
