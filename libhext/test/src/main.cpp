@@ -33,6 +33,7 @@ using namespace helper;
 
 #include "string-util/char-position.h"
 #include "string-util/is-space.h"
+#include "string-util/print-numbered-lines.h"
 #include "string-util/trim-and-collapse-ws.h"
 
 #include "extractor/extractor.h"

@@ -1571,9 +1571,9 @@ void Parser::print_error_location(
 
   // Don't print the unexpected character if it is a newline
   if( uc == this->pe || *uc == '\n' )
-    this->print_numbered_lines(this->p_begin_, uc, out);
+    PrintNumberedLines(this->p_begin_, uc, out);
   else
-    this->print_numbered_lines(this->p_begin_, uc + 1, out);
+    PrintNumberedLines(this->p_begin_, uc + 1, out);
 
   if( mark_len < 1 )
     return;
@@ -1596,41 +1596,6 @@ void Parser::print_error_location(
   out << std::string(indent, ' ')
       << std::string(mark_len, '^')
       << " here\n";
-}
-
-void Parser::print_numbered_lines(
-  const char * begin,
-  const char * end,
-  std::ostream& out
-) const
-{
-  assert(begin && end && begin <= end);
-  if( !begin || !end || begin > end )
-    return;
-
-  boost::tokenizer<boost::char_separator<char>, const char *> lines(
-    begin,
-    end,
-    // keep_empty_tokens is neccessary because we also have to print empty lines
-    boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
-  );
-
-  std::size_t line_count = 1 + static_cast<std::size_t>(
-    std::count(begin, end, '\n')
-  );
-
-  // Amount of digits needed to print the biggest line number
-  int number_width = DecimalWidth(line_count);
-
-  int line_num = 1;
-  for(const auto& line : lines)
-  {
-    out << std::setw(number_width)
-        << line_num++
-        << ": "
-        << line
-        << '\n';
-  }
 }
 
 

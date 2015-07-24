@@ -55,6 +55,12 @@ int DecimalWidth(std::size_t number) noexcept;
 /// end of subject, and spaces.
 bool ContainsWord(const std::string& subject, const std::string& word) noexcept;
 
+void PrintNumberedLines(
+  const char * begin,
+  const char * end,
+  std::ostream& out
+);
+
 
 } // namespace hext
 
