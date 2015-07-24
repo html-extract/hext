@@ -103,27 +103,6 @@ private:
     std::ostream& out
   ) const;
 
-  /// Print `begin` to `end` into `out`, prepending a line number, a colon and a
-  /// space for each line.
-  ///
-  /// Example:
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// An SQL query goes into a bar,
-  /// walks up to two tables and asks,
-  /// Can I join you?
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// becomes
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// 1: An SQL query goes into a bar,
-  /// 2: walks up to two tables and asks,
-  /// 3: Can I join you?
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  void print_numbered_lines(
-    const char * begin,
-    const char * end,
-    std::ostream& out
-  ) const;
-
   /// The beginning of the hext input.
   const char * p_begin_;
 
