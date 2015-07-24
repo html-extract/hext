@@ -68,8 +68,11 @@ private:
   ResultTree(const ResultTree&) = delete;
   ResultTree& operator=(const ResultTree&) = delete;
 
-  struct Impl;
-  std::unique_ptr<Impl> impl_;
+  /// Recursively inserts all values into map, including this instance's values.
+  void save(ResultMap& map) const;
+
+  std::vector<std::unique_ptr<ResultTree>> children_;
+  std::vector<ResultPair> values_;
 };
 
 
