@@ -42,17 +42,17 @@ public:
   ///
   /// @param v_matches:  An optional vector containing Matches.
   explicit
-  NegateMatch(std::vector<std::unique_ptr<Match>>&& v_matches = {}) noexcept;
+  NegateMatch(std::vector<std::unique_ptr<Match>> v_matches = {}) noexcept;
 
   /// Constructs a NegateMatch and appends a Match.
   ///
   /// @param match:  The Match to append.
-  explicit NegateMatch(std::unique_ptr<Match>&& match);
+  explicit NegateMatch(std::unique_ptr<Match> match);
 
   /// Appends a Match.
   ///
   /// @param match:  The Match to append.
-  void take_match(std::unique_ptr<Match>&& match);
+  void take_match(std::unique_ptr<Match> match);
 
   /// Returns true if every contained Match returns false for node.
   ///

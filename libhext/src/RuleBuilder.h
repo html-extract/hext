@@ -30,7 +30,7 @@ public:
   /// @param         rule: The rule that is to be appended.
   /// @param self_closing: Whether the given Rule is self-closing, e.g. `<a/>`
   ///                      is a self-closing rule.
-  void push_rule(Rule&& rule, bool self_closing);
+  void push_rule(Rule rule, bool self_closing);
 
   /// Pushes and validates a closing tag.
   /// Returns false on invalid or unexpected closing tag.

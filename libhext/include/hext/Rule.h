@@ -101,18 +101,18 @@ public:
 
   /// Appends a Rule after the last element at the given tree depth.
   ///
-  /// @param               r:  The rule to append.
+  /// @param            rule:  The rule to append.
   /// @param insert_at_depth:  The depth at which to append the rule.
   ///                          Default: Append immediately.
   /// @returns                 A reference for this Rule to enable method
   ///                          chaining.
-  Rule& take_child(Rule&& r, std::size_t insert_at_depth = 0);
+  Rule& take_child(Rule rule, std::size_t insert_at_depth = 0);
 
   /// Appends a Match.
   ///
   /// @param match:  The Match to append.
   /// @returns       A reference for this Rule to enable method chaining.
-  Rule& take_match(std::unique_ptr<Match>&& match);
+  Rule& take_match(std::unique_ptr<Match> match);
 
   /// Emplaces a Match.
   /// Forwards arguments to std::make_unique.
@@ -130,7 +130,7 @@ public:
   ///
   /// @param cap:  The Capture to append.
   /// @returns     A reference for this Rule to enable method chaining.
-  Rule& take_capture(std::unique_ptr<Capture>&& cap);
+  Rule& take_capture(std::unique_ptr<Capture> cap);
 
   /// Emplaces a Capture.
   /// Forwards arguments to std::make_unique.

@@ -147,16 +147,16 @@ struct Rule::Impl
     return match_count > 0 || this->all_children_are_optional();
   }
 
-  void append_child_at_depth(Rule&& r, std::size_t insert_at_depth)
+  void append_child_at_depth(Rule rule, std::size_t insert_at_depth)
   {
     if( insert_at_depth > 0 && this->children_.size() )
     {
       this->children_.back().impl_
-          ->append_child_at_depth(std::move(r), insert_at_depth - 1);
+          ->append_child_at_depth(std::move(rule), insert_at_depth - 1);
       return;
     }
 
-    this->children_.push_back(std::move(r));
+    this->children_.push_back(std::move(rule));
   }
 
   /// Returns true if all immediate children are optional.
@@ -189,19 +189,19 @@ Rule::Rule(Rule&&) noexcept = default;
 Rule& Rule::operator=(Rule&&) noexcept = default;
 Rule::~Rule() noexcept = default;
 
-Rule& Rule::take_child(Rule&& r, std::size_t insert_at_depth)
+Rule& Rule::take_child(Rule rule, std::size_t insert_at_depth)
 {
-  this->impl_->append_child_at_depth(std::move(r), insert_at_depth);
+  this->impl_->append_child_at_depth(std::move(rule), insert_at_depth);
   return *this;
 }
 
-Rule& Rule::take_match(std::unique_ptr<Match>&& match)
+Rule& Rule::take_match(std::unique_ptr<Match> match)
 {
   this->impl_->matches_.push_back(std::move(match));
   return *this;
 }
 
-Rule& Rule::take_capture(std::unique_ptr<Capture>&& cap)
+Rule& Rule::take_capture(std::unique_ptr<Capture> cap)
 {
   this->impl_->captures_.push_back(std::move(cap));
   return *this;

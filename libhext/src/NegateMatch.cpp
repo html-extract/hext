@@ -8,18 +8,18 @@ namespace hext {
 
 
 NegateMatch::NegateMatch(
-    std::vector<std::unique_ptr<Match>>&& v_matches) noexcept
+    std::vector<std::unique_ptr<Match>> v_matches) noexcept
 : matches_(std::move(v_matches))  // noexcept
 {
 }
 
-NegateMatch::NegateMatch(std::unique_ptr<Match>&& match)
+NegateMatch::NegateMatch(std::unique_ptr<Match> match)
 : matches_()
 {
   this->matches_.push_back(std::move(match));
 }
 
-void NegateMatch::take_match(std::unique_ptr<Match>&& match)
+void NegateMatch::take_match(std::unique_ptr<Match> match)
 {
   this->matches_.push_back(std::move(match));
 }

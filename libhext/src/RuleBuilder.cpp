@@ -34,7 +34,7 @@ Rule RuleBuilder::take_rule_tree()
   return std::move(implicit_top_rule);
 }
 
-void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
+void RuleBuilder::push_rule(Rule rule, bool self_closing)
 {
   HtmlTag tag = rule.get_tag();
 

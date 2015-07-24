@@ -28,7 +28,7 @@ public:
   /// Constructs a NegateTest.
   ///
   /// @param value_test:  The ValueTest a subject has to fail.
-  explicit NegateTest(std::unique_ptr<ValueTest>&& value_test) noexcept;
+  explicit NegateTest(std::unique_ptr<ValueTest> value_test) noexcept;
 
   /// Returns true if the given ValueTest fails for subject.
   ///
