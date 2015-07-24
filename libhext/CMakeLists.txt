@@ -124,7 +124,7 @@ ENDIF(NOT LIBHEXT_NO_TESTING)
 
 ###### BUILD OPTIONS ###########################################################
 # Option RUNRAGEL, default OFF
-# Call run_ragel.sh to generate the parser.
+# Call run-ragel.sh to generate the parser.
 INCLUDE(HextOptionRunRagel)
 
 
