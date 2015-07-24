@@ -13,7 +13,7 @@ namespace hext {
 
 
 /// Matches HTML elements that have a certain amount of children of type
-/// element (exluding text nodes, document nodes and others).
+/// element (excluding text nodes, document nodes and others).
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~

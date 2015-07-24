@@ -16,7 +16,7 @@ namespace hext {
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   NegatesTest not_foo(std::make_unique<EqualsTest>("foo"));
+///   NegateTest not_foo(std::make_unique<EqualsTest>("foo"));
 ///
 ///   assert( not_foo.test("bar"));
 ///   assert( not_foo.test("baz"));

@@ -161,7 +161,7 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_optional(bool optional) noexcept;
 
-  /// Extracts values from an HTML tree recursivley.
+  /// Extracts values from an HTML tree recursively.
   ///
   /// @returns  A ResultTree containing the captured values.
   std::unique_ptr<ResultTree> extract(const GumboNode * node) const;

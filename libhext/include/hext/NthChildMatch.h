@@ -57,7 +57,7 @@ namespace hext {
 ///   const GumboNode * third  = ...;
 ///
 ///   NthChildMatch m_last_of_type(
-///     0,                        // no repition
+///     0,                        // no repetition
 ///     1,                        // last element
 ///     NthChildMatch::Last |     // count following siblings and
 ///       NthChildMatch::OfType   // only count elements with

@@ -27,7 +27,7 @@ public:
   /// Virtual destructor to allow inheritance.
   virtual ~Match() noexcept = default;
 
-  /// Implemenation must be provided in subclasses.
+  /// Implementation must be provided in subclasses.
   virtual bool matches(const GumboNode * node) const = 0;
 };
 

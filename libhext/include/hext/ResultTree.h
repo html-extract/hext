@@ -44,8 +44,8 @@ public:
 
   /// Deletes the child branch pointed to by child.
   ///
-  /// @param child:  The child branch wich will be deleted. If it is not a child
-  ///                of this instance, the call will have no effect.
+  /// @param child:  The child branch which will be deleted. If it is not a
+  ///                child of this instance, the call will have no effect.
   void delete_child(const ResultTree * child);
 
   /// Sets the captured values for this branch.

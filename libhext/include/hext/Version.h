@@ -8,7 +8,7 @@
 namespace hext {
 
 
-/// Major version numer.
+/// Major version number.
 extern const int version_major;
 
 /// Minor version number.

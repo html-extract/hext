@@ -12,7 +12,7 @@ namespace hext {
 
 
 /// The exception that is thrown when parsing invalid hext.
-/// SyntaxErrror.what() will contain a detailed error message.
+/// SyntaxError.what() will contain a detailed error message.
 class SyntaxError : public std::runtime_error
 {
 public:
