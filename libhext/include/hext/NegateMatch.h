@@ -41,10 +41,8 @@ public:
   /// Match returns false.
   ///
   /// @param v_matches:  An optional vector containing Matches.
-  explicit NegateMatch(
-    std::vector<std::unique_ptr<Match>>&& v_matches =
-      std::vector<std::unique_ptr<Match>>()
-  ) noexcept;
+  explicit
+  NegateMatch(std::vector<std::unique_ptr<Match>>&& v_matches = {}) noexcept;
 
   /// Constructs a NegateMatch and appends a Match.
   ///
