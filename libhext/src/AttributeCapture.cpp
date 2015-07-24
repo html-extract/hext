@@ -7,11 +7,9 @@
 namespace hext {
 
 
-AttributeCapture::AttributeCapture(
-  std::string attr_name,
-  std::string result_name,
-  boost::optional<boost::regex> filter
-)
+AttributeCapture::AttributeCapture(std::string                   attr_name,
+                                   std::string                   result_name,
+                                   boost::optional<boost::regex> filter)
 : attr_name_(std::move(attr_name))  // noexcept
 , name_(std::move(result_name))     // noexcept
 , filter_(std::move(filter))        // not noexcept
@@ -26,8 +24,8 @@ AttributeCapture::capture(const GumboNode * node) const
     return {};
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
-    &node->v.element.attributes,
-    this->attr_name_.c_str()
+      &node->v.element.attributes,
+      this->attr_name_.c_str()
   );
 
   if( !g_attr || !g_attr->value )
@@ -41,8 +39,8 @@ AttributeCapture::capture(const GumboNode * node) const
       // If there are no parentheses contained within the regex, return whole
       // regex capture (mr[0]), if there are, then return the first one.
       return ResultPair(
-        this->name_,
-        mr.size() > 1 ? mr[1] : mr[0]
+          this->name_,
+          mr.size() > 1 ? mr[1] : mr[0]
       );
     }
     else

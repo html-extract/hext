@@ -19,8 +19,8 @@ bool BeginsWithTest::test(const char * subject) const
 
   std::size_t length = std::strlen(subject);
   return
-    this->lit_.size() <= length &&
-    this->lit_.compare(0, this->lit_.size(), subject, this->lit_.size()) == 0;
+      this->lit_.size() <= length &&
+      this->lit_.compare(0, this->lit_.size(), subject, this->lit_.size()) == 0;
 }
 
 

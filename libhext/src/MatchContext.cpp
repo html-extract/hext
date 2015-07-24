@@ -6,11 +6,9 @@
 namespace hext {
 
 
-MatchContext::MatchContext(
-  rule_it rule_begin,
-  rule_it rule_end,
-  const GumboVector& nodes
-) noexcept
+MatchContext::MatchContext(rule_it            rule_begin,
+                           rule_it            rule_end,
+                           const GumboVector& nodes) noexcept
 : r_begin_(rule_begin),  // noexcept
   r_end_(rule_end),      // noexcept
   nodes_(nodes),         // noexcept
@@ -116,7 +114,8 @@ boost::optional<MatchContext::match_group> MatchContext::match_next()
   return {};
 }
 
-MatchContext::rule_it MatchContext::find_mandatory_rule(rule_it it) const noexcept
+MatchContext::rule_it
+MatchContext::find_mandatory_rule(rule_it it) const noexcept
 {
   assert(it >= this->r_begin_ && it <= this->r_end_);
 
@@ -132,11 +131,9 @@ MatchContext::rule_it MatchContext::find_mandatory_rule(rule_it it) const noexce
   return ( result == it ? this->r_end_ : result );
 }
 
-unsigned int MatchContext::find_match(
-  unsigned int begin,
-  unsigned int end,
-  const Rule& rule
-) const
+unsigned int MatchContext::find_match(unsigned int begin,
+                                      unsigned int end,
+                                      const Rule&  rule) const
 {
   assert(begin <= end);
 
@@ -150,12 +147,10 @@ unsigned int MatchContext::find_match(
   return end;
 }
 
-void MatchContext::match_to_node(
-  match_group& mg,
-  rule_it rule,
-  rule_it stop_rule,
-  unsigned int stop_node
-)
+void MatchContext::match_to_node(match_group& mg,
+                                 rule_it      rule,
+                                 rule_it      stop_rule,
+                                 unsigned int stop_node)
 {
   assert(rule >= this->r_begin_ && rule < this->r_end_);
   assert(rule < stop_rule);
@@ -174,18 +169,15 @@ void MatchContext::match_to_node(
   }
 }
 
-void MatchContext::push_match_pair(
-  match_group& mg,
-  rule_it rule,
-  unsigned int n
-) const
+void MatchContext::push_match_pair(match_group& mg,
+                                   rule_it      rule,
+                                   unsigned int n) const
 {
   assert(rule != this->r_end_);
   assert(n < this->n_len_);
   mg.push_back(std::make_pair(
-    &(*rule),
-    static_cast<const GumboNode *>(this->nodes_.data[n])
-  ));
+      &(*rule),
+      static_cast<const GumboNode *>(this->nodes_.data[n])));
 }
 
 

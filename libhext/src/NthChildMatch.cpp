@@ -6,21 +6,17 @@
 namespace hext {
 
 
-NthChildMatch::NthChildMatch(
-  int step,
-  int shift,
-  Option options
-) noexcept
+NthChildMatch::NthChildMatch(int    step,
+                             int    shift,
+                             Option options) noexcept
 : step_(step)
 , shift_(shift)
 , options_(options)
 {
 }
 
-NthChildMatch::NthChildMatch(
-  std::pair<int, int> step_and_shift,
-  Option options
-) noexcept
+NthChildMatch::NthChildMatch(std::pair<int, int> step_and_shift,
+                             Option              options) noexcept
 : step_(step_and_shift.first)
 , shift_(step_and_shift.second)
 , options_(options)
@@ -71,9 +67,8 @@ bool NthChildMatch::matches(const GumboNode * node) const noexcept
 }
 
 int NthChildMatch::count_preceding_siblings(
-  const GumboNode * node,
-  HtmlTag count_tag
-) const noexcept
+    const GumboNode * node,
+    HtmlTag           count_tag) const noexcept
 {
   assert(node);
   if( !node )
@@ -106,9 +101,8 @@ int NthChildMatch::count_preceding_siblings(
 }
 
 int NthChildMatch::count_following_siblings(
-  const GumboNode * node,
-  HtmlTag count_tag
-) const noexcept
+    const GumboNode * node,
+    HtmlTag           count_tag) const noexcept
 {
   assert(node);
   if( !node )

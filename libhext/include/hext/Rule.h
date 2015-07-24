@@ -91,8 +91,9 @@ public:
   /// @param     path:  Paths do not modify the ResultTree (i.e. no branching
   ///                   for matches, no capturing of values).
   ///                   Default: Rule is not a path.
-  explicit
-  Rule(HtmlTag tag = HtmlTag::ANY, bool optional = false, bool path = false);
+  explicit Rule(HtmlTag   tag = HtmlTag::ANY,
+                bool optional = false,
+                bool     path = false);
 
   ~Rule() noexcept;
   Rule(Rule&&) noexcept;
@@ -121,7 +122,7 @@ public:
   Rule& add_match(Args&&... arg)
   {
     return this->take_match(
-      std::make_unique<MatchType>(std::forward<Args>(arg)...)
+        std::make_unique<MatchType>(std::forward<Args>(arg)...)
     );
   }
 
@@ -139,7 +140,7 @@ public:
   Rule& add_capture(Args&&... arg)
   {
     return this->take_capture(
-      std::make_unique<CaptureType>(std::forward<Args>(arg)...)
+        std::make_unique<CaptureType>(std::forward<Args>(arg)...)
     );
   }
 

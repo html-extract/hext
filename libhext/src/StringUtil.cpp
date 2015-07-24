@@ -107,11 +107,9 @@ CharPosPair CharPosition(const char * begin, const char * c) noexcept
   if( line_count )
   {
     // find the position of the last newline
-    auto last_line = std::find(
-      std::reverse_iterator<const char *>(c),
-      std::reverse_iterator<const char *>(begin),
-      '\n'
-    );
+    auto last_line = std::find(std::reverse_iterator<const char *>(c),
+                               std::reverse_iterator<const char *>(begin),
+                               '\n');
     line_offset = std::distance(begin, last_line.base());
   }
 
@@ -158,26 +156,22 @@ bool ContainsWord(const std::string& subject, const std::string& word) noexcept
   return false;
 }
 
-void PrintNumberedLines(
-  const char * begin,
-  const char * end,
-  std::ostream& out
-)
+void PrintNumberedLines(const char *  begin,
+                        const char *  end,
+                        std::ostream& out)
 {
   assert(begin && end && begin <= end);
   if( !begin || !end || begin > end )
     return;
 
   boost::tokenizer<boost::char_separator<char>, const char *> lines(
-    begin,
-    end,
-    // keep_empty_tokens is neccessary because we also have to print empty lines
-    boost::char_separator<char>("\n", "", boost::keep_empty_tokens)
-  );
+      begin,
+      end,
+      // use keep_empty_tokens because we also have to print empty lines
+      boost::char_separator<char>("\n", "", boost::keep_empty_tokens));
 
   std::size_t line_count = 1 + static_cast<std::size_t>(
-    std::count(begin, end, '\n')
-  );
+      std::count(begin, end, '\n'));
 
   // Amount of digits needed to print the biggest line number
   int number_width = DecimalWidth(line_count);

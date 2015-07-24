@@ -62,7 +62,7 @@ std::string NodeInnerHtml(const GumboNode * node)
   {
     const char * inner_begin = b.data + b.length;
     auto length = static_cast<std::string::size_type>(
-      std::distance(inner_begin, e.data)
+        std::distance(inner_begin, e.data)
     );
     return std::string(inner_begin, length);
   }

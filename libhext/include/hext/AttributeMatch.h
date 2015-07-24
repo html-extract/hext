@@ -48,10 +48,8 @@ public:
   /// @param attr_name:   The name of the HTML attribute.
   /// @param value_test:  An optional ValueTest which, if given, must return
   ///                     true for the matched HTML attribute's value.
-  explicit AttributeMatch(
-    std::string attr_name,
-    std::unique_ptr<ValueTest> value_test = {}
-  ) noexcept;
+  explicit AttributeMatch(std::string                attr_name,
+                          std::unique_ptr<ValueTest> value_test = {}) noexcept;
 
   /// Return true if node has an HTML attribute called attr_name (as given in
   /// the constructor). If a ValueTest was supplied, the ValueTest must return

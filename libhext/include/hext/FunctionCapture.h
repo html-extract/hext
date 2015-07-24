@@ -71,11 +71,9 @@ public:
   /// @param      filter:  An optional regular expression that is applied to
   ///                      the result of the given CaptureFunction.
   ///                      See @ref FCRegexBehavior.
-  FunctionCapture(
-    CaptureFunction func,
-    std::string result_name,
-    boost::optional<boost::regex> filter = {}
-  );
+  FunctionCapture(CaptureFunction               func,
+                  std::string                   result_name,
+                  boost::optional<boost::regex> filter = {});
 
   /// Captures the result of calling a given CaptureFunction with node as its
   /// argument. Optionally applies a regex to the result.

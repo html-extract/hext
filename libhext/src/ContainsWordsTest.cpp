@@ -14,12 +14,10 @@ ContainsWordsTest::ContainsWordsTest(std::string words)
 : words_()
 {
   boost::trim_if(words, boost::is_any_of(" "));
-  boost::split(
-    this->words_,
-    words,
-    boost::is_any_of(" "),
-    boost::token_compress_on
-  );
+  boost::split(this->words_,
+               words,
+               boost::is_any_of(" "),
+               boost::token_compress_on);
 }
 
 ContainsWordsTest::ContainsWordsTest(std::vector<std::string> words) noexcept

@@ -7,10 +7,8 @@
 namespace hext {
 
 
-AttributeMatch::AttributeMatch(
-  std::string attr_name,
-  std::unique_ptr<ValueTest> value_test
-) noexcept
+AttributeMatch::AttributeMatch(std::string                attr_name,
+                               std::unique_ptr<ValueTest> value_test) noexcept
 : attr_name_(std::move(attr_name))  // noexcept
 , test_(std::move(value_test))      // noexcept
 {
@@ -23,8 +21,8 @@ bool AttributeMatch::matches(const GumboNode * node) const
     return false;
 
   const GumboAttribute * g_attr = gumbo_get_attribute(
-    &node->v.element.attributes,
-    this->attr_name_.c_str()
+      &node->v.element.attributes,
+      this->attr_name_.c_str()
   );
 
   if( !this->test_ )

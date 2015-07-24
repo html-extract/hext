@@ -22,11 +22,9 @@ public:
   typedef std::vector<std::pair<const Rule *, const GumboNode *>> match_group;
   typedef std::vector<Rule>::const_iterator rule_it;
 
-  MatchContext(
-    rule_it rule_begin,
-    rule_it rule_end,
-    const GumboVector& nodes
-  ) noexcept;
+  MatchContext(rule_it            rule_begin,
+               rule_it            rule_end,
+               const GumboVector& nodes) noexcept;
 
   /// Return next match_group. Return empty if there are no more matches.
   boost::optional<match_group> match_next();
@@ -39,21 +37,17 @@ private:
 
   /// Return node index for the first node in [begin, end) that matches rule.
   /// Return end if no match.
-  unsigned int find_match(
-    unsigned int begin,
-    unsigned int end,
-    const Rule& rule
-  ) const;
+  unsigned int find_match(unsigned int begin,
+                          unsigned int end,
+                          const Rule&  rule) const;
 
   /// Match rules in range [rule, stop_rule) until all rules where matched or
   /// stop_node is encountered. Modifies this->n_ to point to one after the
   /// last matching node. Pushes all matches into match_group mg.
-  void match_to_node(
-    match_group& mg,
-    rule_it rule,
-    rule_it stop_rule,
-    unsigned int stop_node
-  );
+  void match_to_node(match_group& mg,
+                     rule_it      rule,
+                     rule_it      stop_rule,
+                     unsigned int stop_node);
 
   /// Push rule and node into match_group mg. Convenience helper to avoid
   /// littering the code with casts.

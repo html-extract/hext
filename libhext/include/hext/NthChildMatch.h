@@ -90,11 +90,9 @@ public:
   /// @param   shift:  The shift of the pattern.
   /// @param options:  See NthChildMatch::Option.
   ///                  Default: Count any preceding HTML element.
-  NthChildMatch(
-    int step,
-    int shift,
-    Option options = Option::First
-  ) noexcept;
+  NthChildMatch(int    step,
+                int    shift,
+                Option options = Option::First) noexcept;
 
   /// Construct an NthChildMatch with step and shift given as std::pair.
   /// Constructs an NthChildMatch with the pattern <step * n + shift>, where
@@ -103,10 +101,8 @@ public:
   /// @param step_and_shift:  The step and shift of the pattern.
   /// @param        options:  See NthChildMatch::Option.
   ///                         Default: Count any preceding HTML element.
-  explicit NthChildMatch(
-    std::pair<int, int> step_and_shift,
-    Option options = Option::First
-  ) noexcept;
+  explicit NthChildMatch(std::pair<int, int> step_and_shift,
+                         Option              options = Option::First) noexcept;
 
   /// Returns true if HTML node matches pattern <step * n + shift>.
   ///
@@ -119,20 +115,16 @@ private:
   /// @param      node:  A pointer to a GumboNode.
   /// @param count_tag:  If given any value other than HtmlTag::ANY, only count
   ///                    siblings having this HtmlTag.
-  int count_preceding_siblings(
-    const GumboNode * node,
-    HtmlTag count_tag
-  ) const noexcept;
+  int count_preceding_siblings(const GumboNode * node,
+                               HtmlTag           count_tag) const noexcept;
 
   /// Count following siblings of an HTML node.
   ///
   /// @param      node:  A pointer to a GumboNode.
   /// @param count_tag:  If given any value other than HtmlTag::ANY, only count
   ///                    siblings having this HtmlTag.
-  int count_following_siblings(
-    const GumboNode * node,
-    HtmlTag count_tag
-  ) const noexcept;
+  int count_following_siblings(const GumboNode * node,
+                               HtmlTag           count_tag) const noexcept;
 
   /// The step in the pattern <step * n + shift>
   int step_;
@@ -149,18 +141,17 @@ private:
 inline NthChildMatch::Option
 operator|(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
 {
-  return static_cast<NthChildMatch::Option>(
-    static_cast<int>(left) | static_cast<int>(right)
-  );
+  return static_cast<NthChildMatch::Option>(static_cast<int>(left) |
+                                            static_cast<int>(right));
 }
+
 
 /// Applies Bitwise-AND to NthChildMatch::Option.
 inline NthChildMatch::Option
 operator&(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
 {
-  return static_cast<NthChildMatch::Option>(
-    static_cast<int>(left) & static_cast<int>(right)
-  );
+  return static_cast<NthChildMatch::Option>(static_cast<int>(left) &
+                                            static_cast<int>(right));
 }
 
 

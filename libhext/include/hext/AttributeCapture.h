@@ -71,11 +71,9 @@ public:
   /// @param      filter:  An optional regular expression that is applied to the
   ///                      captured HTML attribute's value.
   ///                      See @ref RegexBehavior.
-  AttributeCapture(
-    std::string attr_name,
-    std::string result_name,
-    boost::optional<boost::regex> filter = {}
-  );
+  AttributeCapture(std::string                   attr_name,
+                   std::string                   result_name,
+                   boost::optional<boost::regex> filter = {});
 
   /// Captures an HTML element's attribute called attr_name (as given in the
   /// constructor). Optionally applies a regex to the attribute's value.

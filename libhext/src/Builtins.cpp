@@ -10,12 +10,14 @@ namespace hext {
 
 namespace {
 
-  /// A wrapper for hext::StripTags with disabled smart_wrap. Builtin functions
-  /// can only have a single parameter (node).
-  std::string StripTagsWrapper(const GumboNode * node)
-  {
-    return StripTags(node, /* smart_wrap: */ false);
-  }
+
+/// A wrapper for hext::StripTags with disabled smart_wrap. Builtin functions
+/// can only have a single parameter (node).
+std::string StripTagsWrapper(const GumboNode * node)
+{
+  return StripTags(node, /* smart_wrap: */ false);
+}
+
 
 } // namespace
 

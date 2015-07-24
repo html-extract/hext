@@ -49,10 +49,8 @@ public:
   ///                     node.
   /// @param value_test:  The ValueTest that the result of the given
   ///                     CaptureFunction must pass.
-  FunctionValueMatch(
-    CaptureFunction func,
-    std::unique_ptr<ValueTest> value_test
-  );
+  FunctionValueMatch(CaptureFunction            func,
+                     std::unique_ptr<ValueTest> value_test);
 
   /// Returns true if the result of calling the given CaptureFunction with node
   /// as its first argument passes the given ValueTest.

@@ -51,18 +51,17 @@ private:
 inline OnlyChildMatch::Option
 operator|(OnlyChildMatch::Option left, OnlyChildMatch::Option right) noexcept
 {
-  return static_cast<OnlyChildMatch::Option>(
-    static_cast<int>(left) | static_cast<int>(right)
-  );
+  return static_cast<OnlyChildMatch::Option>(static_cast<int>(left) |
+                                             static_cast<int>(right));
 }
+
 
 /// Applies Bitwise-AND to OnlyChildMatch::Option.
 inline OnlyChildMatch::Option
 operator&(OnlyChildMatch::Option left, OnlyChildMatch::Option right) noexcept
 {
-  return static_cast<OnlyChildMatch::Option>(
-    static_cast<int>(left) & static_cast<int>(right)
-  );
+  return static_cast<OnlyChildMatch::Option>(static_cast<int>(left) &
+                                             static_cast<int>(right));
 }
 
 

@@ -57,7 +57,7 @@ void ResultTree::delete_child(const ResultTree * child)
     if( it->get() == child )
     {
       this->impl_->children_.erase(it);
-      // careful: it is now invalid
+      // iterator is now invalid
       return;
     }
   }

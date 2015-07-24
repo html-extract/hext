@@ -18,6 +18,7 @@ namespace hext {
 /// multiple whitespace into a single space.
 std::string NodeText(const GumboNode * node);
 
+
 /// Strip html tags of a `node`. If `smart_wrap` is enabled, the content of
 /// some elements is embedded in newlines. For example,
 /// `This is<div>a</div>sentence.` becomes `This is\na\nsentence.`. If
@@ -25,8 +26,10 @@ std::string NodeText(const GumboNode * node);
 /// See implementation of hext::TagWrapsText for a list of affected elements.
 std::string StripTags(const GumboNode * node, bool smart_wrap = false);
 
+
 /// Get inner html of a `node`, as is, untouched.
 std::string NodeInnerHtml(const GumboNode * node);
+
 
 /// Return true if `tag` is a tag for an element that is to be embedded
 /// in newlines when converting html to text (that excludes most inline

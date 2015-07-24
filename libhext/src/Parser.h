@@ -64,10 +64,8 @@ private:
   /// Throw `SyntaxError` with an error message marking an invalid regular
   /// expression.
   [[noreturn]]
-  void throw_regex_error(
-    std::size_t mark_len,
-    boost::regex_constants::error_type e_code
-  ) const;
+  void throw_regex_error(std::size_t                        mark_len,
+                         boost::regex_constants::error_type e_code) const;
 
   /// Throw `SyntaxError` with an error message complaining about a missing
   /// closing tag.
@@ -83,10 +81,8 @@ private:
   ///   The next expected closing HtmlTag. If empty, a closing tag was
   ///   given but none expected.
   [[noreturn]]
-  void throw_unexpected_tag(
-    const std::string& tag,
-    boost::optional<HtmlTag> expected
-  ) const;
+  void throw_unexpected_tag(const std::string&       tag,
+                            boost::optional<HtmlTag> expected) const;
 
   /// Print an error at the current location within hext. Print hext with line
   /// numbers up to the unexpected character.
@@ -97,11 +93,9 @@ private:
   /// \param mark_len
   ///   Amount of '^' characters that are used to mark the error location up to
   ///   the unexpected character.
-  void print_error_location(
-    const char * uc,
-    std::size_t mark_len,
-    std::ostream& out
-  ) const;
+  void print_error_location(const char *  uc,
+                            std::size_t   mark_len,
+                            std::ostream& out) const;
 
   /// The beginning of the hext input.
   const char * p_begin_;

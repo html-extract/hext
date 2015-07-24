@@ -42,10 +42,8 @@ void RuleBuilder::push_rule(Rule&& rule, bool self_closing)
   if( !insert_at_depth )
     this->rules_.push_back(std::move(rule));
   else
-    this->rules_.back().take_child(
-      std::move(rule),
-      insert_at_depth - 1
-    );
+    this->rules_.back().take_child(std::move(rule),
+                                   insert_at_depth - 1);
 
   if( !self_closing )
     this->tag_stack_.push(tag);

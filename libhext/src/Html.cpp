@@ -8,22 +8,22 @@ namespace hext {
 
 Html::Html(const char * buffer, std::size_t size) noexcept
 : g_outp_(
-    gumbo_parse_with_options(  // noexcept
-      &kGumboDefaultOptions,
-      buffer,
-      size
-    )
+      gumbo_parse_with_options(  // noexcept
+          &kGumboDefaultOptions,
+          buffer,
+          size
+      )
   )
 {
 }
 
 Html::Html(const char * buffer) noexcept
 : g_outp_(
-    gumbo_parse_with_options(  // noexcept
-      &kGumboDefaultOptions,
-      buffer,
-      std::strlen(buffer)
-    )
+      gumbo_parse_with_options(  // noexcept
+          &kGumboDefaultOptions,
+          buffer,
+          std::strlen(buffer)
+      )
   )
 {
 }

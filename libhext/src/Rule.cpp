@@ -100,11 +100,9 @@ struct Rule::Impl
       return false;
 
     int match_count = 0;
-    MatchContext mc(
-      this->children_.cbegin(),
-      this->children_.cend(),
-      node->v.element.children
-    );
+    MatchContext mc(this->children_.cbegin(),
+                    this->children_.cend(),
+                    node->v.element.children);
     while( auto grouped_match = mc.match_next() )
     {
       ++match_count;
@@ -149,10 +147,8 @@ struct Rule::Impl
   {
     if( insert_at_depth > 0 && this->children_.size() )
     {
-      this->children_.back().impl_->append_child_at_depth(
-        std::move(r),
-        insert_at_depth - 1
-      );
+      this->children_.back().impl_
+          ->append_child_at_depth(std::move(r), insert_at_depth - 1);
       return;
     }
 
@@ -178,11 +174,9 @@ struct Rule::Impl
 };
 
 
-Rule::Rule(
-  HtmlTag tag,
-  bool optional,
-  bool path
-)
+Rule::Rule(HtmlTag tag,
+           bool    optional,
+           bool    path)
 : impl_(std::make_unique<Rule::Impl>(tag, optional, path))
 {
 }
