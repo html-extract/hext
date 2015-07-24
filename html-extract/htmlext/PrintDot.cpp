@@ -12,6 +12,7 @@ void PrintHtmlDot(const hext::Html& html, std::ostream& out)
   out << "}\n";
 }
 
+
 void PrintHtmlDotNodes(const GumboNode * node, int parent_id, std::ostream& out)
 {
   static int node_index = 0;
@@ -52,6 +53,7 @@ void PrintHtmlDotNodes(const GumboNode * node, int parent_id, std::ostream& out)
   }
 }
 
+
 void PrintResultTreeDot(const hext::ResultTree * rt, std::ostream& out)
 {
   out << "digraph result_tree {\n"
@@ -60,11 +62,10 @@ void PrintResultTreeDot(const hext::ResultTree * rt, std::ostream& out)
   out << "}\n";
 }
 
-void PrintResultTreeDotNodes(
-  const hext::ResultTree * rt,
-  int parent_id,
-  std::ostream& out
-)
+
+void PrintResultTreeDotNodes(const hext::ResultTree * rt,
+                             int                      parent_id,
+                             std::ostream&            out)
 {
   static int node_index = 0;
   int this_node = ++node_index;

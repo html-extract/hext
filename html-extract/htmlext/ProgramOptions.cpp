@@ -11,22 +11,22 @@ ProgramOptions::ProgramOptions()
   namespace po = boost::program_options;
   this->desc_.add_options()
     ("hext,x", po::value<std::vector<std::string>>()
-                 ->default_value(std::vector<std::string>(), "")
-                 ->value_name("<hext-file>"),
+                   ->default_value(std::vector<std::string>(), "")
+                   ->value_name("<hext-file>"),
                "Hext file(s)")
     ("html,i", po::value<std::vector<std::string>>()
-                 ->value_name("<html-file>"),
+                   ->value_name("<html-file>"),
                "HTML input file(s)")
     ("str,s", po::value<std::vector<std::string>>()
-                ->default_value(std::vector<std::string>(), "")
-                ->value_name("<hext-string>"),
+                  ->default_value(std::vector<std::string>(), "")
+                  ->value_name("<hext-string>"),
               "Hext from string(s)")
     ("compact,c", "Print one JSON object per line")
     ("pretty,p", "Force pretty-printing JSON. Overrrides --compact")
     ("array,a", "Put results into one top-level JSON array. If combined"
                 " with --compact, only print a single line")
     ("print-html-dot,d", po::value<std::string>()
-                           ->value_name("<html-file>"),
+                             ->value_name("<html-file>"),
                          "Print HTML input file as DOT")
     ("print-result-dot,r", "Print ResultTree as DOT")
     ("lint,l", "Hext syntax check: parse hext and exit")
@@ -43,13 +43,11 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   pos_opt.add("hext", 1);
   pos_opt.add("html", -1);
 
-  po::store(
-    po::command_line_parser(argc, argv)
-      .options(this->desc_)
-      .positional(pos_opt)
-      .run(),
-    this->vm_
-  );
+  po::store(po::command_line_parser(argc, argv)
+                .options(this->desc_)
+                .positional(pos_opt)
+                .run(),
+            this->vm_);
   po::notify(this->vm_);
 
   if( this->contains("help") || this->contains("version") )

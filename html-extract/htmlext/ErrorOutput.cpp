@@ -11,8 +11,8 @@ ErrorOutput::ErrorOutput(const char * error_source, std::ostream& out) noexcept
 {
 }
 
-void
-ErrorOutput::print(const std::string& title, const std::string& contents) const
+void ErrorOutput::print(const std::string& title,
+                        const std::string& contents) const
 {
   this->out_ << ( this->isatty_ ? ErrorOutput::esc_red_ : "" )
              << this->source_ << ": "

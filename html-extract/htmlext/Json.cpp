@@ -43,11 +43,10 @@ void PrintJson(const hext::ResultTree * rt, JsonOption opt, std::ostream& out)
   }
 }
 
-void PrintJsonValue(
-  const rapidjson::Value& value,
-  JsonOption opt,
-  std::ostream& out
-)
+
+void PrintJsonValue(const rapidjson::Value& value,
+                    JsonOption              opt,
+                    std::ostream&           out)
 {
   rapidjson::StringBuffer buffer;
   if( (opt & JsonOption::PrettyPrint) == JsonOption::PrettyPrint )
@@ -64,11 +63,11 @@ void PrintJsonValue(
   out << buffer.GetString();
 }
 
+
 void AppendValuesJson(
-  const hext::ResultTree * rt,
-  rapidjson::Value& obj,
-  rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>& alloc
-)
+    const hext::ResultTree *                                 rt,
+    rapidjson::Value&                                        obj,
+    rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>& alloc)
 {
   assert(rt);
   assert(obj.IsObject());

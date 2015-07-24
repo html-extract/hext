@@ -18,6 +18,7 @@ extern const int version_minor;
 /// Git SHA-1 of this build.
 extern const char * version_git_sha1;
 
+
 /// Print version to out.
 void PrintVersion(std::ostream& out = std::cout);
 

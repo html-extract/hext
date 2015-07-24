@@ -14,10 +14,8 @@ namespace htmlext {
 class ErrorOutput
 {
 public:
-  explicit ErrorOutput(
-    const char * error_source,
-    std::ostream& out = std::cerr
-  ) noexcept;
+  explicit ErrorOutput(const char * error_source,
+                       std::ostream& out = std::cerr) noexcept;
 
   void print(const std::string& title, const std::string& contents) const;
 

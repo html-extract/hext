@@ -82,9 +82,8 @@ int main(int argc, const char ** argv)
     {
       html_contents.emplace_back(htmlext::ReadFileOrThrow(filename));
       parsed_html.emplace_back(
-        html_contents.back().c_str(),
-        html_contents.back().size()
-      );
+          html_contents.back().c_str(),
+          html_contents.back().size());
     }
 
     for(const auto& hext : extractors)
