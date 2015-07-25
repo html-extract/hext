@@ -39,7 +39,7 @@ namespace hext {
 ///   FunctionCapture centimeters(
 ///     InnerHtmlBuiltin,  // predefined CaptureFunction
 ///     "centimeters",     // result name
-///     "(\d+)cm"          // regex
+///     boost::regex("(\\d+)cm")
 ///   );
 ///   if( auto result = centimeters.capture(node) )
 ///     assert(*result == ResultPair("centimeters", "25"));
