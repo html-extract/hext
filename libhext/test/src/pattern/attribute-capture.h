@@ -37,3 +37,62 @@ TEST(Pattern_AttributeCapture, MissingAttrReturnsEmpty)
   EXPECT_FALSE(pair);
 }
 
+TEST(Pattern_AttributeCapture, RegexExampleFromDocumentation)
+{
+  THtml h("<div title='Highway 61 revisited'></div>");
+
+  {
+    auto result = AttributeCapture("title", "r", boost::regex("\\d+"))
+                      .capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("r", "61"));
+  }
+
+  {
+    auto result = AttributeCapture("title", "r", boost::regex("Highway \\d+"))
+                      .capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("r", "Highway 61"));
+  }
+
+  {
+    auto result = AttributeCapture("title", "r", boost::regex("Highway (\\d+)"))
+                      .capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("r", "61"));
+  }
+
+  {
+    auto result = AttributeCapture("title", "r", boost::regex("\\w+"))
+                      .capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("r", "Highway"));
+  }
+
+  {
+    auto result = AttributeCapture("title", "r", boost::regex("(\\w+) (\\d+)"))
+                      .capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("r", "Highway"));
+  }
+}
+
+TEST(Pattern_AttributeCapture, ExampleFromDocumentation)
+{
+  {
+    THtml h("<img src='bob.jpg'/>");
+    AttributeCapture img("src", "image");
+    auto result = img.capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("image", "bob.jpg"));
+  }
+
+  {
+    THtml h("<a href='/highway-61'></a>");
+    AttributeCapture highway("href", "U.S. Route", boost::regex("\\d+"));
+    auto result = highway.capture(h.first());
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, ResultPair("U.S. Route", "61"));
+  }
+}
+
