@@ -35,11 +35,11 @@ namespace hext {
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
 ///   GumboNode * node = ...; // <a href="/highway-61"></a>
 ///   AttributeCapture highway(
-///     "href",       // attribute name
-///     "U.S. Route"  // result name
-///     "\d+"         // regex
+///     "href",               // attribute name
+///     "U.S. Route"          // result name
+///     boost::regex("\\d+")
 ///   );
-///   if( auto result = img.capture(node) )
+///   if( auto result = highway.capture(node) )
 ///     // attribute found and captured
 ///     assert(*result == ResultPair("U.S. Route", "61"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
