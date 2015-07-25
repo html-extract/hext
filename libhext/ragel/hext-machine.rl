@@ -200,7 +200,10 @@ literal = (
 pattern = (
   space+
   ( ( ( builtin '=' capture )
-      %{ rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, pv.regex); } )
+      %{ if( pv.regex )
+           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
+         else
+           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var); } )
     |
 
     ( ( builtin '=' regex_test negate? )
@@ -212,7 +215,10 @@ pattern = (
     |
 
     ( ( attr_name '=' capture optional? )
-      %{ rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, pv.regex);
+      %{ if( pv.regex )
+           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
+         else
+           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
          if( !pv.optional )
            rule.add_match<AttributeMatch>(pv.attr_name);
        } )

@@ -43,18 +43,12 @@ TEST(Pattern_FunctionCapture, CustomFunction)
   CaptureFunction my_func = [secret](const GumboNode *) { return secret; };
 
   THtml h("<div>dummy</div>");
-  for(auto reg : {boost::optional<boost::regex>(),
-                  boost::optional<boost::regex>(boost::regex("[a-z]{6}"))})
+  for(auto cap : {FunctionCapture(my_func, "r", boost::regex("[a-z]{6}")),
+                  FunctionCapture(my_func, "r")})
   {
-    FunctionCapture p(
-      my_func,
-      "result",
-      reg
-    );
-
-    auto pair = p.capture(h.first());
+    auto pair = cap.capture(h.first());
     EXPECT_TRUE(pair);
-    EXPECT_EQ(pair->first, "result");
+    EXPECT_EQ(pair->first, "r");
     EXPECT_EQ(pair->second, "secret");
   }
 }

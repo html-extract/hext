@@ -68,12 +68,20 @@ public:
   /// @param        func:  The function that will be applied to an HTML node.
   /// @param result_name:  The name for the result that is returned from
   ///                      FuntionCapture::capture.
-  /// @param      filter:  An optional regular expression that is applied to
-  ///                      the result of the given CaptureFunction.
+  FunctionCapture(CaptureFunction func,
+                  std::string     result_name);
+
+  /// Constructs a FunctionCapture with a regex filter.
+  ///
+  /// @param        func:  The function that will be applied to an HTML node.
+  /// @param result_name:  The name for the result that is returned from
+  ///                      FuntionCapture::capture.
+  /// @param      filter:  A regular expression that is applied to the result
+  ///                      of the given CaptureFunction.
   ///                      See @ref FCRegexBehavior.
-  FunctionCapture(CaptureFunction               func,
-                  std::string                   result_name,
-                  boost::optional<boost::regex> filter = {});
+  FunctionCapture(CaptureFunction func,
+                  std::string     result_name,
+                  boost::regex    filter);
 
   /// Captures the result of calling a given CaptureFunction with node as its
   /// argument. Optionally applies a regex to the result.

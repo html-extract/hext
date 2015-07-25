@@ -1313,57 +1313,63 @@ _match:
 	break;
 	case 49:
 #line 203 "hext-machine.rl"
-	{ rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, pv.regex); }
+	{ if( pv.regex )
+           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
+         else
+           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var); }
 	break;
 	case 50:
-#line 207 "hext-machine.rl"
+#line 210 "hext-machine.rl"
 	{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 51:
-#line 211 "hext-machine.rl"
+#line 214 "hext-machine.rl"
 	{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 52:
-#line 215 "hext-machine.rl"
-	{ rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, pv.regex);
+#line 218 "hext-machine.rl"
+	{ if( pv.regex )
+           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
+         else
+           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
          if( !pv.optional )
            rule.add_match<AttributeMatch>(pv.attr_name);
        }
 	break;
 	case 53:
-#line 222 "hext-machine.rl"
+#line 228 "hext-machine.rl"
 	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 54:
-#line 226 "hext-machine.rl"
+#line 232 "hext-machine.rl"
 	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 55:
-#line 230 "hext-machine.rl"
+#line 236 "hext-machine.rl"
 	{ pv.test = nullptr; }
 	break;
 	case 56:
-#line 233 "hext-machine.rl"
+#line 239 "hext-machine.rl"
 	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 57:
-#line 234 "hext-machine.rl"
+#line 240 "hext-machine.rl"
 	{ pv.reset(); }
 	break;
 	case 58:
-#line 255 "hext-machine.rl"
+#line 261 "hext-machine.rl"
 	{ rule.set_optional(true); }
 	break;
 	case 59:
-#line 259 "hext-machine.rl"
+#line 265 "hext-machine.rl"
 	{ rule.set_tag(HtmlTag::ANY); }
 	break;
 	case 60:
-#line 264 "hext-machine.rl"
+#line 270 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 61:
-#line 265 "hext-machine.rl"
+#line 271 "hext-machine.rl"
 	{ TK_STOP;
            auto tag = gumbo_tag_enum(tok.c_str());
            if( tag == GUMBO_TAG_UNKNOWN )
@@ -1372,40 +1378,40 @@ _match:
              rule.set_tag(static_cast<HtmlTag>(tag)); }
 	break;
 	case 62:
-#line 276 "hext-machine.rl"
+#line 282 "hext-machine.rl"
 	{ rule.take_match(std::move(pv.negate)); }
 	break;
 	case 63:
-#line 279 "hext-machine.rl"
+#line 285 "hext-machine.rl"
 	{ rule.take_match(std::move(pv.trait)); }
 	break;
 	case 64:
-#line 289 "hext-machine.rl"
+#line 295 "hext-machine.rl"
 	{ builder.push_rule(std::move(rule), /* self_closing: */ true); }
 	break;
 	case 65:
-#line 291 "hext-machine.rl"
+#line 297 "hext-machine.rl"
 	{ builder.push_rule(std::move(rule), /* self_closing: */ false); }
 	break;
 	case 66:
-#line 292 "hext-machine.rl"
+#line 298 "hext-machine.rl"
 	{ rule = Rule(); }
 	break;
 	case 67:
-#line 301 "hext-machine.rl"
+#line 307 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 68:
-#line 302 "hext-machine.rl"
+#line 308 "hext-machine.rl"
 	{ TK_STOP;
          if( !builder.pop_tag(tok) )
            this->throw_unexpected_tag(tok, builder.get_expected_tag()); }
 	break;
 	case 69:
-#line 308 "hext-machine.rl"
+#line 314 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1408 "Parser.cpp.tmp"
+#line 1414 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1422,22 +1428,22 @@ _again:
 	while ( __nacts-- > 0 ) {
 		switch ( *__acts++ ) {
 	case 64:
-#line 289 "hext-machine.rl"
+#line 295 "hext-machine.rl"
 	{ builder.push_rule(std::move(rule), /* self_closing: */ true); }
 	break;
 	case 65:
-#line 291 "hext-machine.rl"
+#line 297 "hext-machine.rl"
 	{ builder.push_rule(std::move(rule), /* self_closing: */ false); }
 	break;
 	case 66:
-#line 292 "hext-machine.rl"
+#line 298 "hext-machine.rl"
 	{ rule = Rule(); }
 	break;
 	case 69:
-#line 308 "hext-machine.rl"
+#line 314 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1440 "Parser.cpp.tmp"
+#line 1446 "Parser.cpp.tmp"
 		}
 	}
 	}

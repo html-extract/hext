@@ -7,10 +7,18 @@
 namespace hext {
 
 
-FunctionCapture::FunctionCapture(CaptureFunction               func,
-                                 std::string                   result_name,
-                                 boost::optional<boost::regex> filter)
-: func_(std::move(func))         // noexcept
+FunctionCapture::FunctionCapture(CaptureFunction func,
+                                 std::string     result_name)
+: func_(std::move(func))         // not noexcept
+, name_(std::move(result_name))  // noexcept
+, filter_()                      // noexcept
+{
+}
+
+FunctionCapture::FunctionCapture(CaptureFunction func,
+                                 std::string     result_name,
+                                 boost::regex    filter)
+: func_(std::move(func))         // not noexcept
 , name_(std::move(result_name))  // noexcept
 , filter_(std::move(filter))     // boost::optional: noexcept >=1.56,
                                  // boost::regex:    not noexcept

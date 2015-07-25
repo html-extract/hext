@@ -62,18 +62,25 @@ namespace hext {
 class AttributeCapture : public Capture
 {
 public:
-  /// Constructs an AttributeCapture with an optional regex filter.
+  /// Constructs an AttributeCapture.
   ///
   /// @param   attr_name:  The name of the HTML attribute whose value will be
   ///                      captured.
   /// @param result_name:  The name for the result that is returned from
   ///                      AttributeCapture::capture.
-  /// @param      filter:  An optional regular expression that is applied to the
-  ///                      captured HTML attribute's value.
-  ///                      See @ref RegexBehavior.
-  AttributeCapture(std::string                   attr_name,
-                   std::string                   result_name,
-                   boost::optional<boost::regex> filter = {});
+  AttributeCapture(std::string attr_name, std::string result_name) noexcept;
+
+  /// Constructs an AttributeCapture with a regex filter.
+  ///
+  /// @param   attr_name:  The name of the HTML attribute whose value will be
+  ///                      captured.
+  /// @param result_name:  The name for the result that is returned from
+  ///                      AttributeCapture::capture.
+  /// @param      filter:  A regular expression that is applied to the captured
+  ///                      HTML attribute's value. See @ref RegexBehavior.
+  AttributeCapture(std::string  attr_name,
+                   std::string  result_name,
+                   boost::regex filter);
 
   /// Captures an HTML element's attribute called attr_name (as given in the
   /// constructor). Optionally applies a regex to the attribute's value.

@@ -7,9 +7,17 @@
 namespace hext {
 
 
-AttributeCapture::AttributeCapture(std::string                   attr_name,
-                                   std::string                   result_name,
-                                   boost::optional<boost::regex> filter)
+AttributeCapture::AttributeCapture(std::string attr_name,
+                                   std::string result_name) noexcept
+: attr_name_(std::move(attr_name))  // noexcept
+, name_(std::move(result_name))     // noexcept
+, filter_()                         // noexcept
+{
+}
+
+AttributeCapture::AttributeCapture(std::string  attr_name,
+                                   std::string  result_name,
+                                   boost::regex filter)
 : attr_name_(std::move(attr_name))  // noexcept
 , name_(std::move(result_name))     // noexcept
 , filter_(std::move(filter))        // not noexcept
