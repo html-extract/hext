@@ -212,6 +212,8 @@ void Parser::throw_unexpected_tag(
               << ">'";
   }
 
+  error_msg << " ";
+
   auto mark_len = tag.size() + 2; // strlen("</")
   auto unexpected_char = this->p - 1;
   this->print_error_location(unexpected_char, mark_len, error_msg);
