@@ -71,12 +71,12 @@ public:
 
   const GumboNode * body_child(unsigned int pos = 0) const
   {
-    auto body = this->body();
-    if( !body || body->type != GUMBO_NODE_ELEMENT )
+    auto body_node = this->body();
+    if( !body_node || body_node->type != GUMBO_NODE_ELEMENT )
       // an error was already printed
       return nullptr;
 
-    const GumboVector& children = body->v.element.children;
+    const GumboVector& children = body_node->v.element.children;
     if( pos && pos <= children.length )
       return static_cast<const GumboNode *>(children.data[pos - 1]);
 
