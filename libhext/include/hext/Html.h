@@ -48,8 +48,8 @@ public:
   Html(const char * buffer, std::size_t size) noexcept;
 
   ~Html() noexcept;
-  Html(Html&&) noexcept;
-  Html& operator=(Html&&) noexcept;
+  Html(Html&&);
+  Html& operator=(Html&&);
 
   /// Returns a non-owning pointer to the root node of the HTML document.
   ///

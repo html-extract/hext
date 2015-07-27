@@ -39,9 +39,9 @@ public:
   /// last call to Parser::parse().
   Parser(const char * begin, const char * end) noexcept;
 
-  ~Parser() noexcept;
-  Parser(Parser&&) noexcept;
-  Parser& operator=(Parser&&) noexcept;
+  ~Parser();
+  Parser(Parser&&);
+  Parser& operator=(Parser&&);
 
   /// Parses hext rule definition from the given range and returns the top level
   /// Rule. Throws SyntaxError with a detailed error message on invalid input.

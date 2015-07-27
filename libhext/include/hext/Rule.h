@@ -95,9 +95,9 @@ public:
                 bool optional = false,
                 bool     path = false);
 
-  ~Rule() noexcept;
-  Rule(Rule&&) noexcept;
-  Rule& operator=(Rule&&) noexcept;
+  ~Rule();
+  Rule(Rule&&);
+  Rule& operator=(Rule&&);
 
   /// Appends a Rule after the last element at the given tree depth.
   ///

@@ -33,9 +33,9 @@ public:
   /// Constructs an empty ResultTree.
   ResultTree();
 
-  ~ResultTree() noexcept;
-  ResultTree(ResultTree&&) noexcept;
-  ResultTree& operator=(ResultTree&&) noexcept;
+  ~ResultTree();
+  ResultTree(ResultTree&&);
+  ResultTree& operator=(ResultTree&&);
 
   /// Appends a new branch.
   ///

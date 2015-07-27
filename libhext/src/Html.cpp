@@ -28,8 +28,8 @@ Html::~Html() noexcept
     gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
 }
 
-Html::Html(Html&&) noexcept = default;
-Html& Html::operator=(Html&&) noexcept = default;
+Html::Html(Html&&) = default;
+Html& Html::operator=(Html&&) = default;
 
 const GumboNode * Html::root() const noexcept
 {

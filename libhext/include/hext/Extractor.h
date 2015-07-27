@@ -42,9 +42,9 @@ public:
   /// @param hext:  A string containing hext rule definitions.
   explicit Extractor(const std::string& hext);
 
-  Extractor(Extractor&&) noexcept;
-  Extractor& operator=(Extractor &&) noexcept;
-  ~Extractor() noexcept;
+  ~Extractor();
+  Extractor(Extractor&&);
+  Extractor& operator=(Extractor &&);
 
   /// Extracts a ResultTree from a string containing html.
   ///

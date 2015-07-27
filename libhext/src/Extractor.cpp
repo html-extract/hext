@@ -13,9 +13,9 @@ Extractor::Extractor(const std::string& hext)
 {
 }
 
-Extractor::Extractor(Extractor&&) noexcept = default;
-Extractor& Extractor::operator=(Extractor &&) noexcept = default;
-Extractor::~Extractor() noexcept = default;
+Extractor::~Extractor() = default;
+Extractor::Extractor(Extractor&&) = default;
+Extractor& Extractor::operator=(Extractor &&) = default;
 
 std::unique_ptr<ResultTree> Extractor::extract(const std::string& html) const
 {

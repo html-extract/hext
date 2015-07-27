@@ -18,14 +18,14 @@ class Match
 {
 public:
   // Rule of five
-  Match() noexcept = default;
-  Match(const Match&) noexcept = default;
-  Match(Match&&) noexcept = default;
-  Match& operator=(const Match&) noexcept = default;
-  Match& operator=(Match&&) noexcept = default;
+  Match() = default;
+  Match(const Match&) = default;
+  Match(Match&&) = default;
+  Match& operator=(const Match&) = default;
+  Match& operator=(Match&&) = default;
 
   /// Virtual destructor to allow inheritance.
-  virtual ~Match() noexcept = default;
+  virtual ~Match() = default;
 
   /// Implementation must be provided in subclasses.
   virtual bool matches(const GumboNode * node) const = 0;

@@ -14,14 +14,14 @@ class ValueTest
 {
 public:
   // Rule of five
-  ValueTest() noexcept = default;
-  ValueTest(const ValueTest&) noexcept = default;
-  ValueTest(ValueTest&&) noexcept = default;
-  ValueTest& operator=(const ValueTest&) noexcept = default;
-  ValueTest& operator=(ValueTest&&) noexcept = default;
+  ValueTest() = default;
+  ValueTest(const ValueTest&) = default;
+  ValueTest(ValueTest&&) = default;
+  ValueTest& operator=(const ValueTest&) = default;
+  ValueTest& operator=(ValueTest&&) = default;
 
   /// Allow inheritance.
-  virtual ~ValueTest() noexcept = default;
+  virtual ~ValueTest() = default;
 
   /// Implementation must be provided in subclasses.
   virtual bool test(const char * /* dummy */) const = 0;

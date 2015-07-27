@@ -185,9 +185,9 @@ Rule::Rule(HtmlTag tag,
 {
 }
 
-Rule::Rule(Rule&&) noexcept = default;
-Rule& Rule::operator=(Rule&&) noexcept = default;
-Rule::~Rule() noexcept = default;
+Rule::Rule(Rule&&) = default;
+Rule& Rule::operator=(Rule&&) = default;
+Rule::~Rule() = default;
 
 Rule& Rule::take_child(Rule rule, std::size_t insert_at_depth)
 {

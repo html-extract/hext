@@ -12,9 +12,9 @@ ResultTree::ResultTree()
 {
 }
 
-ResultTree::~ResultTree() noexcept = default;
-ResultTree::ResultTree(ResultTree&&) noexcept = default;
-ResultTree& ResultTree::operator=(ResultTree&&) noexcept = default;
+ResultTree::~ResultTree() = default;
+ResultTree::ResultTree(ResultTree&&) = default;
+ResultTree& ResultTree::operator=(ResultTree&&) = default;
 
 ResultTree * ResultTree::create_child()
 {

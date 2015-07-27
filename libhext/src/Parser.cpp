@@ -987,9 +987,9 @@ Parser::Parser(const char * begin, const char * end) noexcept
 {
 }
 
-Parser::Parser(Parser&&) noexcept = default;
-Parser& Parser::operator=(Parser&&) noexcept = default;
-Parser::~Parser() noexcept = default;
+Parser::~Parser() = default;
+Parser::Parser(Parser&&) = default;
+Parser& Parser::operator=(Parser&&) = default;
 
 Rule Parser::parse()
 {
