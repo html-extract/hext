@@ -1,7 +1,7 @@
-###### HTML-EXTRACT ############################################################
+###### HTMLEXT #################################################################
 # Enable PROJECT() with VERSION parameter.
 CMAKE_POLICY(SET CMP0048 NEW)
-PROJECT(html-extract VERSION 0.1)
+PROJECT(htmlext VERSION 0.1)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
@@ -23,7 +23,7 @@ INCLUDE(HextDefaultBuildRelease)
 ###### VERSION #################################################################
 SET(
   HEXT_VERSION_FILE_SOURCE
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp.in")
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp.in")
 INCLUDE(HextGenerateVersionFile)
 
 
@@ -35,7 +35,7 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
 ###### INCLUDES ################################################################
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/html-extract")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/htmlext")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${RAPIDJSON_INCLUDE_DIRS})
@@ -43,23 +43,23 @@ INCLUDE_DIRECTORIES(${RAPIDJSON_INCLUDE_DIRS})
 
 ###### SOURCES #################################################################
 ADD_EXECUTABLE(
-  html-extract
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ErrorOutput.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/File.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Json.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/PrintDot.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/ProgramOptions.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/htmlext/Version.cpp"
-  "${PROJECT_SOURCE_DIR}/html-extract/main.cpp")
-ADD_DEPENDENCIES(html-extract hext)
+  htmlext
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ErrorOutput.cpp"
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/File.cpp"
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Json.cpp"
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/PrintDot.cpp"
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ProgramOptions.cpp"
+  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
+  "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
+ADD_DEPENDENCIES(htmlext hext)
 TARGET_LINK_LIBRARIES(
-  html-extract
+  htmlext
   hext
   ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 
 ###### INSTALL #################################################################
-INSTALL(TARGETS html-extract DESTINATION bin)
+INSTALL(TARGETS htmlext DESTINATION bin)
 
 
 ###### TEST ####################################################################
@@ -71,7 +71,7 @@ ENABLE_TESTING()
 
 # Option TCMALLOC, default OFF
 # Link with libtcmalloc, i.e. cmake -DTCMALLOC=ON
-SET(HEXT_LINK_TCMALLOC_TARGET html-extract)
+SET(HEXT_LINK_TCMALLOC_TARGET htmlext)
 INCLUDE(HextOptionLinkTcmalloc)
 
 # Option GPROF, default OFF

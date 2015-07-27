@@ -10,7 +10,7 @@
 # Assume this file's location in the project is /test
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-# The build directory for html-extract is expected in to be /build
+# The build directory for htmlext is expected in to be /build
 BUILD_DIR=$(realpath "${SCRIPT_DIR}/../build")
 
 C_RED=$(tput setaf 1)
@@ -51,12 +51,12 @@ pindent() {
 }
 
 
-# Prints a string that can be used to successfully invoke html-extract.
+# Prints a string that can be used to successfully invoke htmlext.
 # If given an argument, it will be used as a directory in which to look
-# for html-extract.
+# for htmlext.
 # Returns 0 if successful.
-whereis_html_extract() {
-  local htmlext="html-extract"
+whereis_htmlext() {
+  local htmlext="htmlext"
 
   # if a path was provided, use it
   [[ $# -gt 0 ]] && htmlext="${1}/${htmlext}"
@@ -70,19 +70,19 @@ whereis_html_extract() {
 }
 
 
-# Try to find html-extract, it may be located either in PATH, or in the build
+# Try to find htmlext, it may be located either in PATH, or in the build
 # directory.
-HTML_EXTRACT=$(whereis_html_extract) || {
+HTMLEXT=$(whereis_htmlext) || {
   if [[ -d "${BUILD_DIR}" ]]
   then
-    HTML_EXTRACT=$(whereis_html_extract "${BUILD_DIR}") || {
-      perror "html-extract is neither in PATH" \
+    HTMLEXT=$(whereis_htmlext "${BUILD_DIR}") || {
+      perror "htmlext is neither in PATH" \
         "nor in the build directory (${BUILD_DIR})\n"\
-        "Build html-extract and run $0 again"
+        "Build htmlext and run $0 again"
       exit 1
     }
   else
-    perror "html-extract is not in PATH" \
+    perror "htmlext is not in PATH" \
       "and the build directory was not found" \
       "(tried to access: ${BUILD_DIR})"
     exit 1
@@ -100,9 +100,9 @@ jq --version 2>&1 > /dev/null || {
 # Run a hext test case.
 # Expects a path to a file ending in hext, whose directory contains a
 # file with the same name but ending in ".html", which will be passed
-# to html-extract alongside the given hext file, and a file ending in
+# to htmlext alongside the given hext file, and a file ending in
 # ".expected", whose contents will be compared to the output of
-# html-extract.
+# htmlext.
 #
 # Prints whether or not the test was successfull.
 # Returns 0 on success.
@@ -138,9 +138,9 @@ test_hext() {
     } >&2
   done
 
-  local actual=$($HTML_EXTRACT -c -x "$f_hext" -i "$f_html") || {
+  local actual=$($HTMLEXT -c -x "$f_hext" -i "$f_html") || {
     perror_case "$t_case"
-    perror "html-extract failed for <$f_hext>" | pindent
+    perror "$HTMLEXT failed for <$f_hext>" | pindent
     return 1
   } >&2
   actual=$(echo "$actual" | jq -c --sort-keys '.') || {

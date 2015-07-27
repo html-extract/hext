@@ -13,7 +13,7 @@ const char * version_git_sha1 = "@PROJECT_VERSION_GIT_SHA1@";
 
 void PrintVersion(std::ostream& out)
 {
-  out << "html-extract v" << version_major << "." << version_minor
+  out << "htmlext v" << version_major << "." << version_minor
       << " build-" << version_git_sha1 << "\n"
       << "linked with libhext v"
       << hext::version_major << "."

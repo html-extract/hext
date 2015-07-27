@@ -15,7 +15,7 @@ namespace htmlext {
 
 
 /// Print HTML as DOT.
-/// Example: html-extract --print-html-dot example.html
+/// Example: htmlext --print-html-dot example.html
 ///          | dot -Tpng /dev/stdin -o example.graph.png
 /// See https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 void PrintHtmlDot(const hext::Html& html, std::ostream& out);
@@ -23,7 +23,7 @@ void PrintHtmlDotNodes(const GumboNode * node, int parent_id, std::ostream& out)
 
 
 /// Print ResultTree as DOT.
-/// Example: html-extract --print-result-dot example.hext example.html
+/// Example: htmlext --print-result-dot example.hext example.html
 ///          | dot -Tpng /dev/stdin -o example.graph.png
 /// See https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29
 void PrintResultTreeDot(const hext::ResultTree * rt, std::ostream& out);
