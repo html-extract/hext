@@ -18,13 +18,12 @@ namespace hext {
 typedef std::pair<std::string, std::string> ResultPair;
 
 
-/// A multimap containing the values produced by capturing. A ResultTree can be
-/// flattened to a vector containing ResultMap.
+/// A multimap containing the values produced by capturing.
 typedef std::unordered_multimap<ResultPair::first_type,
                                 ResultPair::second_type> ResultMap;
 
 
-/// A vector containing ResultMap. A ResultTree can be flattened to a Result.
+/// A vector containing ResultMap.
 typedef std::vector<ResultMap> Result;
 
 
