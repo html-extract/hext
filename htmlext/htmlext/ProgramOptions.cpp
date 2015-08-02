@@ -28,7 +28,6 @@ ProgramOptions::ProgramOptions()
     ("print-html-dot,d", po::value<std::string>()
                              ->value_name("<html-file>"),
                          "Print HTML input file as DOT")
-    ("print-result-dot,r", "Print ResultTree as DOT")
     ("lint,l", "Hext syntax check: parse hext and exit")
     ("help,h", "Print this help message and exit")
     ("version,V", "Print version information and exit")
