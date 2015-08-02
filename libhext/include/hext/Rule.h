@@ -80,9 +80,8 @@ public:
   ///                         matched. Optional rules on the other hand are ignored
   ///                         if not found.
   ///                         Default: Rule is mandatory.
-  /// @param any_descendant:  Paths do not modify the ResultTree (i.e. no branching
-  ///                         for matches, no capturing of values).
-  ///                         Default: Rule is not a path.
+  /// @param any_descendant:  Sets whether matching nodes may be any descendants
+  ///                         of their parent match.
   explicit Rule(HtmlTag         tag = HtmlTag::ANY,
                 bool       optional = false,
                 bool any_descendant = false);
