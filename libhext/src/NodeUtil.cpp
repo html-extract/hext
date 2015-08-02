@@ -116,5 +116,20 @@ bool TagWrapsText(GumboTag tag) noexcept
 }
 
 
+const GumboNode * NextNode(const GumboNode * node) noexcept
+{
+  if( !node || node->parent->type != GUMBO_NODE_ELEMENT )
+    return nullptr;
+
+  const GumboNode * parent = node->parent;
+  auto next_sibling_index = node->index_within_parent + 1;
+  if( next_sibling_index < parent->v.element.children.length )
+    return static_cast<const GumboNode *>(
+        parent->v.element.children.data[next_sibling_index]);
+
+  return nullptr;
+}
+
+
 } // namespace hext
 

@@ -201,42 +201,42 @@ pattern = (
   space+
   ( ( ( builtin '=' capture )
       %{ if( pv.regex )
-           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
+           rule->append_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
          else
-           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var); } )
+           rule->append_capture<FunctionCapture>(pv.builtin, pv.cap_var); } )
     |
 
     ( ( builtin '=' regex_test negate? )
-      %{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule->append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( builtin literal negate? )
-      %{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ rule->append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( attr_name '=' capture optional? )
       %{ if( pv.regex )
-           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
+           rule->append_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
          else
-           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
+           rule->append_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
          if( !pv.optional )
-           rule.add_match<AttributeMatch>(pv.attr_name);
+           rule->append_match<AttributeMatch>(pv.attr_name);
        } )
     |
 
     ( ( attr_name '=' regex_test negate? )
-      %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name literal negate? )
-      %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name
         %{ pv.test = nullptr; }
         negate?
       )
-      %{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
   ) %{ pv.reset(); }
 );
 
@@ -258,11 +258,11 @@ main := (
     '<'
 
     # a rule can be optional, i.e. starts with <?
-    ( '?' %{ rule.set_optional(true); } )?
+    ( '?' %{ rule->set_optional(true); } )?
 
     # a rule must have a tag name, e.g. <div
     (
-      ('*' %{ rule.set_tag(HtmlTag::ANY); } )
+      ('*' %{ rule->set_tag(HtmlTag::ANY); } )
       |
 
       (
@@ -273,16 +273,16 @@ main := (
            if( tag == GUMBO_TAG_UNKNOWN )
              this->throw_invalid_tag(tok);
            else
-             rule.set_tag(static_cast<HtmlTag>(tag)); }
+             rule->set_tag(static_cast<HtmlTag>(tag)); }
       )
     )
 
     # a rule can have multiple traits, e.g. :first-child, :empty
     (
-      ( not_trait %{ rule.take_match(std::move(pv.negate)); } )
+      ( not_trait %{ rule->append_match(std::move(pv.negate)); } )
       |
 
-      ( trait %{ rule.take_match(std::move(pv.trait)); } )
+      ( trait %{ rule->append_match(std::move(pv.trait)); } )
     )*
 
     # a rule can have multiple match or capture patterns,
@@ -295,7 +295,7 @@ main := (
       ( '/>' %{ builder.push_rule(std::move(rule), /* self_closing: */ true); } )
       |
       ( '>' %{ builder.push_rule(std::move(rule), /* self_closing: */ false); } )
-    ) %{ rule = Rule(); }
+    ) %{ rule = std::make_unique<Rule>(); }
   )
   |
 

@@ -1,260 +1,275 @@
 #include "hext/Rule.h"
 
 #include "MatchContext.h"
+#include "NodeUtil.h"
 
 
 namespace hext {
 
 
-struct Rule::Impl
-{
-  Impl(HtmlTag tag, bool optional, bool path)
-  : children_()
-  , matches_()
-  , captures_()
-  , tag_(tag)
-  , is_optional_(optional)
-  , is_path_(path)
-  {
-  }
-
-  bool matches(const GumboNode * node) const
-  {
-    if( !node )
-      return false;
-
-    if( this->tag_ != HtmlTag::ANY )
-      if( node->type != GUMBO_NODE_ELEMENT ||
-          node->v.element.tag != static_cast<GumboTag>(this->tag_) )
-        return false;
-
-    for( const auto& match : this->matches_ )
-      if( !match->matches(node) )
-        return false;
-
-    return true;
-  }
-
-  std::vector<ResultPair> capture(const GumboNode * node) const
-  {
-    if( !node )
-      return {};
-
-    std::vector<ResultPair> values;
-    values.reserve(this->captures_.size());
-    for( const auto& cap : this->captures_ )
-      if( auto pair = cap->capture(node) )
-        values.push_back(*pair);
-
-    return values;
-  }
-
-  /// Matches this rule recursively against node and its child nodes.
-  void extract_this_rule(const GumboNode * node, ResultTree * rt) const
-  {
-    if( !node || !rt )
-      return;
-
-    if( node->type != GUMBO_NODE_ELEMENT )
-      return;
-
-    if( this->matches(node) )
-    {
-      if( !this->is_path_ )
-      {
-        auto branch = rt->create_child();
-        if( !this->extract_children(node, branch) )
-        {
-          rt->delete_child(branch);
-        }
-        else
-        {
-          branch->set_values(std::move(this->capture(node)));
-        }
-      }
-      else
-      {
-        this->extract_children(node, rt);
-      }
-    }
-
-    const GumboVector& node_children = node->v.element.children;
-    for(unsigned int i = 0; i < node_children.length; ++i)
-    {
-      auto child_node = static_cast<const GumboNode *>(node_children.data[i]);
-      this->extract_this_rule(child_node, rt);
-    }
-  }
-
-  /// Applies this rule's children to the children of node, and stores the
-  /// results in a ResultTree.
-  ///
-  /// @param node:  The node whose children are to be matched against
-  ///               this->children_.
-  /// @param   rt:  The ResultTree where the values will be stored.
-  bool extract_children(const GumboNode * node, ResultTree * rt) const
-  {
-    if( !node || !rt )
-      return false;
-
-    if( this->children_.empty() )
-      return true;
-
-    if( node->type != GUMBO_NODE_ELEMENT )
-      return false;
-
-    int match_count = 0;
-    MatchContext mc(this->children_.cbegin(),
-                    this->children_.cend(),
-                    node->v.element.children);
-    while( auto grouped_match = mc.match_next() )
-    {
-      ++match_count;
-      auto branch = rt->create_child();
-
-      for( const auto& match_pair : *grouped_match )
-      {
-        const Rule * child_rule = match_pair.first;
-        const GumboNode * child_node = match_pair.second;
-        assert(child_rule && child_node);
-        auto& cimpl = child_rule->impl_;
-
-        ResultTree * child_rt = rt;
-        if( !cimpl->is_path_ )
-          child_rt = branch->create_child();
-
-        if( !cimpl->extract_children(child_node, child_rt) )
-        {
-          if( cimpl->is_optional_ && !cimpl->is_path_ )
-          {
-            branch->delete_child(child_rt);
-          }
-          else
-          {
-            --match_count;
-            if( !cimpl->is_path_ )
-              rt->delete_child(branch);
-            break;
-          }
-        }
-        else if( !cimpl->is_path_ )
-        {
-          child_rt->set_values(child_rule->capture(child_node));
-        }
-      }
-    }
-
-    return match_count > 0 || this->all_children_are_optional();
-  }
-
-  void append_child_at_depth(Rule rule, std::size_t insert_at_depth)
-  {
-    if( insert_at_depth > 0 && this->children_.size() )
-    {
-      this->children_.back().impl_
-          ->append_child_at_depth(std::move(rule), insert_at_depth - 1);
-      return;
-    }
-
-    this->children_.push_back(std::move(rule));
-  }
-
-  /// Returns true if all immediate children are optional.
-  bool all_children_are_optional() const noexcept
-  {
-    for( const auto& r : this->children_ )
-      if( !r.impl_->is_optional_ )
-        return false;
-
-    return true;
-  }
-
-  std::vector<Rule> children_;
-  std::vector<std::unique_ptr<Match>> matches_;
-  std::vector<std::unique_ptr<Capture>> captures_;
-  HtmlTag tag_;
-  bool is_optional_;
-  bool is_path_;
-};
-
-
 Rule::Rule(HtmlTag tag,
            bool    optional,
-           bool    path)
-: impl_(std::make_unique<Rule::Impl>(tag, optional, path))
+           bool    any_descendant)
+: first_child_(nullptr)
+, next_(nullptr)
+, matches_()
+, captures_()
+, tag_(tag)
+, is_optional_(optional)
+, is_any_descendant_(any_descendant)
 {
 }
 
+Rule::~Rule() = default;
 Rule::Rule(Rule&&) = default;
 Rule& Rule::operator=(Rule&&) = default;
-Rule::~Rule() = default;
 
-Rule& Rule::take_child(Rule rule, std::size_t insert_at_depth)
+const Rule * Rule::child() const
 {
-  this->impl_->append_child_at_depth(std::move(rule), insert_at_depth);
+  return this->first_child_.get();
+}
+
+const Rule * Rule::next() const
+{
+  return this->next_.get();
+}
+
+Rule& Rule::append(std::unique_ptr<Rule> rule, std::size_t insert_at_depth)
+{
+  this->append_child_at_depth(std::move(rule), insert_at_depth);
   return *this;
 }
 
-Rule& Rule::take_match(std::unique_ptr<Match> match)
+Rule& Rule::append_match(std::unique_ptr<Match> match)
 {
-  this->impl_->matches_.push_back(std::move(match));
+  this->matches_.push_back(std::move(match));
   return *this;
 }
 
-Rule& Rule::take_capture(std::unique_ptr<Capture> cap)
+Rule& Rule::append_capture(std::unique_ptr<Capture> cap)
 {
-  this->impl_->captures_.push_back(std::move(cap));
+  this->captures_.push_back(std::move(cap));
   return *this;
 }
 
 HtmlTag Rule::get_tag() const noexcept
 {
-  return this->impl_->tag_;
+  return this->tag_;
 }
 
 Rule& Rule::set_tag(HtmlTag tag) noexcept
 {
-  this->impl_->tag_ = tag;
+  this->tag_ = tag;
   return *this;
 }
 
 bool Rule::is_optional() const noexcept
 {
-  return this->impl_->is_optional_;
+  return this->is_optional_;
 }
 
 Rule& Rule::set_optional(bool optional) noexcept
 {
-  this->impl_->is_optional_ = optional;
+  this->is_optional_ = optional;
   return *this;
 }
 
-bool Rule::is_path() const noexcept
+bool Rule::is_any_descendant() const noexcept
 {
-  return this->impl_->is_path_;
+  return this->is_any_descendant_;
 }
 
-Rule& Rule::set_path(bool path) noexcept
+Rule& Rule::set_any_descendant(bool any_descendant) noexcept
 {
-  this->impl_->is_path_ = path;
+  this->is_any_descendant_ = any_descendant;
   return *this;
-}
-
-std::unique_ptr<ResultTree> Rule::extract(const GumboNode * node) const
-{
-  auto rt = std::make_unique<ResultTree>();
-  this->impl_->extract_this_rule(node, rt.get());
-  return std::move(rt);
 }
 
 bool Rule::matches(const GumboNode * node) const
 {
-  return this->impl_->matches(node);
+  if( !node )
+    return false;
+
+  if( this->tag_ != HtmlTag::ANY )
+    if( node->type != GUMBO_NODE_ELEMENT ||
+        node->v.element.tag != static_cast<GumboTag>(this->tag_) )
+      return false;
+
+  for( const auto& match : this->matches_ )
+    if( !match->matches(node) )
+      return false;
+
+  return true;
 }
 
 std::vector<ResultPair> Rule::capture(const GumboNode * node) const
 {
-  return this->impl_->capture(node);
+  if( !node )
+    return {};
+
+  std::vector<ResultPair> values;
+  values.reserve(this->captures_.size());
+  for( const auto& cap : this->captures_ )
+    if( auto pair = cap->capture(node) )
+      values.push_back(*pair);
+
+  return values;
+}
+
+hext::Result Rule::extract(const GumboNode * node) const
+{
+  CaptureNodes capture_nodes;
+
+  bool matched_anything =
+      this->extract_capture_nodes(node,
+                                  /* insert_sentinel: */ true,
+                                  capture_nodes);
+
+  hext::Result result;
+  if( matched_anything )
+  {
+    ResultMap map;
+    for( auto pair : capture_nodes )
+    {
+      // std::pair<nullptr, nullptr> acts as a sentinel to separate capture
+      // groups
+      if( !pair.first )
+      {
+        assert(!pair.second);
+        if( !map.empty() )
+        {
+          result.push_back(std::move(map));
+          map.clear();
+        }
+      }
+      else
+      {
+        if( (pair.first)->captures_.size() )
+        {
+          auto values = (pair.first)->capture(pair.second);
+          if( values.size() )
+            map.insert(values.begin(), values.end());
+        }
+      }
+    }
+  }
+  else
+  {
+    assert(capture_nodes.empty());
+  }
+
+  return result;
+}
+
+bool Rule::extract_capture_nodes(const GumboNode * node,
+                                 bool              insert_sentinel,
+                                 CaptureNodes&     result) const
+{
+  assert(node);
+  if( !node )
+    return false;
+
+  bool matched_anything = false;
+  CaptureNodes pairs;
+  MatchContext mc(this, node);
+
+  while( auto mg = mc.match_next() )
+  {
+    pairs.clear();
+    bool save_group = true;
+    for( auto match_pair : *mg )
+    {
+      const Rule * r = match_pair.first;
+      const GumboNode * n = match_pair.second;
+
+      const GumboNode * node_first_child = nullptr;
+      if( n->type == GUMBO_NODE_ELEMENT && n->v.element.children.length )
+      {
+        node_first_child = static_cast<const GumboNode *>(
+            n->v.element.children.data[0]);
+      }
+
+      if( !r->first_child_ ||
+          r->first_child_->extract_capture_nodes(node_first_child,
+                                                 /* insert_sentinel: */ false,
+                                                 pairs) )
+      {
+        if( (match_pair.first)->captures_.size() )
+          pairs.push_back(match_pair);
+      }
+      else
+      {
+        // jump to next match group (also: scared of the goto police).
+        save_group = false;
+        break;
+      }
+    }
+
+    if( save_group )
+    {
+      result.reserve(result.size() + pairs.size());
+      std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
+      pairs.clear();
+      if( insert_sentinel )
+        result.push_back(std::make_pair<const Rule *, const GumboNode *>(
+            nullptr,
+            nullptr));
+      matched_anything = true;
+    }
+  }
+
+  if( this->is_any_descendant_ )
+  {
+    const GumboNode * next_node = node;
+    do
+    {
+      if( next_node->type == GUMBO_NODE_ELEMENT &&
+          next_node->v.element.children.length )
+      {
+        auto next_node_first_child = static_cast<const GumboNode *>(
+            next_node->v.element.children.data[0]);
+
+        if( this->extract_capture_nodes(next_node_first_child,
+                                        insert_sentinel,
+                                        pairs) )
+        {
+          result.reserve(result.size() + pairs.size());
+          std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
+          pairs.clear();
+          if( insert_sentinel )
+            result.push_back(
+                std::make_pair<const Rule *,
+                               const GumboNode *>(nullptr, nullptr));
+          std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
+          matched_anything = true;
+        }
+      }
+    }
+    while( (next_node = NextNode(next_node)) );
+  }
+
+  // return whether this rule was satisfied: either something must have been
+  // matched, or this rule must be optional.
+  return matched_anything || this->is_optional_;
+}
+
+void Rule::append_child_at_depth(std::unique_ptr<Rule> rule,
+                                 std::size_t           insert_at_depth)
+{
+  Rule * insert_at = this;
+  while( insert_at->next_ )
+    insert_at = insert_at->next_.get();
+
+  if( insert_at_depth == 0 )
+    insert_at->next_ = std::move(rule);
+  else
+    if( insert_at->first_child_ )
+      insert_at->first_child_
+          ->append_child_at_depth(std::move(rule), insert_at_depth - 1);
+    else
+      insert_at->first_child_ = std::move(rule);
+
+  return;
 }
 
 

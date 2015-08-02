@@ -29,7 +29,7 @@ namespace hext {
 ///
 /// @param hext:  A null-terminated string containing hext rule definitions.
 /// @returns      The parsed Rule.
-Rule ParseHext(const char * hext);
+std::unique_ptr<Rule> ParseHext(const char * hext);
 
 /// Parses a buffer containing hext rule definitions.
 /// Throws SyntaxError with a detailed error message on invalid input.
@@ -50,7 +50,7 @@ Rule ParseHext(const char * hext);
 /// @param hext:  A string containing hext rule definitions.
 /// @param size:  The length of the string.
 /// @returns      The parsed Rule.
-Rule ParseHext(const char * hext, std::size_t size);
+std::unique_ptr<Rule> ParseHext(const char * hext, std::size_t size);
 
 
 } // namespace hext

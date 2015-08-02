@@ -22,15 +22,15 @@ class RuleBuilder
 public:
   RuleBuilder();
 
-  /// Moves the current rule tree to caller.
-  Rule take_rule_tree();
+  /// Moves the current rule to caller.
+  std::unique_ptr<Rule> take_rule();
 
   /// Pushes a Rule into the rule tree.
   ///
   /// @param         rule: The rule that is to be appended.
   /// @param self_closing: Whether the given Rule is self-closing, e.g. `<a/>`
   ///                      is a self-closing rule.
-  void push_rule(Rule rule, bool self_closing);
+  void push_rule(std::unique_ptr<Rule> rule, bool self_closing);
 
   /// Pushes and validates a closing tag.
   /// Returns false on invalid or unexpected closing tag.
@@ -43,8 +43,8 @@ public:
   boost::optional<HtmlTag> get_expected_tag() const;
 
 private:
-  /// The current Rules.
-  std::vector<Rule> rules_;
+  /// The current Rule.
+  std::unique_ptr<Rule> rule_;
 
   /// A stack of previously encountered open tags.
   std::stack<HtmlTag> tag_stack_;

@@ -46,21 +46,15 @@ public:
   Extractor(Extractor&&);
   Extractor& operator=(Extractor &&);
 
-  /// Extracts a ResultTree from a string containing html.
-  ///
-  /// @returns  A hext::ResultTree containing the captured values.
-  std::unique_ptr<ResultTree> extract(const std::string& html) const;
+  hext::Result extract(const std::string& html) const;
 
-  /// Extracts a ResultTree from a hext::Html.
-  ///
-  /// @returns  A hext::ResultTree containing the captured values.
-  std::unique_ptr<ResultTree> extract(const Html& html) const;
+  hext::Result extract(const Html& html) const;
 
 private:
   Extractor(const Extractor&) = delete;
   Extractor& operator=(const Extractor&) = delete;
 
-  Rule rule_;
+  std::unique_ptr<Rule> rule_;
 };
 
 

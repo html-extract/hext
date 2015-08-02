@@ -37,6 +37,10 @@ std::string NodeInnerHtml(const GumboNode * node);
 bool TagWrapsText(GumboTag tag) noexcept;
 
 
+/// Returns the next sibling of node.
+const GumboNode * NextNode(const GumboNode * node) noexcept;
+
+
 } // namespace hext
 
 

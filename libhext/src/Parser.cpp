@@ -991,7 +991,7 @@ Parser::~Parser() = default;
 Parser::Parser(Parser&&) = default;
 Parser& Parser::operator=(Parser&&) = default;
 
-Rule Parser::parse()
+std::unique_ptr<Rule> Parser::parse()
 {
   // Allow ragel to access its namespace.
   using namespace ragel;
@@ -1009,7 +1009,7 @@ Rule Parser::parse()
   RuleBuilder builder;
 
   // The rule that is currently being built.
-  Rule rule;
+  std::unique_ptr<Rule> rule = std::make_unique<Rule>();
 
   // All values required to construct Matches and Captures.
   PatternValues pv;
@@ -1314,35 +1314,35 @@ _match:
 	case 49:
 #line 203 "hext-machine.rl"
 	{ if( pv.regex )
-           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
+           rule->append_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
          else
-           rule.add_capture<FunctionCapture>(pv.builtin, pv.cap_var); }
+           rule->append_capture<FunctionCapture>(pv.builtin, pv.cap_var); }
 	break;
 	case 50:
 #line 210 "hext-machine.rl"
-	{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule->append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 51:
 #line 214 "hext-machine.rl"
-	{ rule.add_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
+	{ rule->append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 52:
 #line 218 "hext-machine.rl"
 	{ if( pv.regex )
-           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
+           rule->append_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
          else
-           rule.add_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
+           rule->append_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
          if( !pv.optional )
-           rule.add_match<AttributeMatch>(pv.attr_name);
+           rule->append_match<AttributeMatch>(pv.attr_name);
        }
 	break;
 	case 53:
 #line 228 "hext-machine.rl"
-	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 54:
 #line 232 "hext-machine.rl"
-	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 55:
 #line 236 "hext-machine.rl"
@@ -1350,7 +1350,7 @@ _match:
 	break;
 	case 56:
 #line 239 "hext-machine.rl"
-	{ rule.add_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
+	{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 57:
 #line 240 "hext-machine.rl"
@@ -1358,11 +1358,11 @@ _match:
 	break;
 	case 58:
 #line 261 "hext-machine.rl"
-	{ rule.set_optional(true); }
+	{ rule->set_optional(true); }
 	break;
 	case 59:
 #line 265 "hext-machine.rl"
-	{ rule.set_tag(HtmlTag::ANY); }
+	{ rule->set_tag(HtmlTag::ANY); }
 	break;
 	case 60:
 #line 270 "hext-machine.rl"
@@ -1375,15 +1375,15 @@ _match:
            if( tag == GUMBO_TAG_UNKNOWN )
              this->throw_invalid_tag(tok);
            else
-             rule.set_tag(static_cast<HtmlTag>(tag)); }
+             rule->set_tag(static_cast<HtmlTag>(tag)); }
 	break;
 	case 62:
 #line 282 "hext-machine.rl"
-	{ rule.take_match(std::move(pv.negate)); }
+	{ rule->append_match(std::move(pv.negate)); }
 	break;
 	case 63:
 #line 285 "hext-machine.rl"
-	{ rule.take_match(std::move(pv.trait)); }
+	{ rule->append_match(std::move(pv.trait)); }
 	break;
 	case 64:
 #line 295 "hext-machine.rl"
@@ -1395,7 +1395,7 @@ _match:
 	break;
 	case 66:
 #line 298 "hext-machine.rl"
-	{ rule = Rule(); }
+	{ rule = std::make_unique<Rule>(); }
 	break;
 	case 67:
 #line 307 "hext-machine.rl"
@@ -1437,7 +1437,7 @@ _again:
 	break;
 	case 66:
 #line 298 "hext-machine.rl"
-	{ rule = Rule(); }
+	{ rule = std::make_unique<Rule>(); }
 	break;
 	case 69:
 #line 314 "hext-machine.rl"
@@ -1459,7 +1459,7 @@ _again:
   if( auto expected_tag = builder.get_expected_tag() )
     this->throw_missing_tag(*expected_tag);
 
-  return std::move(builder.take_rule_tree());
+  return std::move(builder.take_rule());
 }
 
 void Parser::throw_unexpected() const

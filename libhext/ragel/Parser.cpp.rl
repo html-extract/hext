@@ -79,7 +79,7 @@ Parser::~Parser() = default;
 Parser::Parser(Parser&&) = default;
 Parser& Parser::operator=(Parser&&) = default;
 
-Rule Parser::parse()
+std::unique_ptr<Rule> Parser::parse()
 {
   // Allow ragel to access its namespace.
   using namespace ragel;
@@ -97,7 +97,7 @@ Rule Parser::parse()
   RuleBuilder builder;
 
   // The rule that is currently being built.
-  Rule rule;
+  std::unique_ptr<Rule> rule = std::make_unique<Rule>();
 
   // All values required to construct Matches and Captures.
   PatternValues pv;
@@ -125,7 +125,7 @@ Rule Parser::parse()
   if( auto expected_tag = builder.get_expected_tag() )
     this->throw_missing_tag(*expected_tag);
 
-  return std::move(builder.take_rule_tree());
+  return std::move(builder.take_rule());
 }
 
 void Parser::throw_unexpected() const

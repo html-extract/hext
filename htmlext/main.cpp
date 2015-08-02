@@ -89,11 +89,8 @@ int main(int argc, const char ** argv)
     for(const auto& hext : extractors)
       for(const auto& html : parsed_html)
       {
-        std::unique_ptr<hext::ResultTree> result = hext.extract(html);
-        if( po.contains("print-result-dot") )
-          htmlext::PrintResultTreeDot(result.get(), std::cout);
-        else
-          htmlext::PrintJson(result.get(), po.get_json_options(), std::cout);
+        hext::Result result = hext.extract(html);
+        htmlext::PrintJson(result, po.get_json_options(), std::cout);
       }
   }
   catch( const htmlext::FileError& e )

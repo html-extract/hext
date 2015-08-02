@@ -42,7 +42,7 @@ inline JsonOption operator&(JsonOption l, JsonOption r) noexcept
 }
 
 
-/// Print ResultTree as json.
+/// Print Result as json.
 /// If a name already exists it is converted to an array and the new value is
 /// appended.
 ///
@@ -50,20 +50,13 @@ inline JsonOption operator&(JsonOption l, JsonOption r) noexcept
 ///   {"foo": "bar"} and {"foo", "baz"}
 /// produces:
 ///   {"foo": ["bar", "baz"]}
-void PrintJson(const hext::ResultTree * rt, JsonOption opt, std::ostream& out);
+void PrintJson(const hext::Result result, JsonOption opt, std::ostream& out);
 
 
 /// Print a rapidjson::Value to `out`.
 void PrintJsonValue(const rapidjson::Value& value,
                     JsonOption              opt,
                     std::ostream&           out);
-
-
-/// Append all values in `rt` to `obj`.
-void AppendValuesJson(
-    const hext::ResultTree *                                 rt,
-    rapidjson::Value&                                        obj,
-    rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>& alloc);
 
 
 } // namespace htmlext

@@ -5,45 +5,38 @@ namespace hext {
 
 
 RuleBuilder::RuleBuilder()
-: rules_()
+: rule_(nullptr)
 , tag_stack_()
 {
 }
 
-Rule RuleBuilder::take_rule_tree()
+std::unique_ptr<Rule> RuleBuilder::take_rule()
 {
   assert(this->tag_stack_.empty());
   this->tag_stack_ = std::stack<HtmlTag>();
 
-  if( !this->rules_.size() )
-    return Rule();
-
-  if( this->rules_.size() == 1 )
-  {
-    auto rule = std::move(this->rules_.front());
-    this->rules_.clear();
-    return std::move(rule);
-  }
-
-  Rule implicit_top_rule;
-  implicit_top_rule.set_path(true);
-  for(auto&& r : this->rules_)
-    implicit_top_rule.take_child(std::move(r));
-  this->rules_.clear();
-
-  return std::move(implicit_top_rule);
+  return std::move(this->rule_);
 }
 
-void RuleBuilder::push_rule(Rule rule, bool self_closing)
+void RuleBuilder::push_rule(std::unique_ptr<Rule> rule, bool self_closing)
 {
-  HtmlTag tag = rule.get_tag();
+  assert(rule);
+  if( !rule )
+    return;
 
-  std::size_t insert_at_depth = this->tag_stack_.size();
-  if( !insert_at_depth )
-    this->rules_.push_back(std::move(rule));
+  HtmlTag tag = rule->get_tag();
+
+  if( this->rule_ )
+  {
+    std::size_t insert_at_depth = this->tag_stack_.size();
+    this->rule_->append(std::move(rule), insert_at_depth);
+  }
   else
-    this->rules_.back().take_child(std::move(rule),
-                                   insert_at_depth - 1);
+  {
+    assert(tag_stack_.empty());
+    rule->set_any_descendant(true);
+    this->rule_ = std::move(rule);
+  }
 
   if( !self_closing )
     this->tag_stack_.push(tag);
