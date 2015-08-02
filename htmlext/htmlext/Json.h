@@ -1,7 +1,7 @@
 #ifndef HTMLEXT_JSON_H_INCLUDED
 #define HTMLEXT_JSON_H_INCLUDED
 
-#include "hext/ResultTree.h"
+#include "hext/Result.h"
 
 #include <map>
 #include <iostream>
