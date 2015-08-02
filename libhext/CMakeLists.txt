@@ -126,4 +126,11 @@ ENDIF(NOT LIBHEXT_NO_TESTING)
 # Call run-ragel.sh to generate the parser.
 INCLUDE(HextOptionRunRagel)
 
+# Option SANITIZEADDRESS, default OFF
+# Adds -fsanitize=address and -fno-omit-frame-pointer to compiler flags
+INCLUDE(HextOptionSanitizeAddress)
+
+# Option SANITIZEUNDEFINED, default OFF
+# Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
+INCLUDE(HextOptionSanitizeUndefined)
 

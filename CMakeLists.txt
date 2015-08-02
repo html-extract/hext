@@ -78,3 +78,11 @@ INCLUDE(HextOptionLinkTcmalloc)
 # GNU gprof build
 INCLUDE(HextOptionGprof)
 
+# Option SANITIZEADDRESS, default OFF
+# Adds -fsanitize=address and -fno-omit-frame-pointer to compiler flags
+INCLUDE(HextOptionSanitizeAddress)
+
+# Option SANITIZEUNDEFINED, default OFF
+# Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
+INCLUDE(HextOptionSanitizeUndefined)
+
