@@ -54,7 +54,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/ContainsWordsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/EndsWithTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/EqualsTest.cpp"
-  "${PROJECT_SOURCE_DIR}/src/Extractor.cpp"
   "${PROJECT_SOURCE_DIR}/src/FunctionCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/FunctionMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/FunctionValueMatch.cpp"

@@ -6,11 +6,9 @@
 
 
 // Extraction
-#include "hext/Extractor.h"
 #include "hext/Html.h"
 #include "hext/HtmlTag.h"
 #include "hext/Result.h"
-#include "hext/ResultTree.h"
 #include "hext/Rule.h"
 
 
