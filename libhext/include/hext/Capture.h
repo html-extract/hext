@@ -19,6 +19,12 @@ namespace hext {
 /// Captures are applied to HTML elements with Capture::capture() which will
 /// return either a ResultPair, or an empty optional if there was nothing to
 /// capture.
+///
+/// Note: You probably don't want to inherit from this class directly, unless
+///       you want to provide your own Capture::clone() method. If your subclass
+///       has a copy constructor, you can extend from
+///       hext::Cloneable<YourSubclass, hext::Capture> which provides a generic
+///       clone method.
 class Capture
 {
 public:
@@ -28,11 +34,12 @@ public:
   Capture(Capture&&) = default;
   Capture& operator=(const Capture&) = default;
   Capture& operator=(Capture&&) = default;
-
-  /// Allow inheritance.
   virtual ~Capture() = default;
 
-  /// Return a name/value pair with the captured contents or an empty optional,
+  /// Clones derived object.
+  virtual Capture * clone() const = 0;
+
+  /// Returns a name/value pair with the captured contents or an empty optional,
   /// if there was nothing to capture.
   virtual boost::optional<ResultPair> capture(const GumboNode * node) const = 0;
 };

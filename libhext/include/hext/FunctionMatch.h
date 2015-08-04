@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::FunctionMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/MatchFunction.h"
 
@@ -31,7 +32,7 @@ namespace hext {
 ///   assert( m_is_div.matches(div));
 ///   assert(!m_is_div.matches(span));
 /// ~~~~~~~~~~~~~
-class FunctionMatch : public Match
+class FunctionMatch : public Cloneable<FunctionMatch, Match>
 {
 public:
   /// Constructs a FunctionMatch that matches HTML nodes for which a given

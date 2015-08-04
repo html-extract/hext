@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::AttributeMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/ValueTest.h"
 
@@ -40,7 +41,7 @@ namespace hext {
 ///   assert(attr_desolation.matches(node_desolation));
 ///   assert(!attr_desolation.matches(node_row));
 /// ~~~~~~~~~~~~~
-class AttributeMatch : public Match
+class AttributeMatch : public Cloneable<AttributeMatch, Match>
 {
 public:
   /// Constructs an AttributeMatch with an optional ValueTest.
@@ -50,6 +51,12 @@ public:
   ///                     true for the matched HTML attribute's value.
   explicit AttributeMatch(std::string                attr_name,
                           std::unique_ptr<ValueTest> value_test = {}) noexcept;
+
+  ~AttributeMatch();
+  AttributeMatch(AttributeMatch&& other);
+  AttributeMatch(const AttributeMatch& other);
+  AttributeMatch& operator=(AttributeMatch&& other);
+  AttributeMatch& operator=(const AttributeMatch& other);
 
   /// Return true if node has an HTML attribute called attr_name (as given in
   /// the constructor). If a ValueTest was supplied, the ValueTest must return

@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::EqualsTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <string>
@@ -22,7 +23,7 @@ namespace hext {
 ///   assert(!equals.test("foob"));
 ///   assert(!equals.test("bfoo"));
 /// ~~~~~~~~~~~~~
-class EqualsTest : public ValueTest
+class EqualsTest : public Cloneable<EqualsTest, ValueTest>
 {
 public:
   /// Constructs an EqualsTest that succeeds for subjects that equal a given

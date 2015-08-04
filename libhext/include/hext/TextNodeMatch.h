@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::TextNodeMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 
 #include <gumbo.h>
@@ -13,7 +14,7 @@ namespace hext {
 
 
 /// Matches if an HTML node is a text node.
-class TextNodeMatch : public Match
+class TextNodeMatch : public Cloneable<TextNodeMatch, Match>
 {
 public:
   /// Returns true if node is a text node.

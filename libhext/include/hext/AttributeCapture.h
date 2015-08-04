@@ -5,6 +5,7 @@
 ///   Declares hext::AttributeCapture
 
 #include "hext/Capture.h"
+#include "hext/Cloneable.h"
 #include "hext/Result.h"
 
 #include <string>
@@ -59,7 +60,7 @@ namespace hext {
 ///   Highway 61 revisited  |  `Highway (\d+)`  | 61
 ///   Highway 61 revisited  |  `\w+`            | Highway
 ///   Highway 61 revisited  |  `(\w+) (\d+)`    | Highway
-class AttributeCapture : public Capture
+class AttributeCapture : public Cloneable<AttributeCapture, Capture>
 {
 public:
   /// Constructs an AttributeCapture.

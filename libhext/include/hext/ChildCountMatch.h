@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::ChildCountMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 
 #include <gumbo.h>
@@ -29,7 +30,7 @@ namespace hext {
 ///   assert( m_two.matches(two));
 ///   assert(!m_two.matches(none));
 /// ~~~~~~~~~~~~~
-class ChildCountMatch : public Match
+class ChildCountMatch : public Cloneable<ChildCountMatch, Match>
 {
 public:
   /// Construct a ChildCountMatch that matches HTML elements with a child_count

@@ -1,5 +1,6 @@
 #include "hext/AttributeMatch.h"
 
+#include <algorithm>
 #include <cassert>
 #include <utility>
 
@@ -12,6 +13,25 @@ AttributeMatch::AttributeMatch(std::string                attr_name,
 : attr_name_(std::move(attr_name))  // noexcept
 , test_(std::move(value_test))      // noexcept
 {
+}
+
+AttributeMatch::~AttributeMatch() = default;
+AttributeMatch::AttributeMatch(AttributeMatch&& other) = default;
+
+AttributeMatch::AttributeMatch(const AttributeMatch& other)
+: attr_name_(other.attr_name_)
+, test_(other.test_ ? other.test_->clone() : nullptr)
+{
+}
+
+AttributeMatch& AttributeMatch::operator=(AttributeMatch&& other) = default;
+
+AttributeMatch& AttributeMatch::operator=(const AttributeMatch& other)
+{
+  using std::swap;
+  AttributeMatch tmp(other);
+  swap(*this, tmp);
+  return *this;
 }
 
 bool AttributeMatch::matches(const GumboNode * node) const

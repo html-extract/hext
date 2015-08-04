@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::ContainsTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <string>
@@ -22,7 +23,7 @@ namespace hext {
 ///   assert( contains.test("barfoobar"));
 ///   assert(!contains.test("barfo"));
 /// ~~~~~~~~~~~~~
-class ContainsTest : public ValueTest
+class ContainsTest : public Cloneable<ContainsTest, ValueTest>
 {
 public:
   /// Constructs a ContainsTest that succeeds for subjects that contain the

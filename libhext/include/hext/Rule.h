@@ -88,7 +88,9 @@ public:
 
   ~Rule();
   Rule(Rule&&);
+  Rule(const Rule& other);
   Rule& operator=(Rule&&);
+  Rule& operator=(const Rule&);
 
   const Rule * child() const;
   const Rule * next() const;
@@ -100,7 +102,7 @@ public:
   ///                          Default: Append immediately.
   /// @returns                 A reference for this Rule to enable method
   ///                          chaining.
-  Rule& append(std::unique_ptr<Rule> rule, std::size_t insert_at_depth = 0);
+  Rule& append(Rule rule, std::size_t insert_at_depth = 0);
 
   /// Appends a Match.
   ///
@@ -182,15 +184,11 @@ public:
 private:
   typedef std::vector<std::pair<const Rule *, const GumboNode *>> CaptureNodes;
 
-  Rule(const Rule&) = delete;
-  Rule& operator=(const Rule&) = delete;
-
   bool extract_capture_nodes(const GumboNode * node,
                              bool              insert_sentinel,
                              CaptureNodes&     result) const;
 
-  void append_child_at_depth(std::unique_ptr<Rule> rule,
-                             std::size_t           insert_at_depth);
+  void append_child_at_depth(Rule rule, std::size_t insert_at_depth);
 
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;

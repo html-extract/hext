@@ -1,5 +1,6 @@
 #include "hext/NegateMatch.h"
 
+#include <algorithm>
 #include <cassert>
 #include <utility>
 
@@ -17,6 +18,27 @@ NegateMatch::NegateMatch(std::unique_ptr<Match> match)
 : matches_()
 {
   this->matches_.push_back(std::move(match));
+}
+
+NegateMatch::~NegateMatch() = default;
+NegateMatch::NegateMatch(NegateMatch&& other) = default;
+
+NegateMatch::NegateMatch(const NegateMatch& other)
+: matches_()
+{
+  this->matches_.reserve(other.matches_.size());
+  for(const auto& m : other.matches_)
+    this->matches_.emplace_back(m ? m->clone() : nullptr);
+}
+
+NegateMatch& NegateMatch::operator=(NegateMatch&& other) = default;
+
+NegateMatch& NegateMatch::operator=(const NegateMatch& other)
+{
+  using std::swap;
+  NegateMatch tmp(other);
+  swap(*this, tmp);
+  return *this;
 }
 
 void NegateMatch::take_match(std::unique_ptr<Match> match)

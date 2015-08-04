@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::OnlyChildMatch
 
+#include "hext/Cloneable.h"
 #include "hext/HtmlTag.h"
 #include "hext/Match.h"
 
@@ -19,7 +20,7 @@ namespace hext {
 /// only-child-of-type.
 ///
 /// See https://developer.mozilla.org/en-US/docs/Web/CSS/:only-child
-class OnlyChildMatch : public Match
+class OnlyChildMatch : public Cloneable<OnlyChildMatch, Match>
 {
 public:
   /// OnlyChildMatch's options.

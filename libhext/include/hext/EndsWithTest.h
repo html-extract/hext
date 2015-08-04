@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::EndsWithTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <string>
@@ -22,7 +23,7 @@ namespace hext {
 ///   assert( ends.test("baz"));
 ///   assert(!ends.test("foo"));
 /// ~~~~~~~~~~~~~
-class EndsWithTest : public ValueTest
+class EndsWithTest : public Cloneable<EndsWithTest, ValueTest>
 {
 public:
   /// Constructs an EndsWithTest that succeeds for subjects that end with the

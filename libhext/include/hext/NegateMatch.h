@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::NegateMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 
 #include <memory>
@@ -34,7 +35,7 @@ namespace hext {
 ///   assert(!not_one.matches(attr_one));
 ///   assert( not_one.matches(attr_two));
 /// ~~~~~~~~~~~~~
-class NegateMatch : public Match
+class NegateMatch : public Cloneable<NegateMatch, Match>
 {
 public:
   /// Constructs a NegateMatch that matches nodes for which every contained
@@ -48,6 +49,12 @@ public:
   ///
   /// @param match:  The Match to append.
   explicit NegateMatch(std::unique_ptr<Match> match);
+
+  ~NegateMatch();
+  NegateMatch(NegateMatch&& other);
+  NegateMatch(const NegateMatch& other);
+  NegateMatch& operator=(NegateMatch&& other);
+  NegateMatch& operator=(const NegateMatch& other);
 
   /// Appends a Match.
   ///

@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::ContainsWordsTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <string>
@@ -25,7 +26,7 @@ namespace hext {
 ///   assert(!cw.test("foobaz bar"));
 ///   assert(!cw.test("foo bar"));
 /// ~~~~~~~~~~~~~
-class ContainsWordsTest : public ValueTest
+class ContainsWordsTest : public Cloneable<ContainsWordsTest, ValueTest>
 {
 public:
   /// Constructs a ContainsWordsTest that succeeds for subjects that contain all

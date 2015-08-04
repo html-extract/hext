@@ -47,7 +47,7 @@ int main(int argc, const char ** argv)
       return EXIT_SUCCESS;
     }
 
-    std::vector<std::unique_ptr<hext::Rule>> rules;
+    std::vector<hext::Rule> rules;
     std::vector<std::string> html_contents;
     std::vector<hext::Html> parsed_html;
     auto hext_filenames = po.get_hext_files();
@@ -90,7 +90,7 @@ int main(int argc, const char ** argv)
     for(const auto& rule : rules)
       for(const auto& html : parsed_html)
       {
-        hext::Result result = rule->extract(html.root());
+        hext::Result result = rule.extract(html.root());
         htmlext::PrintJson(result, po.get_json_options(), std::cout);
       }
   }

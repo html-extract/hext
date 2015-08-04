@@ -22,7 +22,40 @@ Rule::Rule(HtmlTag tag,
 
 Rule::~Rule() = default;
 Rule::Rule(Rule&&) = default;
+
+Rule::Rule(const Rule& other)
+: first_child_(nullptr)
+, next_(nullptr)
+, matches_()
+, captures_()
+, tag_(other.tag_)
+, is_optional_(other.is_optional_)
+, is_any_descendant_(other.is_any_descendant_)
+{
+  if( other.first_child_ )
+    this->first_child_ = std::make_unique<Rule>(*(other.first_child_));
+
+  if( other.next_ )
+    this->next_ = std::make_unique<Rule>(*(other.next_));
+
+  this->matches_.reserve(other.matches_.size());
+  for(const auto& m : other.matches_)
+    this->matches_.emplace_back(m ? m->clone() : nullptr);
+
+  this->captures_.reserve(other.captures_.size());
+  for(const auto& c : other.captures_)
+    this->captures_.emplace_back(c ? c->clone() : nullptr);
+}
+
 Rule& Rule::operator=(Rule&&) = default;
+
+Rule& Rule::operator=(const Rule& other)
+{
+  using std::swap;
+  Rule tmp(other);
+  swap(*this, tmp);
+  return *this;
+}
 
 const Rule * Rule::child() const
 {
@@ -34,7 +67,7 @@ const Rule * Rule::next() const
   return this->next_.get();
 }
 
-Rule& Rule::append(std::unique_ptr<Rule> rule, std::size_t insert_at_depth)
+Rule& Rule::append(Rule rule, std::size_t insert_at_depth)
 {
   this->append_child_at_depth(std::move(rule), insert_at_depth);
   return *this;
@@ -253,21 +286,21 @@ bool Rule::extract_capture_nodes(const GumboNode * node,
   return matched_anything || this->is_optional_;
 }
 
-void Rule::append_child_at_depth(std::unique_ptr<Rule> rule,
-                                 std::size_t           insert_at_depth)
+void Rule::append_child_at_depth(Rule        rule,
+                                 std::size_t insert_at_depth)
 {
   Rule * insert_at = this;
   while( insert_at->next_ )
     insert_at = insert_at->next_.get();
 
   if( insert_at_depth == 0 )
-    insert_at->next_ = std::move(rule);
+    insert_at->next_ = std::make_unique<Rule>(std::move(rule));
   else
     if( insert_at->first_child_ )
       insert_at->first_child_
           ->append_child_at_depth(std::move(rule), insert_at_depth - 1);
     else
-      insert_at->first_child_ = std::move(rule);
+      insert_at->first_child_ = std::make_unique<Rule>(std::move(rule));
 
   return;
 }

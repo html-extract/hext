@@ -14,6 +14,12 @@ namespace hext {
 ///
 /// Matches are applied to HTML nodes with Match::matches() which will
 /// return true if the HTML node matches.
+///
+/// Note: You probably don't want to inherit from this class directly, unless
+///       you want to provide your own Match::clone() method. If your subclass
+///       has a copy constructor, you can extend from
+///       hext::Cloneable<YourSubclass, hext::Match> which provides a generic
+///       clone method.
 class Match
 {
 public:
@@ -23,11 +29,12 @@ public:
   Match(Match&&) = default;
   Match& operator=(const Match&) = default;
   Match& operator=(Match&&) = default;
-
-  /// Virtual destructor to allow inheritance.
   virtual ~Match() = default;
 
-  /// Implementation must be provided in subclasses.
+  /// Clones derived object.
+  virtual Match * clone() const = 0;
+
+  /// Returns true if this Match matches node.
   virtual bool matches(const GumboNode * node) const = 0;
 };
 

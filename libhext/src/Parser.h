@@ -47,7 +47,7 @@ public:
   /// Rule. Throws SyntaxError with a detailed error message on invalid input.
   ///
   /// @throws SyntaxError
-  std::unique_ptr<Rule> parse();
+  Rule parse();
 
 private:
   Parser(const Parser&) = delete;

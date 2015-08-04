@@ -23,7 +23,7 @@ public:
   RuleBuilder();
 
   /// Moves the current rule to caller.
-  std::unique_ptr<Rule> take_rule();
+  Rule take_rule();
 
   /// Pushes a Rule into the rule tree.
   ///

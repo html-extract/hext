@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::NthChildMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/HtmlTag.h"
 
@@ -69,7 +70,7 @@ namespace hext {
 ///   assert( m_last_of_type.matches(second));
 ///   assert( m_last_of_type.matches(third));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~
-class NthChildMatch : public Match
+class NthChildMatch : public Cloneable<NthChildMatch, Match>
 {
 public:
   /// NthChildMatch's options.

@@ -5,6 +5,7 @@
 ///   Declares hext::FunctionValueMatch
 
 #include "hext/CaptureFunction.h"
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/ValueTest.h"
 
@@ -39,7 +40,7 @@ namespace hext {
 ///   assert(!m_foo.matches(bar));
 ///   assert(!m_bar.matches(foo));
 /// ~~~~~~~~~~~~~
-class FunctionValueMatch : public Match
+class FunctionValueMatch : public Cloneable<FunctionValueMatch, Match>
 {
 public:
   /// Constructs a FunctionValueMatch that matches HTML nodes for which a given
@@ -51,6 +52,12 @@ public:
   ///                     CaptureFunction must pass.
   FunctionValueMatch(CaptureFunction            func,
                      std::unique_ptr<ValueTest> value_test);
+
+  ~FunctionValueMatch();
+  FunctionValueMatch(FunctionValueMatch&& other);
+  FunctionValueMatch(const FunctionValueMatch& other);
+  FunctionValueMatch& operator=(FunctionValueMatch&& other);
+  FunctionValueMatch& operator=(const FunctionValueMatch& other);
 
   /// Returns true if the result of calling the given CaptureFunction with node
   /// as its first argument passes the given ValueTest.

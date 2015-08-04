@@ -49,6 +49,10 @@
 #include "hext/RegexTest.h"
 
 
+// Helpers
+#include "hext/Cloneable.h"
+
+
 // Version
 #include "hext/Version.h"
 

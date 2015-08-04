@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::BeginsWithTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <string>
@@ -22,7 +23,7 @@ namespace hext {
 ///   assert(!begins.test("startles your sleeping ears to hear"));
 ///   assert(!begins.test(""));
 /// ~~~~~~~~~~~~~
-class BeginsWithTest : public ValueTest
+class BeginsWithTest : public Cloneable<BeginsWithTest, ValueTest>
 {
 public:
   /// Constructs a BeginsWithTest that succeeds for subjects that begin with

@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::RegexTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <boost/regex.hpp>
@@ -27,7 +28,7 @@ namespace hext {
 ///   assert(!is_date.test("09-09-99"));
 ///   assert(!is_date.test("Born on 09-09-1941."));
 /// ~~~~~~~~~~~~~
-class RegexTest : public ValueTest
+class RegexTest : public Cloneable<RegexTest, ValueTest>
 {
 public:
   /// Constructs a RegexTest that succeeds if a subject matches regex.

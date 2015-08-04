@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::AttributeCountMatch
 
+#include "hext/Cloneable.h"
 #include "hext/Match.h"
 
 #include <gumbo.h>
@@ -28,7 +29,7 @@ namespace hext {
 ///   assert(!m_two_attr.matches(no_attrs));
 ///   assert(!m_no_attr.matches(two_attrs));
 /// ~~~~~~~~~~~~~
-class AttributeCountMatch : public Match
+class AttributeCountMatch : public Cloneable<AttributeCountMatch, Match>
 {
 public:
   /// Constructs an AttributeCountMatch that matches HTML elements that have a

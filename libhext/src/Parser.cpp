@@ -991,7 +991,7 @@ Parser::~Parser() = default;
 Parser::Parser(Parser&&) = default;
 Parser& Parser::operator=(Parser&&) = default;
 
-std::unique_ptr<Rule> Parser::parse()
+Rule Parser::parse()
 {
   // Allow ragel to access its namespace.
   using namespace ragel;

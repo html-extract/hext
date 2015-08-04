@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::NegateTest
 
+#include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
 
 #include <memory>
@@ -22,13 +23,19 @@ namespace hext {
 ///   assert( not_foo.test("baz"));
 ///   assert(!not_foo.test("foo"));
 /// ~~~~~~~~~~~~~
-class NegateTest : public ValueTest
+class NegateTest : public Cloneable<NegateTest, ValueTest>
 {
 public:
   /// Constructs a NegateTest.
   ///
   /// @param value_test:  The ValueTest a subject has to fail.
   explicit NegateTest(std::unique_ptr<ValueTest> value_test) noexcept;
+
+  ~NegateTest();
+  NegateTest(NegateTest&& other);
+  NegateTest(const NegateTest& other);
+  NegateTest& operator=(NegateTest&& other);
+  NegateTest& operator=(const NegateTest& other);
 
   /// Returns true if the given ValueTest fails for subject.
   ///

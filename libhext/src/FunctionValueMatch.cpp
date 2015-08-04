@@ -1,5 +1,6 @@
 #include "hext/FunctionValueMatch.h"
 
+#include <algorithm>
 #include <cassert>
 #include <string>
 #include <utility>
@@ -13,6 +14,27 @@ FunctionValueMatch::FunctionValueMatch(CaptureFunction            func,
 : func_(std::move(func))        // not noexcept (std::function move assignment)
 , test_(std::move(value_test))  // noexcept
 {
+}
+
+FunctionValueMatch::~FunctionValueMatch() = default;
+FunctionValueMatch::FunctionValueMatch(FunctionValueMatch&& other) = default;
+
+FunctionValueMatch::FunctionValueMatch(const FunctionValueMatch& other)
+: func_(other.func_)
+, test_(other.test_ ? other.test_->clone() : nullptr)
+{
+}
+
+FunctionValueMatch& FunctionValueMatch::operator=(FunctionValueMatch&& other)
+    = default;
+
+FunctionValueMatch&
+FunctionValueMatch::operator=(const FunctionValueMatch& other)
+{
+  using std::swap;
+  FunctionValueMatch tmp(other);
+  swap(*this, tmp);
+  return *this;
 }
 
 bool FunctionValueMatch::matches(const GumboNode * node) const

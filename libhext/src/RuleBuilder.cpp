@@ -10,12 +10,14 @@ RuleBuilder::RuleBuilder()
 {
 }
 
-std::unique_ptr<Rule> RuleBuilder::take_rule()
+Rule RuleBuilder::take_rule()
 {
   assert(this->tag_stack_.empty());
   this->tag_stack_ = std::stack<HtmlTag>();
-
-  return std::move(this->rule_);
+  if( this->rule_ )
+    return std::move(*this->rule_);
+  else
+    return Rule();
 }
 
 void RuleBuilder::push_rule(std::unique_ptr<Rule> rule, bool self_closing)
@@ -29,7 +31,7 @@ void RuleBuilder::push_rule(std::unique_ptr<Rule> rule, bool self_closing)
   if( this->rule_ )
   {
     std::size_t insert_at_depth = this->tag_stack_.size();
-    this->rule_->append(std::move(rule), insert_at_depth);
+    this->rule_->append(std::move(*rule), insert_at_depth);
   }
   else
   {

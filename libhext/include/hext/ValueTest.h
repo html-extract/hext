@@ -10,6 +10,12 @@ namespace hext {
 
 /// Abstract base for every ValueTest.
 /// ValueTests determine whether a string passes a certain test.
+///
+/// Note: You probably don't want to inherit from this class directly, unless
+///       you want to provide your own ValueTest::clone() method. If your
+///       subclass has a copy constructor, you can extend from
+///       hext::Cloneable<YourSubclass, hext::ValueTest> which provides a
+///       generic clone method.
 class ValueTest
 {
 public:
@@ -19,11 +25,12 @@ public:
   ValueTest(ValueTest&&) = default;
   ValueTest& operator=(const ValueTest&) = default;
   ValueTest& operator=(ValueTest&&) = default;
-
-  /// Allow inheritance.
   virtual ~ValueTest() = default;
 
-  /// Implementation must be provided in subclasses.
+  /// Clones derived object.
+  virtual ValueTest * clone() const = 0;
+
+  /// Returns true if subject passes this ValueTest.
   virtual bool test(const char * /* dummy */) const = 0;
 };
 
