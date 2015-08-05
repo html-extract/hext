@@ -10,27 +10,17 @@ int main()
 
   Rule rdiv;
   rdiv.set_tag(HtmlTag::DIV)
-  // <div>
-      .add_match<AttributeCountMatch>(0)
-      .take_child(std::move(
-  //    <ul>
+      .set_any_descendant(true)
+      .append_match<AttributeCountMatch>(0)
+      .append_child(
         Rule(HtmlTag::UL)
-  //      :attribute-count(0)
-          .add_match<AttributeCountMatch>(0)
-          .take_child(std::move(
-  //        <li>
+          .append_match<AttributeCountMatch>(0)
+          .append_child(
             Rule(HtmlTag::LI)
-              .take_child(std::move(
-  //            <a>
+              .append_child(
                 Rule(HtmlTag::A)
-  //               href
-                  .add_match<AttributeMatch>("href")
-  //               href={link}
-                  .add_capture<AttributeCapture>("href", "link")
-              ))
-          ))
-      ))
-  ;
+                  .append_match<AttributeMatch>("href")
+                  .append_capture<AttributeCapture>("href", "link"))));
 
   Html html(R"input(
     <html>
@@ -63,11 +53,10 @@ int main()
     </html>
   )input");
 
-  auto result_tree = rdiv.extract(html.root());
-  auto v = result_tree->flatten();
+  auto result = rdiv.extract(html.root());
 
-  for(const auto& m : v)
-    for(const auto& p : m)
+  for(const auto& g : result)
+    for(const auto& p : g)
       std::cout << p.first << ": " << p.second << "\n";
 
   return EXIT_SUCCESS;
