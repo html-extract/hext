@@ -67,9 +67,23 @@ const Rule * Rule::next() const
   return this->next_.get();
 }
 
-Rule& Rule::append(Rule rule, std::size_t insert_at_depth)
+Rule& Rule::append_child(Rule child)
 {
-  this->append_child_at_depth(std::move(rule), insert_at_depth);
+  if( this->first_child_ )
+    this->first_child_->append_next(std::move(child));
+  else
+    this->first_child_ = std::make_unique<Rule>(std::move(child));
+
+  return *this;
+}
+
+Rule& Rule::append_next(Rule next)
+{
+  Rule * target = this;
+  while( target->next_ )
+    target = target->next_.get();
+
+  target->next_ = std::make_unique<Rule>(std::move(next));
   return *this;
 }
 
@@ -284,25 +298,6 @@ bool Rule::extract_capture_nodes(const GumboNode * node,
   // return whether this rule was satisfied: either something must have been
   // matched, or this rule must be optional.
   return matched_anything || this->is_optional_;
-}
-
-void Rule::append_child_at_depth(Rule        rule,
-                                 std::size_t insert_at_depth)
-{
-  Rule * insert_at = this;
-  while( insert_at->next_ )
-    insert_at = insert_at->next_.get();
-
-  if( insert_at_depth == 0 )
-    insert_at->next_ = std::make_unique<Rule>(std::move(rule));
-  else
-    if( insert_at->first_child_ )
-      insert_at->first_child_
-          ->append_child_at_depth(std::move(rule), insert_at_depth - 1);
-    else
-      insert_at->first_child_ = std::make_unique<Rule>(std::move(rule));
-
-  return;
 }
 
 

@@ -69,7 +69,6 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
-  "${PROJECT_SOURCE_DIR}/src/RuleBuilder.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TextNodeMatch.cpp"

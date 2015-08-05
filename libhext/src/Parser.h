@@ -53,6 +53,23 @@ private:
   Parser(const Parser&) = delete;
   Parser& operator=(const Parser&) = delete;
 
+  /// Returns a reference for the top most rule on the rule stack.
+  Rule& cur_rule();
+
+  /// Pushes a rule onto the rule stack.
+  void push_rule();
+
+  /// Pops a rule from the rule stack and appends it to top_rule_.
+  void pop_rule();
+
+  /// Sets the HtmlTag for the top most rule or throws an exception
+  /// if tag_name is not a valid tag.
+  void set_open_tag_or_throw(const std::string& tag_name);
+
+  /// Throws an exception if tag_name is not a valid HTML tag or if tag_name
+  /// does not equal the tag from the top most rule.
+  void validate_close_tag_or_throw(const std::string& tag_name);
+
   /// Throws SyntaxError with an error message marking an unexpected character.
   [[noreturn]]
   void throw_unexpected() const;
@@ -97,6 +114,13 @@ private:
   void print_error_location(const char *  uc,
                             std::size_t   mark_len,
                             std::ostream& out) const;
+
+  /// A stack containing Rules that have not yet been appended to top_rule_
+  /// while parsing.
+  std::vector<Rule> rule_stack_;
+
+  /// The current top rule.
+  std::unique_ptr<Rule> top_rule_;
 
   /// The beginning of the hext input as given in the constructor.
   const char * p_begin_;

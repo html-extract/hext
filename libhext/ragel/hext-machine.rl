@@ -201,42 +201,43 @@ pattern = (
   space+
   ( ( ( builtin '=' capture )
       %{ if( pv.regex )
-           rule->append_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
+           cur_rule().append_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
          else
-           rule->append_capture<FunctionCapture>(pv.builtin, pv.cap_var); } )
+           cur_rule().append_capture<FunctionCapture>(pv.builtin, pv.cap_var); } )
     |
 
     ( ( builtin '=' regex_test negate? )
-      %{ rule->append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( builtin literal negate? )
-      %{ rule->append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
+      %{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
     ( ( attr_name '=' capture optional? )
       %{ if( pv.regex )
-           rule->append_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
+           cur_rule()
+             .append_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
          else
-           rule->append_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
+           cur_rule().append_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
          if( !pv.optional )
-           rule->append_match<AttributeMatch>(pv.attr_name);
+           cur_rule().append_match<AttributeMatch>(pv.attr_name);
        } )
     |
 
     ( ( attr_name '=' regex_test negate? )
-      %{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name literal negate? )
-      %{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
     ( ( attr_name
         %{ pv.test = nullptr; }
         negate?
       )
-      %{ rule->append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
+      %{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
   ) %{ pv.reset(); }
 );
 
@@ -255,35 +256,20 @@ main := (
   # open rule
   (
     # a rule starts with '<'
-    '<'
+    ( '<' %{ push_rule(); } )
 
     # a rule can be optional, i.e. starts with <?
-    ( '?' %{ rule->set_optional(true); } )?
+    ( '?' %{ cur_rule().set_optional(true); } )?
 
     # a rule must have a tag name, e.g. <div
-    (
-      ('*' %{ rule->set_tag(HtmlTag::ANY); } )
-      |
-
-      (
-        tag_name
-        >{ TK_START; }
-        %{ TK_STOP;
-           auto tag = gumbo_tag_enum(tok.c_str());
-           if( tag == GUMBO_TAG_UNKNOWN )
-             this->throw_invalid_tag(tok);
-           else
-             rule->set_tag(static_cast<HtmlTag>(tag)); }
-      )
-    )
+    ( ('*' | tag_name ) >{ TK_START; }
+                        %{ TK_STOP; set_open_tag_or_throw(tok); } )
 
     # a rule can have multiple traits, e.g. :first-child, :empty
-    (
-      ( not_trait %{ rule->append_match(std::move(pv.negate)); } )
+    ( ( not_trait %{ cur_rule().append_match(std::move(pv.negate)); } )
       |
 
-      ( trait %{ rule->append_match(std::move(pv.trait)); } )
-    )*
+      ( trait %{ cur_rule().append_match(std::move(pv.trait)); } ) )*
 
     # a rule can have multiple match or capture patterns,
     # e.g. class="menu", @text={heading}
@@ -291,24 +277,17 @@ main := (
 
     space*
 
-    (
-      ( '/>' %{ builder.push_rule(std::move(rule), /* self_closing: */ true); } )
-      |
-      ( '>' %{ builder.push_rule(std::move(rule), /* self_closing: */ false); } )
-    ) %{ rule = std::make_unique<Rule>(); }
+    ( ( '/>' %{ pop_rule(); } ) | '>' )
   )
   |
 
   # end rule
   (
     '</'
-    (
-      ( '*' | tag_name )
-      >{ TK_START; }
-      %{ TK_STOP;
-         if( !builder.pop_tag(tok) )
-           this->throw_unexpected_tag(tok, builder.get_expected_tag()); }
-    )
+    ( ( '*' | tag_name ) >{ TK_START; }
+                         %{ TK_STOP;
+                            validate_close_tag_or_throw(tok);
+                            pop_rule(); } )
     '>'
   )
 )* $err{ this->throw_unexpected(); };

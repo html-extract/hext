@@ -23,7 +23,6 @@
 #include "hext/ValueTest.h"
 
 #include "PatternValues.h"
-#include "RuleBuilder.h"
 #include "StringUtil.h"
 
 #include <vector>
@@ -92,17 +91,14 @@ Rule Parser::parse()
   // When calling Parser::parse repeatedly, ensure we are always in a valid
   // state.
   this->p = this->p_begin_;
-
-  // In the hext-machine, the rule tree will be constructed with a RuleBuilder.
-  RuleBuilder builder;
-
-  // The rule that is currently being built.
-  std::unique_ptr<Rule> rule = std::make_unique<Rule>();
+  this->rule_stack_.clear();
+  this->top_rule_ = nullptr;
 
   // All values required to construct Matches and Captures.
   PatternValues pv;
 
-  // These variables will be accessed by the macros TK_START and TK_STOP.
+  // tok_begin, tok_end, tok will be accessed by the macros TK_START and
+  // TK_STOP.
   const char * tok_begin = nullptr;
   const char * tok_end = nullptr;
   std::string tok = "";
@@ -122,10 +118,91 @@ Rule Parser::parse()
 #pragma GCC diagnostic pop
 
   // Throw error if there are missing closing tags.
-  if( auto expected_tag = builder.get_expected_tag() )
-    this->throw_missing_tag(*expected_tag);
+  if( this->rule_stack_.size() )
+    this->throw_missing_tag(this->rule_stack_.back().get_tag());
 
-  return std::move(builder.take_rule());
+  if( this->top_rule_ )
+  {
+    // Top rules are implicitly any descendant.
+    this->top_rule_->set_any_descendant(true);
+    return *this->top_rule_;
+  }
+  else
+  {
+    return Rule();
+  }
+}
+
+Rule& Parser::cur_rule()
+{
+  assert(this->rule_stack_.size());
+  return this->rule_stack_.back();
+}
+
+void Parser::push_rule()
+{
+  this->rule_stack_.emplace_back();
+}
+
+void Parser::pop_rule()
+{
+  assert(this->rule_stack_.size());
+  if( this->rule_stack_.empty() )
+    return;
+
+  Rule rule = std::move(this->rule_stack_.back());
+  this->rule_stack_.pop_back();
+
+  if( this->rule_stack_.empty() )
+  {
+    if( this->top_rule_ )
+      this->top_rule_->append_next(std::move(rule));
+    else
+      this->top_rule_ = std::make_unique<Rule>(std::move(rule));
+  }
+  else
+  {
+    this->rule_stack_.back().append_child(std::move(rule));
+  }
+}
+
+void Parser::set_open_tag_or_throw(const std::string& tag_name)
+{
+  assert(this->rule_stack_.size());
+  if( this->rule_stack_.empty() )
+    return;
+
+  if( tag_name.size() == 1 && tag_name[0] == '*' )
+  {
+    this->rule_stack_.back().set_tag(HtmlTag::ANY);
+    return;
+  }
+
+  GumboTag tag = gumbo_tag_enum(tag_name.c_str());
+  if( tag == GUMBO_TAG_UNKNOWN )
+    this->throw_invalid_tag(tag_name);
+  else
+    this->rule_stack_.back().set_tag(static_cast<HtmlTag>(tag));
+}
+
+void Parser::validate_close_tag_or_throw(const std::string& tag_name)
+{
+  if( this->rule_stack_.empty() )
+    this->throw_unexpected_tag(tag_name, /* expected no tag: */ {});
+
+  HtmlTag expected_tag = this->rule_stack_.back().get_tag();
+  if( tag_name.size() == 1 && tag_name[0] == '*' )
+  {
+    if( expected_tag != HtmlTag::ANY )
+      this->throw_unexpected_tag(tag_name, expected_tag);
+  }
+  else
+  {
+    GumboTag given_tag = gumbo_tag_enum(tag_name.c_str());
+    if( given_tag == GUMBO_TAG_UNKNOWN
+        || static_cast<HtmlTag>(given_tag) != expected_tag )
+      this->throw_unexpected_tag(tag_name, expected_tag);
+  }
 }
 
 void Parser::throw_unexpected() const

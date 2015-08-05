@@ -92,17 +92,23 @@ public:
   Rule& operator=(Rule&&);
   Rule& operator=(const Rule&);
 
+  /// Returns the first child or nullptr if childless.
   const Rule * child() const;
+
+  /// Returns the next rule or nullptr if no following rule.
   const Rule * next() const;
 
-  /// Appends a Rule after the last element at the given tree depth.
+  /// Appends a child.
   ///
-  /// @param            rule:  The rule to append.
-  /// @param insert_at_depth:  The depth at which to append the rule.
-  ///                          Default: Append immediately.
-  /// @returns                 A reference for this Rule to enable method
-  ///                          chaining.
-  Rule& append(Rule rule, std::size_t insert_at_depth = 0);
+  /// @param rule:  The Rule to append.
+  /// @returns      A reference for this Rule to enable method chaining.
+  Rule& append_child(Rule rule);
+
+  /// Appends a following Rule.
+  ///
+  /// @param rule:  The Rule to append.
+  /// @returns      A reference for this Rule to enable method chaining.
+  Rule& append_next(Rule rule);
 
   /// Appends a Match.
   ///
@@ -187,8 +193,6 @@ private:
   bool extract_capture_nodes(const GumboNode * node,
                              bool              insert_sentinel,
                              CaptureNodes&     result) const;
-
-  void append_child_at_depth(Rule rule, std::size_t insert_at_depth);
 
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;
