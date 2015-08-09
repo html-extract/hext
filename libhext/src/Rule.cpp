@@ -169,7 +169,7 @@ hext::Result Rule::extract(const GumboNode * node) const
 
   bool matched_anything =
       this->extract_capture_nodes(node,
-                                  /* insert_sentinel: */ true,
+                                  /* is_top_rule: */ true,
                                   capture_nodes);
 
   hext::Result result;
@@ -209,7 +209,7 @@ hext::Result Rule::extract(const GumboNode * node) const
 }
 
 bool Rule::extract_capture_nodes(const GumboNode * node,
-                                 bool              insert_sentinel,
+                                 bool              is_top_rule,
                                  CaptureNodes&     result) const
 {
   assert(node);
@@ -238,7 +238,7 @@ bool Rule::extract_capture_nodes(const GumboNode * node,
 
       if( !r->first_child_ ||
           r->first_child_->extract_capture_nodes(node_first_child,
-                                                 /* insert_sentinel: */ false,
+                                                 /* is_top_rule: */ false,
                                                  pairs) )
       {
         if( (match_pair.first)->captures_.size() )
@@ -257,15 +257,13 @@ bool Rule::extract_capture_nodes(const GumboNode * node,
       result.reserve(result.size() + pairs.size());
       std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
       pairs.clear();
-      if( insert_sentinel )
-        result.push_back(std::make_pair<const Rule *, const GumboNode *>(
-            nullptr,
-            nullptr));
+      if( is_top_rule )
+        result.push_back({nullptr, nullptr});
       matched_anything = true;
     }
   }
 
-  if( this->is_any_descendant_ )
+  if( is_top_rule || this->is_any_descendant_ )
   {
     const GumboNode * next_node = node;
     do
@@ -277,16 +275,13 @@ bool Rule::extract_capture_nodes(const GumboNode * node,
             next_node->v.element.children.data[0]);
 
         if( this->extract_capture_nodes(next_node_first_child,
-                                        insert_sentinel,
+                                        is_top_rule,
                                         pairs) )
         {
           result.reserve(result.size() + pairs.size());
           std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
           pairs.clear();
-          if( insert_sentinel )
-            result.push_back(
-                std::make_pair<const Rule *,
-                               const GumboNode *>(nullptr, nullptr));
+          result.push_back({nullptr, nullptr});
           std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
           matched_anything = true;
         }

@@ -191,7 +191,7 @@ private:
   typedef std::vector<std::pair<const Rule *, const GumboNode *>> CaptureNodes;
 
   bool extract_capture_nodes(const GumboNode * node,
-                             bool              insert_sentinel,
+                             bool              is_top_rule,
                              CaptureNodes&     result) const;
 
   std::unique_ptr<Rule> first_child_;

@@ -1434,8 +1434,6 @@ _again:
 
   if( this->top_rule_ )
   {
-    // Top rules are implicitly any descendant.
-    this->top_rule_->set_any_descendant(true);
     return *this->top_rule_;
   }
   else
