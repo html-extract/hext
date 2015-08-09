@@ -41,7 +41,7 @@ NegateMatch& NegateMatch::operator=(const NegateMatch& other)
   return *this;
 }
 
-void NegateMatch::take_match(std::unique_ptr<Match> match)
+void NegateMatch::append_match(std::unique_ptr<Match> match)
 {
   this->matches_.push_back(std::move(match));
 }

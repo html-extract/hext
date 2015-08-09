@@ -95,7 +95,7 @@ not_trait =
     trait
     %{
        assert(pv.negate);
-       pv.negate->take_match(std::move(pv.trait));
+       pv.negate->append_match(std::move(pv.trait));
      }
   )+
 ')';

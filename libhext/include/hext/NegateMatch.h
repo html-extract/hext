@@ -59,7 +59,7 @@ public:
   /// Appends a Match.
   ///
   /// @param match:  The Match to append.
-  void take_match(std::unique_ptr<Match> match);
+  void append_match(std::unique_ptr<Match> match);
 
   /// Returns true if every contained Match returns false for node.
   ///

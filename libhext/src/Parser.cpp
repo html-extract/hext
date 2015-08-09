@@ -1197,7 +1197,7 @@ _match:
 #line 96 "hext-machine.rl"
 	{
        assert(pv.negate);
-       pv.negate->take_match(std::move(pv.trait));
+       pv.negate->append_match(std::move(pv.trait));
      }
 	break;
 	case 25:
