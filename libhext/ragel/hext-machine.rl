@@ -258,12 +258,12 @@ main := (
     # a rule starts with '<'
     ( '<' %{ push_rule(); } )
 
-    # a rule can be optional, i.e. starts with <?
+    # a rule can be optional
     ( '?' %{ cur_rule().set_optional(true); } )?
 
     # a rule must have a tag name, e.g. <div
-    ( ('*' | tag_name ) >{ TK_START; }
-                        %{ TK_STOP; set_open_tag_or_throw(tok); } )
+    ( ( '*' | tag_name ) >{ TK_START; }
+                         %{ TK_STOP; set_open_tag_or_throw(tok); } )
 
     # a rule can have multiple traits, e.g. :first-child, :empty
     ( ( not_trait %{ cur_rule().append_match(std::move(pv.negate)); } )
