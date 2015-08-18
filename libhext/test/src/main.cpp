@@ -39,7 +39,6 @@ using namespace helper;
 #include "html-tag/html-tag.h"
 #include "html/html.h"
 #include "parse-hext/parse-hext.h"
-#include "result-tree/result-tree.h"
 #include "rule/rule.h"
 
 
