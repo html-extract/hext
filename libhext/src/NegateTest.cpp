@@ -7,8 +7,8 @@
 namespace hext {
 
 
-NegateTest::NegateTest(std::unique_ptr<ValueTest> test) noexcept
-: test_(std::move(test))  // noexcept
+NegateTest::NegateTest(std::unique_ptr<ValueTest> value_test) noexcept
+: test_(std::move(value_test))  // noexcept
 {
 }
 
