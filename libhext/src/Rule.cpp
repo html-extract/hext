@@ -64,23 +64,23 @@ const Rule * Rule::next() const
   return this->next_.get();
 }
 
-Rule& Rule::append_child(Rule child)
+Rule& Rule::append_child(Rule new_child)
 {
   if( this->first_child_ )
-    this->first_child_->append_next(std::move(child));
+    this->first_child_->append_next(std::move(new_child));
   else
-    this->first_child_ = std::make_unique<Rule>(std::move(child));
+    this->first_child_ = std::make_unique<Rule>(std::move(new_child));
 
   return *this;
 }
 
-Rule& Rule::append_next(Rule next)
+Rule& Rule::append_next(Rule sibling)
 {
   Rule * target = this;
   while( target->next_ )
     target = target->next_.get();
 
-  target->next_ = std::make_unique<Rule>(std::move(next));
+  target->next_ = std::make_unique<Rule>(std::move(sibling));
   return *this;
 }
 

@@ -97,15 +97,15 @@ public:
 
   /// Appends a child.
   ///
-  /// @param rule:  The Rule to append.
-  /// @returns      A reference for this Rule to enable method chaining.
-  Rule& append_child(Rule rule);
+  /// @param new_child:  The Rule to append.
+  /// @returns           A reference for this Rule to enable method chaining.
+  Rule& append_child(Rule new_child);
 
   /// Appends a following Rule.
   ///
-  /// @param rule:  The Rule to append.
-  /// @returns      A reference for this Rule to enable method chaining.
-  Rule& append_next(Rule rule);
+  /// @param sibling:  The Rule to append.
+  /// @returns         A reference for this Rule to enable method chaining.
+  Rule& append_next(Rule sibling);
 
   /// Appends a Match.
   ///
