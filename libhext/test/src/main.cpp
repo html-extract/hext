@@ -36,7 +36,6 @@ using namespace helper;
 #include "string-util/print-numbered-lines.h"
 #include "string-util/trim-and-collapse-ws.h"
 
-#include "extractor/extractor.h"
 #include "html-tag/html-tag.h"
 #include "html/html.h"
 #include "parse-hext/parse-hext.h"
