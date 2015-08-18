@@ -10,7 +10,6 @@ int main()
 
   Rule rdiv;
   rdiv.set_tag(HtmlTag::DIV)
-      .set_any_descendant(true)
       .append_match<AttributeCountMatch>(0)
       .append_child(
         Rule(HtmlTag::UL)

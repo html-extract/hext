@@ -85,8 +85,7 @@ bool has_useful_href(const GumboNode * node)
 boost::optional<std::string> BaseUri(const hext::Html& html)
 {
   hext::Rule base_href(hext::HtmlTag::BASE,
-                       /* optional: */ false,
-                       /* any_descendant: */ true);
+                       /* optional: */ false);
 
   base_href
     .append_capture<hext::AttributeCapture>("href", "href");
@@ -135,14 +134,11 @@ int main(int argc, char * argv[])
   else if( auto uri = BaseUri(html) )
     base_uri = *uri;
 
-  Rule body(HtmlTag::BODY);
-  body.set_any_descendant(true)
-      .append_child(Rule(HtmlTag::A)
-                      .set_any_descendant(true)
-                      .append_match<FunctionMatch>(has_useful_href)
-                      .append_capture<HrefCapture>(base_uri));
+  Rule anchor(HtmlTag::A);
+  anchor.append_match<FunctionMatch>(has_useful_href)
+        .append_capture<HrefCapture>(base_uri);
 
-  auto result = body.extract(html.root());
+  auto result = anchor.extract(html);
 
   for(const auto& m : result)
     for(const auto& p : m)
