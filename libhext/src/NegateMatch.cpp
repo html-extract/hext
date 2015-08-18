@@ -21,7 +21,7 @@ NegateMatch::NegateMatch(std::unique_ptr<Match> match)
 }
 
 NegateMatch::~NegateMatch() = default;
-NegateMatch::NegateMatch(NegateMatch&& other) = default;
+NegateMatch::NegateMatch(NegateMatch&&) = default;
 
 NegateMatch::NegateMatch(const NegateMatch& other)
 : matches_()
@@ -31,7 +31,7 @@ NegateMatch::NegateMatch(const NegateMatch& other)
     this->matches_.emplace_back(m ? m->clone() : nullptr);
 }
 
-NegateMatch& NegateMatch::operator=(NegateMatch&& other) = default;
+NegateMatch& NegateMatch::operator=(NegateMatch&&) = default;
 
 NegateMatch& NegateMatch::operator=(const NegateMatch& other)
 {
