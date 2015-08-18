@@ -66,11 +66,13 @@ namespace ragel {
 
 
 Parser::Parser(const char * begin, const char * end) noexcept
-: p_begin_(begin),
-  p(begin),
-  pe(end),
-  eof(end),
-  cs(0)
+: rule_stack_()
+, top_rule_(nullptr)
+, p_begin_(begin)
+, p(begin)
+, pe(end)
+, eof(end)
+, cs(0)
 {
 }
 

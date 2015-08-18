@@ -975,11 +975,13 @@ static const int hext_en_main = 527;
 
 
 Parser::Parser(const char * begin, const char * end) noexcept
-: p_begin_(begin),
-  p(begin),
-  pe(end),
-  eof(end),
-  cs(0)
+: rule_stack_()
+, top_rule_(nullptr)
+, p_begin_(begin)
+, p(begin)
+, pe(end)
+, eof(end)
+, cs(0)
 {
 }
 
@@ -1019,12 +1021,12 @@ Rule Parser::parse()
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
   
-#line 1022 "Parser.cpp.tmp"
+#line 1024 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1027 "Parser.cpp.tmp"
+#line 1029 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -1392,7 +1394,7 @@ _match:
 #line 293 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1395 "Parser.cpp.tmp"
+#line 1397 "Parser.cpp.tmp"
 		}
 	}
 
@@ -1416,7 +1418,7 @@ _again:
 #line 293 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 1419 "Parser.cpp.tmp"
+#line 1421 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -1424,7 +1426,7 @@ _again:
 	_out: {}
 	}
 
-#line 117 "Parser.cpp.rl"
+#line 119 "Parser.cpp.rl"
 
 #pragma GCC diagnostic pop
 
