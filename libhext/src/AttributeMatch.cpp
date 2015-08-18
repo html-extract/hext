@@ -16,7 +16,7 @@ AttributeMatch::AttributeMatch(std::string                attr_name,
 }
 
 AttributeMatch::~AttributeMatch() = default;
-AttributeMatch::AttributeMatch(AttributeMatch&& other) = default;
+AttributeMatch::AttributeMatch(AttributeMatch&&) = default;
 
 AttributeMatch::AttributeMatch(const AttributeMatch& other)
 : attr_name_(other.attr_name_)
@@ -24,7 +24,7 @@ AttributeMatch::AttributeMatch(const AttributeMatch& other)
 {
 }
 
-AttributeMatch& AttributeMatch::operator=(AttributeMatch&& other) = default;
+AttributeMatch& AttributeMatch::operator=(AttributeMatch&&) = default;
 
 AttributeMatch& AttributeMatch::operator=(const AttributeMatch& other)
 {
