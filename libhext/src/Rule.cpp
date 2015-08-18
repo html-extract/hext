@@ -1,6 +1,6 @@
 #include "hext/Rule.h"
 
-#include "MatchContext.h"
+#include "RuleMatching.h"
 #include "NodeUtil.h"
 
 
@@ -8,15 +8,13 @@ namespace hext {
 
 
 Rule::Rule(HtmlTag tag,
-           bool    optional,
-           bool    any_descendant)
+           bool    optional)
 : first_child_(nullptr)
 , next_(nullptr)
 , matches_()
 , captures_()
 , tag_(tag)
 , is_optional_(optional)
-, is_any_descendant_(any_descendant)
 {
 }
 
@@ -30,7 +28,6 @@ Rule::Rule(const Rule& other)
 , captures_()
 , tag_(other.tag_)
 , is_optional_(other.is_optional_)
-, is_any_descendant_(other.is_any_descendant_)
 {
   if( other.first_child_ )
     this->first_child_ = std::make_unique<Rule>(*(other.first_child_));
@@ -121,17 +118,6 @@ Rule& Rule::set_optional(bool optional) noexcept
   return *this;
 }
 
-bool Rule::is_any_descendant() const noexcept
-{
-  return this->is_any_descendant_;
-}
-
-Rule& Rule::set_any_descendant(bool any_descendant) noexcept
-{
-  this->is_any_descendant_ = any_descendant;
-  return *this;
-}
-
 bool Rule::matches(const GumboNode * node) const
 {
   if( !node )
@@ -165,134 +151,61 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
 
 hext::Result Rule::extract(const GumboNode * node) const
 {
-  CaptureNodes capture_nodes;
-
-  bool matched_anything =
-      this->extract_capture_nodes(node,
-                                  /* is_top_rule: */ true,
-                                  capture_nodes);
+  std::vector<MatchingNodes> mn;
+  this->save_matching_nodes(node, mn);
 
   hext::Result result;
-  if( matched_anything )
+  for( const auto& group : mn )
   {
     ResultMap map;
-    for( auto pair : capture_nodes )
+    for( const auto& pair : group )
     {
-      // std::pair<nullptr, nullptr> acts as a sentinel to separate capture
-      // groups
-      if( !pair.first )
+      if( (pair.first)->captures_.size() )
       {
-        assert(!pair.second);
-        if( !map.empty() )
-        {
-          result.push_back(std::move(map));
-          map.clear();
-        }
-      }
-      else
-      {
-        if( (pair.first)->captures_.size() )
-        {
-          auto values = (pair.first)->capture(pair.second);
-          if( values.size() )
-            map.insert(values.begin(), values.end());
-        }
+        auto values = (pair.first)->capture(pair.second);
+        if( values.size() )
+          map.insert(values.begin(), values.end());
       }
     }
-  }
-  else
-  {
-    assert(capture_nodes.empty());
+
+    if( !map.empty() )
+    {
+      result.push_back(std::move(map));
+    }
   }
 
   return result;
 }
 
-bool Rule::extract_capture_nodes(const GumboNode * node,
-                                 bool              is_top_rule,
-                                 CaptureNodes&     result) const
+void Rule::save_matching_nodes(const GumboNode *           node,
+                               std::vector<MatchingNodes>& result) const
 {
   assert(node);
   if( !node )
-    return false;
+    return;
 
-  bool matched_anything = false;
-  CaptureNodes pairs;
-  MatchContext mc(this, node);
-
-  while( auto mg = mc.match_next() )
+  const GumboNode * next_node = node;
+  while( next_node )
   {
-    pairs.clear();
-    bool save_group = true;
-    for( auto match_pair : *mg )
-    {
-      const Rule * r = match_pair.first;
-      const GumboNode * n = match_pair.second;
-
-      const GumboNode * node_first_child = nullptr;
-      if( n->type == GUMBO_NODE_ELEMENT && n->v.element.children.length )
-      {
-        node_first_child = static_cast<const GumboNode *>(
-            n->v.element.children.data[0]);
-      }
-
-      if( !r->first_child_ ||
-          r->first_child_->extract_capture_nodes(node_first_child,
-                                                 /* is_top_rule: */ false,
-                                                 pairs) )
-      {
-        if( (match_pair.first)->captures_.size() )
-          pairs.push_back(match_pair);
-      }
-      else
-      {
-        // jump to next match group (also: scared of the goto police).
-        save_group = false;
-        break;
-      }
-    }
-
-    if( save_group )
-    {
-      result.reserve(result.size() + pairs.size());
-      std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
-      pairs.clear();
-      if( is_top_rule )
-        result.push_back({nullptr, nullptr});
-      matched_anything = true;
-    }
+    MatchingNodes sub;
+    next_node = MatchRuleGroup(this, next_node, sub);
+    if( sub.size() )
+      result.push_back(std::move(sub));
   }
 
-  if( is_top_rule || this->is_any_descendant_ )
+  next_node = node;
+  do
   {
-    const GumboNode * next_node = node;
-    do
+    if( next_node->type == GUMBO_NODE_ELEMENT &&
+        next_node->v.element.children.length )
     {
-      if( next_node->type == GUMBO_NODE_ELEMENT &&
-          next_node->v.element.children.length )
-      {
-        auto next_node_first_child = static_cast<const GumboNode *>(
-            next_node->v.element.children.data[0]);
+      auto next_node_first_child = static_cast<const GumboNode *>(
+          next_node->v.element.children.data[0]);
 
-        if( this->extract_capture_nodes(next_node_first_child,
-                                        is_top_rule,
-                                        pairs) )
-        {
-          result.reserve(result.size() + pairs.size());
-          std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
-          pairs.clear();
-          result.push_back({nullptr, nullptr});
-          std::move(pairs.begin(), pairs.end(), std::back_inserter(result));
-          matched_anything = true;
-        }
-      }
+      this->save_matching_nodes(next_node_first_child, result);
     }
-    while( (next_node = NextNode(next_node)) );
   }
-
-  // return whether this rule was satisfied: either something must have been
-  // matched, or this rule must be optional.
-  return matched_anything || this->is_optional_;
+  while( (next_node = NextNode(next_node)) );
 }
 
 

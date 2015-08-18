@@ -74,17 +74,14 @@ class Rule
 public:
   /// Constructs a Rule.
   ///
-  /// @param            tag:  The HtmlTag that this rule matches.
-  ///                         Default: Match any tag.
-  /// @param       optional:  A subtree matches only if all mandatory rules were
-  ///                         matched. Optional rules on the other hand are ignored
-  ///                         if not found.
-  ///                         Default: Rule is mandatory.
-  /// @param any_descendant:  Sets whether matching nodes may be any descendants
-  ///                         of their parent match.
-  explicit Rule(HtmlTag         tag = HtmlTag::ANY,
-                bool       optional = false,
-                bool any_descendant = false);
+  /// @param       tag:  The HtmlTag that this rule matches.
+  ///                    Default: Match any tag.
+  /// @param  optional:  A subtree matches only if all mandatory rules were
+  ///                    matched. Optional rules on the other hand are ignored
+  ///                    if not found.
+  ///                    Default: Rule is mandatory.
+  explicit Rule(HtmlTag tag      = HtmlTag::ANY,
+                bool    optional = false);
 
   ~Rule();
   Rule(Rule&&);
@@ -124,8 +121,7 @@ public:
   Rule& append_match(Args&&... arg)
   {
     return this->append_match(
-        std::make_unique<MatchType>(std::forward<Args>(arg)...)
-    );
+        std::make_unique<MatchType>(std::forward<Args>(arg)...));
   }
 
   /// Appends a Capture.
@@ -142,8 +138,7 @@ public:
   Rule& append_capture(Args&&... arg)
   {
     return this->append_capture(
-        std::make_unique<CaptureType>(std::forward<Args>(arg)...)
-    );
+        std::make_unique<CaptureType>(std::forward<Args>(arg)...));
   }
 
   /// Returns the HtmlTag this rule matches.
@@ -163,14 +158,6 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_optional(bool optional) noexcept;
 
-  /// Returns true if matching nodes may be any descendants of their parent.
-  bool is_any_descendant() const noexcept;
-
-  /// Sets whether matching nodes may be any descendants of their parent.
-  ///
-  /// @returns  A reference for this Rule to enable method chaining.
-  Rule& set_any_descendant(bool any_descendant) noexcept;
-
   /// Extracts values from an HTML tree recursively.
   ///
   /// @returns  A vector containing std::unordered_maps filled with the captured
@@ -188,11 +175,10 @@ public:
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
 private:
-  typedef std::vector<std::pair<const Rule *, const GumboNode *>> CaptureNodes;
+  typedef std::vector<std::pair<const Rule *, const GumboNode *>> MatchingNodes;
 
-  bool extract_capture_nodes(const GumboNode * node,
-                             bool              is_top_rule,
-                             CaptureNodes&     result) const;
+  void save_matching_nodes(const GumboNode *           node,
+                           std::vector<MatchingNodes>& result) const;
 
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;
@@ -201,7 +187,6 @@ private:
 
   HtmlTag tag_;
   bool is_optional_;
-  bool is_any_descendant_;
 };
 
 
