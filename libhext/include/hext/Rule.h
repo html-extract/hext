@@ -160,7 +160,7 @@ public:
 
   /// Extracts values from an HTML tree recursively.
   ///
-  /// @returns  A vector containing std::unordered_maps filled with the captured
+  /// @returns  A vector containing maps filled with the captured
   ///           name value pairs.
   hext::Result extract(const GumboNode * node) const;
 

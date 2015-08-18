@@ -4,7 +4,7 @@
 /// @file
 ///   Typedefs for results returned from capturing HTML.
 
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include <string>
 #include <utility>
@@ -19,8 +19,8 @@ typedef std::pair<std::string, std::string> ResultPair;
 
 
 /// A multimap containing the values produced by capturing.
-typedef std::unordered_multimap<ResultPair::first_type,
-                                ResultPair::second_type> ResultMap;
+typedef std::multimap<ResultPair::first_type,
+                      ResultPair::second_type> ResultMap;
 
 
 /// A vector containing ResultMap.
