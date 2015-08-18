@@ -4,6 +4,7 @@
 /// @file
 ///   Declares hext::Rule
 
+#include "hext/Html.h"
 #include "hext/HtmlTag.h"
 #include "hext/Result.h"
 #include "hext/Match.h"
@@ -46,13 +47,11 @@ namespace hext {
 ///   // <a href={link}><img src={img}/></a>
 ///
 ///   Html html(
-///     "<html><body>"
 ///       "<div><a href='/bob'>  <img src='bob.jpg'/>  </a></div>"
 ///       "<div><a href='/alice'><img src='alice.jpg'/></a></div>"
-///       "<div><a href='/carol'><img src='carol.jpg'/></a></div>"
-///     "</body></html>");
+///       "<div><a href='/carol'><img src='carol.jpg'/></a></div>");
 ///
-///   hext::Result result = anchor.extract(html.root());
+///   hext::Result result = anchor.extract(html);
 ///   // result will be equivalent to this:
 ///   // vector{
 ///   //   map{
@@ -158,7 +157,13 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_optional(bool optional) noexcept;
 
-  /// Extracts values from an HTML tree recursively.
+  /// Recursively extracts values from an hext::HTML.
+  ///
+  /// @returns  A vector containing maps filled with the captured
+  ///           name value pairs.
+  hext::Result extract(const Html& html) const;
+
+  /// Recursively extracts values from a GumboNode.
   ///
   /// @returns  A vector containing maps filled with the captured
   ///           name value pairs.

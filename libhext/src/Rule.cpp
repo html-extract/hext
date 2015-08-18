@@ -149,6 +149,11 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
   return values;
 }
 
+hext::Result Rule::extract(const Html& html) const
+{
+  return this->extract(html.root());
+}
+
 hext::Result Rule::extract(const GumboNode * node) const
 {
   std::vector<MatchingNodes> mn;
