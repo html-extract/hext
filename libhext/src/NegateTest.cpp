@@ -13,14 +13,14 @@ NegateTest::NegateTest(std::unique_ptr<ValueTest> test) noexcept
 }
 
 NegateTest::~NegateTest() = default;
-NegateTest::NegateTest(NegateTest&& other) = default;
+NegateTest::NegateTest(NegateTest&&) = default;
 
 NegateTest::NegateTest(const NegateTest& other)
 : test_(other.test_ ? other.test_->clone() : nullptr)
 {
 }
 
-NegateTest& NegateTest::operator=(NegateTest&& other) = default;
+NegateTest& NegateTest::operator=(NegateTest&&) = default;
 
 NegateTest& NegateTest::operator=(const NegateTest& other)
 {
