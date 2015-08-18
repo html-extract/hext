@@ -17,7 +17,7 @@ FunctionValueMatch::FunctionValueMatch(CaptureFunction            func,
 }
 
 FunctionValueMatch::~FunctionValueMatch() = default;
-FunctionValueMatch::FunctionValueMatch(FunctionValueMatch&& other) = default;
+FunctionValueMatch::FunctionValueMatch(FunctionValueMatch&&) = default;
 
 FunctionValueMatch::FunctionValueMatch(const FunctionValueMatch& other)
 : func_(other.func_)
@@ -25,7 +25,7 @@ FunctionValueMatch::FunctionValueMatch(const FunctionValueMatch& other)
 {
 }
 
-FunctionValueMatch& FunctionValueMatch::operator=(FunctionValueMatch&& other)
+FunctionValueMatch& FunctionValueMatch::operator=(FunctionValueMatch&&)
     = default;
 
 FunctionValueMatch&
