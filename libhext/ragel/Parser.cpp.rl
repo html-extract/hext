@@ -19,7 +19,6 @@
 #include "hext/NthChildMatch.h"
 #include "hext/OnlyChildMatch.h"
 #include "hext/RegexTest.h"
-#include "hext/TextNodeMatch.h"
 #include "hext/ValueTest.h"
 
 #include "PatternValues.h"

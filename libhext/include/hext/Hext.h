@@ -35,7 +35,6 @@
 #include "hext/NegateMatch.h"
 #include "hext/NthChildMatch.h"
 #include "hext/OnlyChildMatch.h"
-#include "hext/TextNodeMatch.h"
 
 
 // ValueTests

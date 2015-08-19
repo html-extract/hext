@@ -84,9 +84,6 @@ trait = ':' (
   |
 
   ( 'only-of-type' %{ pv.set_trait<OnlyChildMatch>(OnlyChildMatch::OfType); } )
-  |
-
-  ( 'text' %{ pv.set_trait<TextNodeMatch>(); } )
 );
 not_trait =
 ':not('

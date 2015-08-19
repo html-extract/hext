@@ -25,7 +25,6 @@ using namespace helper;
 #include "pattern/nth-child-match.h"
 #include "pattern/only-child-match.h"
 #include "pattern/regex-test.h"
-#include "pattern/text-node-match.h"
 
 #include "builtins/inner-html-builtin.h"
 #include "builtins/strip-tags-builtin.h"
