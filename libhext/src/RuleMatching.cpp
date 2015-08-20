@@ -7,6 +7,38 @@
 namespace hext {
 
 
+void SaveMatchingNodesRecursive(const Rule *                rule,
+                                const GumboNode *           node,
+                                std::vector<MatchingNodes>& result)
+{
+  assert(node);
+  if( !node )
+    return;
+
+  const GumboNode * next_node = node;
+  while( next_node )
+  {
+    MatchingNodes sub;
+    next_node = MatchRuleGroup(rule, next_node, sub);
+    if( sub.size() )
+      result.push_back(std::move(sub));
+  }
+
+  next_node = node;
+  do
+  {
+    if( next_node->type == GUMBO_NODE_ELEMENT &&
+        next_node->v.element.children.length )
+    {
+      auto next_node_first_child = static_cast<const GumboNode *>(
+          next_node->v.element.children.data[0]);
+
+      SaveMatchingNodesRecursive(rule, next_node_first_child, result);
+    }
+  }
+  while( (next_node = NextNode(next_node)) );
+}
+
 const GumboNode * MatchRuleGroup(const Rule *      rule,
                                  const GumboNode * node,
                                  MatchingNodes&    result)

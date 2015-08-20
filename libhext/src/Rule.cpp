@@ -1,7 +1,6 @@
 #include "hext/Rule.h"
 
 #include "RuleMatching.h"
-#include "NodeUtil.h"
 
 
 namespace hext {
@@ -157,7 +156,7 @@ hext::Result Rule::extract(const Html& html) const
 hext::Result Rule::extract(const GumboNode * node) const
 {
   std::vector<MatchingNodes> mn;
-  this->save_matching_nodes(node, mn);
+  SaveMatchingNodesRecursive(this, node, mn);
 
   hext::Result result;
   for( const auto& group : mn )
@@ -180,37 +179,6 @@ hext::Result Rule::extract(const GumboNode * node) const
   }
 
   return result;
-}
-
-void Rule::save_matching_nodes(const GumboNode *           node,
-                               std::vector<MatchingNodes>& result) const
-{
-  assert(node);
-  if( !node )
-    return;
-
-  const GumboNode * next_node = node;
-  while( next_node )
-  {
-    MatchingNodes sub;
-    next_node = MatchRuleGroup(this, next_node, sub);
-    if( sub.size() )
-      result.push_back(std::move(sub));
-  }
-
-  next_node = node;
-  do
-  {
-    if( next_node->type == GUMBO_NODE_ELEMENT &&
-        next_node->v.element.children.length )
-    {
-      auto next_node_first_child = static_cast<const GumboNode *>(
-          next_node->v.element.children.data[0]);
-
-      this->save_matching_nodes(next_node_first_child, result);
-    }
-  }
-  while( (next_node = NextNode(next_node)) );
 }
 
 

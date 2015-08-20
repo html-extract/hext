@@ -15,6 +15,13 @@ namespace hext {
 typedef std::vector<std::pair<const Rule *, const GumboNode *>> MatchingNodes;
 
 
+/// Calls MatchRuleGroup for each node in the given node tree and saves all
+/// matching nodes in result. Result will only contain complete matches.
+/// Result will be empty if nothing was matched.
+void SaveMatchingNodesRecursive(const Rule *                rule,
+                                const GumboNode *           node,
+                                std::vector<MatchingNodes>& result);
+
 /// Matches rule and its siblings against node and its siblings.
 /// Saves the matching nodes in result, which will be empty, if no matches were
 /// found.

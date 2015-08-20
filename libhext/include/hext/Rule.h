@@ -180,11 +180,6 @@ public:
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
 private:
-  typedef std::vector<std::pair<const Rule *, const GumboNode *>> MatchingNodes;
-
-  void save_matching_nodes(const GumboNode *           node,
-                           std::vector<MatchingNodes>& result) const;
-
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;
   std::vector<std::unique_ptr<Match>> matches_;
