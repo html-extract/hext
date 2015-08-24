@@ -46,9 +46,41 @@ TEST(Rule_Rule, SettersGetters)
   EXPECT_EQ(r.get_tag(), HtmlTag::ANY);
   EXPECT_EQ(r.is_optional(), false);
 
+  auto copy = r;
+
   r.set_tag(HtmlTag::SPAN);
   r.set_optional(true);
   EXPECT_EQ(r.get_tag(), HtmlTag::SPAN);
   EXPECT_EQ(r.is_optional(), true);
+
+  EXPECT_EQ(copy.get_tag(), HtmlTag::ANY);
+  EXPECT_EQ(copy.is_optional(), false);
+}
+
+TEST(Rule_Rule, Copy)
+{
+  THtml h("<a href='/page' class='link'>"
+            "<img src='/img.png'/>"
+            "<span>Page</span>"
+          "</a>");
+
+  // A rule tree that will produce capture groups with four results
+  auto right = ParseHext("<a href^='/' class={class} href={href}>" // 2 results
+                           "<img src={img}/>"                      // 1 result
+                           "<span @text={link_name}/>"             // 1 result
+                         "</a>");
+
+  auto left = right;
+  right = Rule();
+
+  EXPECT_TRUE(left.matches(h.first()));
+  EXPECT_FALSE(left.next());
+  ASSERT_TRUE(left.child());
+  ASSERT_TRUE(left.child()->next());
+  EXPECT_FALSE(left.child()->next()->next());
+
+  auto result = left.extract(h.root());
+  ASSERT_EQ(result.size(), 1);
+  EXPECT_EQ(result.front().size(), 4);
 }
 
