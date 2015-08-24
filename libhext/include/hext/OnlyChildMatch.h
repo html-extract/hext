@@ -5,7 +5,6 @@
 ///   Declares hext::OnlyChildMatch
 
 #include "hext/Cloneable.h"
-#include "hext/HtmlTag.h"
 #include "hext/Match.h"
 
 #include <gumbo.h>
