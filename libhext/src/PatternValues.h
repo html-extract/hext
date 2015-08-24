@@ -1,7 +1,6 @@
 #ifndef HEXT_PATTERN_VALUES_H_INCLUDED
 #define HEXT_PATTERN_VALUES_H_INCLUDED
 
-#include "hext/Builtins.h"
 #include "hext/CaptureFunction.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
