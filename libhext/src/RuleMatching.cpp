@@ -46,8 +46,8 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
   if( !rule || !node )
     return nullptr;
 
-  auto first_rule = rule;
   MatchingNodes sub;
+  auto first_rule = rule;
   while( rule && node )
   {
     if( rule->is_optional() )
@@ -116,7 +116,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
           }
           else
           {
-            node = MatchRange(rule, stop_rule, node, stop_node, sub);
+            MatchRange(rule, stop_rule, node, stop_node, sub);
             // Also include the already matched stop_rule
             sub.push_back({stop_rule, stop_node});
             rule = stop_rule->next();
@@ -134,8 +134,8 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
         return nullptr;
 
       sub.push_back({rule, node});
-      node = NextNode(node);
       rule = rule->next();
+      node = NextNode(node);
     }
   }
 
@@ -147,7 +147,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
   {
     // Here, all rules (at least all mandatory rules) were matched.
     std::move(sub.begin(), sub.end(), std::back_inserter(result));
-    return node ? NextNode(node) : nullptr;
+    return node;
   }
 
   return nullptr;
