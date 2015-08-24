@@ -32,6 +32,7 @@
 #include "hext/ChildCountMatch.h"
 #include "hext/FunctionMatch.h"
 #include "hext/FunctionValueMatch.h"
+#include "hext/MatchFunction.h"
 #include "hext/NegateMatch.h"
 #include "hext/NthChildMatch.h"
 #include "hext/OnlyChildMatch.h"
