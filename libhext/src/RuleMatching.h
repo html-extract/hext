@@ -34,8 +34,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
 /// Returns whether rule matches node. Also matches the rule's children against
 /// the nodes children.
 /// Saves the matching nodes that were found by recursion to result.
-/// Note: The returned matching node and given rule are not contained in the
-/// result.
+/// Note: Even if the given node matches, it won't be appended to result.
 bool RuleMatchesNodeRecursive(const Rule *      rule,
                               const GumboNode * node,
                               MatchingNodes&    result);
