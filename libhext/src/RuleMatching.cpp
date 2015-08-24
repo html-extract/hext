@@ -11,8 +11,8 @@ void SaveMatchingNodesRecursive(const Rule *                rule,
                                 const GumboNode *           node,
                                 std::vector<MatchingNodes>& result)
 {
-  assert(node);
-  if( !node )
+  assert(node && rule);
+  if( !node || !rule )
     return;
 
   const GumboNode * next_node = node;
