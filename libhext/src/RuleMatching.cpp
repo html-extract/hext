@@ -217,9 +217,9 @@ const GumboNode * MatchRange(const Rule *      r_begin,
 {
   assert(n_begin);
   if( !n_begin )
-    return nullptr;
+    return n_end;
 
-  const GumboNode * matching_node = nullptr;
+  const GumboNode * matching_node = n_end;
   while( r_begin && r_begin != r_end )
   {
     matching_node = MatchRuleOnce(r_begin, n_begin, n_end, result);
