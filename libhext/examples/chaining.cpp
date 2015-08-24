@@ -51,7 +51,7 @@ int main()
     </html>
   )input");
 
-  auto result = rdiv.extract(html.root());
+  auto result = rdiv.extract(html);
 
   for(const auto& g : result)
     for(const auto& p : g)
