@@ -39,6 +39,7 @@ using namespace helper;
 #include "html/html.h"
 #include "parse-hext/parse-hext.h"
 #include "rule/rule.h"
+#include "rule/rule-matching.h"
 
 
 int main(int argc, char ** argv)
