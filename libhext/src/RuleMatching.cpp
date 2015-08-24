@@ -215,10 +215,14 @@ const GumboNode * MatchRange(const Rule *      r_begin,
                              const GumboNode * n_end,
                              MatchingNodes&    result)
 {
-  while( n_begin && n_begin != n_end &&
-         r_begin && r_begin != r_end )
+  assert(n_begin);
+  if( !n_begin )
+    return nullptr;
+
+  const GumboNode * matching_node = nullptr;
+  while( r_begin && r_begin != r_end )
   {
-    auto matching_node = MatchRuleOnce(r_begin, n_begin, n_end, result);
+    matching_node = MatchRuleOnce(r_begin, n_begin, n_end, result);
     if( matching_node && matching_node != n_end )
     {
       result.push_back({r_begin, matching_node});
@@ -227,7 +231,7 @@ const GumboNode * MatchRange(const Rule *      r_begin,
     r_begin = r_begin->next();
   }
 
-  return n_begin;
+  return matching_node;
 }
 
 const Rule * FindMandatoryRule(const Rule * begin, const Rule * end)
