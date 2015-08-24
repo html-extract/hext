@@ -1,5 +1,36 @@
 #include "RuleMatching.h"
 
+#include <set>
+
+
+namespace {
+
+bool result_has_unique_nodes(const std::vector<MatchingNodes>& result)
+{
+  std::set<const GumboNode *> nodes;
+
+  for( const auto& group : result )
+    for( const auto& pair : group )
+      if( !nodes.insert(pair.second).second )
+        return false;
+
+  return true;
+}
+
+bool group_has_unique_rules(const MatchingNodes& group)
+{
+  std::set<const Rule *> rules;
+
+  for( const auto& pair : group )
+    if( !rules.insert(pair.first).second )
+      return false;
+
+  return true;
+}
+
+}
+
+
 TEST(Rule_RuleMatching, SaveMatchingNodesRecursive)
 {
   THtml h("<div>"
@@ -21,36 +52,44 @@ TEST(Rule_RuleMatching, SaveMatchingNodesRecursive)
             "</div>"                                    // 6
           "</div>");
 
-  auto rule = ParseHext("<div><ul><li/><li/></ul></div>");
-  auto opt_rule = ParseHext("<?div><ul><li/><li/></ul></div>");
+  // These rules must all produce the same result
+  std::vector<Rule> rules = {
+    // only mandatory
+    ParseHext("<div><ul><li/><li/></ul></div>"),
+    // top-level optional
+    ParseHext("<?div><ul><li/><li/></ul></div>"),
+    // preceding optional
+    ParseHext("<?div/><div><ul><li/><li/></ul></div>"),
+    // trailing optional
+    ParseHext("<div><ul><li/><li/></ul></div><?div/>"),
+    // preceding and trailing optional
+    ParseHext("<?div/><div><ul><li/><li/></ul></div><?div/>")
+  };
 
-  ASSERT_EQ(rule.get_tag(), HtmlTag::DIV);
-  ASSERT_NE(rule.child(), nullptr);
-  ASSERT_EQ(opt_rule.get_tag(), HtmlTag::DIV);
-  ASSERT_NE(opt_rule.child(), nullptr);
-
-  std::vector<MatchingNodes> result;
-  SaveMatchingNodesRecursive(&rule, h.root(), result);
-  std::vector<MatchingNodes> opt_result;
-  SaveMatchingNodesRecursive(&opt_rule, h.root(), opt_result);
-
-  // Expect seven capture groups
-  EXPECT_EQ(result.size(), 7);
-  EXPECT_EQ(opt_result.size(), 7);
-
-  for( const auto& group : result )
+  for( const auto& rule : rules )
   {
-    // Expect each capture group to have four matching rule-node-pairs
-    EXPECT_EQ(group.size(), 4);
-    for( const auto& pair : group )
-      EXPECT_TRUE((pair.first)->matches(pair.second));
-  }
-  for( const auto& group : opt_result )
-  {
-    // Expect each capture group to have four matching rule-node-pairs
-    EXPECT_EQ(group.size(), 4);
-    for( const auto& pair : group )
-      EXPECT_TRUE((pair.first)->matches(pair.second));
+    std::vector<MatchingNodes> result;
+    SaveMatchingNodesRecursive(&rule, h.root(), result);
+
+    // Expect seven capture groups
+    EXPECT_EQ(result.size(), 7);
+
+    // Expect the result to be unique, i.e. there may be no duplicated nodes.
+    // No node may be matched more than once.
+    EXPECT_TRUE(result_has_unique_nodes(result));
+
+    for( const auto& group : result )
+    {
+      // Expect each capture group to have four rule-node-pairs
+      EXPECT_EQ(group.size(), 4);
+
+      // Expect each capture group to match each rule only once
+      EXPECT_TRUE(group_has_unique_rules(group));
+
+      // Expect them to actually match
+      for( const auto& pair : group )
+        EXPECT_TRUE((pair.first)->matches(pair.second));
+    }
   }
 }
 
