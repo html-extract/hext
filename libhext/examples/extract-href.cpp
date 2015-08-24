@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <cassert>
+#include <string>
 
 #include <Poco/URI.h>
 #include <boost/optional.hpp>
