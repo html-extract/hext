@@ -92,16 +92,13 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
           auto stop_node = MatchRuleOnce(stop_rule, node, nullptr, discard);
 
           // Match until the last rule: either there are only optional rules
-          // following, or no rules.
+          // following, or no rules, because the next mandatory rule is not
+          // included in this result set.
+          // Match until and excluding stop_node.
           node = MatchRange(rule, nullptr, node, stop_node, sub);
 
-          // If there was no match found for the mandatory rule, then matching
-          // is done.
-          if( !stop_node )
-            node = nullptr;
-
           std::move(sub.begin(), sub.end(), std::back_inserter(result));
-          return node ? NextNode(node) : nullptr;
+          return stop_node;
         }
         else
         {
