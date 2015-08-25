@@ -110,6 +110,11 @@ int main(int argc, const char ** argv)
     }
     return EXIT_FAILURE;
   }
+  catch( const std::exception& e )
+  {
+    errout.print("Error", e.what());
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
