@@ -1,5 +1,6 @@
 #include "Parser.h"
 
+#include "hext/AppendPipe.h"
 #include "hext/AttributeCapture.h"
 #include "hext/AttributeCountMatch.h"
 #include "hext/AttributeMatch.h"

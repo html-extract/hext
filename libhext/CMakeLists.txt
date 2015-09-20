@@ -44,6 +44,7 @@ INCLUDE_DIRECTORIES(${Gumbo_INCLUDE_DIR})
 ###### SOURCES #################################################################
 ADD_LIBRARY(
   hext SHARED
+  "${PROJECT_SOURCE_DIR}/src/AppendPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/AttributeCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/AttributeCountMatch.cpp"
   "${PROJECT_SOURCE_DIR}/src/AttributeMatch.cpp"

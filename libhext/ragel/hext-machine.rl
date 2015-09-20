@@ -187,6 +187,10 @@ pipe = (
         non_empty_literal_value
         ')' )                %{ pv.add_pipe<PrependPipe>(pv.literal_value); } )
     |
+    ( ( 'append('
+        non_empty_literal_value
+        ')' )                %{ pv.add_pipe<AppendPipe>(pv.literal_value); } )
+    |
     ( ( 'regex(' regex ')' ) %{ pv.add_pipe<RegexPipe>(*pv.regex); } ) )
 );
 # capture variable, e.g. id->linkid, id|trim->linkid, id->"Menu ID"
