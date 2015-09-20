@@ -66,6 +66,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/ParseHext.cpp"
   "${PROJECT_SOURCE_DIR}/src/Parser.cpp"
   "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
+  "${PROJECT_SOURCE_DIR}/src/PrependPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
