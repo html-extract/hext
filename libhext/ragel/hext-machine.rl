@@ -177,7 +177,9 @@ builtin = (
 # captures can be passed through StringPipes, e.g. id|trim->id
 pipe = (
   '|'
-  ( ( 'trim' %{ pv.add_pipe<TrimPipe>(); } ) )
+  ( ( ( 'trim' )             %{ pv.add_pipe<TrimPipe>(); } )
+    |
+    ( ( 'regex(' regex ')' ) %{ pv.add_pipe<RegexPipe>(*pv.regex); } ) )
 );
 # capture variable, e.g. id->linkid, id|trim->linkid, id->"Menu ID"
 capture = (

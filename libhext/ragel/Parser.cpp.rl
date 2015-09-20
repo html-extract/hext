@@ -18,6 +18,7 @@
 #include "hext/NegateTest.h"
 #include "hext/NthChildMatch.h"
 #include "hext/OnlyChildMatch.h"
+#include "hext/RegexPipe.h"
 #include "hext/RegexTest.h"
 #include "hext/TrimPipe.h"
 #include "hext/ValueTest.h"
