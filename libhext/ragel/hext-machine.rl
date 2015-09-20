@@ -195,7 +195,7 @@ capture = (
   (
     ( non_empty_literal_value %{ pv.cap_var = pv.literal_value; } )
     |
-    ( (alnum+ | [\-_.]) >{ TK_START; }
+    ( (alnum | [\-_.])+ >{ TK_START; }
                         %{ TK_STOP; pv.cap_var = tok; } ) )
 );
 
