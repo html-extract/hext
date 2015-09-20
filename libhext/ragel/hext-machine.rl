@@ -185,7 +185,10 @@ pipe = (
     |
     ( ( 'append(' quoted ')' )  %{ pv.add_pipe<AppendPipe>(pv.literal_value); } )
     |
-    ( ( 'regex(' regex ')' )    %{ pv.add_pipe<RegexPipe>(*pv.regex); } ) )
+    ( ( 'filter(' regex ')' )   %{ pv.add_pipe<RegexPipe>(*pv.regex); } )
+    |
+    ( ( 'replace(' regex space* ',' space* opt_quoted ')' )
+        %{ pv.add_pipe<RegexReplacePipe>(*pv.regex, pv.literal_value); } ) )
 );
 # capture variable, e.g. id=>linkid, id|trim=>linkid, id=>"Menu ID"
 capture = (

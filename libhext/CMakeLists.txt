@@ -69,6 +69,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/PatternValues.cpp"
   "${PROJECT_SOURCE_DIR}/src/PrependPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexPipe.cpp"
+  "${PROJECT_SOURCE_DIR}/src/RegexReplacePipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/RuleMatching.cpp"

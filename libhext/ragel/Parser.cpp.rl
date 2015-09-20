@@ -21,6 +21,7 @@
 #include "hext/OnlyChildMatch.h"
 #include "hext/PrependPipe.h"
 #include "hext/RegexPipe.h"
+#include "hext/RegexReplacePipe.h"
 #include "hext/RegexTest.h"
 #include "hext/TrimPipe.h"
 #include "hext/ValueTest.h"
