@@ -29,7 +29,7 @@ AttributeCapture& AttributeCapture::operator=(const AttributeCapture& other)
   {
     this->attr_name_ = other.attr_name_;
     this->name_ = other.name_;
-    this->pipe_.reset(other.pipe_->clone());
+    this->pipe_ = std::move(other.pipe_->clone());
   }
 
   return *this;

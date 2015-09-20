@@ -4,6 +4,8 @@
 /// @file
 ///   Declares hext::Match
 
+#include <memory>
+
 #include <gumbo.h>
 
 
@@ -32,7 +34,7 @@ public:
   virtual ~Match() = default;
 
   /// Clones derived object.
-  virtual Match * clone() const = 0;
+  virtual std::unique_ptr<Match> clone() const = 0;
 
   /// Returns true if this Match matches node.
   virtual bool matches(const GumboNode * node) const = 0;

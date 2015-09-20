@@ -32,7 +32,7 @@ public:
   virtual ~StringPipe() = default;
 
   /// Clones derived object.
-  virtual StringPipe * clone() const = 0;
+  virtual std::unique_ptr<StringPipe> clone() const = 0;
 
   /// Transforms str.
   ///

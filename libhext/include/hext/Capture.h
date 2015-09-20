@@ -6,6 +6,8 @@
 
 #include "hext/Result.h"
 
+#include <memory>
+
 #include <boost/optional.hpp>
 
 #include <gumbo.h>
@@ -37,7 +39,7 @@ public:
   virtual ~Capture() = default;
 
   /// Clones derived object.
-  virtual Capture * clone() const = 0;
+  virtual std::unique_ptr<Capture> clone() const = 0;
 
   /// Returns a name/value pair with the captured contents or an empty optional,
   /// if there was nothing to capture.

@@ -4,6 +4,8 @@
 /// @file
 ///   Declares hext::ValueTest
 
+#include <memory>
+
 
 namespace hext {
 
@@ -28,7 +30,7 @@ public:
   virtual ~ValueTest() = default;
 
   /// Clones derived object.
-  virtual ValueTest * clone() const = 0;
+  virtual std::unique_ptr<ValueTest> clone() const = 0;
 
   /// Returns true if subject passes this ValueTest.
   virtual bool test(const char * /* dummy */) const = 0;
