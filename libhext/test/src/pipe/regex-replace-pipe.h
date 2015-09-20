@@ -1,5 +1,5 @@
 
-TEST(Pattern_RegexReplacePipe, Replaces)
+TEST(Pipe_RegexReplacePipe, Replaces)
 {
   {
     RegexReplacePipe r(boost::regex("Number \\d+"), "Number 23");
@@ -15,7 +15,7 @@ TEST(Pattern_RegexReplacePipe, Replaces)
   }
 }
 
-TEST(Pattern_RegexReplacePipe, ExampleFromDocumentation)
+TEST(Pipe_RegexReplacePipe, ExampleFromDocumentation)
 {
   RegexReplacePipe r(boost::regex("^(\\w+) (\\w+)$"), "$2 $1");
   EXPECT_EQ(r.transform("first second"), "second first");

@@ -1,5 +1,5 @@
 
-TEST(Pattern_TrimPipe, Trims)
+TEST(Pipe_TrimPipe, Trims)
 {
   {
     TrimPipe def;

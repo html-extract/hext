@@ -1,11 +1,11 @@
 
-TEST(Pattern_RegexPipe, Filters)
+TEST(Pipe_RegexPipe, Filters)
 {
   RegexPipe def(boost::regex("Number (\\d+)"));
   EXPECT_EQ(def.transform("Number 42"), "42");
 }
 
-TEST(Pattern_RegexPipe, ExamplesFromDocumentation)
+TEST(Pipe_RegexPipe, ExamplesFromDocumentation)
 {
   std::string input = "Highway 61 revisited";
 

@@ -1,5 +1,5 @@
 
-TEST(Pattern_StringPipe, Copies)
+TEST(Pipe_StringPipe, Copies)
 {
   TrimPipe pipe(" ");
   pipe.emplace<TrimPipe>("sr");
