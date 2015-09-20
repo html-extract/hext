@@ -1,1 +1,1 @@
-<*:first-child class={class}/>
+<*:first-child class=>class/>

@@ -1,1 +1,1 @@
-<div:attribute-count(3) @inner-html={attr_count}/>
+<div:attribute-count(3) @inner-html=>attr_count/>
