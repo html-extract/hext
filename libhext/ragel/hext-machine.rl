@@ -181,6 +181,10 @@ pipe = (
     |
     ( ( 'trim(' quoted ')' )    %{ pv.add_pipe<TrimPipe>(pv.literal_value); } )
     |
+    ( ( 'tolower' )             %{ pv.add_pipe<CasePipe>(); } )
+    |
+    ( ( 'toupper' )             %{ pv.add_pipe<CasePipe>(CasePipe::ToUpper); } )
+    |
     ( ( 'prepend(' quoted ')' ) %{ pv.add_pipe<PrependPipe>(pv.literal_value); } )
     |
     ( ( 'append(' quoted ')' )  %{ pv.add_pipe<AppendPipe>(pv.literal_value); } )

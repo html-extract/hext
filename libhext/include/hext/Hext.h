@@ -28,6 +28,7 @@
 // Pipes
 #include "hext/StringPipe.h"
 #include "hext/AppendPipe.h"
+#include "hext/CasePipe.h"
 #include "hext/PrependPipe.h"
 #include "hext/RegexPipe.h"
 #include "hext/RegexReplacePipe.h"

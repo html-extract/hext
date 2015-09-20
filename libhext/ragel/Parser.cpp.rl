@@ -7,6 +7,7 @@
 #include "hext/BeginsWithTest.h"
 #include "hext/Builtins.h"
 #include "hext/Capture.h"
+#include "hext/CasePipe.h"
 #include "hext/ChildCountMatch.h"
 #include "hext/ContainsTest.h"
 #include "hext/ContainsWordsTest.h"
