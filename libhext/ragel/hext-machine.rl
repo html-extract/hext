@@ -17,30 +17,30 @@ negate = (
 # The name of an HTML-element's attribute
 attr_name = (
   ( alpha (alnum | '-' | '_')** )
-  >{ TK_START; }
-  %{ TK_STOP; pv.attr_name = tok; }
+  >{ tk_start(); }
+  %{ tk_stop(); pv.attr_name = tok; }
 );
 # Quoted literal value that may be empty, i.e. "value" or 'value'
 opt_quoted =
 ( '"' (
     ( [^"] | '\\"' )**
-    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+    >{ tk_start(); } %{ tk_stop(); pv.literal_value = tok; }
   ) '"' )
 |
 ( '\'' (
     ( [^'] | '\\\'' )**
-    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+    >{ tk_start(); } %{ tk_stop(); pv.literal_value = tok; }
   ) '\'' );
 # Quoted literal value that may not be empty, i.e. "value" or 'value'
 quoted =
 ( '"' (
     ( ([^"] | '\\"')+ )**
-    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+    >{ tk_start(); } %{ tk_stop(); pv.literal_value = tok; }
   ) '"' )
 |
 ( '\'' (
     ( ([^'] | '\\\'')+ )**
-    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+    >{ tk_start(); } %{ tk_stop(); pv.literal_value = tok; }
   ) '\'' );
 
 
@@ -55,14 +55,14 @@ nth_pattern = (
   |
 
   ( ( ( '-'? [0-9]+ )
-      >{ TK_START; }
-      %{ TK_STOP; pv.nth = {0, std::stoi(tok)}; }
+      >{ tk_start(); }
+      %{ tk_stop(); pv.nth = {0, std::stoi(tok)}; }
     )
     ( 'n'
       %{ pv.nth = {pv.nth.second, 0}; }
       ( ( ('+'|'-') [0-9]+ )
-        >{ TK_START; }
-        %{ TK_STOP; pv.nth.second = std::stoi(tok); }
+        >{ tk_start(); }
+        %{ tk_stop(); pv.nth.second = std::stoi(tok); }
       )?
     )?
   )
@@ -76,15 +76,15 @@ trait = ':' (
 
   ( 'child-count('
     ( [0-9]+
-      >{ TK_START; }
-      %{ TK_STOP; pv.set_trait<ChildCountMatch>(std::stoi(tok)); } )
+      >{ tk_start(); }
+      %{ tk_stop(); pv.set_trait<ChildCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
   ( 'attribute-count('
     ( [0-9]+
-      >{ TK_START; }
-      %{ TK_STOP; pv.set_trait<AttributeCountMatch>(std::stoi(tok)); } )
+      >{ tk_start(); }
+      %{ tk_stop(); pv.set_trait<AttributeCountMatch>(std::stoi(tok)); } )
     ')' )
   |
 
@@ -140,7 +140,7 @@ not_trait =
 
 #### REGULAR EXPRESSIONS #######################################################
 regex =
-'/' ( ( [^/] | '\\/' )** >{ TK_START; } %{ TK_STOP; } ) '/'
+'/' ( ( [^/] | '\\/' )** >{ tk_start(); } %{ tk_stop(); } ) '/'
 # regex flags
 (
   # case insensitive
@@ -193,8 +193,8 @@ capture = (
   (
     ( quoted %{ pv.cap_var = pv.literal_value; } )
     |
-    ( (alnum | [\-_.])+ >{ TK_START; }
-                        %{ TK_STOP; pv.cap_var = tok; } ) )
+    ( (alnum | [\-_.])+ >{ tk_start(); }
+                        %{ tk_stop(); pv.cap_var = tok; } ) )
 );
 
 
@@ -278,8 +278,8 @@ main := (
     ( '?' %{ cur_rule().set_optional(true); } )?
 
     # a rule must have a tag name, e.g. <div
-    ( ( '*' | tag_name ) >{ TK_START; }
-                         %{ TK_STOP; set_open_tag_or_throw(tok); } )
+    ( ( '*' | tag_name ) >{ tk_start(); }
+                         %{ tk_stop(); set_open_tag_or_throw(tok); } )
 
     # a rule can have multiple traits, e.g. :first-child, :empty
     ( ( not_trait %{ cur_rule().append_match(std::move(pv.negate)); } )
@@ -300,8 +300,8 @@ main := (
   # end rule
   (
     '</'
-    ( ( '*' | tag_name ) >{ TK_START; }
-                         %{ TK_STOP;
+    ( ( '*' | tag_name ) >{ tk_start(); }
+                         %{ tk_stop();
                             validate_close_tag_or_throw(tok);
                             pop_rule(); } )
     '>'
