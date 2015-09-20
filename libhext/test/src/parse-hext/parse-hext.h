@@ -1,20 +1,10 @@
 
 TEST(ParseHext_ParseHext, ExampleFromDocumentation)
 {
-  try
-  {
-    Rule rule = ParseHext("<a href={href}/>");
-  }
-  catch( SyntaxError& )
-    {}
+  EXPECT_NO_THROW(ParseHext("<a href=>href />"));
 
-  std::string hext_str("<a href={href}/>");
-  try
-  {
-    Rule rule = ParseHext(hext_str.c_str(), hext_str.size());
-  }
-  catch( SyntaxError& )
-    {}
+  std::string hext_str("<a href=>href />");
+  EXPECT_NO_THROW(ParseHext(hext_str.c_str(), hext_str.size()));
 }
 
 TEST(ParseHext_ParseHext, ThrowsSyntaxError)

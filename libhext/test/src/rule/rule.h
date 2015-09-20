@@ -12,7 +12,7 @@ TEST(Rule_Rule, ExampleFromDocumentation)
     anchor.append_child(std::move(img));
   }
 
-  // <a href={link}><img src={img}/></a>
+  // <a href=>link><img src=>img/></a>
   Html html(
     "<html><body>"
       "<div><a href='/bob'>  <img src='bob.jpg'/>  </a></div>"
@@ -65,10 +65,12 @@ TEST(Rule_Rule, Copy)
           "</a>");
 
   // A rule tree that will produce capture groups with four results
-  auto right = ParseHext("<a href^='/' class={class} href={href}>" // 2 results
-                           "<img src={img}/>"                      // 1 result
-                           "<span @text={link_name}/>"             // 1 result
+  auto right = ParseHext("<a href^='/' class=>class href=>href >" // 2 results
+                           "<img src=>img />"                     // 1 result
+                           "<span @text=>link_name />"            // 1 result
                          "</a>");
+
+  ASSERT_TRUE(right.matches(h.first()));
 
   auto left = right;
   right = Rule();
