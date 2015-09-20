@@ -832,16 +832,16 @@ static const short _hext_trans_actions[] = {
 	0, 101, 0, 101, 0, 101, 0, 101, 
 	0, 101, 0, 101, 0, 101, 57, 57, 
 	57, 57, 57, 101, 0, 101, 0, 0, 
-	101, 106, 5, 5, 7, 0, 0, 285, 
+	101, 112, 13, 13, 15, 0, 0, 285, 
 	85, 285, 285, 285, 101, 213, 213, 213, 
-	213, 101, 0, 0, 109, 9, 9, 11, 
+	213, 101, 0, 0, 115, 17, 17, 19, 
 	0, 0, 0, 0, 0, 101, 0, 0, 
-	101, 106, 5, 5, 7, 0, 0, 277, 
-	83, 277, 277, 277, 101, 0, 0, 109, 
-	9, 9, 11, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 101, 106, 5, 5, 
-	7, 0, 0, 253, 77, 253, 253, 253, 
-	101, 0, 0, 109, 9, 9, 11, 0, 
+	101, 112, 13, 13, 15, 0, 0, 277, 
+	83, 277, 277, 277, 101, 0, 0, 115, 
+	17, 17, 19, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 101, 112, 13, 13, 
+	15, 0, 0, 253, 77, 253, 253, 253, 
+	101, 0, 0, 115, 17, 17, 19, 0, 
 	0, 0, 0, 187, 45, 45, 47, 0, 
 	0, 298, 196, 298, 298, 0, 0, 298, 
 	101, 209, 209, 209, 209, 101, 320, 233, 
@@ -855,9 +855,9 @@ static const short _hext_trans_actions[] = {
 	237, 237, 237, 101, 0, 0, 115, 17, 
 	17, 19, 0, 0, 0, 0, 245, 245, 
 	245, 0, 245, 0, 0, 0, 101, 0, 
-	101, 0, 0, 101, 106, 5, 5, 7, 
+	101, 0, 0, 101, 112, 13, 13, 15, 
 	0, 0, 269, 81, 269, 269, 269, 101, 
-	0, 0, 109, 9, 9, 11, 0, 0, 
+	0, 0, 115, 17, 17, 19, 0, 0, 
 	0, 0, 0, 0, 0, 0, 101, 0, 
 	101, 0, 101, 0, 101, 0, 101, 0, 
 	101, 0, 101, 0, 0, 101, 112, 13, 
@@ -884,17 +884,17 @@ static const short _hext_trans_actions[] = {
 	55, 55, 55, 101, 293, 103, 3, 3, 
 	0, 293, 3, 293, 3, 0, 3, 293, 
 	0, 0, 0, 101, 225, 225, 225, 225, 
-	101, 0, 101, 0, 0, 101, 106, 5, 
-	5, 7, 0, 0, 289, 85, 289, 289, 
+	101, 0, 101, 0, 0, 101, 112, 13, 
+	13, 15, 0, 0, 289, 85, 289, 289, 
 	289, 101, 221, 221, 221, 221, 101, 0, 
-	0, 109, 9, 9, 11, 0, 0, 0, 
-	0, 0, 101, 0, 0, 101, 106, 5, 
-	5, 7, 0, 0, 281, 83, 281, 281, 
-	281, 101, 0, 0, 109, 9, 9, 11, 
+	0, 115, 17, 17, 19, 0, 0, 0, 
+	0, 0, 101, 0, 0, 101, 112, 13, 
+	13, 15, 0, 0, 281, 83, 281, 281, 
+	281, 101, 0, 0, 115, 17, 17, 19, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 101, 106, 5, 5, 7, 0, 0, 
+	0, 101, 112, 13, 13, 15, 0, 0, 
 	257, 77, 257, 257, 257, 101, 0, 0, 
-	109, 9, 9, 11, 0, 0, 0, 0, 
+	115, 17, 17, 19, 0, 0, 0, 0, 
 	187, 45, 45, 47, 0, 0, 303, 196, 
 	303, 303, 0, 0, 303, 101, 217, 217, 
 	217, 217, 101, 326, 233, 326, 326, 51, 
@@ -909,9 +909,9 @@ static const short _hext_trans_actions[] = {
 	0, 115, 17, 17, 19, 0, 0, 0, 
 	0, 249, 249, 249, 75, 0, 249, 0, 
 	0, 0, 101, 0, 101, 0, 0, 101, 
-	106, 5, 5, 7, 0, 0, 273, 81, 
-	273, 273, 273, 101, 0, 0, 109, 9, 
-	9, 11, 0, 0, 0, 0, 0, 0, 
+	112, 13, 13, 15, 0, 0, 273, 81, 
+	273, 273, 273, 101, 0, 0, 115, 17, 
+	17, 19, 0, 0, 0, 0, 0, 0, 
 	0, 0, 101, 0, 101, 0, 101, 0, 
 	101, 0, 101, 0, 101, 0, 101, 0, 
 	0, 101, 112, 13, 13, 15, 0, 0, 
@@ -1463,68 +1463,68 @@ _match:
 	{ pv.add_pipe<TrimPipe>(); }
 	break;
 	case 46:
-#line 184 "hext-machine.rl"
+#line 182 "hext-machine.rl"
 	{ pv.add_pipe<TrimPipe>(pv.literal_value); }
 	break;
 	case 47:
-#line 188 "hext-machine.rl"
+#line 184 "hext-machine.rl"
 	{ pv.add_pipe<PrependPipe>(pv.literal_value); }
 	break;
 	case 48:
-#line 192 "hext-machine.rl"
+#line 186 "hext-machine.rl"
 	{ pv.add_pipe<AppendPipe>(pv.literal_value); }
 	break;
 	case 49:
-#line 194 "hext-machine.rl"
+#line 188 "hext-machine.rl"
 	{ pv.add_pipe<RegexPipe>(*pv.regex); }
 	break;
 	case 50:
-#line 200 "hext-machine.rl"
+#line 194 "hext-machine.rl"
 	{ pv.cap_var = pv.literal_value; }
 	break;
 	case 51:
-#line 202 "hext-machine.rl"
+#line 196 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 52:
-#line 203 "hext-machine.rl"
+#line 197 "hext-machine.rl"
 	{ TK_STOP; pv.cap_var = tok; }
 	break;
 	case 53:
-#line 210 "hext-machine.rl"
+#line 204 "hext-machine.rl"
 	{ pv.set_test<ContainsWordsTest>(pv.literal_value); }
 	break;
 	case 54:
-#line 213 "hext-machine.rl"
+#line 207 "hext-machine.rl"
 	{ pv.set_test<EqualsTest>(pv.literal_value); }
 	break;
 	case 55:
-#line 216 "hext-machine.rl"
+#line 210 "hext-machine.rl"
 	{ pv.set_test<BeginsWithTest>(pv.literal_value); }
 	break;
 	case 56:
-#line 219 "hext-machine.rl"
+#line 213 "hext-machine.rl"
 	{ pv.set_test<ContainsTest>(pv.literal_value); }
 	break;
 	case 57:
-#line 222 "hext-machine.rl"
+#line 216 "hext-machine.rl"
 	{ pv.set_test<EndsWithTest>(pv.literal_value); }
 	break;
 	case 58:
-#line 230 "hext-machine.rl"
+#line 224 "hext-machine.rl"
 	{ cur_rule().append_capture<FunctionCapture>(
              pv.builtin, pv.cap_var, std::move(pv.pipe)); }
 	break;
 	case 59:
-#line 235 "hext-machine.rl"
+#line 229 "hext-machine.rl"
 	{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 60:
-#line 239 "hext-machine.rl"
+#line 233 "hext-machine.rl"
 	{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); }
 	break;
 	case 61:
-#line 243 "hext-machine.rl"
+#line 237 "hext-machine.rl"
 	{ cur_rule().append_capture<AttributeCapture>(
              pv.attr_name, pv.cap_var, std::move(pv.pipe));
          if( !pv.optional )
@@ -1532,65 +1532,65 @@ _match:
        }
 	break;
 	case 62:
-#line 251 "hext-machine.rl"
+#line 245 "hext-machine.rl"
 	{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 63:
-#line 255 "hext-machine.rl"
+#line 249 "hext-machine.rl"
 	{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 64:
-#line 259 "hext-machine.rl"
+#line 253 "hext-machine.rl"
 	{ pv.test = nullptr; }
 	break;
 	case 65:
-#line 262 "hext-machine.rl"
+#line 256 "hext-machine.rl"
 	{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); }
 	break;
 	case 66:
-#line 263 "hext-machine.rl"
+#line 257 "hext-machine.rl"
 	{ pv.reset(); }
 	break;
 	case 67:
-#line 281 "hext-machine.rl"
+#line 275 "hext-machine.rl"
 	{ push_rule(); }
 	break;
 	case 68:
-#line 284 "hext-machine.rl"
+#line 278 "hext-machine.rl"
 	{ cur_rule().set_optional(true); }
 	break;
 	case 69:
-#line 287 "hext-machine.rl"
+#line 281 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 70:
-#line 288 "hext-machine.rl"
+#line 282 "hext-machine.rl"
 	{ TK_STOP; set_open_tag_or_throw(tok); }
 	break;
 	case 71:
-#line 291 "hext-machine.rl"
+#line 285 "hext-machine.rl"
 	{ cur_rule().append_match(std::move(pv.negate)); }
 	break;
 	case 72:
-#line 294 "hext-machine.rl"
+#line 288 "hext-machine.rl"
 	{ cur_rule().append_match(std::move(pv.trait)); }
 	break;
 	case 73:
-#line 302 "hext-machine.rl"
+#line 296 "hext-machine.rl"
 	{ pop_rule(); }
 	break;
 	case 74:
-#line 309 "hext-machine.rl"
+#line 303 "hext-machine.rl"
 	{ TK_START; }
 	break;
 	case 75:
-#line 310 "hext-machine.rl"
+#line 304 "hext-machine.rl"
 	{ TK_STOP;
                             validate_close_tag_or_throw(tok);
                             pop_rule(); }
 	break;
 	case 76:
-#line 315 "hext-machine.rl"
+#line 309 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
 #line 1596 "Parser.cpp.tmp"
@@ -1610,11 +1610,11 @@ _again:
 	while ( __nacts-- > 0 ) {
 		switch ( *__acts++ ) {
 	case 73:
-#line 302 "hext-machine.rl"
+#line 296 "hext-machine.rl"
 	{ pop_rule(); }
 	break;
 	case 76:
-#line 315 "hext-machine.rl"
+#line 309 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
 #line 1620 "Parser.cpp.tmp"

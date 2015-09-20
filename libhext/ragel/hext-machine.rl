@@ -20,8 +20,8 @@ attr_name = (
   >{ TK_START; }
   %{ TK_STOP; pv.attr_name = tok; }
 );
-# Literal value, i.e. "value" or 'value'
-literal_value =
+# Quoted literal value that may be empty, i.e. "value" or 'value'
+opt_quoted =
 ( '"' (
     ( [^"] | '\\"' )**
     >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
@@ -31,8 +31,8 @@ literal_value =
     ( [^'] | '\\\'' )**
     >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
   ) '\'' );
-# Non empty literal value
-non_empty_literal_value =
+# Quoted literal value that may not be empty, i.e. "value" or 'value'
+quoted =
 ( '"' (
     ( ([^"] | '\\"')+ )**
     >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
@@ -177,48 +177,42 @@ builtin = (
 # captures can be passed through StringPipes, e.g. id|trim->id
 pipe = (
   '|'
-  ( ( ( 'trim' )             %{ pv.add_pipe<TrimPipe>(); } )
+  ( ( ( 'trim' )                %{ pv.add_pipe<TrimPipe>(); } )
     |
-    ( ( 'trim('
-        non_empty_literal_value
-        ')' )                %{ pv.add_pipe<TrimPipe>(pv.literal_value); } )
+    ( ( 'trim(' quoted ')' )    %{ pv.add_pipe<TrimPipe>(pv.literal_value); } )
     |
-    ( ( 'prepend('
-        non_empty_literal_value
-        ')' )                %{ pv.add_pipe<PrependPipe>(pv.literal_value); } )
+    ( ( 'prepend(' quoted ')' ) %{ pv.add_pipe<PrependPipe>(pv.literal_value); } )
     |
-    ( ( 'append('
-        non_empty_literal_value
-        ')' )                %{ pv.add_pipe<AppendPipe>(pv.literal_value); } )
+    ( ( 'append(' quoted ')' )  %{ pv.add_pipe<AppendPipe>(pv.literal_value); } )
     |
-    ( ( 'regex(' regex ')' ) %{ pv.add_pipe<RegexPipe>(*pv.regex); } ) )
+    ( ( 'regex(' regex ')' )    %{ pv.add_pipe<RegexPipe>(*pv.regex); } ) )
 );
 # capture variable, e.g. id=>linkid, id|trim=>linkid, id=>"Menu ID"
 capture = (
   pipe* '=>'
   (
-    ( non_empty_literal_value %{ pv.cap_var = pv.literal_value; } )
+    ( quoted %{ pv.cap_var = pv.literal_value; } )
     |
     ( (alnum | [\-_.])+ >{ TK_START; }
                         %{ TK_STOP; pv.cap_var = tok; } ) )
 );
 
 
-#### LITERAL ###################################################################
-literal = (
-  ( '=' literal_value
+#### MATCH_ARG #################################################################
+match_arg = (
+  ( '=' quoted
     %{ pv.set_test<ContainsWordsTest>(pv.literal_value); } )
   |
-  ( '==' literal_value
+  ( '==' opt_quoted
     %{ pv.set_test<EqualsTest>(pv.literal_value); } )
   |
-  ( '^=' literal_value
+  ( '^=' quoted
     %{ pv.set_test<BeginsWithTest>(pv.literal_value); } )
   |
-  ( '*=' literal_value
+  ( '*=' quoted
     %{ pv.set_test<ContainsTest>(pv.literal_value); } )
   |
-  ( '$=' literal_value
+  ( '$=' quoted
     %{ pv.set_test<EndsWithTest>(pv.literal_value); } )
 );
 
@@ -235,7 +229,7 @@ pattern = (
       %{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
-    ( ( builtin literal negate? )
+    ( ( builtin match_arg negate? )
       %{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
@@ -251,7 +245,7 @@ pattern = (
       %{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
-    ( ( attr_name literal negate? )
+    ( ( attr_name match_arg negate? )
       %{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
