@@ -44,6 +44,7 @@ using namespace helper;
 #include "pipe/append-pipe.h"
 #include "pipe/prepend-pipe.h"
 #include "pipe/regex-pipe.h"
+#include "pipe/regex-replace-pipe.h"
 #include "pipe/string-pipe.h"
 #include "pipe/trim-pipe.h"
 
