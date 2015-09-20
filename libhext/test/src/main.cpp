@@ -41,6 +41,12 @@ using namespace helper;
 #include "rule/rule.h"
 #include "rule/rule-matching.h"
 
+#include "pipe/append-pipe.h"
+#include "pipe/prepend-pipe.h"
+#include "pipe/regex-pipe.h"
+#include "pipe/string-pipe.h"
+#include "pipe/trim-pipe.h"
+
 
 int main(int argc, char ** argv)
 {
