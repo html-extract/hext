@@ -42,6 +42,7 @@ using namespace helper;
 #include "rule/rule-matching.h"
 
 #include "pipe/append-pipe.h"
+#include "pipe/case-pipe.h"
 #include "pipe/prepend-pipe.h"
 #include "pipe/regex-pipe.h"
 #include "pipe/regex-replace-pipe.h"
