@@ -8,12 +8,12 @@
 #include "hext/CaptureFunction.h"
 #include "hext/Cloneable.h"
 #include "hext/Result.h"
+#include "hext/StringPipe.h"
 
 #include <string>
 
 #include <gumbo.h>
 #include <boost/optional.hpp>
-#include <boost/regex.hpp>
 
 
 namespace hext {
@@ -40,27 +40,11 @@ namespace hext {
 ///   FunctionCapture centimeters(
 ///     InnerHtmlBuiltin,  // predefined CaptureFunction
 ///     "centimeters",     // result name
-///     boost::regex("(\\d+)cm")
+///     std::make_unique<RegexPipe>(boost::regex("(\\d+)cm"))
 ///   );
 ///   if( auto result = centimeters.capture(node) )
 ///     assert(*result == ResultPair("centimeters", "25"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
-///
-/// @anchor FCRegexBehavior
-/// @par Regex behavior:
-///   If FunctionCapture was given a regex it will be applied to the captured
-///   value. A regex containing a capture group will produce only the matched
-///   content of this capture group, otherwise the whole regex match is
-///   returned. All capture groups after the first one will be ignored.
-///
-/// @par Example regex:
-///   Input                 | Regex             | Result
-///   ----------------------|-------------------|-----------
-///   Highway 61 revisited  |  `\d+`            | 61
-///   Highway 61 revisited  |  `Highway \d+`    | Highway 61
-///   Highway 61 revisited  |  `Highway (\d+)`  | 61
-///   Highway 61 revisited  |  `\w+`            | Highway
-///   Highway 61 revisited  |  `(\w+) (\d+)`    | Highway
 class FunctionCapture : public Cloneable<FunctionCapture, Capture>
 {
 public:
@@ -69,23 +53,19 @@ public:
   /// @param        func:  The function that will be applied to an HTML node.
   /// @param result_name:  The name for the result that is returned from
   ///                      FuntionCapture::capture.
-  FunctionCapture(CaptureFunction func,
-                  std::string     result_name);
+  /// @param        pipe:  If given, the captured value will be sent through
+  ///                      this StringPipe before returning from capture().
+  FunctionCapture(CaptureFunction             func,
+                  std::string                 result_name,
+                  std::unique_ptr<StringPipe> pipe = nullptr);
 
-  /// Constructs a FunctionCapture with a regex filter.
-  ///
-  /// @param        func:  The function that will be applied to an HTML node.
-  /// @param result_name:  The name for the result that is returned from
-  ///                      FuntionCapture::capture.
-  /// @param      filter:  A regular expression that is applied to the result
-  ///                      of the given CaptureFunction.
-  ///                      See @ref FCRegexBehavior.
-  FunctionCapture(CaptureFunction func,
-                  std::string     result_name,
-                  boost::regex    filter);
+  FunctionCapture(const FunctionCapture& other);
+  FunctionCapture(FunctionCapture&&) noexcept = default;
+  FunctionCapture& operator=(const FunctionCapture& other);
+  FunctionCapture& operator=(FunctionCapture&&) noexcept = default;
 
   /// Captures the result of calling a given CaptureFunction with node as its
-  /// argument. Optionally applies a regex to the result.
+  /// argument. Optionally applies a StringPipe to the value before returning.
   ///
   /// @param node:  A pointer to a GumboNode.
   ///
@@ -100,8 +80,8 @@ private:
   /// The result name of the captured contents, e.g. ResultPair("text", ...).
   std::string name_;
 
-  /// Optional regex.
-  boost::optional<const boost::regex> filter_;
+  /// An optional StringPipe that will be applied to the result.
+  std::unique_ptr<StringPipe> pipe_;
 };
 
 

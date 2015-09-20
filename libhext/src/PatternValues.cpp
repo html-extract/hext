@@ -12,6 +12,7 @@ PatternValues::PatternValues()
 , attr_name()
 , literal_value()
 , cap_var()
+, pipe(nullptr)
 , regex()
 , test(nullptr)
 , trait(nullptr)
@@ -30,6 +31,8 @@ void PatternValues::reset()
   this->cap_var = "";
   this->regex_flag = boost::regex::perl;
   this->regex = boost::optional<boost::regex>();
+  assert(this->pipe.get() == nullptr);
+  this->pipe = nullptr;
   this->nth = {0, 0};
   assert(this->test.get() == nullptr);
   this->test = nullptr;

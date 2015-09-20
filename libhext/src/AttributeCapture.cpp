@@ -7,25 +7,36 @@
 namespace hext {
 
 
-AttributeCapture::AttributeCapture(std::string attr_name,
-                                   std::string result_name) noexcept
-: attr_name_(std::move(attr_name))  // noexcept
-, name_(std::move(result_name))     // noexcept
-, filter_()                         // noexcept
+AttributeCapture::AttributeCapture(std::string                 attr_name,
+                                   std::string                 result_name,
+                                   std::unique_ptr<StringPipe> pipe)
+: attr_name_(std::move(attr_name))
+, name_(std::move(result_name))
+, pipe_(std::move(pipe))
 {
 }
 
-AttributeCapture::AttributeCapture(std::string  attr_name,
-                                   std::string  result_name,
-                                   boost::regex filter)
-: attr_name_(std::move(attr_name))  // noexcept
-, name_(std::move(result_name))     // noexcept
-, filter_(std::move(filter))        // not noexcept
+AttributeCapture::AttributeCapture(const AttributeCapture& other)
+: attr_name_(other.attr_name_)
+, name_(other.name_)
+, pipe_(other.pipe_ ? other.pipe_->clone() : nullptr)
 {
 }
 
-boost::optional<ResultPair>
-AttributeCapture::capture(const GumboNode * node) const
+AttributeCapture& AttributeCapture::operator=(const AttributeCapture& other)
+{
+  if( this != &other )
+  {
+    this->attr_name_ = other.attr_name_;
+    this->name_ = other.name_;
+    this->pipe_.reset(other.pipe_->clone());
+  }
+
+  return *this;
+}
+
+boost::optional<ResultPair> AttributeCapture::capture(
+    const GumboNode * node) const
 {
   assert(node);
   if( !node || node->type != GUMBO_NODE_ELEMENT )
@@ -39,27 +50,13 @@ AttributeCapture::capture(const GumboNode * node) const
   if( !g_attr || !g_attr->value )
     return {};
 
-  if( this->filter_ )
-  {
-    boost::match_results<const char *> mr;
-    if( boost::regex_search(g_attr->value, mr, this->filter_.get()) )
-    {
-      // If there are no parentheses contained within the regex, return whole
-      // regex capture (mr[0]), if there are, then return the first one.
-      return ResultPair(
-          this->name_,
-          mr.size() > 1 ? mr[1] : mr[0]
-      );
-    }
-    else
-    {
-      return {};
-    }
-  }
-  else
-  {
-    return ResultPair(this->name_, g_attr->value);
-  }
+  if( this->pipe_ )
+    return ResultPair(
+        this->name_,
+        this->pipe_->pipe(g_attr->value)
+    );
+
+  return ResultPair(this->name_, g_attr->value);
 }
 
 

@@ -4,6 +4,7 @@
 #include "hext/CaptureFunction.h"
 #include "hext/Match.h"
 #include "hext/NegateMatch.h"
+#include "hext/StringPipe.h"
 #include "hext/ValueTest.h"
 
 #include <string>
@@ -38,6 +39,16 @@ public:
     this->trait = std::make_unique<MatchType>(std::forward<Args>(arg)...);
   }
 
+  /// Add generic StringPipe.
+  template<typename StringPipeType, typename... Args>
+  void add_pipe(Args&&... arg)
+  {
+    if( this->pipe )
+      this->pipe->emplace<StringPipeType>(std::forward<Args>(arg)...);
+    else
+      this->pipe = std::make_unique<StringPipeType>(std::forward<Args>(arg)...);
+  }
+
   /// Reset all members to their original state.
   void reset();
 
@@ -56,12 +67,15 @@ public:
   /// The current Capture's result name.
   std::string cap_var;
 
-  /// The current Pattern's regex.
+  /// The current Capture's StringPipe.
+  std::unique_ptr<StringPipe> pipe;
+
+  /// The current Match's regex.
   /// boost::optional is used to be able to distinguish between empty regex
   /// and no regex.
   boost::optional<boost::regex> regex;
 
-  /// The current ValueTest
+  /// The current ValueTest.
   std::unique_ptr<ValueTest> test;
 
   /// The current Trait.

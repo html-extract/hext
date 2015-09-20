@@ -69,8 +69,10 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/RegexTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/RuleMatching.cpp"
+  "${PROJECT_SOURCE_DIR}/src/StringPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
+  "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 TARGET_LINK_LIBRARIES(
   hext

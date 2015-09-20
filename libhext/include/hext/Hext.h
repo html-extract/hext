@@ -25,6 +25,11 @@
 #include "hext/Builtins.h"
 
 
+// Pipes
+#include "hext/StringPipe.h"
+#include "hext/TrimPipe.h"
+
+
 // Matches
 #include "hext/Match.h"
 #include "hext/AttributeCountMatch.h"

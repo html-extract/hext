@@ -7,12 +7,12 @@
 #include "hext/Capture.h"
 #include "hext/Cloneable.h"
 #include "hext/Result.h"
+#include "hext/StringPipe.h"
 
 #include <string>
 
 #include <gumbo.h>
 #include <boost/optional.hpp>
-#include <boost/regex.hpp>
 
 
 namespace hext {
@@ -38,28 +38,12 @@ namespace hext {
 ///   AttributeCapture highway(
 ///     "href",               // attribute name
 ///     "U.S. Route"          // result name
-///     boost::regex("\\d+")
+///     std::make_unique<RegexPipe>(boost::regex("\\d+"))
 ///   );
 ///   if( auto result = highway.capture(node) )
 ///     // attribute found and captured
 ///     assert(*result == ResultPair("U.S. Route", "61"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
-///
-/// @anchor RegexBehavior
-/// @par Regex behavior:
-///   If AttributeCapture was given a regex it will be applied to the captured
-///   value. A regex containing a capture group will produce only the matched
-///   content of this capture group, otherwise the whole regex match is
-///   returned. All capture groups after the first one will be ignored.
-///
-/// @par Example regex:
-///   Input                 | Regex             | Result
-///   ----------------------|-------------------|-----------
-///   Highway 61 revisited  |  `\d+`            | 61
-///   Highway 61 revisited  |  `Highway \d+`    | Highway 61
-///   Highway 61 revisited  |  `Highway (\d+)`  | 61
-///   Highway 61 revisited  |  `\w+`            | Highway
-///   Highway 61 revisited  |  `(\w+) (\d+)`    | Highway
 class AttributeCapture : public Cloneable<AttributeCapture, Capture>
 {
 public:
@@ -69,22 +53,20 @@ public:
   ///                      captured.
   /// @param result_name:  The name for the result that is returned from
   ///                      AttributeCapture::capture.
-  AttributeCapture(std::string attr_name, std::string result_name) noexcept;
+  /// @param        pipe:  If given, the captured value will be sent through
+  ///                      this StringPipe before returning from capture().
+  AttributeCapture(std::string                 attr_name,
+                   std::string                 result_name,
+                   std::unique_ptr<StringPipe> pipe = nullptr);
 
-  /// Constructs an AttributeCapture with a regex filter.
-  ///
-  /// @param   attr_name:  The name of the HTML attribute whose value will be
-  ///                      captured.
-  /// @param result_name:  The name for the result that is returned from
-  ///                      AttributeCapture::capture.
-  /// @param      filter:  A regular expression that is applied to the captured
-  ///                      HTML attribute's value. See @ref RegexBehavior.
-  AttributeCapture(std::string  attr_name,
-                   std::string  result_name,
-                   boost::regex filter);
+  AttributeCapture(const AttributeCapture& other);
+  AttributeCapture(AttributeCapture&&) noexcept = default;
+  AttributeCapture& operator=(const AttributeCapture& other);
+  AttributeCapture& operator=(AttributeCapture&&) noexcept = default;
 
   /// Captures an HTML element's attribute called attr_name (as given in the
-  /// constructor). Optionally applies a regex to the attribute's value.
+  /// constructor). Optionally applies a StringPipe to the value before
+  /// returning.
   ///
   /// @param node:  A pointer to a GumboNode of type GUMBO_NODE_ELEMENT.
   ///
@@ -99,8 +81,8 @@ private:
   /// The result name of the captured contents, e.g. ResultPair("href", ...).
   std::string name_;
 
-  /// Optional regex.
-  boost::optional<const boost::regex> filter_;
+  /// An optional StringPipe that will be applied to the result.
+  std::unique_ptr<StringPipe> pipe_;
 };
 
 

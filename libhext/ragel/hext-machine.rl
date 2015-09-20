@@ -4,6 +4,46 @@
 machine hext;
 
 
+#### HELPERS ###################################################################
+# Set an attribute capture to optional. By default, attribute captures are
+# mandatory, i.e. the attribute has to exist in a node for it to match.
+optional = (
+  '?' %{ pv.optional = true; }
+);
+# Negate a match pattern, e.g. style!, class="menu"!, @text=/foo/!
+negate = (
+  '!' %{ pv.set_test<NegateTest>(std::move(pv.test)); }
+);
+# The name of an HTML-element's attribute
+attr_name = (
+  ( alpha (alnum | '-' | '_')** )
+  >{ TK_START; }
+  %{ TK_STOP; pv.attr_name = tok; }
+);
+# Literal value, i.e. "value" or 'value'
+literal_value =
+( '"' (
+    ( [^"] | '\\"' )**
+    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+  ) '"' )
+|
+( '\'' (
+    ( [^'] | '\\\'' )**
+    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+  ) '\'' );
+# Non empty literal value
+non_empty_literal_value =
+( '"' (
+    ( ([^"] | '\\"')+ )**
+    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+  ) '"' )
+|
+( '\'' (
+    ( ([^'] | '\\\'')+ )**
+    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
+  ) '\'' );
+
+
 #### NTH_PATTERN ###############################################################
 # nth_pattern is used by traits, e.g. nth-last-child(nth_pattern).
 # Examples: :nth-child(1)  :nth-child(even)  :nth-child(2n)  :nth-child(2n+1)
@@ -134,44 +174,20 @@ builtin = (
 
 
 #### CAPTURE ###################################################################
-# capture variable, e.g. id={cap_var}, @text={cap_var}
+# captures can be passed through StringPipes, e.g. id|trim->id
+pipe = (
+  '|'
+  ( ( 'trim' %{ pv.add_pipe<TrimPipe>(); } ) )
+);
+# capture variable, e.g. id->linkid, id|trim->linkid, id->"Menu ID"
 capture = (
-  '{' ( ( [^/{}][^/{}]** )
-        >{ TK_START; }
-        %{ TK_STOP; pv.cap_var = tok; } )
-      # optional capture regex, e.g. @text={time/(\d\d:\d\d)/}
-      regex?
-  '}'
+  pipe* '->'
+  (
+    ( non_empty_literal_value %{ pv.cap_var = pv.literal_value; } )
+    |
+    ( (alnum+ | [\-_.]) >{ TK_START; }
+                        %{ TK_STOP; pv.cap_var = tok; } ) )
 );
-
-
-#### HELPERS ###################################################################
-# Set an attribute capture to optional. By default, attribute captures are
-# mandatory, i.e. the attribute has to exist in a node for it to match.
-optional = (
-  '?' %{ pv.optional = true; }
-);
-# Negate a match pattern, e.g. style!, class="menu"!, @text=/foo/!
-negate = (
-  '!' %{ pv.set_test<NegateTest>(std::move(pv.test)); }
-);
-# The name of an HTML-element's attribute
-attr_name = (
-  ( alpha (alnum | '-' | '_')** )
-  >{ TK_START; }
-  %{ TK_STOP; pv.attr_name = tok; }
-);
-# Literal value, e.g. attr="literal", class='single'
-literal_value =
-( '"' (
-    ( [^"] | '\\"' )**
-    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
-  ) '"' )
-|
-( '\'' (
-    ( [^'] | '\\\'' )**
-    >{ TK_START; } %{ TK_STOP; pv.literal_value = tok; }
-  ) '\'' );
 
 
 #### LITERAL ###################################################################
@@ -196,11 +212,9 @@ literal = (
 #### PATTERNS ##################################################################
 pattern = (
   space+
-  ( ( ( builtin '=' capture )
-      %{ if( pv.regex )
-           cur_rule().append_capture<FunctionCapture>(pv.builtin, pv.cap_var, *pv.regex);
-         else
-           cur_rule().append_capture<FunctionCapture>(pv.builtin, pv.cap_var); } )
+  ( ( ( builtin capture )
+      %{ cur_rule().append_capture<FunctionCapture>(
+             pv.builtin, pv.cap_var, std::move(pv.pipe)); } )
     |
 
     ( ( builtin '=' regex_test negate? )
@@ -211,12 +225,9 @@ pattern = (
       %{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
-    ( ( attr_name '=' capture optional? )
-      %{ if( pv.regex )
-           cur_rule()
-             .append_capture<AttributeCapture>(pv.attr_name, pv.cap_var, *pv.regex);
-         else
-           cur_rule().append_capture<AttributeCapture>(pv.attr_name, pv.cap_var);
+    ( ( attr_name capture optional? )
+      %{ cur_rule().append_capture<AttributeCapture>(
+             pv.attr_name, pv.cap_var, std::move(pv.pipe));
          if( !pv.optional )
            cur_rule().append_match<AttributeMatch>(pv.attr_name);
        } )

@@ -7,22 +7,32 @@
 namespace hext {
 
 
-FunctionCapture::FunctionCapture(CaptureFunction func,
-                                 std::string     result_name)
-: func_(std::move(func))         // not noexcept
-, name_(std::move(result_name))  // noexcept
-, filter_()                      // noexcept
+FunctionCapture::FunctionCapture(CaptureFunction             func,
+                                 std::string                 result_name,
+                                 std::unique_ptr<StringPipe> pipe)
+: func_(std::move(func))
+, name_(std::move(result_name))
+, pipe_(std::move(pipe))
 {
 }
 
-FunctionCapture::FunctionCapture(CaptureFunction func,
-                                 std::string     result_name,
-                                 boost::regex    filter)
-: func_(std::move(func))         // not noexcept
-, name_(std::move(result_name))  // noexcept
-, filter_(std::move(filter))     // boost::optional: noexcept >=1.56,
-                                 // boost::regex:    not noexcept
+FunctionCapture::FunctionCapture(const FunctionCapture& other)
+: func_(other.func_)
+, name_(other.name_)
+, pipe_(other.pipe_ ? other.pipe_->clone() : nullptr)
 {
+}
+
+FunctionCapture& FunctionCapture::operator=(const FunctionCapture& other)
+{
+  if( this != &other )
+  {
+    this->func_ = other.func_;
+    this->name_ = other.name_;
+    this->pipe_.reset(other.pipe_->clone());
+  }
+
+  return *this;
 }
 
 boost::optional<ResultPair> FunctionCapture::capture(
@@ -33,19 +43,12 @@ boost::optional<ResultPair> FunctionCapture::capture(
     return {};
 
   auto str = this->func_(node);
-  if( this->filter_ )
-  {
-    boost::match_results<std::string::iterator> mr;
-    if( boost::regex_search(str.begin(), str.end(), mr, this->filter_.get()) )
-    {
-      // If there are no parentheses contained within the regex, return whole
-      // regex capture (mr[0]), if there are, then return the first one.
-      return ResultPair(this->name_,
-                        mr.size() > 1 ? mr[1] : mr[0]);
-    }
 
-    return {};
-  }
+  if( this->pipe_ )
+    return ResultPair(
+        this->name_,
+        this->pipe_->pipe(std::move(str))
+    );
 
   return ResultPair(this->name_, str);
 }
