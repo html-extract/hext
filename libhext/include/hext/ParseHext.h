@@ -19,7 +19,7 @@ namespace hext {
 /// @par Example:
 /// ~~~~~~~~~~~~~
 ///   try {
-///     Rule rule = ParseHext("<a href={href}/>");
+///     Rule rule = ParseHext("<a href=>href/>");
 ///   } catch( SyntaxError& e ) {
 ///     // e.what() will contain a detailed error message.
 ///   }
@@ -36,7 +36,7 @@ Rule ParseHext(const char * hext);
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   std::string hext_str("<a href={href}/>");
+///   std::string hext_str("<a href=>href/>");
 ///   try {
 ///     Rule rule = ParseHext(hext_str.c_str(), hext_str.size());
 ///     // ... do sth. with rule ...

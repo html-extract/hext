@@ -294,7 +294,7 @@ main := (
       ( trait %{ cur_rule().append_match(std::move(pv.trait)); } ) )*
 
     # a rule can have multiple match or capture patterns,
-    # e.g. class="menu", @text={heading}
+    # e.g. class="menu", @text=>heading
     pattern*
 
     space*
