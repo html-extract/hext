@@ -20,9 +20,8 @@ namespace hext {
 
 /// Holds all values required to create every Match and Capture when parsing
 /// hext rule definitions.
-class PatternValues
+struct PatternValues
 {
-public:
   PatternValues();
 
   /// Consume generic ValueTest.
