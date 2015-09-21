@@ -1,0 +1,3 @@
+<a href|filter(/([]-z\-0-9]*)$/)=>user_id
+   @text|trim=>user_name
+/>

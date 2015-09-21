@@ -1,0 +1,1 @@
+<a class|trim|prepend("'")|append("' is the class")=>'class' />

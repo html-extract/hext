@@ -1,0 +1,1 @@
+<a class|trim|prepend("This is the class: ")=>'class' />
