@@ -138,7 +138,8 @@ test_hext() {
     } >&2
   done
 
-  local actual=$($HTMLEXT -c -x "$f_hext" -i "$f_html") || {
+  local actual
+  actual=$($HTMLEXT -c -x "$f_hext" -i "$f_html") || {
     perror_case "$t_case"
     perror "$HTMLEXT failed for <$f_hext>" | pindent
     return 1
@@ -151,7 +152,8 @@ test_hext() {
   } >&2
   actual=$(echo "$actual" | sort)
 
-  local expect=$(cat "$f_expe" | jq -c --sort-keys '.') || {
+  local expect
+  expect=$(cat "$f_expe" | jq -c --sort-keys '.') || {
     perror_case "$t_case"
     perror "jq failed for <$f_expe>" | pindent
     return 1
