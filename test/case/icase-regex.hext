@@ -1,1 +1,1 @@
-<a class=/^[a-z]+$/i class:class/>
+<a class=~/^[a-z]+$/i class:class/>

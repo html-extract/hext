@@ -10,7 +10,7 @@ machine hext;
 optional = (
   '?' %{ pv.optional = true; }
 );
-# Negate a match pattern, e.g. style!, class="menu"!, @text=/foo/!
+# Negate a match pattern, e.g. style!, class="menu"!, @text=~/foo/!
 negate = (
   '!' %{ pv.set_test<NegateTest>(std::move(pv.test)); }
 );
@@ -232,7 +232,7 @@ pattern = (
              pv.builtin, pv.cap_var, std::move(pv.pipe)); } )
     |
 
-    ( ( builtin '=' regex_test negate? )
+    ( ( builtin '=~' regex_test negate? )
       %{ cur_rule().append_match<FunctionValueMatch>(pv.builtin, std::move(pv.test)); } )
     |
 
@@ -248,7 +248,7 @@ pattern = (
        } )
     |
 
-    ( ( attr_name '=' regex_test negate? )
+    ( ( attr_name '=~' regex_test negate? )
       %{ cur_rule().append_match<AttributeMatch>(pv.attr_name, std::move(pv.test)); } )
     |
 
