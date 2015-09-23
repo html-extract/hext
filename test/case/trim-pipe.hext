@@ -1,1 +1,1 @@
-<a class|trim(" ")=>' class ' @text|trim|trim("st")=>"trimmed content" />
+<a class:trim(" "):' class ' @text:trim:trim("st"):"trimmed content" />

@@ -44,7 +44,7 @@ namespace hext {
 ///   }
 ///
 ///   // anchor is now equivalent to the following hext:
-///   // <a href=>link><img src=>img/></a>
+///   // <a href:link><img src:img/></a>
 ///
 ///   Html html(
 ///       "<div><a href='/bob'>  <img src='bob.jpg'/>  </a></div>"

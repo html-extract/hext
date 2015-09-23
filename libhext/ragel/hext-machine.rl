@@ -174,9 +174,9 @@ builtin = (
 
 
 #### CAPTURE ###################################################################
-# captures can be passed through StringPipes, e.g. id|trim->id
+# captures can be passed through StringPipes, e.g. id:trim->id
 pipe = (
-  '|'
+  ':'
   ( ( ( 'trim' )                %{ pv.add_pipe<TrimPipe>(); } )
     |
     ( ( 'trim(' quoted ')' )    %{ pv.add_pipe<TrimPipe>(pv.literal_value); } )
@@ -194,9 +194,9 @@ pipe = (
     ( ( 'replace(' regex space* ',' space* opt_quoted ')' )
         %{ pv.add_pipe<RegexReplacePipe>(*pv.regex, pv.literal_value); } ) )
 );
-# capture variable, e.g. id=>linkid, id|trim=>linkid, id=>"Menu ID"
+# capture variable, e.g. id:linkid, id:trim:linkid, id:"Menu ID"
 capture = (
-  pipe* '=>'
+  pipe* ':'
   (
     ( quoted %{ pv.cap_var = pv.literal_value; } )
     |
@@ -295,7 +295,7 @@ main := (
       ( trait %{ cur_rule().append_match(std::move(pv.trait)); } ) )*
 
     # a rule can have multiple match or capture patterns,
-    # e.g. class="menu", @text=>heading
+    # e.g. class="menu", @text:heading
     pattern*
 
     space*

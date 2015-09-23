@@ -22,7 +22,7 @@ namespace hext {
 ///
 /// @par Example:
 /// ~~~~~~~~~~~~~
-///   std::string hext_str("<a href=>href/>");
+///   std::string hext_str("<a href:link />");
 ///   Parser p(hext_str.begin(), hext_str.end());
 ///   try {
 ///     Rule rule = p.parse();

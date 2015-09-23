@@ -1,1 +1,1 @@
-<a title=/bla \/\d+\// title|filter(/\/(\d+)\//)=>number/>
+<a title=/bla \/\d+\// title:filter(/\/(\d+)\//):number/>

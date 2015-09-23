@@ -65,9 +65,9 @@ TEST(Rule_Rule, Copy)
           "</a>");
 
   // A rule tree that will produce capture groups with four results
-  auto right = ParseHext("<a href^='/' class=>class href=>href >" // 2 results
-                           "<img src=>img />"                     // 1 result
-                           "<span @text=>link_name />"            // 1 result
+  auto right = ParseHext("<a href^='/' class:type href:link >"   // 2 results
+                           "<img src:img />"                     // 1 result
+                           "<span @text:link_name />"            // 1 result
                          "</a>");
 
   ASSERT_TRUE(right.matches(h.first()));

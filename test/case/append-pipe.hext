@@ -1,1 +1,1 @@
-<a class|trim|prepend("'")|append("' is the class")=>'class' />
+<a class:trim:prepend("'"):append("' is the class"):'class' />
