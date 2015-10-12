@@ -27,7 +27,7 @@
 namespace hext {
 
 
-/// Change the case of a string. Changes to lower case by default.
+/// Changes the case of a string. Changes to lower case by default.
 class CasePipe : public hext::Cloneable<CasePipe, StringPipe>
 {
 public:
