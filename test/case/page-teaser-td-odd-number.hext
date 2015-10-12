@@ -1,0 +1,1 @@
+<td:nth-child(odd) @text:filter(/\d+/):number />

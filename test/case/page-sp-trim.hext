@@ -1,0 +1,1 @@
+<a @inner-html:trim:link_text />

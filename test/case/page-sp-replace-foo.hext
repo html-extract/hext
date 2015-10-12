@@ -1,0 +1,1 @@
+<p @text:replace(/foo/, "bar"):bar_text />

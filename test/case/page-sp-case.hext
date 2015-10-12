@@ -1,0 +1,2 @@
+<h1 @text:toupper:link_title />
+<h2 @text:tolower:link_title />
