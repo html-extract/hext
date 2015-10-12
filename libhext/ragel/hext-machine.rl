@@ -188,7 +188,7 @@ builtin = (
 
 
 #### CAPTURE ###################################################################
-# captures can be passed through StringPipes, e.g. id:trim->id
+# captures can be passed through StringPipes, e.g. id:trim:id
 pipe = (
   ':'
   ( ( ( 'trim' )                %{ pv.add_pipe<TrimPipe>(); } )
