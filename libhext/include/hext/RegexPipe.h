@@ -34,7 +34,7 @@ namespace hext {
 /// @anchor RegexPipeBehavior
 /// @par Regex behavior:
 ///   A regex containing a capture group will produce only the matched
-///   content of this capture group, otherwise the whole regex match is
+///   content of that capture group, otherwise the whole regex match is
 ///   returned. All capture groups after the first one will be ignored.
 ///
 /// @par Example regex:
