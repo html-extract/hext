@@ -52,6 +52,7 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/Builtins.cpp"
   "${PROJECT_SOURCE_DIR}/src/CasePipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/ChildCountMatch.cpp"
+  "${PROJECT_SOURCE_DIR}/src/CollapseWsPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/ContainsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/ContainsWordsTest.cpp"
   "${PROJECT_SOURCE_DIR}/src/EndsWithTest.cpp"

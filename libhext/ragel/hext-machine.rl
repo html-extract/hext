@@ -195,6 +195,8 @@ pipe = (
     |
     ( ( 'trim(' quoted ')' )    %{ pv.add_pipe<TrimPipe>(pv.literal_value); } )
     |
+    ( ( 'collapsews' )          %{ pv.add_pipe<CollapseWsPipe>(); } )
+    |
     ( ( 'tolower' )             %{ pv.add_pipe<CasePipe>(); } )
     |
     ( ( 'toupper' )             %{ pv.add_pipe<CasePipe>(CasePipe::ToUpper); } )

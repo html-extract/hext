@@ -23,6 +23,7 @@
 #include "hext/Capture.h"
 #include "hext/CasePipe.h"
 #include "hext/ChildCountMatch.h"
+#include "hext/CollapseWsPipe.h"
 #include "hext/ContainsTest.h"
 #include "hext/ContainsWordsTest.h"
 #include "hext/EndsWithTest.h"

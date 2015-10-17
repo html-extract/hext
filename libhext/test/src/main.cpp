@@ -62,6 +62,7 @@ using namespace helper;
 #include "pipe/regex-replace-pipe.h"
 #include "pipe/string-pipe.h"
 #include "pipe/trim-pipe.h"
+#include "pipe/collapsews-pipe.h"
 
 
 int main(int argc, char ** argv)
