@@ -1,0 +1,11 @@
+{
+  "name": "syntax-hl-ace.js",
+  "version": "0.1.0",
+  "license": "Apache License, Version 2.0",
+  "dependencies": {
+    "amd-loader": "0.0.5",
+    "fs": "0.0.2",
+    "path": "^0.12.7",
+    "process": "^0.11.2"
+  }
+}
