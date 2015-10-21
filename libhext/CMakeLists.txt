@@ -93,34 +93,31 @@ INSTALL(TARGETS hext DESTINATION lib)
 INSTALL(DIRECTORY include/hext DESTINATION include)
 
 
-###### EXAMPLE #################################################################
-IF(NOT LIBHEXT_NO_EXAMPLE)
+###### EXAMPLES ################################################################
+ADD_EXECUTABLE(
+  chaining-rules
+  "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
+ADD_DEPENDENCIES(chaining-rules hext)
+TARGET_LINK_LIBRARIES(
+  chaining-rules
+  hext)
+SET_TARGET_PROPERTIES(
+  chaining-rules
+  PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+IF(${POCOFOUNDATION_FOUND})
+  INCLUDE_DIRECTORIES(${PocoFoundation_INCLUDE_DIR})
   ADD_EXECUTABLE(
-    chaining-rules
-    "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
-  ADD_DEPENDENCIES(chaining-rules hext)
+    extract-href
+    "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
+  ADD_DEPENDENCIES(extract-href hext)
   TARGET_LINK_LIBRARIES(
-    chaining-rules
+    extract-href
+    ${PocoFoundation_LIBRARY}
     hext)
   SET_TARGET_PROPERTIES(
-    chaining-rules
+    extract-href
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-
-  IF(${POCOFOUNDATION_FOUND})
-    INCLUDE_DIRECTORIES(${PocoFoundation_INCLUDE_DIR})
-    ADD_EXECUTABLE(
-      extract-href
-      "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
-    ADD_DEPENDENCIES(extract-href hext)
-    TARGET_LINK_LIBRARIES(
-      extract-href
-      ${PocoFoundation_LIBRARY}
-      hext)
-    SET_TARGET_PROPERTIES(
-      extract-href
-      PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  ENDIF(${POCOFOUNDATION_FOUND})
-ENDIF(NOT LIBHEXT_NO_EXAMPLE)
+ENDIF(${POCOFOUNDATION_FOUND})
 
 
 ###### TEST ####################################################################
