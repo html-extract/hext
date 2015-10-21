@@ -30,7 +30,7 @@ INCLUDE(HextGenerateVersionFile)
 
 
 ###### DEPENDENCIES ############################################################
-FIND_PACKAGE(Boost COMPONENTS regex)
+FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
 FIND_PACKAGE(Gumbo REQUIRED)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
