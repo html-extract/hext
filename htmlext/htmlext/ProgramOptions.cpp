@@ -39,6 +39,10 @@ ProgramOptions::ProgramOptions()
     ("pretty,p", "Force pretty-printing JSON. Overrrides --compact")
     ("array,a", "Put results into one top-level JSON array. If combined"
                 " with --compact, only print a single line")
+    ("raw,r", po::value<std::string>()
+                ->value_name("<capture-name>"),
+              "Only print captured values with name <capture-name>,"
+              " one per line")
     ("print-html-dot,d", po::value<std::string>()
                              ->value_name("<html-file>"),
                          "Print HTML input file as DOT")

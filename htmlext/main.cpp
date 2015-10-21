@@ -105,7 +105,18 @@ int main(int argc, const char ** argv)
       for(const auto& html : parsed_html)
       {
         hext::Result result = rule.extract(html.root());
-        htmlext::PrintJson(result, po.get_json_options(), std::cout);
+        if( po.contains("raw") )
+        {
+          auto filter_key = po.get("raw");
+          for(const auto& group : result)
+            for(const auto& p : group)
+              if( p.first == filter_key )
+                std::cout << p.second << "\n";
+        }
+        else
+        {
+          htmlext::PrintJson(result, po.get_json_options(), std::cout);
+        }
       }
   }
   catch( const htmlext::FileError& e )
