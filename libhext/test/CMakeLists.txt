@@ -22,6 +22,8 @@ IF(NOT LIBHEXT_LOADED)
 ENDIF(NOT LIBHEXT_LOADED)
 # Download and build GoogleTest
 INCLUDE(HextExternalProjectGoogleTest)
+# GoogleTest requires pthread
+FIND_PACKAGE(Threads REQUIRED)
 
 
 ###### INCLUDES ################################################################
@@ -35,11 +37,14 @@ ADD_EXECUTABLE(
   libhext-test
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
 ADD_DEPENDENCIES(libhext-test hext googletest)
+IF(THREADS_HAVE_PTHREAD_ARG)
+  TARGET_COMPILE_OPTIONS(PUBLIC libhext-test "-pthread")
+ENDIF(THREADS_HAVE_PTHREAD_ARG)
 TARGET_LINK_LIBRARIES(
   libhext-test
   hext
   gtest
-  pthread)
+  "${CMAKE_THREAD_LIBS_INIT}")
 
 
 ###### TESTING #################################################################
