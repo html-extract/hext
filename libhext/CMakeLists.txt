@@ -32,8 +32,7 @@ INCLUDE(HextGenerateVersionFile)
 ###### DEPENDENCIES ############################################################
 FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
 FIND_PACKAGE(Gumbo REQUIRED)
-# Example extract-href requires libPocoFoundation
-FIND_PACKAGE(PocoFoundation)
+FIND_PACKAGE(PocoFoundation) # optional, see "examples" section
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
@@ -121,17 +120,17 @@ ENDIF(${POCOFOUNDATION_FOUND})
 
 
 ###### TEST ####################################################################
-IF(NOT LIBHEXT_NO_TESTING)
-  ENABLE_TESTING()
-  IF(NOT LIBHEXT_TEST_LOADED)
-    ADD_SUBDIRECTORY("test/")
-  ENDIF(NOT LIBHEXT_TEST_LOADED)
-ENDIF(NOT LIBHEXT_NO_TESTING)
+ENABLE_TESTING()
+# Avoid circular dependency by only loading libhext-test if it wasn't included
+# already
+IF(NOT LIBHEXT_TEST_LOADED)
+  ADD_SUBDIRECTORY("test/")
+ENDIF(NOT LIBHEXT_TEST_LOADED)
 
 
 ###### BUILD OPTIONS ###########################################################
 # Option RUNRAGEL, default OFF
-# Call run-ragel.sh to generate the parser.
+# Calls run-ragel.sh to generate the parser.
 INCLUDE(HextOptionRunRagel)
 
 # Option SANITIZEADDRESS, default OFF
