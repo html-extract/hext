@@ -3,7 +3,7 @@
 INCLUDE(ExternalProject)
 ExternalProject_Add(
     googletest
-    URL http://googletest.googlecode.com/files/gtest-1.7.0.zip
+    URL https://github.com/google/googletest/archive/release-1.7.0.tar.gz
     TIMEOUT 10
 
     UPDATE_COMMAND ""
