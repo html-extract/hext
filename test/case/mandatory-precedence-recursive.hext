@@ -1,0 +1,14 @@
+<?span class:optional>
+  <?span class:opt_inner_optional />
+  <span class:opt_inner_num />
+  <?span class:opt_inner_optional />
+</span>
+<span class:num>
+  <?span class:inner_optional />
+  <span class:inner_num />
+  <?span class:inner_optional />
+</span>
+<?span class:optional>
+  <?span class:opt_inner_optional />
+  <span class:opt_inner_num />
+</span>

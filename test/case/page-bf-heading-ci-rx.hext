@@ -1,0 +1,1 @@
+<h1 @text=~/section \d+.\d+/i class:class />
