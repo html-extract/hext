@@ -32,6 +32,8 @@ INCLUDE(HextGenerateVersionFile)
 ###### DEPENDENCIES ############################################################
 FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
 FIND_PACKAGE(Gumbo REQUIRED)
+# Example extract-href requires libPocoFoundation
+FIND_PACKAGE(PocoFoundation)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
@@ -103,17 +105,21 @@ IF(NOT LIBHEXT_NO_EXAMPLE)
   SET_TARGET_PROPERTIES(
     chaining-rules
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  ADD_EXECUTABLE(
-    extract-href
-    "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
-  ADD_DEPENDENCIES(extract-href hext)
-  TARGET_LINK_LIBRARIES(
-    extract-href
-    PocoFoundation
-    hext)
-  SET_TARGET_PROPERTIES(
-    extract-href
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+
+  IF(${POCOFOUNDATION_FOUND})
+    INCLUDE_DIRECTORIES(${PocoFoundation_INCLUDE_DIR})
+    ADD_EXECUTABLE(
+      extract-href
+      "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
+    ADD_DEPENDENCIES(extract-href hext)
+    TARGET_LINK_LIBRARIES(
+      extract-href
+      ${PocoFoundation_LIBRARY}
+      hext)
+    SET_TARGET_PROPERTIES(
+      extract-href
+      PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+  ENDIF(${POCOFOUNDATION_FOUND})
 ENDIF(NOT LIBHEXT_NO_EXAMPLE)
 
 
