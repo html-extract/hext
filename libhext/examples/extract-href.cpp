@@ -126,7 +126,7 @@ boost::optional<std::string> BaseUri(const hext::Html& html)
 /// If no parameter is passed and there is a <base> element in the document, its
 /// href attribute will be used as the base-URI for all URIs.
 /// Example usage:
-///   curl -sS "http://www.reddit.com" | ./extract-href "http://www.reddit.com/"
+///   curl -sS "https://www.reddit.com" | ./extract-href "https://www.reddit.com/"
 int main(int argc, char * argv[])
 {
   using namespace hext;
