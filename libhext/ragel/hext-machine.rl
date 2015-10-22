@@ -153,8 +153,13 @@ not_trait =
 
 
 #### REGULAR EXPRESSIONS #######################################################
-regex =
-'/' ( ( [^/] | '\\/' )** >{ tk_start(); } %{ tk_stop(); } ) '/'
+regex = (
+  ( '/' ( ( [^/] | '\\/' )** >{ tk_start(); } %{ tk_stop(); } ) '/' )
+  |
+  ( "'" ( ( [^'] | "\\'" )** >{ tk_start(); } %{ tk_stop(); } ) "'" )
+  |
+  ( '"' ( ( [^"] | '\\"' )** >{ tk_start(); } %{ tk_stop(); } ) '"' )
+)
 # regex flags
 (
   # case insensitive

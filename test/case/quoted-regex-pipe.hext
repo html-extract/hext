@@ -1,0 +1,3 @@
+<a href:filter("^/user/[a-z]*-([0-9]+)"):user_id
+   @text:trim:user_name
+/>

@@ -1,0 +1,1 @@
+<a @text:trim:replace('content'i, "\"strange\"/days/"):replace("\"strange\"/days/"i, "content"):replace("content", 'potato'):text />
