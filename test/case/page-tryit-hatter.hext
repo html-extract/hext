@@ -1,0 +1,12 @@
+<tr>
+  <td><span @text:rank /></td>
+  <td><a href:href @text:title /></td>
+</tr>
+<?tr>
+  <td>
+    <span @text:score />
+    <a @text:user />
+    <a:last-child @text:filter(/\d+/):comment_count />
+  </td>
+</tr>
+

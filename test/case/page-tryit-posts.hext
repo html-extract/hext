@@ -1,0 +1,11 @@
+<div class="post">
+  <div class="username" @text:username />
+  <div class="date"
+       @text:filter(/published on (\d+.\d+.\d+)/i):date
+       @text:filter(/\d+:\d+/):time />
+  <a class="permalink"
+     href:prepend("http://www.example.com"):permalink
+     href:filter(/\d+$/):post_id />
+  <div class="content" @text:post />
+</div>
+

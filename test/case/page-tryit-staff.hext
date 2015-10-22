@@ -1,0 +1,12 @@
+# match <div> having class "author"
+<div class="author">
+  # match <a> having attr. href, store it in "author_href"
+  <a href:author_href>
+    # match <img> having attr. src, store it in "author_img"
+    <img src:author_img />
+    # match <span> having class "name", store inner text
+    # into "author_name"
+    <span class="name" @text:author_name />
+  </a>
+</div>
+
