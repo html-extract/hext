@@ -13,13 +13,7 @@ INCLUDE(HextEnableWarnings)
 
 
 ###### DEPENDENCIES ############################################################
-# Avoid circular dependency by only loading libhext if it wasn't included
-# already.
-IF(NOT LIBHEXT_LOADED)
-  # Tell libhext that libhext-test is already loaded.
-  SET(LIBHEXT_TEST_LOADED "true")
-  ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
-ENDIF(NOT LIBHEXT_LOADED)
+ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
 # Download and build GoogleTest
 INCLUDE(HextExternalProjectGoogleTest)
 # GoogleTest requires pthread

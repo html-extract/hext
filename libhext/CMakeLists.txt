@@ -5,8 +5,6 @@ PROJECT(libhext VERSION 0.1.0)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
-SET(LIBHEXT_LOADED "true")
-
 SET(
   CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/../cmake
@@ -117,15 +115,6 @@ IF(${POCOFOUNDATION_FOUND})
     extract-href
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
 ENDIF(${POCOFOUNDATION_FOUND})
-
-
-###### TEST ####################################################################
-ENABLE_TESTING()
-# Avoid circular dependency by only loading libhext-test if it wasn't included
-# already
-IF(NOT LIBHEXT_TEST_LOADED)
-  ADD_SUBDIRECTORY("test/")
-ENDIF(NOT LIBHEXT_TEST_LOADED)
 
 
 ###### BUILD OPTIONS ###########################################################
