@@ -28,11 +28,14 @@ const char * version_git_sha1 = "@PROJECT_VERSION_GIT_SHA1@";
 void PrintVersion(std::ostream& out)
 {
   out << "htmlext v" << version_major << "." << version_minor
-      << " build-" << version_git_sha1 << "\n"
+      << " build-" << version_git_sha1
+      << ", Copyright (C) 2015 Thomas Trapp\n"
       << "linked with libhext v"
       << hext::version_major << "."
       << hext::version_minor << "."
-      << hext::version_patch << "\n";
+      << hext::version_patch << "\n"
+      << "Released under the Apache License v2\n"
+      << "Documentation: http://hext.thomastrapp.com\n";
 }
 
 
