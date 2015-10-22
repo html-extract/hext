@@ -33,6 +33,10 @@ typedef std::pair<std::string, std::string> ResultPair;
 
 
 /// A multimap containing the values produced by capturing.
+/// Why std::multimap?
+/// * The value of a Capture should be accessible by key => associative
+//  * There may be Captures with duplicate names         => multi key
+/// * The order of Captures should be predictable        => sorted
 typedef std::multimap<ResultPair::first_type,
                       ResultPair::second_type> ResultMap;
 
