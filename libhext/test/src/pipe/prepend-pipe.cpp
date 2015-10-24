@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(Pipe_PrependPipe, Prepends)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  PrependPipe def("Content: ");
+  EXPECT_EQ(def.transform("content"), "Content: content");
 }
 

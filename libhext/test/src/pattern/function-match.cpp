@@ -12,12 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(Pattern_FunctionMatch, Matches)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  THtml h("<div></div>");
+
+  MatchFunction is_div = [](const GumboNode * node) {
+    return node->type == GUMBO_NODE_ELEMENT &&
+           node->v.element.tag == GUMBO_TAG_DIV;
+  };
+
+  EXPECT_TRUE(FunctionMatch(is_div).matches(h.first()));
+}
+
+TEST(Pattern_FunctionMatch, Fails)
+{
+  THtml h("<span></span>");
+
+  MatchFunction is_div = [](const GumboNode * node) {
+    return node->type == GUMBO_NODE_ELEMENT &&
+           node->v.element.tag == GUMBO_TAG_DIV;
+  };
+
+  EXPECT_FALSE(FunctionMatch(is_div).matches(h.first()));
 }
 

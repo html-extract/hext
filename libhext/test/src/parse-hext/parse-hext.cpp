@@ -12,12 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(ParseHext_ParseHext, ExampleFromDocumentation)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  EXPECT_NO_THROW(ParseHext("<a href:link />"));
+
+  std::string hext_str("<a href:link />");
+  EXPECT_NO_THROW(ParseHext(hext_str.c_str(), hext_str.size()));
+}
+
+TEST(ParseHext_ParseHext, ThrowsSyntaxError)
+{
+  EXPECT_THROW(ParseHext("invalid"), SyntaxError);
 }
 

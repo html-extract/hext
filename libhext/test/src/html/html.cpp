@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(Html_Html, ExampleFromDocumentation)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  Html page("<html><body>This is a string containing html</body></html>");
+  const GumboNode * root = page.root();
+  EXPECT_TRUE(root);
+
+  Rule html_root(HtmlTag::HTML);
+  EXPECT_TRUE(html_root.matches(root));
 }
 

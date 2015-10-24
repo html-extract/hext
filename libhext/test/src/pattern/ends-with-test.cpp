@@ -12,12 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(Pattern_EndsWithTest, Succeeds)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  EndsWithTest t("word");
+  EXPECT_TRUE(t.test("word"));
+  EXPECT_TRUE(t.test("sword"));
+  EXPECT_TRUE(t.test(" word"));
+  EXPECT_TRUE(t.test("wordwordword"));
+  EXPECT_TRUE(t.test("word word word"));
+}
+
+TEST(Pattern_EndsWithTest, Fails)
+{
+  EndsWithTest t("word");
+  EXPECT_FALSE(t.test("words"));
+  EXPECT_FALSE(t.test("swor"));
+  EXPECT_FALSE(t.test("wrd"));
+  EXPECT_FALSE(t.test("wordwor"));
 }
 

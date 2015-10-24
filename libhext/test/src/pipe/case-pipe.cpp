@@ -12,12 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(Pipe_CasePipe, ChangesCase)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  {
+    CasePipe p;
+    EXPECT_EQ(p.transform("Word"), "word");
+  }
+  {
+    CasePipe p(CasePipe::ToLower);
+    EXPECT_EQ(p.transform("WoRd"), "word");
+  }
+  {
+    CasePipe p(CasePipe::ToUpper);
+    EXPECT_EQ(p.transform("Word"), "WORD");
+  }
 }
 

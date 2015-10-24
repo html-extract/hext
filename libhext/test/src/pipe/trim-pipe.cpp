@@ -12,12 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gtest/gtest.h"
+#include "helper/common.h"
 
-
-int main(int argc, char ** argv)
+TEST(Pipe_TrimPipe, Trims)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  {
+    TrimPipe def;
+    EXPECT_EQ(def.transform("  str "), "str");
+  }
+  {
+    TrimPipe t("t");
+    EXPECT_EQ(t.transform("t"), "");
+  }
 }
 

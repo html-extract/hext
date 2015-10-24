@@ -12,12 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef TEST_HELPER_COMMON_H
+#define TEST_HELPER_COMMON_H
+
+
 #include "gtest/gtest.h"
 
+#include "StringUtil.h"
+#include "hext/Hext.h"
 
-int main(int argc, char ** argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+#include "helper/html.h"
+#include "helper/node.h"
+
+using namespace hext;
+using namespace helper;
+
+
+#endif // TEST_HELPER_COMMON_H
 
