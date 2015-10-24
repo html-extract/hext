@@ -46,7 +46,7 @@ ProgramOptions::ProgramOptions()
     ("print-html-dot,d", po::value<std::string>()
                              ->value_name("<html-file>"),
                          "Print HTML input file as DOT")
-    ("lint,l", "Hext syntax check: parse hext and exit")
+    ("lint,l", "Hext syntax check: parse Hext and exit")
     ("help,h", "Print this help message and exit")
     ("version,V", "Print version information and exit")
   ;
@@ -56,15 +56,25 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
 {
   namespace po = boost::program_options;
 
-  po::positional_options_description pos_opt;
-  pos_opt.add("hext", 1);
-  pos_opt.add("html", -1);
+  po::command_line_parser cli_parser(argc, argv);
+  cli_parser.options(this->desc_);
 
-  po::store(po::command_line_parser(argc, argv)
-                .options(this->desc_)
-                .positional(pos_opt)
-                .run(),
-            this->vm_);
+  // If --lint was given, then do not add positional options to avoid
+  // confusion. For example, the following would only parse first.hext,
+  // but not second.hext because it is interpreted as the positional
+  // option <html-file>:
+  // ./htmlext --lint first.hext second.hext
+  const auto end = argv + argc;
+  if( std::find(argv, end, std::string("-l")) == end &&
+      std::find(argv, end, std::string("--lint")) == end )
+  {
+    po::positional_options_description pos_opt;
+    pos_opt.add("hext", 1);
+    pos_opt.add("html", -1);
+    cli_parser.positional(pos_opt);
+  }
+
+  po::store(cli_parser.run(), this->vm_);
   po::notify(this->vm_);
 
   if( this->contains("help") || this->contains("version") )
@@ -117,8 +127,8 @@ void ProgramOptions::print(const char * program_name, std::ostream& out) const
          "      Apply extraction rules from <hext-file> to each <html-file>.\n"
          "      Print result as JSON.\n\n  "
       << program_name
-      << " -l <hext-file>\n"
-         "      Parse <hext-file> and exit silently on success.\n"
+      << " -l\n"
+         "      Parse Hext and exit silently on success.\n"
          "      On failure, print error information to stderr.\n\n  "
       << program_name
       << " --print-html-dot <html-file>\n"
