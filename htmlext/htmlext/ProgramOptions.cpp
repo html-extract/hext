@@ -57,6 +57,7 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   namespace po = boost::program_options;
 
   po::command_line_parser cli_parser(argc, argv);
+  po::positional_options_description pos_opt;
   cli_parser.options(this->desc_);
 
   // If --lint was given, then do not add positional options to avoid
@@ -68,7 +69,6 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   if( std::find(argv, end, std::string("-l")) == end &&
       std::find(argv, end, std::string("--lint")) == end )
   {
-    po::positional_options_description pos_opt;
     pos_opt.add("hext", 1);
     pos_opt.add("html", -1);
     cli_parser.positional(pos_opt);
