@@ -27,26 +27,26 @@ ProgramOptions::ProgramOptions()
     ("hext,x", po::value<std::vector<std::string>>()
                    ->default_value(std::vector<std::string>(), "")
                    ->value_name("<hext-file>"),
-               "Hext file(s)")
+               "Add Hext from file.")
     ("html,i", po::value<std::vector<std::string>>()
                    ->value_name("<html-file>"),
-               "HTML input file(s)")
+               "Add HTML from file.")
     ("str,s", po::value<std::vector<std::string>>()
                   ->default_value(std::vector<std::string>(), "")
                   ->value_name("<hext-string>"),
-              "Hext from string(s)")
-    ("compact,c", "Print one JSON object per line")
-    ("pretty,p", "Force pretty-printing JSON. Overrrides --compact")
+              "Add Hext from string.")
+    ("compact,c", "Print one JSON object per line.")
+    ("pretty,p", "Force pretty-printing JSON. Overrides --compact")
     ("array,a", "Put results into one top-level JSON array. If combined"
                 " with --compact, only print a single line")
     ("filter,f", po::value<std::string>()
-                ->value_name("<capture-name>"),
-              "Only print captured values with name <capture-name>,"
-              " one per line")
+                     ->value_name("<key>"),
+                 "Only print captured values with name <key>,"
+                 " one per line")
+    ("lint,l", "Hext syntax check: parse Hext and exit")
     ("print-html-dot,d", po::value<std::string>()
                              ->value_name("<html-file>"),
                          "Print HTML input file as DOT")
-    ("lint,l", "Hext syntax check: parse Hext and exit")
     ("help,h", "Print this help message and exit")
     ("version,V", "Print version information and exit")
   ;
@@ -126,13 +126,6 @@ void ProgramOptions::print(const char * program_name, std::ostream& out) const
       << " [options] <hext-file> <html-file...>\n"
          "      Apply extraction rules from <hext-file> to each <html-file>.\n"
          "      Print result as JSON.\n\n  "
-      << program_name
-      << " -l\n"
-         "      Parse Hext and exit silently on success.\n"
-         "      On failure, print error information to stderr.\n\n  "
-      << program_name
-      << " --print-html-dot <html-file>\n"
-         "      Parse and print <html-file> as DOT.\n\n"
       << this->desc_;
 }
 
