@@ -29,9 +29,6 @@ INCLUDE(HextGenerateVersionFile)
 
 ###### DEPENDENCIES ############################################################
 ADD_SUBDIRECTORY("libhext")
-IF(Gumbo_LIBRARY_DIR)
-  LINK_DIRECTORIES("${Gumbo_LIBRARY_DIR}")
-ENDIF(Gumbo_LIBRARY_DIR)
 FIND_PACKAGE(Boost COMPONENTS program_options REQUIRED)
 # If RapidJSON is not found in system, download it. RapidJSON is a header only
 # library.
@@ -48,7 +45,6 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 ###### INCLUDES ################################################################
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/htmlext")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
-INCLUDE_DIRECTORIES(${Gumbo_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 
@@ -58,7 +54,6 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ErrorOutput.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/File.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Json.cpp"
-  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/PrintDot.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")

@@ -44,9 +44,6 @@ ProgramOptions::ProgramOptions()
                  "Only print captured values with name <key>,"
                  " one per line")
     ("lint,l", "Hext syntax check: parse Hext and exit")
-    ("print-html-dot,d", po::value<std::string>()
-                             ->value_name("<html-file>"),
-                         "Print HTML input file as DOT")
     ("help,h", "Print this help message and exit")
     ("version,V", "Print version information and exit")
   ;
@@ -78,9 +75,6 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
   po::notify(this->vm_);
 
   if( this->contains("help") || this->contains("version") )
-    return;
-
-  if( this->contains("print-html-dot") )
     return;
 
   if( !this->contains("hext") && !this->contains("str") )
