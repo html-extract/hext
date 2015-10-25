@@ -105,9 +105,9 @@ int main(int argc, const char ** argv)
       for(const auto& html : parsed_html)
       {
         hext::Result result = rule.extract(html.root());
-        if( po.contains("raw") )
+        if( po.contains("filter") )
         {
-          auto filter_key = po.get("raw");
+          auto filter_key = po.get("filter");
           for(const auto& group : result)
             for(const auto& p : group)
               if( p.first == filter_key )
