@@ -61,7 +61,7 @@ define(function(require, exports, module) {
       "node_traits": [{
         token: nodeTraitToken,
         regex: ":[a-z\-]+",
-        next: "attributes",
+        next: "node_traits",
       }, {
         token: "whitespace",
         regex: " ",
