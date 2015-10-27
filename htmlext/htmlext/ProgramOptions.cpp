@@ -26,26 +26,24 @@ ProgramOptions::ProgramOptions()
   this->desc_.add_options()
     ("hext,x", po::value<std::vector<std::string>>()
                    ->default_value(std::vector<std::string>(), "")
-                   ->value_name("<hext-file>"),
-               "Add Hext from file.")
+                   ->value_name("<file>"),
+               "Add Hext from file")
     ("html,i", po::value<std::vector<std::string>>()
-                   ->value_name("<html-file>"),
-               "Add HTML from file.")
+                   ->value_name("<file>"),
+               "Add HTML from file")
     ("str,s", po::value<std::vector<std::string>>()
                   ->default_value(std::vector<std::string>(), "")
-                  ->value_name("<hext-string>"),
-              "Add Hext from string.")
-    ("compact,c", "Print one JSON object per line.")
-    ("pretty,p", "Force pretty-printing JSON. Overrides --compact")
-    ("array,a", "Put results into one top-level JSON array. If combined"
-                " with --compact, only print a single line")
+                  ->value_name("<string>"),
+              "Add Hext from string")
+    ("compact,c", "Print one JSON object per line")
+    ("pretty,p", "Pretty-print JSON")
+    ("array,a", "Wrap results in a JSON array")
     ("filter,f", po::value<std::string>()
                      ->value_name("<key>"),
-                 "Only print captured values with name <key>,"
-                 " one per line")
-    ("lint,l", "Hext syntax check: parse Hext and exit")
-    ("help,h", "Print this help message and exit")
-    ("version,V", "Print version information and exit")
+                 "Print values whose name matches <key>")
+    ("lint,l", "Do Hext syntax check")
+    ("help,h", "Print this help message")
+    ("version,V", "Print info and version")
   ;
 }
 
@@ -78,8 +76,8 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
     return;
 
   if( !this->contains("hext") && !this->contains("str") )
-    throw po::error("missing Hext input, use --hext/-x <hext-file> "
-                    "or --str/-s <hext-string>");
+    throw po::error("missing Hext input, use --hext/-x <file> "
+                    "or --str/-s <string>");
 
   if( this->contains("lint") )
     return;
@@ -115,11 +113,12 @@ std::vector<std::string> ProgramOptions::get_html_input() const
 
 void ProgramOptions::print(const char * program_name, std::ostream& out) const
 {
-  out << "Usage:\n  "
+  out << program_name << " - Extract structured content from HTML.\n\n"
+      << "Usage:\n  "
       << program_name
       << " [options] <hext-file> <html-file...>\n"
-         "      Apply extraction rules from <hext-file> to each <html-file>.\n"
-         "      Print result as JSON.\n\n  "
+         "      Apply extraction rules from <hext-file> to each\n"
+         "      <html-file> and print the captured content as JSON.\n\n"
       << this->desc_;
 }
 
