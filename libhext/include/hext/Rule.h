@@ -54,7 +54,7 @@ namespace hext {
 ///     // capture attribute src and save it as "img"
 ///     img.append_capture<AttributeCapture>("src", "img");
 ///     // append the image-rule to the anchor-rule
-///     anchor.append(std::move(img));
+///     anchor.append_child(std::move(img));
 ///   }
 ///
 ///   // anchor is now equivalent to the following hext:
