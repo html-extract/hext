@@ -108,6 +108,12 @@ public:
   /// Returns the next rule or nullptr if no following rule.
   const Rule * next() const;
 
+  /// Returns the first child or nullptr if childless.
+  Rule * child();
+
+  /// Returns the next rule or nullptr if no following rule.
+  Rule * next();
+
   /// Appends a child.
   ///
   /// @param new_child:  The Rule to append.

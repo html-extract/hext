@@ -77,6 +77,16 @@ const Rule * Rule::next() const
   return this->next_.get();
 }
 
+Rule * Rule::child()
+{
+  return this->first_child_.get();
+}
+
+Rule * Rule::next()
+{
+  return this->next_.get();
+}
+
 Rule& Rule::append_child(Rule new_child)
 {
   if( this->first_child_ )
