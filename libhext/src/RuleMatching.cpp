@@ -195,6 +195,10 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
       std::move(sub.begin(), sub.end(), std::back_inserter(result));
       matched = true;
     }
+    else if( !FindMandatoryRule(rule->child(), nullptr) )
+    {
+      matched = true;
+    }
   }
   while( next_node );
 
