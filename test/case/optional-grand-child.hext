@@ -1,0 +1,5 @@
+<div @text:no_span>
+  <p>
+    <?span />
+  </p>
+</div>
