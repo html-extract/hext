@@ -110,6 +110,16 @@ ENDIF(NOT GUMBO_FOUND)
 
 ###### EXAMPLES ################################################################
 ADD_EXECUTABLE(
+  mixed
+  "${PROJECT_SOURCE_DIR}/examples/mixed.cpp")
+ADD_DEPENDENCIES(mixed hext)
+TARGET_LINK_LIBRARIES(
+  mixed
+  hext)
+SET_TARGET_PROPERTIES(
+  mixed
+  PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+ADD_EXECUTABLE(
   chaining-rules
   "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
 ADD_DEPENDENCIES(chaining-rules hext)
