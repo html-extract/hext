@@ -19,7 +19,7 @@ TEST(Pattern_FunctionCapture, Captures)
   THtml h("<div>Inner Text</div>");
   FunctionCapture p(TextBuiltin, "result");
   auto pair = p.capture(h.first());
-  EXPECT_TRUE(pair);
+  EXPECT_TRUE((bool)pair);
   EXPECT_EQ(pair->first, "result");
   EXPECT_EQ(pair->second, "Inner Text");
 }
@@ -33,7 +33,7 @@ TEST(Pattern_FunctionCapture, CapturesWithRegex)
     std::make_unique<RegexPipe>(boost::regex("Inner (.*)"))
   );
   auto pair = p.capture(h.first());
-  EXPECT_TRUE(pair);
+  EXPECT_TRUE((bool)pair);
   EXPECT_EQ(pair->first, "result");
   EXPECT_EQ(pair->second, "Text");
 }
@@ -49,7 +49,7 @@ TEST(Pattern_FunctionCapture, CustomFunction)
                   FunctionCapture(my_func, "r")})
   {
     auto pair = cap.capture(h.first());
-    EXPECT_TRUE(pair);
+    EXPECT_TRUE((bool)pair);
     EXPECT_EQ(pair->first, "r");
     EXPECT_EQ(pair->second, "secret");
   }
@@ -61,7 +61,7 @@ TEST(Pattern_FunctionCapture, ExampleFromDocumentation)
     THtml h("<div>5 reasons why foo is better than bar</div>");
     FunctionCapture text(TextBuiltin, "text");
     auto result = text.capture(h.first());
-    ASSERT_TRUE(result);
+    ASSERT_TRUE((bool)result);
     EXPECT_EQ(*result, ResultPair("text", "5 reasons why foo is better than bar"));
   }
 
@@ -72,7 +72,7 @@ TEST(Pattern_FunctionCapture, ExampleFromDocumentation)
         "centimeters",
         std::make_unique<RegexPipe>(boost::regex("(\\d+)cm")));
     auto result = centimeters.capture(h.first());
-    ASSERT_TRUE(result);
+    ASSERT_TRUE((bool)result);
     EXPECT_EQ(*result, ResultPair("centimeters", "25"));
   }
 }
