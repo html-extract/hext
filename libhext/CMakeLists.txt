@@ -29,15 +29,7 @@ INCLUDE(HextGenerateVersionFile)
 
 ###### DEPENDENCIES ############################################################
 FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
-FIND_PACKAGE(Gumbo)
-IF(GUMBO_FOUND)
-  INCLUDE_DIRECTORIES(${Gumbo_INCLUDE_DIR})
-  # Change to global variable
-  SET(Gumbo_INCLUDE_DIR "${Gumbo_INCLUDE_DIR}" CACHE INTERNAL "")
-ELSE(GUMBO_FOUND)
-  MESSAGE("Will download and build gumbo automatically")
-  INCLUDE(HextExternalProjectGumbo)
-ENDIF(GUMBO_FOUND)
+FIND_PACKAGE(Gumbo REQUIRED)
 FIND_PACKAGE(PocoFoundation QUIET) # optional, see "examples" section
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
@@ -86,26 +78,15 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
-IF(GUMBO_FOUND)
-  TARGET_LINK_LIBRARIES(
-    hext
-    ${Gumbo_LIBRARY}
-    ${Boost_REGEX_LIBRARY})
-ELSE(GUMBO_FOUND)
-  ADD_DEPENDENCIES(hext gumbo-parser)
-  TARGET_LINK_LIBRARIES(
-    hext
-    gumbo
-    ${Boost_REGEX_LIBRARY})
-ENDIF(GUMBO_FOUND)
+TARGET_LINK_LIBRARIES(
+  hext
+  ${Gumbo_LIBRARY}
+  ${Boost_REGEX_LIBRARY})
 
 
 ###### INSTALL #################################################################
 INSTALL(TARGETS hext DESTINATION lib)
 INSTALL(DIRECTORY include/hext DESTINATION include)
-IF(NOT GUMBO_FOUND)
-  INSTALL(CODE "MESSAGE(WARNING \"You'll need to install gumbo manually, go to ${Gumbo_PROJECT_DIR} and run make install\")")
-ENDIF(NOT GUMBO_FOUND)
 
 
 ###### EXAMPLES ################################################################
