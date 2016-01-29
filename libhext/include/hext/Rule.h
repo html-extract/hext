@@ -168,8 +168,7 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_tag(HtmlTag tag) noexcept;
 
-  /// Returns true if this rule is optional, i.e. if a match does not have to
-  /// be found.
+  /// Returns true if this rule is optional, i.e. if a match has to be found.
   bool is_optional() const noexcept;
 
   /// Sets whether this rule is optional, i.e. if a match has to be found.
