@@ -1,7 +1,7 @@
 ###### LIBHEXT #################################################################
 # Enable PROJECT() with VERSION parameter.
 CMAKE_POLICY(SET CMP0048 NEW)
-PROJECT(libhext VERSION 0.1.0)
+PROJECT(Hext VERSION 0.1.0)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
@@ -32,11 +32,6 @@ FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
 FIND_PACKAGE(Gumbo REQUIRED)
 FIND_PACKAGE(PocoFoundation QUIET) # optional, see "examples" section
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
-
-
-###### INCLUDES ################################################################
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 
 ###### SOURCES #################################################################
@@ -84,9 +79,40 @@ TARGET_LINK_LIBRARIES(
   ${Boost_REGEX_LIBRARY})
 
 
+###### INCLUDES ################################################################
+TARGET_INCLUDE_DIRECTORIES(hext PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
+TARGET_INCLUDE_DIRECTORIES(hext PUBLIC ${Boost_INCLUDE_DIRS})
+
+
+###### CMAKE PACKAGE ###########################################################
+SET(HEXT_PACKAGE_VERSION_FILE
+    "${CMAKE_CURRENT_BINARY_DIR}/HextConfigVersion.cmake")
+SET(HEXT_PACKAGE_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/HextConfig.cmake")
+SET(HEXT_PACKAGE_INSTALL_DIR "lib/cmake/hext")
+SET(INCLUDE_INSTALL_DIR "include")
+SET(LIBRARY_INSTALL_DIR "lib")
+
+INCLUDE(CMakePackageConfigHelpers)
+WRITE_BASIC_PACKAGE_VERSION_FILE(
+  "${HEXT_PACKAGE_VERSION_FILE}" COMPATIBILITY SameMajorVersion)
+CONFIGURE_PACKAGE_CONFIG_FILE(
+  "${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in"
+  "${HEXT_PACKAGE_CONFIG_FILE}"
+  INSTALL_DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
+
+
 ###### INSTALL #################################################################
-INSTALL(TARGETS hext DESTINATION lib)
-INSTALL(DIRECTORY include/hext DESTINATION include)
+INSTALL(TARGETS hext
+        EXPORT "HextTargets"
+        LIBRARY DESTINATION "lib"
+        ARCHIVE DESTINATION "lib"
+        INCLUDES DESTINATION "include")
+INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/include/hext" DESTINATION "include")
+INSTALL(FILES       "${HEXT_PACKAGE_CONFIG_FILE}" "${HEXT_PACKAGE_VERSION_FILE}"
+        DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
+INSTALL(EXPORT "HextTargets"
+        DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
 
 
 ###### EXAMPLES ################################################################
