@@ -1,8 +1,7 @@
 ###### SWIG-HEXT ###############################################################
 PROJECT(swig-hext)
 
-# Cmake module ExternalProject is available since 2.8.7.
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
 SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../cmake")
 
