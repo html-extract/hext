@@ -25,7 +25,7 @@ FIND_PACKAGE(PythonLibs REQUIRED)
 FIND_PACKAGE(Hext REQUIRED)
 
 ### WRAPPERS
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/wrapper")
 
 
 ###### SWIG ####################################################################
@@ -41,6 +41,6 @@ IF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
 ENDIF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
 
 SET_SOURCE_FILES_PROPERTIES(hext.i PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_MODULE(hext python hext.i swig-html.cpp swig-rule.cpp)
+SWIG_ADD_MODULE(hext python hext.i wrapper/swig-html.cpp wrapper/swig-rule.cpp)
 SWIG_LINK_LIBRARIES(hext hext ${PYTHON_LIBRARIES})
 
