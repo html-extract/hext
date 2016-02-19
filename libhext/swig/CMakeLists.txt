@@ -35,11 +35,6 @@ SET(CMAKE_SWIG_FLAGS "-c++")
 ###### PYTHON ##################################################################
 INCLUDE_DIRECTORIES(SYSTEM ${PYTHON_INCLUDE_PATH})
 
-# Hide swig's horrible compiler warnings when building release.
-IF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
-  SET_SOURCE_FILES_PROPERTIES(pyhextPYTHON_wrap.cxx PROPERTIES COMPILE_FLAGS -w)
-ENDIF(CMAKE_COMPILER_IS_GNUCXX AND (CMAKE_BUILD_TYPE MATCHES Release))
-
 SET_SOURCE_FILES_PROPERTIES(hext.i PROPERTIES CPLUSPLUS ON)
 SWIG_ADD_MODULE(hext python hext.i wrapper/swig-html.cpp wrapper/swig-rule.cpp)
 SWIG_LINK_LIBRARIES(hext hext ${PYTHON_LIBRARIES})
