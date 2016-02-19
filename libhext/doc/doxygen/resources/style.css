@@ -1450,31 +1450,37 @@ body {
 }
 #nav-path { display: none; }
 #titlearea {
-  background: url("hext-logo-white-x50.png") no-repeat scroll 10px center #000;
+  background-color:#1678c2;
   height:60px;
-  background-color:#000;
   float:left;
   position:absolute;
   width:100%;
-  z-index:-99;
   border-bottom:1px solid #69d2e7;
   box-sizing:content-box;
   min-width:850px;
 }
+#titlearea .hext-logo-href {
+  display: block;
+  padding-left: 20px;
+  padding-top: 5px;
+  position: relative;
+}
 #navrow1 {
   height:60px;
   padding:15px;
-  width:100%;
   float:left;
+  left:200px;
+  position:relative;
+}
+#navrow1 .tablist li:nth-child(2) {
+  display:none;
 }
 #navrow1 .tablist li:last-child {
-  position:absolute;
-  right:0;
   width:200px;
+  position:relative;
 }
 #navrow1 .tablist {
   height: 60px;
-  margin: 0 0 0 200px;
   padding: 0;
   position:relative;
 }
