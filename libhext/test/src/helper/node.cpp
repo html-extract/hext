@@ -15,9 +15,6 @@
 #include "helper/node.h"
 
 
-namespace helper {
-
-
 hext::HtmlTag tag(const GumboNode * node)
 {
   EXPECT_NE(node, nullptr);
@@ -42,7 +39,4 @@ std::string attr_value(const GumboNode * node, const char * attr_name)
 
   return std::string(g_attr->value);
 }
-
-
-} // namespace helper
 

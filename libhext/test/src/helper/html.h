@@ -22,9 +22,6 @@
 #include <gumbo.h>
 
 
-namespace helper {
-
-
 class THtml
 {
 public:
@@ -51,7 +48,7 @@ public:
     const GumboNode * node = this->g_outp_->root;
     if( !node || node->type != GUMBO_NODE_ELEMENT )
     {
-      std::cerr << "helper::THtml:" << __LINE__ << ": gumbo returned null\n";
+      std::cerr << "THtml:" << __LINE__ << ": gumbo returned null\n";
       return nullptr;
     }
 
@@ -61,21 +58,21 @@ public:
     // present in the input, gumbo will insert them).
     if( children.length < 2 )
     {
-      std::cerr << "helper::THtml:" << __LINE__ << ": children.length < 2\n";
+      std::cerr << "THtml:" << __LINE__ << ": children.length < 2\n";
       return nullptr;
     }
     node = static_cast<const GumboNode *>(children.data[1]);
 
     if( !node || node->type != GUMBO_NODE_ELEMENT )
     {
-      std::cerr << "helper::THtml:" << __LINE__
+      std::cerr << "THtml:" << __LINE__
                 << ": expected body is not a GUMBO_NODE_ELEMENT\n";
       return nullptr;
     }
 
     if( node->v.element.tag != GUMBO_TAG_BODY )
     {
-      std::cerr << "helper::THtml:" << __LINE__
+      std::cerr << "THtml:" << __LINE__
                 << ": expected body not having tag GUMBO_TAG_BODY\n";
       return nullptr;
     }
@@ -94,7 +91,7 @@ public:
     if( pos && pos <= children.length )
       return static_cast<const GumboNode *>(children.data[pos - 1]);
 
-    std::cerr << "helper::THtml:" << __LINE__
+    std::cerr << "THtml:" << __LINE__
               << ": no child in body at position " << pos << "\n";
     return nullptr;
   }
@@ -110,9 +107,6 @@ private:
 
   GumboOutput * g_outp_;
 };
-
-
-} // namespace helper
 
 
 #endif // TEST_HELPER_HTML_H

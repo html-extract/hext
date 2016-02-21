@@ -25,7 +25,6 @@
 #include "helper/node.h"
 
 using namespace hext;
-using namespace helper;
 
 
 #endif // TEST_HELPER_COMMON_H

@@ -25,14 +25,8 @@
 #include <gumbo.h>
 
 
-namespace helper {
-
-
 hext::HtmlTag tag(const GumboNode * node);
 std::string attr_value(const GumboNode * node, const char * attr_name);
-
-
-} // namespace helper
 
 
 #endif // TEST_HELPER_NODE_H
