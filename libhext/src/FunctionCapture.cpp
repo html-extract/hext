@@ -43,7 +43,7 @@ FunctionCapture& FunctionCapture::operator=(const FunctionCapture& other)
   {
     this->func_ = other.func_;
     this->name_ = other.name_;
-    this->pipe_ = std::move(other.pipe_->clone());
+    this->pipe_ = other.pipe_->clone();
   }
 
   return *this;

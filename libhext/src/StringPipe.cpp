@@ -38,7 +38,7 @@ StringPipe& StringPipe::operator=(const StringPipe& other)
     // recursively clone the pipe chain (Cloneable::clone() will call the copy
     // ctor for other.next_).
     if( other.next_ )
-      this->next_ = std::move(other.next_->clone());
+      this->next_ = other.next_->clone();
   }
 
   return *this;
