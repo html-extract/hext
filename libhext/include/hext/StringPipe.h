@@ -40,9 +40,9 @@ class StringPipe
 public:
   StringPipe();
   StringPipe(const StringPipe& other);
-  StringPipe(StringPipe&&) noexcept = default;
+  StringPipe(StringPipe&&) = default;
   StringPipe& operator=(const StringPipe& other);
-  StringPipe& operator=(StringPipe&&) noexcept = default;
+  StringPipe& operator=(StringPipe&&) = default;
   virtual ~StringPipe() = default;
 
   /// Clones derived object.

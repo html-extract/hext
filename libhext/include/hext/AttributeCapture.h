@@ -74,9 +74,9 @@ public:
                    std::unique_ptr<StringPipe> pipe = nullptr);
 
   AttributeCapture(const AttributeCapture& other);
-  AttributeCapture(AttributeCapture&&) noexcept = default;
+  AttributeCapture(AttributeCapture&&) = default;
   AttributeCapture& operator=(const AttributeCapture& other);
-  AttributeCapture& operator=(AttributeCapture&&) noexcept = default;
+  AttributeCapture& operator=(AttributeCapture&&) = default;
 
   /// Captures an HTML element's attribute called attr_name (as given in the
   /// constructor). Optionally applies a StringPipe to the value before

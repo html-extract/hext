@@ -74,9 +74,9 @@ public:
                   std::unique_ptr<StringPipe> pipe = nullptr);
 
   FunctionCapture(const FunctionCapture& other);
-  FunctionCapture(FunctionCapture&&) noexcept = default;
+  FunctionCapture(FunctionCapture&&) = default;
   FunctionCapture& operator=(const FunctionCapture& other);
-  FunctionCapture& operator=(FunctionCapture&&) noexcept = default;
+  FunctionCapture& operator=(FunctionCapture&&) = default;
 
   /// Captures the result of calling a given CaptureFunction with node as its
   /// argument. Optionally applies a StringPipe to the value before returning.
