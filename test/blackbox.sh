@@ -84,24 +84,27 @@ whereis_htmlext() {
 }
 
 
-# Try to find htmlext, it may be located either in PATH, or in the build
-# directory.
-HTMLEXT=$(whereis_htmlext) || {
-  if [[ -d "${BUILD_DIR}" ]]
-  then
-    HTMLEXT=$(whereis_htmlext "${BUILD_DIR}") || {
-      perror "htmlext is neither in PATH" \
-        "nor in the build directory (${BUILD_DIR})\n"\
-        "Build htmlext and run $0 again"
+# Only search for htmlext if HTMLEXT wasn't set by caller
+if [[ -z "${HTMLEXT}" ]] ; then
+  # Try to find htmlext, it may be located either in PATH, or in the build
+  # directory.
+  HTMLEXT=$(whereis_htmlext) || {
+    if [[ -d "${BUILD_DIR}" ]]
+    then
+      HTMLEXT=$(whereis_htmlext "${BUILD_DIR}") || {
+        perror "htmlext is neither in PATH" \
+          "nor in the build directory (${BUILD_DIR})\n"\
+          "Build htmlext and run $0 again"
+        exit 1
+      }
+    else
+      perror "htmlext is not in PATH" \
+        "and the build directory was not found" \
+        "(tried to access: ${BUILD_DIR})"
       exit 1
-    }
-  else
-    perror "htmlext is not in PATH" \
-      "and the build directory was not found" \
-      "(tried to access: ${BUILD_DIR})"
-    exit 1
-  fi
-} >&2
+    fi
+  } >&2
+fi
 
 
 # jq is needed to normalize json
