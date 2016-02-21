@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "helper/common.h"
+using namespace hext;
+
 #include <string>
 #include <utility>
 #include <vector>

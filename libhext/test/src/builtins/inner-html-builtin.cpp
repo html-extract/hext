@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "helper/common.h"
+using namespace hext;
+
 #include <string>
 
 TEST(Builtins_InnerHtmlBuiltin, ExtractsHtml)

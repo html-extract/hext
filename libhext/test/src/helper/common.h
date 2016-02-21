@@ -24,8 +24,6 @@
 #include "helper/html.h"
 #include "helper/node.h"
 
-using namespace hext;
-
 
 #endif // TEST_HELPER_COMMON_H
 

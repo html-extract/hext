@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "helper/common.h"
+using namespace hext;
+
 
 TEST(Pattern_AttributeCapture, Captures)
 {
