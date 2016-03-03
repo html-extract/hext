@@ -35,7 +35,7 @@ the `duration`, `title`, `link`, `view_count` and `date_published`.
 Visit [Hext's project page](http://hext.thomastrapp.com) to learn more about
 Hext. For examples that use the libhext C++ library checkout `/libhext/examples`
 and the
-[main page of the doxygen documentation](http://hext.thomastrapp.com/libhext-doc).
+[main page of the doxygen documentation](http://hext.thomastrapp.com/libhext-documentation).
 
 ## Components
 * `htmlext`: Command line utility that applies Hext snippets to an HTML document
