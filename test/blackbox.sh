@@ -107,13 +107,6 @@ if [[ -z "${HTMLEXT}" ]] ; then
 fi
 
 
-# jq is needed to normalize json
-jq --version 2>&1 > /dev/null || {
-  perror "cannot execute jq" >&2
-  exit 1
-}
-
-
 # Run a hext test case.
 # Expects a path to a file ending in hext, whose directory contains a
 # file with the same name but ending in ".html", which will be passed
@@ -161,21 +154,10 @@ test_hext() {
     perror "$HTMLEXT failed for <$f_hext>" | pindent
     return 1
   } >&2
-  actual=$(echo "$actual" | jq -c --sort-keys '.') || {
-    perror_case "$t_case"
-    perror "jq failed with output from hext:" | pindent
-    echo "$actual" | pindent 4
-    return 1
-  } >&2
   actual=$(echo "$actual" | sort)
 
   local expect
-  expect=$(cat "$f_expe" | jq -c --sort-keys '.') || {
-    perror_case "$t_case"
-    perror "jq failed for <$f_expe>" | pindent
-    return 1
-  } >&2
-  expect=$(echo "$expect" | sort)
+  expect=$(sort "$f_expe")
 
   [[ "$actual" == "$expect" ]] || {
     perror_case "$t_case"
