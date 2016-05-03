@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2015 Thomas Trapp
+# Copyright 2015,2016 Thomas Trapp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,31 @@
 
 [[ $# -lt 1 ]] && {
   echo "Usage: $0 <hext-file...>"
+  echo
+  cat <<HelpMessage | fold -s -w 78 | sed 's/^/  /'
+$0 applies Hext snippets to HTML documents and compares the result to a third \
+file that contains the expected output. For example, there is a test case \
+icase-quoted-regex that consists of three files:
+  icase-quoted-regex.hext
+  icase-quoted-regex.html
+  icase-quoted-regex.expected
+To run this test case you would do the following:
+  $ $0 case/icase-quoted-regex.hext
+
+$0 will then look for the corresponding .html and .expected files of the same \
+name in the directory of icase-quoted-regex.hext. Then it will invoke htmlext \
+with the given Hext snippet and HTML document and compare the result to \
+icase-quoted-regex.expected.
+
+To run all blackbox tests in succession:
+  $ $0 case/*.hext
+
+By default $0 will look for the htmlext binary in \$PATH. Failing that, it \
+looks for the binary in the default build directory. You can tell $0 which \
+command to use by setting HTMLEXT.
+For example, to run all tests through valgrind you'd run the following:
+  $ HTMLEXT="valgrind -q htmlext" $0 case/*.hext
+HelpMessage
   exit
 }
 
