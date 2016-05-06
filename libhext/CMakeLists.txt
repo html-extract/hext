@@ -28,7 +28,7 @@ INCLUDE(HextGenerateVersionFile)
 
 
 ###### DEPENDENCIES ############################################################
-FIND_PACKAGE(Boost 1.60 REQUIRED COMPONENTS regex)
+FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
 FIND_PACKAGE(Gumbo REQUIRED)
 FIND_PACKAGE(PocoFoundation QUIET) # optional, see "examples" section
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
