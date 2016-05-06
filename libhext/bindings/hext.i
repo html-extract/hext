@@ -39,6 +39,11 @@ namespace std
 
 %ignore Html::root() const;
 %{
+// Avoid name clash with hext::HtmlTag::RUBY
+#ifdef RUBY
+  #undef RUBY
+#endif
+
 #include "swig-html.h"
 #include "swig-rule.h"
 %}
