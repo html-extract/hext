@@ -26,7 +26,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wunreachable-code" "-Wunused"
     "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
     "-Wunused-variable" "-Wvariadic-macros" "-Wvolatile-register-var"
-    "-Wwrite-strings" "-Wmissing-noreturn"
+    "-Wwrite-strings" "-Wmissing-noreturn" "-Wsign-conversion"
     # Unused switches:
     # "-Wswitch-enum": Listing every enum brings chaos, especially for GumboTag.
     # "-Wswitch-default": generated ragel code uses switch without default,
