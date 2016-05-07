@@ -17,7 +17,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wformat=2" "-Wformat-nonliteral" "-Wformat-security" "-Wformat-y2k"
     "-Wimport" "-Winit-self" "-Winvalid-pch" "-Wlogical-op"
     "-Wlong-long" "-Wmissing-braces" "-Wmissing-field-initializers"
-    "-Wmissing-format-attribute" "-Wmissing-include-dirs" "-Wno-unused"
+    "-Wmissing-format-attribute" "-Wmissing-include-dirs"
     "-Woverloaded-virtual" "-Wpacked" "-Wparentheses" "-Wpointer-arith"
     "-Wredundant-decls" "-Wreturn-type" "-Wsequence-point" "-Wshadow"
     "-Wsign-compare" "-Wsign-promo" "-Wstack-protector" "-Wstrict-aliasing=2"
