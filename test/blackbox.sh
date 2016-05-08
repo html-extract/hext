@@ -174,7 +174,7 @@ test_hext() {
   done
 
   local actual
-  actual=$($HTMLEXT -c -x "$f_hext" -i "$f_html") || {
+  actual=$($HTMLEXT "$f_hext" "$f_html") || {
     perror_case "$t_case"
     perror "$HTMLEXT failed for <$f_hext>" | pindent
     return 1
