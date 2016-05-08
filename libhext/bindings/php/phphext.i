@@ -29,19 +29,42 @@
     MAKE_STD_ZVAL(out_map);
     array_init(out_map);
 
-    for(const auto& p : map)
+    auto it = map.cbegin();
+    while( it != map.cend() )
     {
-      // Overwrite already existing keys (same behaviour as python's
-      // std_multimap.i).
-      add_assoc_string(
-        out_map,
-        p.first.c_str(),
-        // Since we request that the string should be copied, this const_cast
-        // should be safe.
-        const_cast<char *>(p.second.c_str()),
-        // Copy the string
-        1
-      );
+      if( map.count(it->first) < 2 )
+      {
+        add_assoc_string(
+          out_map,
+          it->first.c_str(),
+          // Since we request that the string should be copied, this const_cast
+          // should be safe.
+          const_cast<char *>(it->second.c_str()),
+          // Copy the string
+          1
+        );
+        ++it;
+      }
+      else
+      {
+        // Pack values of non-unique keys into an indexed array
+        zval * values;
+        MAKE_STD_ZVAL(values);
+        array_init(values);
+
+        auto lower = map.lower_bound(it->first);
+        auto upper = map.upper_bound(it->first);
+        for(; lower != upper; ++lower)
+          add_next_index_stringl(
+            values,
+            const_cast<char *>(lower->second.c_str()),
+            lower->second.size(),
+            1
+          );
+
+        add_assoc_zval(out_map, it->first.c_str(), values);
+        it = upper;
+      }
     }
 
     add_next_index_zval($result, out_map);
