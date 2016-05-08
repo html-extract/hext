@@ -33,7 +33,7 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 [[ -f "$blacksh" ]] || perror_exit "Cannot find blackbox.sh (tried '$blacksh')"
 [[ -d "$casedir" ]] || perror_exit "Cannot find test cases (tried '$casedir')"
 
-[[ -d "$thisdir/../build" ]] && PYTHONPATH="$thisdir/../build"
-HTMLEXT="$htmlext"
+[[ -d "$thisdir/../build" ]] && export PYTHONPATH="$thisdir/../build"
+export HTMLEXT="python $htmlext"
 "$blacksh" "$casedir"/*.hext
 
