@@ -39,6 +39,7 @@ int main()
         .append_capture<AttributeCapture>(/* attr_name:    */ "href",
                                           /* capture name: */ "href");
 
+  try
   {
     auto img = ParseHext("<img src:img /><p @text:par />");
 
@@ -49,6 +50,11 @@ int main()
     assert(par->child());
 
     anchor.append_child(std::move(img));
+  }
+  catch( const hext::SyntaxError& e )
+  {
+    std::cerr << "Syntax error: " << e.what() << "\n";
+    return EXIT_FAILURE;
   }
 
   // Rule anchor is now equivalent to this hext snippet:
