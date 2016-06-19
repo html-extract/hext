@@ -37,7 +37,7 @@ namespace hext {
 ///   assert( ends.test("baz"));
 ///   assert(!ends.test("foo"));
 /// ~~~~~~~~~~~~~
-class EndsWithTest : public Cloneable<EndsWithTest, ValueTest>
+class EndsWithTest final : public Cloneable<EndsWithTest, ValueTest>
 {
 public:
   /// Constructs an EndsWithTest that succeeds for subjects that end with the
@@ -49,7 +49,7 @@ public:
   /// Returns true if subject ends with the given literal.
   ///
   /// @param subject:  The string that is to be tested.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// The literal that must be matched.

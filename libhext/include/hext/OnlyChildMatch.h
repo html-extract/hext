@@ -33,7 +33,7 @@ namespace hext {
 /// only-child-of-type.
 ///
 /// See https://developer.mozilla.org/en-US/docs/Web/CSS/:only-child
-class OnlyChildMatch : public Cloneable<OnlyChildMatch, Match>
+class OnlyChildMatch final : public Cloneable<OnlyChildMatch, Match>
 {
 public:
   /// OnlyChildMatch's options.
@@ -53,7 +53,7 @@ public:
   explicit OnlyChildMatch(Option options = Option::AnyType);
 
   /// Returns true if node is the only child of its parent.
-  bool matches(const GumboNode * node) const noexcept final;
+  bool matches(const GumboNode * node) const noexcept override;
 
 private:
   /// See OnlyChildMatch::Option.

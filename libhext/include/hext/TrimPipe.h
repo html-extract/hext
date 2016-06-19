@@ -29,7 +29,7 @@ namespace hext {
 
 /// Trims characters from the beginning and end of a string. Trims space by
 /// default.
-class TrimPipe : public hext::Cloneable<TrimPipe, StringPipe>
+class TrimPipe final : public hext::Cloneable<TrimPipe, StringPipe>
 {
 public:
   /// Constructs a TrimPipe.
@@ -40,7 +40,7 @@ public:
 
   /// Removes all left and right characters that were given in the constructor
   /// from str.
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 
 private:
   std::string trim_any_of_;

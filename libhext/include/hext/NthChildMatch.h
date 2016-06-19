@@ -84,7 +84,7 @@ namespace hext {
 ///   assert( m_last_of_type.matches(second));
 ///   assert( m_last_of_type.matches(third));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~
-class NthChildMatch : public Cloneable<NthChildMatch, Match>
+class NthChildMatch final : public Cloneable<NthChildMatch, Match>
 {
 public:
   /// NthChildMatch's options.
@@ -123,7 +123,7 @@ public:
   /// Returns true if HTML node matches pattern <step * n + shift>.
   ///
   /// @param node:  A pointer to a GumboNode.
-  bool matches(const GumboNode * node) const noexcept final;
+  bool matches(const GumboNode * node) const noexcept override;
 
 private:
   /// Count preceding siblings of an HTML node.

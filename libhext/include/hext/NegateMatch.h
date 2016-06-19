@@ -49,7 +49,7 @@ namespace hext {
 ///   assert(!not_one.matches(attr_one));
 ///   assert( not_one.matches(attr_two));
 /// ~~~~~~~~~~~~~
-class NegateMatch : public Cloneable<NegateMatch, Match>
+class NegateMatch final : public Cloneable<NegateMatch, Match>
 {
 public:
   /// Constructs a NegateMatch that matches nodes for which every contained
@@ -78,7 +78,7 @@ public:
   /// Returns true if every contained Match returns false for node.
   ///
   /// @param node:  A pointer to a GumboNode.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const override;
 
 private:
   /// A vector containing Matches whose result will be negated.

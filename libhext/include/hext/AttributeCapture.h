@@ -58,7 +58,7 @@ namespace hext {
 ///     // attribute found and captured
 ///     assert(*result == ResultPair("U.S. Route", "61"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
-class AttributeCapture : public Cloneable<AttributeCapture, Capture>
+class AttributeCapture final : public Cloneable<AttributeCapture, Capture>
 {
 public:
   /// Constructs an AttributeCapture.
@@ -86,7 +86,7 @@ public:
   ///
   /// @returns  A pair in the form of {result_name, attribute_value} or
   ///           an empty optional if the attribute cannot be found.
-  boost::optional<ResultPair> capture(const GumboNode * node) const final;
+  boost::optional<ResultPair> capture(const GumboNode * node) const override;
 
 private:
   /// The name of the HTML attribute whose value will be captured.

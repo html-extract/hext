@@ -37,7 +37,7 @@ namespace hext {
 ///   assert(!begins.test("startles your sleeping ears to hear"));
 ///   assert(!begins.test(""));
 /// ~~~~~~~~~~~~~
-class BeginsWithTest : public Cloneable<BeginsWithTest, ValueTest>
+class BeginsWithTest final : public Cloneable<BeginsWithTest, ValueTest>
 {
 public:
   /// Constructs a BeginsWithTest that succeeds for subjects that begin with
@@ -49,7 +49,7 @@ public:
   /// Return true if subject begins with the given literal.
   ///
   /// @param subject:  The string that is to be tested.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// The literal that must be matched.

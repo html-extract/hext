@@ -38,11 +38,11 @@ namespace hext {
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /// "Like a Rolling Stone"
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class CollapseWsPipe : public hext::Cloneable<CollapseWsPipe, StringPipe>
+class CollapseWsPipe final : public hext::Cloneable<CollapseWsPipe, StringPipe>
 {
 public:
   /// Collapses multiple whitespace to a single space
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 };
 
 

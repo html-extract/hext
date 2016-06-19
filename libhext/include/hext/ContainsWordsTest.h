@@ -40,7 +40,7 @@ namespace hext {
 ///   assert(!cw.test("foobaz bar"));
 ///   assert(!cw.test("foo bar"));
 /// ~~~~~~~~~~~~~
-class ContainsWordsTest : public Cloneable<ContainsWordsTest, ValueTest>
+class ContainsWordsTest final : public Cloneable<ContainsWordsTest, ValueTest>
 {
 public:
   /// Constructs a ContainsWordsTest that succeeds for subjects that contain all
@@ -58,7 +58,7 @@ public:
   /// Returns true if subject contains all given words.
   ///
   /// @param subject:  The string that is to be tested.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// A vector of words that a subject must contain.

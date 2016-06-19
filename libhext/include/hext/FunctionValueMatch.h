@@ -54,7 +54,7 @@ namespace hext {
 ///   assert(!m_foo.matches(bar));
 ///   assert(!m_bar.matches(foo));
 /// ~~~~~~~~~~~~~
-class FunctionValueMatch : public Cloneable<FunctionValueMatch, Match>
+class FunctionValueMatch final : public Cloneable<FunctionValueMatch, Match>
 {
 public:
   /// Constructs a FunctionValueMatch that matches HTML nodes for which a given
@@ -77,7 +77,7 @@ public:
   /// as its first argument passes the given ValueTest.
   ///
   /// @param node:  A pointer to a GumboNode.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const override;
 
 private:
   /// The CaptureFunction that will be applied to an HTML node.

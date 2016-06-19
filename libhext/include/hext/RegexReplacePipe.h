@@ -37,7 +37,7 @@ namespace hext {
 ///     RegexReplacePipe r(boost::regex("^(\\w+) (\\\w+)$"), "$2 $1");
 ///     r.transform("first second");    // "second first"
 ///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class RegexReplacePipe : public hext::Cloneable<RegexReplacePipe, StringPipe>
+class RegexReplacePipe final : public hext::Cloneable<RegexReplacePipe, StringPipe>
 {
 public:
   /// Constructs a RegexReplacePipe.
@@ -48,7 +48,7 @@ public:
 
   /// Replaces a string within str according to the regex given in the
   /// constructor.
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 
 private:
   boost::regex regex_;

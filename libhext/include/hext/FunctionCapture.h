@@ -59,7 +59,7 @@ namespace hext {
 ///   if( auto result = centimeters.capture(node) )
 ///     assert(*result == ResultPair("centimeters", "25"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
-class FunctionCapture : public Cloneable<FunctionCapture, Capture>
+class FunctionCapture final : public Cloneable<FunctionCapture, Capture>
 {
 public:
   /// Constructs a FunctionCapture.
@@ -85,7 +85,7 @@ public:
   ///
   /// @returns  A pair in the form of {result_name, result_value} or
   ///           an empty optional if the capture failed.
-  boost::optional<ResultPair> capture(const GumboNode * node) const final;
+  boost::optional<ResultPair> capture(const GumboNode * node) const override;
 
 private:
   /// The function that will be applied to an HTML node.

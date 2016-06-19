@@ -28,7 +28,7 @@ namespace hext {
 
 
 /// Changes the case of a string. Changes to lower case by default.
-class CasePipe : public hext::Cloneable<CasePipe, StringPipe>
+class CasePipe final : public hext::Cloneable<CasePipe, StringPipe>
 {
 public:
   /// CasePipe's options.
@@ -44,7 +44,7 @@ public:
   explicit CasePipe(Option option = Option::ToLower);
 
   /// Changes the case of str.
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 
 private:
   Option option_;

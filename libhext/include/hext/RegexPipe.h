@@ -45,7 +45,7 @@ namespace hext {
 ///   Highway 61 revisited  |  `Highway (\d+)`  | 61
 ///   Highway 61 revisited  |  `\w+`            | Highway
 ///   Highway 61 revisited  |  `(\w+) (\d+)`    | Highway     (not an error)
-class RegexPipe : public hext::Cloneable<RegexPipe, StringPipe>
+class RegexPipe final : public hext::Cloneable<RegexPipe, StringPipe>
 {
 public:
   /// Constructs a RegexPipe from a boost::regex.
@@ -56,7 +56,7 @@ public:
 
   /// Filters the string according to the regex given in the constructor.
   /// See @ref RegexPipeBehavior.
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 
 private:
   boost::regex regex_;

@@ -43,7 +43,7 @@ namespace hext {
 ///   assert(!m_two_attr.matches(no_attrs));
 ///   assert(!m_no_attr.matches(two_attrs));
 /// ~~~~~~~~~~~~~
-class AttributeCountMatch : public Cloneable<AttributeCountMatch, Match>
+class AttributeCountMatch final : public Cloneable<AttributeCountMatch, Match>
 {
 public:
   /// Constructs an AttributeCountMatch that matches HTML elements that have a
@@ -57,7 +57,7 @@ public:
   /// attributes.
   ///
   /// @param node:  A pointer to a GumboNode of type GUMBO_NODE_ELEMENT.
-  bool matches(const GumboNode * node) const noexcept final;
+  bool matches(const GumboNode * node) const noexcept override;
 
 private:
   /// The amount of HTML attributes an HTML element must have in order to match.

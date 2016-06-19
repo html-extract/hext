@@ -55,7 +55,7 @@ namespace hext {
 ///   assert(attr_desolation.matches(node_desolation));
 ///   assert(!attr_desolation.matches(node_row));
 /// ~~~~~~~~~~~~~
-class AttributeMatch : public Cloneable<AttributeMatch, Match>
+class AttributeMatch final : public Cloneable<AttributeMatch, Match>
 {
 public:
   /// Constructs an AttributeMatch with an optional ValueTest.
@@ -77,7 +77,7 @@ public:
   /// true for the attribute's value.
   ///
   /// @param node:  A pointer to a GumboNode of type GUMBO_NODE_ELEMENT.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const override;
 
 private:
   /// The name of the HTML attribute.

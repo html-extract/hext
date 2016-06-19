@@ -46,7 +46,7 @@ namespace hext {
 ///   assert( m_is_div.matches(div));
 ///   assert(!m_is_div.matches(span));
 /// ~~~~~~~~~~~~~
-class FunctionMatch : public Cloneable<FunctionMatch, Match>
+class FunctionMatch final : public Cloneable<FunctionMatch, Match>
 {
 public:
   /// Constructs a FunctionMatch that matches HTML nodes for which a given
@@ -60,7 +60,7 @@ public:
   /// as its first argument returns true.
   ///
   /// @param node:  The node which is to be matched.
-  bool matches(const GumboNode * node) const final;
+  bool matches(const GumboNode * node) const override;
 
 private:
   /// The MatchFunction that will be applied to an HTML node.

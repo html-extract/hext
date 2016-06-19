@@ -37,7 +37,7 @@ namespace hext {
 ///   assert(!equals.test("foob"));
 ///   assert(!equals.test("bfoo"));
 /// ~~~~~~~~~~~~~
-class EqualsTest : public Cloneable<EqualsTest, ValueTest>
+class EqualsTest final : public Cloneable<EqualsTest, ValueTest>
 {
 public:
   /// Constructs an EqualsTest that succeeds for subjects that equal a given
@@ -49,7 +49,7 @@ public:
   /// Returns true if subject equals literal.
   ///
   /// @param subject:  The string that is to be tested.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// The literal that must be matched.

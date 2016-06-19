@@ -37,7 +37,7 @@ namespace hext {
 ///   assert( not_foo.test("baz"));
 ///   assert(!not_foo.test("foo"));
 /// ~~~~~~~~~~~~~
-class NegateTest : public Cloneable<NegateTest, ValueTest>
+class NegateTest final : public Cloneable<NegateTest, ValueTest>
 {
 public:
   /// Constructs a NegateTest.
@@ -54,7 +54,7 @@ public:
   /// Returns true if the given ValueTest fails for subject.
   ///
   /// @param subject:  The string that is to be tested.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// The ValueTest a subject has to fail.

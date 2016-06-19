@@ -42,14 +42,14 @@ namespace hext {
 ///   assert(!is_date.test("09-09-99"));
 ///   assert(!is_date.test("Born on 09-09-1941."));
 /// ~~~~~~~~~~~~~
-class RegexTest : public Cloneable<RegexTest, ValueTest>
+class RegexTest final : public Cloneable<RegexTest, ValueTest>
 {
 public:
   /// Constructs a RegexTest that succeeds if a subject matches regex.
   explicit RegexTest(boost::regex regex);
 
   /// Returns true if given regex matches subject.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// The regex a subject has to match.

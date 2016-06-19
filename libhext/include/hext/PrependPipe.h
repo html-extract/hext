@@ -28,7 +28,7 @@ namespace hext {
 
 
 /// Prepends a given string to a string.
-class PrependPipe : public hext::Cloneable<PrependPipe, StringPipe>
+class PrependPipe final : public hext::Cloneable<PrependPipe, StringPipe>
 {
 public:
   /// Constructs a PrependPipe.
@@ -37,7 +37,7 @@ public:
   explicit PrependPipe(std::string prefix);
 
   /// Prepends a given string to str.
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 
 private:
   std::string prefix_;

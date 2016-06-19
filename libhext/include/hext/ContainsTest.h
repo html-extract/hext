@@ -37,7 +37,7 @@ namespace hext {
 ///   assert( contains.test("barfoobar"));
 ///   assert(!contains.test("barfo"));
 /// ~~~~~~~~~~~~~
-class ContainsTest : public Cloneable<ContainsTest, ValueTest>
+class ContainsTest final : public Cloneable<ContainsTest, ValueTest>
 {
 public:
   /// Constructs a ContainsTest that succeeds for subjects that contain the
@@ -49,7 +49,7 @@ public:
   /// Return true if subject contains the given literal.
   ///
   /// @param subject:  The string that is to be tested.
-  bool test(const char * subject) const final;
+  bool test(const char * subject) const override;
 
 private:
   /// The literal that must be matched.

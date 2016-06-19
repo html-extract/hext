@@ -44,7 +44,7 @@ namespace hext {
 ///   assert( m_two.matches(two));
 ///   assert(!m_two.matches(none));
 /// ~~~~~~~~~~~~~
-class ChildCountMatch : public Cloneable<ChildCountMatch, Match>
+class ChildCountMatch final : public Cloneable<ChildCountMatch, Match>
 {
 public:
   /// Construct a ChildCountMatch that matches HTML elements with a child_count
@@ -54,7 +54,7 @@ public:
   /// Return true if node has child_count amount of children.
   ///
   /// @param node:  A pointer to a GumboNode of type GUMBO_NODE_ELEMENT.
-  bool matches(const GumboNode * node) const noexcept final;
+  bool matches(const GumboNode * node) const noexcept override;
 
 private:
   /// Return amount of node's children that have node type GUMBO_NODE_ELEMENT.

@@ -28,7 +28,7 @@ namespace hext {
 
 
 /// Appends a given string to a string.
-class AppendPipe : public hext::Cloneable<AppendPipe, StringPipe>
+class AppendPipe final : public hext::Cloneable<AppendPipe, StringPipe>
 {
 public:
   /// Constructs an AppendPipe.
@@ -37,7 +37,7 @@ public:
   explicit AppendPipe(std::string suffix);
 
   /// Appends a given string to str.
-  std::string transform(std::string str) const final;
+  std::string transform(std::string str) const override;
 
 private:
   std::string suffix_;
