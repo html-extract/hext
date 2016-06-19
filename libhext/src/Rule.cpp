@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
 // limitations under the License.
 
 #include "hext/Rule.h"
-
 #include "RuleMatching.h"
+
+#include <utility>
 
 
 namespace hext {
@@ -61,9 +62,8 @@ Rule& Rule::operator=(Rule&&) = default;
 
 Rule& Rule::operator=(const Rule& other)
 {
-  using std::swap;
   Rule tmp(other);
-  swap(*this, tmp);
+  this->swap(tmp);
   return *this;
 }
 
@@ -203,6 +203,19 @@ hext::Result Rule::extract(const GumboNode * node) const
   }
 
   return result;
+}
+
+void Rule::swap(hext::Rule& other) noexcept
+{
+  if( this == &other )
+    return;
+
+  this->first_child_.swap(other.first_child_);
+  this->next_.swap(other.next_);
+  this->matches_.swap(other.matches_);
+  this->captures_.swap(other.captures_);
+  std::swap(this->tag_, other.tag_);
+  std::swap(this->is_optional_, other.is_optional_);
 }
 
 

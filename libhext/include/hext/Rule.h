@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -199,6 +199,8 @@ public:
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
 private:
+  void swap(hext::Rule& other) noexcept;
+
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;
   std::vector<std::unique_ptr<Match>> matches_;
