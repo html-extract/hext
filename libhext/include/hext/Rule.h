@@ -94,25 +94,25 @@ public:
   ///                    if not found.
   ///                    Default: Rule is mandatory.
   explicit Rule(HtmlTag tag      = HtmlTag::ANY,
-                bool    optional = false);
+                bool    optional = false) noexcept;
 
-  ~Rule();
-  Rule(Rule&&);
+  ~Rule() noexcept = default;
+  Rule(Rule&&) noexcept = default;
   Rule(const Rule& other);
-  Rule& operator=(Rule&&);
-  Rule& operator=(const Rule&);
+  Rule& operator=(Rule&&) noexcept = default;
+  Rule& operator=(const Rule& other);
 
   /// Returns the first child or nullptr if childless.
-  const Rule * child() const;
+  const Rule * child() const noexcept;
 
   /// Returns the next rule or nullptr if no following rule.
-  const Rule * next() const;
+  const Rule * next() const noexcept;
 
   /// Returns the first child or nullptr if childless.
-  Rule * child();
+  Rule * child() noexcept;
 
   /// Returns the next rule or nullptr if no following rule.
-  Rule * next();
+  Rule * next() noexcept;
 
   /// Appends a child.
   ///

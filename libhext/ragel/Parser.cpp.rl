@@ -78,10 +78,6 @@ Parser::Parser(const char * begin, const char * end) noexcept
 {
 }
 
-Parser::~Parser() = default;
-Parser::Parser(Parser&&) = default;
-Parser& Parser::operator=(Parser&&) = default;
-
 Rule Parser::parse()
 {
   // Allow ragel to access its namespace.

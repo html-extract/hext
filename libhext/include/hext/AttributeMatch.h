@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,10 +66,10 @@ public:
   explicit AttributeMatch(std::string                attr_name,
                           std::unique_ptr<ValueTest> value_test = {}) noexcept;
 
-  ~AttributeMatch();
-  AttributeMatch(AttributeMatch&& other);
+  ~AttributeMatch() noexcept = default;
+  AttributeMatch(AttributeMatch&& other) noexcept = default;
   AttributeMatch(const AttributeMatch& other);
-  AttributeMatch& operator=(AttributeMatch&& other);
+  AttributeMatch& operator=(AttributeMatch&& other) noexcept = default;
   AttributeMatch& operator=(const AttributeMatch& other);
 
   /// Return true if node has an HTML attribute called attr_name (as given in

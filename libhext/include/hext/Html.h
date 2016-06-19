@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,8 +62,8 @@ public:
   Html(const char * buffer, std::size_t size) noexcept;
 
   ~Html() noexcept;
-  Html(Html&&);
-  Html& operator=(Html&&);
+  Html(Html&&) noexcept = default;
+  Html& operator=(Html&&) noexcept = default;
 
   /// Returns a non-owning pointer to the root node of the HTML document.
   ///

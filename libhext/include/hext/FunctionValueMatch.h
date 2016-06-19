@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,10 +67,10 @@ public:
   FunctionValueMatch(CaptureFunction            func,
                      std::unique_ptr<ValueTest> value_test);
 
-  ~FunctionValueMatch();
-  FunctionValueMatch(FunctionValueMatch&& other);
+  ~FunctionValueMatch() noexcept = default;
+  FunctionValueMatch(FunctionValueMatch&& other) = default;
   FunctionValueMatch(const FunctionValueMatch& other);
-  FunctionValueMatch& operator=(FunctionValueMatch&& other);
+  FunctionValueMatch& operator=(FunctionValueMatch&& other) = default;
   FunctionValueMatch& operator=(const FunctionValueMatch& other);
 
   /// Returns true if the result of calling the given CaptureFunction with node

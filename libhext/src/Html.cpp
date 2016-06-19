@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,9 +41,6 @@ Html::~Html() noexcept
   if( this->g_outp_ )
     gumbo_destroy_output(&kGumboDefaultOptions, this->g_outp_);
 }
-
-Html::Html(Html&&) = default;
-Html& Html::operator=(Html&&) = default;
 
 const GumboNode * Html::root() const noexcept
 {

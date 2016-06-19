@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,13 +44,12 @@ namespace hext {
 class Capture
 {
 public:
-  // Rule of five
-  Capture() = default;
+  Capture() noexcept = default;
   Capture(const Capture&) = default;
-  Capture(Capture&&) = default;
+  Capture(Capture&&) noexcept = default;
   Capture& operator=(const Capture&) = default;
-  Capture& operator=(Capture&&) = default;
-  virtual ~Capture() = default;
+  Capture& operator=(Capture&&) noexcept = default;
+  virtual ~Capture() noexcept = default;
 
   /// Clones derived object.
   virtual std::unique_ptr<Capture> clone() const = 0;

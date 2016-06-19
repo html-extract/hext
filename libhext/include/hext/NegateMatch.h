@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,10 +64,10 @@ public:
   /// @param match:  The Match to append.
   explicit NegateMatch(std::unique_ptr<Match> match);
 
-  ~NegateMatch();
-  NegateMatch(NegateMatch&& other);
+  ~NegateMatch() noexcept = default;
+  NegateMatch(NegateMatch&& other) noexcept = default;
   NegateMatch(const NegateMatch& other);
-  NegateMatch& operator=(NegateMatch&& other);
+  NegateMatch& operator=(NegateMatch&& other) noexcept = default;
   NegateMatch& operator=(const NegateMatch& other);
 
   /// Appends a Match.

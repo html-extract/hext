@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 namespace hext {
 
 
-PrependPipe::PrependPipe(std::string prefix)
+PrependPipe::PrependPipe(std::string prefix) noexcept
 : prefix_(std::move(prefix))
 {
 }

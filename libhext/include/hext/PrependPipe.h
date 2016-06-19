@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public:
   /// Constructs a PrependPipe.
   ///
   /// @param  prefix:  The string to prepend.
-  explicit PrependPipe(std::string prefix);
+  explicit PrependPipe(std::string prefix) noexcept;
 
   /// Prepends a given string to str.
   std::string transform(std::string str) const override;

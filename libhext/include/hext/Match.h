@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,13 +39,12 @@ namespace hext {
 class Match
 {
 public:
-  // Rule of five
-  Match() = default;
+  Match() noexcept = default;
   Match(const Match&) = default;
-  Match(Match&&) = default;
+  Match(Match&&) noexcept = default;
   Match& operator=(const Match&) = default;
-  Match& operator=(Match&&) = default;
-  virtual ~Match() = default;
+  Match& operator=(Match&&) noexcept = default;
+  virtual ~Match() noexcept = default;
 
   /// Clones derived object.
   virtual std::unique_ptr<Match> clone() const = 0;

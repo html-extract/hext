@@ -22,7 +22,7 @@ namespace hext {
 
 
 Rule::Rule(HtmlTag tag,
-           bool    optional)
+           bool    optional) noexcept
 : first_child_(nullptr)
 , next_(nullptr)
 , matches_()
@@ -31,9 +31,6 @@ Rule::Rule(HtmlTag tag,
 , is_optional_(optional)
 {
 }
-
-Rule::~Rule() = default;
-Rule::Rule(Rule&&) = default;
 
 Rule::Rule(const Rule& other)
 : first_child_(nullptr)
@@ -58,8 +55,6 @@ Rule::Rule(const Rule& other)
     this->captures_.emplace_back(c ? c->clone() : nullptr);
 }
 
-Rule& Rule::operator=(Rule&&) = default;
-
 Rule& Rule::operator=(const Rule& other)
 {
   Rule tmp(other);
@@ -67,22 +62,22 @@ Rule& Rule::operator=(const Rule& other)
   return *this;
 }
 
-const Rule * Rule::child() const
+const Rule * Rule::child() const noexcept
 {
   return this->first_child_.get();
 }
 
-const Rule * Rule::next() const
+const Rule * Rule::next() const noexcept
 {
   return this->next_.get();
 }
 
-Rule * Rule::child()
+Rule * Rule::child() noexcept
 {
   return this->first_child_.get();
 }
 
-Rule * Rule::next()
+Rule * Rule::next() noexcept
 {
   return this->next_.get();
 }

@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,17 +30,11 @@ FunctionValueMatch::FunctionValueMatch(CaptureFunction            func,
 {
 }
 
-FunctionValueMatch::~FunctionValueMatch() = default;
-FunctionValueMatch::FunctionValueMatch(FunctionValueMatch&&) = default;
-
 FunctionValueMatch::FunctionValueMatch(const FunctionValueMatch& other)
 : func_(other.func_)
 , test_(other.test_ ? other.test_->clone() : nullptr)
 {
 }
-
-FunctionValueMatch& FunctionValueMatch::operator=(FunctionValueMatch&&)
-    = default;
 
 FunctionValueMatch&
 FunctionValueMatch::operator=(const FunctionValueMatch& other)

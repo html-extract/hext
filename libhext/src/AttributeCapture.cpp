@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ namespace hext {
 
 AttributeCapture::AttributeCapture(std::string                 attr_name,
                                    std::string                 result_name,
-                                   std::unique_ptr<StringPipe> pipe)
+                                   std::unique_ptr<StringPipe> pipe) noexcept
 : attr_name_(std::move(attr_name))
 , name_(std::move(result_name))
 , pipe_(std::move(pipe))

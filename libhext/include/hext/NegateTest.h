@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,10 +45,10 @@ public:
   /// @param value_test:  The ValueTest a subject has to fail.
   explicit NegateTest(std::unique_ptr<ValueTest> value_test) noexcept;
 
-  ~NegateTest();
-  NegateTest(NegateTest&& other);
+  ~NegateTest() noexcept = default;
+  NegateTest(NegateTest&& other) noexcept = default;
   NegateTest(const NegateTest& other);
-  NegateTest& operator=(NegateTest&& other);
+  NegateTest& operator=(NegateTest&& other) noexcept = default;
   NegateTest& operator=(const NegateTest& other);
 
   /// Returns true if the given ValueTest fails for subject.

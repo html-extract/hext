@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,9 +34,6 @@ NegateMatch::NegateMatch(std::unique_ptr<Match> match)
   this->matches_.push_back(std::move(match));
 }
 
-NegateMatch::~NegateMatch() = default;
-NegateMatch::NegateMatch(NegateMatch&&) = default;
-
 NegateMatch::NegateMatch(const NegateMatch& other)
 : matches_()
 {
@@ -44,8 +41,6 @@ NegateMatch::NegateMatch(const NegateMatch& other)
   for(const auto& m : other.matches_)
     this->matches_.emplace_back(m ? m->clone() : nullptr);
 }
-
-NegateMatch& NegateMatch::operator=(NegateMatch&&) = default;
 
 NegateMatch& NegateMatch::operator=(const NegateMatch& other)
 {

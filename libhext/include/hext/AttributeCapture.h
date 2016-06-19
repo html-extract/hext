@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,12 +71,12 @@ public:
   ///                      this StringPipe before returning from capture().
   AttributeCapture(std::string                 attr_name,
                    std::string                 result_name,
-                   std::unique_ptr<StringPipe> pipe = nullptr);
+                   std::unique_ptr<StringPipe> pipe = nullptr) noexcept;
 
   AttributeCapture(const AttributeCapture& other);
-  AttributeCapture(AttributeCapture&&) = default;
+  AttributeCapture(AttributeCapture&&) noexcept = default;
   AttributeCapture& operator=(const AttributeCapture& other);
-  AttributeCapture& operator=(AttributeCapture&&) = default;
+  AttributeCapture& operator=(AttributeCapture&&) noexcept = default;
 
   /// Captures an HTML element's attribute called attr_name (as given in the
   /// constructor). Optionally applies a StringPipe to the value before

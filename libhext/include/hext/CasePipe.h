@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public:
   /// Constructs a CasePipe.
   ///
   /// @param option:  Change the string to this case. Default: to lower case.
-  explicit CasePipe(Option option = Option::ToLower);
+  explicit CasePipe(Option option = Option::ToLower) noexcept;
 
   /// Changes the case of str.
   std::string transform(std::string str) const override;

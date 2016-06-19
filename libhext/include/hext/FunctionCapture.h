@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -71,12 +71,12 @@ public:
   ///                      this StringPipe before returning from capture().
   FunctionCapture(CaptureFunction             func,
                   std::string                 result_name,
-                  std::unique_ptr<StringPipe> pipe = nullptr);
+                  std::unique_ptr<StringPipe> pipe = {}) noexcept;
 
   FunctionCapture(const FunctionCapture& other);
-  FunctionCapture(FunctionCapture&&) = default;
+  FunctionCapture(FunctionCapture&&) noexcept = default;
   FunctionCapture& operator=(const FunctionCapture& other);
-  FunctionCapture& operator=(FunctionCapture&&) = default;
+  FunctionCapture& operator=(FunctionCapture&&) noexcept = default;
 
   /// Captures the result of calling a given CaptureFunction with node as its
   /// argument. Optionally applies a StringPipe to the value before returning.

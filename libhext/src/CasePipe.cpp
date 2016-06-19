@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 namespace hext {
 
 
-CasePipe::CasePipe(CasePipe::Option option)
+CasePipe::CasePipe(CasePipe::Option option) noexcept
 : option_(option)
 {
 }

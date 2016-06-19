@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,12 +38,12 @@ namespace hext {
 class StringPipe
 {
 public:
-  StringPipe();
+  StringPipe() noexcept;
   StringPipe(const StringPipe& other);
-  StringPipe(StringPipe&&) = default;
+  StringPipe(StringPipe&&) noexcept = default;
   StringPipe& operator=(const StringPipe& other);
-  StringPipe& operator=(StringPipe&&) = default;
-  virtual ~StringPipe() = default;
+  StringPipe& operator=(StringPipe&&) noexcept = default;
+  virtual ~StringPipe() noexcept = default;
 
   /// Clones derived object.
   virtual std::unique_ptr<StringPipe> clone() const = 0;
@@ -61,7 +61,7 @@ public:
   std::string pipe(std::string str) const;
 
   /// Append a StringPipe at the end of the chain.
-  void append(std::unique_ptr<StringPipe> pipe);
+  void append(std::unique_ptr<StringPipe> pipe) noexcept;
 
   /// Construct a StringPipe at the end of the chain.
   template<typename StringPipeType, typename... Args>

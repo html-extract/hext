@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 namespace hext {
 
 
-StringPipe::StringPipe()
+StringPipe::StringPipe() noexcept
 : next_(nullptr)
 {
 }
@@ -54,7 +54,7 @@ std::string StringPipe::pipe(std::string str) const
   return str;
 }
 
-void StringPipe::append(std::unique_ptr<StringPipe> p)
+void StringPipe::append(std::unique_ptr<StringPipe> p) noexcept
 {
   if( this->next_ )
     // recursively move p to the end of the chain

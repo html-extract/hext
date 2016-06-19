@@ -35,13 +35,12 @@ namespace hext {
 class ValueTest
 {
 public:
-  // Rule of five
-  ValueTest() = default;
+  ValueTest() noexcept = default;
   ValueTest(const ValueTest&) = default;
-  ValueTest(ValueTest&&) = default;
+  ValueTest(ValueTest&&) noexcept = default;
   ValueTest& operator=(const ValueTest&) = default;
-  ValueTest& operator=(ValueTest&&) = default;
-  virtual ~ValueTest() = default;
+  ValueTest& operator=(ValueTest&&) noexcept = default;
+  virtual ~ValueTest() noexcept = default;
 
   /// Clones derived object.
   virtual std::unique_ptr<ValueTest> clone() const = 0;

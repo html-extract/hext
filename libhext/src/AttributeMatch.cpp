@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,16 +29,11 @@ AttributeMatch::AttributeMatch(std::string                attr_name,
 {
 }
 
-AttributeMatch::~AttributeMatch() = default;
-AttributeMatch::AttributeMatch(AttributeMatch&&) = default;
-
 AttributeMatch::AttributeMatch(const AttributeMatch& other)
 : attr_name_(other.attr_name_)
 , test_(other.test_ ? other.test_->clone() : nullptr)
 {
 }
-
-AttributeMatch& AttributeMatch::operator=(AttributeMatch&&) = default;
 
 AttributeMatch& AttributeMatch::operator=(const AttributeMatch& other)
 {

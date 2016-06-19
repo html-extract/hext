@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,10 +52,6 @@ public:
   /// range [begin, end). Pointers are non-owning and must stay valid until the
   /// last call to Parser::parse().
   Parser(const char * begin, const char * end) noexcept;
-
-  ~Parser();
-  Parser(Parser&&);
-  Parser& operator=(Parser&&);
 
   /// Parses hext rule definition from the given range and returns the top level
   /// Rule. Throws SyntaxError with a detailed error message on invalid input.

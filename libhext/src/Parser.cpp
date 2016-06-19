@@ -1,7 +1,7 @@
 // This file was generated from Parser.cpp.rl.
 
 #line 1 "Parser.cpp.rl"
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1673,10 +1673,6 @@ Parser::Parser(const char * begin, const char * end) noexcept
 {
 }
 
-Parser::~Parser() = default;
-Parser::Parser(Parser&&) = default;
-Parser& Parser::operator=(Parser&&) = default;
-
 Rule Parser::parse()
 {
   // Allow ragel to access its namespace.
@@ -1726,12 +1722,12 @@ Rule Parser::parse()
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
   
-#line 1729 "Parser.cpp.tmp"
+#line 1725 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1734 "Parser.cpp.tmp"
+#line 1730 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -2163,7 +2159,7 @@ _match:
 #line 337 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 2166 "Parser.cpp.tmp"
+#line 2162 "Parser.cpp.tmp"
 		}
 	}
 
@@ -2187,7 +2183,7 @@ _again:
 #line 337 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 2190 "Parser.cpp.tmp"
+#line 2186 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -2195,7 +2191,7 @@ _again:
 	_out: {}
 	}
 
-#line 138 "Parser.cpp.rl"
+#line 134 "Parser.cpp.rl"
 
 #pragma GCC diagnostic pop
 
@@ -2205,7 +2201,7 @@ _again:
 
   if( this->top_rule_ )
   {
-    return *this->top_rule_;
+    return std::move(*this->top_rule_);
   }
   else
   {

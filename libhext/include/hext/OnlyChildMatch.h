@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ public:
   ///
   /// @param options:  See OnlyChildMatch::Option.
   ///                  Default: Count any element (:only-child).
-  explicit OnlyChildMatch(Option options = Option::AnyType);
+  explicit OnlyChildMatch(Option options = Option::AnyType) noexcept;
 
   /// Returns true if node is the only child of its parent.
   bool matches(const GumboNode * node) const noexcept override;
