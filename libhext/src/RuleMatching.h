@@ -26,7 +26,7 @@
 namespace hext {
 
 
-typedef std::vector<std::pair<const Rule *, const GumboNode *>> MatchingNodes;
+using MatchingNodes = std::vector<std::pair<const Rule *, const GumboNode *>>;
 
 
 /// Calls MatchRuleGroup for each node in the given node tree and saves all

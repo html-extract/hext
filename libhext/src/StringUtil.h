@@ -59,8 +59,8 @@ std::string CharName(char c);
 
 
 /// Convenience typedefs for CharPosition().
-typedef std::iterator_traits<const char *>::difference_type CharPosType;
-typedef std::pair<CharPosType, CharPosType> CharPosPair;
+using CharPosType = std::iterator_traits<const char *>::difference_type;
+using CharPosPair = std::pair<CharPosType, CharPosType>;
 
 
 /// Returns a pair<line_offset, character_offset> for the position of c after

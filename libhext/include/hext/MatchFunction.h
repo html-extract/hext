@@ -27,7 +27,7 @@ namespace hext {
 
 
 /// A type of std::function that receives an HTML element and returns a bool.
-typedef std::function<bool (const GumboNode *)> MatchFunction;
+using MatchFunction = std::function<bool (const GumboNode *)>;
 
 
 } // namespace hext

@@ -29,7 +29,7 @@ namespace hext {
 
 /// A string-pair containing a name and a value. A ResultPair is produced by a
 /// Capture.
-typedef std::pair<std::string, std::string> ResultPair;
+using ResultPair = std::pair<std::string, std::string>;
 
 
 /// A multimap containing the values produced by capturing.
@@ -37,12 +37,12 @@ typedef std::pair<std::string, std::string> ResultPair;
 /// * The value of a Capture should be accessible by key => associative
 /// * There may be Captures with duplicate names         => multi key
 /// * The order of Captures should be predictable        => sorted
-typedef std::multimap<ResultPair::first_type,
-                      ResultPair::second_type> ResultMap;
+using ResultMap = std::multimap<ResultPair::first_type,
+                                ResultPair::second_type>;
 
 
 /// A vector containing ResultMap.
-typedef std::vector<ResultMap> Result;
+using Result = std::vector<ResultMap>;
 
 
 } // namespace hext
