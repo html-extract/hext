@@ -88,6 +88,11 @@
 #include "swig-html.h"
 #include "swig-rule.h"
 %}
+
+// Swig has no builtin support for PHP namespaces; using unique prefix instead
+%rename (HextRule) Rule;
+%rename (HextHtml) Html;
+
 %include "swig-html.h"
 %include "swig-rule.h"
 

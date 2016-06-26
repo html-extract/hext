@@ -41,8 +41,8 @@ foreach(array($argv[1], $argv[2]) as $f)
 $strhext = file_get_contents($argv[1]);
 $strhtml = file_get_contents($argv[2]);
 
-$rule = new Rule($strhext);
-$html = new Html($strhtml);
+$rule = new HextRule($strhext);
+$html = new HextHtml($strhtml);
 $result = $rule->extract($html);
 
 foreach($result as $map)
