@@ -21,7 +21,7 @@ to the href attribute and the text content of the matched &lt;a&gt;.
 [&raquo; Load example in editor](http://hext.thomastrapp.com/#attribute)
 
 Visit [Hext's project page](http://hext.thomastrapp.com) to learn more about
-Hext. For examples that use the libhext C++ library checkout `/libhext/examples`
+Hext. For examples that use the libhext C++ library check out `/libhext/examples`
 and the
 [main page of the doxygen documentation](http://hext.thomastrapp.com/libhext-documentation).
 
