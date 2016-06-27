@@ -59,7 +59,7 @@ C_RST=$(tput sgr0)
 
 # Use colordiff, if available
 DIFF="diff"
-colordiff --help 2>&1 > /dev/null && DIFF="colordiff"
+hash colordiff >/dev/null 2>&1 && DIFF="colordiff"
 
 
 # Prints error message to stdout.
