@@ -21,7 +21,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Woverloaded-virtual" "-Wpacked" "-Wparentheses" "-Wpointer-arith"
     "-Wredundant-decls" "-Wreturn-type" "-Wsequence-point" "-Wshadow"
     "-Wsign-compare" "-Wsign-promo" "-Wstack-protector" "-Wstrict-aliasing=2"
-    "-Wstrict-null-sentinel" "-Wstrict-overflow=5" "-Wswitch"
+    "-Wstrict-null-sentinel" "-Wstrict-overflow" "-Wswitch"
     "-Wtrigraphs" "-Wundef" "-Wuninitialized" "-Wunknown-pragmas"
     "-Wunreachable-code" "-Wunused" "-Wunsafe-loop-optimizations"
     "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
