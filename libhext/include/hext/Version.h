@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,9 +30,6 @@ extern const int version_minor;
 
 /// Patch version number.
 extern const int version_patch;
-
-/// Git SHA-1 of this build.
-extern const char * version_git_sha1;
 
 
 } // namespace hext

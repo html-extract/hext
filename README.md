@@ -123,9 +123,6 @@ tests through valgrind you'd run the following:
   — **A lightweight and flexible command-line JSON processor**  
   An indispensable tool when dealing with JSON in the shell.
   Piping the output of `htmlext` into `jq` lets you do all sorts of crazy things.
-* [Ryan's CMake Modules](https://github.com/rpavlik/cmake-modules)  
-  Ryan's CMake module `/cmake/thirdparty/GetGitRevisionDescription.cmake` is
-  used to place the git SHA1 into the version string of libhext.
 * [Ace](https://ace.c9.io/) — **A Code Editor for the Web**  
   Used as the code editor in the
   "[Try Hext in your Browser!](http://hext.thomastrapp.com)" section and as a
