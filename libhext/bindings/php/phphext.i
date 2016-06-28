@@ -85,14 +85,14 @@
 
 %ignore Html::root() const;
 %{
-#include "swig-html.h"
-#include "swig-rule.h"
+#include "wrapper/Html.h"
+#include "wrapper/Rule.h"
 %}
 
 // Swig has no builtin support for PHP namespaces; using unique prefix instead
 %rename (HextRule) Rule;
 %rename (HextHtml) Html;
 
-%include "swig-html.h"
-%include "swig-rule.h"
+%include "wrapper/Html.h"
+%include "wrapper/Rule.h"
 

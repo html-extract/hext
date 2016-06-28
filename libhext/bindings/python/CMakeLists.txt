@@ -26,7 +26,7 @@ FIND_PACKAGE(Hext REQUIRED)
 INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../wrapper")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/..")
 
 
 ###### SWIG ####################################################################
@@ -41,7 +41,7 @@ SET_SOURCE_FILES_PROPERTIES(
 SWIG_ADD_MODULE(
   hext python
   "${PROJECT_SOURCE_DIR}/../hext.i"
-  "${PROJECT_SOURCE_DIR}/../wrapper/swig-html.cpp"
-  "${PROJECT_SOURCE_DIR}/../wrapper/swig-rule.cpp")
+  "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
+  "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
 SWIG_LINK_LIBRARIES(hext ${HEXT_LIBRARY} ${PYTHON_LIBRARIES})
 

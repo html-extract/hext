@@ -12,31 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SWIG_RULE_H_INCLUDED
-#define SWIG_RULE_H_INCLUDED
-
-#include "swig-html.h"
-
-#include "hext/Rule.h"
-#include "hext/SyntaxError.h"
-
-#include <map>
-#include <string>
-#include <vector>
+#include "wrapper/Html.h"
 
 
-class Rule
+Html::Html(std::string html)
+: buffer_(std::move(html))
+, html_(buffer_.c_str(), buffer_.size())
 {
-public:
-  explicit Rule(const std::string& hext);
+}
 
-  std::vector<std::multimap<std::string, std::string>>
-  extract(const Html& html) const;
-
-private:
-  hext::Rule rule_;
-};
-
-
-#endif // SWIG_RULE_H_INCLUDED
+const GumboNode * Html::root() const
+{
+  return this->html_.root();
+}
 

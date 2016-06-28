@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "swig-html.h"
+#ifndef WRAPPER_HTML_H_INCLUDED
+#define WRAPPER_HTML_H_INCLUDED
+
+#include "hext/Html.h"
+
+#include <string>
 
 
-Html::Html(std::string html)
-: buffer_(std::move(html))
-, html_(buffer_.c_str(), buffer_.size())
+class Html
 {
-}
+public:
+  explicit Html(std::string html);
+  const GumboNode * root() const;
 
-const GumboNode * Html::root() const
-{
-  return this->html_.root();
-}
+private:
+  std::string buffer_;
+  hext::Html html_;
+};
+
+
+#endif // WRAPPER_HTML_H_INCLUDED
 

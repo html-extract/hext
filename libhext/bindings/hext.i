@@ -44,9 +44,9 @@ namespace std
   #undef RUBY
 #endif
 
-#include "swig-html.h"
-#include "swig-rule.h"
+#include "wrapper/Html.h"
+#include "wrapper/Rule.h"
 %}
-%include "swig-html.h"
-%include "swig-rule.h"
+%include "wrapper/Html.h"
+%include "wrapper/Rule.h"
 
