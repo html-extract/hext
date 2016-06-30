@@ -79,7 +79,7 @@ NAN_METHOD(Rule::extract) {
   v8::Local<v8::Array> ret = Nan::New<v8::Array>();
   for(const auto& group : result)
   {
-    v8::Local<v8::Array> map = Nan::New<v8::Array>();
+    v8::Local<v8::Object> map = Nan::New<v8::Object>();
     auto it = group.cbegin();
     while( it != group.cend() )
     {
