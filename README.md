@@ -32,8 +32,8 @@ and the
   customization.
 * `libhext-test`: Unit tests for libhext.
 * `Hext bindings`: Bindings for scripting languages. There are extensions for
-  Python, Ruby and PHP that are able to parse Hext and extract values from HTML.
-  Requires [Swig](http://www.swig.org/) for building.
+  Node.js, Python, Ruby and PHP that are able to parse Hext and extract values
+  from HTML.
 
 ## Project layout
     ├── build             Build directory for htmlext

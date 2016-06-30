@@ -1,0 +1,12 @@
+{
+  "name": "hext",
+  "version": "0.1.0",
+  "description": "Hext language bindings for nodejs",
+  "dependencies": {
+    "cmake-js": "^3.2.1",
+    "nan": "^2.3.5"
+  },
+  "scripts": {
+    "install": "cmake-js compile"
+  }
+}
