@@ -76,7 +76,7 @@ NAN_METHOD(Rule::extract) {
 
   Html * arg = Nan::ObjectWrap::Unwrap<Html>(maybe_arg.ToLocalChecked());
   auto result = obj->rule_.extract(arg->root());
-  v8::Local<v8::Array> ret = Nan::New<v8::Array>(result.size());
+  v8::Local<v8::Array> ret = Nan::New<v8::Array>();
   for(const auto& group : result)
   {
     v8::Local<v8::Array> map = Nan::New<v8::Array>();
