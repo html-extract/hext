@@ -80,11 +80,34 @@ NAN_METHOD(Rule::extract) {
   for(const auto& group : result)
   {
     v8::Local<v8::Array> map = Nan::New<v8::Array>();
-    for(const auto& pair : group)
-      map->Set(
-        Nan::New<v8::String>(pair.first).ToLocalChecked(),
-        Nan::New<v8::String>(pair.second).ToLocalChecked()
-      );
+    auto it = group.cbegin();
+    while( it != group.cend() )
+    {
+      if( group.count(it->first) < 2 )
+      {
+        map->Set(
+          Nan::New<v8::String>(it->first).ToLocalChecked(),
+          Nan::New<v8::String>(it->second).ToLocalChecked()
+        );
+        ++it;
+      }
+      else
+      {
+        // Pack values of non-unique keys into an indexed array
+        v8::Local<v8::Array> array = Nan::New<v8::Array>();
+        auto lower = group.lower_bound(it->first);
+        auto upper = group.upper_bound(it->first);
+        for(; lower != upper; ++lower)
+          array->Set(
+              array->Length(),
+              Nan::New<v8::String>(lower->second).ToLocalChecked());
+        map->Set(
+          Nan::New<v8::String>(it->first).ToLocalChecked(),
+          array
+        );
+        it = upper;
+      }
+    }
 
     ret->Set(ret->Length(), map);
   }
