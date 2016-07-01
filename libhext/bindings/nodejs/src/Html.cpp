@@ -42,14 +42,32 @@ NAN_METHOD(Html::New)
   if( info.IsConstructCall() )
   {
     Html * obj = nullptr;
-    if( info[0]->IsUndefined() )
+    if( info[0]->IsString() )
     {
-      obj = new Html("");
+      Nan::Utf8String arg(info[0]);
+      if( !*arg )
+      {
+        Nan::ThrowTypeError(
+            Nan::New<v8::String>("Argument error: invalid argument, "
+                                 "expected String").ToLocalChecked());
+        return;
+      }
+
+      obj = new Html(std::string(*arg));
+    }
+    else if( info[0]->IsUndefined() )
+    {
+      Nan::ThrowTypeError(
+          Nan::New<v8::String>("Argument error: missing argument, "
+                               "expected String").ToLocalChecked());
+      return;
     }
     else
     {
-      Nan::Utf8String arg(info[0]);
-      obj = new Html( *arg == nullptr ? std::string("") : std::string(*arg) );
+      Nan::ThrowTypeError(
+          Nan::New<v8::String>("Argument error: invalid argument type, "
+                               "expected String").ToLocalChecked());
+      return;
     }
 
     obj->Wrap(info.This());

@@ -46,14 +46,33 @@ NAN_METHOD(Rule::New)
   if( info.IsConstructCall() )
   {
     Rule * obj = nullptr;
-    if( info[0]->IsUndefined() )
+    if( info[0]->IsString() )
     {
-      obj = new Rule(hext::ParseHext(""));
+      Nan::Utf8String arg(info[0]);
+      try
+      {
+        obj = new Rule(hext::ParseHext(*arg == nullptr ? "" : *arg));
+      }
+      catch( const hext::SyntaxError& e )
+      {
+        auto message = std::string("Hext syntax error: ") + e.what();
+        Nan::ThrowError(Nan::New<v8::String>(message.c_str()).ToLocalChecked());
+        return;
+      }
+    }
+    else if( info[0]->IsUndefined() )
+    {
+      Nan::ThrowTypeError(
+          Nan::New<v8::String>("Argument error: missing argument, "
+                               "expected String").ToLocalChecked());
+      return;
     }
     else
     {
-      Nan::Utf8String arg(info[0]);
-      obj = new Rule(hext::ParseHext(*arg == nullptr ? "" : *arg));
+      Nan::ThrowTypeError(
+          Nan::New<v8::String>("Argument error: invalid argument type, "
+                               "expected String").ToLocalChecked());
+      return;
     }
 
     obj->Wrap(info.This());
@@ -72,9 +91,22 @@ NAN_METHOD(Rule::extract) {
   Rule * obj = Nan::ObjectWrap::Unwrap<Rule>(info.This());
   Nan::MaybeLocal<v8::Object> maybe_arg = Nan::To<v8::Object>(info[0]);
   if( maybe_arg.IsEmpty() )
+  {
+    Nan::ThrowTypeError(
+        Nan::New<v8::String>("Argument error: missing argument, "
+                             "expected hext.Html").ToLocalChecked());
     return;
+  }
 
   Html * arg = Nan::ObjectWrap::Unwrap<Html>(maybe_arg.ToLocalChecked());
+  if( !arg )
+  {
+    Nan::ThrowTypeError(
+        Nan::New<v8::String>("Argument error: invalid argument type, "
+                             "expected hext.Html").ToLocalChecked());
+    return;
+  }
+
   auto result = obj->rule_.extract(arg->root());
   v8::Local<v8::Array> ret = Nan::New<v8::Array>();
   for(const auto& group : result)
