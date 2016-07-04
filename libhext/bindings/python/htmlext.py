@@ -12,28 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import hext
 import json
 import sys
 import os
-
-
-# Returns value at key if key is unique.
-# Else returns array containing all values for key.
-def pack_value_for_key(map, key):
-    size = map.count(key)
-    if( size < 2 ):
-        return map[k]
-    else:
-        begin = map.find(k)
-        end = begin + size
-        arr = []
-        while( begin != end ):
-            v = begin.value()
-            arr.append(v[1])
-            begin.incr()
-        return arr
 
 
 scriptname = os.path.basename(sys.argv[0])
@@ -55,10 +37,7 @@ document = hext.Html(strhtml)
 result = rule.extract(document)
 
 for map in result:
-    obj = dict()
-    for k in map:
-        obj[k] = pack_value_for_key(map, k)
-    print json.dumps(obj, ensure_ascii=False,   # ignore encoding
+    print json.dumps(map, ensure_ascii=False,   # ignore encoding
                           separators=(',',':'), # compact output
                           sort_keys=True)       # predictable output
 
