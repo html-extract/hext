@@ -16,19 +16,6 @@ require 'hext'
 require 'json'
 
 
-# If x is a string, returns x with encoding set to UTF-8.
-# Recurses if x is a collection.
-def force_utf8(x)
-  if x.respond_to?(:force_encoding)
-    return x.force_encoding("UTF-8")
-  elsif x.respond_to?(:map)
-    return x.map(&method(:force_utf8))
-  else
-    return x
-  end
-end
-
-
 scriptname = File.basename($0)
 if ARGV.length == 0
   puts "Usage: %s <file-hext> <file-html>" % scriptname
@@ -47,7 +34,6 @@ html = Hext::Html.new(strhtml)
 result = rule.extract(html)
 
 result.each do |map|
-  puts Hash[map.map { |key| [ force_utf8(key),
-                              force_utf8(map[key]) ] }].to_json
+  puts map.to_json
 end
 
