@@ -15,7 +15,6 @@
 %module hext
 
 %include "typemaps.i"
-%include "std_vector.i"
 %include "std_string.i"
 
 // Convert vector of multimaps to array of arrays, because swig has no
