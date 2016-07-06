@@ -1,7 +1,7 @@
 ###### LIBHEXT #################################################################
 # Enable PROJECT() with VERSION parameter.
 CMAKE_POLICY(SET CMP0048 NEW)
-PROJECT(Hext VERSION 0.4.0)
+PROJECT(Hext VERSION 0.5.0)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
