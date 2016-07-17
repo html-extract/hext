@@ -32,7 +32,12 @@ if len(sys.argv) < 3:
 strhext = open(sys.argv[1]).read()
 strhtml = open(sys.argv[2]).read()
 
-rule = hext.Rule(strhext)
+try:
+    rule = hext.Rule(strhext)
+except ValueError as e:
+    sys.stderr.write("{}: In '{}': {}\n".format(scriptname, sys.argv[1], e))
+    sys.exit(1)
+
 document = hext.Html(strhtml)
 result = rule.extract(document)
 
