@@ -41,7 +41,17 @@ foreach(array($argv[1], $argv[2]) as $f)
 $strhext = file_get_contents($argv[1]);
 $strhtml = file_get_contents($argv[2]);
 
-$rule = new HextRule($strhext);
+$rule;
+try
+{
+  $rule = new HextRule($strhext);
+}
+catch(Exception $e)
+{
+  fwrite(STDERR, "$scriptname: In '{$argv[1]}': {$e->getMessage()}\n");
+  exit(1);
+}
+
 $html = new HextHtml($strhtml);
 $result = $rule->extract($html);
 
