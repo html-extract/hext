@@ -29,7 +29,13 @@ end
 strhext = File.read(ARGV[0])
 strhtml = File.read(ARGV[1])
 
-rule = Hext::Rule.new(strhext)
+rule = nil
+begin
+  rule = Hext::Rule.new(strhext)
+rescue ArgumentError => e
+  abort "%s: In '%s': %s" % [scriptname, ARGV[0], e.message]
+end
+
 html = Hext::Html.new(strhtml)
 result = rule.extract(html)
 
