@@ -52,7 +52,17 @@ if( args.length < 2 )
 var strhext = file.readFileSync(args[0], "utf-8");
 var strhtml = file.readFileSync(args[1], "utf-8");
 
-var rule = new hext.Rule(strhext);
+var rule;
+try
+{
+  rule = new hext.Rule(strhext);
+}
+catch(e)
+{
+  console.error(util.format("%s: In %s: %s", scriptname, args[0], e.message));
+  process.exit(1);
+}
+
 var html = new hext.Html(strhtml);
 var result = rule.extract(html);
 
