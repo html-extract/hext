@@ -62,6 +62,7 @@ int main(int argc, const char ** argv)
     rules.reserve(hext_filenames.size() + hext_inputs.size());
 
     for(const auto& filename : hext_filenames)
+    {
       try {
         rules.emplace_back(
             hext::ParseHext(htmlext::ReadFileOrThrow(filename).c_str()));
@@ -69,14 +70,17 @@ int main(int argc, const char ** argv)
         errout.print(std::string("Error in " + filename), e.what());
         return EXIT_FAILURE;
       }
+    }
 
     for(const auto& hext_input : hext_inputs)
+    {
       try {
         rules.emplace_back(hext::ParseHext(hext_input.c_str()));
       } catch( const hext::SyntaxError& e ) {
         errout.print("Error in <hext-string>", e.what());
         return EXIT_FAILURE;
       }
+    }
 
     if( po.contains("lint") )
       return EXIT_SUCCESS;
