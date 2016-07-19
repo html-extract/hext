@@ -14,6 +14,7 @@ INCLUDE(HextEnableWarnings)
 
 ###### DEPENDENCIES ############################################################
 ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
+FIND_PACKAGE(Gumbo)
 # Download and build GoogleTest
 INCLUDE(HextExternalProjectGoogleTest)
 # GoogleTest requires pthread
@@ -24,6 +25,7 @@ FIND_PACKAGE(Threads)
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/include")
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/src")
+INCLUDE_DIRECTORIES("${Gumbo_INCLUDE_DIR}")
 
 
 ###### SOURCES #################################################################
