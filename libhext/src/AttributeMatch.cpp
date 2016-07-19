@@ -55,7 +55,7 @@ bool AttributeMatch::matches(const GumboNode * node) const
   );
 
   if( !this->test_ )
-    return g_attr;
+    return g_attr != nullptr;
 
   if( !g_attr )
     return this->test_->test(nullptr);
