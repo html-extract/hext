@@ -33,7 +33,7 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 ###### SOURCES #################################################################
 ADD_LIBRARY(
-  hext SHARED
+  hext
   "${PROJECT_SOURCE_DIR}/src/AppendPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/AttributeCapture.cpp"
   "${PROJECT_SOURCE_DIR}/src/AttributeCountMatch.cpp"
