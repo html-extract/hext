@@ -17,7 +17,7 @@ ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
 # Download and build GoogleTest
 INCLUDE(HextExternalProjectGoogleTest)
 # GoogleTest requires pthread
-FIND_PACKAGE(Threads REQUIRED)
+FIND_PACKAGE(Threads)
 
 
 ###### INCLUDES ################################################################
