@@ -14,6 +14,12 @@
 
 #include "htmlext/ProgramOptions.h"
 
+#ifdef _WIN32
+#include <io.h>
+#define isatty _isatty
+#define STDOUT_FILENO 1
+#endif
+
 
 namespace htmlext {
 
