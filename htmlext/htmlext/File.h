@@ -15,12 +15,8 @@
 #ifndef HTMLEXT_FILE_H_INCLUDED
 #define HTMLEXT_FILE_H_INCLUDED
 
-#include <cassert>
 #include <string>
-#include <fstream>
-#include <cstring>
 #include <stdexcept>
-#include <sstream>
 
 
 namespace htmlext {
