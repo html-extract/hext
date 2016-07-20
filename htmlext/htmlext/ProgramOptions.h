@@ -21,10 +21,6 @@
 #include <vector>
 #include <iostream>
 
-#ifndef _WIN32
-#include <unistd.h>
-#endif
-
 #include <boost/program_options.hpp>
 
 

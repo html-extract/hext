@@ -18,6 +18,8 @@
 #include <io.h>
 #define isatty _isatty
 #define STDOUT_FILENO 1
+#else
+#include <unistd.h>
 #endif
 
 

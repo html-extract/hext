@@ -14,6 +14,10 @@
 
 #include "htmlext/Json.h"
 
+#include <rapidjson/allocators.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
+
 
 namespace htmlext {
 
