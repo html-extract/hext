@@ -14,6 +14,37 @@
 
 #include "htmlext/File.h"
 
+#include <fstream>
+#include <sstream>
+// strerror_r, strerror_s are not part of the C++ stdlib
+#include <string.h>
+
+
+namespace {
+
+
+/// Wrapper for strerror_r (GNU) and strerror_s (MSVC).
+std::string StrError(int errnum)
+{
+  // Buffer size: There may be locales where error messages get huge in terms
+  // of bytes and performance is no issue in my use case.
+  std::string buffer(1024, '\0');
+#ifdef _WIN32
+  // strerror_s returns int 0 if it successfully populated the buffer.
+  if( strerror_s(&buffer[0], buffer.size(), errnum) )
+    return "error message unavailable";
+  else
+    return buffer;
+#else
+  // strerror_r may use the buffer, but doesn't need to. It may return a
+  // pointer to a string that is already available.
+  return std::string(strerror_r(errnum, &buffer[0], buffer.size()));
+#endif
+}
+
+
+} // namespace
+
 
 namespace htmlext {
 
@@ -34,7 +65,7 @@ std::string ReadFileOrThrow(const std::string& path)
       return ReadFileOrThrow("/dev/stdin");
     else
       throw FileError(
-        "cannot access '" + path + "': " + std::strerror(errno)
+        "cannot access '" + path + "': " + StrError(errno)
       );
   }
 
@@ -43,7 +74,7 @@ std::string ReadFileOrThrow(const std::string& path)
 
   if( file.fail() )
     throw FileError(
-      "cannot read '" + path + "': " + std::strerror(errno)
+      "cannot read '" + path + "': " + StrError(errno)
     );
 
   return buffer.str();
