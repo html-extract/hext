@@ -14,11 +14,11 @@ INCLUDE(HextEnableWarnings)
 
 ###### DEPENDENCIES ############################################################
 ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
-FIND_PACKAGE(Gumbo)
+FIND_PACKAGE(Gumbo REQUIRED)
 # Download and build GoogleTest
 INCLUDE(HextExternalProjectGoogleTest)
 # GoogleTest requires pthread
-FIND_PACKAGE(Threads)
+FIND_PACKAGE(Threads REQUIRED)
 
 
 ###### INCLUDES ################################################################
