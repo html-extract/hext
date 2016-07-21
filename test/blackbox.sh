@@ -100,7 +100,7 @@ whereis_htmlext() {
   # if a path was provided, use it
   [[ $# -gt 0 ]] && htmlext="${1}/${htmlext}"
 
-  ${htmlext} --help 2>&1 > /dev/null && {
+  ${htmlext} --help >/dev/null 2>&1 && {
     echo "${htmlext}"
     return 0
   }
