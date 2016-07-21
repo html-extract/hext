@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015,2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,18 +22,6 @@ TEST(Builtins_InnerHtmlBuiltin, ExtractsHtml)
   std::string html = "<html><head></head><body>";
   const char * inner = "<div><div> --- text --- </div>"
     "<div> --- stuff --- </div></div>";
-  html.append(inner);
-  html.append("</body></html>");
-
-  THtml h(html.c_str());
-  EXPECT_EQ(InnerHtmlBuiltin(h.body()), inner);
-}
-
-TEST(Builtins_InnerHtmlBuiltin, ExtractsBrokenHtmlUntouched)
-{
-  std::string html = "<html><head></head><body>";
-  const char * inner = "<div><div> --- text --- </div>"
-    "<div> --- stuff --- </div><a>"; // missing </div>, stray <a>
   html.append(inner);
   html.append("</body></html>");
 

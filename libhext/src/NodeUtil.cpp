@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015,2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,11 @@
 // limitations under the License.
 
 #include "NodeUtil.h"
+
+#include <cassert>
+#include <cstddef>
+#include <iomanip>
+#include <iterator>
 
 
 namespace hext {
@@ -67,22 +72,150 @@ std::string NodeInnerHtml(const GumboNode * node)
   if( !node || node->type != GUMBO_NODE_ELEMENT )
     return "";
 
-  const GumboStringPiece& b = node->v.element.original_tag;
-  const GumboStringPiece& e = node->v.element.original_end_tag;
-
-  if( b.data && b.length > 0 &&
-      e.data && e.length > 0 &&
-      ( b.data + b.length ) < e.data )
+  std::ostringstream os;
+  const GumboVector& children = node->v.element.children;
+  for(unsigned int i = 0; i < children.length; ++i)
   {
-    const char * inner_begin = b.data + b.length;
-    auto length = static_cast<std::string::size_type>(
-        std::distance(inner_begin, e.data)
-    );
-    return std::string(inner_begin, length);
+    auto child_node = static_cast<const GumboNode *>(children.data[i]);
+    SerializeNode(*child_node, os);
   }
 
-  return "";
+  return os.str();
 }
+
+void SerializeNode(const GumboNode& n, std::ostringstream& os)
+{
+  switch( n.type )
+  {
+    case GUMBO_NODE_DOCUMENT:
+    {
+      if( n.v.document.has_doctype )
+        SerializeDocument(n.v.document, os);
+      break;
+    }
+    case GUMBO_NODE_TEMPLATE:
+    case GUMBO_NODE_ELEMENT:
+    {
+      SerializeElement(n.v.element, os);
+      break;
+    }
+    case GUMBO_NODE_CDATA:
+    {
+      // ignore
+      break;
+    }
+    case GUMBO_NODE_COMMENT:
+    {
+      os << "<!--" << n.v.text.text << "-->";
+      break;
+    }
+    case GUMBO_NODE_TEXT:
+    case GUMBO_NODE_WHITESPACE:
+    {
+      os << n.v.text.text;
+      break;
+    }
+    default:
+      assert(false);
+      break;
+  }
+}
+
+void SerializeDocument(const GumboDocument& d, std::ostringstream& os)
+{
+  os << "<!DOCTYPE";
+  if( d.name ) os << ' ' << d.name;
+  if( d.public_identifier ) os << ' ' << d.public_identifier;
+  if( d.system_identifier ) os << ' ' << d.system_identifier;
+  os << ">\n";
+}
+
+void SerializeAttribute(const GumboAttribute& a, std::ostringstream& os)
+{
+  if( a.name )
+  {
+    os << ' ';
+    switch( a.attr_namespace )
+    {
+      case GUMBO_ATTR_NAMESPACE_NONE:
+        break;
+      case GUMBO_ATTR_NAMESPACE_XLINK:
+        os << "xlink:";
+        break;
+      case GUMBO_ATTR_NAMESPACE_XML:
+        os << "xml:";
+        break;
+      case GUMBO_ATTR_NAMESPACE_XMLNS:
+        os << "xmlns:";
+        break;
+      default:
+        assert(false);
+        break;
+    }
+    os << a.name;
+    if( a.value )
+      os << '=' << std::quoted(a.value);
+  }
+}
+
+void SerializeElement(const GumboElement& e, std::ostringstream& os)
+{
+  os << '<' << gumbo_normalized_tagname(e.tag);
+
+  const GumboVector& attributes = e.attributes;
+  for(unsigned int i = 0; i < attributes.length; ++i)
+  {
+    auto attribute = static_cast<const GumboAttribute *>(attributes.data[i]);
+    SerializeAttribute(*attribute, os);
+  }
+
+  if( TagIsSelfClosing(e.tag) )
+  {
+    os << '>';
+
+    const GumboVector& children = e.children;
+    for(unsigned int i = 0; i < children.length; ++i)
+    {
+      auto child_node = static_cast<const GumboNode *>(children.data[i]);
+      SerializeNode(*child_node, os);
+    }
+
+    os << "</" << gumbo_normalized_tagname(e.tag) << '>';
+  }
+  else
+  {
+    os << "/>";
+  }
+}
+
+bool TagIsSelfClosing(GumboTag tag) noexcept
+{
+  switch( tag )
+  {
+    case GUMBO_TAG_AREA:
+    case GUMBO_TAG_BASE:
+    case GUMBO_TAG_BR:
+    case GUMBO_TAG_COL:
+    case GUMBO_TAG_EMBED:
+    case GUMBO_TAG_HR:
+    case GUMBO_TAG_IMG:
+    case GUMBO_TAG_INPUT:
+    case GUMBO_TAG_KEYGEN:
+    case GUMBO_TAG_LINK:
+    case GUMBO_TAG_META:
+    case GUMBO_TAG_PARAM:
+    case GUMBO_TAG_SOURCE:
+    case GUMBO_TAG_TRACK:
+    case GUMBO_TAG_WBR:
+      return false;
+    default:
+      return true;
+  }
+
+  assert(false);
+  return false;
+}
+
 
 bool TagWrapsText(GumboTag tag) noexcept
 {

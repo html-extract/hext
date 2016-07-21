@@ -1,0 +1,1 @@
+<body @inner-html:html />

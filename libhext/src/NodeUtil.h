@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015,2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@
 
 #include "StringUtil.h"
 
-#include <cassert>
+#include <sstream>
 #include <string>
-#include <cstddef>
-#include <iterator>
 
 #include <gumbo.h>
 
@@ -41,8 +39,29 @@ std::string NodeText(const GumboNode * node);
 std::string StripTags(const GumboNode * node, bool smart_wrap = false);
 
 
-/// Returns inner HTML of an HTML node, as is, untouched.
+/// Returns inner HTML of an HTML element.
 std::string NodeInnerHtml(const GumboNode * node);
+
+
+/// Serializes GumboNode to string and appends it to os.
+void SerializeNode(const GumboNode& node, std::ostringstream& os);
+
+
+/// Serializes GumboDocument to string and appends it to os.
+void SerializeDocument(const GumboDocument& d, std::ostringstream& os);
+
+
+/// Serializes GumboAttribute to string and appends it to os.
+void SerializeAttribute(const GumboAttribute& a, std::ostringstream& os);
+
+
+/// Serializes GumboElement to string and appends it to os.
+void SerializeElement(const GumboElement& e, std::ostringstream& os);
+
+
+/// Returns true if HTML tag is a tag for a "void element".
+/// See https://www.w3.org/TR/html5/syntax.html#void-elements
+bool TagIsSelfClosing(GumboTag tag) noexcept;
 
 
 /// Returns true if an HTML tag is a tag for an element that is to be embedded
