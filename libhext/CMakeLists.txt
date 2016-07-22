@@ -31,7 +31,7 @@ FIND_PACKAGE(PocoFoundation QUIET) # optional, see "examples" section
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
-###### SOURCES #################################################################
+###### LIBHEXT #################################################################
 ADD_LIBRARY(
   hext
   "${PROJECT_SOURCE_DIR}/src/AppendPipe.cpp"
@@ -74,6 +74,10 @@ TARGET_LINK_LIBRARIES(
   hext
   ${Gumbo_LIBRARY}
   ${Boost_REGEX_LIBRARY})
+SET_TARGET_PROPERTIES(
+  hext PROPERTIES
+  VERSION "${Hext_VERSION}"
+  SOVERSION "${Hext_VERSION_MAJOR}.${Hext_VERSION_MINOR}")
 
 
 ###### INCLUDES ################################################################
