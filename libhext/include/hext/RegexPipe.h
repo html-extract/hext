@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -45,7 +46,8 @@ namespace hext {
 ///   Highway 61 revisited  |  `Highway (\d+)`  | 61
 ///   Highway 61 revisited  |  `\w+`            | Highway
 ///   Highway 61 revisited  |  `(\w+) (\d+)`    | Highway     (not an error)
-class RegexPipe final : public hext::Cloneable<RegexPipe, StringPipe>
+class HEXT_PUBLIC RegexPipe final
+  : public hext::Cloneable<RegexPipe, StringPipe>
 {
 public:
   /// Constructs a RegexPipe from a boost::regex.

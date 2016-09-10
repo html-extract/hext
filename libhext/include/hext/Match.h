@@ -18,6 +18,8 @@
 /// @file
 ///   Declares hext::Match
 
+#include "hext/Visibility.h"
+
 #include <memory>
 
 #include <gumbo.h>
@@ -36,7 +38,7 @@ namespace hext {
 ///       has a copy constructor, you can extend from
 ///       hext::Cloneable<YourSubclass, hext::Match> which provides a generic
 ///       clone method.
-class Match
+class HEXT_PUBLIC Match
 {
 public:
   Match() noexcept = default;

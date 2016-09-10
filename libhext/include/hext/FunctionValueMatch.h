@@ -22,6 +22,7 @@
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <memory>
 
@@ -54,7 +55,8 @@ namespace hext {
 ///   assert(!m_foo.matches(bar));
 ///   assert(!m_bar.matches(foo));
 /// ~~~~~~~~~~~~~
-class FunctionValueMatch final : public Cloneable<FunctionValueMatch, Match>
+class HEXT_PUBLIC FunctionValueMatch final
+  : public Cloneable<FunctionValueMatch, Match>
 {
 public:
   /// Constructs a FunctionValueMatch that matches HTML nodes for which a given

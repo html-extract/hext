@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <boost/regex.hpp>
 
@@ -42,7 +43,7 @@ namespace hext {
 ///   assert(!is_date.test("09-09-99"));
 ///   assert(!is_date.test("Born on 09-09-1941."));
 /// ~~~~~~~~~~~~~
-class RegexTest final : public Cloneable<RegexTest, ValueTest>
+class HEXT_PUBLIC RegexTest final : public Cloneable<RegexTest, ValueTest>
 {
 public:
   /// Constructs a RegexTest that succeeds if a subject matches regex.

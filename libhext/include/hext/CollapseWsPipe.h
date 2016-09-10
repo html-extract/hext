@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -38,7 +39,8 @@ namespace hext {
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /// "Like a Rolling Stone"
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class CollapseWsPipe final : public hext::Cloneable<CollapseWsPipe, StringPipe>
+class HEXT_PUBLIC CollapseWsPipe final
+  : public hext::Cloneable<CollapseWsPipe, StringPipe>
 {
 public:
   /// Collapses multiple whitespace to a single space

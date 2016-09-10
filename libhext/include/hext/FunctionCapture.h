@@ -23,6 +23,7 @@
 #include "hext/Cloneable.h"
 #include "hext/Result.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -59,7 +60,8 @@ namespace hext {
 ///   if( auto result = centimeters.capture(node) )
 ///     assert(*result == ResultPair("centimeters", "25"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
-class FunctionCapture final : public Cloneable<FunctionCapture, Capture>
+class HEXT_PUBLIC FunctionCapture final
+  : public Cloneable<FunctionCapture, Capture>
 {
 public:
   /// Constructs a FunctionCapture.

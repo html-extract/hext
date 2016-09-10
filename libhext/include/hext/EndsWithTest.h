@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -37,7 +38,7 @@ namespace hext {
 ///   assert( ends.test("baz"));
 ///   assert(!ends.test("foo"));
 /// ~~~~~~~~~~~~~
-class EndsWithTest final : public Cloneable<EndsWithTest, ValueTest>
+class HEXT_PUBLIC EndsWithTest final : public Cloneable<EndsWithTest, ValueTest>
 {
 public:
   /// Constructs an EndsWithTest that succeeds for subjects that end with the

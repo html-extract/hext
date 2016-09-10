@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <string>
 #include <vector>
@@ -40,7 +41,8 @@ namespace hext {
 ///   assert(!cw.test("foobaz bar"));
 ///   assert(!cw.test("foo bar"));
 /// ~~~~~~~~~~~~~
-class ContainsWordsTest final : public Cloneable<ContainsWordsTest, ValueTest>
+class HEXT_PUBLIC ContainsWordsTest final
+  : public Cloneable<ContainsWordsTest, ValueTest>
 {
 public:
   /// Constructs a ContainsWordsTest that succeeds for subjects that contain all

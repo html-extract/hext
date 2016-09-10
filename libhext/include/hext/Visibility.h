@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,32 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef HEXT_SYNTAX_ERROR_H_INCLUDED
-#define HEXT_SYNTAX_ERROR_H_INCLUDED
+#ifndef HEXT_VISIBILITY_H_INCLUDED
+#define HEXT_VISIBILITY_H_INCLUDED
 
 /// @file
-///   Declares hext::SyntaxError
-
-#include "hext/Visibility.h"
-
-#include <stdexcept>
-#include <string>
+///   Defines HEXT_PUBLIC and HEXT_PRIVATE.
 
 
-namespace hext {
+#if defined(__GNUC__) && !defined(_WIN32)
+  #define HEXT_PUBLIC  __attribute__ ((visibility ("default")))
+  #define HEXT_PRIVATE __attribute__ ((visibility ("hidden")))
+#else
+  #define HEXT_PUBLIC
+  #define HEXT_PRIVATE
+#endif
 
 
-/// The exception that is thrown when parsing invalid hext.
-/// SyntaxError.what() will contain a detailed error message.
-class HEXT_PUBLIC SyntaxError : public std::runtime_error
-{
-public:
-  explicit SyntaxError(const std::string& msg) noexcept;
-};
-
-
-} // namespace hext
-
-
-#endif // HEXT_SYNTAX_ERROR_H_INCLUDED
+#endif // HEXT_VISIBILITY_H_INCLUDED
 

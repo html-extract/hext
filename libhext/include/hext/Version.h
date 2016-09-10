@@ -18,18 +18,20 @@
 /// @file
 ///   Version numbers.
 
+#include "hext/Visibility.h"
+
 
 namespace hext {
 
 
 /// Major version number.
-extern const int version_major;
+HEXT_PUBLIC extern const int version_major;
 
 /// Minor version number.
-extern const int version_minor;
+HEXT_PUBLIC extern const int version_minor;
 
 /// Patch version number.
-extern const int version_patch;
+HEXT_PUBLIC extern const int version_patch;
 
 
 } // namespace hext

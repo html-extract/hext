@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -37,7 +38,7 @@ namespace hext {
 ///   assert(!equals.test("foob"));
 ///   assert(!equals.test("bfoo"));
 /// ~~~~~~~~~~~~~
-class EqualsTest final : public Cloneable<EqualsTest, ValueTest>
+class HEXT_PUBLIC EqualsTest final : public Cloneable<EqualsTest, ValueTest>
 {
 public:
   /// Constructs an EqualsTest that succeeds for subjects that equal a given

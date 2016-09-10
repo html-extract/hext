@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -28,7 +29,7 @@ namespace hext {
 
 
 /// Changes the case of a string. Changes to lower case by default.
-class CasePipe final : public hext::Cloneable<CasePipe, StringPipe>
+class HEXT_PUBLIC CasePipe final : public hext::Cloneable<CasePipe, StringPipe>
 {
 public:
   /// CasePipe's options.

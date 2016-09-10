@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 /// @file
 ///   Defines template hext::Cloneable
 
+#include "hext/Visibility.h"
+
 #include <memory>
 #include <type_traits>
 
@@ -31,7 +33,7 @@ namespace hext {
 /// @tparam Derived:  A subclass of Cloneable that is copy constructible.
 /// @tparam    Base:  The base class that shall be extended.
 template<typename Derived, typename Base>
-class Cloneable : public Base
+class HEXT_PUBLIC Cloneable : public Base
 {
 public:
   /// Clones objects of template type Derived and returns an owning pointer to

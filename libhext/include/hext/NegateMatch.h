@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
+#include "hext/Visibility.h"
 
 #include <memory>
 #include <vector>
@@ -49,7 +50,7 @@ namespace hext {
 ///   assert(!not_one.matches(attr_one));
 ///   assert( not_one.matches(attr_two));
 /// ~~~~~~~~~~~~~
-class NegateMatch final : public Cloneable<NegateMatch, Match>
+class HEXT_PUBLIC NegateMatch final : public Cloneable<NegateMatch, Match>
 {
 public:
   /// Constructs a NegateMatch that matches nodes for which every contained

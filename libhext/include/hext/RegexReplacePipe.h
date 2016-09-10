@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -37,7 +38,8 @@ namespace hext {
 ///     RegexReplacePipe r(boost::regex("^(\\w+) (\\\w+)$"), "$2 $1");
 ///     r.transform("first second");    // "second first"
 ///   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class RegexReplacePipe final : public hext::Cloneable<RegexReplacePipe, StringPipe>
+class HEXT_PUBLIC RegexReplacePipe final
+  : public hext::Cloneable<RegexReplacePipe, StringPipe>
 {
 public:
   /// Constructs a RegexReplacePipe.

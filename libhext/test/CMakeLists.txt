@@ -14,6 +14,9 @@ INCLUDE(HextEnableWarnings)
 
 ###### DEPENDENCIES ############################################################
 ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
+# libhext-test also depends on the private API which is hidden in the default
+# build of libhext.
+SET_TARGET_PROPERTIES(hext PROPERTIES CXX_VISIBILITY_PRESET default)
 FIND_PACKAGE(Gumbo REQUIRED)
 # Download and build GoogleTest
 INCLUDE(HextExternalProjectGoogleTest)

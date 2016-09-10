@@ -18,6 +18,8 @@
 /// @file
 ///   Declares hext::StringPipe
 
+#include "hext/Visibility.h"
+
 #include <memory>
 #include <string>
 #include <utility>
@@ -35,7 +37,7 @@ namespace hext {
 ///       subclass has a copy constructor, you can extend from
 ///       hext::Cloneable<YourSubclass, hext::StringPipe> which provides a
 ///       generic clone method.
-class StringPipe
+class HEXT_PUBLIC StringPipe
 {
 public:
   StringPipe() noexcept;

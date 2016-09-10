@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/HtmlTag.h"
+#include "hext/Visibility.h"
 
 #include <utility>
 
@@ -84,7 +85,7 @@ namespace hext {
 ///   assert( m_last_of_type.matches(second));
 ///   assert( m_last_of_type.matches(third));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~
-class NthChildMatch final : public Cloneable<NthChildMatch, Match>
+class HEXT_PUBLIC NthChildMatch final : public Cloneable<NthChildMatch, Match>
 {
 public:
   /// NthChildMatch's options.
@@ -131,16 +132,18 @@ private:
   /// @param      node:  A pointer to a GumboNode.
   /// @param count_tag:  If given any value other than HtmlTag::ANY, only count
   ///                    siblings having this HtmlTag.
-  int count_preceding_siblings(const GumboNode * node,
-                               HtmlTag           count_tag) const noexcept;
+  HEXT_PRIVATE
+    int count_preceding_siblings(const GumboNode * node,
+                                 HtmlTag           count_tag) const noexcept;
 
   /// Count following siblings of an HTML node.
   ///
   /// @param      node:  A pointer to a GumboNode.
   /// @param count_tag:  If given any value other than HtmlTag::ANY, only count
   ///                    siblings having this HtmlTag.
-  int count_following_siblings(const GumboNode * node,
-                               HtmlTag           count_tag) const noexcept;
+  HEXT_PRIVATE
+    int count_following_siblings(const GumboNode * node,
+                                 HtmlTag           count_tag) const noexcept;
 
   /// The step in the pattern <step * n + shift>
   int step_;
@@ -154,7 +157,7 @@ private:
 
 
 /// Applies Bitwise-OR to NthChildMatch::Option.
-inline NthChildMatch::Option
+HEXT_PUBLIC inline NthChildMatch::Option
 operator|(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
 {
   return static_cast<NthChildMatch::Option>(static_cast<int>(left) |
@@ -163,7 +166,7 @@ operator|(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
 
 
 /// Applies Bitwise-AND to NthChildMatch::Option.
-inline NthChildMatch::Option
+HEXT_PUBLIC inline NthChildMatch::Option
 operator&(NthChildMatch::Option left, NthChildMatch::Option right) noexcept
 {
   return static_cast<NthChildMatch::Option>(static_cast<int>(left) &

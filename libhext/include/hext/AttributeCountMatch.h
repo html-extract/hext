@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
+#include "hext/Visibility.h"
 
 #include <gumbo.h>
 
@@ -43,7 +44,8 @@ namespace hext {
 ///   assert(!m_two_attr.matches(no_attrs));
 ///   assert(!m_no_attr.matches(two_attrs));
 /// ~~~~~~~~~~~~~
-class AttributeCountMatch final : public Cloneable<AttributeCountMatch, Match>
+class HEXT_PUBLIC AttributeCountMatch final
+  : public Cloneable<AttributeCountMatch, Match>
 {
 public:
   /// Constructs an AttributeCountMatch that matches HTML elements that have a

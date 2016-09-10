@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
+#include "hext/Visibility.h"
 
 #include <gumbo.h>
 
@@ -44,7 +45,8 @@ namespace hext {
 ///   assert( m_two.matches(two));
 ///   assert(!m_two.matches(none));
 /// ~~~~~~~~~~~~~
-class ChildCountMatch final : public Cloneable<ChildCountMatch, Match>
+class HEXT_PUBLIC ChildCountMatch final
+  : public Cloneable<ChildCountMatch, Match>
 {
 public:
   /// Construct a ChildCountMatch that matches HTML elements with a child_count
@@ -58,7 +60,8 @@ public:
 
 private:
   /// Return amount of node's children that have node type GUMBO_NODE_ELEMENT.
-  unsigned int count_child_elements(const GumboNode * node) const noexcept;
+  HEXT_PRIVATE
+    unsigned int count_child_elements(const GumboNode * node) const noexcept;
 
   /// The amount of children an HTML element must have in order to match.
   unsigned int child_count_;

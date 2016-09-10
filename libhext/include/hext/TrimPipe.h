@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -29,7 +30,7 @@ namespace hext {
 
 /// Trims characters from the beginning and end of a string. Trims space by
 /// default.
-class TrimPipe final : public hext::Cloneable<TrimPipe, StringPipe>
+class HEXT_PUBLIC TrimPipe final : public hext::Cloneable<TrimPipe, StringPipe>
 {
 public:
   /// Constructs a TrimPipe.

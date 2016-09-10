@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/MatchFunction.h"
+#include "hext/Visibility.h"
 
 #include <gumbo.h>
 
@@ -46,7 +47,7 @@ namespace hext {
 ///   assert( m_is_div.matches(div));
 ///   assert(!m_is_div.matches(span));
 /// ~~~~~~~~~~~~~
-class FunctionMatch final : public Cloneable<FunctionMatch, Match>
+class HEXT_PUBLIC FunctionMatch final : public Cloneable<FunctionMatch, Match>
 {
 public:
   /// Constructs a FunctionMatch that matches HTML nodes for which a given

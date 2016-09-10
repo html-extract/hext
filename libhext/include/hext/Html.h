@@ -18,6 +18,8 @@
 /// @file
 ///   Declares hext::Html
 
+#include "hext/Visibility.h"
+
 #include <cstddef>
 
 #include <gumbo.h>
@@ -41,7 +43,7 @@ namespace hext {
 ///   Rule html_root(HtmlTag::HTML);
 ///   assert(html_root.matches(root));
 /// ~~~~~~~~~~~~~
-class Html
+class HEXT_PUBLIC Html
 {
 public:
   /// Constructs an Html from a non-owning null-terminated string.

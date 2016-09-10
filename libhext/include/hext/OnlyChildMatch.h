@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
+#include "hext/Visibility.h"
 
 #include <gumbo.h>
 
@@ -33,7 +34,7 @@ namespace hext {
 /// only-child-of-type.
 ///
 /// See https://developer.mozilla.org/en-US/docs/Web/CSS/:only-child
-class OnlyChildMatch final : public Cloneable<OnlyChildMatch, Match>
+class HEXT_PUBLIC OnlyChildMatch final : public Cloneable<OnlyChildMatch, Match>
 {
 public:
   /// OnlyChildMatch's options.
@@ -62,7 +63,7 @@ private:
 
 
 /// Applies Bitwise-OR to OnlyChildMatch::Option.
-inline OnlyChildMatch::Option
+HEXT_PUBLIC inline OnlyChildMatch::Option
 operator|(OnlyChildMatch::Option left, OnlyChildMatch::Option right) noexcept
 {
   return static_cast<OnlyChildMatch::Option>(static_cast<int>(left) |
@@ -71,7 +72,7 @@ operator|(OnlyChildMatch::Option left, OnlyChildMatch::Option right) noexcept
 
 
 /// Applies Bitwise-AND to OnlyChildMatch::Option.
-inline OnlyChildMatch::Option
+HEXT_PUBLIC inline OnlyChildMatch::Option
 operator&(OnlyChildMatch::Option left, OnlyChildMatch::Option right) noexcept
 {
   return static_cast<OnlyChildMatch::Option>(static_cast<int>(left) &

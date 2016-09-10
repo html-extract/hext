@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -28,7 +29,8 @@ namespace hext {
 
 
 /// Appends a given string to a string.
-class AppendPipe final : public hext::Cloneable<AppendPipe, StringPipe>
+class HEXT_PUBLIC AppendPipe final
+  : public hext::Cloneable<AppendPipe, StringPipe>
 {
 public:
   /// Constructs an AppendPipe.

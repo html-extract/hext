@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,10 +18,11 @@
 /// @file
 ///   Declares hext::ParseHext
 
-#include <cstddef>
-
 #include "hext/Rule.h"
 #include "hext/SyntaxError.h"
+#include "hext/Visibility.h"
+
+#include <cstddef>
 
 
 namespace hext {
@@ -43,7 +44,7 @@ namespace hext {
 ///
 /// @param hext:  A null-terminated string containing hext rule definitions.
 /// @returns      The parsed Rule.
-Rule ParseHext(const char * hext);
+HEXT_PUBLIC Rule ParseHext(const char * hext);
 
 /// Parses a buffer containing hext rule definitions.
 /// Throws SyntaxError with a detailed error message on invalid input.
@@ -64,7 +65,7 @@ Rule ParseHext(const char * hext);
 /// @param hext:  A string containing hext rule definitions.
 /// @param size:  The length of the string.
 /// @returns      The parsed Rule.
-Rule ParseHext(const char * hext, std::size_t size);
+HEXT_PUBLIC Rule ParseHext(const char * hext, std::size_t size);
 
 
 } // namespace hext

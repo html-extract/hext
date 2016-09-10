@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -28,7 +29,8 @@ namespace hext {
 
 
 /// Prepends a given string to a string.
-class PrependPipe final : public hext::Cloneable<PrependPipe, StringPipe>
+class HEXT_PUBLIC PrependPipe final
+  : public hext::Cloneable<PrependPipe, StringPipe>
 {
 public:
   /// Constructs a PrependPipe.

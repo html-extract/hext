@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -37,7 +38,8 @@ namespace hext {
 ///   assert(!begins.test("startles your sleeping ears to hear"));
 ///   assert(!begins.test(""));
 /// ~~~~~~~~~~~~~
-class BeginsWithTest final : public Cloneable<BeginsWithTest, ValueTest>
+class HEXT_PUBLIC BeginsWithTest final
+  : public Cloneable<BeginsWithTest, ValueTest>
 {
 public:
   /// Constructs a BeginsWithTest that succeeds for subjects that begin with

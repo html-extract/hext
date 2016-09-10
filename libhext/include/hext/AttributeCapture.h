@@ -22,6 +22,7 @@
 #include "hext/Cloneable.h"
 #include "hext/Result.h"
 #include "hext/StringPipe.h"
+#include "hext/Visibility.h"
 
 #include <string>
 
@@ -58,7 +59,8 @@ namespace hext {
 ///     // attribute found and captured
 ///     assert(*result == ResultPair("U.S. Route", "61"));
 /// ~~~~~~~~~~~~~~~~~~~~~~~~
-class AttributeCapture final : public Cloneable<AttributeCapture, Capture>
+class HEXT_PUBLIC AttributeCapture final
+  : public Cloneable<AttributeCapture, Capture>
 {
 public:
   /// Constructs an AttributeCapture.

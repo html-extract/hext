@@ -21,6 +21,7 @@
 #include "hext/Cloneable.h"
 #include "hext/Match.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <memory>
 #include <string>
@@ -55,7 +56,7 @@ namespace hext {
 ///   assert(attr_desolation.matches(node_desolation));
 ///   assert(!attr_desolation.matches(node_row));
 /// ~~~~~~~~~~~~~
-class AttributeMatch final : public Cloneable<AttributeMatch, Match>
+class HEXT_PUBLIC AttributeMatch final : public Cloneable<AttributeMatch, Match>
 {
 public:
   /// Constructs an AttributeMatch with an optional ValueTest.

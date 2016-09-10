@@ -20,6 +20,7 @@
 
 #include "hext/Cloneable.h"
 #include "hext/ValueTest.h"
+#include "hext/Visibility.h"
 
 #include <memory>
 
@@ -37,7 +38,7 @@ namespace hext {
 ///   assert( not_foo.test("baz"));
 ///   assert(!not_foo.test("foo"));
 /// ~~~~~~~~~~~~~
-class NegateTest final : public Cloneable<NegateTest, ValueTest>
+class HEXT_PUBLIC NegateTest final : public Cloneable<NegateTest, ValueTest>
 {
 public:
   /// Constructs a NegateTest.

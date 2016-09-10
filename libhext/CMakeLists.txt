@@ -16,6 +16,9 @@ INCLUDE(HextEnableWarnings)
 # If build type was not specified, build Release.
 INCLUDE(HextDefaultBuildRelease)
 
+# Defines HEXT_COMPILER_IS_CLANG_OR_GCC.
+INCLUDE(HextCompilerIsClangOrGcc)
+
 
 ###### VERSION #################################################################
 SET(
@@ -78,6 +81,9 @@ SET_TARGET_PROPERTIES(
   hext PROPERTIES
   VERSION "${Hext_VERSION}"
   SOVERSION "${Hext_VERSION_MAJOR}.${Hext_VERSION_MINOR}")
+IF(HEXT_COMPILER_IS_CLANG_OR_GCC)
+  SET_TARGET_PROPERTIES(hext PROPERTIES CXX_VISIBILITY_PRESET hidden)
+ENDIF(HEXT_COMPILER_IS_CLANG_OR_GCC)
 
 
 ###### INCLUDES ################################################################

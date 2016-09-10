@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 ///   Contains every predefined CaptureFunction.
 
 #include "hext/CaptureFunction.h"
+#include "hext/Visibility.h"
 
 
 namespace hext {
@@ -36,7 +37,7 @@ namespace hext {
 ///
 /// @param node:  A pointer to a GumboNode.
 /// @returns  A string containing the HTML element's text.
-extern const CaptureFunction TextBuiltin;
+HEXT_PUBLIC extern const CaptureFunction TextBuiltin;
 
 
 /// A CaptureFunction that returns the inner HTML of an HTML element.
@@ -50,7 +51,7 @@ extern const CaptureFunction TextBuiltin;
 ///
 /// @param node:  A pointer to a GumboNode.
 /// @returns  A string containing the HTML element's inner HTML.
-extern const CaptureFunction InnerHtmlBuiltin;
+HEXT_PUBLIC extern const CaptureFunction InnerHtmlBuiltin;
 
 
 /// A CaptureFunction that returns the inner HTML of an HTML element without
@@ -64,7 +65,7 @@ extern const CaptureFunction InnerHtmlBuiltin;
 ///
 /// @param node:  A pointer to a GumboNode.
 /// @returns  A string containing the HTML element's inner HTML without tags.
-extern const CaptureFunction StripTagsBuiltin;
+HEXT_PUBLIC extern const CaptureFunction StripTagsBuiltin;
 
 
 } // namespace hext

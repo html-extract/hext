@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015, 2016 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 /// @file
 ///   Declares hext::ValueTest
 
+#include "hext/Visibility.h"
+
 #include <memory>
 
 
@@ -32,7 +34,7 @@ namespace hext {
 ///       subclass has a copy constructor, you can extend from
 ///       hext::Cloneable<YourSubclass, hext::ValueTest> which provides a
 ///       generic clone method.
-class ValueTest
+class HEXT_PUBLIC ValueTest
 {
 public:
   ValueTest() noexcept = default;

@@ -23,6 +23,7 @@
 #include "hext/Result.h"
 #include "hext/Match.h"
 #include "hext/Capture.h"
+#include "hext/Visibility.h"
 
 #include <cstddef>
 #include <memory>
@@ -82,7 +83,7 @@ namespace hext {
 ///   //   },
 ///   // }
 /// ~~~~~~~~~~~~~
-class Rule
+class HEXT_PUBLIC Rule
 {
 public:
   /// Constructs a Rule.
@@ -199,7 +200,7 @@ public:
   std::vector<ResultPair> capture(const GumboNode * node) const;
 
 private:
-  void swap(hext::Rule& other) noexcept;
+  HEXT_PRIVATE void swap(hext::Rule& other) noexcept;
 
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;

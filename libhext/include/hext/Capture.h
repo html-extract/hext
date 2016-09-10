@@ -19,6 +19,7 @@
 ///   Declares hext::Capture
 
 #include "hext/Result.h"
+#include "hext/Visibility.h"
 
 #include <memory>
 
@@ -41,7 +42,7 @@ namespace hext {
 ///       has a copy constructor, you can extend from
 ///       hext::Cloneable<YourSubclass, hext::Capture> which provides a generic
 ///       clone method.
-class Capture
+class HEXT_PUBLIC Capture
 {
 public:
   Capture() noexcept = default;
