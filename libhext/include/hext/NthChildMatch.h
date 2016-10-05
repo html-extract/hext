@@ -111,7 +111,6 @@ public:
                 int    shift,
                 Option options = Option::First) noexcept;
 
-  /// Construct an NthChildMatch with step and shift given as std::pair.
   /// Constructs an NthChildMatch with the pattern <step * n + shift>, where
   /// step and shift is given as a std::pair.
   ///
