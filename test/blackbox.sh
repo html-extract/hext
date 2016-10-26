@@ -70,8 +70,7 @@ perror() {
 
 # Prints a failed test case to stdout.
 perror_case() {
-  local case_name="unknown"
-  [[ $# -gt 0 ]] && case_name="$1"
+  local case_name=${1:-"unknown"}
   echo "${C_RED}${C_BLD}✘ Test case <${case_name}>: Failure${C_RST}"
 }
 
@@ -79,11 +78,10 @@ perror_case() {
 # Indents each line from stdin with two spaces and prints to stdout.
 # The amount of spaces can be overriden by providing a parameter greater than 0.
 pindent() {
-  local width="2"
-  [[ $# -gt 0 ]] && width=$1
+  local width=${1:-"2"}
 
   # hax: generate a string filled with $width amount of spaces
-  local spaces=$(printf "%0.s " $(seq 1 $width))
+  local spaces=$(printf "%0.s " $(seq 1 "$width"))
 
   # insert spaces at the beginning of each line
   sed "s/^/${spaces}/" < /dev/stdin
