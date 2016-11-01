@@ -76,7 +76,8 @@ perror_case() {
 
 
 # Indents each line from stdin with two spaces and prints to stdout.
-# The amount of spaces can be overriden by providing a parameter greater than 0.
+# The amount of spaces can be overridden by providing an argument
+# greater than 0.
 pindent() {
   local width=${1:-"2"}
 
