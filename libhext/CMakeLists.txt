@@ -7,8 +7,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
 
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake)
 
-# Force flag -std=c++14.
-INCLUDE(HextForceCPP14)
+# Set required C++ standard or abort.
+INCLUDE(HextForceCppStd)
 
 # Enable all (reasonable) warnings with Clang and GCC.
 INCLUDE(HextEnableWarnings)
