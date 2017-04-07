@@ -3,8 +3,8 @@
 INCLUDE(ExternalProject)
 ExternalProject_Add(
     rapidjson
-    URL https://github.com/miloyip/rapidjson/archive/v1.0.2.tar.gz
-    URL_HASH SHA512=f5481d78773aca34d214b60e0da113779eba4af35b7c8fb4eddea5b3bda4e68cbe3fd06f698ee90f9e50c3fe985d327053f678c9fcc84339860c267b59313162
+    URL https://github.com/miloyip/rapidjson/archive/v1.1.0.tar.gz
+    URL_HASH SHA512=2e82a4bddcd6c4669541f5945c2d240fb1b4fdd6e239200246d3dd50ce98733f0a4f6d3daa56f865d8c88779c036099c52a9ae85d47ad263686b68a88d832dff
     TIMEOUT 10
 
     CONFIGURE_COMMAND ""
