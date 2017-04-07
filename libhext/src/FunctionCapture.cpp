@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,8 +49,7 @@ FunctionCapture& FunctionCapture::operator=(const FunctionCapture& other)
   return *this;
 }
 
-boost::optional<ResultPair> FunctionCapture::capture(
-    const GumboNode * node) const
+std::optional<ResultPair> FunctionCapture::capture(const GumboNode * node) const
 {
   assert(this->func_);
   if( !this->func_ )

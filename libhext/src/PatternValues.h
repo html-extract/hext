@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,12 @@
 #include "hext/StringPipe.h"
 #include "hext/ValueTest.h"
 
-#include <string>
 #include <memory>
+#include <optional>
+#include <string>
 #include <utility>
 
 #include <boost/regex.hpp>
-#include <boost/optional.hpp>
 
 
 namespace hext {
@@ -84,9 +84,9 @@ struct PatternValues
   std::unique_ptr<StringPipe> pipe;
 
   /// The current Match's regex.
-  /// boost::optional is used to be able to distinguish between empty regex
+  /// std::optional is used to be able to distinguish between empty regex
   /// and no regex.
-  boost::optional<boost::regex> regex;
+  std::optional<boost::regex> regex;
 
   /// The current ValueTest.
   std::unique_ptr<ValueTest> test;

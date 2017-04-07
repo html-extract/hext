@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@
 
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <string>
 
-#include <boost/optional.hpp>
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
 
@@ -112,8 +112,8 @@ private:
   /// @param expected: The next expected closing HtmlTag. If empty, a closing
   ///                  tag was given but none expected.
   [[noreturn]]
-  void throw_unexpected_tag(const std::string&       tag,
-                            boost::optional<HtmlTag> expected) const;
+  void throw_unexpected_tag(const std::string&     tag,
+                            std::optional<HtmlTag> expected) const;
 
   /// Prints an error at the current location within hext. Prints hext with line
   /// numbers up to the unexpected character.

@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@
 #include "hext/StringPipe.h"
 #include "hext/Visibility.h"
 
+#include <optional>
 #include <string>
 
 #include <gumbo.h>
-#include <boost/optional.hpp>
 
 
 namespace hext {
@@ -88,7 +88,7 @@ public:
   ///
   /// @returns  A pair in the form of {result_name, attribute_value} or
   ///           an empty optional if the attribute cannot be found.
-  boost::optional<ResultPair> capture(const GumboNode * node) const override;
+  std::optional<ResultPair> capture(const GumboNode * node) const override;
 
 private:
   /// The name of the HTML attribute whose value will be captured.

@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ void PatternValues::reset()
   this->literal_value = "";
   this->cap_var = "";
   this->regex_flag = boost::regex::perl;
-  this->regex = boost::optional<boost::regex>();
+  this->regex = std::optional<boost::regex>();
   assert(this->pipe.get() == nullptr);
   this->pipe = nullptr;
   this->nth = {0, 0};

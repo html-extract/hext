@@ -14,13 +14,13 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <optional>
 #include <sstream>
 #include <string>
 
 #include <Poco/URI.h>
-#include <boost/optional.hpp>
 
 #include "hext/Hext.h"
 
@@ -41,7 +41,7 @@ public:
   {
   }
 
-  boost::optional<hext::ResultPair> capture(const GumboNode * node) const final
+  std::optional<hext::ResultPair> capture(const GumboNode * node) const final
   {
     if( !node || node->type != GUMBO_NODE_ELEMENT )
       return {};
@@ -96,7 +96,7 @@ bool has_useful_href(const GumboNode * node)
 
 /// Returns the first base tag's href value.
 /// Returns empty string if no base tag href found.
-boost::optional<std::string> BaseUri(const hext::Html& html)
+std::optional<std::string> BaseUri(const hext::Html& html)
 {
   hext::Rule base_href(hext::HtmlTag::BASE,
                        /* optional: */ false);

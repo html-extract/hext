@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -291,7 +291,7 @@ void Parser::throw_missing_tag(HtmlTag missing) const
 
 void Parser::throw_unexpected_tag(
   const std::string& tag,
-  boost::optional<HtmlTag> expected
+  std::optional<HtmlTag> expected
 ) const
 {
   std::stringstream error_msg;

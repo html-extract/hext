@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@
 #include "hext/Visibility.h"
 
 #include <memory>
-
-#include <boost/optional.hpp>
+#include <optional>
 
 #include <gumbo.h>
 
@@ -57,7 +56,7 @@ public:
 
   /// Returns a name/value pair with the captured contents or an empty optional,
   /// if there was nothing to capture.
-  virtual boost::optional<ResultPair> capture(const GumboNode * node) const = 0;
+  virtual std::optional<ResultPair> capture(const GumboNode * node) const = 0;
 };
 
 

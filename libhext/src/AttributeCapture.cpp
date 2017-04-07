@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ AttributeCapture& AttributeCapture::operator=(const AttributeCapture& other)
   return *this;
 }
 
-boost::optional<ResultPair> AttributeCapture::capture(
+std::optional<ResultPair> AttributeCapture::capture(
     const GumboNode * node) const
 {
   assert(node);
