@@ -18,8 +18,6 @@
 /// @file
 ///   All valid HTML tags.
 
-#include "hext/Visibility.h"
-
 
 namespace hext {
 
@@ -32,7 +30,7 @@ namespace hext {
 //       underlying type (int) and appending the type attribute at the end of
 //       the declaration.
 //       See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43407
-enum class HtmlTag : int HEXT_PUBLIC
+enum class HtmlTag : int
 {
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html
   HTML,
