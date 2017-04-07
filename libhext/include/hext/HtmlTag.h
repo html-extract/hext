@@ -25,11 +25,6 @@ namespace hext {
 /// An enum containing all valid HTML tags.
 /// With the exception of HtmlTag::ANY, every HtmlTag can be casted to its
 /// GumboTag counterpart (same int value).
-// Note: There's a bug in GCC prior to version 6 with the handling of type
-//       attributes of enum classes. A workaround is to explicitly state the
-//       underlying type (int) and appending the type attribute at the end of
-//       the declaration.
-//       See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43407
 enum class HtmlTag : int
 {
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html
