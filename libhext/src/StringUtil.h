@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2017 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include <cstddef>
 #include <iostream>
 #include <iomanip>
+#include <string_view>
 
 #include <boost/tokenizer.hpp>
 
@@ -77,7 +78,7 @@ int DecimalWidth(std::size_t number) noexcept;
 
 /// Returns true if subject contains word. Word boundaries are the beginning and
 /// end of subject, and spaces.
-bool ContainsWord(const std::string& subject, const std::string& word) noexcept;
+bool ContainsWord(std::string_view subject, std::string_view word) noexcept;
 
 
 /// Prints begin to end into out, prepending a line number, a colon and a space
