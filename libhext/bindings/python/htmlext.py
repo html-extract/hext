@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
 import hext
 import json
 import sys
@@ -20,9 +21,9 @@ import os
 
 scriptname = os.path.basename(sys.argv[0])
 if len(sys.argv) < 2:
-    print "Usage: {} <file-hext> <file-html>".format(scriptname)
-    print "  Applies Hext from <file-hext> to the HTML document in <file-html>"
-    print "  and prints the result as JSON, one object per line."
+    print("Usage: {} <file-hext> <file-html>".format(scriptname))
+    print("  Applies Hext from <file-hext> to the HTML document in <file-html>")
+    print("  and prints the result as JSON, one object per line.")
     sys.exit()
 if len(sys.argv) < 3:
     sys.stderr.write("{}: Error: missing arguments\n".format(scriptname))
@@ -42,7 +43,7 @@ document = hext.Html(strhtml)
 result = rule.extract(document)
 
 for map in result:
-    print json.dumps(map, ensure_ascii=False,   # ignore encoding
+    print(json.dumps(map, ensure_ascii=False,   # ignore encoding
                           separators=(',',':'), # compact output
-                          sort_keys=True)       # predictable output
+                          sort_keys=True))      # predictable output
 
