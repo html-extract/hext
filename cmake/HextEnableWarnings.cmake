@@ -23,7 +23,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     "-Wsign-compare" "-Wsign-promo" "-Wstack-protector" "-Wstrict-aliasing=2"
     "-Wstrict-null-sentinel" "-Wstrict-overflow" "-Wswitch"
     "-Wtrigraphs" "-Wundef" "-Wuninitialized" "-Wunknown-pragmas"
-    "-Wunreachable-code" "-Wunused" "-Wunsafe-loop-optimizations"
+    "-Wunreachable-code" "-Wunused"
     "-Wunused-function" "-Wunused-label" "-Wunused-parameter" "-Wunused-value"
     "-Wunused-variable" "-Wvariadic-macros" "-Wvolatile-register-var"
     "-Wwrite-strings" "-Wmissing-noreturn" "-Wsign-conversion"
@@ -32,6 +32,11 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     # "-Wswitch-default": generated ragel code uses switch without default,
     #                     we cannot do anything about that
     # "-Wpadded": also warns when it's impossible to shrink padding
+    # "-Wunsafe-loop-optimizations":
+    #   GCC7 will emit warnings when using range-based for loops:
+    #     "warning: missed loop optimization, the loop counter may overflow"
+    #   Since it's only complaining about a missed optimization, this warning
+    #   can safely be disabled.
   )
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
