@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "hext/ContainsWordsTest.h"
+#include "GCC7Diagnostics.h"
 
 #include "StringUtil.h"
 
@@ -46,9 +47,13 @@ bool ContainsWordsTest::test(const char * subject) const
 
   std::string str_subject = subject;
 
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for(const auto& w : this->words_)
+  {
+    HEXT_GCC7_RESTORE_DIAG
     if( !hext::ContainsWord(str_subject, w) )
       return false;
+  }
 
   return true;
 }

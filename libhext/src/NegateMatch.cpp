@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "hext/NegateMatch.h"
+#include "GCC7Diagnostics.h"
 
 #include <algorithm>
 #include <cassert>
@@ -38,8 +39,12 @@ NegateMatch::NegateMatch(const NegateMatch& other)
 : matches_()
 {
   this->matches_.reserve(other.matches_.size());
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for(const auto& m : other.matches_)
+  {
+    HEXT_GCC7_RESTORE_DIAG
     this->matches_.emplace_back(m ? m->clone() : nullptr);
+  }
 }
 
 NegateMatch& NegateMatch::operator=(const NegateMatch& other)
@@ -61,9 +66,13 @@ bool NegateMatch::matches(const GumboNode * node) const
   if( !node )
     return true;
 
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for(const auto& match : this->matches_)
+  {
+    HEXT_GCC7_RESTORE_DIAG
     if( match && match->matches(node) )
       return false;
+  }
 
   return true;
 }

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "hext/Rule.h"
+#include "GCC7Diagnostics.h"
 #include "RuleMatching.h"
 
 #include <utility>
@@ -47,12 +48,20 @@ Rule::Rule(const Rule& other)
     this->next_ = std::make_unique<Rule>(*(other.next_));
 
   this->matches_.reserve(other.matches_.size());
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for(const auto& m : other.matches_)
+  {
+    HEXT_GCC7_RESTORE_DIAG
     this->matches_.emplace_back(m ? m->clone() : nullptr);
+  }
 
   this->captures_.reserve(other.captures_.size());
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for(const auto& c : other.captures_)
+  {
+    HEXT_GCC7_RESTORE_DIAG
     this->captures_.emplace_back(c ? c->clone() : nullptr);
+  }
 }
 
 Rule& Rule::operator=(const Rule& other)
@@ -146,9 +155,13 @@ bool Rule::matches(const GumboNode * node) const
         node->v.element.tag != static_cast<GumboTag>(this->tag_) )
       return false;
 
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for( const auto& match : this->matches_ )
+  {
+    HEXT_GCC7_RESTORE_DIAG
     if( !match->matches(node) )
       return false;
+  }
 
   return true;
 }
@@ -160,9 +173,13 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
 
   std::vector<ResultPair> values;
   values.reserve(this->captures_.size());
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for( const auto& cap : this->captures_ )
+  {
+    HEXT_GCC7_RESTORE_DIAG
     if( auto pair = cap->capture(node) )
       values.push_back(*pair);
+  }
 
   return values;
 }
@@ -178,11 +195,16 @@ hext::Result Rule::extract(const GumboNode * node) const
   SaveMatchingNodesRecursive(this, node, mn);
 
   hext::Result result;
+  HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
   for( const auto& group : mn )
   {
+    HEXT_GCC7_RESTORE_DIAG
     ResultMap map;
+
+    HEXT_GCC7_IGNORE_DIAG_UNSAFE_LOOP
     for( const auto& pair : group )
     {
+      HEXT_GCC7_RESTORE_DIAG
       if( (pair.first)->captures_.size() )
       {
         auto values = (pair.first)->capture(pair.second);
