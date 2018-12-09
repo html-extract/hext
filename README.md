@@ -27,6 +27,15 @@ Hext. For examples that use the libhext C++ library check out `/libhext/examples
 and the
 [main page of the doxygen documentation](http://hext.thomastrapp.com/libhext-documentation).
 
+## Quick Install via Pip
+
+You can install the htmlext command-line utility and the python bindings through pip:
+
+    pip install hext
+    htmlext --version
+
+Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
+
 ## Components
 * `htmlext`: Command line utility that applies Hext snippets to an HTML document
   and produces JSON.
