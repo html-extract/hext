@@ -15,6 +15,10 @@ INCLUDE(HextDefaultBuildRelease)
 ###### DEPENDENCIES ############################################################
 
 ### SWIG
+IF(POLICY CMP0078)
+  # https://cmake.org/cmake/help/latest/policy/CMP0078.html
+  CMAKE_POLICY(SET CMP0078 OLD)
+ENDIF(POLICY CMP0078)
 FIND_PACKAGE(SWIG REQUIRED)
 INCLUDE(${SWIG_USE_FILE})
 
