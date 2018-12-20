@@ -29,10 +29,6 @@ INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/..")
 
 
-###### SWIG ####################################################################
-SET(CMAKE_SWIG_FLAGS "-c++")
-
-
 ###### PYTHON ##################################################################
 INCLUDE_DIRECTORIES(SYSTEM ${PYTHON_INCLUDE_PATH})
 
