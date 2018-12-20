@@ -25,8 +25,19 @@ INCLUDE(HextGenerateVersionFile)
 
 
 ###### DEPENDENCIES ############################################################
-ADD_SUBDIRECTORY("libhext")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/htmlext")
+
+IF(USE_SYSTEM_LIBHEXT)
+  FIND_PACKAGE(Hext REQUIRED)
+  INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
+ELSE(USE_SYSTEM_LIBHEXT)
+  ADD_SUBDIRECTORY("libhext")
+  INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
+ENDIF(USE_SYSTEM_LIBHEXT)
+
 FIND_PACKAGE(Boost COMPONENTS program_options REQUIRED)
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+
 # If RapidJSON is not found in system, download it. RapidJSON is a header only
 # library.
 FIND_PACKAGE(RapidJSON QUIET)
@@ -39,12 +50,6 @@ ENDIF(NOT RapidJSON_INCLUDE_DIRS)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
-###### INCLUDES ################################################################
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/htmlext")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/libhext/include")
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-
-
 ###### SOURCES #################################################################
 ADD_EXECUTABLE(
   htmlext
@@ -54,7 +59,12 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
-ADD_DEPENDENCIES(htmlext hext)
+IF(USE_SYSTEM_LIBHEXT)
+  SET(TARGET_LINK_LIBHEXT ${HEXT_LIBRARY})
+ELSE(USE_SYSTEM_LIBHEXT)
+  ADD_DEPENDENCIES(htmlext hext)
+  SET(TARGET_LINK_LIBHEXT hext)
+ENDIF(USE_SYSTEM_LIBHEXT)
 # If RapidJSON wasn't found via FIND_PACKAGE it will be downloaded via
 # ExternalProject_Add.
 IF(NOT RapidJSON_INCLUDE_DIRS)
@@ -62,7 +72,7 @@ IF(NOT RapidJSON_INCLUDE_DIRS)
 ENDIF(NOT RapidJSON_INCLUDE_DIRS)
 TARGET_LINK_LIBRARIES(
   htmlext
-  hext
+  ${TARGET_LINK_LIBHEXT}
   ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 
