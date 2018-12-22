@@ -78,6 +78,7 @@ TARGET_LINK_LIBRARIES(
 
 ###### INSTALL #################################################################
 INSTALL(TARGETS htmlext DESTINATION bin)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/htmlext.1 DESTINATION man/man1)
 
 
 ###### BUILD OPTIONS ###########################################################
