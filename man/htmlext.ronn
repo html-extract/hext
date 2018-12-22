@@ -1,0 +1,95 @@
+htmlext(1) -- Extract structured content from HTML
+==================================================
+
+## SYNOPSIS
+
+  `htmlext` [options] <hext-file> <html-files>
+
+## DESCRIPTION
+
+  `htmlext` is a command-line utility that accepts Hext snippets, matches them against HTML files and outputs JSON.
+
+  Every Hext rule tree match produces its own JSON object containing the captured name-value pairs.
+
+  Hext is a domain-specific language for extracting structured data from HTML. Visit http://hext.thomastrapp.com for documentation.
+
+  `htmlext` detects whether its output is written to a terminal or to a pipe. In the former case, every JSON object is pretty-printed, in the latter the output is compacted, printing one object on each line. You can force either behavior by using `--pretty` or `--compact`.
+
+  Another notable option is `--filter <key>`, which will print nothing but the value of every capture whose name equals `<key>`, one per line.
+
+## EXAMPLE
+
+```
+# Suppose you have an HTML document with the following content:
+$ cat index.html
+  <a href="one.html">  Page 1</a>
+  <a href="two.html">  Page 2</a>
+  <a href="three.html">Page 3</a>
+
+# The following htmlext invokation will apply a Hext snippet (-s)
+# to an HTML document (-i) and print one JSON object per line (-c):
+$ htmlext -s '<a href:link @text:title />' -i index.html -c
+  {"link":"one.html","title":"Page 1"}
+  {"link":"two.html","title":"Page 2"}
+  {"link":"three.html","title":"Page 3"}
+
+# Same, but only print the capture named 'link':
+$ htmlext -s '<a href:link @text:title />' -i index.html -f link
+  one.html
+  two.html
+  three.html
+```
+
+## OPTIONS
+
+  * `-x` <file>,`--hext` <file>:
+    Add Hext snippet from file.
+
+  * `-i` <file>,`--html` <file>:
+    Add HTML document from file.
+
+  * `-s` <string>,`--str` <string>:
+    Add Hext snippet from string.
+
+  * `-c`,`--compact`:
+    Force compact output.
+
+    Prints one JSON object per line.
+ 
+    This is the default if the output is written to a pipe or file, unless the option `--pretty` is given.
+
+  * `-p`,`--pretty`:
+    Pretty-print the JSON output.
+
+    This is the default if the output is written to a terminal, unless the option `--compact` is given.
+
+  * `-a`,`--array`:
+    Wrap the whole output in a JSON array.
+
+  * `-f` <key>,`--filter` <key>:
+    Only print values whose name matches <key>, one per line.
+
+  * `-l`,`--lint`:
+    Only do Hext syntax check and exit signaling success.
+
+  * `-h`,`--help`:
+    Print help.
+
+  * `-V`,`--version`:
+    Print info and version.
+
+## BUGS
+
+  Please report bugs here: https://github.com/thomastrapp/hext/issues
+
+## MORE
+
+  *Homepage*: http://hext.thomastrapp.com
+
+  *Github*: https://github.com/thomastrapp/hext/
+
+  *Author*: Thomas Trapp, `https://thomastrapp.com`
+
+  *Email*: hext AT thomastrapp.com
+
+<!-- ronn --organization="Thomas Trapp" --date "2018-12-22" --manual=htmlext -w -r htmlext.ronn -->

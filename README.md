@@ -62,6 +62,7 @@ Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
     │   └── test          The libhext-test project
     │       ├── build     Build directory for libhext-test
     │       └── src       Source for libhext-test
+    ├── man               Htmlext man page
     ├── scripts           Scripts for building and testing releases
     ├── syntaxhl          Syntax highlighters for Vim and ACE
     └── test              Blackbox tests for htmlext

@@ -1,0 +1,116 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "HTMLEXT" "1" "December 2018" "Thomas Trapp" "htmlext"
+.
+.SH "NAME"
+\fBhtmlext\fR \- Extract structured content from HTML
+.
+.SH "SYNOPSIS"
+\fBhtmlext\fR \fIoptions\fR \fIhext\-file\fR \fIhtml\-files\fR
+.
+.SH "DESCRIPTION"
+\fBhtmlext\fR is a command\-line utility that accepts Hext snippets, matches them against HTML files and outputs JSON\.
+.
+.P
+Every Hext rule tree match produces its own JSON object containing the captured name\-value pairs\.
+.
+.P
+Hext is a domain\-specific language for extracting structured data from HTML\. Visit http://hext\.thomastrapp\.com for documentation\.
+.
+.P
+\fBhtmlext\fR detects whether its output is written to a terminal or to a pipe\. In the former case, every JSON object is pretty\-printed, in the latter the output is compacted, printing one object on each line\. You can force either behavior by using \fB\-\-pretty\fR or \fB\-\-compact\fR\.
+.
+.P
+Another notable option is \fB\-\-filter <key>\fR, which will print nothing but the value of every capture whose name equals \fB<key>\fR, one per line\.
+.
+.SH "EXAMPLE"
+.
+.nf
+
+# Suppose you have an HTML document with the following content:
+$ cat index\.html
+  <a href="one\.html">  Page 1</a>
+  <a href="two\.html">  Page 2</a>
+  <a href="three\.html">Page 3</a>
+
+# The following htmlext invokation will apply a Hext snippet (\-s)
+# to an HTML document (\-i) and print one JSON object per line (\-c):
+$ htmlext \-s \'<a href:link @text:title />\' \-i index\.html \-c
+  {"link":"one\.html","title":"Page 1"}
+  {"link":"two\.html","title":"Page 2"}
+  {"link":"three\.html","title":"Page 3"}
+
+# Same, but only print the capture named \'link\':
+$ htmlext \-s \'<a href:link @text:title />\' \-i index\.html \-f link
+  one\.html
+  two\.html
+  three\.html
+.
+.fi
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-x\fR \fIfile\fR,\fB\-\-hext\fR \fIfile\fR
+Add Hext snippet from file\.
+.
+.TP
+\fB\-i\fR \fIfile\fR,\fB\-\-html\fR \fIfile\fR
+Add HTML document from file\.
+.
+.TP
+\fB\-s\fR \fIstring\fR,\fB\-\-str\fR \fIstring\fR
+Add Hext snippet from string\.
+.
+.TP
+\fB\-c\fR,\fB\-\-compact\fR
+Force compact output\.
+.
+.IP
+Prints one JSON object per line\.
+.
+.IP
+This is the default if the output is written to a pipe or file, unless the option \fB\-\-pretty\fR is given\.
+.
+.TP
+\fB\-p\fR,\fB\-\-pretty\fR
+Pretty\-print the JSON output\.
+.
+.IP
+This is the default if the output is written to a terminal, unless the option \fB\-\-compact\fR is given\.
+.
+.TP
+\fB\-a\fR,\fB\-\-array\fR
+Wrap the whole output in a JSON array\.
+.
+.TP
+\fB\-f\fR \fIkey\fR,\fB\-\-filter\fR \fIkey\fR
+Only print values whose name matches \fIkey\fR, one per line\.
+.
+.TP
+\fB\-l\fR,\fB\-\-lint\fR
+Only do Hext syntax check and exit signaling success\.
+.
+.TP
+\fB\-h\fR,\fB\-\-help\fR
+Print help\.
+.
+.TP
+\fB\-V\fR,\fB\-\-version\fR
+Print info and version\.
+.
+.SH "BUGS"
+Please report bugs here: https://github\.com/thomastrapp/hext/issues
+.
+.SH "MORE"
+\fIHomepage\fR: http://hext\.thomastrapp\.com
+.
+.P
+\fIGithub\fR: https://github\.com/thomastrapp/hext/
+.
+.P
+\fIAuthor\fR: Thomas Trapp, \fBhttps://thomastrapp\.com\fR
+.
+.P
+\fIEmail\fR: hext AT thomastrapp\.com
