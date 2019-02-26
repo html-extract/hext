@@ -79,7 +79,7 @@ Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
 
 ## Tests
 There are unit tests for libhext and blackbox tests for Hext as a language,
-whose main pupose is to detect unwanted change in syntax or behaviour.  
+whose main purpose is to detect unwanted change in syntax or behavior.  
 The libhext-test project is located in `/libhext/test` and depends on Google
 Test. Nothing fancy, just build the project and run the executable
 `libhext-test`. How to write test cases with Google Test is described
