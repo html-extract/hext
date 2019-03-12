@@ -35,10 +35,18 @@ std::string StrError(int errnum)
     return "error message unavailable";
   else
     return buffer;
-#else
+#elif defined(_GNU_SOURCE)
   // strerror_r may use the buffer, but doesn't need to. It may return a
   // pointer to a string that is already available.
   return std::string(strerror_r(errnum, &buffer[0], buffer.size()));
+#elif __APPLE__
+  // strerror_r returns int 0 if it successfully populated the buffer.
+  if( strerror_r(errnum, &buffer[0], buffer.size()) )
+    return "error message unavailable";
+  else
+    return buffer;
+#else
+  #error "Unsupported platform. Please raise an issue on github."
 #endif
 }
 
