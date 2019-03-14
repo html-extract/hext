@@ -34,6 +34,7 @@ You can install the htmlext command-line utility and the python bindings through
     pip install hext
     htmlext --version
 
+Available for all flavors of Linux (x86_64) and Mac OS X ≥ 10.11 (x86_64).
 Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
 
 ## Components
