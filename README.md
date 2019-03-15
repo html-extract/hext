@@ -4,9 +4,9 @@ HTML documents.
 
 ![Hext Logo](https://raw.githubusercontent.com/thomastrapp/hext-website/master/hext-logo-x100.png)
 
-See http://hext.thomastrapp.com for
-[documentation](http://hext.thomastrapp.com/documentation), 
-[build instructions](http://hext.thomastrapp.com/download) and a live demo.
+See https://hext.thomastrapp.com for
+[documentation](https://hext.thomastrapp.com/documentation), 
+[build instructions](https://hext.thomastrapp.com/download) and a live demo.
 
 The Hext project is released under the terms of the Apache License v2.0.
 
@@ -20,12 +20,12 @@ to the href attribute and the text content of the matched &lt;a&gt;.
     # Extract links and their text
     <a href:link @text:title />
 
-[&raquo; Load example in editor](http://hext.thomastrapp.com/#attribute)
+[&raquo; Load example in editor](https://hext.thomastrapp.com/#attribute)
 
-Visit [Hext's project page](http://hext.thomastrapp.com) to learn more about
+Visit [Hext's project page](https://hext.thomastrapp.com) to learn more about
 Hext. For examples that use the libhext C++ library check out `/libhext/examples`
 and the
-[main page of the doxygen documentation](http://hext.thomastrapp.com/libhext-documentation).
+[main page of the doxygen documentation](https://hext.thomastrapp.com/libhext-documentation).
 
 ## Quick Install via Pip
 
@@ -127,15 +127,15 @@ tests through valgrind you'd run the following:
   Piping the output of `htmlext` into `jq` lets you do all sorts of crazy things.
 * [Ace](https://ace.c9.io/) — **A Code Editor for the Web**  
   Used as the code editor in the
-  "[Try Hext in your Browser!](http://hext.thomastrapp.com)" section and as a
+  "[Try Hext in your Browser!](https://hext.thomastrapp.com)" section and as a
   highlighter for all code examples. The highlighting rules for Hext are
   included in this project in `/syntaxhl/ace`. Also, there's a script in
   `/libhext/scripts/syntax-hl-ace` that uses Ace to transform a code snippet
   into highlighted HTML.
-* [Proxygen](https://github.com/facebook/proxygen)
-  — **A collection of C++ HTTP libraries including an easy to use HTTP server**  
-  The HTTP server behind the "[Try Hext in your Browser!](http://hext.thomastrapp.com)"
-  section is built with proxygen.
+* [Boost.Beast](https://github.com/boostorg/beast)
+  — **HTTP and WebSocket built on Boost.Asio in C++11**  
+  The Websocket server behind the "[Try Hext in your Browser!](https://hext.thomastrapp.com)"
+  section is built with Beast.
 
 ## Licensing
 
