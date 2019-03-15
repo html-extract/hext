@@ -32,7 +32,7 @@ void PrintVersion(std::ostream& out)
       << hext::version_minor << "."
       << hext::version_patch << "\n"
       << "Released under the Apache License v2\n"
-      << "Documentation: http://hext.thomastrapp.com\n";
+      << "Documentation: https://hext.thomastrapp.com\n";
 }
 
 

@@ -35,7 +35,7 @@ setup(
     description="A module and command-line utility to extract structured data from HTML",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='http://hext.thomastrapp.com/',
+    url='https://hext.thomastrapp.com/',
     author='Thomas Trapp',
     author_email='hext@thomastrapp.com',
     include_package_data=True,

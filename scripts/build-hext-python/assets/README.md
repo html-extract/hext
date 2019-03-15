@@ -25,8 +25,8 @@ Hext will produce the following values:
 { "link": "two.html",   "title": "Page 2" },
 { "link": "three.html", "title": "Page 3" }
 ```
-You can use this example in [Hext’s live code editor](http://hext.thomastrapp.com/#anchor-tryit-hext).
-Visit [Hext’s documentation](http://hext.thomastrapp.com/documentation) and its section “[How Hext Matches Elements](http://hext.thomastrapp.com/documentation#matching-elements)” for a more thorough explanation.
+You can use this example in [Hext’s live code editor](https://hext.thomastrapp.com/#anchor-tryit-hext).
+Visit [Hext’s documentation](https://hext.thomastrapp.com/documentation) and its section “[How Hext Matches Elements](https://hext.thomastrapp.com/documentation#matching-elements)” for a more thorough explanation.
 
 ## Components
 This package includes:
@@ -108,7 +108,7 @@ htmlext \
 ```
 
 ## License
-[Hext](http://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/thomastrapp/hext.git).
+[Hext](https://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/thomastrapp/hext.git).
 This binary package includes content authored by third parties:
 * [gumbo-parser](https://github.com/google/gumbo-parser). Copyright 2010 Google Inc. See gumbo.license.
 * [rapidjson](http://rapidjson.org/). Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip. See rapidjson.license.

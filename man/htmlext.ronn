@@ -11,7 +11,7 @@ htmlext(1) -- Extract structured content from HTML
 
   Every Hext rule tree match produces its own JSON object containing the captured name-value pairs.
 
-  Hext is a domain-specific language for extracting structured data from HTML. Visit http://hext.thomastrapp.com for documentation.
+  Hext is a domain-specific language for extracting structured data from HTML. Visit https://hext.thomastrapp.com for documentation.
 
   `htmlext` detects whether its output is written to a terminal or to a pipe. In the former case, every JSON object is pretty-printed, in the latter the output is compacted, printing one object on each line. You can force either behavior by using `--pretty` or `--compact`.
 
@@ -84,7 +84,7 @@ $ htmlext -s '<a href:link @text:title />' -i index.html -f link
 
 ## MORE
 
-  *Homepage*: http://hext.thomastrapp.com
+  *Homepage*: https://hext.thomastrapp.com
 
   *Github*: https://github.com/thomastrapp/hext/
 
