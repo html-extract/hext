@@ -17,16 +17,14 @@
 %include "typemaps.i"
 %include "std_string.i"
 
-// Convert vector of multimaps to array of arrays, because swig has no
-// std_multimap.i for PHP.
+// Convert vector of multimaps to an array of arrays
 %typemap(out) std::vector<std::multimap<std::string, std::string>> {
   // Assuming $1 is of type SwigValueWrapper.
   array_init($result);
   for(const auto& map : *(&$1))
   {
-    zval * out_map;
-    MAKE_STD_ZVAL(out_map);
-    array_init(out_map);
+    zval out_map;
+    array_init(&out_map);
 
     auto it = map.cbegin();
     while( it != map.cend() )
@@ -34,39 +32,33 @@
       if( map.count(it->first) < 2 )
       {
         add_assoc_string(
-          out_map,
+          &out_map,
           it->first.c_str(),
-          // Since we request that the string should be copied, this const_cast
-          // should be safe.
-          const_cast<char *>(it->second.c_str()),
-          // Copy the string
-          1
+          it->second.c_str()
         );
         ++it;
       }
       else
       {
         // Pack values of non-unique keys into an indexed array
-        zval * values;
-        MAKE_STD_ZVAL(values);
-        array_init(values);
+        zval values;
+        array_init(&values);
 
         auto lower = map.lower_bound(it->first);
         auto upper = map.upper_bound(it->first);
         for(; lower != upper; ++lower)
           add_next_index_stringl(
-            values,
-            const_cast<char *>(lower->second.c_str()),
-            lower->second.size(),
-            1
+            &values,
+            lower->second.c_str(),
+            lower->second.size()
           );
 
-        add_assoc_zval(out_map, it->first.c_str(), values);
+        add_assoc_zval(&out_map, it->first.c_str(), &values);
         it = upper;
       }
     }
 
-    add_next_index_zval($result, out_map);
+    add_next_index_zval($result, &out_map);
   }
 }
 

@@ -6,7 +6,7 @@
 INCLUDE(CMakeFindFrameworks)
 INCLUDE(FindPackageHandleStandardArgs)
 
-FIND_PROGRAM(PHP_CONFIG NAMES "php-config" "php-config5")
+FIND_PROGRAM(PHP_CONFIG NAMES "php-config")
 
 IF(PHP_CONFIG)
   EXECUTE_PROCESS(
