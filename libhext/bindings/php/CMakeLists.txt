@@ -1,7 +1,7 @@
 ###### HEXT-PHP ################################################################
 PROJECT(hext-php)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.8 FATAL_ERROR)
 
 SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
 
@@ -36,17 +36,15 @@ INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/..")
 
 
-###### SWIG ####################################################################
-SET(CMAKE_SWIG_FLAGS "-c++")
-
-
 ###### PHP #####################################################################
 INCLUDE_DIRECTORIES(SYSTEM ${PHP_INCLUDE_DIRS})
 
 SET_SOURCE_FILES_PROPERTIES(
   "${PROJECT_SOURCE_DIR}/phphext.i" PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_MODULE(
-  phphext php7
+SWIG_ADD_LIBRARY(
+  phphext
+  LANGUAGE php7
+  SOURCES
   "${PROJECT_SOURCE_DIR}/phphext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
