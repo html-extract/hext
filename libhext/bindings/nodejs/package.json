@@ -7,6 +7,7 @@
     "nan": "^2.3.5"
   },
   "scripts": {
-    "install": "cmake-js compile"
+    "install": "cmake-js build",
+    "build": "cmake-js build"
   }
 }
