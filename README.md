@@ -37,7 +37,26 @@ You can install the htmlext command-line utility and the python bindings through
 Available for all flavors of Linux (x86_64) and Mac OS X ≥ 10.11 (x86_64).
 Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
 
-## Components
+## Hext for Node via NPM
+
+Hext for Node is available on npm:
+
+    npm install hext
+    node -e 'require("hext")' && echo "hext loaded successfully"
+
+(Does not include the htmlext command-line utility).
+Visit [https://www.npmjs.com/package/hext](https://www.npmjs.com/package/hext).
+
+__Compatibility__
+The npm package is compatible with:
+
+* Node v8, v10, v11
+* Linux (GLIBC ≥2.14, basically any distribution built after the year 2012)
+* Mac OS X (10.11 El Capitan or later)
+* x86_64 only
+
+
+## Components of this Project
 * `htmlext`: Command line utility that applies Hext snippets to an HTML document
   and produces JSON.
 * `libhext`: C++ library that contains a Hext parser but also allows for
