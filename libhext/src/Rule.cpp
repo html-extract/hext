@@ -147,7 +147,7 @@ bool Rule::matches(const GumboNode * node) const
       return false;
 
   for( const auto& match : this->matches_ )
-    if( !match->matches(node) )
+    if( match && !match->matches(node) )
       return false;
 
   return true;
@@ -161,8 +161,15 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
   std::vector<ResultPair> values;
   values.reserve(this->captures_.size());
   for( const auto& cap : this->captures_ )
-    if( auto pair = cap->capture(node) )
-      values.push_back(*pair);
+  {
+    if( cap )
+    {
+      if( auto pair = cap->capture(node) )
+      {
+        values.push_back(*pair);
+      }
+    }
+  }
 
   return values;
 }
