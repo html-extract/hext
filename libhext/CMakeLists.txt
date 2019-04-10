@@ -30,7 +30,6 @@ INCLUDE(HextGenerateVersionFile)
 ###### DEPENDENCIES ############################################################
 FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
 FIND_PACKAGE(Gumbo REQUIRED)
-FIND_PACKAGE(PocoFoundation QUIET) # optional, see "examples" section
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
@@ -125,40 +124,44 @@ INSTALL(EXPORT "HextTargets"
 
 
 ###### EXAMPLES ################################################################
-ADD_EXECUTABLE(
-  mixed
-  "${PROJECT_SOURCE_DIR}/examples/mixed.cpp")
-ADD_DEPENDENCIES(mixed hext)
-TARGET_LINK_LIBRARIES(
-  mixed
-  hext)
-SET_TARGET_PROPERTIES(
-  mixed
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-ADD_EXECUTABLE(
-  chaining-rules
-  "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
-ADD_DEPENDENCIES(chaining-rules hext)
-TARGET_LINK_LIBRARIES(
-  chaining-rules
-  hext)
-SET_TARGET_PROPERTIES(
-  chaining-rules
-  PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-IF(${POCOFOUNDATION_FOUND})
-  INCLUDE_DIRECTORIES(${PocoFoundation_INCLUDE_DIR})
+OPTION(BUILD_EXAMPLES "Build libhext usage examples" OFF)
+IF(BUILD_EXAMPLES)
+  FIND_PACKAGE(PocoFoundation QUIET)
   ADD_EXECUTABLE(
-    extract-href
-    "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
-  ADD_DEPENDENCIES(extract-href hext)
+    mixed
+    "${PROJECT_SOURCE_DIR}/examples/mixed.cpp")
+  ADD_DEPENDENCIES(mixed hext)
   TARGET_LINK_LIBRARIES(
-    extract-href
-    ${PocoFoundation_LIBRARY}
+    mixed
     hext)
   SET_TARGET_PROPERTIES(
-    extract-href
+    mixed
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-ENDIF(${POCOFOUNDATION_FOUND})
+  ADD_EXECUTABLE(
+    chaining-rules
+    "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
+  ADD_DEPENDENCIES(chaining-rules hext)
+  TARGET_LINK_LIBRARIES(
+    chaining-rules
+    hext)
+  SET_TARGET_PROPERTIES(
+    chaining-rules
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+  IF(${POCOFOUNDATION_FOUND})
+    INCLUDE_DIRECTORIES(${PocoFoundation_INCLUDE_DIR})
+    ADD_EXECUTABLE(
+      extract-href
+      "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
+    ADD_DEPENDENCIES(extract-href hext)
+    TARGET_LINK_LIBRARIES(
+      extract-href
+      ${PocoFoundation_LIBRARY}
+      hext)
+    SET_TARGET_PROPERTIES(
+      extract-href
+      PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
+  ENDIF(${POCOFOUNDATION_FOUND})
+ENDIF(BUILD_EXAMPLES)
 
 
 ###### BUILD OPTIONS ###########################################################
