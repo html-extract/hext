@@ -1,0 +1,4 @@
+{"x":"<head>\n    <meta charset=\"utf-8\"/>\n    <title>Example</title>\n  </head>\n  <body>\n    <a href=\"one.html\">  Page 1</a>\n    <a href=\"two.html\">  Page 2</a>\n    <a href=\"three.html\">Page 3</a>\n  \n</body>"}
+{"x":["\n    <meta charset=\"utf-8\"/>\n    <title>Example</title>\n  ","\n    <a href=\"one.html\">  Page 1</a>\n    <a href=\"two.html\">  Page 2</a>\n    <a href=\"three.html\">Page 3</a>\n  \n"]}
+{"x":"Example"}
+{"x":["  Page 1","  Page 2","Page 3"]}

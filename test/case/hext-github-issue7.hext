@@ -1,0 +1,4 @@
+<div>
+  <h3><a @text:title /></h3>
+  <+p @text:body />
+</div>
