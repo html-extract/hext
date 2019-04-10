@@ -12,8 +12,8 @@ highlight link hextComment Comment
 syntax match hextRule "\v(\<|\>)"
 highlight link hextRule Identifier
 
-" Optional
-syntax match hextSpecial "\v\?"
+" Optional and greedy
+syntax match hextSpecial "\v(\?|\+)"
 highlight link hextSpecial Special
 
 " Allowed html tags. Taken from gumbo's tag_strings.h.

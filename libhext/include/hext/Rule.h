@@ -94,8 +94,12 @@ public:
   ///                    matched. Optional rules on the other hand are ignored
   ///                    if not found.
   ///                    Default: Rule is mandatory.
+  /// @param    greedy:  Whether this rule should be repeated once a match is
+  ///                    found.
+  ///                    Default: Rule is matched once.
   explicit Rule(HtmlTag tag      = HtmlTag::ANY,
-                bool    optional = false) noexcept;
+                bool    optional = false,
+                bool    greedy   = false) noexcept;
 
   ~Rule() noexcept = default;
   Rule(Rule&&) noexcept = default;
@@ -177,6 +181,14 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_optional(bool optional) noexcept;
 
+  /// Returns true if this rule is to be matched repeatedly.
+  bool is_greedy() const noexcept;
+
+  /// Sets whether this rule is to be matched repeatedly.
+  ///
+  /// @returns  A reference for this Rule to enable method chaining.
+  Rule& set_greedy(bool greedy) noexcept;
+
   /// Recursively extracts values from an hext::HTML.
   ///
   /// @returns  A vector containing maps filled with the captured
@@ -209,6 +221,7 @@ private:
 
   HtmlTag tag_;
   bool is_optional_;
+  bool is_greedy_;
 };
 
 

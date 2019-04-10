@@ -60,18 +60,24 @@ TEST(Rule_Rule, ExampleFromDocumentation)
 TEST(Rule_Rule, SettersGetters)
 {
   Rule r;
+
+  // defaults
   EXPECT_EQ(r.get_tag(), HtmlTag::ANY);
   EXPECT_EQ(r.is_optional(), false);
+  EXPECT_EQ(r.is_greedy(), false);
 
   auto copy = r;
 
   r.set_tag(HtmlTag::SPAN);
   r.set_optional(true);
+  r.set_greedy(true);
   EXPECT_EQ(r.get_tag(), HtmlTag::SPAN);
   EXPECT_EQ(r.is_optional(), true);
+  EXPECT_EQ(r.is_greedy(), true);
 
   EXPECT_EQ(copy.get_tag(), HtmlTag::ANY);
   EXPECT_EQ(copy.is_optional(), false);
+  EXPECT_EQ(copy.is_greedy(), false);
 }
 
 TEST(Rule_Rule, Copy)

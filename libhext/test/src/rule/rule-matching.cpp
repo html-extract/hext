@@ -70,42 +70,52 @@ TEST(Rule_RuleMatching, SaveMatchingNodesRecursive)
           "</div>");
 
   // These rules must all produce the same result
-  std::vector<Rule> rules = {
+  std::vector<const char *> hext = {
     // only mandatory
-    ParseHext("<div><ul><li/><li/></ul></div>"),
+    "<div><ul><li/><li/></ul></div>",
     // top-level optional
-    ParseHext("<?div><ul><li/><li/></ul></div>"),
+    "<?div><ul><li/><li/></ul></div>",
     // preceding optional
-    ParseHext("<?div/><div><ul><li/><li/></ul></div>"),
+    "<?div/><div><ul><li/><li/></ul></div>",
     // trailing optional
-    ParseHext("<div><ul><li/><li/></ul></div><?div/>"),
+    "<div><ul><li/><li/></ul></div><?div/>",
     // preceding and trailing optional
-    ParseHext("<?div/><div><ul><li/><li/></ul></div><?div/>")
+    "<?div/><div><ul><li/><li/></ul></div><?div/>",
+    // greedy leaves room for mandatory rules
+    "<?div/><div><ul><+li/><li/></ul></div><?div/>",
+    // everything greedy
+    "<?+div/><+div><+ul><+li/><+li/></ul></div><?+div/>"
   };
 
-  for( const auto& rule : rules )
+  for(std::size_t i = 0; i < hext.size(); ++i)
   {
+    auto rule = ParseHext(hext.at(i));
+
     std::vector<MatchingNodes> result;
     SaveMatchingNodesRecursive(&rule, h.root(), result);
 
     // Expect seven capture groups
-    EXPECT_EQ(result.size(), 7);
+    EXPECT_EQ(result.size(), 7)
+      << "rule: " << hext.at(i) << "\n";
 
     // Expect the result to be unique, i.e. there may be no duplicated nodes.
     // No node may be matched more than once.
-    EXPECT_TRUE(result_has_unique_nodes(result));
+    EXPECT_TRUE(result_has_unique_nodes(result))
+      << "rule: " << hext.at(i) << "\n";
 
     for( const auto& group : result )
     {
       // Expect each capture group to have four rule-node-pairs
-      EXPECT_EQ(group.size(), 4);
+      EXPECT_EQ(group.size(), 4) << "rule: " << hext.at(i) << "\n";
 
       // Expect each capture group to match each rule only once
-      EXPECT_TRUE(group_has_unique_rules(group));
+      EXPECT_TRUE(group_has_unique_rules(group))
+        << "rule: " << hext.at(i) << "\n";
 
       // Expect them to actually match
       for( const auto& pair : group )
-        EXPECT_TRUE((pair.first)->matches(pair.second));
+        EXPECT_TRUE((pair.first)->matches(pair.second))
+          << "rule: " << hext.at(i) << "\n";
     }
   }
 }
@@ -139,6 +149,15 @@ TEST(Rule_RuleMatching, MatchRuleGroup)
     next = MatchRuleGroup(&opt_a_opt_div, next, r);
     EXPECT_EQ(next, nullptr);
     EXPECT_EQ(r.size(), 1);
+  }
+  // Greedy rule
+  {
+    MatchingNodes r;
+    THtml h("<a></a><div></div><a></a><div></div>");
+    auto greedy_a = ParseHext("<+a/>");
+    auto next = MatchRuleGroup(&greedy_a, h.first(), r);
+    ASSERT_EQ(next, nullptr);
+    EXPECT_EQ(r.size(), 2);
   }
 }
 

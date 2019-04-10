@@ -64,7 +64,10 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
   auto first_rule = rule;
   while( rule && node )
   {
-    if( rule->is_optional() )
+    auto rule_is_greedy_and_has_matched = rule->is_greedy() &&
+                                          sub.size() &&
+                                          rule == sub.back().first;
+    if( rule->is_optional() || rule_is_greedy_and_has_matched )
     {
       // Optional rules can be matched anywhere up to the next match of a
       // mandatory rule
@@ -140,15 +143,20 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
     {
       node = MatchRuleOnce(rule, node, nullptr, sub);
 
-      // If a mandatory rule isn't found, abort immediately
+      // If a mandatory rule isn't matched, abort immediately
       if( !node )
         return nullptr;
 
       sub.push_back({rule, node});
-      rule = rule->next();
+      if( !rule->is_greedy() )
+        rule = rule->next();
       node = NextNode(node);
     }
   }
+
+  // Rules that are greedy and were just matched can be skipped
+  if( rule && rule->is_greedy() && sub.size() && rule == sub.back().first )
+    rule = rule->next();
 
   // Optional rules can be skipped
   while( rule && rule->is_optional() )
@@ -238,12 +246,15 @@ const GumboNode * MatchRange(const Rule *      r_begin,
   while( r_begin && r_begin != r_end )
   {
     matching_node = MatchRuleOnce(r_begin, n_begin, n_end, result);
-    if( matching_node && matching_node != n_end )
+    const auto has_matched = ( matching_node && matching_node != n_end );
+    if( has_matched )
     {
       result.push_back({r_begin, matching_node});
       n_begin = NextNode(matching_node);
     }
-    r_begin = r_begin->next();
+    
+    if( !(r_begin->is_greedy() && has_matched) )
+      r_begin = r_begin->next();
   }
 
   return matching_node;

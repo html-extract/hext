@@ -302,8 +302,15 @@ main := (
     # a rule starts with '<'
     ( '<' %{ push_rule(); } )
 
-    # a rule can be optional
-    ( '?' %{ cur_rule().set_optional(true); } )?
+    # a rule can have options
+    (
+      # a rule can be optional
+      ( '?' %{ cur_rule().set_optional(true); } )
+      |
+
+      # a rule can be greedy
+      ( '+' %{ cur_rule().set_greedy(true); } )
+    )*
 
     # a rule must have a tag name, e.g. <div
     ( ( '*' | tag_name ) >{ tk_start(); }

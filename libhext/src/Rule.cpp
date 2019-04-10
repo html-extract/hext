@@ -22,13 +22,15 @@ namespace hext {
 
 
 Rule::Rule(HtmlTag tag,
-           bool    optional) noexcept
+           bool    optional,
+           bool    greedy) noexcept
 : first_child_(nullptr)
 , next_(nullptr)
 , matches_()
 , captures_()
 , tag_(tag)
 , is_optional_(optional)
+, is_greedy_(greedy)
 {
 }
 
@@ -39,6 +41,7 @@ Rule::Rule(const Rule& other)
 , captures_()
 , tag_(other.tag_)
 , is_optional_(other.is_optional_)
+, is_greedy_(other.is_greedy_)
 {
   if( other.first_child_ )
     this->first_child_ = std::make_unique<Rule>(*(other.first_child_));
@@ -136,6 +139,17 @@ Rule& Rule::set_optional(bool optional) noexcept
   return *this;
 }
 
+bool Rule::is_greedy() const noexcept
+{
+  return this->is_greedy_;
+}
+
+Rule& Rule::set_greedy(bool greedy) noexcept
+{
+  this->is_greedy_ = greedy;
+  return *this;
+}
+
 bool Rule::matches(const GumboNode * node) const
 {
   if( !node )
@@ -218,6 +232,7 @@ void Rule::swap(hext::Rule& other) noexcept
   this->captures_.swap(other.captures_);
   std::swap(this->tag_, other.tag_);
   std::swap(this->is_optional_, other.is_optional_);
+  std::swap(this->is_greedy_, other.is_greedy_);
 }
 
 
