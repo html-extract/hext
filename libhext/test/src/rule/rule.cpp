@@ -29,7 +29,7 @@ TEST(Rule_Rule, ExampleFromDocumentation)
     anchor.append_child(std::move(img));
   }
 
-  // <a href=>link><img src=>img/></a>
+  // <a href:link><img src:img/></a>
   Html html(
     "<html><body>"
       "<div><a href='/bob'>  <img src='bob.jpg'/>  </a></div>"
