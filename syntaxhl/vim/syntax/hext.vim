@@ -22,6 +22,7 @@ highlight link hextSpecial Special
 "     | awk -F\" '{ printf $2 \" \" ; }' \
 "     | fold -s -w 60                    \
 "     | xargs -L1 -I % echo syn keyword hextTag %
+syn case ignore
 syn keyword hextTag html head title base link meta style script noscript
 syn keyword hextTag template body article section nav aside h1 h2 h3 h4 h5 h6
 syn keyword hextTag hgroup header footer address p hr pre blockquote ol ul li
@@ -37,6 +38,7 @@ syn keyword hextTag progress meter details summary menu menuitem applet acronym
 syn keyword hextTag bgsound dir frame frameset noframes isindex listing xmp
 syn keyword hextTag nextid noembed plaintext rb strike basefont big blink
 syn keyword hextTag center font marquee multicol nobr spacer tt rtc
+syn case match
 highlight link hextTag Statement
 
 " Attribute name
