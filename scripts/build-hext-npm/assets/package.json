@@ -1,0 +1,21 @@
+{
+  "name": "hext",
+  "version": "10.0.1",
+  "description": "Domain-specific language for extracting structured data from HTML",
+  "homepage": "https://hext.thomastrapp.com",
+  "bugs": "https://github.com/thomastrapp/hext/issues",
+  "keywords": ["html", "scraping", "html-extraction"],
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Thomas Trapp",
+    "email": "hext@thomastrapp.com",
+    "url": "https://thomastrapp.com"
+  },
+  "dependencies": {},
+  "engines": { "node" : "^8 || ^10 || ^11" },
+  "os": ["darwin", "linux"],
+  "cpu": ["x64"],
+  "scripts": {},
+  "main": "index.js",
+  "files": "./lib/*/*/*/hext.node"
+}
