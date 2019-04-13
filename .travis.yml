@@ -1,0 +1,4 @@
+dist: xenial
+language: generic
+script: scripts/travis/run-tests.sh
+
