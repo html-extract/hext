@@ -41,7 +41,7 @@ cd "$LIBHEXTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=On -DSANITIZEADDRESS=On ..
 make $MAKE_FLAGS
 sudo make install
-ldconfig
+sudo ldconfig
 
 cd "$HEXTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug -DSANITIZEADDRESS=On -DUSE_SYSTEM_LIBHEXT=On ..
