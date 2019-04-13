@@ -1,4 +1,7 @@
 # Hext — Extract Data from HTML
+
+[![Build Status](https://travis-ci.org/thomastrapp/hext.svg?branch=master)](https://travis-ci.org/thomastrapp/hext)
+
 Hext is a domain-specific language for extracting structured data from
 HTML documents.  
 
@@ -48,6 +51,7 @@ Hext for Node is available on npm:
 Visit [https://www.npmjs.com/package/hext](https://www.npmjs.com/package/hext).
 
 __Compatibility__
+
 The npm package is compatible with:
 
 * Node v8, v10, v11
