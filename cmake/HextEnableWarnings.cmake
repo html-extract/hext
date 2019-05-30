@@ -2,10 +2,17 @@
 
 # Clang
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  add_definitions("-Weverything" "-Wno-c++98-compat" "-Wno-padded"
-    "-Wno-documentation-unknown-command" "-Wno-documentation-html"
-    "-Wno-documentation" "-Wno-weak-vtables" "-Wno-switch-enum"
-    "-Wno-exit-time-destructors" "-Wno-global-constructors")
+  add_definitions(
+    "-Weverything"
+    "-Wno-c++98-compat"
+    "-Wno-documentation"
+    "-Wno-documentation-html"
+    "-Wno-documentation-unknown-command"
+    "-Wno-exit-time-destructors"
+    "-Wno-global-constructors"
+    "-Wno-padded"
+    "-Wno-switch-enum"
+    "-Wno-weak-vtables")
 endif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
 # G++
