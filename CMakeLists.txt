@@ -3,12 +3,9 @@
 cmake_policy(SET CMP0048 NEW)
 project(htmlext VERSION 0.5)
 
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
-# Set required C++ standard or abort.
-include(HextForceCppStd)
 
 # Enable all (reasonable) warnings with Clang and GCC.
 include(HextEnableWarnings)

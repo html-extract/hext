@@ -3,12 +3,9 @@
 cmake_policy(SET CMP0048 NEW)
 project(Hext VERSION 0.7.2)
 
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake)
-
-# Set required C++ standard or abort.
-include(HextForceCppStd)
 
 # Enable all (reasonable) warnings with Clang and GCC.
 include(HextEnableWarnings)
@@ -72,6 +69,7 @@ add_library(
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
+target_compile_features(hext PUBLIC cxx_std_17)
 target_link_libraries(
   hext
   ${Gumbo_LIBRARY}
