@@ -9,7 +9,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
 # G++
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   add_definitions(
     "-pedantic" "-pedantic-errors" "-Wall" "-Wcast-align" "-Wcast-qual"
     "-Wchar-subscripts" "-Wcomment" "-Wconversion" "-Wctor-dtor-privacy"
@@ -38,5 +38,5 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     #   Since it's only complaining about a missed optimization, this warning
     #   can safely be disabled.
   )
-endif(CMAKE_COMPILER_IS_GNUCXX)
+endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
