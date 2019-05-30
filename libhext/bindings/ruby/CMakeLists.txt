@@ -1,50 +1,50 @@
 ###### HEXT-RUBY ###############################################################
-PROJECT(hext-ruby)
+project(hext-ruby)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
 
 # Set required C++ standard or abort.
-INCLUDE(HextForceCppStd)
+include(HextForceCppStd)
 
 # If build type was not specified, build Release.
-INCLUDE(HextDefaultBuildRelease)
+include(HextDefaultBuildRelease)
 
 
 ###### DEPENDENCIES ############################################################
 
 ### SWIG
-IF(POLICY CMP0078)
+if(POLICY CMP0078)
   # https://cmake.org/cmake/help/latest/policy/CMP0078.html
-  CMAKE_POLICY(SET CMP0078 NEW)
-ENDIF(POLICY CMP0078)
-FIND_PACKAGE(SWIG REQUIRED)
-INCLUDE(${SWIG_USE_FILE})
+  cmake_policy(SET CMP0078 NEW)
+endif(POLICY CMP0078)
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
 
 ### RUBY
-FIND_PACKAGE(Ruby REQUIRED)
+find_package(Ruby REQUIRED)
 
 ### LIBHEXT
-FIND_PACKAGE(Hext REQUIRED)
-INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
+find_package(Hext REQUIRED)
+include_directories(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/..")
+include_directories("${PROJECT_SOURCE_DIR}/..")
 
 
 ###### RUBY ####################################################################
-INCLUDE_DIRECTORIES(SYSTEM ${RUBY_INCLUDE_DIRS})
+include_directories(SYSTEM ${RUBY_INCLUDE_DIRS})
 
-SET_SOURCE_FILES_PROPERTIES(
+set_source_files_properties(
   "${PROJECT_SOURCE_DIR}/rbhext.i" PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_LIBRARY(
+swig_add_library(
   rbhext
   LANGUAGE ruby
   SOURCES
   "${PROJECT_SOURCE_DIR}/rbhext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
-SWIG_LINK_LIBRARIES(rbhext ${HEXT_LIBRARY} ${RUBY_LIBRARY})
-SET_TARGET_PROPERTIES(rbhext PROPERTIES OUTPUT_NAME "hext")
+swig_link_libraries(rbhext ${HEXT_LIBRARY} ${RUBY_LIBRARY})
+set_target_properties(rbhext PROPERTIES OUTPUT_NAME "hext")
 

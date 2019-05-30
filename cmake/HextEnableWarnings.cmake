@@ -1,16 +1,16 @@
 # Enable reasonable warnings.
 
 # Clang
-IF(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  ADD_DEFINITIONS("-Weverything" "-Wno-c++98-compat" "-Wno-padded"
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  add_definitions("-Weverything" "-Wno-c++98-compat" "-Wno-padded"
     "-Wno-documentation-unknown-command" "-Wno-documentation-html"
     "-Wno-documentation" "-Wno-weak-vtables" "-Wno-switch-enum"
     "-Wno-exit-time-destructors" "-Wno-global-constructors")
-ENDIF(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+endif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
 # G++
-IF(CMAKE_COMPILER_IS_GNUCXX)
-  ADD_DEFINITIONS(
+if(CMAKE_COMPILER_IS_GNUCXX)
+  add_definitions(
     "-pedantic" "-pedantic-errors" "-Wall" "-Wcast-align" "-Wcast-qual"
     "-Wchar-subscripts" "-Wcomment" "-Wconversion" "-Wctor-dtor-privacy"
     "-Wdisabled-optimization" "-Weffc++" "-Wextra" "-Wfloat-equal"
@@ -38,5 +38,5 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     #   Since it's only complaining about a missed optimization, this warning
     #   can safely be disabled.
   )
-ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+endif(CMAKE_COMPILER_IS_GNUCXX)
 

@@ -1,40 +1,40 @@
 ###### LIBHEXT #################################################################
 # Enable PROJECT() with VERSION parameter.
-CMAKE_POLICY(SET CMP0048 NEW)
-PROJECT(Hext VERSION 0.7.2)
+cmake_policy(SET CMP0048 NEW)
+project(Hext VERSION 0.7.2)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake)
 
 # Set required C++ standard or abort.
-INCLUDE(HextForceCppStd)
+include(HextForceCppStd)
 
 # Enable all (reasonable) warnings with Clang and GCC.
-INCLUDE(HextEnableWarnings)
+include(HextEnableWarnings)
 
 # If build type was not specified, build Release.
-INCLUDE(HextDefaultBuildRelease)
+include(HextDefaultBuildRelease)
 
 # Defines HEXT_COMPILER_IS_CLANG_OR_GCC.
-INCLUDE(HextCompilerIsClangOrGcc)
+include(HextCompilerIsClangOrGcc)
 
 
 ###### VERSION #################################################################
-SET(
+set(
   HEXT_VERSION_FILE_SOURCE
   "${PROJECT_SOURCE_DIR}/src/Version.cpp.in")
-INCLUDE(HextGenerateVersionFile)
+include(HextGenerateVersionFile)
 
 
 ###### DEPENDENCIES ############################################################
-FIND_PACKAGE(Boost REQUIRED COMPONENTS regex)
-FIND_PACKAGE(Gumbo REQUIRED)
-SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
+find_package(Boost REQUIRED COMPONENTS regex)
+find_package(Gumbo REQUIRED)
+set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
 ###### LIBHEXT #################################################################
-ADD_LIBRARY(
+add_library(
   hext
   "${PROJECT_SOURCE_DIR}/src/AppendPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/AttributeCapture.cpp"
@@ -72,37 +72,37 @@ ADD_LIBRARY(
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
-TARGET_LINK_LIBRARIES(
+target_link_libraries(
   hext
   ${Gumbo_LIBRARY}
   ${Boost_REGEX_LIBRARY})
-SET_TARGET_PROPERTIES(
+set_target_properties(
   hext PROPERTIES
   VERSION "${Hext_VERSION}"
   SOVERSION "${Hext_VERSION_MAJOR}.${Hext_VERSION_MINOR}")
-IF(HEXT_COMPILER_IS_CLANG_OR_GCC)
-  SET_TARGET_PROPERTIES(hext PROPERTIES CXX_VISIBILITY_PRESET hidden)
-ENDIF(HEXT_COMPILER_IS_CLANG_OR_GCC)
+if(HEXT_COMPILER_IS_CLANG_OR_GCC)
+  set_target_properties(hext PROPERTIES CXX_VISIBILITY_PRESET hidden)
+endif(HEXT_COMPILER_IS_CLANG_OR_GCC)
 
 
 ###### INCLUDES ################################################################
-TARGET_INCLUDE_DIRECTORIES(hext PUBLIC
+target_include_directories(hext PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
-TARGET_INCLUDE_DIRECTORIES(hext PUBLIC ${Boost_INCLUDE_DIRS})
-TARGET_INCLUDE_DIRECTORIES(hext PUBLIC ${Gumbo_INCLUDE_DIR})
+target_include_directories(hext PUBLIC ${Boost_INCLUDE_DIRS})
+target_include_directories(hext PUBLIC ${Gumbo_INCLUDE_DIR})
 
 
 ###### CMAKE PACKAGE ###########################################################
-SET(HEXT_PACKAGE_VERSION_FILE
+set(HEXT_PACKAGE_VERSION_FILE
     "${CMAKE_CURRENT_BINARY_DIR}/HextConfigVersion.cmake")
-SET(HEXT_PACKAGE_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/HextConfig.cmake")
-SET(HEXT_PACKAGE_INSTALL_DIR "lib/cmake/hext")
-SET(INCLUDE_INSTALL_DIR "include")
+set(HEXT_PACKAGE_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/HextConfig.cmake")
+set(HEXT_PACKAGE_INSTALL_DIR "lib/cmake/hext")
+set(INCLUDE_INSTALL_DIR "include")
 
-INCLUDE(CMakePackageConfigHelpers)
-WRITE_BASIC_PACKAGE_VERSION_FILE(
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
   "${HEXT_PACKAGE_VERSION_FILE}" COMPATIBILITY SameMajorVersion)
-CONFIGURE_PACKAGE_CONFIG_FILE(
+configure_package_config_file(
   "${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in"
   "${HEXT_PACKAGE_CONFIG_FILE}"
   INSTALL_DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}"
@@ -110,70 +110,70 @@ CONFIGURE_PACKAGE_CONFIG_FILE(
 
 
 ###### INSTALL #################################################################
-INSTALL(TARGETS hext
+install(TARGETS hext
         EXPORT "HextTargets"
         LIBRARY DESTINATION "lib"
         ARCHIVE DESTINATION "lib"
         INCLUDES DESTINATION ${INCLUDE_INSTALL_DIR})
-INSTALL(DIRECTORY "${PROJECT_SOURCE_DIR}/include/hext"
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/hext"
         DESTINATION ${INCLUDE_INSTALL_DIR})
-INSTALL(FILES       "${HEXT_PACKAGE_CONFIG_FILE}" "${HEXT_PACKAGE_VERSION_FILE}"
+install(FILES       "${HEXT_PACKAGE_CONFIG_FILE}" "${HEXT_PACKAGE_VERSION_FILE}"
         DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
-INSTALL(EXPORT "HextTargets"
+install(EXPORT "HextTargets"
         DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
 
 
 ###### EXAMPLES ################################################################
-OPTION(BUILD_EXAMPLES "Build libhext usage examples" OFF)
-IF(BUILD_EXAMPLES)
-  FIND_PACKAGE(PocoFoundation QUIET)
-  ADD_EXECUTABLE(
+option(BUILD_EXAMPLES "Build libhext usage examples" OFF)
+if(BUILD_EXAMPLES)
+  find_package(PocoFoundation QUIET)
+  add_executable(
     mixed
     "${PROJECT_SOURCE_DIR}/examples/mixed.cpp")
-  ADD_DEPENDENCIES(mixed hext)
-  TARGET_LINK_LIBRARIES(
+  add_dependencies(mixed hext)
+  target_link_libraries(
     mixed
     hext)
-  SET_TARGET_PROPERTIES(
+  set_target_properties(
     mixed
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  ADD_EXECUTABLE(
+  add_executable(
     chaining-rules
     "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
-  ADD_DEPENDENCIES(chaining-rules hext)
-  TARGET_LINK_LIBRARIES(
+  add_dependencies(chaining-rules hext)
+  target_link_libraries(
     chaining-rules
     hext)
-  SET_TARGET_PROPERTIES(
+  set_target_properties(
     chaining-rules
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  IF(${POCOFOUNDATION_FOUND})
-    INCLUDE_DIRECTORIES(${PocoFoundation_INCLUDE_DIR})
-    ADD_EXECUTABLE(
+  if(${POCOFOUNDATION_FOUND})
+    include_directories(${PocoFoundation_INCLUDE_DIR})
+    add_executable(
       extract-href
       "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
-    ADD_DEPENDENCIES(extract-href hext)
-    TARGET_LINK_LIBRARIES(
+    add_dependencies(extract-href hext)
+    target_link_libraries(
       extract-href
       ${PocoFoundation_LIBRARY}
       hext)
-    SET_TARGET_PROPERTIES(
+    set_target_properties(
       extract-href
       PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  ENDIF(${POCOFOUNDATION_FOUND})
-ENDIF(BUILD_EXAMPLES)
+  endif(${POCOFOUNDATION_FOUND})
+endif(BUILD_EXAMPLES)
 
 
 ###### BUILD OPTIONS ###########################################################
 # Option RUNRAGEL, default OFF
 # Calls run-ragel.sh to generate the parser.
-INCLUDE(HextOptionRunRagel)
+include(HextOptionRunRagel)
 
 # Option SANITIZEADDRESS, default OFF
 # Adds -fsanitize=address and -fno-omit-frame-pointer to compiler flags
-INCLUDE(HextOptionSanitizeAddress)
+include(HextOptionSanitizeAddress)
 
 # Option SANITIZEUNDEFINED, default OFF
 # Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
-INCLUDE(HextOptionSanitizeUndefined)
+include(HextOptionSanitizeUndefined)
 

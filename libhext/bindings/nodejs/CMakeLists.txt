@@ -1,35 +1,35 @@
 ###### HEXTJS ##################################################################
-PROJECT(hextjs)
+project(hextjs)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
 
 # Set required C++ standard or abort.
-INCLUDE(HextForceCppStd)
+include(HextForceCppStd)
 
 # If build type was not specified, build Release.
-INCLUDE(HextDefaultBuildRelease)
+include(HextDefaultBuildRelease)
 
 
 ###### DEPENDENCIES ############################################################
 
 ### LIBHEXT
-FIND_PACKAGE(Hext REQUIRED)
-INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
+find_package(Hext REQUIRED)
+include_directories(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
+include_directories("${PROJECT_SOURCE_DIR}/src")
 
 
 ###### NODEJS ##################################################################
-ADD_LIBRARY(
+add_library(
   ${PROJECT_NAME} SHARED
   "${PROJECT_SOURCE_DIR}/src/Html.cpp"
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/Hextjs.cpp")
-SET_TARGET_PROPERTIES(
+set_target_properties(
   ${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node" OUTPUT_NAME "hext")
-TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE ${CMAKE_JS_INC})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${CMAKE_JS_LIB} ${HEXT_LIBRARY})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_JS_INC})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} ${HEXT_LIBRARY})
 

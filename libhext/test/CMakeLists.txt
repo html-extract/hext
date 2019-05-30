@@ -1,44 +1,44 @@
 ###### LIBHEXT-TEST ############################################################
-PROJECT(libhext-test)
+project(libhext-test)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../cmake")
 
 # Set required C++ standard or abort.
-INCLUDE(HextForceCppStd)
+include(HextForceCppStd)
 
 # Enable all (reasonable) warnings with Clang and GCC.
-INCLUDE(HextEnableWarnings)
+include(HextEnableWarnings)
 
 
 ###### DEPENDENCIES ############################################################
-ADD_SUBDIRECTORY("${PROJECT_SOURCE_DIR}/.." "libhext")
+add_subdirectory("${PROJECT_SOURCE_DIR}/.." "libhext")
 # libhext-test also depends on the private API which is hidden in the default
 # build of libhext.
-SET_TARGET_PROPERTIES(hext PROPERTIES CXX_VISIBILITY_PRESET default)
-FIND_PACKAGE(Gumbo REQUIRED)
-FIND_PACKAGE(GTest)
-IF( NOT GTEST_FOUND )
+set_target_properties(hext PROPERTIES CXX_VISIBILITY_PRESET default)
+find_package(Gumbo REQUIRED)
+find_package(GTest)
+if( NOT GTEST_FOUND )
   # Download and build GoogleTest
-  INCLUDE(HextExternalProjectGoogleTest)
-ENDIF( NOT GTEST_FOUND )
+  include(HextExternalProjectGoogleTest)
+endif( NOT GTEST_FOUND )
 # GoogleTest requires pthread
-FIND_PACKAGE(Threads REQUIRED)
+find_package(Threads REQUIRED)
 
 
 ###### INCLUDES ################################################################
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/include")
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/../../libhext/src")
-INCLUDE_DIRECTORIES("${Gumbo_INCLUDE_DIR}")
-IF( GTEST_FOUND )
-  INCLUDE_DIRECTORIES(${GTEST_INCLUDE_DIRS})
-ENDIF( GTEST_FOUND )
+include_directories("${PROJECT_SOURCE_DIR}/src")
+include_directories("${PROJECT_SOURCE_DIR}/../../libhext/include")
+include_directories("${PROJECT_SOURCE_DIR}/../../libhext/src")
+include_directories("${Gumbo_INCLUDE_DIR}")
+if( GTEST_FOUND )
+  include_directories(${GTEST_INCLUDE_DIRS})
+endif( GTEST_FOUND )
 
 
 ###### SOURCES #################################################################
-ADD_EXECUTABLE(
+add_executable(
   libhext-test
   "${PROJECT_SOURCE_DIR}/src/builtins/inner-html-builtin.cpp"
   "${PROJECT_SOURCE_DIR}/src/builtins/strip-tags-builtin.cpp"
@@ -79,13 +79,13 @@ ADD_EXECUTABLE(
   "${PROJECT_SOURCE_DIR}/src/string-util/print-numbered-lines.cpp"
   "${PROJECT_SOURCE_DIR}/src/string-util/trim-and-collapse-ws.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
-IF( NOT GTEST_FOUND )
-  ADD_DEPENDENCIES(libhext-test hext googletest)
-ENDIF( NOT GTEST_FOUND )
-IF(THREADS_HAVE_PTHREAD_ARG)
-  TARGET_COMPILE_OPTIONS(PUBLIC libhext-test "-pthread")
-ENDIF(THREADS_HAVE_PTHREAD_ARG)
-TARGET_LINK_LIBRARIES(
+if( NOT GTEST_FOUND )
+  add_dependencies(libhext-test hext googletest)
+endif( NOT GTEST_FOUND )
+if(THREADS_HAVE_PTHREAD_ARG)
+  target_compile_options(PUBLIC libhext-test "-pthread")
+endif(THREADS_HAVE_PTHREAD_ARG)
+target_link_libraries(
   libhext-test
   hext
   gtest
@@ -93,14 +93,14 @@ TARGET_LINK_LIBRARIES(
 
 
 ###### TESTING #################################################################
-ENABLE_TESTING()
-ADD_TEST("LIBHEXT_GTEST" libhext-test)
+enable_testing()
+add_test("LIBHEXT_GTEST" libhext-test)
 
 # Option SANITIZEADDRESS, default OFF
 # Adds -fsanitize=address and -fno-omit-frame-pointer to compiler flags
-INCLUDE(HextOptionSanitizeAddress)
+include(HextOptionSanitizeAddress)
 
 # Option SANITIZEUNDEFINED, default OFF
 # Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
-INCLUDE(HextOptionSanitizeUndefined)
+include(HextOptionSanitizeUndefined)
 

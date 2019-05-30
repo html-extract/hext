@@ -3,21 +3,21 @@
 # Find PHP using php-config.
 # Sets PHP_INCLUDE_DIRS if successful.
 
-INCLUDE(CMakeFindFrameworks)
-INCLUDE(FindPackageHandleStandardArgs)
+include(CMakeFindFrameworks)
+include(FindPackageHandleStandardArgs)
 
-FIND_PROGRAM(PHP_CONFIG NAMES "php-config")
+find_program(PHP_CONFIG NAMES "php-config")
 
-IF(PHP_CONFIG)
-  EXECUTE_PROCESS(
+if(PHP_CONFIG)
+  execute_process(
     COMMAND ${PHP_CONFIG} "--includes"
     OUTPUT_VARIABLE PHP_INCLUDE_DIRS)
-  STRING(REPLACE "\n" "" PHP_INCLUDE_DIRS "${PHP_INCLUDE_DIRS}")
-  STRING(REPLACE "-I" ";" PHP_INCLUDE_DIRS "${PHP_INCLUDE_DIRS}")
-  EXECUTE_PROCESS(
+  string(REPLACE "\n" "" PHP_INCLUDE_DIRS "${PHP_INCLUDE_DIRS}")
+  string(REPLACE "-I" ";" PHP_INCLUDE_DIRS "${PHP_INCLUDE_DIRS}")
+  execute_process(
     COMMAND ${PHP_CONFIG} "--version"
     OUTPUT_VARIABLE PHP_VERSION)
-ENDIF(PHP_CONFIG)
+endif(PHP_CONFIG)
 
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(Php DEFAULT_MSG PHP_INCLUDE_DIRS)
+find_package_handle_standard_args(Php DEFAULT_MSG PHP_INCLUDE_DIRS)
 

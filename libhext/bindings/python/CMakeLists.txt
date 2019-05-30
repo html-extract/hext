@@ -1,49 +1,49 @@
 ###### HEXT-PYTHON #############################################################
-PROJECT(hext-python)
+project(hext-python)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
 
 # Set required C++ standard or abort.
-INCLUDE(HextForceCppStd)
+include(HextForceCppStd)
 
 # If build type was not specified, build Release.
-INCLUDE(HextDefaultBuildRelease)
+include(HextDefaultBuildRelease)
 
 
 ###### DEPENDENCIES ############################################################
 
 ### SWIG
-IF(POLICY CMP0078)
+if(POLICY CMP0078)
   # https://cmake.org/cmake/help/latest/policy/CMP0078.html
-  CMAKE_POLICY(SET CMP0078 OLD)
-ENDIF(POLICY CMP0078)
-FIND_PACKAGE(SWIG REQUIRED)
-INCLUDE(${SWIG_USE_FILE})
+  cmake_policy(SET CMP0078 OLD)
+endif(POLICY CMP0078)
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
 
 ### PYTHON
-FIND_PACKAGE(PythonLibs REQUIRED)
+find_package(PythonLibs REQUIRED)
 
 ### LIBHEXT
-FIND_PACKAGE(Hext REQUIRED)
-INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
+find_package(Hext REQUIRED)
+include_directories(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/..")
+include_directories("${PROJECT_SOURCE_DIR}/..")
 
 
 ###### PYTHON ##################################################################
-INCLUDE_DIRECTORIES(SYSTEM ${PYTHON_INCLUDE_PATH})
+include_directories(SYSTEM ${PYTHON_INCLUDE_PATH})
 
-SET_SOURCE_FILES_PROPERTIES(
+set_source_files_properties(
   "${PROJECT_SOURCE_DIR}/pyhext.i" PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_LIBRARY(
+swig_add_library(
   hext
   LANGUAGE python
   SOURCES
   "${PROJECT_SOURCE_DIR}/pyhext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
-SWIG_LINK_LIBRARIES(hext ${HEXT_LIBRARY})
+swig_link_libraries(hext ${HEXT_LIBRARY})
 

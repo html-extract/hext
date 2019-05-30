@@ -1,53 +1,53 @@
 ###### HEXT-PHP ################################################################
-PROJECT(hext-php)
+project(hext-php)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../cmake")
 
 # Set required C++ standard or abort.
-INCLUDE(HextForceCppStd)
+include(HextForceCppStd)
 
 # If build type was not specified, build Release.
-INCLUDE(HextDefaultBuildRelease)
+include(HextDefaultBuildRelease)
 
 
 ###### DEPENDENCIES ############################################################
 
 ### SWIG
-IF(POLICY CMP0078)
+if(POLICY CMP0078)
   # https://cmake.org/cmake/help/latest/policy/CMP0078.html
-  CMAKE_POLICY(SET CMP0078 NEW)
-ENDIF(POLICY CMP0078)
-FIND_PACKAGE(SWIG REQUIRED)
-INCLUDE(${SWIG_USE_FILE})
+  cmake_policy(SET CMP0078 NEW)
+endif(POLICY CMP0078)
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
 
 ### PHP
-FIND_PACKAGE(PHP REQUIRED)
-IF(PHP_VERSION VERSION_LESS "7.0.0")
-  MESSAGE(FATAL_ERROR "PHP7.0 or later required")
-ENDIF(PHP_VERSION VERSION_LESS "7.0.0")
+find_package(PHP REQUIRED)
+if(PHP_VERSION VERSION_LESS "7.0.0")
+  message(FATAL_ERROR "PHP7.0 or later required")
+endif(PHP_VERSION VERSION_LESS "7.0.0")
 
 ### LIBHEXT
-FIND_PACKAGE(Hext REQUIRED)
-INCLUDE_DIRECTORIES(${HEXT_INCLUDE_DIR})
+find_package(Hext REQUIRED)
+include_directories(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/..")
+include_directories("${PROJECT_SOURCE_DIR}/..")
 
 
 ###### PHP #####################################################################
-INCLUDE_DIRECTORIES(SYSTEM ${PHP_INCLUDE_DIRS})
+include_directories(SYSTEM ${PHP_INCLUDE_DIRS})
 
-SET_SOURCE_FILES_PROPERTIES(
+set_source_files_properties(
   "${PROJECT_SOURCE_DIR}/phphext.i" PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_LIBRARY(
+swig_add_library(
   phphext
   LANGUAGE php7
   SOURCES
   "${PROJECT_SOURCE_DIR}/phphext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
-SWIG_LINK_LIBRARIES(phphext ${HEXT_LIBRARY})
-SET_TARGET_PROPERTIES(phphext PROPERTIES OUTPUT_NAME "hext" PREFIX "")
+swig_link_libraries(phphext ${HEXT_LIBRARY})
+set_target_properties(phphext PROPERTIES OUTPUT_NAME "hext" PREFIX "")
 
