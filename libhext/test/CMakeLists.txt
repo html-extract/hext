@@ -5,7 +5,6 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../cmake")
 
-# Enable all (reasonable) warnings with Clang and GCC.
 include(HextEnableWarnings)
 
 
@@ -70,6 +69,7 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/src/string-util/print-numbered-lines.cpp"
   "${PROJECT_SOURCE_DIR}/src/string-util/trim-and-collapse-ws.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
+hext_enable_warnings(libhext-test PRIVATE)
 if(THREADS_HAVE_PTHREAD_ARG)
   target_compile_options(PUBLIC libhext-test "-pthread")
 endif(THREADS_HAVE_PTHREAD_ARG)

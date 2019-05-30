@@ -7,7 +7,6 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake)
 
-# Enable all (reasonable) warnings with Clang and GCC.
 include(HextEnableWarnings)
 
 # If build type was not specified, build Release.
@@ -70,6 +69,7 @@ add_library(
   "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
 target_compile_features(hext PUBLIC cxx_std_17)
+hext_enable_warnings(hext PRIVATE)
 target_link_libraries(
   hext
   ${Gumbo_LIBRARY}

@@ -7,7 +7,6 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-# Enable all (reasonable) warnings with Clang and GCC.
 include(HextEnableWarnings)
 
 # If build type was not specified, build Release.
@@ -56,6 +55,7 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ProgramOptions.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
+hext_enable_warnings(htmlext PRIVATE)
 if(USE_SYSTEM_LIBHEXT)
   set(TARGET_LINK_LIBHEXT ${HEXT_LIBRARY})
 else(USE_SYSTEM_LIBHEXT)

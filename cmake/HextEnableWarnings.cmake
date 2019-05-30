@@ -1,23 +1,6 @@
-# Enable reasonable warnings.
-
-# Clang
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  add_definitions(
-    "-Weverything"
-    "-Wno-c++98-compat"
-    "-Wno-documentation"
-    "-Wno-documentation-html"
-    "-Wno-documentation-unknown-command"
-    "-Wno-exit-time-destructors"
-    "-Wno-global-constructors"
-    "-Wno-padded"
-    "-Wno-switch-enum"
-    "-Wno-weak-vtables")
-endif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-
-# G++
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  add_definitions(
+function(hext_enable_warnings_gnu)
+  target_compile_options(
+    ${ARGN}
     "-Wall"
     "-Wcast-align"
     "-Wcast-qual"
@@ -65,5 +48,30 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     #   Since it's only complaining about a missed optimization, this warning
     #   can safely be disabled.
   )
-endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+endfunction()
+
+function(hext_enable_warnings_clang)
+  target_compile_options(
+    ${ARGN}
+    "-Weverything"
+    "-Wno-c++98-compat"
+    "-Wno-documentation"
+    "-Wno-documentation-html"
+    "-Wno-documentation-unknown-command"
+    "-Wno-exit-time-destructors"
+    "-Wno-global-constructors"
+    "-Wno-padded"
+    "-Wno-switch-enum"
+    "-Wno-weak-vtables")
+endfunction()
+
+function(hext_enable_warnings)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    hext_enable_warnings_clang(${ARGN})
+  endif()
+
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    hext_enable_warnings_gnu(${ARGN})
+  endif()
+endfunction()
 
