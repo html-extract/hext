@@ -16,10 +16,6 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/.." "libhext")
 set_target_properties(hext PROPERTIES CXX_VISIBILITY_PRESET default)
 find_package(Gumbo REQUIRED)
 find_package(GTest)
-if( NOT GTEST_FOUND )
-  # Download and build GoogleTest
-  include(HextExternalProjectGoogleTest)
-endif( NOT GTEST_FOUND )
 # GoogleTest requires pthread
 find_package(Threads REQUIRED)
 
@@ -29,9 +25,7 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories("${PROJECT_SOURCE_DIR}/../../libhext/include")
 include_directories("${PROJECT_SOURCE_DIR}/../../libhext/src")
 include_directories("${Gumbo_INCLUDE_DIR}")
-if( GTEST_FOUND )
-  include_directories(${GTEST_INCLUDE_DIRS})
-endif( GTEST_FOUND )
+include_directories("${GTEST_INCLUDE_DIRS}")
 
 
 ###### SOURCES #################################################################
@@ -76,9 +70,6 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/src/string-util/print-numbered-lines.cpp"
   "${PROJECT_SOURCE_DIR}/src/string-util/trim-and-collapse-ws.cpp"
   "${PROJECT_SOURCE_DIR}/src/main.cpp")
-if( NOT GTEST_FOUND )
-  add_dependencies(libhext-test hext googletest)
-endif( NOT GTEST_FOUND )
 if(THREADS_HAVE_PTHREAD_ARG)
   target_compile_options(PUBLIC libhext-test "-pthread")
 endif(THREADS_HAVE_PTHREAD_ARG)
