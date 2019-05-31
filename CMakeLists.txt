@@ -38,16 +38,8 @@ endif()
 find_package(Boost COMPONENTS program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-# If RapidJSON is not found in system, download it. RapidJSON is a header only
-# library.
-find_package(RapidJSON QUIET)
-if(NOT RapidJSON_INCLUDE_DIRS)
-  message("Will download rapidjson automatically")
-  include(HextExternalProjectRapidJson)
-else()
-  include_directories(${RapidJSON_INCLUDE_DIRS})
-endif()
-set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
+find_package(RapidJSON REQUIRED)
+include_directories(${RapidJSON_INCLUDE_DIRS})
 
 
 ###### SOURCES #################################################################
@@ -65,11 +57,6 @@ if(USE_SYSTEM_LIBHEXT)
 else()
   add_dependencies(htmlext hext)
   set(TARGET_LINK_LIBHEXT hext)
-endif()
-# If RapidJSON wasn't found via FIND_PACKAGE it will be downloaded via
-# ExternalProject_Add.
-if(NOT RapidJSON_INCLUDE_DIRS)
-  add_dependencies(htmlext rapidjson)
 endif()
 target_link_libraries(
   htmlext
