@@ -85,7 +85,3 @@ target_link_libraries(
 enable_testing()
 add_test("LIBHEXT_GTEST" libhext-test)
 
-# Option SANITIZEUNDEFINED, default OFF
-# Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
-include(HextOptionSanitizeUndefined)
-

@@ -68,9 +68,3 @@ target_link_libraries(
 install(TARGETS htmlext DESTINATION bin)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/htmlext.1 DESTINATION man/man1)
 
-
-###### BUILD OPTIONS ###########################################################
-# Option SANITIZEUNDEFINED, default OFF
-# Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
-include(HextOptionSanitizeUndefined)
-

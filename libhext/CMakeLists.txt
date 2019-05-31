@@ -171,7 +171,3 @@ endif()
 # Calls run-ragel.sh to generate the parser.
 include(HextOptionRunRagel)
 
-# Option SANITIZEUNDEFINED, default OFF
-# Adds -fsanitize=undefined and -fno-omit-frame-pointer to compiler flags
-include(HextOptionSanitizeUndefined)
-
