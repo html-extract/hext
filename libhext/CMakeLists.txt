@@ -125,47 +125,6 @@ install(EXPORT "HextTargets"
         DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
 
 
-###### EXAMPLES ################################################################
-option(BUILD_EXAMPLES "Build libhext usage examples" OFF)
-if(BUILD_EXAMPLES)
-  find_package(PocoFoundation QUIET)
-  add_executable(
-    mixed
-    "${PROJECT_SOURCE_DIR}/examples/mixed.cpp")
-  add_dependencies(mixed hext)
-  target_link_libraries(
-    mixed
-    hext)
-  set_target_properties(
-    mixed
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  add_executable(
-    chaining-rules
-    "${PROJECT_SOURCE_DIR}/examples/chaining.cpp")
-  add_dependencies(chaining-rules hext)
-  target_link_libraries(
-    chaining-rules
-    hext)
-  set_target_properties(
-    chaining-rules
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  if(${POCOFOUNDATION_FOUND})
-    include_directories(${PocoFoundation_INCLUDE_DIR})
-    add_executable(
-      extract-href
-      "${PROJECT_SOURCE_DIR}/examples/extract-href.cpp")
-    add_dependencies(extract-href hext)
-    target_link_libraries(
-      extract-href
-      ${PocoFoundation_LIBRARY}
-      hext)
-    set_target_properties(
-      extract-href
-      PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  endif()
-endif()
-
-
 ###### BUILD OPTIONS ###########################################################
 # Option RUNRAGEL, default OFF
 # Calls run-ragel.sh to generate the parser.
