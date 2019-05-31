@@ -8,7 +8,8 @@ project(Hext VERSION 0.7.2)
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake)
+# Add the top-level cmake module directory to CMAKE_MODULE_PATH
+list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/../cmake)
 
 include(HextEnableWarnings)
 
