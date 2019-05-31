@@ -32,6 +32,12 @@ HEXTD=$(readlink -f .)
 LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
 
+GTESTD=$(mktemp -d)
+cd "$GTESTD"
+cmake -H/usr/src/gtest/ -B.
+make $MAKE_FLAGS
+sudo cp *.a /usr/lib
+
 cd "$LIBHEXTTESTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 make $MAKE_FLAGS
