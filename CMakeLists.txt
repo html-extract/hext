@@ -70,11 +70,6 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/htmlext.1 DESTINATION man/man1)
 
 
 ###### BUILD OPTIONS ###########################################################
-# Option TCMALLOC, default OFF
-# Link with libtcmalloc, i.e. cmake -DTCMALLOC=ON
-set(HEXT_LINK_TCMALLOC_TARGET htmlext)
-include(HextOptionLinkTcmalloc)
-
 # Option GPROF, default OFF
 # GNU gprof build
 include(HextOptionGprof)
