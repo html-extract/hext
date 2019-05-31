@@ -70,10 +70,6 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/htmlext.1 DESTINATION man/man1)
 
 
 ###### BUILD OPTIONS ###########################################################
-# Option GPROF, default OFF
-# GNU gprof build
-include(HextOptionGprof)
-
 # Option SANITIZEADDRESS, default OFF
 # Adds -fsanitize=address and -fno-omit-frame-pointer to compiler flags
 include(HextOptionSanitizeAddress)
