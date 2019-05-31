@@ -31,7 +31,6 @@ configure_file(
 ###### DEPENDENCIES ############################################################
 find_package(Boost REQUIRED COMPONENTS regex)
 find_package(Gumbo REQUIRED)
-set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
 ###### LIBHEXT #################################################################
