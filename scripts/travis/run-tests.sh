@@ -33,18 +33,18 @@ LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
 
 cd "$LIBHEXTTESTD/build"
-cmake -DCMAKE_BUILD_TYPE=Debug -DSANITIZEADDRESS=On ..
+cmake -DCMAKE_BUILD_TYPE=Debug ..
 make $MAKE_FLAGS
 ./libhext-test
 
 cd "$LIBHEXTD/build"
-cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=On -DSANITIZEADDRESS=On ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=On ..
 make $MAKE_FLAGS
 sudo make install
 sudo ldconfig
 
 cd "$HEXTD/build"
-cmake -DCMAKE_BUILD_TYPE=Debug -DSANITIZEADDRESS=On -DUSE_SYSTEM_LIBHEXT=On ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_SYSTEM_LIBHEXT=On ..
 make $MAKE_FLAGS
 sudo make install
 
