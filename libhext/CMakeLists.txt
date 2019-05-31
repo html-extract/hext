@@ -21,10 +21,11 @@ include(HextCompilerIsClangOrGcc)
 
 
 ###### VERSION #################################################################
-set(
-  HEXT_VERSION_FILE_SOURCE
-  "${PROJECT_SOURCE_DIR}/src/Version.cpp.in")
-include(HextGenerateVersionFile)
+configure_file(
+  "${PROJECT_SOURCE_DIR}/src/Version.cpp.in"
+  "${PROJECT_SOURCE_DIR}/src/Version.cpp"
+  # Restrict variable replacement to references of the form @VAR@
+  @ONLY)
 
 
 ###### DEPENDENCIES ############################################################
