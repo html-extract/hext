@@ -26,10 +26,10 @@ include_directories("${PROJECT_SOURCE_DIR}/htmlext")
 if(USE_SYSTEM_LIBHEXT)
   find_package(Hext REQUIRED)
   include_directories(${HEXT_INCLUDE_DIR})
-else(USE_SYSTEM_LIBHEXT)
+else()
   add_subdirectory("libhext")
   include_directories("${PROJECT_SOURCE_DIR}/libhext/include")
-endif(USE_SYSTEM_LIBHEXT)
+endif()
 
 find_package(Boost COMPONENTS program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -40,9 +40,9 @@ find_package(RapidJSON QUIET)
 if(NOT RapidJSON_INCLUDE_DIRS)
   message("Will download rapidjson automatically")
   include(HextExternalProjectRapidJson)
-else(NOT RapidJSON_INCLUDE_DIRS)
+else()
   include_directories(${RapidJSON_INCLUDE_DIRS})
-endif(NOT RapidJSON_INCLUDE_DIRS)
+endif()
 set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/thirdparty)
 
 
@@ -58,15 +58,15 @@ add_executable(
 hext_enable_warnings(htmlext PRIVATE)
 if(USE_SYSTEM_LIBHEXT)
   set(TARGET_LINK_LIBHEXT ${HEXT_LIBRARY})
-else(USE_SYSTEM_LIBHEXT)
+else()
   add_dependencies(htmlext hext)
   set(TARGET_LINK_LIBHEXT hext)
-endif(USE_SYSTEM_LIBHEXT)
+endif()
 # If RapidJSON wasn't found via FIND_PACKAGE it will be downloaded via
 # ExternalProject_Add.
 if(NOT RapidJSON_INCLUDE_DIRS)
   add_dependencies(htmlext rapidjson)
-endif(NOT RapidJSON_INCLUDE_DIRS)
+endif()
 target_link_libraries(
   htmlext
   ${TARGET_LINK_LIBHEXT}

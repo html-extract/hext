@@ -72,7 +72,7 @@ add_executable(
 hext_enable_warnings(libhext-test PRIVATE)
 if(THREADS_HAVE_PTHREAD_ARG)
   target_compile_options(PUBLIC libhext-test "-pthread")
-endif(THREADS_HAVE_PTHREAD_ARG)
+endif()
 target_link_libraries(
   libhext-test
   hext

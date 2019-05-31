@@ -13,5 +13,5 @@ if(RUNRAGEL)
     "${PROJECT_SOURCE_DIR}/scripts/run-ragel.sh"
     "${PROJECT_SOURCE_DIR}/ragel/Parser.cpp.rl"
     "${PROJECT_SOURCE_DIR}/src/Parser.cpp")
-endif(RUNRAGEL)
+endif()
 

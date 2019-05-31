@@ -80,7 +80,7 @@ set_target_properties(
   SOVERSION "${Hext_VERSION_MAJOR}.${Hext_VERSION_MINOR}")
 if(HEXT_COMPILER_IS_CLANG_OR_GCC)
   set_target_properties(hext PROPERTIES CXX_VISIBILITY_PRESET hidden)
-endif(HEXT_COMPILER_IS_CLANG_OR_GCC)
+endif()
 
 
 ###### INCLUDES ################################################################
@@ -158,8 +158,8 @@ if(BUILD_EXAMPLES)
     set_target_properties(
       extract-href
       PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples")
-  endif(${POCOFOUNDATION_FOUND})
-endif(BUILD_EXAMPLES)
+  endif()
+endif()
 
 
 ###### BUILD OPTIONS ###########################################################

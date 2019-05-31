@@ -17,7 +17,7 @@ if(PHP_CONFIG)
   execute_process(
     COMMAND ${PHP_CONFIG} "--version"
     OUTPUT_VARIABLE PHP_VERSION)
-endif(PHP_CONFIG)
+endif()
 
 find_package_handle_standard_args(Php DEFAULT_MSG PHP_INCLUDE_DIRS)
 
