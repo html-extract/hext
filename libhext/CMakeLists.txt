@@ -1,6 +1,9 @@
 ###### LIBHEXT #################################################################
-# Enable PROJECT() with VERSION parameter.
+
+# Allow cmake to set VERSION variables
+# https://cmake.org/cmake/help/latest/policy/CMP0048.html
 cmake_policy(SET CMP0048 NEW)
+
 project(Hext VERSION 0.7.2)
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
