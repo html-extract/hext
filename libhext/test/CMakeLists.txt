@@ -15,7 +15,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/.." "libhext")
 # build of libhext.
 set_target_properties(hext PROPERTIES CXX_VISIBILITY_PRESET default)
 find_package(Gumbo REQUIRED)
-find_package(GTest)
+find_package(GTest REQUIRED)
 # GoogleTest requires pthread
 find_package(Threads REQUIRED)
 
