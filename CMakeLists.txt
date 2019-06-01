@@ -27,13 +27,8 @@ configure_file(
 ###### DEPENDENCIES ############################################################
 include_directories("${PROJECT_SOURCE_DIR}/htmlext")
 
-if(USE_SYSTEM_LIBHEXT)
-  find_package(Hext REQUIRED)
-  include_directories(${HEXT_INCLUDE_DIR})
-else()
-  add_subdirectory("libhext")
-  include_directories("${PROJECT_SOURCE_DIR}/libhext/include")
-endif()
+add_subdirectory("libhext")
+include_directories("${PROJECT_SOURCE_DIR}/libhext/include")
 
 find_package(Boost COMPONENTS program_options REQUIRED)
 
@@ -51,15 +46,10 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
 hext_enable_warnings(htmlext PRIVATE)
-if(USE_SYSTEM_LIBHEXT)
-  set(TARGET_LINK_LIBHEXT ${HEXT_LIBRARY})
-else()
-  add_dependencies(htmlext hext)
-  set(TARGET_LINK_LIBHEXT hext)
-endif()
+add_dependencies(htmlext hext)
 target_link_libraries(
   htmlext
-  ${TARGET_LINK_LIBHEXT}
+  hext
   Boost::program_options)
 
 
