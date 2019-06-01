@@ -46,10 +46,9 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
 hext_enable_warnings(htmlext PRIVATE)
-add_dependencies(htmlext hext)
 target_link_libraries(
   htmlext
-  hext
+  hext::hext
   Boost::program_options)
 
 

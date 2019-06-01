@@ -76,7 +76,7 @@ if(THREADS_HAVE_PTHREAD_ARG)
 endif()
 target_link_libraries(
   libhext-test
-  hext
+  hext::hext
   gtest
   "${CMAKE_THREAD_LIBS_INIT}")
 

@@ -72,12 +72,13 @@ add_library(
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/Version.cpp")
+add_library(hext::hext ALIAS hext)
 target_compile_features(hext PUBLIC cxx_std_17)
 hext_enable_warnings(hext PRIVATE)
-target_link_libraries(
-  hext
-  ${Gumbo_LIBRARY}
-  Boost::regex)
+target_link_libraries(hext
+  PUBLIC
+    ${Gumbo_LIBRARY}
+    Boost::regex)
 set_target_properties(
   hext PROPERTIES
   VERSION "${Hext_VERSION}"
@@ -85,43 +86,34 @@ set_target_properties(
 if(HEXT_COMPILER_IS_CLANG_OR_GCC)
   set_target_properties(hext PROPERTIES CXX_VISIBILITY_PRESET hidden)
 endif()
-
-
-###### INCLUDES ################################################################
-target_include_directories(hext PUBLIC
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
-target_include_directories(hext PUBLIC ${Gumbo_INCLUDE_DIR})
+target_include_directories(hext
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+    ${Gumbo_INCLUDE_DIR})
 
 
 ###### CMAKE PACKAGE ###########################################################
-set(HEXT_PACKAGE_VERSION_FILE
-    "${CMAKE_CURRENT_BINARY_DIR}/HextConfigVersion.cmake")
-set(HEXT_PACKAGE_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/HextConfig.cmake")
-set(HEXT_PACKAGE_INSTALL_DIR "lib/cmake/hext")
-set(INCLUDE_INSTALL_DIR "include")
-
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  "${HEXT_PACKAGE_VERSION_FILE}" COMPATIBILITY SameMajorVersion)
-configure_package_config_file(
-  "${PROJECT_SOURCE_DIR}/cmake/Config.cmake.in"
-  "${HEXT_PACKAGE_CONFIG_FILE}"
-  INSTALL_DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}"
-  PATH_VARS INCLUDE_INSTALL_DIR)
+  "${CMAKE_CURRENT_BINARY_DIR}/HextConfigVersion.cmake"
+  COMPATIBILITY SameMajorVersion)
 
 
 ###### INSTALL #################################################################
 install(TARGETS hext
-        EXPORT "HextTargets"
-        LIBRARY DESTINATION "lib"
-        ARCHIVE DESTINATION "lib"
-        INCLUDES DESTINATION ${INCLUDE_INSTALL_DIR})
+        EXPORT HextTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/hext"
-        DESTINATION ${INCLUDE_INSTALL_DIR})
-install(FILES       "${HEXT_PACKAGE_CONFIG_FILE}" "${HEXT_PACKAGE_VERSION_FILE}"
-        DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
-install(EXPORT "HextTargets"
-        DESTINATION "${HEXT_PACKAGE_INSTALL_DIR}")
+        DESTINATION include)
+install(FILES "${PROJECT_SOURCE_DIR}/cmake/HextConfig.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/HextConfigVersion.cmake"
+        DESTINATION lib/cmake/hext)
+install(EXPORT HextTargets
+        FILE HextTargets.cmake
+        NAMESPACE hext::
+        DESTINATION lib/cmake/hext)
 
 
 ###### BUILD OPTIONS ###########################################################
