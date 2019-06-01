@@ -31,6 +31,7 @@ export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 HEXTD=$(readlink -f .)
 LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
+LIBHEXTEXAMPLESD="$HEXTD/libhext/examples"
 
 GTESTD=$(mktemp -d)
 cd "$GTESTD"
@@ -48,6 +49,12 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=On ..
 make $MAKE_FLAGS
 sudo make install
 sudo ldconfig
+
+cd "$LIBHEXTEXAMPLESD/build"
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make $MAKE_FLAGS
+./mixed
+./chaining-rules
 
 cd "$HEXTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug ..
