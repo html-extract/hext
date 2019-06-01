@@ -36,7 +36,6 @@ else()
 endif()
 
 find_package(Boost COMPONENTS program_options REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(RapidJSON REQUIRED)
 include_directories(${RapidJSON_INCLUDE_DIRS})
@@ -61,7 +60,7 @@ endif()
 target_link_libraries(
   htmlext
   ${TARGET_LINK_LIBHEXT}
-  ${Boost_PROGRAM_OPTIONS_LIBRARY})
+  Boost::program_options)
 
 
 ###### INSTALL #################################################################

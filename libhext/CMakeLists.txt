@@ -77,7 +77,7 @@ hext_enable_warnings(hext PRIVATE)
 target_link_libraries(
   hext
   ${Gumbo_LIBRARY}
-  ${Boost_REGEX_LIBRARY})
+  Boost::regex)
 set_target_properties(
   hext PROPERTIES
   VERSION "${Hext_VERSION}"
@@ -90,7 +90,6 @@ endif()
 ###### INCLUDES ################################################################
 target_include_directories(hext PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
-target_include_directories(hext PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories(hext PUBLIC ${Gumbo_INCLUDE_DIR})
 
 
