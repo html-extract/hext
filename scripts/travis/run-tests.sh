@@ -50,7 +50,7 @@ sudo make install
 sudo ldconfig
 
 cd "$HEXTD/build"
-cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_SYSTEM_LIBHEXT=On ..
+cmake -DCMAKE_BUILD_TYPE=Debug ..
 make $MAKE_FLAGS
 sudo make install
 
