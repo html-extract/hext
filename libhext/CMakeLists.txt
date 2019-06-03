@@ -77,7 +77,7 @@ target_compile_features(hext PUBLIC cxx_std_17)
 hext_enable_warnings(hext PRIVATE)
 target_link_libraries(hext
   PUBLIC
-    ${Gumbo_LIBRARY}
+    Gumbo::Gumbo
     Boost::regex)
 set_target_properties(
   hext PROPERTIES
@@ -89,8 +89,7 @@ endif()
 target_include_directories(hext
   PUBLIC
     $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
-    ${Gumbo_INCLUDE_DIR})
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>)
 
 
 ###### CMAKE PACKAGE ###########################################################
