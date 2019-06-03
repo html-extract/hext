@@ -28,8 +28,6 @@ configure_file(
 include_directories("${PROJECT_SOURCE_DIR}/htmlext")
 
 add_subdirectory("libhext")
-include_directories("${PROJECT_SOURCE_DIR}/libhext/include")
-
 find_package(Boost COMPONENTS program_options REQUIRED)
 
 find_package(RapidJSON REQUIRED)
