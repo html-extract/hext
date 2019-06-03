@@ -25,13 +25,9 @@ configure_file(
 
 
 ###### DEPENDENCIES ############################################################
-include_directories("${PROJECT_SOURCE_DIR}/htmlext")
-
 add_subdirectory("libhext")
 find_package(Boost COMPONENTS program_options REQUIRED)
-
 find_package(RapidJSON REQUIRED)
-include_directories(${RapidJSON_INCLUDE_DIRS})
 
 
 ###### SOURCES #################################################################
@@ -44,10 +40,13 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
 hext_enable_warnings(htmlext PRIVATE)
-target_link_libraries(
-  htmlext
-  hext::hext
-  Boost::program_options)
+target_include_directories(htmlext
+  PRIVATE
+    "${PROJECT_SOURCE_DIR}/htmlext")
+target_link_libraries(htmlext
+    hext::hext
+    RapidJSON::RapidJSON
+    Boost::program_options)
 
 
 ###### INSTALL #################################################################
