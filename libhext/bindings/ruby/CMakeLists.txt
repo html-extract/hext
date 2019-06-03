@@ -28,7 +28,6 @@ find_package(Ruby REQUIRED)
 
 ### LIBHEXT
 find_package(Hext REQUIRED)
-include_directories(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
 include_directories("${PROJECT_SOURCE_DIR}/..")
@@ -46,6 +45,6 @@ swig_add_library(
   "${PROJECT_SOURCE_DIR}/rbhext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
-swig_link_libraries(rbhext ${HEXT_LIBRARY} ${RUBY_LIBRARY})
+swig_link_libraries(rbhext hext::hext ${RUBY_LIBRARY})
 set_target_properties(rbhext PROPERTIES OUTPUT_NAME "hext")
 

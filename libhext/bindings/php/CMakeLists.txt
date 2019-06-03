@@ -31,7 +31,6 @@ endif()
 
 ### LIBHEXT
 find_package(Hext REQUIRED)
-include_directories(${HEXT_INCLUDE_DIR})
 
 ### WRAPPERS
 include_directories("${PROJECT_SOURCE_DIR}/..")
@@ -49,6 +48,6 @@ swig_add_library(
   "${PROJECT_SOURCE_DIR}/phphext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
-swig_link_libraries(phphext ${HEXT_LIBRARY})
+swig_link_libraries(phphext hext::hext)
 set_target_properties(phphext PROPERTIES OUTPUT_NAME "hext" PREFIX "")
 
