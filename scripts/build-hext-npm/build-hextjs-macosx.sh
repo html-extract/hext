@@ -42,7 +42,7 @@ cd "$LIBHEXTD/bindings/nodejs"
 npm install
 echo 'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ ")' >> CMakeLists.txt
 npx -s /bin/bash prebuild \
-  -t 8.0.0 -t 10.0.0 -t 11.0.0 \
+  -t 8.0.0 -t 10.0.0 -t 11.0.0 -t 12.0.0 \
   --strip --verbose \
   --backend cmake-js \
   -- \
