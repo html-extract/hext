@@ -25,6 +25,7 @@ sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
 sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq
+nvm install node
 
 export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 
@@ -32,6 +33,7 @@ HEXTD=$(readlink -f .)
 LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
 LIBHEXTEXAMPLESD="$HEXTD/libhext/examples"
+LIBHEXTBINDINGSD="$HEXTD/libhext/bindings"
 
 GTESTD=$(mktemp -d)
 cd "$GTESTD"
@@ -66,6 +68,8 @@ cd "$HEXTD/test"
 
 bats bats/htmlext.bats
 
-hash nodejs && echo nodejs --version
-hash npm && echo npm --version
+cd "$LIBHEXTBINDINGSD/nodejs"
+npm install
+npm run build
+./test/blackbox.js.sh
 
