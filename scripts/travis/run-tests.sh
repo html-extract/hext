@@ -69,3 +69,10 @@ npm install
 npx -s /bin/bash cmake-js --runtime=node --runtime-version=12.0.0 build
 ./test/blackbox.js.sh
 
+cd "$HEXTD/test"
+cp "$LIBHEXTBINDINGSD/nodejs/htmlext.js" .
+node ./htmlext.js && exit 2
+npm install hext
+node ./htmlext.js
+HTMLEXT="node ./htmlext.js" ./blackbox.sh case/*hext
+
