@@ -4,6 +4,8 @@ set -e
 
 MAKE_FLAGS="-j2"
 
+[[ ":$PATH:" == *":/usr/local/bin:"* ]] || export PATH="/usr/local/bin:$PATH"
+
 hash sudo >/dev/null 2>&1 || {
   apt-get update -q
   apt-get install -y sudo software-properties-common
@@ -21,21 +23,36 @@ hash apt-add-repository >/dev/null 2>&1 || {
   cd "$TMPD"
 }
 
-sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-sudo apt-get -q update
-sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
-  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
-  swig ruby ruby-dev
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
-
 HEXTD=$(readlink -f .)
 LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
 LIBHEXTEXAMPLESD="$HEXTD/libhext/examples"
 LIBHEXTBINDINGSD="$HEXTD/libhext/bindings"
+
+sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+sudo apt-get -q update
+sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
+  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
+  build-essential libpcre3-dev ruby ruby-dev wget
+
+export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
+
+SWIGD=$(mktemp -d)
+cd "$SWIGD"
+SWIG_VERSION="4.0.0"
+SWIG_TARBALL="rel-${SWIG_VERSION}.tar.gz"
+wget "https://github.com/swig/swig/archive/${SWIG_TARBALL}"
+echo "ab5cbf226ec50855aeca08193fbaafe92fe99b2454848b82f444ec96aa246b47  ${SWIG_TARBALL}" | shasum -c
+cd */
+./autogen.sh
+./configure --prefix=/usr/local --disable-perl --disable-csharp --disable-r --disable-java
+make $MAKE_FLAGS
+sudo make install
+which swig
+swig -version
+
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 GTESTD=$(mktemp -d)
 cd "$GTESTD"
