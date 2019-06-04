@@ -54,7 +54,7 @@ __Compatibility__
 
 The npm package is compatible with:
 
-* Node v8, v10, v11
+* Node v8, v10, v11, v12
 * Linux (GLIBC ≥2.14, basically any distribution built after the year 2012)
 * Mac OS X (10.11 El Capitan or later)
 * x86_64 only
