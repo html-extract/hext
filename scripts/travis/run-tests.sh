@@ -66,6 +66,6 @@ bats bats/htmlext.bats
 
 cd "$LIBHEXTBINDINGSD/nodejs"
 npm install
-npm run build
+npx -s /bin/bash cmake-js --runtime=node --runtime-version=12.0.0 build
 ./test/blackbox.js.sh
 
