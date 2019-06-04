@@ -24,8 +24,9 @@ hash apt-add-repository >/dev/null 2>&1 || {
 sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
 sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
-  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq
-nvm install node
+  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 
