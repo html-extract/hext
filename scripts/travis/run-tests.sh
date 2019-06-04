@@ -24,7 +24,8 @@ hash apt-add-repository >/dev/null 2>&1 || {
 sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
 sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
-  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl
+  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
+  swig ruby ruby-dev
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
@@ -63,6 +64,11 @@ cd "$HEXTD/test"
 ./blackbox.sh case/*hext
 
 bats bats/htmlext.bats
+
+cd "$LIBHEXTBINDINGSD/ruby/build"
+cmake ..
+make $MAKE_FLAGS
+../test/blackbox.rb.sh
 
 cd "$LIBHEXTBINDINGSD/nodejs"
 npm install
