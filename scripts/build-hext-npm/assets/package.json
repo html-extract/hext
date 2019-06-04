@@ -12,7 +12,7 @@
     "url": "https://thomastrapp.com"
   },
   "dependencies": {},
-  "engines": { "node" : "^8 || ^10 || ^11" },
+  "engines": { "node" : "^8 || ^10 || ^11 || ^12" },
   "os": ["darwin", "linux"],
   "cpu": ["x64"],
   "scripts": {},
