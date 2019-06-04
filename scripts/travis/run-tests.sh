@@ -69,8 +69,13 @@ npm install
 npx -s /bin/bash cmake-js --runtime=node --runtime-version=12.0.0 build
 ./test/blackbox.js.sh
 
+echo
+echo "### Testing 'npm install hext'"
 cd "$HEXTD/test"
 cp "$LIBHEXTBINDINGSD/nodejs/htmlext.js" .
+echo
+# make sure that hext is not available yet
+echo "### This error is deliberate:"
 node ./htmlext.js && exit 2
 npm install hext
 node ./htmlext.js
