@@ -47,7 +47,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug ..
 make $MAKE_FLAGS
 ./libhext-test
 
-cd "$LIBHEXTD/build"
+cd "$HEXTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=On ..
 make $MAKE_FLAGS
 sudo make install
@@ -58,11 +58,6 @@ cmake -DCMAKE_BUILD_TYPE=Debug ..
 make $MAKE_FLAGS
 ./mixed
 ./chaining-rules
-
-cd "$HEXTD/build"
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-make $MAKE_FLAGS
-sudo make install
 
 cd "$HEXTD/test"
 ./blackbox.sh case/*hext
