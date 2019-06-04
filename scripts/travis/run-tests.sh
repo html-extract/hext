@@ -43,6 +43,7 @@ SWIG_VERSION="4.0.0"
 SWIG_TARBALL="rel-${SWIG_VERSION}.tar.gz"
 wget "https://github.com/swig/swig/archive/${SWIG_TARBALL}"
 echo "ab5cbf226ec50855aeca08193fbaafe92fe99b2454848b82f444ec96aa246b47  ${SWIG_TARBALL}" | shasum -c
+tar xf "${SWIG_TARBALL}"
 cd */
 ./autogen.sh
 ./configure --prefix=/usr/local --disable-perl --disable-csharp --disable-r --disable-java
