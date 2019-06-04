@@ -66,3 +66,6 @@ cd "$HEXTD/test"
 
 bats bats/htmlext.bats
 
+hash nodejs && echo nodejs --version
+hash npm && echo npm --version
+
