@@ -4,6 +4,8 @@ set -e
 
 MAKE_FLAGS="-j2"
 
+[[ ":$PATH:" == *":/usr/local/bin:"* ]] || export PATH="/usr/local/bin:$PATH"
+
 hash sudo >/dev/null 2>&1 || {
   apt-get update -q
   apt-get install -y sudo software-properties-common
@@ -21,21 +23,33 @@ hash apt-add-repository >/dev/null 2>&1 || {
   cd "$TMPD"
 }
 
-sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-sudo apt-get -q update
-sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
-  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
-  swig ruby ruby-dev
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
-
 HEXTD=$(readlink -f .)
 LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
 LIBHEXTEXAMPLESD="$HEXTD/libhext/examples"
 LIBHEXTBINDINGSD="$HEXTD/libhext/bindings"
+
+sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+sudo apt-get -q update
+sudo apt-get -q -y install gcc-8 g++-8 libgumbo-dev rapidjson-dev wget \
+  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
+  swig ruby ruby-dev
+
+CMAKED=$(mktemp -d)
+cd "$CMAKED"
+CMAKE_VERSION="3.14.5"
+CMAKE_SH="cmake-${CMAKE_VERSION}-Linux-x86_64.sh"
+wget "https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_SH}"
+echo "1a6082a92be9b11d1e956a2126d0c5ee6d2fbeb70cb419d3b92527e48d6b67c2  ${CMAKE_SH}" | shasum -c
+chmod +x "${CMAKE_SH}"
+sudo ./"$CMAKE_SH" --skip-license --prefix=/usr/local
+which cmake
+cmake --version
+
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 
 GTESTD=$(mktemp -d)
 cd "$GTESTD"
