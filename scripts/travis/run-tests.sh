@@ -83,6 +83,13 @@ cd "$HEXTD/test"
 
 bats bats/htmlext.bats
 
+cd "$LIBHEXTBINDINGSD/python/build"
+cmake ..
+make $MAKE_FLAGS
+../test/blackbox.py.sh
+pip install pytest
+pytest ../pytest
+
 cd "$LIBHEXTBINDINGSD/php/build"
 cmake ..
 make $MAKE_FLAGS
