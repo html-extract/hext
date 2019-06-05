@@ -34,6 +34,6 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 [[ -d "$casedir" ]] || perror_exit "Cannot find test cases (tried '$casedir')"
 
 [[ -d "$thisdir/../build" ]] && export PYTHONPATH="$thisdir/../build"
-export HTMLEXT="python $htmlext"
+export HTMLEXT="python3 $htmlext"
 "$blacksh" "$casedir"/*.hext
 
