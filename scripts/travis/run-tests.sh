@@ -83,6 +83,11 @@ cd "$HEXTD/test"
 
 bats bats/htmlext.bats
 
+cd "$LIBHEXTBINDINGSD/php/build"
+cmake ..
+make $MAKE_FLAGS
+../test/blackbox.php.sh
+
 cd "$LIBHEXTBINDINGSD/ruby/build"
 cmake ..
 make $MAKE_FLAGS
