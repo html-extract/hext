@@ -87,7 +87,7 @@ cd "$LIBHEXTBINDINGSD/python/build"
 cmake ..
 make $MAKE_FLAGS
 ../test/blackbox.py.sh
-pip install pytest
+pip3 install pytest
 pytest ../pytest
 
 cd "$LIBHEXTBINDINGSD/php/build"
