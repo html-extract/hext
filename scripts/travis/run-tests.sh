@@ -33,7 +33,7 @@ sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
 sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
-  build-essential libpcre3-dev ruby ruby-dev wget
+  build-essential libpcre3-dev wget
 
 export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 
