@@ -37,6 +37,8 @@ for i in /opt/python/cp* ; do
   mkdir -p wheel/hext
   cp "$ASSETD/setup.py" "$ASSETD/README.md" "$ASSETD/MANIFEST.in" "$ASSETD/gumbo.license" "$ASSETD/rapidjson.license" wheel/
 
+  PIP=$(readlink -f /opt/python/$V/bin/pip)
+  $PIP install -U setuptools wheel
   PYTHON_PATH=$(readlink -f /opt/python/$V/include/*/)
   cmake -DCMAKE_CXX_FLAGS=" -static-libgcc -static-libstdc++ " -DPYTHON_INCLUDE_DIR="$PYTHON_PATH" -DBUILD_SHARED_LIBS=On ..
   make $CMAKE_MAKE_FLAGS
