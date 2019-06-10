@@ -18,18 +18,13 @@ HEXTD=$(mktemp -d)
 git clone "https://github.com/thomastrapp/hext.git" "$HEXTD"
 
 LIBHEXTD="$HEXTD/libhext"
-cd "$LIBHEXTD/build"
-$CMAKE_APP -DBUILD_SHARED_LIBS=Off -DCMAKE_POSITION_INDEPENDENT_CODE=On -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " ..
-make $CMAKE_MAKE_FLAGS
-sudo make install
-
 cd "$LIBHEXTD/test/build"
 $CMAKE_APP -DBUILD_SHARED_LIBS=Off ..
 make $CMAKE_MAKE_FLAGS
 ./libhext-test
 
 cd "$HEXTD/build"
-$CMAKE_APP -DUSE_SYSTEM_LIBHEXT=On -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " ..
+$CMAKE_APP -DBUILD_SHARED_LIBS=Off -DCMAKE_POSITION_INDEPENDENT_CODE=On -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " ..
 make $CMAKE_MAKE_FLAGS
 sudo make install
 
