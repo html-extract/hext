@@ -1,6 +1,6 @@
 # Hext — Extract Data from HTML
 
-[![Build Status](https://travis-ci.org/thomastrapp/hext.svg?branch=master)](https://travis-ci.org/thomastrapp/hext) [![PyPI Version](https://img.shields.io/pypi/v/hext.svg?color=blue)](https://pypi.org/project/hext/) [![npm version](https://img.shields.io/npm/v/hext.svg)](https://www.npmjs.com/package/hext)
+[![Build Status](https://travis-ci.org/html-extract/hext.svg?branch=master)](https://travis-ci.org/html-extract/hext) [![PyPI Version](https://img.shields.io/pypi/v/hext.svg?color=blue)](https://pypi.org/project/hext/) [![npm version](https://img.shields.io/npm/v/hext.svg)](https://www.npmjs.com/package/hext)
 
 Hext is a domain-specific language for extracting structured data from
 HTML documents.  
