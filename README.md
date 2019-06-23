@@ -170,7 +170,7 @@ terms of the MIT license. See
 text. Visit Bootstrap on [Github](https://github.com/twbs/bootstrap).
 
 ## About the author
-I am [Tom][https://github.com/thomastrapp), a freelancing software developer
+I am [Tom](https://github.com/thomastrapp), a freelancing software developer
 living in Munich. Visit [thomastrapp.com](http://thomastrapp.com) for my email
 address and let me know what you think about Hext!
 
