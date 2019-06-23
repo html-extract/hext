@@ -19,7 +19,7 @@ hash node 2>/dev/null || {
 
 
 HEXTD=$(mktemp -d)
-git clone "https://github.com/thomastrapp/hext.git" "$HEXTD"
+git clone "https://github.com/html-extract/hext.git" "$HEXTD"
 LIBHEXTD="$HEXTD/libhext"
 
 

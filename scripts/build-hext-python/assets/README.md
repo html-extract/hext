@@ -108,7 +108,7 @@ htmlext \
 ```
 
 ## License
-[Hext](https://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/thomastrapp/hext.git).
+[Hext](https://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/html-extract/hext.git).
 This binary package includes content authored by third parties:
 * [gumbo-parser](https://github.com/google/gumbo-parser). Copyright 2010 Google Inc. See gumbo.license.
 * [rapidjson](http://rapidjson.org/). Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip. See rapidjson.license.

@@ -19,7 +19,7 @@ hash apt-add-repository >/dev/null 2>&1 || {
 [[ -d libhext ]] || {
   apt-get install -y git
   TMPD=$(mktemp -d)
-  git clone https://github.com/thomastrapp/hext.git "$TMPD"
+  git clone https://github.com/html-extract/hext.git "$TMPD"
   cd "$TMPD"
 }
 

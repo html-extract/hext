@@ -54,8 +54,8 @@ setup(
     ],
     keywords='html-extraction scraping html data-extraction',
     project_urls={
-        'Github': 'https://github.com/thomastrapp/hext/',
-        'Bug Reports': 'https://github.com/thomastrapp/hext/issues',
+        'Github': 'https://github.com/html-extract/hext/',
+        'Bug Reports': 'https://github.com/html-extract/hext/issues',
         'Author': 'https://thomastrapp.com/'
     },
 )

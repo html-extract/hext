@@ -80,13 +80,13 @@ $ htmlext -s '<a href:link @text:title />' -i index.html -f link
 
 ## BUGS
 
-  Please report bugs here: https://github.com/thomastrapp/hext/issues
+  Please report bugs here: https://github.com/html-extract/hext/issues
 
 ## MORE
 
   *Homepage*: https://hext.thomastrapp.com
 
-  *Github*: https://github.com/thomastrapp/hext/
+  *Github*: https://github.com/html-extract/hext/
 
   *Author*: Thomas Trapp, `https://thomastrapp.com`
 

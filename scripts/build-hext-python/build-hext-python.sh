@@ -15,7 +15,7 @@ OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
 [[ -d "$OUTD" ]] || perror_exit "cannot access output directory (expected '$OUTD')"
 
 HEXTD=$(mktemp -d)
-git clone "https://github.com/thomastrapp/hext.git" "$HEXTD"
+git clone "https://github.com/html-extract/hext.git" "$HEXTD"
 
 LIBHEXTD="$HEXTD/libhext"
 cd "$LIBHEXTD/test/build"

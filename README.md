@@ -158,7 +158,7 @@ tests through valgrind you'd run the following:
 * [Boost.Beast](https://github.com/boostorg/beast)
   — **HTTP and WebSocket built on Boost.Asio in C++11**  
   The Websocket server behind the "[Try Hext in your Browser!](https://hext.thomastrapp.com)"
-  section is built with Beast. See [github.com/thomastrapp/hext-on-websockets](https://github.com/thomastrapp/hext-on-websockets) for more.
+  section is built with Beast. See [github.com/html-extract/hext-on-websockets](https://github.com/html-extract/hext-on-websockets) for more.
 
 ## Licensing
 

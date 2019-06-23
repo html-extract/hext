@@ -37,7 +37,7 @@ This binary package is compatible with:
 * Mac OS X (10.11 El Capitan or later)
 * x86_64 only
 
-If you would like to use Hext on a system that is not supported, please raise an issue on github: [https://github.com/thomastrapp/hext/issues/](https://github.com/thomastrapp/hext/issues/).
+If you would like to use Hext on a system that is not supported, please raise an issue on github: [https://github.com/html-extract/hext/issues/](https://github.com/html-extract/hext/issues/).
 
 
 ## Using Hext with Node
@@ -101,7 +101,7 @@ In addition to Python and Node, there are language bindings for [PHP](https://he
 
 ## License
 
-[Hext](https://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/thomastrapp/hext.git).
+[Hext](https://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/html-extract/hext.git).
 This binary package includes content authored by third parties:
 * [gumbo-parser](https://github.com/google/gumbo-parser). Copyright 2010 Google Inc. See gumbo.license.
 
