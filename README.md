@@ -169,8 +169,8 @@ terms of the MIT license. See
 `/libhext/doc/doxygen/resources/bootstrap.min.css.LICENSE` for the full license
 text. Visit Bootstrap on [Github](https://github.com/twbs/bootstrap).
 
-## About me
-I am a freelancing software developer living in Munich. Visit
-[thomastrapp.com](http://thomastrapp.com) for my email address and let me know
-what you think about Hext!
+## About the author
+I am [Tom][https://github.com/thomastrapp), a freelancing software developer
+living in Munich. Visit [thomastrapp.com](http://thomastrapp.com) for my email
+address and let me know what you think about Hext!
 
