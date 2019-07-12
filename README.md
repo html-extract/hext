@@ -160,15 +160,6 @@ tests through valgrind you'd run the following:
   The Websocket server behind the "[Try Hext in your Browser!](https://hext.thomastrapp.com)"
   section is built with Beast. See [github.com/html-extract/hext-on-websockets](https://github.com/html-extract/hext-on-websockets) for more.
 
-## Licensing
-
-All source code of the Hext project is released under the Apache License v2.0,
-with the sole exception of `/libhext/doc/doxygen/resources/bootstrap.min.css`,
-which was authored by a third party and is included in this project under the
-terms of the MIT license. See
-`/libhext/doc/doxygen/resources/bootstrap.min.css.LICENSE` for the full license
-text. Visit Bootstrap on [Github](https://github.com/twbs/bootstrap).
-
 ## About the author
 I am [Tom](https://github.com/thomastrapp), a freelancing software developer
 living in Munich. Visit [thomastrapp.com](http://thomastrapp.com) for my email
