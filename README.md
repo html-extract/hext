@@ -40,6 +40,7 @@ You can install the htmlext command-line utility and the python bindings through
 
 Available for all flavors of Linux (x86_64) and Mac OS X ≥ 10.11 (x86_64).
 Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
+Building the module from source is documented [here](https://hext.thomastrapp.com/download#building-python-hext).
 
 ## Hext for Node via NPM
 
@@ -50,6 +51,7 @@ Hext for Node is available on npm:
 
 (Does not include the htmlext command-line utility).
 Visit [https://www.npmjs.com/package/hext](https://www.npmjs.com/package/hext).
+Building the module from source is documented [here](https://hext.thomastrapp.com/download#building-building-nodejs-hext).
 
 __Compatibility__
 
