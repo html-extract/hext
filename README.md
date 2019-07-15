@@ -28,8 +28,8 @@ to the href attribute and the text content of the matched &lt;a&gt;.
 
 Visit [Hext's project page](https://hext.thomastrapp.com) to learn more about
 Hext. For examples that use the libhext C++ library check out `/libhext/examples`
-and the
-[main page of the doxygen documentation](https://hext.thomastrapp.com/libhext-documentation).
+and
+[libhext's C++ library overview](https://hext.thomastrapp.com/libhext-overview).
 
 ## Quick Install via Pip
 
