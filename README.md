@@ -179,6 +179,6 @@ tests through valgrind you'd run the following:
 
 ## About the author
 I am [Tom](https://github.com/thomastrapp), a freelancing software developer
-living in Munich. Visit [thomastrapp.com](http://thomastrapp.com) for my email
+living in Munich. Visit [thomastrapp.com](https://thomastrapp.com) for my email
 address and let me know what you think about Hext!
 
