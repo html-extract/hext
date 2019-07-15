@@ -51,7 +51,7 @@ Hext for Node is available on npm:
 
 (Does not include the htmlext command-line utility).
 Visit [https://www.npmjs.com/package/hext](https://www.npmjs.com/package/hext).
-Building the module from source is documented [here](https://hext.thomastrapp.com/download#building-building-nodejs-hext).
+Building the module from source is documented [here](https://hext.thomastrapp.com/download#building-nodejs-hext).
 
 __Compatibility__
 
