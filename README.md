@@ -10,6 +10,7 @@ HTML documents.
 See https://hext.thomastrapp.com for
 [documentation](https://hext.thomastrapp.com/documentation), 
 [build instructions](https://hext.thomastrapp.com/download) and a live demo.
+A mirror of Hext's website is available on [Github pages](https://html-extract.github.io/).
 
 The Hext project is released under the terms of the Apache License v2.0.
 
