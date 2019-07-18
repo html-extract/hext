@@ -100,12 +100,13 @@ write_basic_package_version_file(
 
 
 ###### INSTALL #################################################################
+include(GNUInstallDirs)
 install(TARGETS hext
         EXPORT HextTargets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/hext"
-        DESTINATION include)
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES "${PROJECT_SOURCE_DIR}/cmake/HextConfig.cmake"
               "${CMAKE_CURRENT_BINARY_DIR}/HextConfigVersion.cmake"
         DESTINATION lib/cmake/hext)

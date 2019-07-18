@@ -50,6 +50,9 @@ target_link_libraries(htmlext
 
 
 ###### INSTALL #################################################################
-install(TARGETS htmlext DESTINATION bin)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/htmlext.1 DESTINATION man/man1)
+include(GNUInstallDirs)
+install(TARGETS htmlext RUNTIME
+        DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/htmlext.1
+        DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
 
