@@ -67,7 +67,7 @@ public:
   explicit AttributeMatch(std::string                attr_name,
                           std::unique_ptr<ValueTest> value_test = {}) noexcept;
 
-  ~AttributeMatch() noexcept = default;
+  ~AttributeMatch() noexcept override = default;
   AttributeMatch(AttributeMatch&& other) noexcept = default;
   AttributeMatch(const AttributeMatch& other);
   AttributeMatch& operator=(AttributeMatch&& other) noexcept = default;

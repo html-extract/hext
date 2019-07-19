@@ -46,7 +46,7 @@ public:
   /// @param value_test:  The ValueTest a subject has to fail.
   explicit NegateTest(std::unique_ptr<ValueTest> value_test) noexcept;
 
-  ~NegateTest() noexcept = default;
+  ~NegateTest() noexcept override = default;
   NegateTest(NegateTest&& other) noexcept = default;
   NegateTest(const NegateTest& other);
   NegateTest& operator=(NegateTest&& other) noexcept = default;

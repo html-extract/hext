@@ -69,7 +69,7 @@ public:
   FunctionValueMatch(CaptureFunction            func,
                      std::unique_ptr<ValueTest> value_test);
 
-  ~FunctionValueMatch() noexcept = default;
+  ~FunctionValueMatch() noexcept override = default;
   FunctionValueMatch(FunctionValueMatch&& other) = default;
   FunctionValueMatch(const FunctionValueMatch& other);
   FunctionValueMatch& operator=(FunctionValueMatch&& other) = default;

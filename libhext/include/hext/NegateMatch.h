@@ -65,7 +65,7 @@ public:
   /// @param match:  The Match to append.
   explicit NegateMatch(std::unique_ptr<Match> match);
 
-  ~NegateMatch() noexcept = default;
+  ~NegateMatch() noexcept override = default;
   NegateMatch(NegateMatch&& other) noexcept = default;
   NegateMatch(const NegateMatch& other);
   NegateMatch& operator=(NegateMatch&& other) noexcept = default;
