@@ -62,6 +62,7 @@ function(hext_enable_warnings_clang)
     "-Wno-global-constructors"
     "-Wno-padded"
     "-Wno-switch-enum"
+    "-Wno-covered-switch-default"
     "-Wno-weak-vtables")
 endfunction()
 
