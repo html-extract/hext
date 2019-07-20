@@ -2145,29 +2145,29 @@ _match:
 	{ tk_stop(); set_open_tag_or_throw(tok); }
 	break;
 	case 80:
-#line 321 "hext-machine.rl"
+#line 320 "hext-machine.rl"
 	{ cur_rule().append_match(std::move(pv.negate)); }
 	break;
 	case 81:
-#line 324 "hext-machine.rl"
+#line 323 "hext-machine.rl"
 	{ cur_rule().append_match(std::move(pv.trait)); }
 	break;
 	case 82:
-#line 332 "hext-machine.rl"
+#line 331 "hext-machine.rl"
 	{ pop_rule(); }
 	break;
 	case 83:
-#line 339 "hext-machine.rl"
+#line 338 "hext-machine.rl"
 	{ tk_start(); }
 	break;
 	case 84:
-#line 340 "hext-machine.rl"
+#line 339 "hext-machine.rl"
 	{ tk_stop();
                             validate_close_tag_or_throw(tok);
                             pop_rule(); }
 	break;
 	case 85:
-#line 345 "hext-machine.rl"
+#line 344 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
 #line 2173 "Parser.cpp.tmp"
@@ -2187,11 +2187,11 @@ _again:
 	while ( __nacts-- > 0 ) {
 		switch ( *__acts++ ) {
 	case 82:
-#line 332 "hext-machine.rl"
+#line 331 "hext-machine.rl"
 	{ pop_rule(); }
 	break;
 	case 85:
-#line 345 "hext-machine.rl"
+#line 344 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
 #line 2197 "Parser.cpp.tmp"
