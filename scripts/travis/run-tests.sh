@@ -33,7 +33,7 @@ sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
 sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
-  build-essential libpcre3-dev wget python3-pip
+  build-essential libpcre3-dev wget python3-pip cppcheck
 
 export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 
@@ -71,6 +71,20 @@ cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=On ..
 make $MAKE_FLAGS
 sudo make install
 sudo ldconfig
+
+cd "$HEXTD"
+cppcheck --version
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+  -I htmlext/htmlext/ build/Version.cpp
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+  -I htmlext/htmlext/ htmlext/main.cpp
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+  -I htmlext/htmlext/ htmlext/htmlext
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+  -I libhext/include build/libhext/Version.cpp
+# false positive: [Parser.cpp.rl:372]: (error) Invalid number of character '{'
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+  -i libhext/src/Parser.cpp -I libhext/include libhext/src
 
 cd "$LIBHEXTEXAMPLESD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug ..
