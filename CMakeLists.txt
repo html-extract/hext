@@ -19,7 +19,7 @@ include(HextDefaultBuildRelease)
 ###### VERSION #################################################################
 configure_file(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp.in"
-  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
+  "Version.cpp"
   # Restrict variable replacement to references of the form @VAR@
   @ONLY)
 
@@ -37,7 +37,7 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/File.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Json.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/htmlext/ProgramOptions.cpp"
-  "${PROJECT_SOURCE_DIR}/htmlext/htmlext/Version.cpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/Version.cpp"
   "${PROJECT_SOURCE_DIR}/htmlext/main.cpp")
 hext_enable_warnings(htmlext PRIVATE)
 target_include_directories(htmlext

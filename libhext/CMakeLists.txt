@@ -23,7 +23,7 @@ include(HextCompilerIsClangOrGcc)
 ###### VERSION #################################################################
 configure_file(
   "${PROJECT_SOURCE_DIR}/src/Version.cpp.in"
-  "${PROJECT_SOURCE_DIR}/src/Version.cpp"
+  "Version.cpp"
   # Restrict variable replacement to references of the form @VAR@
   @ONLY)
 
@@ -71,7 +71,7 @@ add_library(
   "${PROJECT_SOURCE_DIR}/src/StringUtil.cpp"
   "${PROJECT_SOURCE_DIR}/src/SyntaxError.cpp"
   "${PROJECT_SOURCE_DIR}/src/TrimPipe.cpp"
-  "${PROJECT_SOURCE_DIR}/src/Version.cpp")
+  "${CMAKE_CURRENT_BINARY_DIR}/Version.cpp")
 add_library(hext::hext ALIAS hext)
 target_compile_features(hext PUBLIC cxx_std_17)
 hext_enable_warnings(hext PRIVATE)
