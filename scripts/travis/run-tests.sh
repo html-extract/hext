@@ -33,7 +33,7 @@ sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
 sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
-  build-essential libpcre3-dev wget python3-pip cppcheck
+  build-essential libpcre3-dev wget python3-pip
 
 export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
 
@@ -61,6 +61,17 @@ cmake -H/usr/src/gtest/ -B.
 make $MAKE_FLAGS
 sudo cp *.a /usr/lib
 
+CPPCHECKD=$(mktemp -d)
+cd "$CPPCHECKD"
+CPPCHECK_TARBALL="1.88.tar.gz"
+wget "https://github.com/danmar/cppcheck/archive/$CPPCHECK_TARBALL"
+echo "4aace0420d6aaa900b84b3329c5173c2294e251d2e24d8cba6e38254333dde3f  ${CPPCHECK_TARBALL}" | shasum -c
+tar xf "${CPPCHECK_TARBALL}"
+cd */
+make MATCHCOMPILER=yes CFGDIR=cfg HAVE_RULES=yes CXXFLAGS="-O2 -DNDEBUG -Wall -Wno-sign-compare -Wno-unused-function" $MAKE_FLAG
+CPPCHECK=$(readlink -f cppcheck)
+$CPPCHECK --version
+
 cd "$LIBHEXTTESTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 make $MAKE_FLAGS
@@ -73,17 +84,17 @@ sudo make install
 sudo ldconfig
 
 cd "$HEXTD"
-cppcheck --version
-cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+$CPPCHECK --version
+$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
   -I htmlext/htmlext/ build/Version.cpp
-cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
   -I htmlext/htmlext/ htmlext/main.cpp
-cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
   -I htmlext/htmlext/ htmlext/htmlext
-cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
   -I libhext/include build/libhext/Version.cpp
 # false positive: [Parser.cpp.rl:372]: (error) Invalid number of character '{'
-cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
+$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
   -i libhext/src/Parser.cpp -I libhext/include libhext/src
 
 cd "$LIBHEXTEXAMPLESD/build"
