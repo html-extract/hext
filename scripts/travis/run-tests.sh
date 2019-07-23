@@ -68,6 +68,7 @@ pip3 install pytest
 PYTHONPATH=. pytest ../pytest
 
 cd "$LIBHEXTBINDINGSD/php/build"
+phpenv global system
 cmake ..
 make $MAKE_FLAGS
 ../test/blackbox.php.sh
