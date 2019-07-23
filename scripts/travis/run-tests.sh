@@ -2,55 +2,17 @@
 
 set -e
 
-MAKE_FLAGS="-j2"
-
-[[ ":$PATH:" == *":/usr/local/bin:"* ]] || export PATH="/usr/local/bin:$PATH"
-
-hash sudo >/dev/null 2>&1 || {
-  apt-get update -q
-  apt-get install -y sudo software-properties-common
-}
-
-hash apt-add-repository >/dev/null 2>&1 || {
-  apt-get update -q
-  apt-get install -y software-properties-common
-}
-
-[[ -d libhext ]] || {
-  apt-get install -y git
-  TMPD=$(mktemp -d)
-  git clone https://github.com/html-extract/hext.git "$TMPD"
-  cd "$TMPD"
-}
-
 HEXTD=$(readlink -f .)
 LIBHEXTD="$HEXTD/libhext"
 LIBHEXTTESTD="$HEXTD/libhext/test"
 LIBHEXTEXAMPLESD="$HEXTD/libhext/examples"
 LIBHEXTBINDINGSD="$HEXTD/libhext/bindings"
 
-sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
 sudo apt-get -q update
-sudo apt-get -q -y install gcc-8 g++-8 cmake libgumbo-dev rapidjson-dev \
-  libboost-regex-dev libboost-program-options-dev libgtest-dev bats jq curl \
-  build-essential libpcre3-dev wget python3-pip
-
-export CC=/usr/bin/gcc-8 CXX=/usr/bin/g++-8
-
-SWIGD=$(mktemp -d)
-cd "$SWIGD"
-SWIG_VERSION="4.0.0"
-SWIG_TARBALL="rel-${SWIG_VERSION}.tar.gz"
-wget "https://github.com/swig/swig/archive/${SWIG_TARBALL}"
-echo "ab5cbf226ec50855aeca08193fbaafe92fe99b2454848b82f444ec96aa246b47  ${SWIG_TARBALL}" | shasum -c
-tar xf "${SWIG_TARBALL}"
-cd */
-./autogen.sh
-./configure --prefix=/usr/local --disable-perl --disable-csharp --disable-r --disable-java
-make $MAKE_FLAGS
-sudo make install
-which swig
-swig -version
+sudo apt-get -q -y install cmake libgumbo-dev rapidjson-dev \
+  libboost-regex-dev libboost-program-options-dev libgtest-dev \
+  bats jq curl build-essential libpcre3-dev wget python3-pip swig \
+  cppcheck
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -60,17 +22,6 @@ cd "$GTESTD"
 cmake -H/usr/src/gtest/ -B.
 make $MAKE_FLAGS
 sudo cp *.a /usr/lib
-
-CPPCHECKD=$(mktemp -d)
-cd "$CPPCHECKD"
-CPPCHECK_TARBALL="1.88.tar.gz"
-wget "https://github.com/danmar/cppcheck/archive/$CPPCHECK_TARBALL"
-echo "4aace0420d6aaa900b84b3329c5173c2294e251d2e24d8cba6e38254333dde3f  ${CPPCHECK_TARBALL}" | shasum -c
-tar xf "${CPPCHECK_TARBALL}"
-cd */
-make MATCHCOMPILER=yes CFGDIR=cfg HAVE_RULES=yes CXXFLAGS="-O2 -DNDEBUG -Wall -Wno-sign-compare -Wno-unused-function" $MAKE_FLAG
-CPPCHECK=$(readlink -f cppcheck)
-$CPPCHECK --version
 
 cd "$LIBHEXTTESTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug ..
@@ -84,17 +35,17 @@ sudo make install
 sudo ldconfig
 
 cd "$HEXTD"
-$CPPCHECK --version
-$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
+cppcheck --version
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
   -I htmlext/htmlext/ build/Version.cpp
-$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
   -I htmlext/htmlext/ htmlext/main.cpp
-$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
   -I htmlext/htmlext/ htmlext/htmlext
-$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
   -I libhext/include build/libhext/Version.cpp
 # false positive: [Parser.cpp.rl:372]: (error) Invalid number of character '{'
-$CPPCHECK --quiet --error-exitcode=1 --enable=warning,portability\
+cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
   -i libhext/src/Parser.cpp -I libhext/include libhext/src
 
 cd "$LIBHEXTEXAMPLESD/build"

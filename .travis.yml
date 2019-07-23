@@ -1,4 +1,4 @@
-dist: xenial
+dist: bionic
 language: generic
 script: scripts/travis/run-tests.sh
 
