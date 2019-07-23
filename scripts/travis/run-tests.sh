@@ -12,7 +12,7 @@ sudo apt-get -q update
 sudo apt-get -q -y install cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev \
   bats jq curl build-essential libpcre3-dev wget python3-pip swig \
-  cppcheck
+  cppcheck php-cli php-dev
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
