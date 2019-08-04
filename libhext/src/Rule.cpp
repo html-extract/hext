@@ -31,6 +31,23 @@ Rule::Rule(HtmlTag tag,
 , tag_(tag)
 , is_optional_(optional)
 , is_greedy_(greedy)
+, tagname_(std::nullopt)
+{
+}
+
+Rule::Rule(std::string tag,
+           bool        optional,
+           bool        greedy) noexcept
+: first_child_(nullptr)
+, next_(nullptr)
+, matches_()
+, captures_()
+, tag_(static_cast<HtmlTag>(gumbo_tag_enum(tag.c_str())))
+, is_optional_(optional)
+, is_greedy_(greedy)
+, tagname_(this->tag_ == HtmlTag::UNKNOWN
+           ? std::optional<std::string>(tag)
+           : std::nullopt)
 {
 }
 
@@ -42,6 +59,7 @@ Rule::Rule(const Rule& other)
 , tag_(other.tag_)
 , is_optional_(other.is_optional_)
 , is_greedy_(other.is_greedy_)
+, tagname_(other.tagname_)
 {
   if( other.first_child_ )
     this->first_child_ = std::make_unique<Rule>(*(other.first_child_));
@@ -150,15 +168,55 @@ Rule& Rule::set_greedy(bool greedy) noexcept
   return *this;
 }
 
+std::optional<std::string> Rule::get_tagname() const
+{
+  return this->tagname_;
+}
+
+Rule& Rule::set_tagname(const std::string& tagname)
+{
+  this->tagname_ = tagname;
+  return *this;
+}
+
 bool Rule::matches(const GumboNode * node) const
 {
   if( !node )
     return false;
 
   if( this->tag_ != HtmlTag::ANY )
-    if( node->type != GUMBO_NODE_ELEMENT ||
-        node->v.element.tag != static_cast<GumboTag>(this->tag_) )
+  {
+    if( node->type != GUMBO_NODE_ELEMENT )
       return false;
+
+    if( node->v.element.tag != static_cast<GumboTag>(this->tag_) )
+      return false;
+
+    if( this->tag_ == HtmlTag::UNKNOWN )
+    {
+      if( !this->tagname_
+          || node->v.element.original_tag.data == nullptr
+          || node->v.element.original_tag.length == 0 )
+        return false;
+
+      GumboStringPiece original_tagname = node->v.element.original_tag;
+      gumbo_tag_from_original_text(&original_tagname);
+
+      if( this->tagname_->size() != original_tagname.length )
+        return false;
+
+      const auto tag_begin = this->tagname_->cbegin();
+      const auto tag_end = this->tagname_->cend();
+      const auto node_tag_begin = original_tagname.data;
+      const auto node_tag_end = original_tagname.data + original_tagname.length;
+
+      const bool tagname_matches = std::equal(tag_begin, tag_end,
+                                              node_tag_begin, node_tag_end);
+
+      if( !tagname_matches )
+        return false;
+    }
+  }
 
   for( const auto& match : this->matches_ )
     if( match && !match->matches(node) )
@@ -233,6 +291,7 @@ void Rule::swap(hext::Rule& other) noexcept
   std::swap(this->tag_, other.tag_);
   std::swap(this->is_optional_, other.is_optional_);
   std::swap(this->is_greedy_, other.is_greedy_);
+  std::swap(this->tagname_, other.tagname_);
 }
 
 

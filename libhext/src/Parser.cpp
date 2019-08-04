@@ -2268,10 +2268,10 @@ void Parser::set_open_tag_or_throw(const std::string& tag_name)
   }
 
   GumboTag tag = gumbo_tag_enum(tag_name.c_str());
+  this->rule_stack_.back().set_tag(static_cast<HtmlTag>(tag));
+
   if( tag == GUMBO_TAG_UNKNOWN )
-    this->throw_invalid_tag(tag_name);
-  else
-    this->rule_stack_.back().set_tag(static_cast<HtmlTag>(tag));
+    this->rule_stack_.back().set_tagname(tag_name);
 }
 
 void Parser::validate_close_tag_or_throw(const std::string& tag_name)
@@ -2280,7 +2280,22 @@ void Parser::validate_close_tag_or_throw(const std::string& tag_name)
     this->throw_unexpected_tag(tag_name, /* expected no tag: */ {});
 
   HtmlTag expected_tag = this->rule_stack_.back().get_tag();
-  if( tag_name.size() == 1 && tag_name[0] == '*' )
+  if( expected_tag == HtmlTag::UNKNOWN )
+  {
+    const auto expected_tagname = this->rule_stack_.back().get_tagname();
+
+    if( !expected_tagname )
+    {
+      assert(false);
+      this->throw_unexpected_tag(tag_name, HtmlTag::UNKNOWN);
+    }
+    else if( expected_tagname != tag_name )
+    {
+      this->throw_unexpected_tag(
+          tag_name, HtmlTag::UNKNOWN, expected_tagname);
+    }
+  }
+  else if( tag_name.size() == 1 && tag_name[0] == '*' )
   {
     if( expected_tag != HtmlTag::ANY )
       this->throw_unexpected_tag(tag_name, expected_tag);
@@ -2309,17 +2324,6 @@ void Parser::throw_unexpected() const
 
   if( this->p && this->pe )
     this->print_error_location(this->p, /* mark_len: */ 1, error_msg);
-
-  throw SyntaxError(error_msg.str());
-}
-
-void Parser::throw_invalid_tag(const std::string& tag) const
-{
-  std::stringstream error_msg;
-  error_msg << "Unknown HTML tag '" << tag << "' ";
-
-  auto unexpected_char = this->p - 1;
-  this->print_error_location(unexpected_char, tag.size(), error_msg);
 
   throw SyntaxError(error_msg.str());
 }
@@ -2361,7 +2365,8 @@ void Parser::throw_missing_tag(HtmlTag missing) const
 
 void Parser::throw_unexpected_tag(
   const std::string& tag,
-  std::optional<HtmlTag> expected
+  std::optional<HtmlTag> expected,
+  std::optional<std::string> expected_tagname
 ) const
 {
   std::stringstream error_msg;
@@ -2369,7 +2374,13 @@ void Parser::throw_unexpected_tag(
             << tag
             << ">'";
 
-  if( expected )
+  if( expected_tagname )
+  {
+    error_msg << ", expected '</"
+              << *expected_tagname
+              << ">'";
+  }
+  else if( expected )
   {
     error_msg << ", expected '</"
               << ( *expected == HtmlTag::ANY

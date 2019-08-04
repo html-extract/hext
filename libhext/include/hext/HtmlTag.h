@@ -327,6 +327,8 @@ enum class HtmlTag : int
   TT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rtc
   RTC,
+  /// Unknown (i.e. non-standard) tag
+  UNKNOWN,
 
   /// Any html tag.
   ANY = 512 // leave room for future html tags

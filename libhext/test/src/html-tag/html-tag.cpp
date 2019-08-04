@@ -168,6 +168,7 @@ TEST(HtmlTag_HtmlTag, EqualsGumboTag)
   EXPECT_EQ(static_cast<int>(HtmlTag::SPACER), static_cast<int>(GUMBO_TAG_SPACER));
   EXPECT_EQ(static_cast<int>(HtmlTag::TT), static_cast<int>(GUMBO_TAG_TT));
   EXPECT_EQ(static_cast<int>(HtmlTag::RTC), static_cast<int>(GUMBO_TAG_RTC));
+  EXPECT_EQ(static_cast<int>(HtmlTag::UNKNOWN), static_cast<int>(GUMBO_TAG_UNKNOWN));
 
   EXPECT_EQ(static_cast<int>(HtmlTag::ANY), 512);
 }

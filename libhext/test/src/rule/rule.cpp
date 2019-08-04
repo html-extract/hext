@@ -63,19 +63,23 @@ TEST(Rule_Rule, SettersGetters)
 
   // defaults
   EXPECT_EQ(r.get_tag(), HtmlTag::ANY);
+  EXPECT_EQ(r.get_tagname(), std::nullopt);
   EXPECT_EQ(r.is_optional(), false);
   EXPECT_EQ(r.is_greedy(), false);
 
   auto copy = r;
 
   r.set_tag(HtmlTag::SPAN);
+  r.set_tagname("span");
   r.set_optional(true);
   r.set_greedy(true);
   EXPECT_EQ(r.get_tag(), HtmlTag::SPAN);
+  EXPECT_EQ(r.get_tagname(), std::string("span"));
   EXPECT_EQ(r.is_optional(), true);
   EXPECT_EQ(r.is_greedy(), true);
 
   EXPECT_EQ(copy.get_tag(), HtmlTag::ANY);
+  EXPECT_EQ(copy.get_tagname(), std::nullopt);
   EXPECT_EQ(copy.is_optional(), false);
   EXPECT_EQ(copy.is_greedy(), false);
 }
@@ -84,13 +88,13 @@ TEST(Rule_Rule, Copy)
 {
   THtml h("<a href='/page' class='link'>"
             "<img src='/img.png'/>"
-            "<span>Page</span>"
+            "<custom-tag>Page</custom-tag>"
           "</a>");
 
   // A rule tree that will produce capture groups with four results
   auto right = ParseHext("<a href^='/' class:type href:link >"   // 2 results
                            "<img src:img />"                     // 1 result
-                           "<span @text:link_name />"            // 1 result
+                           "<custom-tag @text:link_name />"      // 1 result
                          "</a>");
 
   ASSERT_TRUE(right.matches(h.first()));
@@ -107,5 +111,81 @@ TEST(Rule_Rule, Copy)
   auto result = left.extract(h.root());
   ASSERT_EQ(result.size(), 1);
   EXPECT_EQ(result.front().size(), 4);
+}
+
+TEST(Rule_Rule, TagNameIsConvertedToTag)
+{
+  Rule not_really_custom("img");
+  EXPECT_EQ(not_really_custom.get_tag(), HtmlTag::IMG);
+  EXPECT_FALSE(not_really_custom.get_tagname());
+
+  Rule not_really_custom_ci("dIv");
+  EXPECT_EQ(not_really_custom_ci.get_tag(), HtmlTag::DIV);
+  EXPECT_FALSE(not_really_custom_ci.get_tagname());
+}
+
+TEST(Rule_Rule, MatchesCustomTags)
+{
+  Rule custom("yt-formatted-string");
+  custom.append_match<AttributeMatch>("href")
+        .append_capture<AttributeCapture>("href", "link");
+  {
+    Rule image("images");
+    image.append_capture<AttributeCapture>("src", "img");
+    custom.append_child(std::move(image));
+  }
+
+  // <yt-formatted-string href:link><images src:img/></yt-formatted-string>
+  Html html(
+    "<html><body>"
+      "<div>"
+        "<yt-formatted-string href='/bob'>"
+          "<images src='bob.jpg' />"
+        "</yt-formatted-string>"
+      "</div>"
+      "<div>"
+        "<yt-formatted-string href='/alice'>"
+          "<images src='alice.jpg' />"
+        "</yt-formatted-string>"
+      "</div>"
+      "<div>"
+        "<yt-formatted-string href='/carol'>"
+          "<images src='carol.jpg' />"
+        "</yt-formatted-string>"
+      "</div>"
+    "</body></html>");
+
+  Result result = custom.extract(html);
+
+  Result expected = {
+    {
+      {"link", "/bob"},
+      {"img", "bob.jpg"}
+    },
+    {
+      {"link", "/alice"},
+      {"img", "alice.jpg"}
+    },
+    {
+      {"link", "/carol"},
+      {"img", "carol.jpg"}
+    }
+  };
+
+  EXPECT_EQ(result, expected);
+}
+
+TEST(Rule_Rule, EmptyTagNameDoesNotMatch)
+{
+  Rule empty("");
+  empty.append_capture<AttributeCapture>("class", "y");
+
+  Html html(
+    "<html><body class='y'>"
+      "<div class='y'></div>"
+    "</body></html>");
+
+  Result result = empty.extract(html);
+  EXPECT_EQ(result.size(), 0);
 }
 

@@ -279,5 +279,10 @@ TEST(Rule_RuleMatching, FindMandatoryRule)
     EXPECT_EQ(FindMandatoryRule(&rule, nullptr), &rule);
     EXPECT_EQ(FindMandatoryRule(rule.next(), nullptr), rule.next()->next());
   }
+  {
+    auto rule = ParseHext("<a/><?b/><custom-tag/>");
+    EXPECT_EQ(FindMandatoryRule(&rule, nullptr), &rule);
+    EXPECT_EQ(FindMandatoryRule(rule.next(), nullptr), rule.next()->next());
+  }
 }
 

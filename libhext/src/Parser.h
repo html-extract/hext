@@ -84,12 +84,6 @@ private:
   [[noreturn]]
   void throw_unexpected() const;
 
-  /// Throws SyntaxError with an error message marking an invalid HTML tag.
-  ///
-  /// @param tag:  A string containing the name of an invalid HTML tag.
-  [[noreturn]]
-  void throw_invalid_tag(const std::string& tag) const;
-
   /// Throws SyntaxError with an error message marking an invalid regular
   /// expression.
   ///
@@ -108,12 +102,16 @@ private:
 
   /// Throws SyntaxError with an error message marking an invalid closing tag.
   ///
-  /// @param      tag: A string containing the invalid HTML closing tag.
-  /// @param expected: The next expected closing HtmlTag. If empty, a closing
-  ///                  tag was given but none expected.
+  /// @param              tag:  A string containing the invalid HTML closing
+  ///                           tag.
+  /// @param         expected:  The next expected closing HtmlTag. If empty, a
+  ///                           closing tag was given but none expected.
+  /// @param expected_tagname:  The next expected closing custom tag name.
   [[noreturn]]
-  void throw_unexpected_tag(const std::string&     tag,
-                            std::optional<HtmlTag> expected) const;
+  void throw_unexpected_tag(
+      const std::string&         tag,
+      std::optional<HtmlTag>     expected,
+      std::optional<std::string> expected_tagname = std::nullopt) const;
 
   /// Prints an error at the current location within hext. Prints hext with line
   /// numbers up to the unexpected character.

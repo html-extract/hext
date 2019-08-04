@@ -27,6 +27,8 @@
 
 #include <cstddef>
 #include <memory>
+#include <optional>
+#include <string>
 #include <vector>
 
 #include <gumbo.h>
@@ -86,7 +88,7 @@ namespace hext {
 class HEXT_PUBLIC Rule
 {
 public:
-  /// Constructs a Rule.
+  /// Constructs a Rule with a known HTML tag.
   ///
   /// @param       tag:  The HtmlTag that this rule matches.
   ///                    Default: Match any tag.
@@ -100,6 +102,23 @@ public:
   explicit Rule(HtmlTag tag      = HtmlTag::ANY,
                 bool    optional = false,
                 bool    greedy   = false) noexcept;
+
+  /// Constructs a Rule with the HTML tag given as a string.
+  ///
+  /// @param       tag:  The HTML tagname that this rule matches.
+  ///                    Custom/unknown HTML tags are allowed.
+  ///                    If the tagname is a standard-HTML tag, it is converted
+  ///                    to an HtmlTag.
+  /// @param  optional:  A subtree matches only if all mandatory rules were
+  ///                    matched. Optional rules on the other hand are ignored
+  ///                    if not found.
+  ///                    Default: Rule is mandatory.
+  /// @param    greedy:  Whether this rule should be repeated once a match is
+  ///                    found.
+  ///                    Default: Rule is matched once.
+  explicit Rule(std::string tag,
+                bool        optional = false,
+                bool        greedy   = false) noexcept;
 
   ~Rule() noexcept = default;
   Rule(Rule&&) noexcept = default;
@@ -189,6 +208,18 @@ public:
   /// @returns  A reference for this Rule to enable method chaining.
   Rule& set_greedy(bool greedy) noexcept;
 
+  /// Get custom HTML tag name.
+  ///
+  /// @returns  Empty optional if no custom HTML tag name.
+  std::optional<std::string> get_tagname() const;
+
+  /// Set custom HTML tag name.
+  ///
+  /// @note     The HTML tag name is only matched if this Rule's HtmlTag equals
+  ///           HtmlTag::UNKNOWN.
+  /// @returns  A reference for this Rule to enable method chaining.
+  Rule& set_tagname(const std::string& tagname);
+
   /// Recursively extracts values from an hext::HTML.
   ///
   /// @returns  A vector containing maps filled with the captured
@@ -222,6 +253,7 @@ private:
   HtmlTag tag_;
   bool is_optional_;
   bool is_greedy_;
+  std::optional<std::string> tagname_;
 };
 
 
