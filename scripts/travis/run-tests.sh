@@ -93,5 +93,4 @@ echo "### This error is deliberate:"
 node ./htmlext.js && exit 2
 npm install hext
 node ./htmlext.js
-HTMLEXT="node ./htmlext.js" ./blackbox.sh case/*hext
 
