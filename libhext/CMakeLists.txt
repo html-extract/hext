@@ -4,7 +4,7 @@
 # https://cmake.org/cmake/help/latest/policy/CMP0048.html
 cmake_policy(SET CMP0048 NEW)
 
-project(Hext VERSION 0.8.2)
+project(Hext VERSION 0.8.3)
 
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
