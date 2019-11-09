@@ -1,4 +1,4 @@
-// Copyright 2015,2016 Thomas Trapp
+// Copyright 2019 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,6 +57,10 @@ void SerializeAttribute(const GumboAttribute& a, std::ostringstream& os);
 
 /// Serializes GumboElement to string and appends it to os.
 void SerializeElement(const GumboElement& e, std::ostringstream& os);
+
+
+/// Serializes a GumboElement's tag to string and appends it to os.
+void SerializeElementTag(const GumboElement& e, std::ostringstream& os);
 
 
 /// Returns true if HTML tag is a tag for a "void element".

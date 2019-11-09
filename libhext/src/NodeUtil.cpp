@@ -18,6 +18,7 @@
 #include <cstddef>
 #include <iomanip>
 #include <iterator>
+#include <string_view>
 
 
 namespace hext {
@@ -160,7 +161,8 @@ void SerializeAttribute(const GumboAttribute& a, std::ostringstream& os)
 
 void SerializeElement(const GumboElement& e, std::ostringstream& os)
 {
-  os << '<' << gumbo_normalized_tagname(e.tag);
+  os << '<';
+  SerializeElementTag(e, os);
 
   const GumboVector& attributes = e.attributes;
   for(unsigned int i = 0; i < attributes.length; ++i)
@@ -180,11 +182,27 @@ void SerializeElement(const GumboElement& e, std::ostringstream& os)
       SerializeNode(*child_node, os);
     }
 
-    os << "</" << gumbo_normalized_tagname(e.tag) << '>';
+    os << "</";
+    SerializeElementTag(e, os);
+    os << '>';
   }
   else
   {
     os << "/>";
+  }
+}
+
+void SerializeElementTag(const GumboElement& e, std::ostringstream& os)
+{
+  if( e.tag == GUMBO_TAG_UNKNOWN )
+  {
+    GumboStringPiece tagname = e.original_tag;
+    gumbo_tag_from_original_text(&tagname);
+    os << std::string_view(tagname.data, tagname.length);
+  }
+  else
+  {
+    os << gumbo_normalized_tagname(e.tag);
   }
 }
 
