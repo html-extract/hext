@@ -1,4 +1,4 @@
-// Copyright 2015,2016 Thomas Trapp
+// Copyright 2019 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -169,7 +169,7 @@ void SerializeElement(const GumboElement& e, std::ostringstream& os)
     SerializeAttribute(*attribute, os);
   }
 
-  if( TagIsSelfClosing(e.tag) )
+  if( !TagIsSelfClosing(e.tag) )
   {
     os << '>';
 
@@ -207,9 +207,9 @@ bool TagIsSelfClosing(GumboTag tag) noexcept
     case GUMBO_TAG_SOURCE:
     case GUMBO_TAG_TRACK:
     case GUMBO_TAG_WBR:
-      return false;
-    default:
       return true;
+    default:
+      return false;
   }
 
   assert(false);
