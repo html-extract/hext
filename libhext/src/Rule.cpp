@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2019 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -205,13 +205,12 @@ bool Rule::matches(const GumboNode * node) const
       if( this->tagname_->size() != original_tagname.length )
         return false;
 
-      const auto tag_begin = this->tagname_->cbegin();
-      const auto tag_end = this->tagname_->cend();
-      const auto node_tag_begin = original_tagname.data;
-      const auto node_tag_end = original_tagname.data + original_tagname.length;
+      GumboStringPiece this_tagname;
+      this_tagname.data = this->tagname_->data();
+      this_tagname.length = this->tagname_->size();
 
-      const bool tagname_matches = std::equal(tag_begin, tag_end,
-                                              node_tag_begin, node_tag_end);
+      const bool tagname_matches =
+        gumbo_string_equals_ignore_case(&this_tagname, &original_tagname);
 
       if( !tagname_matches )
         return false;
