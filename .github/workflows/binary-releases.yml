@@ -33,3 +33,19 @@ jobs:
       with:
         name: node-releases
         path: scripts/build-hext-npm/output
+  python_test:
+    name: Python test
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/pypa/manylinux1_x86_64
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: actions/download-artifact@v1
+      with:
+        name: python-releases
+        path: scripts/python-pip-test/wheels
+    - name: "Test"
+      run: |
+        bash $GITHUB_WORKSPACE/scripts/python-pip-test/python-pip-test.sh
