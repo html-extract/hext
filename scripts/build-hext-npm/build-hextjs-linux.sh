@@ -4,6 +4,7 @@ set -e
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
+HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
 [[ -d "$OUTD" ]] || perror_exit "cannot access output directory (expected '$OUTD')"
 
@@ -18,8 +19,6 @@ hash node 2>/dev/null || {
 }
 
 
-HEXTD=$(mktemp -d)
-git clone "https://github.com/html-extract/hext.git" "$HEXTD"
 LIBHEXTD="$HEXTD/libhext"
 
 

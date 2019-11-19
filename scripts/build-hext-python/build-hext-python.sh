@@ -9,13 +9,11 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 [[ ":$PATH:" == *":/usr/local/bin:"* ]] || export PATH="/usr/local/bin:$PATH"
 export CC=/usr/local/bin/gcc CXX=/usr/local/bin/g++
 
+HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 ASSETD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/assets"
 [[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
 OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
 [[ -d "$OUTD" ]] || perror_exit "cannot access output directory (expected '$OUTD')"
-
-HEXTD=$(mktemp -d)
-git clone "https://github.com/html-extract/hext.git" "$HEXTD"
 
 LIBHEXTD="$HEXTD/libhext"
 cd "$LIBHEXTD/test/build"
