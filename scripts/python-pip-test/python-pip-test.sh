@@ -12,8 +12,7 @@ USE_PYPI=false
   [[ -d "$WHEELD" ]] || perror_exit "cannot access wheels directory (expected '$WHEELD')"
 }
 
-HEXTD=$(mktemp -d)
-git clone "https://github.com/html-extract/hext.git" "$HEXTD"
+HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 
 HTMLEXTPY="$HEXTD/libhext/bindings/python/htmlext.py"
 [[ -f "$HTMLEXTPY" ]] || perror_exit "cannot access htmlext.py (expected '$HTMLEXTPY')"
