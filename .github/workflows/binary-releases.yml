@@ -13,7 +13,7 @@ jobs:
     - name: "Build"
       run: |
         bash $GITHUB_WORKSPACE/scripts/build-hext-python/build-hext-python.sh
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v1
       with:
         name: python-releases
         path: scripts/build-hext-python/output
@@ -29,7 +29,7 @@ jobs:
     - name: "Build"
       run: |
         bash $GITHUB_WORKSPACE/scripts/build-hext-npm/build-hextjs-linux.sh
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v1
       with:
         name: node-releases
         path: scripts/build-hext-npm/output
