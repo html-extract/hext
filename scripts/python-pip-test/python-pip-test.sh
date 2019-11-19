@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
