@@ -1,0 +1,35 @@
+on: [push]
+
+jobs:
+  python_releases:
+    name: Python releases
+    runs-on: ubuntu-latest
+    container:
+      image: thomastrapp/static-build-env
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: "Build"
+      run: |
+        bash $GITHUB_WORKSPACE/scripts/build-hext-python/build-hext-python.sh
+    - uses: actions/upload-artifact@master
+      with:
+        name: python-releases
+        path: scripts/build-hext-python/output
+  node_releases:
+    name: Node releases
+    runs-on: ubuntu-latest
+    container:
+      image: thomastrapp/static-build-env-jessie
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: "Build"
+      run: |
+        bash $GITHUB_WORKSPACE/scripts/build-hext-npm/build-hextjs-linux.sh
+    - uses: actions/upload-artifact@master
+      with:
+        name: node-releases
+        path: scripts/build-hext-npm/output
