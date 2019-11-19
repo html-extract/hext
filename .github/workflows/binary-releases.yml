@@ -35,6 +35,7 @@ jobs:
         path: scripts/build-hext-npm/output
   python_test:
     name: Python test
+    needs: python_releases
     runs-on: ubuntu-latest
     container:
       image: quay.io/pypa/manylinux1_x86_64
