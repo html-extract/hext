@@ -29,10 +29,10 @@ jobs:
     - name: Build
       run: bash $GITHUB_WORKSPACE/scripts/build-hext-npm/build-hextjs-linux.sh
     - name: Bundle
-      run: |
+      run: >
         bash $GITHUB_WORKSPACE/scripts/build-hext-npm/bundle-hextjs-npm-package.sh
           $GITHUB_WORKSPACE/scripts/build-hext-npm/package
-          $GITHUB_WORKSPACE/scripts/build-hext-npm/output/*node"
+          $GITHUB_WORKSPACE/scripts/build-hext-npm/output/*node
     - uses: actions/upload-artifact@v1
       with:
         name: node-releases
