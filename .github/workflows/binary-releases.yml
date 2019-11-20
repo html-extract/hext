@@ -68,6 +68,10 @@ jobs:
       with:
         name: node-releases
         path: rls
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
     - name: Run tests
       shell: bash
       run: >
