@@ -7,20 +7,26 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: thomastrapp/static-build-env
+    env:
+      WHEEL_OUT: scripts/build-hext-python/output
     steps:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: "Build"
-      run: bash $GITHUB_WORKSPACE/scripts/build-hext-python/build-hext-python.sh
+    - name: Build
+      run: ./scripts/build-hext-python/build-hext-python.sh
+    - name: Remove .gitignore
+      run: rm ${{ env.WHEEL_OUT }}/.gitignore
     - uses: actions/upload-artifact@v1
       with:
-        name: python-wheels
-        path: scripts/build-hext-python/output
+        name: hext-python-wheels-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+    - name: Prepare upload
+      run: mkdir upload && cp /usr/local/bin/htmlext upload/
     - uses: actions/upload-artifact@v1
       with:
-        name: htmlext-static-binary-x86_64
-        file: /usr/local/bin/htmlext
+        name: htmlext-static-binary-x86_64-${{ github.sha }}
+        path: upload
   node_releases:
     name: Node
     runs-on: ubuntu-latest
@@ -31,15 +37,15 @@ jobs:
       with:
         fetch-depth: 1
     - name: Build
-      run: bash $GITHUB_WORKSPACE/scripts/build-hext-npm/build-hextjs-linux.sh
+      run: ./scripts/build-hext-npm/build-hextjs-linux.sh
     - name: Bundle
       run: >
-        bash $GITHUB_WORKSPACE/scripts/build-hext-npm/bundle-hextjs-npm-package.sh
-        $GITHUB_WORKSPACE/scripts/build-hext-npm/package
-        $GITHUB_WORKSPACE/scripts/build-hext-npm/output/*node
+        ./scripts/build-hext-npm/bundle-hextjs-npm-package.sh
+        scripts/build-hext-npm/package
+        scripts/build-hext-npm/output/*node
     - uses: actions/upload-artifact@v1
       with:
-        name: npm-package
+        name: hext-node-npm-${{ github.sha }}
         path: scripts/build-hext-npm/package
   python_test:
     name: Python Test
@@ -53,10 +59,10 @@ jobs:
         fetch-depth: 1
     - uses: actions/download-artifact@v1
       with:
-        name: python-wheels
+        name: hext-python-wheels-${{ github.sha }}
         path: scripts/python-pip-test/wheels
     - name: Pip install and test
-      run: bash $GITHUB_WORKSPACE/scripts/python-pip-test/python-pip-test.sh
+      run: ./scripts/python-pip-test/python-pip-test.sh
   node_test:
     needs: node_releases
     runs-on: ubuntu-latest
@@ -70,7 +76,7 @@ jobs:
         fetch-depth: 1
     - uses: actions/download-artifact@v1
       with:
-        name: npm-package
+        name: hext-node-npm-${{ github.sha }}
         path: rls
     - name: Setup node
       uses: actions/setup-node@v1
@@ -80,7 +86,7 @@ jobs:
       shell: bash
       run: >
         node --version
-        && cd $GITHUB_WORKSPACE/test
+        && cd test
         && npm install ../rls
         && cp ../libhext/bindings/nodejs/htmlext.js .
         && HTMLEXT="node htmlext.js" ./blackbox.sh case/*hext
