@@ -17,6 +17,10 @@ jobs:
       with:
         name: python-releases
         path: scripts/build-hext-python/output
+    - uses: actions/upload-artifact@v1
+      with:
+        name: htmlext-static-binary-x86_64
+        file: /usr/local/bin/htmlext
   node_releases:
     name: Node
     runs-on: ubuntu-latest
