@@ -1,3 +1,4 @@
+name: Hext Releases for Linux
 on: [push]
 
 jobs:
