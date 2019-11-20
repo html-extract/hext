@@ -53,3 +53,26 @@ jobs:
         path: scripts/python-pip-test/wheels
     - name: Pip install and test
       run: bash $GITHUB_WORKSPACE/scripts/python-pip-test/python-pip-test.sh
+  node_test:
+    needs: node_releases
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '8', '10', '11', '12' ]
+    name: Node v${{ matrix.node }} Test
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: actions/download-artifact@v1
+      with:
+        name: node-releases
+        path: rls
+    - name: Run tests
+      shell: bash
+      run: >
+        node --version
+        && cd $GITHUB_WORKSPACE/test
+        && npm install ../rls
+        && cp ../libhext/bindings/nodejs/htmlext.js .
+        && HTMLEXT="node htmlext.js" ./blackbox.sh case/*hext
