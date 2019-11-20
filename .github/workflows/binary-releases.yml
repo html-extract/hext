@@ -22,7 +22,10 @@ jobs:
         name: hext-python-wheels-${{ github.sha }}
         path: ${{ env.WHEEL_OUT }}
     - name: Prepare upload
-      run: mkdir upload && cp /usr/local/bin/htmlext upload/
+      run: |
+        mkdir upload
+        cp /usr/local/bin/htmlext upload/
+        strip --strip-unneeded upload/htmlext
     - uses: actions/upload-artifact@v1
       with:
         name: htmlext-static-binary-x86_64-${{ github.sha }}
