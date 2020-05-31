@@ -27,6 +27,31 @@
 %include "std_vector.i"
 %include "std_string.i"
 
+
+%inline %{
+
+
+namespace {
+
+
+struct ScopedPyObject
+{
+  explicit ScopedPyObject(PyObject * object) noexcept
+  : obj(object)
+  {}
+
+  ~ScopedPyObject() noexcept { Py_DECREF(this->obj); }
+
+  PyObject * obj;
+};
+
+
+} // namespace
+
+
+%} // %inline
+
+
 // Convert vector of multimaps to list of dicts
 %typemap(out) std::vector<std::multimap<std::string, std::string>>
 {
@@ -36,8 +61,8 @@
 
   for(const auto& map : *(&$1))
   {
-    PyObject * dict = PyDict_New();
-    if( !dict )
+    ScopedPyObject dict(PyDict_New());
+    if( !dict.obj )
       SWIG_exception(SWIG_RuntimeError, "PyDict_New returned nullptr");
 
     auto it = map.cbegin();
@@ -45,39 +70,51 @@
     {
       if( map.count(it->first) < 2 )
       {
-        PyObject * value = PyString_FromString(it->second.c_str());
-        if( !value )
+        ScopedPyObject value(PyString_FromString(it->second.c_str()));
+        if( !value.obj )
           SWIG_exception(SWIG_RuntimeError,
               "PyString_FromString returned nullptr");
-        if( PyDict_SetItemString(dict, it->first.c_str(), value) )
+
+        // does not steal a reference to value
+        if( PyDict_SetItemString(dict.obj, it->first.c_str(), value.obj) )
           SWIG_exception(SWIG_RuntimeError,
               "PyDict_SetItemString returned != 0");
+
         ++it;
       }
       else
       {
-        PyObject * list = PyList_New(0);
-          if( !list )
-            SWIG_exception(SWIG_RuntimeError, "PyList_New returned nullptr");
+        ScopedPyObject list(PyList_New(0));
+        if( !list.obj )
+          SWIG_exception(SWIG_RuntimeError, "PyList_New returned nullptr");
+
         auto lower = map.lower_bound(it->first);
         auto upper = map.upper_bound(it->first);
         for(; lower != upper; ++lower)
         {
-          PyObject * value = PyString_FromString(lower->second.c_str());
-          if( !value )
+          // Swig defines PyString_FromString, which forwards to
+          // PyUnicode_FromString
+          ScopedPyObject value(PyString_FromString(lower->second.c_str()));
+          if( !value.obj )
             SWIG_exception(SWIG_RuntimeError,
                 "PyString_FromString returned nullptr");
-          if( PyList_Append(list, value) )
+
+          // does not steal a reference to value
+          if( PyList_Append(list.obj, value.obj) )
             SWIG_exception(SWIG_RuntimeError, "PyList_Append returned != 0");
         }
-        if( PyDict_SetItemString(dict, it->first.c_str(), list) )
+
+        // does not steal a reference to list
+        if( PyDict_SetItemString(dict.obj, it->first.c_str(), list.obj) )
           SWIG_exception(SWIG_RuntimeError,
               "PyDict_SetItemString returned != 0");
+
         it = upper;
       }
     }
 
-    if( PyList_Append($result, dict) )
+    // does not steal a reference to dict
+    if( PyList_Append($result, dict.obj) )
       SWIG_exception(SWIG_RuntimeError, "PyList_Append returned != 0");
   }
 }
