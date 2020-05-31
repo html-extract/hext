@@ -64,7 +64,7 @@ cmake ..
 make $MAKE_FLAGS
 ../test/blackbox.py.sh
 pip3 --version
-pip3 install pytest pympler
+pip3 install pytest
 PYTHONPATH=. pytest ../pytest
 
 cd "$LIBHEXTBINDINGSD/php/build"

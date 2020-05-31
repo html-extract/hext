@@ -23,7 +23,7 @@
 
 import hext
 import pytest
-from pympler import muppy
+import gc
 
 def test_html_accepts_unicode_str():
     html = hext.Html(u"<html><body>💩</body></html>");
@@ -69,7 +69,10 @@ def no_side_effect():
     assert len(result[0]['x']) is 3
 
 def test_rule_extract_discards_temp_memory():
-    obj_cnt = len(muppy.get_objects())
+    obj_cnt1 = 0
+    obj_cnt2 = 0
+    obj_cnt1 = len(gc.get_objects())
     no_side_effect()
-    assert len(muppy.get_objects()) == obj_cnt
+    obj_cnt2 = len(gc.get_objects())
+    assert obj_cnt1 == obj_cnt2
 

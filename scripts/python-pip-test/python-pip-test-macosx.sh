@@ -44,7 +44,7 @@ for i in "$PYTHON_BUILDS_DIR/"cp* ; do
   V=$(basename $i)
 
   PIP="$i/bin/pip"
-  $PIP install pytest pympler
+  $PIP install pytest
 
   PYTHON="$i/bin/python"
   HTMLEXT="$PYTHON $HTMLEXTPY" "$BLACKBOXSH" "$BLACKBOXCASED"/*hext
