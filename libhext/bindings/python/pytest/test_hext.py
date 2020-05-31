@@ -23,6 +23,7 @@
 
 import hext
 import pytest
+from pympler import muppy
 
 def test_html_accepts_unicode_str():
     html = hext.Html(u"<html><body>💩</body></html>");
@@ -51,4 +52,24 @@ def test_rule_extracts_empty_list():
     result = rule.extract(html)
     assert type(result) is list
     assert len(result) is 0
+
+# https://github.com/html-extract/hext/issues/17
+def no_side_effect():
+    rule = hext.Rule("<div id:id><a href:x /></div>")
+    html = hext.Html("""
+        <div id="div">
+            <a href="one.html">  <img src="one.jpg" />  </a>
+            <a href="two.html">  <img src="two.jpg" />  </a>
+            <a href="three.html"><img src="three.jpg" /></a>
+        </div>""")
+    result = rule.extract(html)
+    assert type(result) is list
+    assert len(result) is 1
+    assert len(result[0]) is 2
+    assert len(result[0]['x']) is 3
+
+def test_rule_extract_discards_temp_memory():
+    obj_cnt = len(muppy.get_objects())
+    no_side_effect()
+    assert len(muppy.get_objects()) == obj_cnt
 

@@ -38,7 +38,7 @@ for i in /opt/python/cp* ; do
   V=$(basename $i)
 
   PIP=$(readlink -f /opt/python/$V/bin/pip)
-  $PIP install pytest
+  $PIP install pytest pympler
 
   PYTHON="$(readlink -f /opt/python/$V/bin/python)"
   HTMLEXT="$PYTHON $HTMLEXTPY" "$BLACKBOXSH" "$BLACKBOXCASED"/*hext
