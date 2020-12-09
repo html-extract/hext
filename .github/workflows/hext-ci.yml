@@ -1,0 +1,14 @@
+name: Hext CI
+on: [push, pull_request]
+
+jobs:
+  hext_ci:
+    name: Hext CI
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Run
+      run: ./scripts/hext-ci/hext-ci.sh
+

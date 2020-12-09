@@ -11,17 +11,26 @@ LIBHEXTBINDINGSD="$HEXTD/libhext/bindings"
 sudo apt-get -q update
 sudo apt-get -q -y install cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev \
-  bats jq curl build-essential libpcre3-dev wget python3-pip swig \
-  cppcheck php-cli php-dev
+  jq curl build-essential libpcre3-dev wget swig \
+  cppcheck php-cli php-dev ruby ruby-dev
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
+
+BATSD=$(mktemp -d)
+cd "$BATSD"
+BATS_RELEASE="v0.4.0.tar.gz"
+wget "https://github.com/bats-core/bats-core/archive/$BATS_RELEASE"
+sha256sum -c <(echo "e3b65b50a26e3f0c33b5d0a57d74101acf096e39473294d4840635ca6206fec7 $BATS_RELEASE")
+tar xvf "$BATS_RELEASE"
+cd */
+sudo ./install.sh /usr/local
 
 GTESTD=$(mktemp -d)
 cd "$GTESTD"
 cmake -H/usr/src/gtest/ -B.
 make $MAKE_FLAGS
-sudo cp *.a /usr/lib
+sudo cp $(find . -iname "*libgtest*.a") /usr/lib
 
 cd "$LIBHEXTTESTD/build"
 cmake -DCMAKE_BUILD_TYPE=Debug ..
@@ -63,12 +72,12 @@ cd "$LIBHEXTBINDINGSD/python/build"
 cmake ..
 make $MAKE_FLAGS
 ../test/blackbox.py.sh
-pip3 --version
-pip3 install pytest
+pip --version
+export PATH="/home/runner/.local/bin:$PATH"
+pip install pytest
 PYTHONPATH=. pytest ../pytest
 
 cd "$LIBHEXTBINDINGSD/php/build"
-phpenv global system
 cmake ..
 make $MAKE_FLAGS
 ../test/blackbox.php.sh
@@ -79,6 +88,8 @@ make $MAKE_FLAGS
 ../test/blackbox.rb.sh
 
 cd "$LIBHEXTBINDINGSD/nodejs"
+# protect against CI env by prioritizing system installed node
+export PATH="/usr/bin:$PATH"
 npm install
 npx -s /bin/bash cmake-js --runtime=node --runtime-version=12.0.0 build
 ./test/blackbox.js.sh
