@@ -30,6 +30,9 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 [[ -f "$blacksh" ]] || perror_exit "Cannot find blackbox.sh (tried '$blacksh')"
 [[ -d "$casedir" ]] || perror_exit "Cannot find test cases (tried '$casedir')"
 
-export HTMLEXT="nodejs $htmlext"
+NODEJS=nodejs
+hash $NODEJS >/dev/null 2>&1 || NODEJS="node"
+
+export HTMLEXT="$NODEJS $htmlext"
 "$blacksh" "$casedir"/*.hext
 
