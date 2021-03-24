@@ -14,6 +14,7 @@ THREADS=3
 
 
 hash node 2>/dev/null || {
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
   curl -sL https://deb.nodesource.com/setup_10.x | bash - 
   apt-get install -y nodejs
 }
