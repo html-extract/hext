@@ -13,6 +13,10 @@ USE_PYPI=false
 }
 
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
+[[ -d "$HEXTD/libhext" ]] || {
+  HEXTD=$(mktemp -d)
+  git clone "https://github.com/html-extract/hext.git" "$HEXTD"
+}
 
 HTMLEXTPY="$HEXTD/libhext/bindings/python/htmlext.py"
 [[ -f "$HTMLEXTPY" ]] || perror_exit "cannot access htmlext.py (expected '$HTMLEXTPY')"
