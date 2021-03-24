@@ -5,7 +5,7 @@ docker run \
   -it \
   --name hext-test \
   --mount type=bind,src="$(pwd)",target=/build \
-  thomastrapp/hext-manylinux2014 \
+  thomastrapp/static-build-env \
   /build/build-hext-python.sh
 ls -lah output/
 ```

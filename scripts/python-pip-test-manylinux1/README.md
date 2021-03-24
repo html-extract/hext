@@ -6,7 +6,7 @@ docker run \
   -it \
   --name hext-test \
   --mount type=bind,src="$(pwd)",target=/test,readonly \
-  quay.io/pypa/manylinux2014_x86_64 \
+  quay.io/pypa/manylinux1_x86_64 \
   /test/python-pip-test.sh
 ```
 
@@ -16,7 +16,7 @@ docker run \
   -it \
   --name hext-test \
   --mount type=bind,src="$(pwd)",target=/test,readonly \
-  quay.io/pypa/manylinux2014_x86_64 \
+  quay.io/pypa/manylinux1_x86_64 \
   /test/python-pip-test.sh use_pypi
 ```
 

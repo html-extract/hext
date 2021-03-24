@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
@@ -12,11 +13,8 @@ USE_PYPI=false
   [[ -d "$WHEELD" ]] || perror_exit "cannot access wheels directory (expected '$WHEELD')"
 }
 
-HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
-[[ -d "$HEXTD/libhext" ]] || {
-  HEXTD=$(mktemp -d)
-  git clone "https://github.com/html-extract/hext.git" "$HEXTD"
-}
+HEXTD=$(mktemp -d)
+git clone "https://github.com/html-extract/hext.git" "$HEXTD"
 
 HTMLEXTPY="$HEXTD/libhext/bindings/python/htmlext.py"
 [[ -f "$HTMLEXTPY" ]] || perror_exit "cannot access htmlext.py (expected '$HTMLEXTPY')"
@@ -25,29 +23,35 @@ BLACKBOXSH="$HEXTD/test/blackbox.sh"
 BLACKBOXCASED="$HEXTD/test/case"
 [[ -d "$BLACKBOXCASED" ]] || perror_exit "cannot access blackbox test case directory (expected '$BLACKBOXCASED')"
 
-for i in /opt/python/cp* ; do
+
+PYTHON_BUILDS_DIR="$HOME/python-build"
+[[ -d "$PYTHON_BUILDS_DIR" ]] || perror_exit "cannot access python build directory (expected '$PYTHON_BUILDS_DIR')"
+for i in "$PYTHON_BUILDS_DIR/"cp* ; do
   V=$(basename $i)
 
-  PIP=$(readlink -f /opt/python/$V/bin/pip)
+  PIP="$i/bin/pip"
   if [[ "$USE_PYPI" = true ]] ; then
     WHEEL="hext"
   else
-    WHEEL=$(readlink -f "$WHEELD"/hext-?.?.?-"$V"-manylinux2014_x86_64.whl)
+    WHEEL="$WHEELD"/hext-?.?.?-"$V"-*.whl
   fi
-  $PIP install "$WHEEL"
+  $PIP install $WHEEL
 done
 
+
 PYTESTD="$HEXTD/libhext/bindings/python/pytest"
-for i in /opt/python/cp* ; do
-  PIP=$(readlink -f /opt/python/$V/bin/pip)
+for i in "$PYTHON_BUILDS_DIR/"cp* ; do
+  V=$(basename $i)
+
+  PIP="$i/bin/pip"
   $PIP install pytest
 
-  PYTHON="$(readlink -f /opt/python/$V/bin/python)"
+  PYTHON="$i/bin/python"
   HTMLEXT="$PYTHON $HTMLEXTPY" "$BLACKBOXSH" "$BLACKBOXCASED"/*hext
-  STATICHTMLEXT="$(readlink -f /opt/python/$V/bin/htmlext)"
+  STATICHTMLEXT="$i/bin/htmlext"
   HTMLEXT="$STATICHTMLEXT" "$BLACKBOXSH" "$BLACKBOXCASED"/*hext
 
-  PYTEST="$(readlink -f /opt/python/$V/bin/pytest)"
+  PYTEST="$i/bin/pytest"
   $PYTEST "$PYTESTD"
 done
 

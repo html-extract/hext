@@ -6,11 +6,10 @@ CMAKE_MAKE_FLAGS="-j3"
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
+[[ ":$PATH:" == *":/usr/local/bin:"* ]] || export PATH="/usr/local/bin:$PATH"
+export CC=/usr/local/bin/gcc CXX=/usr/local/bin/g++
+
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
-[[ -d "$HEXTD/libhext" ]] || {
-  HEXTD=$(mktemp -d)
-  git clone "https://github.com/html-extract/hext.git" "$HEXTD"
-}
 ASSETD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/assets"
 [[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
 OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
@@ -23,7 +22,7 @@ make $CMAKE_MAKE_FLAGS
 ./libhext-test
 
 cd "$HEXTD/build"
-cmake -DBUILD_SHARED_LIBS=Off -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On -DCMAKE_POSITION_INDEPENDENT_CODE=On ..
+cmake -DBUILD_SHARED_LIBS=Off -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On -DCMAKE_POSITION_INDEPENDENT_CODE=On -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " ..
 make $CMAKE_MAKE_FLAGS
 make install
 
@@ -38,9 +37,8 @@ for i in /opt/python/cp* ; do
 
   PIP=$(readlink -f /opt/python/$V/bin/pip)
   $PIP install -U setuptools wheel
-  PYTHON_INCLUDE_DIR=$(readlink -f /opt/python/$V/include/python*/)
-  PYTHON_LIBRARY=$(readlink -f /opt/python/$V/lib/python*/)
-  cmake -DPYTHON_LIBRARY="$PYTHON_LIBRARY" -DPYTHON_INCLUDE_DIR="$PYTHON_INCLUDE_DIR" -DBUILD_SHARED_LIBS=On -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On ..
+  PYTHON_PATH=$(readlink -f /opt/python/$V/include/*/)
+  cmake -DCMAKE_CXX_FLAGS=" -static-libgcc -static-libstdc++ " -DPYTHON_INCLUDE_DIR="$PYTHON_PATH" -DBUILD_SHARED_LIBS=On -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On ..
   make $CMAKE_MAKE_FLAGS
   cp hext.py wheel/hext/__init__.py
   strip --strip-unneeded _hext.so
@@ -55,9 +53,10 @@ for i in /opt/python/cp* ; do
 
   WHEEL=$(find . -iname "*linux*.whl")
   [[ -f "$WHEEL" ]] || perror_exit "cannot find wheel (*linux*.whl)"
-  MANYLINUX_WHEEL="$(echo $WHEEL | sed 's/linux/manylinux2014/')"
+  MANYLINUX_WHEEL="$(echo $WHEEL | sed 's/linux/manylinux1/')"
   mv "$WHEEL" "$MANYLINUX_WHEEL"
 
   cp "$MANYLINUX_WHEEL" "$OUTD"
   cd ../..
 done
+

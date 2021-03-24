@@ -6,7 +6,7 @@ jobs:
     name: Python
     runs-on: ubuntu-latest
     container:
-      image: thomastrapp/static-build-env
+      image: thomastrapp/hext-manylinux2014
     env:
       WHEEL_OUT: scripts/build-hext-python/output
     steps:
@@ -55,7 +55,7 @@ jobs:
     needs: python_releases
     runs-on: ubuntu-latest
     container:
-      image: quay.io/pypa/manylinux1_x86_64
+      image: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v1
       with:
