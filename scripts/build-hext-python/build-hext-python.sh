@@ -10,6 +10,10 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 export CC=/usr/local/bin/gcc CXX=/usr/local/bin/g++
 
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
+[[ -d "$HEXTD/libhext" ]] || {
+  HEXTD=$(mktemp -d)
+  git clone "https://github.com/html-extract/hext.git" "$HEXTD"
+}
 ASSETD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/assets"
 [[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
 OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
