@@ -9,10 +9,11 @@ LIBHEXTEXAMPLESD="$HEXTD/libhext/examples"
 LIBHEXTBINDINGSD="$HEXTD/libhext/bindings"
 
 sudo apt-get -q update
+sudo apt-get -y remove 'php8.*' || true
 sudo apt-get -q -y install cmake libgumbo-dev rapidjson-dev \
   libboost-regex-dev libboost-program-options-dev libgtest-dev \
   jq curl build-essential libpcre3-dev wget swig \
-  cppcheck php-cli php-dev ruby ruby-dev
+  cppcheck ruby ruby-dev
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
