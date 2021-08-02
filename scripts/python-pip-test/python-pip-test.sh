@@ -39,6 +39,7 @@ done
 
 PYTESTD="$HEXTD/libhext/bindings/python/pytest"
 for i in /opt/python/cp* ; do
+  V=$(basename $i)
   PIP=$(readlink -f /opt/python/$V/bin/pip)
   $PIP install pytest
 
