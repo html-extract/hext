@@ -1,0 +1,178 @@
+name: Hext Releases for Mac OS
+on: [push]
+
+jobs:
+  python_releases:
+    name: Python wheels
+    runs-on: macos-latest
+
+    env:
+      HEXT_BOOST_VERSION: "1.76.0"
+      HEXT_BOOST_SHA256: "7bd7ddceec1a1dfdcbdb3e609b60d01739c38390a5f956385a12f3122049f0ca"
+      HEXT_BOOST_INSTALL_PATH: "${{ github.workspace }}/boost_root"
+      HEXT_GUMBO_VERSION: "0.10.1"
+      HEXT_GUMBO_SHA256: "28463053d44a5dfbc4b77bcf49c8cee119338ffa636cc17fc3378421d714efad"
+      HEXT_GUMBO_INSTALL_PATH: "${{ github.workspace }}/gumbo_root"
+      MACOSX_DEPLOYMENT_TARGET: "10.11"
+      WHEEL_OUT: scripts/github-actions/macos/wheel-output
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - uses: actions/cache@v2
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: macos-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v2
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: macos-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      run: brew install icu4c rapidjson googletest autoconf automake libtool
+
+    - name: Install gumbo
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-gumbo.sh
+
+    - name: Install boost
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-boost.sh
+
+    - name: Install hext
+      run: ./scripts/github-actions/macos/install-hext.sh
+
+    - name: Install python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Build python wheel 3.9
+      run: ./scripts/github-actions/macos/build-python-wheel.sh ${{ env.pythonLocation }}
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-python3.9-macos-wheel-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+    - name: Cleanup
+      run: rm -rf ${{ env.WHEEL_OUT }}/*
+
+    - name: Install python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Build python wheel 3.8
+      run: ./scripts/github-actions/macos/build-python-wheel.sh ${{ env.pythonLocation }}
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-python3.8-macos-wheel-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+    - name: Cleanup
+      run: rm -rf ${{ env.WHEEL_OUT }}/*
+
+    - name: Install python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+
+    - name: Build python wheel 3.7
+      run: ./scripts/github-actions/macos/build-python-wheel.sh ${{ env.pythonLocation }}
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-python3.7-macos-wheel-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+    - name: Cleanup
+      run: rm -rf ${{ env.WHEEL_OUT }}/*
+
+    - name: Install python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+
+    - name: Build python wheel 3.6
+      run: ./scripts/github-actions/macos/build-python-wheel.sh ${{ env.pythonLocation }}
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-python3.6-macos-wheel-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+  python_test:
+    name: Python wheels test
+    needs: python_releases
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Install python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-python3.9-macos-wheel-${{ github.sha }}
+    - name: Pip install and test 3.9
+      run: >
+        pip install ./*/hext-*.whl
+        && HTMLEXT="python libhext/bindings/python/htmlext.py" test/blackbox.sh test/case/*hext
+        && ./test/blackbox.sh test/case/*hext
+        && rm ./*/*.whl
+        && pip uninstall -y hext
+
+    - name: Install python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-python3.8-macos-wheel-${{ github.sha }}
+    - name: Pip install and test 3.8
+      run: >
+        pip install ./*/hext-*.whl
+        && HTMLEXT="python libhext/bindings/python/htmlext.py" test/blackbox.sh test/case/*hext
+        && ./test/blackbox.sh test/case/*hext
+        && rm ./*/*.whl
+        && pip uninstall -y hext
+
+    - name: Install python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-python3.7-macos-wheel-${{ github.sha }}
+    - name: Pip install and test 3.7
+      run: >
+        pip install ./*/hext-*.whl
+        && HTMLEXT="python libhext/bindings/python/htmlext.py" test/blackbox.sh test/case/*hext
+        && ./test/blackbox.sh test/case/*hext
+        && rm ./*/*.whl
+        && pip uninstall -y hext
+
+    - name: Install python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-python3.6-macos-wheel-${{ github.sha }}
+    - name: Pip install and test 3.6
+      run: >
+        pip install ./*/hext-*.whl
+        && HTMLEXT="python libhext/bindings/python/htmlext.py" test/blackbox.sh test/case/*hext
+        && ./test/blackbox.sh test/case/*hext
+        && rm ./*/*.whl
+        && pip uninstall -y hext
