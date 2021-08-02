@@ -25,7 +25,9 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories("${PROJECT_SOURCE_DIR}/../../libhext/include")
 include_directories("${PROJECT_SOURCE_DIR}/../../libhext/src")
 include_directories("${Gumbo_INCLUDE_DIR}")
-include_directories("${GTEST_INCLUDE_DIRS}")
+if( NOT TARGET GTest::gtest )
+  include_directories("${GTEST_INCLUDE_DIR}")
+endif()
 
 
 ###### SOURCES #################################################################
@@ -77,8 +79,16 @@ endif()
 target_link_libraries(
   libhext-test
   hext::hext
-  gtest
   "${CMAKE_THREAD_LIBS_INIT}")
+if( TARGET GTest::gtest )
+  target_link_libraries(
+    libhext-test
+    GTest::gtest)
+else()
+  target_link_libraries(
+    libhext-test
+    "${GTEST_LIBRARY}")
+endif()
 
 
 ###### TESTING #################################################################
