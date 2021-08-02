@@ -55,6 +55,7 @@ function(hext_enable_warnings_clang)
     ${ARGN}
     "-Weverything"
     "-Wno-c++98-compat"
+    "-Wno-c++98-compat-pedantic"
     "-Wno-documentation"
     "-Wno-documentation-html"
     "-Wno-documentation-unknown-command"
