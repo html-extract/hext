@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,24 @@ TEST(ParseHext_ParseHext, ExampleFromDocumentation)
 
 TEST(ParseHext_ParseHext, ThrowsSyntaxError)
 {
-  EXPECT_THROW(ParseHext("invalid"), SyntaxError);
+  auto e = {
+    "invalid",
+    "<",
+    ">",
+    "/>",
+    "</>",
+    "<a>{",
+    "<a>}",
+    "{}",
+    "{<a/>}",
+    "<a/>}",
+    "<a/>{",
+    "<a>{<b/>}</a><b>",
+    "<a>{{<b/>}}</a>",
+    "<a>{{<b/>{{</a>",
+  };
+
+  for(auto s : e)
+    EXPECT_THROW(ParseHext(s), SyntaxError);
 }
 

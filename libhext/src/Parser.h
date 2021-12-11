@@ -1,4 +1,4 @@
-// Copyright 2015-2017 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@
 #include "hext/SyntaxError.h"
 
 #include <cstddef>
-#include <memory>
 #include <optional>
 #include <ostream>
 #include <string>
+#include <vector>
 
 #include <boost/regex/regex_traits.hpp>
 #include <boost/regex/pattern_except.hpp>
@@ -63,14 +63,27 @@ private:
   Parser(const Parser&) = delete;
   Parser& operator=(const Parser&) = delete;
 
-  /// Returns a reference for the top most rule on the rule stack.
+  /// Returns a reference for the topmost rule on the rule stack.
   Rule& cur_rule();
 
-  /// Pushes a rule onto the rule stack.
+  /// Returns a reference for the topmost stack.
+  std::vector<Rule>& top_stack();
+
+  /// Returns a reference for the stack beneath the topmost stack.
+  std::vector<Rule>& previous_stack();
+
+  /// Creates a new rule on the topmost stack.
   void push_rule();
 
-  /// Pops a rule from the rule stack and appends it to top_rule_.
+  /// Appends the topmost rule to the rule tree.
   void pop_rule();
+
+  /// Increases the depth of the rule stack by two.
+  void push_nested();
+
+  /// Decreases the depth of the rule stack by two. Appends rules to
+  /// the rule tree.
+  void pop_nested();
 
   /// Sets the HtmlTag for the top most rule or throws an exception
   /// if tag_name is not a valid tag.
@@ -96,9 +109,12 @@ private:
   /// Throws SyntaxError with an error message complaining about a missing
   /// closing tag.
   ///
-  /// @param missing:  The HTML tag that was expected.
+  /// @param         missing:  The HTML tag that is missing.
+  /// @param missing_tagname:  The missing closing custom tag name.
   [[noreturn]]
-  void throw_missing_tag(HtmlTag missing) const;
+  void throw_missing_tag(
+      HtmlTag                    missing,
+      std::optional<std::string> missing_tagname) const;
 
   /// Throws SyntaxError with an error message marking an invalid closing tag.
   ///
@@ -113,6 +129,11 @@ private:
       std::optional<HtmlTag>     expected,
       std::optional<std::string> expected_tagname = std::nullopt) const;
 
+  /// Throws SyntaxError with an error message.
+  ///
+  /// @param msg:  The error message.
+  [[noreturn]] void throw_error_message(const std::string& msg) const;
+
   /// Prints an error at the current location within hext. Prints hext with line
   /// numbers up to the unexpected character.
   ///
@@ -123,12 +144,13 @@ private:
                             std::size_t   mark_len,
                             std::ostream& out) const;
 
-  /// A stack containing Rules that have not yet been appended to top_rule_
-  /// while parsing.
-  std::vector<Rule> rule_stack_;
-
-  /// The current top rule.
-  std::unique_ptr<Rule> top_rule_;
+  /// A stack of stacks containing Rules.
+  ///
+  /// Each nesting of rules has two stacks:
+  /// * result-stack: Holds finished rules.
+  /// * work-stack: Rules are constructed on the work-stack until
+  ///   they are complete and can be moved to the preceding result-stack.
+  std::vector<std::vector<Rule>> stacks_;
 
   /// The beginning of the hext input as given in the constructor.
   const char * p_begin_;

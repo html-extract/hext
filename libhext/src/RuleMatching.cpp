@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -182,7 +182,7 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
   if( !rule->matches(node) )
     return false;
 
-  if( !rule->child() )
+  if( !rule->child() && rule->nested().empty() )
     return true;
 
   if( node->type != GUMBO_NODE_ELEMENT || !node->v.element.children.length )
@@ -191,26 +191,51 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
   auto first_child = static_cast<const GumboNode *>(
       node->v.element.children.data[0]);
 
-  bool matched = false;
-  auto next_node = first_child;
+  MatchingNodes subresult;
 
-  do
+  if( rule->child() )
   {
-    MatchingNodes sub;
-    next_node = MatchRuleGroup(rule->child(), next_node, sub);
-    if( sub.size() )
+    bool matched = false;
+    auto next_node = first_child;
+
+    do
     {
-      std::move(sub.begin(), sub.end(), std::back_inserter(result));
-      matched = true;
+      MatchingNodes sub;
+      next_node = MatchRuleGroup(rule->child(), next_node, sub);
+      if( sub.size() )
+      {
+        std::move(sub.begin(), sub.end(), std::back_inserter(subresult));
+        matched = true;
+      }
+      else if( !FindMandatoryRule(rule->child(), nullptr) )
+      {
+        matched = true;
+      }
     }
-    else if( !FindMandatoryRule(rule->child(), nullptr) )
+    while( next_node );
+
+    if( !matched )
+      return false;
+  }
+
+  if( rule->nested().size() )
+  {
+    for( const auto& nested : rule->nested() )
     {
-      matched = true;
+      std::vector<MatchingNodes> mn;
+      SaveMatchingNodesRecursive(&nested, first_child, mn);
+
+      if( mn.empty() && FindMandatoryRule(&nested, nullptr) )
+        return false;
+
+      for(auto& e : mn)
+        std::move(e.begin(), e.end(), std::back_inserter(subresult));
     }
   }
-  while( next_node );
 
-  return matched;
+  std::move(subresult.begin(), subresult.end(), std::back_inserter(result));
+
+  return true;
 }
 
 const GumboNode * MatchRuleOnce(const Rule *      rule,

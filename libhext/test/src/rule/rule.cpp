@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -187,5 +187,44 @@ TEST(Rule_Rule, EmptyTagNameDoesNotMatch)
 
   Result result = empty.extract(html);
   EXPECT_EQ(result.size(), 0);
+}
+
+TEST(Rule_Rule, NestedRule)
+{
+  Rule r(HtmlTag::BODY);
+  {
+    Rule inner(HtmlTag::SPAN);
+    inner.append_capture<AttributeCapture>("class", "c");
+    r.append_nested(inner);
+  }
+
+  Rule r2(r);
+  r.nested().clear();
+
+  Html html(
+    "<html><body>"
+      "<div><div><div><div><div><div>"
+        "<span class='one'></span>"
+        "<span class='two'></span>"
+        "<span class='three'></span>"
+      "</div></div></div></div></div></div>"
+    "</body></html>"
+  );
+
+  Result empty_result = r.extract(html);
+  EXPECT_EQ(empty_result.size(), 0);
+
+  Result result = r2.extract(html);
+  EXPECT_EQ(result.size(), 1);
+
+  Result expected = {
+    {
+      {"c", "one"},
+      {"c", "two"},
+      {"c", "three"}
+    }
+  };
+
+  EXPECT_EQ(result, expected);
 }
 

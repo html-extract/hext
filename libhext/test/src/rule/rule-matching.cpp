@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -222,28 +222,98 @@ TEST(Rule_RuleMatching, MatchRuleOnce)
 
 TEST(Rule_RuleMatching, MatchRange)
 {
+  auto ab = ParseHext("<a/><b/>");
+  THtml h("<a></a><p></p><a></a><p></p><b></b>");
+
   {
     MatchingNodes r;
+    // Match first rule of ab against "<a></a>"
+    auto next = MatchRange(&ab, ab.next(), h.first(), h.body_child(2), r);
+    // MatchRange returns the last matched node
+    EXPECT_EQ(next, h.first());
+    EXPECT_EQ(r.size(), 1);
+  }
 
-    auto ab = ParseHext("<a/><b/>");
-    THtml h("<a></a><p></p><a></a><p></p><b></b>");
+  {
+    MatchingNodes r;
+    // Match whole rule range against whole node range
+    auto next = MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(next, h.body_child(5));
+    EXPECT_EQ(r.size(), 2);
+  }
+}
 
-    {
-      // Match first rule of ab against "<a></a>"
-      auto next = MatchRange(&ab, ab.next(), h.first(), h.body_child(2), r);
-      // MatchRange returns the last matched node
-      EXPECT_EQ(next, h.first());
-      EXPECT_EQ(r.size(), 1);
-      r.clear();
-    }
+TEST(Rule_RuleMatching, MatchRangeNested)
+{
+  {
+    auto ab = ParseHext("<a>{<b/>}</a>");
+    THtml h("<a><b/></a>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 2);
+  }
 
-    {
-      // Match whole rule range against whole node range
-      auto next = MatchRange(&ab, nullptr, h.first(), nullptr, r);
-      EXPECT_EQ(next, h.body_child(5));
-      EXPECT_EQ(r.size(), 2);
-      r.clear();
-    }
+  {
+    auto ab = ParseHext("<a>{<b/>}</a>");
+    THtml h("<a><div><b/></div></a>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 2);
+  }
+
+  {
+    auto ab = ParseHext("<a>{<b/>}</a>");
+    THtml h("<a><div><div><b/></div></div></a>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 2);
+  }
+
+  {
+    auto ab = ParseHext("<div>{<b/><a/>}</div>");
+    THtml h("<div><span><span><span><b></b><a></a></span></span></span></div>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 3);
+  }
+
+  {
+    auto ab = ParseHext("<div>{<b/><a/>}<i/>{<span><b/><a/></span>}</div>");
+    THtml h("<div><i></i><span><span><span>"
+      "<b></b><a></a></span></span></span></div>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 7);
+  }
+
+  {
+    auto ab = ParseHext("<div>{<b/><a/>}</div><b/>");
+    THtml h("<b></b><div><span><span><span>"
+      "<b></b><a></a>"
+      "</span></span></span></div><b></b>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 4);
+  }
+
+  {
+    auto ab = ParseHext("<div>{<b>{<a/>}</b>}</div>");
+    THtml h("<div><span><span><span>"
+      "<b><span><a></a></span></b>"
+      "</span></span></span></div>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 3);
+  }
+
+  {
+    auto ab = ParseHext("<div><p/>{<i/><b>{<a/><b/>}</b>}</div>");
+    THtml h("<div><p></p><span><span><span>"
+      "<i></i><b><span><a></a><b></b></span></b>"
+      "</span></span></span></div>");
+    MatchingNodes r;
+    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    EXPECT_EQ(r.size(), 6);
   }
 }
 

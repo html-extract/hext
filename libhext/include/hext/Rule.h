@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -126,17 +126,23 @@ public:
   Rule& operator=(Rule&&) noexcept = default;
   Rule& operator=(const Rule& other);
 
-  /// Returns the first child or nullptr if childless.
+  /// Returns the child or nullptr if childless.
   const Rule * child() const noexcept;
 
   /// Returns the next rule or nullptr if no following rule.
   const Rule * next() const noexcept;
 
-  /// Returns the first child or nullptr if childless.
+  /// Returns the nested rules.
+  const std::vector<Rule>& nested() const noexcept;
+
+  /// Returns the child or nullptr if childless.
   Rule * child() noexcept;
 
   /// Returns the next rule or nullptr if no following rule.
   Rule * next() noexcept;
+
+  /// Returns the nested rules.
+  std::vector<Rule>& nested() noexcept;
 
   /// Appends a child.
   ///
@@ -149,6 +155,12 @@ public:
   /// @param sibling:  The Rule to append.
   /// @returns         A reference for this Rule to enable method chaining.
   Rule& append_next(Rule sibling);
+
+  /// Appends a nested Rule.
+  ///
+  /// @param nested:   The Rule to append.
+  /// @returns         A reference for this Rule to enable method chaining.
+  Rule& append_nested(Rule nested);
 
   /// Appends a Match.
   ///
@@ -247,6 +259,7 @@ private:
 
   std::unique_ptr<Rule> first_child_;
   std::unique_ptr<Rule> next_;
+  std::vector<Rule> nested_;
   std::vector<std::unique_ptr<Match>> matches_;
   std::vector<std::unique_ptr<Capture>> captures_;
 

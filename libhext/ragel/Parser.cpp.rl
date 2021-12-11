@@ -1,4 +1,4 @@
-// Copyright 2015-2017 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,8 +68,7 @@ namespace ragel {
 
 
 Parser::Parser(const char * begin, const char * end) noexcept
-: rule_stack_()
-, top_rule_(nullptr)
+: stacks_()
 , p_begin_(begin)
 , p(begin)
 , pe(end)
@@ -91,8 +90,9 @@ Rule Parser::parse()
   // When calling Parser::parse repeatedly, ensure we are always in a valid
   // state.
   this->p = this->p_begin_;
-  this->rule_stack_.clear();
-  this->top_rule_ = nullptr;
+
+  // Initialize stacks with one result-stack and one work-stack.
+  this->stacks_ = {{}, {}};
 
   // All values required to construct Matches and Captures.
   PatternValues pv;
@@ -138,81 +138,172 @@ Rule Parser::parse()
 #pragma GCC diagnostic pop
 #endif
 
-  // Throw error if there are missing closing tags.
-  if( this->rule_stack_.size() )
-    this->throw_missing_tag(this->rule_stack_.back().get_tag());
-
-  if( this->top_rule_ )
+  if( this->stacks_.empty() )
   {
-    return std::move(*this->top_rule_);
-  }
-  else
-  {
+    // stacks_ should never be empty.
+    assert(this->stacks_.size());
     return Rule();
   }
+
+  if( this->stacks_.size() > 2 )
+    // If there are more than two stacks, then a nested rule is unclosed,
+    // because pop_nested() wasn't called enough times.
+    this->throw_error_message("Unclosed nested rule");
+
+  while( this->stacks_.size() && this->top_stack().empty() )
+    this->stacks_.pop_back();
+
+  if( this->stacks_.empty() )
+    // No rules in input
+    return Rule();
+
+  // Throw error if there are missing closing tags.
+  if( this->stacks_.size() > 1 || this->top_stack().size() > 1 )
+    this->throw_missing_tag(
+      this->top_stack().back().get_tag(),
+      this->top_stack().back().get_tagname());
+
+  return std::move(this->top_stack().back());
 }
 
 Rule& Parser::cur_rule()
 {
-  assert(this->rule_stack_.size());
-  return this->rule_stack_.back();
+  assert(this->top_stack().size());
+  return this->top_stack().back();
+}
+
+std::vector<Rule>& Parser::top_stack()
+{
+  assert(this->stacks_.size());
+  return this->stacks_.back();
+}
+
+std::vector<Rule>& Parser::previous_stack()
+{
+  assert(this->stacks_.size() > 1);
+  return this->stacks_.at(this->stacks_.size() - 2);
+}
+
+void Parser::push_nested()
+{
+  if( this->top_stack().empty() )
+    this->throw_error_message("Nested rules must have a parent");
+  this->stacks_.emplace_back();
+  this->stacks_.emplace_back();
+}
+
+void Parser::pop_nested()
+{
+  if( this->stacks_.empty() )
+  {
+    assert(this->stacks_.size());
+    this->throw_unexpected();
+  }
+
+  if( !this->top_stack().empty() )
+    this->throw_error_message("Closing nested rule without open");
+
+  this->stacks_.pop_back();
+
+  if( this->stacks_.empty() )
+  {
+    assert(this->stacks_.size());
+    this->throw_unexpected();
+  }
+
+  if( this->top_stack().empty() )
+    this->throw_error_message("Nested rules cannot be empty");
+
+  if( this->top_stack().size() > 1 )
+  {
+    assert(this->top_stack().size() == 1);
+    this->throw_unexpected();
+  }
+
+  auto nested_rule = std::move(this->top_stack().back());
+  this->top_stack().pop_back();
+  this->stacks_.pop_back();
+
+  if( this->stacks_.empty() )
+    this->throw_error_message("Closing nested rule without open");
+
+  if( this->top_stack().empty() )
+    this->throw_error_message("Nested rules must have a parent");
+  else
+    this->cur_rule().append_nested(std::move(nested_rule));
 }
 
 void Parser::push_rule()
 {
-  this->rule_stack_.emplace_back();
+  this->top_stack().emplace_back();
 }
 
 void Parser::pop_rule()
 {
-  assert(this->rule_stack_.size());
-  if( this->rule_stack_.empty() )
-    return;
-
-  Rule rule = std::move(this->rule_stack_.back());
-  this->rule_stack_.pop_back();
-
-  if( this->rule_stack_.empty() )
+  if( this->stacks_.empty() || this->top_stack().empty() )
   {
-    if( this->top_rule_ )
-      this->top_rule_->append_next(std::move(rule));
-    else
-      this->top_rule_ = std::make_unique<Rule>(std::move(rule));
+    assert(this->stacks_.size());
+    assert(this->top_stack().size());
+    this->throw_unexpected();
   }
-  else
+
+  // Collapse elements on same stack
+  if( this->top_stack().size() > 1 )
   {
-    this->rule_stack_.back().append_child(std::move(rule));
+    Rule rule = std::move(this->top_stack().back());
+    this->top_stack().pop_back();
+    this->top_stack().back().append_child(std::move(rule));
+  }
+  else // top_stack().size() == 1
+  {
+    if( this->stacks_.size() < 2 )
+    {
+      assert(this->stacks_.size() > 1);
+      this->throw_unexpected();
+    }
+
+    // Here, there is exactly one rule on the top stack. This rule is pushed
+    // up one stack, to the temporary or final result.
+    Rule rule = std::move(this->top_stack().back());
+    this->top_stack().pop_back();
+
+    if( this->previous_stack().empty() )
+      // New top rule
+      this->previous_stack().push_back(std::move(rule));
+    else
+      // New sibling rule
+      this->previous_stack().back().append_next(std::move(rule));
   }
 }
 
 void Parser::set_open_tag_or_throw(const std::string& tag_name)
 {
-  assert(this->rule_stack_.size());
-  if( this->rule_stack_.empty() )
+  assert(this->top_stack().size());
+  if( this->top_stack().empty() )
     return;
 
   if( tag_name.size() == 1 && tag_name[0] == '*' )
   {
-    this->rule_stack_.back().set_tag(HtmlTag::ANY);
+    this->cur_rule().set_tag(HtmlTag::ANY);
     return;
   }
 
   GumboTag tag = gumbo_tag_enum(tag_name.c_str());
-  this->rule_stack_.back().set_tag(static_cast<HtmlTag>(tag));
+  this->cur_rule().set_tag(static_cast<HtmlTag>(tag));
 
   if( tag == GUMBO_TAG_UNKNOWN )
-    this->rule_stack_.back().set_tagname(tag_name);
+    this->cur_rule().set_tagname(tag_name);
 }
 
 void Parser::validate_close_tag_or_throw(const std::string& tag_name)
 {
-  if( this->rule_stack_.empty() )
+  if( this->top_stack().empty() )
     this->throw_unexpected_tag(tag_name, /* expected no tag: */ {});
 
-  HtmlTag expected_tag = this->rule_stack_.back().get_tag();
+  HtmlTag expected_tag = this->cur_rule().get_tag();
   if( expected_tag == HtmlTag::UNKNOWN )
   {
-    const auto expected_tagname = this->rule_stack_.back().get_tagname();
+    const auto expected_tagname = this->cur_rule().get_tagname();
 
     if( !expected_tagname )
     {
@@ -279,14 +370,22 @@ void Parser::throw_regex_error(
   throw SyntaxError(error_msg.str());
 }
 
-void Parser::throw_missing_tag(HtmlTag missing) const
+void Parser::throw_missing_tag(
+  HtmlTag missing,
+  std::optional<std::string> missing_tagname
+) const
 {
   std::stringstream error_msg;
-  error_msg << "Missing closing tag '</"
-            << ( missing == HtmlTag::ANY
-                 ? "*"
-                 : gumbo_normalized_tagname(static_cast<GumboTag>(missing)) )
-            << ">' ";
+  error_msg << "Missing closing tag '</";
+
+  if( missing_tagname )
+    error_msg << *missing_tagname;
+  else
+    error_msg << ( missing == HtmlTag::ANY
+                   ? "*"
+                   : gumbo_normalized_tagname(static_cast<GumboTag>(missing)) );
+
+  error_msg << ">' ";
 
   this->print_error_location(this->pe, /* mark_len: */ 0, error_msg);
 
@@ -322,6 +421,17 @@ void Parser::throw_unexpected_tag(
   error_msg << " ";
 
   auto mark_len = tag.size() + 2; // strlen("</")
+  auto unexpected_char = this->p - 1;
+  this->print_error_location(unexpected_char, mark_len, error_msg);
+
+  throw SyntaxError(error_msg.str());
+}
+
+void Parser::throw_error_message(const std::string& msg) const
+{
+  std::stringstream error_msg;
+  error_msg << msg << " ";
+  std::size_t mark_len = 1;
   auto unexpected_char = this->p - 1;
   this->print_error_location(unexpected_char, mark_len, error_msg);
 

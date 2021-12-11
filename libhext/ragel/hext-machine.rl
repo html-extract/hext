@@ -1,5 +1,5 @@
 %%{
-# Copyright 2015 Thomas Trapp
+# Copyright 2015-2021 Thomas Trapp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -288,15 +288,7 @@ pattern = (
 
 #### RULES #####################################################################
 tag_name = ( alpha (alnum | '-' | '_')** );
-main := (
-  # ignore whitespace
-  space
-  |
-
-  # comment
-  ( '#' (any - '\n')* '\n' )
-  |
-
+rule = (
   # open rule
   (
     # a rule starts with '<'
@@ -341,6 +333,26 @@ main := (
                             pop_rule(); } )
     '>'
   )
+);
+
+main := (
+  # ignore whitespace
+  space
+  |
+
+  # comment
+  ( '#' (any - '\n')* '\n' )
+  |
+
+  # nested rule open
+  ( '{' %{ push_nested(); } )
+  |
+
+  # nested rule close
+  ( '}' %{ pop_nested(); } )
+  |
+
+  rule
 )* $err{ this->throw_unexpected(); };
 
 }%%

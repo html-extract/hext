@@ -1,4 +1,4 @@
-// Copyright 2019 Thomas Trapp
+// Copyright 2019-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ Rule::Rule(HtmlTag tag,
            bool    greedy) noexcept
 : first_child_(nullptr)
 , next_(nullptr)
+, nested_()
 , matches_()
 , captures_()
 , tag_(tag)
@@ -40,6 +41,7 @@ Rule::Rule(std::string tag,
            bool        greedy) noexcept
 : first_child_(nullptr)
 , next_(nullptr)
+, nested_()
 , matches_()
 , captures_()
 , tag_(static_cast<HtmlTag>(gumbo_tag_enum(tag.c_str())))
@@ -54,6 +56,7 @@ Rule::Rule(std::string tag,
 Rule::Rule(const Rule& other)
 : first_child_(nullptr)
 , next_(nullptr)
+, nested_(other.nested_)
 , matches_()
 , captures_()
 , tag_(other.tag_)
@@ -93,6 +96,11 @@ const Rule * Rule::next() const noexcept
   return this->next_.get();
 }
 
+const std::vector<Rule>& Rule::nested() const noexcept
+{
+  return this->nested_;
+}
+
 Rule * Rule::child() noexcept
 {
   return this->first_child_.get();
@@ -101,6 +109,11 @@ Rule * Rule::child() noexcept
 Rule * Rule::next() noexcept
 {
   return this->next_.get();
+}
+
+std::vector<Rule>& Rule::nested() noexcept
+{
+  return this->nested_;
 }
 
 Rule& Rule::append_child(Rule new_child)
@@ -120,6 +133,12 @@ Rule& Rule::append_next(Rule sibling)
     target = target->next_.get();
 
   target->next_ = std::make_unique<Rule>(std::move(sibling));
+  return *this;
+}
+
+Rule& Rule::append_nested(Rule nested)
+{
+  this->nested_.push_back(std::move(nested));
   return *this;
 }
 
@@ -285,6 +304,7 @@ void Rule::swap(hext::Rule& other) noexcept
 
   this->first_child_.swap(other.first_child_);
   this->next_.swap(other.next_);
+  this->nested_.swap(other.nested_);
   this->matches_.swap(other.matches_);
   this->captures_.swap(other.captures_);
   std::swap(this->tag_, other.tag_);
