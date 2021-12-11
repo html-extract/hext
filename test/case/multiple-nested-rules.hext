@@ -1,0 +1,8 @@
+<*>
+  {
+    <p @text:content />
+  }
+  {
+    <a href:href />
+  }
+</*>

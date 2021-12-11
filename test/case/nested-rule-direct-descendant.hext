@@ -1,0 +1,9 @@
+<div id>
+  {
+    <div class:class>
+      {
+        <p @text:p />
+      }
+    </div>
+  }
+</div>
