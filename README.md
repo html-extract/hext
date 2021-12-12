@@ -68,7 +68,7 @@ The npm package is compatible with:
 **Dependencies**: g++ ≥7.3 or clang ≥6.0, cmake ≥3.8, libboost-dev ≥1.55, libboost-regex-dev ≥1.55, libboost-program-options-dev ≥1.55, libgumbo-dev ≥0.10.1 and rapidjson-dev ≥1.1.0
 
 ```
-wget https://github.com/html-extract/hext/archive/v0.8.0.tar.gz
+wget https://github.com/html-extract/hext/archive/v1.0.0.tar.gz
 tar xf *.tar.gz
 cd hext*/build
 cmake -DBUILD_SHARED_LIBS=On .. && make -j 2
