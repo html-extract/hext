@@ -121,6 +121,15 @@ fi
   [ "${#lines[@]}" = "1" ]
 }
 
+@test "--max-searches" {
+  run "${HTMLEXT}" --max-searches 1 -s "<b @text:x />" -i <(echo "<b>bla</b>")
+  [ "$status" -eq 1 ]
+  run "${HTMLEXT}" --max-searches 0 -f x -s "<b @text:x />" -i <(echo "<b>bla</b>")
+  [ "$status" -eq 0 ]
+  [ "${#lines[@]}" = "1" ]
+  [ "$output" = "bla" ]
+}
+
 @test "--array (requires jq)" {
   run "${HTMLEXT}" -a
   [ "$status" -eq 1 ]
