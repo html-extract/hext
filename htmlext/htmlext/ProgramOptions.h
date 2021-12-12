@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,11 @@ public:
   bool contains(const char * key) const;
 
   /// Get value from parameter.
-  std::string get(const char * key) const;
+  template<typename ParameterType = std::string>
+  ParameterType get(const char * key) const
+  {
+    return this->vm_[key].as<ParameterType>();
+  }
 
   /// Return all hext-input filenames.
   std::vector<std::string> get_hext_files() const;

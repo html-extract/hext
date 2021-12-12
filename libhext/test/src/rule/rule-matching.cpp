@@ -16,7 +16,9 @@
 using namespace hext;
 
 #include "RuleMatching.h"
+#include "hext/MaxSearchError.h"
 
+#include <cstdint>
 #include <set>
 
 
@@ -50,6 +52,8 @@ bool group_has_unique_rules(const MatchingNodes& group)
 
 TEST(Rule_RuleMatching, SaveMatchingNodesRecursive)
 {
+  std::uint64_t max_searches = 0;
+
   THtml h("<div>"
             "<div><ul><li></li><li></li></ul></div>"    // 1
             "<div><ul><li></li><li></li></ul></div>"    // 2
@@ -92,7 +96,7 @@ TEST(Rule_RuleMatching, SaveMatchingNodesRecursive)
     auto rule = ParseHext(hext.at(i));
 
     std::vector<MatchingNodes> result;
-    SaveMatchingNodesRecursive(&rule, h.root(), result);
+    SaveMatchingNodesRecursive(&rule, h.root(), result, max_searches);
 
     // Expect seven capture groups
     EXPECT_EQ(result.size(), 7)
@@ -120,19 +124,66 @@ TEST(Rule_RuleMatching, SaveMatchingNodesRecursive)
   }
 }
 
+TEST(Rule_RuleMatching, SaveMatchingNodesRecursiveMaxSearches)
+{
+  THtml h(
+    "<html>"          // 1
+      "<head></head>" // 2
+      "<body>"        // 3
+        "<div>"       // 4
+          "<a></a>"
+        "</div>"
+        "<div>"       // 5
+          "<div>"     // 6
+            "<a></a>"
+          "</div>"
+        "</div>"
+      "</body>"
+    "</html>");
+
+  auto rule = ParseHext("<a/>");
+
+  {
+    std::uint64_t max_searches = 0;
+    std::vector<MatchingNodes> r;
+    SaveMatchingNodesRecursive(&rule, h.root(), r, max_searches);
+    EXPECT_EQ(r.size(), 2);
+    EXPECT_EQ(max_searches, 0);
+  }
+
+  {
+    std::uint64_t max_searches = 1;
+    std::vector<MatchingNodes> r;
+    EXPECT_THROW(
+        SaveMatchingNodesRecursive(&rule, h.root(), r, max_searches),
+        MaxSearchError);
+    EXPECT_EQ(max_searches, 0);
+  }
+
+  {
+    std::uint64_t max_searches = 7;
+    std::vector<MatchingNodes> r;
+    EXPECT_NO_THROW(
+        SaveMatchingNodesRecursive(&rule, h.root(), r, max_searches));
+    EXPECT_EQ(max_searches, 1);
+  }
+}
+
 TEST(Rule_RuleMatching, MatchRuleGroup)
 {
+  std::uint64_t max_searches = 0;
+
   // Trailing optional rule
   {
     MatchingNodes r;
     THtml h("<a></a><div></div><a></a>");
     auto a_opt_div = ParseHext("<a/><?div/>");
-    auto next = MatchRuleGroup(&a_opt_div, h.first(), r);
+    auto next = MatchRuleGroup(&a_opt_div, h.first(), r, max_searches);
     ASSERT_EQ(next, h.body_child(3));
     EXPECT_EQ(r.size(), 2);
     r.clear();
 
-    next = MatchRuleGroup(&a_opt_div, next, r);
+    next = MatchRuleGroup(&a_opt_div, next, r, max_searches);
     EXPECT_EQ(next, nullptr);
     EXPECT_EQ(r.size(), 1);
   }
@@ -141,12 +192,12 @@ TEST(Rule_RuleMatching, MatchRuleGroup)
     MatchingNodes r;
     THtml h("<a></a><div></div><a></a>");
     auto opt_a_opt_div = ParseHext("<?a/><?div/>");
-    auto next = MatchRuleGroup(&opt_a_opt_div, h.first(), r);
+    auto next = MatchRuleGroup(&opt_a_opt_div, h.first(), r, max_searches);
     ASSERT_EQ(next, h.body_child(3));
     EXPECT_EQ(r.size(), 2);
     r.clear();
 
-    next = MatchRuleGroup(&opt_a_opt_div, next, r);
+    next = MatchRuleGroup(&opt_a_opt_div, next, r, max_searches);
     EXPECT_EQ(next, nullptr);
     EXPECT_EQ(r.size(), 1);
   }
@@ -155,7 +206,7 @@ TEST(Rule_RuleMatching, MatchRuleGroup)
     MatchingNodes r;
     THtml h("<a></a><div></div><a></a><div></div>");
     auto greedy_a = ParseHext("<+a/>");
-    auto next = MatchRuleGroup(&greedy_a, h.first(), r);
+    auto next = MatchRuleGroup(&greedy_a, h.first(), r, max_searches);
     ASSERT_EQ(next, nullptr);
     EXPECT_EQ(r.size(), 2);
   }
@@ -163,11 +214,13 @@ TEST(Rule_RuleMatching, MatchRuleGroup)
 
 TEST(Rule_RuleMatching, RuleMatchesNodeRecursive)
 {
+  std::uint64_t max_searches = 0;
+
   MatchingNodes r;
   THtml h("<a><u></u><i></i></a>");
   auto a = ParseHext("<a><u/><i/></a>");
 
-  auto matches = RuleMatchesNodeRecursive(&a, h.first(), r);
+  auto matches = RuleMatchesNodeRecursive(&a, h.first(), r, max_searches);
   EXPECT_TRUE(matches);
   // r now contains <u> and <i>
   EXPECT_EQ(r.size(), 2);
@@ -175,6 +228,8 @@ TEST(Rule_RuleMatching, RuleMatchesNodeRecursive)
 
 TEST(Rule_RuleMatching, MatchRuleOnce)
 {
+  std::uint64_t max_searches = 0;
+
   {
     MatchingNodes r;
     auto rule_a  = ParseHext("<a/>");
@@ -183,16 +238,16 @@ TEST(Rule_RuleMatching, MatchRuleOnce)
     auto rule_i  = ParseHext("<i/>");
     THtml h("<a></a><b></b>");
 
-    EXPECT_EQ(MatchRuleOnce(&rule_a, h.first(), nullptr, r), h.first());
+    EXPECT_EQ(MatchRuleOnce(&rule_a, h.first(), nullptr, r, max_searches), h.first());
     EXPECT_EQ(r.size(), 0);
 
-    EXPECT_EQ(MatchRuleOnce(&rule_aa, h.first(), nullptr, r), h.first());
+    EXPECT_EQ(MatchRuleOnce(&rule_aa, h.first(), nullptr, r, max_searches), h.first());
     EXPECT_EQ(r.size(), 0);
 
-    EXPECT_EQ(MatchRuleOnce(&rule_b, h.first(), nullptr, r), h.body_child(2));
+    EXPECT_EQ(MatchRuleOnce(&rule_b, h.first(), nullptr, r, max_searches), h.body_child(2));
     EXPECT_EQ(r.size(), 0);
 
-    EXPECT_EQ(MatchRuleOnce(&rule_i, h.first(), nullptr, r), nullptr);
+    EXPECT_EQ(MatchRuleOnce(&rule_i, h.first(), nullptr, r, max_searches), nullptr);
     EXPECT_EQ(r.size(), 0);
   }
   {
@@ -203,32 +258,34 @@ TEST(Rule_RuleMatching, MatchRuleOnce)
     auto rule_i  = ParseHext("<a><i/></a>");
     THtml h("<a><u></u></a><b><u></u></b>");
 
-    EXPECT_EQ(MatchRuleOnce(&rule_a, h.first(), nullptr, r), h.first());
+    EXPECT_EQ(MatchRuleOnce(&rule_a, h.first(), nullptr, r, max_searches), h.first());
     EXPECT_EQ(r.size(), 1);
     r.clear();
 
-    EXPECT_EQ(MatchRuleOnce(&rule_aa, h.first(), nullptr, r), h.first());
+    EXPECT_EQ(MatchRuleOnce(&rule_aa, h.first(), nullptr, r, max_searches), h.first());
     EXPECT_EQ(r.size(), 1);
     r.clear();
 
-    EXPECT_EQ(MatchRuleOnce(&rule_b, h.first(), nullptr, r), h.body_child(2));
+    EXPECT_EQ(MatchRuleOnce(&rule_b, h.first(), nullptr, r, max_searches), h.body_child(2));
     EXPECT_EQ(r.size(), 1);
     r.clear();
 
-    EXPECT_EQ(MatchRuleOnce(&rule_i, h.first(), nullptr, r), nullptr);
+    EXPECT_EQ(MatchRuleOnce(&rule_i, h.first(), nullptr, r, max_searches), nullptr);
     EXPECT_EQ(r.size(), 0);
   }
 }
 
 TEST(Rule_RuleMatching, MatchRange)
 {
+  std::uint64_t max_searches = 0;
+
   auto ab = ParseHext("<a/><b/>");
   THtml h("<a></a><p></p><a></a><p></p><b></b>");
 
   {
     MatchingNodes r;
     // Match first rule of ab against "<a></a>"
-    auto next = MatchRange(&ab, ab.next(), h.first(), h.body_child(2), r);
+    auto next = MatchRange(&ab, ab.next(), h.first(), h.body_child(2), r, max_searches);
     // MatchRange returns the last matched node
     EXPECT_EQ(next, h.first());
     EXPECT_EQ(r.size(), 1);
@@ -237,7 +294,7 @@ TEST(Rule_RuleMatching, MatchRange)
   {
     MatchingNodes r;
     // Match whole rule range against whole node range
-    auto next = MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    auto next = MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(next, h.body_child(5));
     EXPECT_EQ(r.size(), 2);
   }
@@ -245,11 +302,13 @@ TEST(Rule_RuleMatching, MatchRange)
 
 TEST(Rule_RuleMatching, MatchRangeNested)
 {
+  std::uint64_t max_searches = 0;
+
   {
     auto ab = ParseHext("<a>{<b/>}</a>");
     THtml h("<a><b/></a>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 2);
   }
 
@@ -257,7 +316,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
     auto ab = ParseHext("<a>{<b/>}</a>");
     THtml h("<a><div><b/></div></a>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 2);
   }
 
@@ -265,7 +324,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
     auto ab = ParseHext("<a>{<b/>}</a>");
     THtml h("<a><div><div><b/></div></div></a>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 2);
   }
 
@@ -273,7 +332,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
     auto ab = ParseHext("<div>{<b/><a/>}</div>");
     THtml h("<div><span><span><span><b></b><a></a></span></span></span></div>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 3);
   }
 
@@ -282,7 +341,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
     THtml h("<div><i></i><span><span><span>"
       "<b></b><a></a></span></span></span></div>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 7);
   }
 
@@ -292,7 +351,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
       "<b></b><a></a>"
       "</span></span></span></div><b></b>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 4);
   }
 
@@ -302,7 +361,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
       "<b><span><a></a></span></b>"
       "</span></span></span></div>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 3);
   }
 
@@ -312,7 +371,7 @@ TEST(Rule_RuleMatching, MatchRangeNested)
       "<i></i><b><span><a></a><b></b></span></b>"
       "</span></span></span></div>");
     MatchingNodes r;
-    MatchRange(&ab, nullptr, h.first(), nullptr, r);
+    MatchRange(&ab, nullptr, h.first(), nullptr, r, max_searches);
     EXPECT_EQ(r.size(), 6);
   }
 }

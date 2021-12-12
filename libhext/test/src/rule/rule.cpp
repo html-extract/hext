@@ -202,7 +202,7 @@ TEST(Rule_Rule, NestedRule)
   r.nested().clear();
 
   Html html(
-    "<html><body>"
+    "<html><head></head><body>"
       "<div><div><div><div><div><div>"
         "<span class='one'></span>"
         "<span class='two'></span>"
@@ -211,10 +211,10 @@ TEST(Rule_Rule, NestedRule)
     "</body></html>"
   );
 
-  Result empty_result = r.extract(html);
+  Result empty_result = r.extract(html, /*max_searches:*/ 10);
   EXPECT_EQ(empty_result.size(), 0);
 
-  Result result = r2.extract(html);
+  Result result = r2.extract(html, /*max_searches:*/ 17);
   EXPECT_EQ(result.size(), 1);
 
   Result expected = {

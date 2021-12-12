@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -99,7 +99,9 @@ int main(int argc, const char ** argv)
     for(const auto& rule : rules)
       for(const auto& html : parsed_html)
       {
-        hext::Result result = rule.extract(html.root());
+        hext::Result result = rule.extract(
+            html.root(),
+            po.get<std::uint64_t>("max-searches"));
         if( po.contains("filter") )
         {
           auto filter_key = po.get("filter");

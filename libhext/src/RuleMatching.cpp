@@ -14,6 +14,7 @@
 
 #include "RuleMatching.h"
 
+#include "hext/MaxSearchError.h"
 #include "hext/Rule.h"
 #include "NodeUtil.h"
 
@@ -23,17 +24,21 @@ namespace hext {
 
 void SaveMatchingNodesRecursive(const Rule *                rule,
                                 const GumboNode *           node,
-                                std::vector<MatchingNodes>& result)
+                                std::vector<MatchingNodes>& result,
+                                std::uint64_t&              max_searches)
 {
   assert(node && rule);
   if( !node || !rule )
     return;
 
+  if( max_searches && --max_searches == 0 )
+    throw MaxSearchError("The allowed amount of searches was exhausted");
+
   const GumboNode * next_node = node;
   while( next_node )
   {
     MatchingNodes sub;
-    next_node = MatchRuleGroup(rule, next_node, sub);
+    next_node = MatchRuleGroup(rule, next_node, sub, max_searches);
     if( sub.size() )
       result.push_back(std::move(sub));
   }
@@ -47,7 +52,8 @@ void SaveMatchingNodesRecursive(const Rule *                rule,
       auto next_node_first_child = static_cast<const GumboNode *>(
           next_node->v.element.children.data[0]);
 
-      SaveMatchingNodesRecursive(rule, next_node_first_child, result);
+      SaveMatchingNodesRecursive(
+          rule, next_node_first_child, result, max_searches);
     }
   }
   while( (next_node = NextNode(next_node)) );
@@ -55,7 +61,8 @@ void SaveMatchingNodesRecursive(const Rule *                rule,
 
 const GumboNode * MatchRuleGroup(const Rule *      rule,
                                  const GumboNode * node,
-                                 MatchingNodes&    result)
+                                 MatchingNodes&    result,
+                                 std::uint64_t&    max_searches)
 {
   if( !rule || !node )
     return nullptr;
@@ -93,7 +100,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
       // If there are no mandatory rules, match until end
       if( !stop_rule )
       {
-        node = MatchRange(rule, nullptr, node, nullptr, sub);
+        node = MatchRange(rule, nullptr, node, nullptr, sub, max_searches);
         std::move(sub.begin(), sub.end(), std::back_inserter(result));
         return node ? NextNode(node) : nullptr;
       }
@@ -106,13 +113,13 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
           // Match the next node, but discard the result.
           // TODO: This is obviously wasteful.
           MatchingNodes discard;
-          auto stop_node = MatchRuleOnce(stop_rule, node, nullptr, discard);
+          auto stop_node = MatchRuleOnce(stop_rule, node, nullptr, discard, max_searches);
 
           // Match until the last rule: either there are only optional rules
           // following, or no rules, because the next mandatory rule is not
           // included in this result set.
           // Match until and excluding stop_node.
-          node = MatchRange(rule, nullptr, node, stop_node, sub);
+          node = MatchRange(rule, nullptr, node, stop_node, sub, max_searches);
 
           std::move(sub.begin(), sub.end(), std::back_inserter(result));
           return stop_node;
@@ -120,7 +127,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
         else
         {
           // Match the next mandatory rule
-          auto stop_node = MatchRuleOnce(stop_rule, node, nullptr, sub);
+          auto stop_node = MatchRuleOnce(stop_rule, node, nullptr, sub, max_searches);
 
           if( !stop_node )
           {
@@ -130,7 +137,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
           }
           else
           {
-            MatchRange(rule, stop_rule, node, stop_node, sub);
+            MatchRange(rule, stop_rule, node, stop_node, sub, max_searches);
             // Also include the already matched stop_rule
             sub.push_back({stop_rule, stop_node});
             rule = stop_rule->next();
@@ -141,7 +148,7 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
     }
     else // rule is mandatory
     {
-      node = MatchRuleOnce(rule, node, nullptr, sub);
+      node = MatchRuleOnce(rule, node, nullptr, sub, max_searches);
 
       // If a mandatory rule isn't matched, abort immediately
       if( !node )
@@ -174,7 +181,8 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
 
 bool RuleMatchesNodeRecursive(const Rule *      rule,
                               const GumboNode * node,
-                              MatchingNodes&    result)
+                              MatchingNodes&    result,
+                              std::uint64_t&    max_searches)
 {
   if( !rule || !node )
     return false;
@@ -201,7 +209,7 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
     do
     {
       MatchingNodes sub;
-      next_node = MatchRuleGroup(rule->child(), next_node, sub);
+      next_node = MatchRuleGroup(rule->child(), next_node, sub, max_searches);
       if( sub.size() )
       {
         std::move(sub.begin(), sub.end(), std::back_inserter(subresult));
@@ -223,7 +231,7 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
     for( const auto& nested : rule->nested() )
     {
       std::vector<MatchingNodes> mn;
-      SaveMatchingNodesRecursive(&nested, first_child, mn);
+      SaveMatchingNodesRecursive(&nested, first_child, mn, max_searches);
 
       if( mn.empty() && FindMandatoryRule(&nested, nullptr) )
         return false;
@@ -241,7 +249,8 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
 const GumboNode * MatchRuleOnce(const Rule *      rule,
                                 const GumboNode * begin,
                                 const GumboNode * end,
-                                MatchingNodes&    result)
+                                MatchingNodes&    result,
+                                std::uint64_t&    max_searches)
 {
   assert(rule);
   if( !rule )
@@ -249,7 +258,7 @@ const GumboNode * MatchRuleOnce(const Rule *      rule,
 
   while( begin && begin != end )
   {
-    if( RuleMatchesNodeRecursive(rule, begin, result) )
+    if( RuleMatchesNodeRecursive(rule, begin, result, max_searches) )
       return begin;
     begin = NextNode(begin);
   }
@@ -261,7 +270,8 @@ const GumboNode * MatchRange(const Rule *      r_begin,
                              const Rule *      r_end,
                              const GumboNode * n_begin,
                              const GumboNode * n_end,
-                             MatchingNodes&    result)
+                             MatchingNodes&    result,
+                             std::uint64_t&    max_searches)
 {
   assert(n_begin);
   if( !n_begin )
@@ -270,7 +280,7 @@ const GumboNode * MatchRange(const Rule *      r_begin,
   const GumboNode * matching_node = n_end;
   while( r_begin && r_begin != r_end )
   {
-    matching_node = MatchRuleOnce(r_begin, n_begin, n_end, result);
+    matching_node = MatchRuleOnce(r_begin, n_begin, n_end, result, max_searches);
     const auto has_matched = ( matching_node && matching_node != n_end );
     if( has_matched )
     {

@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 // Extraction
 #include "hext/Html.h"
 #include "hext/HtmlTag.h"
+#include "hext/MaxSearchError.h"
 #include "hext/Result.h"
 #include "hext/Rule.h"
 

@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #include "hext/Rule.h"
 
+#include <cstdint>
 #include <utility>
 #include <vector>
 
@@ -34,7 +35,8 @@ using MatchingNodes = std::vector<std::pair<const Rule *, const GumboNode *>>;
 /// Result will be empty if nothing was matched.
 void SaveMatchingNodesRecursive(const Rule *                rule,
                                 const GumboNode *           node,
-                                std::vector<MatchingNodes>& result);
+                                std::vector<MatchingNodes>& result,
+                                std::uint64_t&              max_searches);
 
 /// Matches rule and its siblings against node and its siblings.
 /// Saves the matching nodes in result, which will be empty, if no matches were
@@ -43,7 +45,8 @@ void SaveMatchingNodesRecursive(const Rule *                rule,
 /// is done.
 const GumboNode * MatchRuleGroup(const Rule *      rule,
                                  const GumboNode * node,
-                                 MatchingNodes&    result);
+                                 MatchingNodes&    result,
+                                 std::uint64_t&    max_searches);
 
 /// Returns whether rule matches node. Also matches the rule's children against
 /// the nodes children.
@@ -51,7 +54,8 @@ const GumboNode * MatchRuleGroup(const Rule *      rule,
 /// Note: Even if the given node matches, it won't be appended to result.
 bool RuleMatchesNodeRecursive(const Rule *      rule,
                               const GumboNode * node,
-                              MatchingNodes&    result);
+                              MatchingNodes&    result,
+                              std::uint64_t&    max_searches);
 
 /// Returns the first node in range [begin, end) for which
 /// RuleMatchesNodeRecursive returns true.
@@ -63,7 +67,8 @@ bool RuleMatchesNodeRecursive(const Rule *      rule,
 const GumboNode * MatchRuleOnce(const Rule *      rule,
                                 const GumboNode * begin,
                                 const GumboNode * end,
-                                MatchingNodes&    result);
+                                MatchingNodes&    result,
+                                std::uint64_t&    max_searches);
 
 /// Matches rules in range [r_begin, r_end) against the nodes in range
 /// [n_begin, n_end). Returns the last matching node, or n_end if all nodes
@@ -74,7 +79,8 @@ const GumboNode * MatchRange(const Rule *      r_begin,
                              const Rule *      r_end,
                              const GumboNode * n_begin,
                              const GumboNode * n_end,
-                             MatchingNodes&    result);
+                             MatchingNodes&    result,
+                             std::uint64_t&    max_searches);
 
 /// Returns the next mandatory rule in range [begin, end), or nullptr, if no
 /// mandatory rule is found.

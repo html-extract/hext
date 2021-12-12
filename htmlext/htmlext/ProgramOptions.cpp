@@ -1,4 +1,4 @@
-// Copyright 2015 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,6 +50,11 @@ ProgramOptions::ProgramOptions()
                      ->value_name("<key>"),
                  "Print values whose name matches <key>")
     ("lint,l", "Do Hext syntax check")
+    ("max-searches,m", po::value<std::uint64_t>()
+                            ->default_value(0, "")
+                            ->value_name("<amount>"),
+                        "Abort after this many searches. The default is 0,"
+                        " which never aborts.")
     ("help,h", "Print this help message")
     ("version,V", "Print info and version")
   ;
@@ -97,11 +102,6 @@ void ProgramOptions::store_and_validate_or_throw(int argc, const char * argv[])
 bool ProgramOptions::contains(const char * key) const
 {
   return this->vm_.count(key) && !this->vm_[key].defaulted();
-}
-
-std::string ProgramOptions::get(const char * key) const
-{
-  return this->vm_[key].as<std::string>();
 }
 
 std::vector<std::string> ProgramOptions::get_hext_files() const

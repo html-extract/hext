@@ -26,6 +26,7 @@
 #include "hext/Visibility.h"
 
 #include <cstddef>
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
@@ -234,15 +235,23 @@ public:
 
   /// Recursively extracts values from an hext::HTML.
   ///
+  /// @param max_searches:  Abort extraction by throwing a `MaxSearchError`
+  ///                       after doing this amount of searches in the
+  ///                       given Html.
   /// @returns  A vector containing maps filled with the captured
   ///           name value pairs.
-  hext::Result extract(const Html& html) const;
+  hext::Result extract(const Html&   html,
+                       std::uint64_t max_searches = 0) const;
 
   /// Recursively extracts values from a GumboNode.
   ///
+  /// @param max_searches:  Abort extraction by throwing a `MaxSearchError`
+  ///                       after doing this amount of searches in the
+  ///                       given GumboNode.
   /// @returns  A vector containing maps filled with the captured
   ///           name value pairs.
-  hext::Result extract(const GumboNode * node) const;
+  hext::Result extract(const GumboNode * node,
+                       std::uint64_t     max_searches = 0) const;
 
   /// Returns true if this Rule matches node.
   ///

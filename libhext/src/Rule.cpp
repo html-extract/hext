@@ -264,15 +264,17 @@ std::vector<ResultPair> Rule::capture(const GumboNode * node) const
   return values;
 }
 
-hext::Result Rule::extract(const Html& html) const
+hext::Result Rule::extract(const Html&   html,
+                           std::uint64_t max_searches) const
 {
-  return this->extract(html.root());
+  return this->extract(html.root(), max_searches);
 }
 
-hext::Result Rule::extract(const GumboNode * node) const
+hext::Result Rule::extract(const GumboNode * node,
+                           std::uint64_t     max_searches) const
 {
   std::vector<MatchingNodes> mn;
-  SaveMatchingNodesRecursive(this, node, mn);
+  SaveMatchingNodesRecursive(this, node, mn, max_searches);
 
   hext::Result result;
   for( const auto& group : mn )
