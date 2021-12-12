@@ -6,13 +6,13 @@ Hext is a domain-specific language for extracting structured data from HTML. It 
 
 
 ## A Quick Example
-The following Hext snippet collects all hyperlinks and extracts the href and the clickable text.
+The following Hext template collects all hyperlinks and extracts the href and the clickable text.
 ```
 <a href:link @text:title />
 ```
 Hext does so by recursively trying to match every HTML element. In the case above, an element is required to have the tag a and an attribute called href. If the element matches, its attribute href and its textual representation are stored as link and title, respectively.
 
-If the above Hext snippet is applied to this piece of HTML:
+If the above Hext template is applied to this piece of HTML:
 ```
 <body>
   <a href="one.html">  Page 1</a>
@@ -53,7 +53,7 @@ const request = require('request');
 
 
 // hext.Rule's constructor expects a single argument
-// containing a Hext snippet.
+// containing a Hext template.
 // Throws an Error on invalid syntax, with
 // Error.message containing the error description.
 const rule = new hext.Rule(`

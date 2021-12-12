@@ -19,7 +19,7 @@
   echo "Usage: $0 <hext-file...>"
   echo
   cat <<HelpMessage | fold -s -w 78 | sed 's/^/  /'
-$0 applies Hext snippets to HTML documents and compares the result to a third \
+$0 applies Hext templates to HTML documents and compares the result to a third \
 file that contains the expected output. For example, there is a test case \
 icase-quoted-regex that consists of three files:
   icase-quoted-regex.hext
@@ -30,7 +30,7 @@ To run this test case you would do the following:
 
 $0 will then look for the corresponding .html and .expected files of the same \
 name in the directory of icase-quoted-regex.hext. Then it will invoke htmlext \
-with the given Hext snippet and HTML document and compare the result to \
+with the given Hext template and HTML document and compare the result to \
 icase-quoted-regex.expected.
 
 To run all blackbox tests in succession:

@@ -5,13 +5,13 @@
 Hext is a domain-specific language for extracting structured data from HTML. It can be thought of as a counterpart to templates, which are typically used by web developers to structure content on the web.
 
 ## A Quick Example
-The following Hext snippet collects all hyperlinks and extracts the href and the clickable text.
+The following Hext template collects all hyperlinks and extracts the href and the clickable text.
 ```
 <a href:link @text:title />
 ```
 Hext does so by recursively trying to match every HTML element. In the case above, an element is required to have the tag a and an attribute called href. If the element matches, its attribute href and its textual representation are stored as link and title, respectively.
 
-If the above Hext snippet is applied to this piece of HTML:
+If the above Hext template is applied to this piece of HTML:
 ```
 <body>
   <a href="one.html">  Page 1</a>
@@ -51,7 +51,7 @@ res.raise_for_status()
 html = hext.Html(res.text)
 
 # hext.Rule's constructor expects a single argument
-# containing a Hext snippet.
+# containing a Hext template.
 # Throws an exception of type ValueError on invalid syntax.
 rule = hext.Rule("""
 <tr>
@@ -77,7 +77,7 @@ for map in result:
 ```
 
 ### Using Hext on the Command Line
-Hext ships with a command line utility called htmlext, which applies Hext snippets to HTML documents and outputs JSON.
+Hext ships with a command line utility called htmlext, which applies Hext templates to HTML documents and outputs JSON.
 ```
 htmlext - Extract structured content from HTML.
 

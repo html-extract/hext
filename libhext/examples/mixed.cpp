@@ -57,7 +57,7 @@ int main()
     return EXIT_FAILURE;
   }
 
-  // Rule anchor is now equivalent to this hext snippet:
+  // Rule anchor is now equivalent to this hext template:
   // <a href:href>
   //   <img src:img />
   //   <p @text:par>

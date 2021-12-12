@@ -7,7 +7,7 @@ htmlext(1) -- Extract structured content from HTML
 
 ## DESCRIPTION
 
-  `htmlext` is a command-line utility that accepts Hext snippets, matches them against HTML files and outputs JSON.
+  `htmlext` is a command-line utility that accepts Hext templates, matches them against HTML files and outputs JSON.
 
   Every Hext rule tree match produces its own JSON object containing the captured name-value pairs.
 
@@ -26,7 +26,7 @@ $ cat index.html
   <a href="two.html">  Page 2</a>
   <a href="three.html">Page 3</a>
 
-# The following htmlext invocation will apply a Hext snippet (-s)
+# The following htmlext invocation will apply a Hext template (-s)
 # to an HTML document (-i) and print one JSON object per line (-c):
 $ htmlext -s '<a href:link @text:title />' -i index.html -c
   {"link":"one.html","title":"Page 1"}
@@ -43,13 +43,13 @@ $ htmlext -s '<a href:link @text:title />' -i index.html -f link
 ## OPTIONS
 
   * `-x` <file>,`--hext` <file>:
-    Add Hext snippet from file.
+    Add Hext template from file.
 
   * `-i` <file>,`--html` <file>:
     Add HTML document from file.
 
   * `-s` <string>,`--str` <string>:
-    Add Hext snippet from string.
+    Add Hext template from string.
 
   * `-c`,`--compact`:
     Force compact output.
