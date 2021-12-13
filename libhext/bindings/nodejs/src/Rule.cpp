@@ -1,4 +1,4 @@
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -118,9 +118,10 @@ NAN_METHOD(Rule::extract) {
       if( group.count(it->first) < 2 )
       {
         map->Set(
+          Nan::GetCurrentContext(),
           Nan::New<v8::String>(it->first).ToLocalChecked(),
           Nan::New<v8::String>(it->second).ToLocalChecked()
-        );
+        ).Check();
         ++it;
       }
       else
@@ -131,17 +132,19 @@ NAN_METHOD(Rule::extract) {
         auto upper = group.upper_bound(it->first);
         for(; lower != upper; ++lower)
           array->Set(
+              Nan::GetCurrentContext(),
               array->Length(),
-              Nan::New<v8::String>(lower->second).ToLocalChecked());
+              Nan::New<v8::String>(lower->second).ToLocalChecked()).Check();
         map->Set(
+          Nan::GetCurrentContext(),
           Nan::New<v8::String>(it->first).ToLocalChecked(),
           array
-        );
+        ).Check();
         it = upper;
       }
     }
 
-    ret->Set(ret->Length(), map);
+    ret->Set(Nan::GetCurrentContext(), ret->Length(), map).Check();
   }
   info.GetReturnValue().Set(ret);
 }
