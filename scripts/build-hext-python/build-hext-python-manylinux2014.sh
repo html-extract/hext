@@ -3,8 +3,45 @@
 set -e
 
 CMAKE_MAKE_FLAGS="-j3"
+THREADS=3
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
+download_and_verify() {
+  curl -vL -o "$1" "$2"
+  echo "$3  $1" | sha256sum -c || {
+    echo "Error: invalid checksum for $1, expected $3"
+    exit 1
+  } > /dev/stderr
+}
+
+yum -y install pcre pcre-devel swig3 rapidjson-devel gtest-devel
+
+BUILDD=$(mktemp -d)
+cd "$BUILDD"
+
+download_and_verify \
+  "boost_1_78_0.tar.gz" \
+  "https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz" \
+  "94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7"
+
+download_and_verify \
+  "gumbo-parser-v0.10.1.tar.gz" \
+  "https://github.com/google/gumbo-parser/archive/refs/tags/v0.10.1.tar.gz" \
+  "28463053d44a5dfbc4b77bcf49c8cee119338ffa636cc17fc3378421d714efad"
+
+tar -x -f boost*
+cd boost*/
+./bootstrap.sh --with-libraries=regex,program_options
+./b2 -j$THREADS cxxflags="-fPIC" runtime-link=static variant=release link=static install
+cd ..
+
+tar -x -f gumbo*
+cd gumbo*/
+./autogen.sh
+CFLAGS="-fPIC" ./configure --enable-shared=no
+make -j$THREADS
+make install
+cd ..
 
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 [[ -d "$HEXTD/libhext" ]] || {

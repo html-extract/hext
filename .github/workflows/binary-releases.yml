@@ -6,7 +6,7 @@ jobs:
     name: Python
     runs-on: ubuntu-latest
     container:
-      image: thomastrapp/hext-manylinux2014
+      image: quay.io/pypa/manylinux2014_x86_64
     env:
       WHEEL_OUT: scripts/build-hext-python/output
     steps:
@@ -14,7 +14,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Build
-      run: ./scripts/build-hext-python/build-hext-python.sh
+      run: ./scripts/build-hext-python/build-hext-python-manylinux2014.sh
     - name: Remove .gitignore
       run: rm ${{ env.WHEEL_OUT }}/.gitignore
     - uses: actions/upload-artifact@v1
