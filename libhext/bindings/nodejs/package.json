@@ -3,8 +3,8 @@
   "version": "0.2.0",
   "description": "Hext language bindings for nodejs",
   "dependencies": {
-    "cmake-js": "^5.1.0",
-    "nan": "^2.13.2"
+    "cmake-js": "~6.3.0",
+    "nan": "~2.15.0"
   },
   "scripts": {
     "build": "cmake-js build"
