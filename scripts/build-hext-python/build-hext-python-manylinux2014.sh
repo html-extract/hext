@@ -14,6 +14,12 @@ download_and_verify() {
   } > /dev/stderr
 }
 
+HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
+ASSETD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/assets"
+[[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
+OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
+[[ -d "$OUTD" ]] || perror_exit "cannot access output directory (expected '$OUTD')"
+
 yum -y install pcre pcre-devel swig3 rapidjson-devel gtest-devel
 
 BUILDD=$(mktemp -d)
@@ -43,15 +49,10 @@ make -j$THREADS
 make install
 cd ..
 
-HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 [[ -d "$HEXTD/libhext" ]] || {
   HEXTD=$(mktemp -d)
   git clone "https://github.com/html-extract/hext.git" "$HEXTD"
 }
-ASSETD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/assets"
-[[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
-OUTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/output"
-[[ -d "$OUTD" ]] || perror_exit "cannot access output directory (expected '$OUTD')"
 
 LIBHEXTD="$HEXTD/libhext"
 cd "$LIBHEXTD/test/build"
