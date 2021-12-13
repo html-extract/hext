@@ -117,8 +117,8 @@ NAN_METHOD(Rule::extract) {
     {
       if( group.count(it->first) < 2 )
       {
-        map->Set(
-          Nan::GetCurrentContext(),
+        Nan::Set(
+          map,
           Nan::New<v8::String>(it->first).ToLocalChecked(),
           Nan::New<v8::String>(it->second).ToLocalChecked()
         ).Check();
@@ -131,12 +131,12 @@ NAN_METHOD(Rule::extract) {
         auto lower = group.lower_bound(it->first);
         auto upper = group.upper_bound(it->first);
         for(; lower != upper; ++lower)
-          array->Set(
-              Nan::GetCurrentContext(),
+          Nan::Set(
+              array,
               array->Length(),
               Nan::New<v8::String>(lower->second).ToLocalChecked()).Check();
-        map->Set(
-          Nan::GetCurrentContext(),
+        Nan::Set(
+          map,
           Nan::New<v8::String>(it->first).ToLocalChecked(),
           array
         ).Check();
@@ -144,7 +144,7 @@ NAN_METHOD(Rule::extract) {
       }
     }
 
-    ret->Set(Nan::GetCurrentContext(), ret->Length(), map).Check();
+    Nan::Set(ret, ret->Length(), map).Check();
   }
   info.GetReturnValue().Set(ret);
 }
