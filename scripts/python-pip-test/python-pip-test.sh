@@ -27,10 +27,6 @@ BLACKBOXCASED="$HEXTD/test/case"
 
 for i in /opt/python/cp* ; do
   V=$(basename $i)
-  if [[ "$V" == "cp310-cp310" ]] ; then
-    continue
-  fi
-
   PIP=$(readlink -f /opt/python/$V/bin/pip)
   if [[ "$USE_PYPI" = true ]] ; then
     WHEEL="hext"
@@ -43,10 +39,6 @@ done
 PYTESTD="$HEXTD/libhext/bindings/python/pytest"
 for i in /opt/python/cp* ; do
   V=$(basename $i)
-  if [[ "$V" == "cp310-cp310" ]] ; then
-    continue
-  fi
-
   PIP=$(readlink -f /opt/python/$V/bin/pip)
   $PIP install pytest
 
