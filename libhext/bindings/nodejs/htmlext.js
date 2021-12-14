@@ -66,7 +66,16 @@ catch(e)
 }
 
 var html = new hext.Html(strhtml);
-var result = rule.extract(html);
+
+try
+{
+  var result = rule.extract(html);
+}
+catch(e)
+{
+  console.error(util.format("%s: In %s: %s", scriptname, args[0], e.message));
+  process.exit(1);
+}
 
 for(var i in result)
   console.log(JSON.stringify(result[i]));

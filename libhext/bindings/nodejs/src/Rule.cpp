@@ -15,8 +15,11 @@
 #include "Rule.h"
 #include "Html.h"
 
+#include <hext/MaxSearchError.h>
 #include <hext/ParseHext.h>
+#include <hext/Result.h>
 
+#include <cstdint>
 #include <utility>
 
 
@@ -89,8 +92,8 @@ NAN_METHOD(Rule::New)
 
 NAN_METHOD(Rule::extract) {
   Rule * obj = Nan::ObjectWrap::Unwrap<Rule>(info.This());
-  Nan::MaybeLocal<v8::Object> maybe_arg = Nan::To<v8::Object>(info[0]);
-  if( maybe_arg.IsEmpty() )
+
+  if( info.Length() < 1 )
   {
     Nan::ThrowTypeError(
         Nan::New<v8::String>("Argument error: missing argument, "
@@ -98,7 +101,33 @@ NAN_METHOD(Rule::extract) {
     return;
   }
 
-  Html * arg = Nan::ObjectWrap::Unwrap<Html>(maybe_arg.ToLocalChecked());
+  std::uint64_t max_searches = 0;
+  if( info.Length() > 1 )
+  {
+    if( !info[1]->IsUint32() )
+    {
+      Nan::ThrowTypeError(
+          Nan::New<v8::String>(
+            "Argument error: "
+            "Optional argument 'max_searches' must be of type unsigned int").ToLocalChecked());
+      return;
+    }
+    else
+    {
+      max_searches = info[1]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+    }
+  }
+
+  Nan::MaybeLocal<v8::Object> maybe_arg_hext = Nan::To<v8::Object>(info[0]);
+  if( maybe_arg_hext.IsEmpty() )
+  {
+    Nan::ThrowTypeError(
+        Nan::New<v8::String>("Argument error: invalid argument, "
+                             "expected hext.Html").ToLocalChecked());
+    return;
+  }
+
+  Html * arg = Nan::ObjectWrap::Unwrap<Html>(maybe_arg_hext.ToLocalChecked());
   if( !arg )
   {
     Nan::ThrowTypeError(
@@ -107,7 +136,18 @@ NAN_METHOD(Rule::extract) {
     return;
   }
 
-  auto result = obj->rule_.extract(arg->root());
+  hext::Result result;
+  try
+  {
+    result = obj->rule_.extract(arg->root(), max_searches);
+  }
+  catch( const hext::MaxSearchError& e )
+  {
+    auto message = std::string("Error: ") + e.what();
+    Nan::ThrowError(Nan::New<v8::String>(message.c_str()).ToLocalChecked());
+    return;
+  }
+
   v8::Local<v8::Array> ret = Nan::New<v8::Array>();
   for(const auto& group : result)
   {
