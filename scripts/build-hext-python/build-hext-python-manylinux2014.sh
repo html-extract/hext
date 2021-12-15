@@ -61,7 +61,7 @@ make $CMAKE_MAKE_FLAGS
 ./libhext-test
 
 cd "$HEXTD/build"
-cmake -DBUILD_SHARED_LIBS=Off -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On -DCMAKE_POSITION_INDEPENDENT_CODE=On ..
+cmake -DBUILD_SHARED_LIBS=Off -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On -DCMAKE_POSITION_INDEPENDENT_CODE=On -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " ..
 make $CMAKE_MAKE_FLAGS
 make install
 
@@ -78,7 +78,7 @@ for i in /opt/python/cp* ; do
   $PIP install -U setuptools wheel
   PYTHON_INCLUDE_DIR=$(readlink -f /opt/python/$V/include/python*/)
   PYTHON_LIBRARY=$(readlink -f /opt/python/$V/lib/python*/)
-  cmake -DPYTHON_LIBRARY="$PYTHON_LIBRARY" -DPYTHON_INCLUDE_DIR="$PYTHON_INCLUDE_DIR" -DBUILD_SHARED_LIBS=On -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On ..
+  cmake -DPYTHON_LIBRARY="$PYTHON_LIBRARY" -DPYTHON_INCLUDE_DIR="$PYTHON_INCLUDE_DIR" -DBUILD_SHARED_LIBS=On -DBoost_USE_STATIC_LIBS=On -DBoost_USE_STATIC_RUNTIME=On -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " ..
   make $CMAKE_MAKE_FLAGS
   cp hext.py wheel/hext/__init__.py
   strip --strip-unneeded _hext.so
