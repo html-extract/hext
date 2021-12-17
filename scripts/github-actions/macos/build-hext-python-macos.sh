@@ -15,7 +15,7 @@ WHEEL_OUT="$( cd "$WHEEL_OUT" >/dev/null && pwd )"
 rm "$WHEEL_OUT/.gitignore" || true
 
 HEXTD="$( pwd )"
-ASSETD="$HEXTD/scripts/build-hext-python/assets"
+ASSETD="$HEXTD/scripts/github-actions/pypi/assets"
 [[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
 
 LIBHEXTD="$HEXTD/libhext"
@@ -40,13 +40,14 @@ cmake \
 make $CMAKE_MAKE_FLAGS
 cp hext.py wheel/hext/__init__.py
 otool -L _hext.so
-otool -l _hext.so | grep -A2 LC_VERSION_MIN_MACOSX
+otool -l _hext.so
+otool -l _hext.so | grep -A2 LC_VERSION_MIN_MACOSX || true
 cp _hext.so wheel/hext
 
 mkdir wheel/bin
 cp /usr/local/bin/htmlext wheel/bin
 otool -L /usr/local/bin/htmlext
-otool -l /usr/local/bin/htmlext | grep -A2 LC_VERSION_MIN_MACOSX
+otool -l /usr/local/bin/htmlext | grep -A2 LC_VERSION_MIN_MACOSX || true
 
 cd wheel
 python setup.py bdist_wheel

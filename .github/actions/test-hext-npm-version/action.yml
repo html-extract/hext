@@ -1,0 +1,24 @@
+name: Test npm package version
+description: Test npm package for a specific node version
+inputs:
+  version:
+    description: Node version
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ inputs.version }}
+    - name: Run tests
+      shell: bash
+      run: >
+        node --version
+        && cd test
+        && npm install ../rls
+        && cp ../libhext/bindings/nodejs/htmlext.js .
+        && HTMLEXT="node htmlext.js" ./blackbox.sh case/*hext
+        && rm -rf node_modules/
+        && git checkout -f .
+

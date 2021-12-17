@@ -1,0 +1,28 @@
+name: Test python wheel macos
+description: Test wheel for a specific python version on macos
+inputs:
+  version:
+    description: Python version
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Install python ${{ inputs.version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ inputs.version }}
+
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-python${{ inputs.version }}-macos-${{ github.sha }}
+
+    - name: Pip install and test ${{ inputs.version }}
+      shell: bash
+      run: >
+        python --version | grep ${{ inputs.version }}
+        && pip install ./*/hext-*.whl
+        && HTMLEXT="python libhext/bindings/python/htmlext.py" test/blackbox.sh test/case/*hext
+        && ./test/blackbox.sh test/case/*hext
+        && rm ./*/*.whl
+        && pip uninstall -y hext
+

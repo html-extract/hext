@@ -1,0 +1,26 @@
+name: Test npm package
+description: Test npm package for all node versions
+runs:
+  using: composite
+  steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-npm-package-${{ github.sha }}
+        path: rls
+    - name: Test Node v${{ env.HEXT_NODE_VERSION1 }}
+      uses: ./.github/actions/test-hext-npm-version
+      with:
+        version: ${{ env.HEXT_NODE_VERSION1 }}
+    - name: Test Node v${{ env.HEXT_NODE_VERSION2 }}
+      uses: ./.github/actions/test-hext-npm-version
+      with:
+        version: ${{ env.HEXT_NODE_VERSION2 }}
+    - name: Test Node v${{ env.HEXT_NODE_VERSION3 }}
+      uses: ./.github/actions/test-hext-npm-version
+      with:
+        version: ${{ env.HEXT_NODE_VERSION3 }}
+    - name: Test Node v${{ env.HEXT_NODE_VERSION4 }}
+      uses: ./.github/actions/test-hext-npm-version
+      with:
+        version: ${{ env.HEXT_NODE_VERSION4 }}
+

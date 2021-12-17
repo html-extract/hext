@@ -1,0 +1,341 @@
+name: Hext Releases
+on: [push]
+
+
+env:
+  HEXT_BOOST_VERSION: "1.78.0"
+  HEXT_BOOST_SHA256: "94ced8b72956591c4775ae2207a9763d3600b30d9d7446562c552f0a14a63be7"
+  HEXT_BOOST_INSTALL_PATH: "${{ github.workspace }}/boost_root"
+  HEXT_GUMBO_VERSION: "0.10.1"
+  HEXT_GUMBO_SHA256: "28463053d44a5dfbc4b77bcf49c8cee119338ffa636cc17fc3378421d714efad"
+  HEXT_GUMBO_INSTALL_PATH: "${{ github.workspace }}/gumbo_root"
+  HEXT_PYTHON_VERSION1: "3.10"
+  HEXT_PYTHON_VERSION2: "3.9"
+  HEXT_PYTHON_VERSION3: "3.8"
+  HEXT_PYTHON_VERSION4: "3.7"
+  HEXT_PYTHON_VERSION5: "3.6"
+  HEXT_NODE_VERSION1: "17"
+  HEXT_NODE_VERSION2: "16"
+  HEXT_NODE_VERSION3: "14"
+  HEXT_NODE_VERSION4: "12"
+  HEXT_NODE_API_VERSION1: "17.0.1"
+  HEXT_NODE_API_VERSION2: "16.0.0"
+  HEXT_NODE_API_VERSION3: "14.0.0"
+  HEXT_NODE_API_VERSION4: "12.0.0"
+
+
+jobs:
+  ###
+  ### Macos Releases (Node, Python)
+  ###
+  macos_releases:
+    name: Macos Releases (Node, Python)
+    runs-on: macos-10.15
+    env:
+      # 2021-12-16: Using MACOSX_DEPLOYMENT_TARGET="10.11" triggers the
+      # following notice when building the python hext wheel:
+      # Warning:  MACOSX_DEPLOYMENT_TARGET is set to a lower value (10.11)
+      # than the version on which the Python interpreter was compiled (10.14),
+      # and will be ignored.
+      MACOSX_DEPLOYMENT_TARGET: "10.11"
+      WHEEL_OUT: scripts/github-actions/macos/wheel-output
+      NODE_OUT: scripts/github-actions/macos/node-output
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - uses: actions/cache@v2
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: macos-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v2
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: macos-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      run: brew install icu4c rapidjson googletest autoconf automake libtool
+
+    - name: Install gumbo
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-gumbo.sh
+
+    - name: Install boost
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-boost.sh
+
+    - name: Install hext
+      run: ./scripts/github-actions/macos/install-hext.sh
+
+    - name: Build node modules
+      run: ./scripts/github-actions/macos/build-hext-node-macos.sh
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-node-macos-${{ github.sha }}
+        path: ${{ env.NODE_OUT }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION5 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION5 }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION4 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION4 }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION3 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION3 }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION2 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION2 }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION1 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION1 }}
+
+
+  ###
+  ### Macos Tests (Python)
+  ###
+  macos_python_test:
+    name: Macos Tests (Python)
+    needs: macos_releases
+    runs-on: macos-10.15
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION1 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION1 }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION2 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION2 }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION3 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION3 }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION4 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION4 }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION5 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION5 }}
+
+
+  ###
+  ### Linux Releases (Python)
+  ###
+  linux_python_releases:
+    name: Linux Releases (Python)
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/pypa/manylinux2014_x86_64
+    env:
+      WHEEL_OUT: scripts/github-actions/linux/wheel-output
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - uses: actions/cache@v2
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: manylinux-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v2
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: manylinux-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      run: yum -y install pcre pcre-devel swig3 rapidjson-devel gtest-devel
+
+    - name: Install gumbo
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-gumbo.sh
+
+    - name: Install boost
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-boost.sh
+
+    - name: Build
+      run: ./scripts/github-actions/linux/build-hext-python-manylinux2014.sh
+
+    - name: Remove .gitignore
+      run: rm ${{ env.WHEEL_OUT }}/.gitignore
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-python-linux-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+    - name: Prepare upload
+      run: |
+        mkdir upload
+        cp /usr/local/bin/htmlext upload/
+        strip --strip-unneeded upload/htmlext
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: htmlext-static-linux-x86_64-${{ github.sha }}
+        path: upload
+
+
+  ###
+  ### Linux Tests (Python)
+  ###
+  linux_python_test:
+    name: Linux Tests (Python)
+    needs: linux_python_releases
+    runs-on: ubuntu-latest
+    env:
+      WHEEL_OUT: scripts/github-actions/linux/wheel-output
+    container:
+      image: quay.io/pypa/manylinux2014_x86_64
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-python-linux-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+    - name: Pip install and test
+      run: ./scripts/github-actions/linux/test-hext-python-manylinux2014.sh
+
+
+  ###
+  ### Linux Releases (Node)
+  ###
+  linux_node_releases:
+    name: Linux Releases (Node)
+    runs-on: ubuntu-18.04
+    env:
+      NODE_OUT: scripts/github-actions/linux/node-output
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - uses: actions/cache@v2
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: linux-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v2
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: linux-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      run: >
+        sudo apt-get update > /dev/null
+        && sudo apt-get upgrade -y > /dev/null
+        && sudo apt-get install -y git curl libtool automake libicu-dev googletest libgtest-dev rapidjson-dev
+
+    - name: Install gumbo
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-gumbo.sh
+
+    - name: Install boost
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-boost.sh
+
+    - name: Build
+      run: ./scripts/github-actions/linux/build-hext-node-linux.sh
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-node-linux-${{ github.sha }}
+        path: ${{ env.NODE_OUT }}
+
+
+  ###
+  ### Create NPM Package
+  ###
+  create_npm_package:
+    needs: [macos_releases, linux_node_releases]
+    runs-on: ubuntu-latest
+    name: Create NPM Package
+    env:
+      NODE_MODULES: scripts/github-actions/npm/node-modules/
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-node-macos-${{ github.sha }}
+        path: ${{ env.NODE_MODULES }}
+
+    - uses: actions/download-artifact@v1
+      with:
+        name: hext-node-linux-${{ github.sha }}
+        path: ${{ env.NODE_MODULES }}
+
+    - run: >
+        ./scripts/github-actions/npm/create-npm-package.sh
+        scripts/github-actions/npm/package
+        "$NODE_MODULES"/*node
+
+    - uses: actions/upload-artifact@v1
+      with:
+        name: hext-npm-package-${{ github.sha }}
+        path: ./scripts/github-actions/npm/package
+
+
+  ###
+  ### Linux Tests (Node)
+  ###
+  linux_node_test:
+    needs: create_npm_package
+    runs-on: ubuntu-latest
+    name: Linux Tests (Node)
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: ./.github/actions/test-hext-npm
+
+
+  ###
+  ### Macos Tests (Node)
+  ###
+  macos_node_test:
+    needs: create_npm_package
+    runs-on: macos-10.15
+    name: Macos Tests (Node)
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - uses: ./.github/actions/test-hext-npm

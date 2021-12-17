@@ -44,6 +44,31 @@ make $MAKE_FLAGS
 sudo make install
 sudo ldconfig
 
+cd ..
+set -x
+GIT_TAG=$(git describe --abbrev=0 --tags)
+htmlext --version | head -n1 | awk -F, '{ print $1 }' | grep "htmlext $GIT_TAG" || {
+  echo "htmlext version != $GIT_TAG"
+  htmlext --version | head -n1
+  exit 1
+}
+htmlext --version | grep -i 'linked with libhext' | grep "libhext $GIT_TAG" || {
+  echo "libhext version != $GIT_TAG"
+  htmlext --version | grep -i 'linked with libhext'
+  exit 1
+}
+grep 'version=' scripts/github-actions/pypi/assets/setup.py | grep "version='${GIT_TAG:1}'," || {
+  echo "pypi version != $GIT_TAG"
+  grep version= scripts/github-actions/pypi/assets/setup.py
+  exit 1
+}
+grep '"version":' scripts/github-actions/npm/assets/package.json | awk -F\" '{ print $4 }' | grep "1${GIT_TAG:1}" || {
+  echo "npm version != $GIT_TAG"
+  grep '"version":' scripts/github-actions/npm/assets/package.json
+  exit 1
+}
+set +x
+
 cd "$HEXTD"
 cppcheck --version
 cppcheck --quiet --error-exitcode=1 --enable=warning,portability\
@@ -92,7 +117,7 @@ cd "$LIBHEXTBINDINGSD/nodejs"
 # protect against CI env by prioritizing system installed node
 export PATH="/usr/bin:$PATH"
 npm install
-npx -s /bin/bash cmake-js --runtime=node --runtime-version=12.0.0 build
+npx cmake-js --runtime=node --runtime-version=12.0.0 build
 ./test/blackbox.js.sh
 
 echo
