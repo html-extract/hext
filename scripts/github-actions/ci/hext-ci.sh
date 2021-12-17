@@ -45,29 +45,7 @@ sudo make install
 sudo ldconfig
 
 cd ..
-set -x
-GIT_TAG=$(git describe --abbrev=0 --tags)
-htmlext --version | head -n1 | awk -F, '{ print $1 }' | grep "htmlext $GIT_TAG" || {
-  echo "htmlext version != $GIT_TAG"
-  htmlext --version | head -n1
-  exit 1
-}
-htmlext --version | grep -i 'linked with libhext' | grep "libhext $GIT_TAG" || {
-  echo "libhext version != $GIT_TAG"
-  htmlext --version | grep -i 'linked with libhext'
-  exit 1
-}
-grep 'version=' scripts/github-actions/pypi/assets/setup.py | grep "version='${GIT_TAG:1}'," || {
-  echo "pypi version != $GIT_TAG"
-  grep version= scripts/github-actions/pypi/assets/setup.py
-  exit 1
-}
-grep '"version":' scripts/github-actions/npm/assets/package.json | awk -F\" '{ print $4 }' | grep "1${GIT_TAG:1}" || {
-  echo "npm version != $GIT_TAG"
-  grep '"version":' scripts/github-actions/npm/assets/package.json
-  exit 1
-}
-set +x
+./scripts/check-version/check-version.sh
 
 cd "$HEXTD"
 cppcheck --version
