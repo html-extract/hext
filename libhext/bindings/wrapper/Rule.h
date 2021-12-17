@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,11 @@
 #define WRAPPER_RULE_H_INCLUDED
 
 #include "wrapper/Html.h"
+#include "hext/MaxSearchError.h"
 #include "hext/Rule.h"
 #include "hext/SyntaxError.h"
 
+#include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
@@ -30,7 +32,7 @@ public:
   explicit Rule(const std::string& hext);
 
   std::vector<std::multimap<std::string, std::string>>
-  extract(const Html& html) const;
+  extract(const Html& html, std::uint64_t max_searches = 0) const;
 
 private:
   hext::Rule rule_;

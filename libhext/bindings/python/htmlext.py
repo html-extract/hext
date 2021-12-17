@@ -1,4 +1,4 @@
-# Copyright 2016 Thomas Trapp
+# Copyright 2016-2021 Thomas Trapp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,7 +40,12 @@ except ValueError as e:
     sys.exit(1)
 
 document = hext.Html(strhtml)
-result = rule.extract(document)
+try:
+    result = rule.extract(document, max_searches=10000)
+except RuntimeError as e:
+    sys.stderr.write("{}: In '{}': {}\n".format(scriptname, sys.argv[1], e))
+    sys.exit(1)
+
 
 for map in result:
     print(json.dumps(map, ensure_ascii=False,   # ignore encoding

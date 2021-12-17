@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 Thomas Trapp
+# Copyright 2018-2021 Thomas Trapp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,6 +45,13 @@ def test_rule_extracts_list_of_dict():
     assert "body" in result[0]
     assert type(result[0]["body"]) is str
     assert result[0]["body"] == "💩"
+
+def test_rule_extract_throws_on_max_search_error():
+    html = hext.Html("""
+        <html><body><div><span><span></span></span></div></body></html>""");
+    rule = hext.Rule("<*>{<*>{<*/>}</*>}</*>")
+    with pytest.raises(RuntimeError):
+        rule.extract(html, 1);
 
 def test_rule_extracts_empty_list():
     html = hext.Html("<html><body>💩</body></html>");

@@ -1,4 +1,4 @@
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 %}
 
 %include "typemaps.i"
+%include "stdint.i"
 %include "std_multimap.i"
 %include "std_vector.i"
 %include "std_string.i"
@@ -128,6 +129,16 @@ struct ScopedPyObject
   catch(const hext::SyntaxError& e)
   {
     SWIG_exception(SWIG_ValueError, e.what());
+  }
+}
+%exception Rule::extract {
+  try
+  {
+    $action
+  }
+  catch(const hext::MaxSearchError& e)
+  {
+    SWIG_exception(SWIG_RuntimeError, e.what());
   }
 }
 

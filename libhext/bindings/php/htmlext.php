@@ -1,6 +1,6 @@
 <?php
 
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,17 @@ catch(Exception $e)
 }
 
 $html = new HextHtml($strhtml);
-$result = $rule->extract($html);
+
+$result;
+try
+{
+  $result = $rule->extract($html, /* max_searches: */10000);
+}
+catch(Exception $e)
+{
+  fwrite(STDERR, "$scriptname: In '{$argv[1]}': {$e->getMessage()}\n");
+  exit(1);
+}
 
 foreach($result as $map)
   echo json_encode($map, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n";

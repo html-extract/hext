@@ -1,4 +1,4 @@
-# Copyright 2016 Thomas Trapp
+# Copyright 2016-2021 Thomas Trapp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,7 +37,12 @@ rescue ArgumentError => e
 end
 
 html = Hext::Html.new(strhtml)
-result = rule.extract(html)
+
+begin
+  result = rule.extract(html)
+rescue RuntimeError => e
+  abort "%s: In '%s': %s" % [scriptname, ARGV[0], e.message]
+end
 
 result.each do |map|
   puts map.to_json
