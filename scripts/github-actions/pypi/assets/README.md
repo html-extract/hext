@@ -38,6 +38,7 @@ The module exposes three interfaces:
 * `html = hext.Html("<html>...</html>")` -> object
 * `rule = hext.Rule("...")` -> object
 * `rule.extract(html)` -> dictionary of {string -> string}
+* `rule.extract` has a second optional parameter `max_searches` which is of type unsigned int. The search for matching elements is aborted after this limit is reached. The default is 0, which never aborts.
 ```
 import hext
 import requests
