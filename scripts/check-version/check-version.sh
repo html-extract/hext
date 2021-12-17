@@ -7,7 +7,7 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 cd "$HEXTD"
 
-GIT_TAG=$(git describe --abbrev=0 --tags)
+[[ "$GIT_TAG" != "" ]] || GIT_TAG=$(git describe --abbrev=0 --tags)
 htmlext --version \
   | head -n1 \
   | awk -F, '{ print $1 }' \
