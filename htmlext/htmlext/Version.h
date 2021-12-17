@@ -29,6 +29,9 @@ extern const int version_major;
 /// Minor version number.
 extern const int version_minor;
 
+/// Patch version number.
+extern const int version_patch;
+
 
 /// Print version to out.
 void PrintVersion(std::ostream& out = std::cout);
