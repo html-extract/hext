@@ -28,7 +28,8 @@ grep '"version":' scripts/github-actions/npm/assets/package.json \
   | grep "1${GIT_TAG:1}" >/dev/null \
   || perror_exit "npm version != $GIT_TAG"
 
-README_NODE_VERSIONS=$(grep 'Node v' scripts/github-actions/npm/assets/README.md)
+README_NODE_VERSIONS=$(grep 'Node v' README.md)
+NPM_README_NODE_VERSIONS=$(grep 'Node v' scripts/github-actions/npm/assets/README.md)
 WORKFLOW_NODE_RELEASES=$(grep \
   "^  HEXT_NODE_VERSION" .github/workflows/hext-releases.yml \
     | awk -F\" '{ print $2 }')
@@ -36,7 +37,13 @@ WORKFLOW_NODE_RELEASES=$(grep \
   && perror_exit "cannot extract node releases from workflow"
 for i in $WORKFLOW_NODE_RELEASES ; do
   [[ "$i" == "" ]] && perror_exit "unexpected format '$WORKFLOW_NODE_RELEASES'"
+  echo "$NPM_README_NODE_VERSIONS" | grep "v$i" >/dev/null \
+    || perror_exit "npm readme does not include node version '$i'"
   echo "$README_NODE_VERSIONS" | grep "v$i" >/dev/null \
-    || perror_exit "npm readme does not include version '$i'"
+    || perror_exit "toplevel readme does not include node version '$i'"
 done
+
+grep 'https://github.com/html-extract/hext/archive/v' README.md \
+  | grep "$GIT_TAG" >/dev/null \
+  || perror_exit "toplevel readme links to old archive"
 
