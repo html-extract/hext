@@ -46,6 +46,7 @@ The module exposes three interfaces:
 * `var html = new hext.Html("<html>...</html>")` -> internal object
 * `var rule = new hext.Rule("...")` -> internal object
 * `var result = rule.extract(html)` -> Array of plain JS-objects
+* `rule.extract` has a second optional parameter `max_searches` which is of type unsigned int. The search for matching elements is aborted after this limit is reached. The default is 0, which never aborts.
 
 ```
 const hext = require('hext');
