@@ -1736,14 +1736,18 @@ Rule Parser::parse()
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#ifdef __clang__
+#pragma GCC diagnostic ignored "-Wreserved-identifier"
+#endif
 #endif
   
-#line 1741 "Parser.cpp.tmp"
+#line 1745 "Parser.cpp.tmp"
 	{
 	cs = hext_start;
 	}
 
-#line 1746 "Parser.cpp.tmp"
+#line 1750 "Parser.cpp.tmp"
 	{
 	int _klen;
 	unsigned int _trans;
@@ -2187,7 +2191,7 @@ _match:
 #line 356 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 2190 "Parser.cpp.tmp"
+#line 2194 "Parser.cpp.tmp"
 		}
 	}
 
@@ -2219,7 +2223,7 @@ _again:
 #line 356 "hext-machine.rl"
 	{ this->throw_unexpected(); }
 	break;
-#line 2222 "Parser.cpp.tmp"
+#line 2226 "Parser.cpp.tmp"
 		}
 	}
 	}
@@ -2227,7 +2231,7 @@ _again:
 	_out: {}
 	}
 
-#line 136 "Parser.cpp.rl"
+#line 140 "Parser.cpp.rl"
 
 #ifndef _MSC_VER
 #pragma GCC diagnostic pop
