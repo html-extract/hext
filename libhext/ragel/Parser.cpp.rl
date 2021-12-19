@@ -128,6 +128,7 @@ Rule Parser::parse()
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunreachable-code-break"
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wswitch-default"
 #ifdef __clang__
 #pragma GCC diagnostic ignored "-Wreserved-identifier"
 #endif
