@@ -38,8 +38,8 @@ function(hext_enable_warnings_gnu)
     "-pedantic"
     "-pedantic-errors"
     "-Wswitch-default"
+    "-Wswitch-enum"
     # Unused switches:
-    # "-Wswitch-enum": Listing every enum brings chaos, especially for GumboTag.
     # "-Wpadded": also warns when it's impossible to shrink padding
     # "-Wunsafe-loop-optimizations":
     #   GCC7 will emit warnings when using range-based for loops:

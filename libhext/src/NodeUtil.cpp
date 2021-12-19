@@ -86,6 +86,10 @@ std::string NodeInnerHtml(const GumboNode * node)
 
 void SerializeNode(const GumboNode& n, std::ostringstream& os)
 {
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-enum"
+#endif
   switch( n.type )
   {
     case GUMBO_NODE_DOCUMENT:
@@ -120,6 +124,9 @@ void SerializeNode(const GumboNode& n, std::ostringstream& os)
       assert(false);
       break;
   }
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif
 }
 
 void SerializeDocument(const GumboDocument& d, std::ostringstream& os)
@@ -208,6 +215,10 @@ void SerializeElementTag(const GumboElement& e, std::ostringstream& os)
 
 bool TagIsSelfClosing(GumboTag tag) noexcept
 {
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-enum"
+#endif
   switch( tag )
   {
     case GUMBO_TAG_AREA:
@@ -232,11 +243,18 @@ bool TagIsSelfClosing(GumboTag tag) noexcept
 
   assert(false);
   return false;
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif
 }
 
 
 bool TagWrapsText(GumboTag tag) noexcept
 {
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-enum"
+#endif
   switch( tag )
   {
     case GUMBO_TAG_A:
@@ -276,6 +294,9 @@ bool TagWrapsText(GumboTag tag) noexcept
     default:
       return true;
   }
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif
 
   assert(false);
 }
