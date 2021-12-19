@@ -2,7 +2,6 @@ function(hext_enable_warnings_gnu)
   target_compile_options(
     ${ARGN}
     "-Wall"
-    "-Wcast-align=strict"
     "-Wcast-qual"
     "-Wconversion"
     "-Wctor-dtor-privacy"
@@ -37,6 +36,17 @@ function(hext_enable_warnings_gnu)
     "-Wwrite-strings"
     "-pedantic"
     "-pedantic-errors"
+    "-Wswitch-default"
+    "-Wswitch-enum"
+    # Unused switches:
+    # "-Wpadded": also warns when it's impossible to shrink padding
+  )
+endfunction()
+
+function(hext_add_warnings_gnu11)
+  target_compile_options(
+    ${ARGN}
+    "-Wcast-align=strict"
     "-Wformat-overflow=2"
     "-Wformat-truncation=2"
     "-Wreturn-local-addr"
@@ -49,16 +59,6 @@ function(hext_enable_warnings_gnu)
     "-Wdeprecated-enum-enum-conversion"
     "-Wdeprecated-enum-float-conversion"
     "-Wunsafe-loop-optimizations"
-    "-Wswitch-default"
-    "-Wswitch-enum"
-    # Unused switches:
-    # "-Wpadded": also warns when it's impossible to shrink padding
-    # Notes:
-    # "-Wunsafe-loop-optimizations":
-    #   GCC7 will emit warnings when using range-based for loops:
-    #     "warning: missed loop optimization, the loop counter may overflow"
-    #   Since it's only complaining about a missed optimization, this warning
-    #   can safely be ignored.
   )
 endfunction()
 
@@ -86,6 +86,9 @@ function(hext_enable_warnings)
 
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     hext_enable_warnings_gnu(${ARGN})
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11)
+      hext_add_warnings_gnu11(${ARGN})
+    endif()
   endif()
 endfunction()
 
