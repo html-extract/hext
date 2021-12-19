@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public:
   /// Fails at compile time if template parameter Base is not a base of template
   /// parameter Derived or if template parameter Derived is not copy
   /// constructible.
-  virtual std::unique_ptr<Base> clone() const
+  virtual std::unique_ptr<Base> clone() const override
   {
     static_assert(std::is_base_of<Base, Derived>::value,
         "template argument <Base> is not a base of "
