@@ -4,17 +4,18 @@ set -e
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
+: ${HTMLEXT:="htmlext"}
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 cd "$HEXTD"
 
 [[ "$GIT_TAG" != "" ]] || GIT_TAG=$(git describe --abbrev=0 --tags)
-htmlext --version \
+$HTMLEXT --version \
   | head -n1 \
   | awk -F, '{ print $1 }' \
   | grep "htmlext $GIT_TAG" >/dev/null \
   || perror_exit "htmlext --version != $GIT_TAG"
 
-htmlext --version \
+$HTMLEXT --version \
   | grep -i 'linked with libhext' \
   | grep "libhext $GIT_TAG" >/dev/null \
   || perror_exit "libhext version != $GIT_TAG"
