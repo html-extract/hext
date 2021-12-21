@@ -5,7 +5,7 @@
 Hext is a domain-specific language for extracting structured data from
 HTML documents.  
 
-![Hext Logo](https://raw.githubusercontent.com/html-extract/hext-website/master/hext-logo-x100.png)
+![Hext Logo](https://raw.githubusercontent.com/html-extract/html-extract.github.io/master/hext-logo-x100.png)
 
 See https://hext.thomastrapp.com for
 [documentation](https://hext.thomastrapp.com/documentation), 

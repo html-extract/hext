@@ -1,6 +1,6 @@
 # Hext — Extract Data from HTML
 
-![Hext Logo](https://raw.githubusercontent.com/thomastrapp/hext-website/master/hext-logo-x100.png)
+![Hext Logo](https://raw.githubusercontent.com/html-extract/html-extract.github.io/master/hext-logo-x100.png)
 
 Hext is a domain-specific language for extracting structured data from HTML. It can be thought of as a counterpart to templates, which are typically used by web developers to structure content on the web.
 
