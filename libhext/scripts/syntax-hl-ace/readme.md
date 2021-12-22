@@ -32,6 +32,6 @@ highlighted code.
 
 #### Test hext edit mode
 
-    ./hext-syntax-hl-ace.js ../../../test/case/doxygen-annotated-class-list.hext /tmp/hext-test
+    ./syntax-hl-ace.js ../../../test/case/doxygen-annotated-class-list.hext /tmp/hext-test
     cat /tmp/hext-test
 
