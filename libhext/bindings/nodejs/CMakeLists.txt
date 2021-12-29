@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/../../../cmake)
 
+include(HextEnableWarnings)
+
 # If build type was not specified, build Release.
 include(HextDefaultBuildRelease)
 
@@ -17,6 +19,7 @@ add_library(
   "${PROJECT_SOURCE_DIR}/src/Rule.cpp"
   "${PROJECT_SOURCE_DIR}/src/Hextjs.cpp")
 
+hext_enable_warnings(${PROJECT_NAME} PRIVATE)
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node" OUTPUT_NAME "hext")
 
