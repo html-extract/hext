@@ -1,6 +1,6 @@
 {
   "name": "hext",
-  "version": "0.0.1-git",
+  "version": "0.0.1",
   "description": "Hext language bindings for nodejs",
   "dependencies": {
     "cmake-js": "~6.3.0",
