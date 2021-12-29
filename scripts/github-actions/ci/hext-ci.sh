@@ -97,6 +97,7 @@ export PATH="/usr/bin:$PATH"
 npm install
 npx cmake-js --runtime=node --runtime-version=12.22.0 build
 ./test/blackbox.js.sh
+npm test
 
 echo
 echo "### Testing 'npm install hext'"
