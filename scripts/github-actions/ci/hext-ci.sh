@@ -95,7 +95,7 @@ cd "$LIBHEXTBINDINGSD/nodejs"
 # protect against CI env by prioritizing system installed node
 export PATH="/usr/bin:$PATH"
 npm install
-npx cmake-js --runtime=node --runtime-version=12.0.0 build
+npx cmake-js --runtime=node --runtime-version=12.22.0 build
 ./test/blackbox.js.sh
 
 echo
