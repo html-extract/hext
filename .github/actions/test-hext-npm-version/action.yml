@@ -17,6 +17,7 @@ runs:
         node --version
         && cd test
         && npm install ../rls
+        && node -e "require('hext')"
         && cp ../libhext/bindings/nodejs/htmlext.js .
         && HTMLEXT="node htmlext.js" ./blackbox.sh case/*hext
         && rm -rf node_modules/
@@ -28,6 +29,7 @@ runs:
         && mkdir jest-tmp
         && cd jest-tmp
         && npm install ../rls
+        && node -e "require('hext')"
         && npm install jest
         && npx jest ../libhext/bindings/nodejs/test/jest/hext.test.js
         && cd ..
