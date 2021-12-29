@@ -11,7 +11,7 @@ runs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ inputs.version }}
-    - name: Run tests
+    - name: Run blackbox tests
       shell: bash
       run: >
         node --version
@@ -21,4 +21,15 @@ runs:
         && HTMLEXT="node htmlext.js" ./blackbox.sh case/*hext
         && rm -rf node_modules/
         && git checkout -f .
+    - name: Run unit tests
+      shell: bash
+      run: >
+        node --version
+        && mkdir jest-tmp
+        && cd jest-tmp
+        && npm install ../rls
+        && npm install jest
+        && npx jest ../libhext/bindings/nodejs/test/jest/hext.test.js
+        && cd ..
+        && rm -rf jest-tmp
 

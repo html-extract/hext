@@ -1,4 +1,4 @@
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,71 +14,50 @@
 
 #include "Html.h"
 
-#include <utility>
 
-
-Nan::Persistent<v8::Function> Html::constructor;
-
-NAN_MODULE_INIT(Html::Init)
+Html::Html(const Napi::CallbackInfo& info)
+: ObjectWrap(info)
+, buffer_()
+, html_(nullptr)
 {
-  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("Html").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+  Napi::Env env = info.Env();
 
-  constructor.Reset(Nan::GetFunction(tpl).ToLocalChecked());
-  Nan::Set(target,
-           Nan::New("Html").ToLocalChecked(),
-           Nan::GetFunction(tpl).ToLocalChecked());
+  if( info.Length() < 1 )
+  {
+    Napi::TypeError::New(
+        env,
+        "Argument error: invalid argument, expected String")
+      .ThrowAsJavaScriptException();
+    return;
+  }
+
+  if( !info[0].IsString() )
+  {
+    Napi::TypeError::New(
+        env,
+        "Argument error: missing argument, expected String")
+      .ThrowAsJavaScriptException();
+    return;
+  }
+
+  auto status = napi_type_tag_object(env, this->Value(), &(this->type_tag));
+  if( status != napi_ok )
+  {
+    Napi::Error::New(
+        env,
+        "Internal error: type tagging failed")
+      .ThrowAsJavaScriptException();
+    return;
+  }
+
+  this->buffer_ = info[0].As<Napi::String>().Utf8Value();
+  this->html_ = std::make_unique<hext::Html>(
+      this->buffer_.c_str(), this->buffer_.size());
 }
 
-Html::Html(std::string html)
-: buffer_(std::move(html))
-, html_(buffer_.c_str(), buffer_.size())
+Napi::Function Html::GetClass(Napi::Env env)
 {
-}
-
-NAN_METHOD(Html::New)
-{
-  if( info.IsConstructCall() )
-  {
-    Html * obj = nullptr;
-    if( info[0]->IsString() )
-    {
-      Nan::Utf8String arg(info[0]);
-      if( !*arg )
-      {
-        Nan::ThrowTypeError(
-            Nan::New<v8::String>("Argument error: invalid argument, "
-                                 "expected String").ToLocalChecked());
-        return;
-      }
-
-      obj = new Html(std::string(*arg));
-    }
-    else if( info[0]->IsUndefined() )
-    {
-      Nan::ThrowTypeError(
-          Nan::New<v8::String>("Argument error: missing argument, "
-                               "expected String").ToLocalChecked());
-      return;
-    }
-    else
-    {
-      Nan::ThrowTypeError(
-          Nan::New<v8::String>("Argument error: invalid argument type, "
-                               "expected String").ToLocalChecked());
-      return;
-    }
-
-    obj->Wrap(info.This());
-    info.GetReturnValue().Set(info.This());
-  }
-  else
-  {
-    const int argc = 1;
-    v8::Local<v8::Value> argv[argc] = {info[0]};
-    v8::Local<v8::Function> cons = Nan::New(constructor);
-    info.GetReturnValue().Set(Nan::NewInstance(cons, argc, argv).ToLocalChecked());
-  }
+  using namespace Napi;
+  return DefineClass(env, "Html", {});
 }
 

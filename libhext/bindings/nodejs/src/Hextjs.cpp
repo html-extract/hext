@@ -1,4 +1,4 @@
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "Rule.h"
 #include "Html.h"
+#include "Rule.h"
 
-
-NAN_MODULE_INIT(InitAll)
+Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
-  Rule::Init(target);
-  Html::Init(target);
+  exports.Set("Html", Html::GetClass(env));
+  exports.Set("Rule", Rule::GetClass(env));
+  return exports;
 }
 
-NODE_MODULE(hext, InitAll)
+NODE_API_MODULE(hext, Init)
 

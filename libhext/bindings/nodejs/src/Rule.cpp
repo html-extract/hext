@@ -20,172 +20,184 @@
 #include <hext/Result.h>
 
 #include <cstdint>
-#include <utility>
 
 
-Nan::Persistent<v8::Function> Rule::constructor;
-
-NAN_MODULE_INIT(Rule::Init)
+Rule::Rule(const Napi::CallbackInfo& info)
+: ObjectWrap(info)
+, rule_(nullptr)
 {
-  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("Rule").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  Nan::SetPrototypeMethod(tpl, "extract", extract);
-
-  constructor.Reset(Nan::GetFunction(tpl).ToLocalChecked());
-  Nan::Set(target,
-           Nan::New("Rule").ToLocalChecked(),
-           Nan::GetFunction(tpl).ToLocalChecked());
-}
-
-Rule::Rule(hext::Rule rule)
-: rule_(std::move(rule))
-{
-}
-
-NAN_METHOD(Rule::New)
-{
-  if( info.IsConstructCall() )
-  {
-    Rule * obj = nullptr;
-    if( info[0]->IsString() )
-    {
-      Nan::Utf8String arg(info[0]);
-      try
-      {
-        obj = new Rule(hext::ParseHext(*arg == nullptr ? "" : *arg));
-      }
-      catch( const hext::SyntaxError& e )
-      {
-        auto message = std::string("Hext syntax error: ") + e.what();
-        Nan::ThrowError(Nan::New<v8::String>(message.c_str()).ToLocalChecked());
-        return;
-      }
-    }
-    else if( info[0]->IsUndefined() )
-    {
-      Nan::ThrowTypeError(
-          Nan::New<v8::String>("Argument error: missing argument, "
-                               "expected String").ToLocalChecked());
-      return;
-    }
-    else
-    {
-      Nan::ThrowTypeError(
-          Nan::New<v8::String>("Argument error: invalid argument type, "
-                               "expected String").ToLocalChecked());
-      return;
-    }
-
-    obj->Wrap(info.This());
-    info.GetReturnValue().Set(info.This());
-  }
-  else
-  {
-    const int argc = 1;
-    v8::Local<v8::Value> argv[argc] = {info[0]};
-    v8::Local<v8::Function> cons = Nan::New(constructor);
-    info.GetReturnValue().Set(Nan::NewInstance(cons, argc, argv).ToLocalChecked());
-  }
-}
-
-NAN_METHOD(Rule::extract) {
-  Rule * obj = Nan::ObjectWrap::Unwrap<Rule>(info.This());
+  Napi::Env env = info.Env();
 
   if( info.Length() < 1 )
   {
-    Nan::ThrowTypeError(
-        Nan::New<v8::String>("Argument error: missing argument, "
-                             "expected hext.Html").ToLocalChecked());
+    Napi::TypeError::New(
+        env,
+        "Argument error: missing argument, expected String")
+      .ThrowAsJavaScriptException();
     return;
+  }
+
+  if( !info[0].IsString() )
+  {
+    Napi::TypeError::New(
+        env,
+        "Argument error: invalid argument, expected String")
+      .ThrowAsJavaScriptException();
+    return;
+  }
+
+  try
+  {
+    this->rule_ = std::make_unique<hext::Rule>(
+        hext::ParseHext(info[0].As<Napi::String>().Utf8Value().c_str()));
+  }
+  catch( const hext::SyntaxError& e )
+  {
+    auto message = std::string("Hext syntax error: ") + e.what();
+    Napi::Error::New(env, message).ThrowAsJavaScriptException();
+    return;
+  }
+}
+
+Napi::Value Rule::extract(const Napi::CallbackInfo& info)
+{
+  Napi::Env env = info.Env();
+
+  if( !this->rule_ )
+  {
+    Napi::TypeError::New(
+        env,
+        "Internal Error: rule_ is uninitialized")
+      .ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  if( info.Length() < 1 )
+  {
+    Napi::TypeError::New(
+        env,
+        "Argument error: missing argument, expected hext.Html")
+      .ThrowAsJavaScriptException();
+    return env.Null();
   }
 
   std::uint64_t max_searches = 0;
   if( info.Length() > 1 )
   {
-    if( !info[1]->IsUint32() )
+    if( !info[1].IsNumber() )
     {
-      Nan::ThrowTypeError(
-          Nan::New<v8::String>(
-            "Argument error: "
-            "Optional argument 'max_searches' must be of type unsigned int").ToLocalChecked());
-      return;
+      Napi::TypeError::New(
+          env,
+          "Argument error: Optional argument 'max_searches' must be "
+          "a number")
+        .ThrowAsJavaScriptException();
+      return env.Null();
     }
     else
     {
-      max_searches = info[1]->Uint32Value(Nan::GetCurrentContext()).ToChecked();
+      max_searches = info[1].ToNumber().Uint32Value();
     }
   }
 
-  Nan::MaybeLocal<v8::Object> maybe_arg_hext = Nan::To<v8::Object>(info[0]);
-  if( maybe_arg_hext.IsEmpty() )
+  auto obj = info[0].As<Napi::Object>();
+  bool type_tag_matches = false;
+
   {
-    Nan::ThrowTypeError(
-        Nan::New<v8::String>("Argument error: invalid argument, "
-                             "expected hext.Html").ToLocalChecked());
-    return;
+    auto status = napi_check_object_type_tag(
+        env, obj, &(Html::type_tag), &type_tag_matches);
+
+    if( status != napi_ok )
+    {
+      Napi::Error::New(
+          env,
+          "Internal error: napi_check_object_type_tag failed")
+        .ThrowAsJavaScriptException();
+      return env.Null();
+    }
   }
 
-  Html * arg = Nan::ObjectWrap::Unwrap<Html>(maybe_arg_hext.ToLocalChecked());
-  if( !arg )
+  Html * html = nullptr;
+  if( type_tag_matches )
+    html = Napi::ObjectWrap<Html>::Unwrap(obj);
+
+  if( !html )
   {
-    Nan::ThrowTypeError(
-        Nan::New<v8::String>("Argument error: invalid argument type, "
-                             "expected hext.Html").ToLocalChecked());
-    return;
+    Napi::TypeError::New(
+        env,
+        "Argument error: invalid argument, expected hext.Html")
+      .ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  if( !html->root() )
+  {
+    Napi::TypeError::New(
+        env,
+        "Internal Error: html_ is uninitialized")
+      .ThrowAsJavaScriptException();
+    return env.Null();
   }
 
   hext::Result result;
   try
   {
-    result = obj->rule_.extract(arg->root(), max_searches);
+    result = this->rule_->extract(html->root(), max_searches);
   }
   catch( const hext::MaxSearchError& e )
   {
     auto message = std::string("Error: ") + e.what();
-    Nan::ThrowError(Nan::New<v8::String>(message.c_str()).ToLocalChecked());
-    return;
+    Napi::Error::New(
+        env,
+        message)
+      .ThrowAsJavaScriptException();
+    return env.Null();
   }
 
-  v8::Local<v8::Array> ret = Nan::New<v8::Array>();
+  Napi::Array ret = Napi::Array::New(env);
   for(const auto& group : result)
   {
-    v8::Local<v8::Object> map = Nan::New<v8::Object>();
+    Napi::Object map = Napi::Object::New(env);
     auto it = group.cbegin();
     while( it != group.cend() )
     {
       if( group.count(it->first) < 2 )
       {
-        Nan::Set(
-          map,
-          Nan::New<v8::String>(it->first).ToLocalChecked(),
-          Nan::New<v8::String>(it->second).ToLocalChecked()
-        ).Check();
+        map.Set(
+            Napi::String::New(env, it->first),
+            Napi::String::New(env, it->second));
         ++it;
       }
       else
       {
         // Pack values of non-unique keys into an indexed array
-        v8::Local<v8::Array> array = Nan::New<v8::Array>();
+        Napi::Array array = Napi::Array::New(env);
         auto lower = group.lower_bound(it->first);
         auto upper = group.upper_bound(it->first);
         for(; lower != upper; ++lower)
-          Nan::Set(
-              array,
-              array->Length(),
-              Nan::New<v8::String>(lower->second).ToLocalChecked()).Check();
-        Nan::Set(
-          map,
-          Nan::New<v8::String>(it->first).ToLocalChecked(),
-          array
-        ).Check();
+          array.Set(
+              array.Length(),
+              Napi::String::New(env, lower->second));
+        map.Set(
+            Napi::String::New(env, it->first),
+            array);
         it = upper;
       }
     }
 
-    Nan::Set(ret, ret->Length(), map).Check();
+    ret.Set(ret.Length(), map);
   }
-  info.GetReturnValue().Set(ret);
+
+  return ret;
+}
+
+Napi::Function Rule::GetClass(Napi::Env env)
+{
+  using namespace Napi;
+  return DefineClass(
+    env,
+    "Rule",
+    {
+      Rule::InstanceMethod("extract", &Rule::extract),
+    });
 }
 

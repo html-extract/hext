@@ -1,4 +1,4 @@
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,26 +17,34 @@
 
 #include <hext/Html.h>
 
-#include <nan.h>
 #include <gumbo.h>
+#include <napi.h>
 
+#include <memory>
 #include <string>
 
 
-class Html : public Nan::ObjectWrap
+class Html : public Napi::ObjectWrap<Html>
 {
 public:
-  static NAN_MODULE_INIT(Init);
-  const GumboNode * root() const { return this->html_.root(); }
+  explicit Html(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  const GumboNode * root() const
+  {
+    if( !this->html_ )
+      return nullptr;
+
+    return this->html_->root();
+  }
+
+  static constexpr napi_type_tag type_tag = {
+    0x2fedb12d29f14223,
+    0x997e3d5f87ab7dd0
+  };
 
 private:
-  explicit Html(std::string html);
-  ~Html() = default;
-  static NAN_METHOD(New);
-  static Nan::Persistent<v8::Function> constructor;
-
   std::string buffer_;
-  hext::Html html_;
+  std::unique_ptr<hext::Html> html_;
 };
 
 

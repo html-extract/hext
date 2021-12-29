@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/../../../cmake)
+# Add hextjs cmake module directory to CMAKE_MODULE_PATH
+list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
 
 include(HextEnableWarnings)
 
@@ -12,6 +14,7 @@ include(HextEnableWarnings)
 include(HextDefaultBuildRelease)
 
 find_package(Hext REQUIRED)
+find_package(NodeAddonApi REQUIRED)
 
 add_library(
   ${PROJECT_NAME} SHARED
@@ -28,5 +31,12 @@ target_include_directories(${PROJECT_NAME}
     ${CMAKE_JS_INC}
     ${PROJECT_SOURCE_DIR}/src)
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB} hext::hext)
+target_compile_definitions(${PROJECT_NAME}
+  PRIVATE
+  NAPI_VERSION=8)
+
+target_link_libraries(${PROJECT_NAME}
+  ${CMAKE_JS_LIB}
+  hext::hext
+  NodeAddonApi::NodeAddonApi)
 

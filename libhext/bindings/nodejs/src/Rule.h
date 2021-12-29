@@ -1,4 +1,4 @@
-// Copyright 2016 Thomas Trapp
+// Copyright 2016-2021 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,22 +17,21 @@
 
 #include <hext/Rule.h>
 
-#include <nan.h>
+#include <napi.h>
+
+#include <memory>
 
 
-class Rule : public Nan::ObjectWrap
+class Rule : public Napi::ObjectWrap<Rule>
 {
 public:
-  static NAN_MODULE_INIT(Init);
+  explicit Rule(const Napi::CallbackInfo&);
+  Napi::Value extract(const Napi::CallbackInfo&);
+
+  static Napi::Function GetClass(Napi::Env);
 
 private:
-  explicit Rule(hext::Rule rule);
-  ~Rule() = default;
-  static NAN_METHOD(New);
-  static NAN_METHOD(extract);
-  static Nan::Persistent<v8::Function> constructor;
-
-  hext::Rule rule_;
+  std::unique_ptr<hext::Rule> rule_;
 };
 
 
