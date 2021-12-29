@@ -32,6 +32,7 @@ runs:
         && node -e "require('hext')"
         && npm install jest
         && cp -R ../libhext/bindings/nodejs/test/jest/ test
+        && touch jest.config.js
         && npx jest test/
         && cd ..
         && rm -rf jest-tmp
