@@ -31,51 +31,6 @@ Hext. For examples that use the libhext C++ library check out `/libhext/examples
 and
 [libhext's C++ library overview](https://hext.thomastrapp.com/libhext-overview).
 
-## Quick Install via Pip
-
-You can install the htmlext command-line utility and the python bindings through pip:
-
-    pip install hext
-    htmlext --version
-
-Available for all flavors of Linux (x86_64) and Mac OS X ≥ 10.11 (x86_64).
-Visit [https://pypi.org/project/hext/](https://pypi.org/project/hext/).
-Building the module from source is documented [here](https://hext.thomastrapp.com/download#building-python-hext).
-
-## Hext for Node via NPM
-
-Hext for Node is available on npm:
-
-    npm install hext
-    node -e 'require("hext")' && echo "hext loaded successfully"
-
-(Does not include the htmlext command-line utility).
-Visit [https://www.npmjs.com/package/hext](https://www.npmjs.com/package/hext).
-Building the module from source is documented [here](https://hext.thomastrapp.com/download#building-nodejs-hext).
-
-__Compatibility__
-
-The npm package is compatible with:
-
-* Node v12, v14, v16, v17
-* Linux (GLIBC ≥2.14, basically any distribution built after the year 2012)
-* Mac OS X (10.11 El Capitan or later)
-* x86_64 only
-
-
-## Building Hext from source
-
-**Dependencies**: g++ ≥7.3 or clang ≥6.0, cmake ≥3.8, libboost-dev ≥1.55, libboost-regex-dev ≥1.55, libboost-program-options-dev ≥1.55, libgumbo-dev ≥0.10.1 and rapidjson-dev ≥1.1.0
-
-```
-wget https://github.com/html-extract/hext/archive/v1.0.1.tar.gz
-tar xf *.tar.gz
-cd hext*/build
-cmake -DBUILD_SHARED_LIBS=On .. && make -j 2
-./htmlext --help
-```
-
-See [Hext's build instructions](https://hext.thomastrapp.com/download#building-hext) for more.
 
 ## Components of this Project
 * `htmlext`: Command line utility that applies Hext templates to an HTML document
