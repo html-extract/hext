@@ -95,9 +95,9 @@ Hext is also available for Python:
 ```
 pip install hext
 ```
-The Python distribution also contains the [htmlext command-line utility](https://hext.thomastrapp.com/download#using-htmlext).
+The Python distribution also contains the [htmlext command-line utility](https://hext.thomastrapp.com/download#htmlext).
 
-In addition to Python and Node, there are language bindings for [PHP](https://hext.thomastrapp.com/download#building-php-hext) and [Ruby](https://hext.thomastrapp.com/download#building-ruby-hext).
+In addition to Python and Node, there are language bindings for [JavaScript](https://hext.thomastrapp.com/download#hext-for-javascript), [PHP](https://hext.thomastrapp.com/download#hext-for-php) and [Ruby](https://hext.thomastrapp.com/download#hext-for-ruby).
 
 
 ## License
