@@ -176,8 +176,3 @@ tests through valgrind you'd run the following:
   The Websocket server behind the "[Try Hext in your Browser!](https://hext.thomastrapp.com)"
   section is built with Beast. See [github.com/html-extract/hext-on-websockets](https://github.com/html-extract/hext-on-websockets) for more.
 
-## About the author
-I am [Tom](https://github.com/thomastrapp), a freelancing software developer
-living in Munich. Visit [thomastrapp.com](https://thomastrapp.com) for my email
-address and let me know what you think about Hext!
-
