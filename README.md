@@ -2,14 +2,15 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/hext.svg?color=blue)](https://pypi.org/project/hext/) [![npm version](https://img.shields.io/npm/v/hext.svg)](https://www.npmjs.com/package/hext)
 
-Hext is a domain-specific language for extracting structured data from
-HTML documents.  
+Hext is a domain-specific language for extracting structured data from HTML documents.
+
+Hext is written in C++ but language bindings are available for [Python](https://hext.thomastrapp.com/download#hext-for-python), [Node](https://hext.thomastrapp.com/download#hext-for-node), [JavaScript](https://hext.thomastrapp.com/download#hext-for-javascript), [Ruby](https://hext.thomastrapp.com/download#hext-for-ruby) and [PHP](https://hext.thomastrapp.com/download#hext-for-php).
 
 ![Hext Logo](https://raw.githubusercontent.com/html-extract/html-extract.github.io/master/hext-logo-x100.png)
 
 See https://hext.thomastrapp.com for
 [documentation](https://hext.thomastrapp.com/documentation), 
-[build instructions](https://hext.thomastrapp.com/download) and a live demo.
+[installation instructions](https://hext.thomastrapp.com/download) and a live demo.
 
 The Hext project is released under the terms of the Apache License v2.0.
 
