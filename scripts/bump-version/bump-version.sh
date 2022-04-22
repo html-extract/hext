@@ -52,7 +52,7 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=On .. && make -j16
 cd ..
 
-GIT_TAG="v$new_version" HTMLEXT="./build/htmlext" ./scripts/check-version/check-version.sh
+HTMLEXT="./build/htmlext" ./scripts/check-version/check-version.sh
 
 git --no-pager diff --unified=0 "$htmlext_cmake" "$libhext_cmake" "$pypi_setup" "$npm_package" "$readme"
 

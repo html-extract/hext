@@ -8,33 +8,36 @@ perror_exit() { echo "$0: $1" >&2 ; exit 1 ; }
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
 cd "$HEXTD"
 
-[[ "$GIT_TAG" != "" ]] || GIT_TAG=$(git describe --abbrev=0 --tags)
+ACTUAL_VERSION="v$(
+  ( grep 'project(htmlext VERSION ' CMakeLists.txt | grep -oP '\d+.\d+.\d+' ) \
+  || perror_exit "failed to extract version from top-level CMakeLists.txt")"
+
 $HTMLEXT --version \
   | head -n1 \
   | awk -F, '{ print $1 }' \
-  | grep "htmlext $GIT_TAG" >/dev/null \
-  || perror_exit "htmlext --version != $GIT_TAG"
+  | grep "htmlext $ACTUAL_VERSION" >/dev/null \
+  || perror_exit "htmlext --version != $ACTUAL_VERSION"
 
 $HTMLEXT --version \
   | grep -i 'linked with libhext' \
-  | grep "libhext $GIT_TAG" >/dev/null \
-  || perror_exit "libhext version != $GIT_TAG"
+  | grep "libhext $ACTUAL_VERSION" >/dev/null \
+  || perror_exit "libhext version != $ACTUAL_VERSION"
 
 grep 'version=' scripts/github-actions/pypi/assets/setup.py \
-  | grep "version='${GIT_TAG:1}'," >/dev/null \
-  || perror_exit "pypi version != $GIT_TAG"
+  | grep "version='${ACTUAL_VERSION:1}'," >/dev/null \
+  || perror_exit "pypi version != $ACTUAL_VERSION"
 
 grep '"version":' scripts/github-actions/npm/assets/package.json \
   | awk -F\" '{ print $4 }' \
-  | grep "1${GIT_TAG:1}" >/dev/null \
-  || perror_exit "npm version != $GIT_TAG"
+  | grep "1${ACTUAL_VERSION:1}" >/dev/null \
+  || perror_exit "npm version != $ACTUAL_VERSION"
 
 NPM_README_NODE_VERSIONS=$(grep 'Node v' scripts/github-actions/npm/assets/README.md)
 WORKFLOW_NODE_RELEASES=$(grep \
   "^  HEXT_NODE_VERSION" .github/workflows/hext-releases.yml \
     | awk -F\" '{ print $2 }')
 [[ "$WORKFLOW_NODE_RELEASES" == "" ]] \
-  && perror_exit "cannot extract node releases from workflow"
+  && perror_exit "failed to extract node releases from workflow"
 for i in $WORKFLOW_NODE_RELEASES ; do
   [[ "$i" == "" ]] && perror_exit "unexpected format '$WORKFLOW_NODE_RELEASES'"
   echo "$NPM_README_NODE_VERSIONS" | grep "v$i" >/dev/null \
