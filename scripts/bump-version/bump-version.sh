@@ -41,18 +41,11 @@ cat "$npm_package" \
   | grep "$new_version" >/dev/null \
   || perror_exit "failed setting version in $npm_package"
 
-readme=README.md
-sed -Ei "s@(https://github.com/html-extract/hext/archive/v)[0-9.]+(.tar.gz)\$@\1$new_version\2@" "$readme"
-cat "$readme" \
-  | grep 'github.com/html-extract/hext/archive/v' \
-  | grep "$new_version" >/dev/null \
-  || perror_exit "failed setting version in $readme"
-
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=On .. && make -j16
 cd ..
 
 HTMLEXT="./build/htmlext" ./scripts/check-version/check-version.sh
 
-git --no-pager diff --unified=0 "$htmlext_cmake" "$libhext_cmake" "$pypi_setup" "$npm_package" "$readme"
+git --no-pager diff --unified=0 "$htmlext_cmake" "$libhext_cmake" "$pypi_setup" "$npm_package"
 
