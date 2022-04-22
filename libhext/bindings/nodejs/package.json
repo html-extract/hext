@@ -4,8 +4,8 @@
   "description": "Hext language bindings for nodejs",
   "dependencies": {
     "cmake-js": "~6.3.0",
-    "jest": "^27.4.5",
-    "node-addon-api": "^4.2.0"
+    "jest": "^27.5.1",
+    "node-addon-api": "^4.3.0"
   },
   "scripts": {
     "build": "cmake-js build",
