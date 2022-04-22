@@ -15,9 +15,6 @@ sudo apt-get -q -y install cmake libgumbo-dev rapidjson-dev \
   jq curl build-essential libpcre3-dev wget swig \
   cppcheck ruby ruby-dev
 
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
 BATSD=$(mktemp -d)
 cd "$BATSD"
 BATS_RELEASE="v0.4.0.tar.gz"
@@ -92,10 +89,8 @@ make $MAKE_FLAGS
 ../test/blackbox.rb.sh
 
 cd "$LIBHEXTBINDINGSD/nodejs"
-# protect against CI env by prioritizing system installed node
-export PATH="/usr/bin:$PATH"
 npm install
-npx cmake-js --runtime=node --runtime-version=12.22.0 build
+npx cmake-js --runtime=node build
 ./test/blackbox.js.sh
 npm test
 
