@@ -33,6 +33,7 @@ grep '"version":' scripts/github-actions/npm/assets/package.json \
   || perror_exit "npm version != $ACTUAL_VERSION"
 
 NPM_README_NODE_VERSIONS=$(grep 'Node v' scripts/github-actions/npm/assets/README.md)
+NPM_PJSON_NODE_VERSIONS=$(grep 'engines' scripts/github-actions/npm/assets/package.json)
 WORKFLOW_NODE_RELEASES=$(grep \
   "^  HEXT_NODE_VERSION" .github/workflows/hext-releases.yml \
     | awk -F\" '{ print $2 }')
@@ -42,5 +43,7 @@ for i in $WORKFLOW_NODE_RELEASES ; do
   [[ "$i" == "" ]] && perror_exit "unexpected format '$WORKFLOW_NODE_RELEASES'"
   echo "$NPM_README_NODE_VERSIONS" | grep "v$i" >/dev/null \
     || perror_exit "npm readme does not include node version '$i'"
+  echo "$NPM_PJSON_NODE_VERSIONS" | grep "\^$i" >/dev/null \
+    || perror_exit "npm package.json does not include node version '$i'"
 done
 
