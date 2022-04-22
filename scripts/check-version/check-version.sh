@@ -2,7 +2,7 @@
 
 set -e
 
-perror_exit() { echo "$1" >&2 ; exit 1 ; }
+perror_exit() { echo "$0: $1" >&2 ; exit 1 ; }
 
 : ${HTMLEXT:="htmlext"}
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../"
