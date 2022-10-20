@@ -75,7 +75,7 @@ jobs:
     - name: Build node modules
       run: ./scripts/github-actions/macos/build-hext-node-macos.sh
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: hext-node-macos-${{ github.sha }}
         path: ${{ env.NODE_OUT }}
@@ -188,7 +188,7 @@ jobs:
     - name: Remove .gitignore
       run: rm ${{ env.WHEEL_OUT }}/.gitignore
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: hext-python-linux-${{ github.sha }}
         path: ${{ env.WHEEL_OUT }}
@@ -199,7 +199,7 @@ jobs:
         cp /usr/local/bin/htmlext upload/
         strip --strip-unneeded upload/htmlext
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: htmlext-static-linux-x86_64-${{ github.sha }}
         path: upload
@@ -221,7 +221,7 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       with:
         name: hext-python-linux-${{ github.sha }}
         path: ${{ env.WHEEL_OUT }}
@@ -272,7 +272,7 @@ jobs:
     - name: Build
       run: ./scripts/github-actions/linux/build-hext-node-linux.sh
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: hext-node-linux-${{ github.sha }}
         path: ${{ env.NODE_OUT }}
@@ -292,12 +292,12 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       with:
         name: hext-node-macos-${{ github.sha }}
         path: ${{ env.NODE_MODULES }}
 
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       with:
         name: hext-node-linux-${{ github.sha }}
         path: ${{ env.NODE_MODULES }}
@@ -307,7 +307,7 @@ jobs:
         scripts/github-actions/npm/package
         "$NODE_MODULES"/*node
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: hext-npm-package-${{ github.sha }}
         path: ./scripts/github-actions/npm/package

@@ -14,7 +14,7 @@ runs:
     - run: ./scripts/github-actions/macos/build-hext-python-macos.sh ${{ env.pythonLocation }}
       shell: bash
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: hext-python${{ inputs.version }}-macos-${{ github.sha }}
         path: ${{ env.WHEEL_OUT }}

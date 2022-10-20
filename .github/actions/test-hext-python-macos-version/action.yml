@@ -12,7 +12,7 @@ runs:
       with:
         python-version: ${{ inputs.version }}
 
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v3
       with:
         name: hext-python${{ inputs.version }}-macos-${{ github.sha }}
 
