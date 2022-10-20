@@ -15,6 +15,7 @@ runs:
     - uses: actions/download-artifact@v3
       with:
         name: hext-python${{ inputs.version }}-macos-${{ github.sha }}
+        path: wheels
 
     - name: Pip install and test ${{ inputs.version }}
       shell: bash
