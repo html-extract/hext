@@ -42,17 +42,17 @@ jobs:
       NODE_OUT: scripts/github-actions/macos/node-output
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: macos-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
@@ -114,7 +114,7 @@ jobs:
     needs: macos_releases
     runs-on: macos-10.15
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
@@ -155,17 +155,17 @@ jobs:
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: manylinux-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
@@ -217,7 +217,7 @@ jobs:
     container:
       image: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
@@ -239,17 +239,17 @@ jobs:
     env:
       NODE_OUT: scripts/github-actions/linux/node-output
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: linux-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
@@ -288,7 +288,7 @@ jobs:
     env:
       NODE_MODULES: scripts/github-actions/npm/node-modules/
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
@@ -321,7 +321,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Linux Tests (Node)
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
     - uses: ./.github/actions/test-hext-npm
@@ -335,7 +335,7 @@ jobs:
     runs-on: macos-10.15
     name: Macos Tests (Node)
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 1
     - uses: ./.github/actions/test-hext-npm
