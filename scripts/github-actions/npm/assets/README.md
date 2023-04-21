@@ -32,7 +32,7 @@ Visit [Hext’s documentation](https://hext.thomastrapp.com/documentation) and i
 ## Compatibility
 
 This binary package is compatible with:
-* Node v14, v16, v18, v19
+* Node v16, v18, v19, v20
 * Linux (GLIBC ≥2.14, basically any distribution built after the year 2012)
 * Mac OS X (10.11 El Capitan or later)
 * x86_64 only
