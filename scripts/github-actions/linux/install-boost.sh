@@ -40,6 +40,7 @@ hash gcc-8 && export CC=gcc-8 CXX=g++-8
 hash gcc-9 && export CC=gcc-9 CXX=g++-9
 hash gcc-10 && export CC=gcc-10 CXX=g++-10
 hash gcc-11 && export CC=gcc-11 CXX=g++-11
+hash gcc-12 && export CC=gcc-12 CXX=g++-12
 $CXX --version
 
 ./bootstrap.sh --with-libraries=regex,program_options
