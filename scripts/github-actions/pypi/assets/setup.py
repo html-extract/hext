@@ -31,7 +31,7 @@ with open(os.path.join(this_directory, 'README.md')) as f:
 setup(
     name='hext',
     package_data={'hext': ['_hext.so', 'gumbo.license', 'rapidjson.license']},
-    version='1.0.4',
+    version='1.0.5',
     description="A module and command-line utility to extract structured data from HTML",
     long_description=long_description,
     long_description_content_type="text/markdown",
