@@ -235,7 +235,7 @@ jobs:
   ###
   linux_node_releases:
     name: Linux Releases (Node)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       NODE_OUT: scripts/github-actions/linux/node-output
     steps:
