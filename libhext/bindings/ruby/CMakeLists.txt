@@ -1,7 +1,6 @@
 ###### HEXT-RUBY ###############################################################
-project(hext-ruby)
-
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+project(hext-ruby)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/../../../cmake)
