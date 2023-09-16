@@ -1,5 +1,5 @@
 ###### LIBHEXT-TEST ############################################################
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(libhext-test VERSION 0.1.0)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
