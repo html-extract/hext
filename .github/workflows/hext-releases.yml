@@ -30,7 +30,7 @@ jobs:
   ###
   macos_releases:
     name: Macos Releases (Node, Python)
-    runs-on: macos-10.15
+    runs-on: macos-11
     env:
       # 2021-12-16: Using MACOSX_DEPLOYMENT_TARGET="10.11" triggers the
       # following notice when building the python hext wheel:
@@ -112,7 +112,7 @@ jobs:
   macos_python_test:
     name: Macos Tests (Python)
     needs: macos_releases
-    runs-on: macos-10.15
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
       with:
@@ -332,7 +332,7 @@ jobs:
   ###
   macos_node_test:
     needs: create_npm_package
-    runs-on: macos-10.15
+    runs-on: macos-11
     name: Macos Tests (Node)
     steps:
     - uses: actions/checkout@v3
