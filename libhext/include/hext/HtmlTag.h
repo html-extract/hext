@@ -1,4 +1,4 @@
-// Copyright 2015, 2016 Thomas Trapp
+// Copyright 2015, 2023 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 /// @file
 ///   All valid HTML tags.
 
+#include <gumbo.h>
+
 
 namespace hext {
 
@@ -28,307 +30,307 @@ namespace hext {
 enum class HtmlTag : int
 {
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html
-  HTML,
+  HTML = GUMBO_TAG_HTML,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head
-  HEAD,
+  HEAD = GUMBO_TAG_HEAD,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title
-  TITLE,
+  TITLE = GUMBO_TAG_TITLE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-  BASE,
+  BASE = GUMBO_TAG_BASE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
-  LINK,
+  LINK = GUMBO_TAG_LINK,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
-  META,
+  META = GUMBO_TAG_META,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style
-  STYLE,
+  STYLE = GUMBO_TAG_STYLE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
-  SCRIPT,
+  SCRIPT = GUMBO_TAG_SCRIPT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript
-  NOSCRIPT,
+  NOSCRIPT = GUMBO_TAG_NOSCRIPT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template
-  TEMPLATE,
+  TEMPLATE = GUMBO_TAG_TEMPLATE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body
-  BODY,
+  BODY = GUMBO_TAG_BODY,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
-  ARTICLE,
+  ARTICLE = GUMBO_TAG_ARTICLE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section
-  SECTION,
+  SECTION = GUMBO_TAG_SECTION,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
-  NAV,
+  NAV = GUMBO_TAG_NAV,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
-  ASIDE,
+  ASIDE = GUMBO_TAG_ASIDE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h1
-  H1,
+  H1 = GUMBO_TAG_H1,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h2
-  H2,
+  H2 = GUMBO_TAG_H2,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h3
-  H3,
+  H3 = GUMBO_TAG_H3,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h4
-  H4,
+  H4 = GUMBO_TAG_H4,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h5
-  H5,
+  H5 = GUMBO_TAG_H5,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h6
-  H6,
+  H6 = GUMBO_TAG_H6,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hgroup
-  HGROUP,
+  HGROUP = GUMBO_TAG_HGROUP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header
-  HEADER,
+  HEADER = GUMBO_TAG_HEADER,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer
-  FOOTER,
+  FOOTER = GUMBO_TAG_FOOTER,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address
-  ADDRESS,
+  ADDRESS = GUMBO_TAG_ADDRESS,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p
-  P,
+  P = GUMBO_TAG_P,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr
-  HR,
+  HR = GUMBO_TAG_HR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre
-  PRE,
+  PRE = GUMBO_TAG_PRE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote
-  BLOCKQUOTE,
+  BLOCKQUOTE = GUMBO_TAG_BLOCKQUOTE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
-  OL,
+  OL = GUMBO_TAG_OL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
-  UL,
+  UL = GUMBO_TAG_UL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
-  LI,
+  LI = GUMBO_TAG_LI,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
-  DL,
+  DL = GUMBO_TAG_DL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt
-  DT,
+  DT = GUMBO_TAG_DT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd
-  DD,
+  DD = GUMBO_TAG_DD,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
-  FIGURE,
+  FIGURE = GUMBO_TAG_FIGURE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
-  FIGCAPTION,
+  FIGCAPTION = GUMBO_TAG_FIGCAPTION,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main
-  MAIN,
+  MAIN = GUMBO_TAG_MAIN,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
-  DIV,
+  DIV = GUMBO_TAG_DIV,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
-  A,
+  A = GUMBO_TAG_A,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em
-  EM,
+  EM = GUMBO_TAG_EM,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong
-  STRONG,
+  STRONG = GUMBO_TAG_STRONG,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small
-  SMALL,
+  SMALL = GUMBO_TAG_SMALL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/s
-  S,
+  S = GUMBO_TAG_S,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite
-  CITE,
+  CITE = GUMBO_TAG_CITE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q
-  Q,
+  Q = GUMBO_TAG_Q,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dfn
-  DFN,
+  DFN = GUMBO_TAG_DFN,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr
-  ABBR,
+  ABBR = GUMBO_TAG_ABBR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/data
-  DATA,
+  DATA = GUMBO_TAG_DATA,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
-  TIME,
+  TIME = GUMBO_TAG_TIME,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code
-  CODE,
+  CODE = GUMBO_TAG_CODE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var
-  VAR,
+  VAR = GUMBO_TAG_VAR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/samp
-  SAMP,
+  SAMP = GUMBO_TAG_SAMP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd
-  KBD,
+  KBD = GUMBO_TAG_KBD,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sub
-  SUB,
+  SUB = GUMBO_TAG_SUB,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sup
-  SUP,
+  SUP = GUMBO_TAG_SUP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i
-  I,
+  I = GUMBO_TAG_I,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b
-  B,
+  B = GUMBO_TAG_B,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/u
-  U,
+  U = GUMBO_TAG_U,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark
-  MARK,
+  MARK = GUMBO_TAG_MARK,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby
-  RUBY,
+  RUBY = GUMBO_TAG_RUBY,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rt
-  RT,
+  RT = GUMBO_TAG_RT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rp
-  RP,
+  RP = GUMBO_TAG_RP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdi
-  BDI,
+  BDI = GUMBO_TAG_BDI,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdo
-  BDO,
+  BDO = GUMBO_TAG_BDO,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
-  SPAN,
+  SPAN = GUMBO_TAG_SPAN,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/br
-  BR,
+  BR = GUMBO_TAG_BR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr
-  WBR,
+  WBR = GUMBO_TAG_WBR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ins
-  INS,
+  INS = GUMBO_TAG_INS,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/del
-  DEL,
+  DEL = GUMBO_TAG_DEL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/image
-  IMAGE,
+  IMAGE = GUMBO_TAG_IMAGE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
-  IMG,
+  IMG = GUMBO_TAG_IMG,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
-  IFRAME,
+  IFRAME = GUMBO_TAG_IFRAME,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/embed
-  EMBED,
+  EMBED = GUMBO_TAG_EMBED,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object
-  OBJECT,
+  OBJECT = GUMBO_TAG_OBJECT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/param
-  PARAM,
+  PARAM = GUMBO_TAG_PARAM,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
-  VIDEO,
+  VIDEO = GUMBO_TAG_VIDEO,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
-  AUDIO,
+  AUDIO = GUMBO_TAG_AUDIO,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source
-  SOURCE,
+  SOURCE = GUMBO_TAG_SOURCE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track
-  TRACK,
+  TRACK = GUMBO_TAG_TRACK,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas
-  CANVAS,
+  CANVAS = GUMBO_TAG_CANVAS,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/map
-  MAP,
+  MAP = GUMBO_TAG_MAP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area
-  AREA,
+  AREA = GUMBO_TAG_AREA,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/math
-  MATH,
+  MATH = GUMBO_TAG_MATH,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/mi
-  MI,
+  MI = GUMBO_TAG_MI,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/mo
-  MO,
+  MO = GUMBO_TAG_MO,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/mn
-  MN,
+  MN = GUMBO_TAG_MN,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/ms
-  MS,
+  MS = GUMBO_TAG_MS,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/mtext
-  MTEXT,
+  MTEXT = GUMBO_TAG_MTEXT,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/mglyph
-  MGLYPH,
+  MGLYPH = GUMBO_TAG_MGLYPH,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element
-  MALIGNMARK,
+  MALIGNMARK = GUMBO_TAG_MALIGNMARK,
   /// https://developer.mozilla.org/en-US/docs/Web/MathML/Element/semantics
-  ANNOTATION_XML,
+  ANNOTATION_XML = GUMBO_TAG_ANNOTATION_XML,
   /// https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg
-  SVG,
+  SVG = GUMBO_TAG_SVG,
   /// https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject
-  FOREIGNOBJECT,
+  FOREIGNOBJECT = GUMBO_TAG_FOREIGNOBJECT,
   /// https://developer.mozilla.org/en-US/docs/Web/SVG/Element/desc
-  DESC,
+  DESC = GUMBO_TAG_DESC,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
-  TABLE,
+  TABLE = GUMBO_TAG_TABLE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption
-  CAPTION,
+  CAPTION = GUMBO_TAG_CAPTION,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/colgroup
-  COLGROUP,
+  COLGROUP = GUMBO_TAG_COLGROUP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
-  COL,
+  COL = GUMBO_TAG_COL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
-  TBODY,
+  TBODY = GUMBO_TAG_TBODY,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
-  THEAD,
+  THEAD = GUMBO_TAG_THEAD,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot
-  TFOOT,
+  TFOOT = GUMBO_TAG_TFOOT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr
-  TR,
+  TR = GUMBO_TAG_TR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td
-  TD,
+  TD = GUMBO_TAG_TD,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
-  TH,
+  TH = GUMBO_TAG_TH,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
-  FORM,
+  FORM = GUMBO_TAG_FORM,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
-  FIELDSET,
+  FIELDSET = GUMBO_TAG_FIELDSET,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend
-  LEGEND,
+  LEGEND = GUMBO_TAG_LEGEND,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
-  LABEL,
+  LABEL = GUMBO_TAG_LABEL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
-  INPUT,
+  INPUT = GUMBO_TAG_INPUT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button
-  BUTTON,
+  BUTTON = GUMBO_TAG_BUTTON,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
-  SELECT,
+  SELECT = GUMBO_TAG_SELECT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist
-  DATALIST,
+  DATALIST = GUMBO_TAG_DATALIST,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup
-  OPTGROUP,
+  OPTGROUP = GUMBO_TAG_OPTGROUP,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
-  OPTION,
+  OPTION = GUMBO_TAG_OPTION,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
-  TEXTAREA,
+  TEXTAREA = GUMBO_TAG_TEXTAREA,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/keygen
-  KEYGEN,
+  KEYGEN = GUMBO_TAG_KEYGEN,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/output
-  OUTPUT,
+  OUTPUT = GUMBO_TAG_OUTPUT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
-  PROGRESS,
+  PROGRESS = GUMBO_TAG_PROGRESS,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter
-  METER,
+  METER = GUMBO_TAG_METER,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
-  DETAILS,
+  DETAILS = GUMBO_TAG_DETAILS,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary
-  SUMMARY,
+  SUMMARY = GUMBO_TAG_SUMMARY,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/menu
-  MENU,
+  MENU = GUMBO_TAG_MENU,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/menuitem
-  MENUITEM,
+  MENUITEM = GUMBO_TAG_MENUITEM,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/applet
-  APPLET,
+  APPLET = GUMBO_TAG_APPLET,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym
-  ACRONYM,
+  ACRONYM = GUMBO_TAG_ACRONYM,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bgsound
-  BGSOUND,
+  BGSOUND = GUMBO_TAG_BGSOUND,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dir
-  DIR,
+  DIR = GUMBO_TAG_DIR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frame
-  FRAME,
+  FRAME = GUMBO_TAG_FRAME,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frameset
-  FRAMESET,
+  FRAMESET = GUMBO_TAG_FRAMESET,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noframes
-  NOFRAMES,
+  NOFRAMES = GUMBO_TAG_NOFRAMES,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/isindex
-  ISINDEX,
+  ISINDEX = GUMBO_TAG_ISINDEX,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/listing
-  LISTING,
+  LISTING = GUMBO_TAG_LISTING,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/xmp
-  XMP,
+  XMP = GUMBO_TAG_XMP,
   /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLUnknownElement
-  NEXTID,
+  NEXTID = GUMBO_TAG_NEXTID,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noembed
-  NOEMBED,
+  NOEMBED = GUMBO_TAG_NOEMBED,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/plaintext
-  PLAINTEXT,
+  PLAINTEXT = GUMBO_TAG_PLAINTEXT,
   /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLUnknownElement
-  RB,
+  RB = GUMBO_TAG_RB,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strike
-  STRIKE,
+  STRIKE = GUMBO_TAG_STRIKE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/basefont
-  BASEFONT,
+  BASEFONT = GUMBO_TAG_BASEFONT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/big
-  BIG,
+  BIG = GUMBO_TAG_BIG,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blink
-  BLINK,
+  BLINK = GUMBO_TAG_BLINK,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center
-  CENTER,
+  CENTER = GUMBO_TAG_CENTER,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/font
-  FONT,
+  FONT = GUMBO_TAG_FONT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee
-  MARQUEE,
+  MARQUEE = GUMBO_TAG_MARQUEE,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/multicol
-  MULTICOL,
+  MULTICOL = GUMBO_TAG_MULTICOL,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nobr
-  NOBR,
+  NOBR = GUMBO_TAG_NOBR,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/spacer
-  SPACER,
+  SPACER = GUMBO_TAG_SPACER,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tt
-  TT,
+  TT = GUMBO_TAG_TT,
   /// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rtc
-  RTC,
+  RTC = GUMBO_TAG_RTC,
   /// Unknown (i.e. non-standard) tag
-  UNKNOWN,
+  UNKNOWN = GUMBO_TAG_UNKNOWN,
 
   /// Any html tag.
   ANY = 512 // leave room for future html tags
