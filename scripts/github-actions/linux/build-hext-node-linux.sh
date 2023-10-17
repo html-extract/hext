@@ -70,7 +70,6 @@ npx prebuild \
   -t "$HEXT_NODE_API_VERSION1" \
   -t "$HEXT_NODE_API_VERSION2" \
   -t "$HEXT_NODE_API_VERSION3" \
-  -t "$HEXT_NODE_API_VERSION4" \
   --strip --verbose \
   --backend cmake-js \
   -- \
