@@ -73,7 +73,7 @@ npx prebuild \
   --strip --verbose \
   --backend cmake-js \
   -- \
-  --CDCMAKE_CXX_FLAGS=" -static-libgcc -static-libstdc++ -Wl,-as-needed " \
+  --CDHEXT_BUILD_STATIC_RELEASE=On \
   --CDCMAKE_POLICY_DEFAULT_CMP0074=NEW \
   --CDBoost_ROOT="$HEXT_BOOST_INSTALL_PATH" \
   --CDGumbo_ROOT="$HEXT_GUMBO_INSTALL_PATH" \
