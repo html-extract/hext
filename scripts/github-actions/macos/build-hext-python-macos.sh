@@ -64,6 +64,11 @@ WHEEL=$(find . -iname "*.whl")
 WHEEL_COMPAT_NAME=$( \
   echo $WHEEL | \
   sed 's/macosx_[0-9]\{1,\}_[0-9]\{1,\}_/macosx_'${MACOSX_DEPLOYMENT_TARGET//./_}'_/' )
+# Fix arch name if wrong platform tag 'universal'
+WHEEL_ARCH=$(uname -m)
+WHEEL_COMPAT_NAME=$( \
+  echo $WHEEL_COMPAT_NAME | \
+  sed 's/_universal[0-9]\{0,1\}.whl$/_'$WHEEL_ARCH'.whl/' )
 mv "$WHEEL" "$WHEEL_COMPAT_NAME"
 WHEEL="$WHEEL_COMPAT_NAME"
 
