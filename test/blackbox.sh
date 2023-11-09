@@ -49,7 +49,7 @@ HelpMessage
 # Assume this file's location in the project is /test
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-# The build directory for htmlext is expected in to be /build
+# The build directory for htmlext is expected to be /build
 BUILD_DIR=$((hash realpath 2> /dev/null) && realpath "${SCRIPT_DIR}/../build")
 
 C_RED=$(tput setaf 1)
