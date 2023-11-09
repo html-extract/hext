@@ -87,7 +87,8 @@ cd prebuilds
 for i in *.tar.gz ; do
   tar xf "$i"
   ldd build/Release/hext.node
-  objdump -T build/Release/hext.node | grep -oE 'GLIBC_[.0-9]*' | sort | uniq
+  echo -n "Minimum GLIBC version: "
+  objdump -T build/Release/hext.node | grep -oE 'GLIBC_[.0-9]*' | sort --version-sort | tail -n1
   cp build/Release/hext.node "$OUTD/${i%%.tar.gz}.node"
 done
 
