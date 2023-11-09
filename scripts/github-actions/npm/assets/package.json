@@ -1,6 +1,6 @@
 {
   "name": "hext",
-  "version": "11.0.6",
+  "version": "11.0.7",
   "description": "Domain-specific language for extracting structured data from HTML",
   "homepage": "https://hext.thomastrapp.com",
   "bugs": "https://github.com/html-extract/hext/issues",
