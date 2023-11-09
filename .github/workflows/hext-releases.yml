@@ -12,6 +12,7 @@ env:
   HEXT_PYTHON_VERSION1: "3.12"
   HEXT_PYTHON_VERSION2: "3.11"
   HEXT_PYTHON_VERSION3: "3.10"
+  # NOTE: HEXT_PYTHON_VERSION{4,5} are currently not built/tested for macos_arm_releases
   HEXT_PYTHON_VERSION4: "3.9"
   HEXT_PYTHON_VERSION5: "3.8"
   HEXT_NODE_VERSION1: "21"
@@ -20,6 +21,7 @@ env:
   HEXT_NODE_API_VERSION1: "21.0.0"
   HEXT_NODE_API_VERSION2: "20.0.0"
   HEXT_NODE_API_VERSION3: "18.0.0"
+
 
 
 jobs:
@@ -36,11 +38,12 @@ jobs:
       # than the version on which the Python interpreter was compiled (10.14),
       # and will be ignored.
       MACOSX_DEPLOYMENT_TARGET: "10.11"
+      HEXT_ARCH: "x86_64"
       WHEEL_OUT: scripts/github-actions/macos/wheel-output
       NODE_OUT: scripts/github-actions/macos/node-output
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -75,33 +78,38 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: hext-node-macos-${{ github.sha }}
+        name: hext-node-macos-${{ env.HEXT_ARCH }}-${{ github.sha }}
         path: ${{ env.NODE_OUT }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION5 }} wheel
       uses: ./.github/actions/build-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION5 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION4 }} wheel
       uses: ./.github/actions/build-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION4 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION3 }} wheel
       uses: ./.github/actions/build-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION2 }} wheel
       uses: ./.github/actions/build-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION2 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION1 }} wheel
       uses: ./.github/actions/build-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION1 }}
+        arch: ${{ env.HEXT_ARCH }}
 
 
   ###
@@ -111,8 +119,10 @@ jobs:
     name: Macos Tests (Python)
     needs: macos_releases
     runs-on: macos-11
+    env:
+      HEXT_ARCH: "x86_64"
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -120,26 +130,105 @@ jobs:
       uses: ./.github/actions/test-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION1 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Test python${{ env.HEXT_PYTHON_VERSION2 }} wheel
       uses: ./.github/actions/test-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION2 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Test python${{ env.HEXT_PYTHON_VERSION3 }} wheel
       uses: ./.github/actions/test-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Test python${{ env.HEXT_PYTHON_VERSION4 }} wheel
       uses: ./.github/actions/test-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION4 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Test python${{ env.HEXT_PYTHON_VERSION5 }} wheel
       uses: ./.github/actions/test-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION5 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+
+  ###
+  ### Macos ARM64 Releases (Node, Python)
+  ###
+  macos_arm_releases:
+    name: Macos ARM64 Releases (Node, Python)
+    runs-on: macos-13-xlarge
+    env:
+      # Mac OS 11 was the first version for ARM64
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
+      HEXT_ARCH: "arm64"
+      WHEEL_OUT: scripts/github-actions/macos/wheel-output
+      NODE_OUT: scripts/github-actions/macos/node-output
+
+    steps:
+    - name: Print architecture
+      run: uname -m
+
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - uses: actions/cache@v3
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: macos-arm-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v3
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: macos-arm-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      run: brew install icu4c rapidjson googletest autoconf automake libtool swig
+
+    - name: Install gumbo
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-gumbo.sh
+
+    - name: Install boost
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-boost.sh
+
+    - name: Install hext
+      run: ./scripts/github-actions/macos/install-hext.sh
+
+    - name: Build node modules
+      run: ./scripts/github-actions/macos/build-hext-node-macos.sh
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: hext-node-macos-${{ env.HEXT_ARCH }}-${{ github.sha }}
+        path: ${{ env.NODE_OUT }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION3 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION2 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION2 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION1 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION1 }}
+        arch: ${{ env.HEXT_ARCH }}
 
 
   ###
@@ -153,7 +242,7 @@ jobs:
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -215,7 +304,7 @@ jobs:
     container:
       image: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -228,6 +317,7 @@ jobs:
       run: ./scripts/github-actions/linux/test-hext-python-manylinux2014.sh
 
 
+
   ###
   ### Linux Releases (Node)
   ###
@@ -237,7 +327,7 @@ jobs:
     env:
       NODE_OUT: scripts/github-actions/linux/node-output
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -280,19 +370,24 @@ jobs:
   ### Create NPM Package
   ###
   create_npm_package:
-    needs: [macos_releases, linux_node_releases]
+    needs: [macos_releases, macos_arm_releases, linux_node_releases]
     runs-on: ubuntu-latest
     name: Create NPM Package
     env:
       NODE_MODULES: scripts/github-actions/npm/node-modules/
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
     - uses: actions/download-artifact@v3
       with:
-        name: hext-node-macos-${{ github.sha }}
+        name: hext-node-macos-arm64-${{ github.sha }}
+        path: ${{ env.NODE_MODULES }}
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: hext-node-macos-x86_64-${{ github.sha }}
         path: ${{ env.NODE_MODULES }}
 
     - uses: actions/download-artifact@v3
@@ -319,7 +414,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Linux Tests (Node)
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
     - uses: ./.github/actions/test-hext-npm
@@ -333,7 +428,42 @@ jobs:
     runs-on: macos-11
     name: Macos Tests (Node)
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
+    - uses: ./.github/actions/test-hext-npm
+
+
+  ###
+  ### Macos ARM64 Tests (Python, Node)
+  ###
+  macos_arm_test:
+    name: Macos ARM64 Tests (Python, Node)
+    needs: [macos_arm_releases, create_npm_package]
+    runs-on: macos-13-xlarge
+    env:
+      HEXT_ARCH: "arm64"
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION1 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION1 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION2 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION2 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION3 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
+
     - uses: ./.github/actions/test-hext-npm

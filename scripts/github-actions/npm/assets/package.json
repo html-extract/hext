@@ -14,7 +14,7 @@
   "dependencies": {},
   "engines": { "node" : "^18 || ^20 || ^21" },
   "os": ["darwin", "linux"],
-  "cpu": ["x64"],
+  "cpu": ["x64", "arm64"],
   "scripts": {},
   "main": "index.js",
   "files": "./lib/*/*/*/hext.node"

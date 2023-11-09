@@ -4,6 +4,9 @@ inputs:
   version:
     description: Python version
     required: true
+  arch:
+    description: Architecture
+    required: true
 runs:
   using: composite
   steps:
@@ -14,7 +17,7 @@ runs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: hext-python${{ inputs.version }}-macos-${{ github.sha }}
+        name: hext-python${{ inputs.version }}-macos-${{ inputs.arch }}-${{ github.sha }}
         path: wheels
 
     - name: Pip install and test ${{ inputs.version }}

@@ -37,7 +37,8 @@ cd */
 
 ls -lah "$HEXT_BOOST_INSTALL_PATH"
 
-otool -l "$HEXT_BOOST_INSTALL_PATH/lib/libboost_regex.a"
-otool -l "$HEXT_BOOST_INSTALL_PATH/lib/libboost_regex.a" | grep -A5 LC_VERSION_MIN_MACOSX
-
+file "$HEXT_BOOST_INSTALL_PATH/lib/libboost_regex.a"
+otool -l "$HEXT_BOOST_INSTALL_PATH/lib/libboost_regex.a" | grep -EA7 '(LC_VERSION_MIN_MACOSX|LC_BUILD_VERSION)'
+file "$HEXT_BOOST_INSTALL_PATH/lib/libboost_program_options.a"
+otool -l "$HEXT_BOOST_INSTALL_PATH/lib/libboost_program_options.a" | grep -EA7 '(LC_VERSION_MIN_MACOSX|LC_BUILD_VERSION)'
 

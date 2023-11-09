@@ -41,13 +41,12 @@ make $CMAKE_MAKE_FLAGS
 cp hext.py wheel/hext/__init__.py
 otool -L _hext.so
 otool -l _hext.so
-otool -l _hext.so | grep -A2 LC_VERSION_MIN_MACOSX || true
+otool -l _hext.so | grep -EA7 '(LC_VERSION_MIN_MACOSX|LC_BUILD_VERSION)' || true
 cp _hext.so wheel/hext
 
 mkdir wheel/bin
 cp /usr/local/bin/htmlext wheel/bin
-otool -L /usr/local/bin/htmlext
-otool -l /usr/local/bin/htmlext | grep -A2 LC_VERSION_MIN_MACOSX || true
+otool -l /usr/local/bin/htmlext | grep -EA7 '(LC_VERSION_MIN_MACOSX|LC_BUILD_VERSION)' || true
 
 cd wheel
 python setup.py bdist_wheel

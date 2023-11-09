@@ -39,6 +39,6 @@ make install
 
 ls -lah "$HEXT_GUMBO_INSTALL_PATH"
 
-otool -l "$HEXT_GUMBO_INSTALL_PATH/lib/libgumbo.a"
-otool -l "$HEXT_GUMBO_INSTALL_PATH/lib/libgumbo.a" | grep -A5 LC_VERSION_MIN_MACOSX
+file "$HEXT_GUMBO_INSTALL_PATH/lib/libgumbo.a"
+otool -l "$HEXT_GUMBO_INSTALL_PATH/lib/libgumbo.a" | grep -EA7 '(LC_VERSION_MIN_MACOSX|LC_BUILD_VERSION)'
 

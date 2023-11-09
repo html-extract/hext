@@ -4,6 +4,9 @@ inputs:
   version:
     description: Python version
     required: true
+  arch:
+    description: Architecture
+    required: true
 runs:
   using: composite
   steps:
@@ -16,7 +19,7 @@ runs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: hext-python${{ inputs.version }}-macos-${{ github.sha }}
+        name: hext-python${{ inputs.version }}-macos-${{ inputs.arch }}-${{ github.sha }}
         path: ${{ env.WHEEL_OUT }}
 
     - run: rm -rf ${{ env.WHEEL_OUT }}/*
