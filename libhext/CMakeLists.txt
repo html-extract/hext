@@ -28,7 +28,10 @@ configure_file(
 
 
 ###### DEPENDENCIES ############################################################
-find_package(Boost 1.76.0 REQUIRED)
+find_package(Boost REQUIRED)
+if( Boost_VERSION_STRING VERSION_LESS 1.76.0 )
+  find_package(Boost REQUIRED COMPONENTS regex)
+endif()
 find_package(Gumbo REQUIRED)
 
 
@@ -77,7 +80,8 @@ hext_enable_warnings(hext PRIVATE)
 target_link_libraries(hext
   PUBLIC
     Gumbo::Gumbo
-    Boost::boost)
+    Boost::boost
+    "$<$<BOOL:${Boost_REGEX_FOUND}>:Boost::regex>")
 set_target_properties(
   hext PROPERTIES
   VERSION "${Hext_VERSION}"
