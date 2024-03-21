@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018-2021 Thomas Trapp
+# Copyright 2018-2024 Thomas Trapp
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -59,6 +59,23 @@ def test_rule_extracts_empty_list():
     result = rule.extract(html)
     assert type(result) is list
     assert len(result) is 0
+
+def test_rule_extract_type_error():
+    rule = hext.Rule("<*/>")
+    with pytest.raises(TypeError, match='expected hext.Html'):
+        result = rule.extract("nope")
+    with pytest.raises(TypeError, match='expected hext.Html'):
+        result = rule.extract(hext.Rule("<*/>"))
+    with pytest.raises(TypeError, match='expected int'):
+        result = rule.extract(hext.Html("ok"), "nope")
+
+def test_rule_constructor_type_error():
+    with pytest.raises(TypeError, match='expected string'):
+        rule = hext.Rule(1)
+
+def test_html_constructor_type_error():
+    with pytest.raises(TypeError, match='expected string'):
+        html = hext.Html(1)
 
 # https://github.com/html-extract/hext/issues/17
 def no_side_effect():

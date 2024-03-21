@@ -1,4 +1,4 @@
-// Copyright 2016-2021 Thomas Trapp
+// Copyright 2016-2024 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -141,6 +141,23 @@ struct ScopedPyObject
     SWIG_exception(SWIG_RuntimeError, e.what());
   }
 }
+
+// Improve error messages for argument type mismatch
+%feature("pythonprepend") Html::Html %{
+    if not isinstance(html, str):
+        raise TypeError('Wrong argument type, expected string')
+%}
+%feature("pythonprepend") Rule::Rule %{
+    if not isinstance(hext, str):
+        raise TypeError('Wrong argument type, expected string')
+%}
+%feature("pythonprepend") Rule::extract %{
+    if not isinstance(html, Html):
+        raise TypeError('Wrong argument type for <html>, expected hext.Html')
+
+    if not isinstance(max_searches, int):
+        raise TypeError('Wrong argument type for <max_searches>, expected int')
+%}
 
 %ignore Html::root() const;
 %{
