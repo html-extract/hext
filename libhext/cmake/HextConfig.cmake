@@ -1,4 +1,7 @@
 include(CMakeFindDependencyMacro)
-find_dependency(Boost)
+find_package(Boost REQUIRED)
+if( Boost_VERSION_STRING VERSION_LESS 1.76.0 )
+  find_package(Boost REQUIRED COMPONENTS regex)
+endif()
 find_dependency(Gumbo)
 include("${CMAKE_CURRENT_LIST_DIR}/HextTargets.cmake")
