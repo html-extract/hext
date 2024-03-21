@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Thomas Trapp
+// Copyright 2015-2024 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ void PrintVersion(std::ostream& out)
 {
   out << "htmlext v"
       << version_major << "." << version_minor << "." << version_patch
-      << ", Copyright (C) 2021 Thomas Trapp\n"
+      << ", Copyright (C) 2024 Thomas Trapp\n"
       << "linked with libhext v"
       << hext::version_major << "."
       << hext::version_minor << "."
