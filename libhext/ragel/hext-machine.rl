@@ -83,6 +83,35 @@ nth_pattern = (
 );
 
 
+#### REGULAR EXPRESSIONS #######################################################
+regex = (
+  ( '/' ( ( [^/] | '\\/' )** >{ tk_start(); } %{ tk_stop(); } ) '/' )
+  |
+  ( "'" ( ( [^'] | "\\'" )** >{ tk_start(); } %{ tk_stop(); } ) "'" )
+  |
+  ( '"' ( ( [^"] | '\\"' )** >{ tk_start(); } %{ tk_stop(); } ) '"' )
+)
+# regex flags
+(
+  # case insensitive
+  ( 'i' %{ pv.regex_flag |= boost::regex::icase; } )
+  |
+  # collate (locale aware character groups)
+  ( 'c' %{ pv.regex_flag |= boost::regex::collate; } )
+)*
+%{ try {
+     pv.regex = boost::regex(tok, pv.regex_flag);
+   }
+   catch( const boost::regex_error& e ) {
+     // Mark whole regex as error, including slashes and flags
+     auto mark_len = static_cast<std::size_t>(this->p - tok_begin + 1);
+     this->throw_regex_error(mark_len, e.code());
+   }
+};
+# Wrap a regular expression into a RegexTest.
+regex_test = regex %{ assert(pv.regex); pv.set_test<RegexTest>(*pv.regex); };
+
+
 #### TRAITS ####################################################################
 trait = ':' (
   ( 'empty' %{ pv.set_trait<ChildCountMatch>(0); } )
@@ -138,6 +167,10 @@ trait = ':' (
   |
 
   ( 'only-of-type' %{ pv.set_trait<OnlyChildMatch>(OnlyChildMatch::OfType); } )
+  |
+
+  ( 'type-matches(' regex ')'
+    %{ pv.set_trait<TypeRegexMatch>(*pv.regex); } )
 );
 not_trait =
 ':not('
@@ -150,35 +183,6 @@ not_trait =
      }
   )+
 ')';
-
-
-#### REGULAR EXPRESSIONS #######################################################
-regex = (
-  ( '/' ( ( [^/] | '\\/' )** >{ tk_start(); } %{ tk_stop(); } ) '/' )
-  |
-  ( "'" ( ( [^'] | "\\'" )** >{ tk_start(); } %{ tk_stop(); } ) "'" )
-  |
-  ( '"' ( ( [^"] | '\\"' )** >{ tk_start(); } %{ tk_stop(); } ) '"' )
-)
-# regex flags
-(
-  # case insensitive
-  ( 'i' %{ pv.regex_flag |= boost::regex::icase; } )
-  |
-  # collate (locale aware character groups)
-  ( 'c' %{ pv.regex_flag |= boost::regex::collate; } )
-)*
-%{ try {
-     pv.regex = boost::regex(tok, pv.regex_flag);
-   }
-   catch( const boost::regex_error& e ) {
-     // Mark whole regex as error, including slashes and flags
-     auto mark_len = static_cast<std::size_t>(this->p - tok_begin + 1);
-     this->throw_regex_error(mark_len, e.code());
-   }
-};
-# Wrap a regular expression into a RegexTest.
-regex_test = regex %{ assert(pv.regex); pv.set_test<RegexTest>(*pv.regex); };
 
 
 #### BUILTIN FUNCTION ##########################################################

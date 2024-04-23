@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Thomas Trapp
+// Copyright 2015-2024 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@
 #include "hext/NegateMatch.h"
 #include "hext/NthChildMatch.h"
 #include "hext/OnlyChildMatch.h"
+#include "hext/TypeRegexMatch.h"
 
 
 // ValueTests

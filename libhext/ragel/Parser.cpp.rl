@@ -40,6 +40,7 @@
 #include "hext/RegexReplacePipe.h"
 #include "hext/RegexTest.h"
 #include "hext/TrimPipe.h"
+#include "hext/TypeRegexMatch.h"
 #include "hext/ValueTest.h"
 
 #include "PatternValues.h"

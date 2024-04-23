@@ -1,0 +1,5 @@
+<body>
+  <div>
+    <*:not(:type-matches(/^$/):type-matches(/^(p)$|^(h[1-6])$/)) @text:content />
+  </div>
+</body>

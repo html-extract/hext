@@ -56,6 +56,7 @@ add_executable(
   "${PROJECT_SOURCE_DIR}/src/pattern/nth-child-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/only-child-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/pattern/regex-test.cpp"
+  "${PROJECT_SOURCE_DIR}/src/pattern/type-regex-match.cpp"
   "${PROJECT_SOURCE_DIR}/src/pipe/append-pipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/pipe/case-pipe.cpp"
   "${PROJECT_SOURCE_DIR}/src/pipe/collapsews-pipe.cpp"
