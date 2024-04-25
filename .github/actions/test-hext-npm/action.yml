@@ -19,4 +19,8 @@ runs:
       uses: ./.github/actions/test-hext-npm-version
       with:
         version: ${{ env.HEXT_NODE_VERSION3 }}
+    - name: Test Node v${{ env.HEXT_NODE_VERSION4 }}
+      uses: ./.github/actions/test-hext-npm-version
+      with:
+        version: ${{ env.HEXT_NODE_VERSION4 }}
 
