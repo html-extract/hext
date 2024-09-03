@@ -310,7 +310,7 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4.1.7
       with:
         name: hext-python-linux-${{ github.sha }}
         path: ${{ env.WHEEL_OUT }}
@@ -381,17 +381,17 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4.1.7
       with:
         name: hext-node-macos-arm64-${{ github.sha }}
         path: ${{ env.NODE_MODULES }}
 
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4.1.7
       with:
         name: hext-node-macos-x86_64-${{ github.sha }}
         path: ${{ env.NODE_MODULES }}
 
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4.1.7
       with:
         name: hext-node-linux-${{ github.sha }}
         path: ${{ env.NODE_MODULES }}
