@@ -3,7 +3,7 @@ description: Test npm package for all node versions
 runs:
   using: composite
   steps:
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: hext-npm-package-${{ github.sha }}
         path: rls
