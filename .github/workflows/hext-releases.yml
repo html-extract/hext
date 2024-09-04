@@ -244,7 +244,7 @@ jobs:
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
@@ -306,7 +306,7 @@ jobs:
     container:
       image: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 1
 
