@@ -49,13 +49,13 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: macos-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
@@ -180,13 +180,13 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: macos-arm-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
@@ -248,13 +248,13 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: manylinux-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
@@ -332,13 +332,13 @@ jobs:
       with:
         fetch-depth: 1
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
         key: linux-boost-${{ env.HEXT_BOOST_VERSION }}
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
