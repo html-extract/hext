@@ -1,9 +1,6 @@
 ###### HTMLEXT #################################################################
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
-# Allow cmake to set VERSION variables
-# https://cmake.org/cmake/help/latest/policy/CMP0048.html
-cmake_policy(SET CMP0048 NEW)
 project(htmlext VERSION 1.0.9)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
