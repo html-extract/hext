@@ -66,7 +66,7 @@ for i in /opt/python/cp* ; do
   strip --strip-unneeded wheel/bin/htmlext
 
   cd wheel
-  /opt/python/$V/bin/python setup.py bdist_wheel
+  /opt/python/$V/bin/python -m build --wheel
 
   WHEEL=$(find . -iname "*linux*.whl")
   [[ -f "$WHEEL" ]] || perror_exit "cannot find wheel (*linux*.whl)"
