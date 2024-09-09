@@ -26,7 +26,7 @@ find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 
 ### PYTHON
-find_package(PythonLibs REQUIRED)
+find_package(Python3 COMPONENTS Development.Module REQUIRED)
 
 ### LIBHEXT
 find_package(Hext REQUIRED)
@@ -36,7 +36,7 @@ include_directories("${PROJECT_SOURCE_DIR}/..")
 
 
 ###### PYTHON ##################################################################
-include_directories(SYSTEM ${PYTHON_INCLUDE_PATH})
+include_directories(SYSTEM ${Python3_INCLUDE_DIRS})
 
 set_source_files_properties(
   "${PROJECT_SOURCE_DIR}/pyhext.i" PROPERTIES CPLUSPLUS ON)
