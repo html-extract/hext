@@ -1,5 +1,12 @@
 ###### HEXTJS ##################################################################
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+
+# https://cmake.org/cmake/help/latest/policy/CMP0167.html
+# Prefer Boost-installed cmake configuration for package Boost.
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 NEW)
+endif()
+
 project(hextjs)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
