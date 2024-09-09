@@ -1,5 +1,5 @@
 ###### HEXT-PHP ################################################################
-cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 project(hext-php)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
