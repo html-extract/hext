@@ -1,5 +1,5 @@
 ###### LIBHEXT #################################################################
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 # Allow cmake to set VERSION variables
 # https://cmake.org/cmake/help/latest/policy/CMP0048.html

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 project(libhext-examples)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
