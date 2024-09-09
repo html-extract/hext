@@ -9,6 +9,7 @@ env:
   HEXT_GUMBO_VERSION: "0.10.1"
   HEXT_GUMBO_SHA256: "28463053d44a5dfbc4b77bcf49c8cee119338ffa636cc17fc3378421d714efad"
   HEXT_GUMBO_INSTALL_PATH: "${{ github.workspace }}/gumbo_root"
+  HEXT_MANYLINUX_VERSION: "manylinux_2_28"
   HEXT_PYTHON_VERSION1: "3.12"
   HEXT_PYTHON_VERSION2: "3.11"
   HEXT_PYTHON_VERSION3: "3.10"
@@ -244,7 +245,7 @@ jobs:
     name: Linux Releases (Python)
     runs-on: ubuntu-latest
     container:
-      image: quay.io/pypa/manylinux2014_x86_64
+      image: quay.io/pypa/${{ env.HEXT_MANYLINUX_VERSION }}_x86_64
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     steps:
@@ -256,16 +257,18 @@ jobs:
       id: boost_cache
       with:
         path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
-        key: manylinux-boost-${{ env.HEXT_BOOST_VERSION }}
+        key: ${{ env.HEXT_MANYLINUX_VERSION }}-boost-${{ env.HEXT_BOOST_VERSION }}
 
     - uses: actions/cache@v4
       id: gumbo_cache
       with:
         path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
-        key: manylinux-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+        key: ${{ env.HEXT_MANYLINUX_VERSION }}-gumbo-${{ env.HEXT_GUMBO_VERSION }}
 
     - name: Install build dependencies
-      run: yum -y install pcre pcre-devel swig3 rapidjson-devel gtest-devel
+      run: >
+        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+        && yum install -y swig rapidjson-devel gtest-devel
 
     - name: Install gumbo
       if: steps.gumbo_cache.outputs.cache-hit != 'true'
@@ -276,7 +279,7 @@ jobs:
       run: ./scripts/github-actions/linux/install-boost.sh
 
     - name: Build
-      run: ./scripts/github-actions/linux/build-hext-python-manylinux2014.sh
+      run: ./scripts/github-actions/linux/build-hext-python-manylinux.sh
 
     - name: Remove .gitignore
       run: rm ${{ env.WHEEL_OUT }}/.gitignore
@@ -308,7 +311,7 @@ jobs:
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     container:
-      image: quay.io/pypa/manylinux2014_x86_64
+      image: quay.io/pypa/${{ env.HEXT_MANYLINUX_VERSION }}_x86_64
     steps:
     - uses: actions/checkout@v4
       with:
@@ -320,7 +323,7 @@ jobs:
         path: ${{ env.WHEEL_OUT }}
 
     - name: Pip install and test
-      run: ./scripts/github-actions/linux/test-hext-python-manylinux2014.sh
+      run: ./scripts/github-actions/linux/test-hext-python-manylinux.sh
 
 
   ###

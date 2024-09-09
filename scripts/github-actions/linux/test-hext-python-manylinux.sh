@@ -4,6 +4,7 @@ set -e
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
+[[ $HEXT_MANYLINUX_VERSION == manylinux* ]] || perror_exit "unknown HEXT_MANYLINUX_VERSION '$HEXT_MANYLINUX_VERSION'"
 USE_PYPI=false
 [[ $# -eq 1 && "$1" == "use_pypi" ]] && USE_PYPI=true
 
@@ -31,7 +32,7 @@ for i in /opt/python/cp* ; do
   if [[ "$USE_PYPI" = true ]] ; then
     WHEEL="hext"
   else
-    WHEEL=$(readlink -f "$WHEELD"/hext-?.?.?-"$V"-manylinux2014_x86_64.whl)
+    WHEEL=$(readlink -f "$WHEELD"/hext-?.?.?-"$V"-"$HEXT_MANYLINUX_VERSION"_x86_64.whl)
   fi
   $PIP install "$WHEEL"
 done

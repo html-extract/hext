@@ -7,6 +7,7 @@ THREADS=3
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
+[[ $HEXT_MANYLINUX_VERSION == manylinux* ]] || perror_exit "unknown HEXT_MANYLINUX_VERSION '$HEXT_MANYLINUX_VERSION'"
 HEXTD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../../../"
 ASSETD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/../pypi/assets"
 [[ -d "$ASSETD" ]] || perror_exit "cannot access asset directory (expected '$ASSETD')"
@@ -81,7 +82,7 @@ for i in /opt/python/cp* ; do
 
   WHEEL=$(find . -iname "*linux*.whl")
   [[ -f "$WHEEL" ]] || perror_exit "cannot find wheel (*linux*.whl)"
-  MANYLINUX_WHEEL="$(echo $WHEEL | sed 's/linux/manylinux2014/')"
+  MANYLINUX_WHEEL="$(echo $WHEEL | sed "s/linux/$HEXT_MANYLINUX_VERSION/")"
   mv "$WHEEL" "$MANYLINUX_WHEEL"
 
   cp "$MANYLINUX_WHEEL" "$OUTD"
