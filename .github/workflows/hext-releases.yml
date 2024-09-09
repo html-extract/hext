@@ -9,6 +9,8 @@ env:
   HEXT_GUMBO_VERSION: "0.10.1"
   HEXT_GUMBO_SHA256: "28463053d44a5dfbc4b77bcf49c8cee119338ffa636cc17fc3378421d714efad"
   HEXT_GUMBO_INSTALL_PATH: "${{ github.workspace }}/gumbo_root"
+  # NOTE: when changing HEXT_MANYLINUX_VERSION, also change the container images.
+  #       See `image: quay.io/pypa/manylinux_*_x86_64`.
   HEXT_MANYLINUX_VERSION: "manylinux_2_28"
   HEXT_PYTHON_VERSION1: "3.12"
   HEXT_PYTHON_VERSION2: "3.11"
@@ -245,7 +247,12 @@ jobs:
     name: Linux Releases (Python)
     runs-on: ubuntu-latest
     container:
-      image: quay.io/pypa/${{ env.HEXT_MANYLINUX_VERSION }}_x86_64
+      # NOTE:
+      #   This container image must be the same version as described in the
+      #   env var "HEXT_MANYLINUX_VERSION".
+      #   Unfortunately, env vars cannot be referenced when specifying the
+      #   name of the container image.
+      image: quay.io/pypa/manylinux_2_28_x86_64
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     steps:
@@ -311,7 +318,12 @@ jobs:
     env:
       WHEEL_OUT: scripts/github-actions/linux/wheel-output
     container:
-      image: quay.io/pypa/${{ env.HEXT_MANYLINUX_VERSION }}_x86_64
+      # NOTE:
+      #   This container image must be the same version as described in the
+      #   env var "HEXT_MANYLINUX_VERSION".
+      #   Unfortunately, env vars cannot be referenced when specifying the
+      #   name of the container image.
+      image: quay.io/pypa/manylinux_2_28_x86_64
     steps:
     - uses: actions/checkout@v4
       with:
