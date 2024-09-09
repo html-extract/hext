@@ -32,6 +32,8 @@ jobs:
   ###
   macos_releases:
     name: Macos Releases (Node, Python)
+    # temporarily disable macos
+    if: false
     runs-on: macos-11
     env:
       # 2021-12-16: Using MACOSX_DEPLOYMENT_TARGET="10.11" triggers the
@@ -164,6 +166,8 @@ jobs:
   ###
   macos_arm_releases:
     name: Macos ARM64 Releases (Node, Python)
+    # temporarily disable macos
+    if: false
     runs-on: macos-13-xlarge
     env:
       # Mac OS 11 was the first version for ARM64
