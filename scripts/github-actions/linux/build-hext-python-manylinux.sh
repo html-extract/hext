@@ -21,24 +21,19 @@ OUTD="$( cd "$WHEEL_OUT" >/dev/null && pwd )/"
 
 LIBHEXTD="$HEXTD/libhext"
 cd "$LIBHEXTD/test/build"
-cmake \
+CMAKE_PREFIX_PATH="$HEXT_BOOST_INSTALL_PATH:$HEXT_GUMBO_INSTALL_PATH" cmake \
   -DBUILD_SHARED_LIBS=Off \
-  -DBoost_USE_STATIC_LIBS=On \
-  -DCMAKE_POLICY_DEFAULT_CMP0074=NEW \
-  -DBOOST_ROOT="$HEXT_BOOST_INSTALL_PATH" \
-  -DGumbo_ROOT="$HEXT_GUMBO_INSTALL_PATH" \
-  -DBoost_USE_STATIC_RUNTIME=On ..
+  -DCMAKE_BUILD_TYPE=Release \
+  ..
 make $CMAKE_MAKE_FLAGS
 ./libhext-test
 
 cd "$HEXTD/build"
-cmake \
+CMAKE_PREFIX_PATH="$HEXT_BOOST_INSTALL_PATH:$HEXT_GUMBO_INSTALL_PATH" cmake \
+  -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=Off \
-  -DCMAKE_POLICY_DEFAULT_CMP0074=NEW \
-  -DBOOST_ROOT="$HEXT_BOOST_INSTALL_PATH" \
   -DBoost_USE_STATIC_LIBS=On \
   -DBoost_USE_STATIC_RUNTIME=On \
-  -DGumbo_ROOT="$HEXT_GUMBO_INSTALL_PATH" \
   -DCMAKE_POSITION_INDEPENDENT_CODE=On \
   -DCMAKE_EXE_LINKER_FLAGS=" -static-libgcc -static-libstdc++ " \
   ..
@@ -56,17 +51,10 @@ for i in /opt/python/cp* ; do
 
   PIP=$(readlink -f /opt/python/$V/bin/pip)
   $PIP install -U setuptools wheel
-  PYTHON_INCLUDE_DIR=$(readlink -f /opt/python/$V/include/python*/)
-  PYTHON_LIBRARY=$(readlink -f /opt/python/$V/lib/python*/)
-  cmake \
-    -DPYTHON_LIBRARY="$PYTHON_LIBRARY" \
-    -DPYTHON_INCLUDE_DIR="$PYTHON_INCLUDE_DIR" \
+  HEXT_PYTHON_PREFIX=$(readlink -f /opt/python/$V/)
+  CMAKE_PREFIX_PATH="$HEXT_PYTHON_PREFIX:$HEXT_BOOST_INSTALL_PATH:$HEXT_GUMBO_INSTALL_PATH" cmake \
+    -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=On \
-    -DBoost_USE_STATIC_LIBS=On \
-    -DBoost_USE_STATIC_RUNTIME=On \
-    -DCMAKE_POLICY_DEFAULT_CMP0074=NEW \
-    -DBOOST_ROOT="$HEXT_BOOST_INSTALL_PATH" \
-    -DGumbo_ROOT="$HEXT_GUMBO_INSTALL_PATH" \
     -DCMAKE_CXX_FLAGS=" -static-libgcc -static-libstdc++ " ..
   make $CMAKE_MAKE_FLAGS
   cp hext.py wheel/hext/__init__.py
