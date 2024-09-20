@@ -386,8 +386,7 @@ jobs:
   ### Create NPM Package
   ###
   create_npm_package:
-    # TODO: add macos_arm_releases
-    needs: [macos_releases, linux_node_releases]
+    needs: [macos_releases, macos_arm_releases, linux_node_releases]
     runs-on: ubuntu-latest
     name: Create NPM Package
     env:
