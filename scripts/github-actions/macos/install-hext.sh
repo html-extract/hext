@@ -8,6 +8,9 @@ perror_exit() { echo "$1" >&2 ; exit 1 ; }
 HEXTD="$( pwd )"
 LIBHEXTD="$HEXTD/libhext"
 cd "$LIBHEXTD/test/build"
+
+cmake --version
+
 CMAKE_PREFIX_PATH="$HEXT_BOOST_INSTALL_PATH:$HEXT_GUMBO_INSTALL_PATH" cmake \
   -DBoost_USE_STATIC_RUNTIME=On \
   ..
