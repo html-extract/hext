@@ -35,9 +35,7 @@ jobs:
   ###
   macos_releases:
     name: Macos Releases (Node, Python)
-    # temporarily disable macos
-    if: false
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       # 2021-12-16: Using MACOSX_DEPLOYMENT_TARGET="10.11" triggers the
       # following notice when building the python hext wheel:
@@ -125,7 +123,7 @@ jobs:
   macos_python_test:
     name: Macos Tests (Python)
     needs: macos_releases
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       HEXT_ARCH: "x86_64"
     steps:
@@ -169,7 +167,7 @@ jobs:
   ###
   macos_arm_releases:
     name: Macos ARM64 Releases (Node, Python)
-    # temporarily disable macos
+    # temporarily disable macos-13
     if: false
     runs-on: macos-13-xlarge
     env:
@@ -390,7 +388,8 @@ jobs:
   ### Create NPM Package
   ###
   create_npm_package:
-    needs: [macos_releases, macos_arm_releases, linux_node_releases]
+    # TODO: add macos_arm_releases
+    needs: [macos_releases, linux_node_releases]
     runs-on: ubuntu-latest
     name: Create NPM Package
     env:
@@ -445,7 +444,7 @@ jobs:
   ###
   macos_node_test:
     needs: create_npm_package
-    runs-on: macos-11
+    runs-on: macos-12
     name: Macos Tests (Node)
     steps:
     - uses: actions/checkout@v4
