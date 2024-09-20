@@ -167,8 +167,6 @@ jobs:
   ###
   macos_arm_releases:
     name: Macos ARM64 Releases (Node, Python)
-    # temporarily disable macos-13
-    if: false
     runs-on: macos-13-xlarge
     env:
       # Mac OS 11 was the first version for ARM64
