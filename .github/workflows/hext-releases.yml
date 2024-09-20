@@ -65,7 +65,7 @@ jobs:
         key: macos-gumbo-${{ env.HEXT_GUMBO_VERSION }}
 
     - name: Install build dependencies
-      run: brew install icu4c rapidjson googletest autoconf automake libtool
+      run: brew install rapidjson googletest automake
 
     - name: Install gumbo
       if: steps.gumbo_cache.outputs.cache-hit != 'true'
