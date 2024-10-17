@@ -32,7 +32,7 @@ for i in /opt/python/cp* ; do
   if [[ "$USE_PYPI" = true ]] ; then
     WHEEL="hext"
   else
-    WHEEL=$(readlink -f "$WHEELD"/hext-?.?.?-"$V"-"$HEXT_MANYLINUX_VERSION"_x86_64.whl)
+    WHEEL=$(readlink -f "$WHEELD"/hext-*.*.*-"$V"-"$HEXT_MANYLINUX_VERSION"_x86_64.whl)
   fi
   $PIP install "$WHEEL"
 done
