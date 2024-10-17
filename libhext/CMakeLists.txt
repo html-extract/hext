@@ -7,7 +7,7 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)
 endif()
 
-project(Hext VERSION 1.0.9)
+project(Hext VERSION 1.0.10)
 
 # Add the top-level cmake module directory to CMAKE_MODULE_PATH
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/../cmake)
