@@ -12,12 +12,12 @@ env:
   # NOTE: when changing HEXT_MANYLINUX_VERSION, also change the container images.
   #       See `image: quay.io/pypa/manylinux_*_x86_64`.
   HEXT_MANYLINUX_VERSION: "manylinux_2_28"
-  HEXT_PYTHON_VERSION1: "3.12"
-  HEXT_PYTHON_VERSION2: "3.11"
-  HEXT_PYTHON_VERSION3: "3.10"
-  # NOTE: HEXT_PYTHON_VERSION{4,5} are currently not built/tested for macos_arm_releases
-  HEXT_PYTHON_VERSION4: "3.9"
-  HEXT_PYTHON_VERSION5: "3.8"
+  HEXT_PYTHON_VERSION1: "3.13"
+  HEXT_PYTHON_VERSION2: "3.12"
+  HEXT_PYTHON_VERSION3: "3.11"
+  HEXT_PYTHON_VERSION4: "3.10"
+  # NOTE: HEXT_PYTHON_VERSION5 is currently not built/tested for macos_arm_releases
+  HEXT_PYTHON_VERSION5: "3.9"
   HEXT_NODE_VERSION1: "23"
   HEXT_NODE_VERSION2: "22"
   HEXT_NODE_VERSION3: "20"
@@ -216,6 +216,12 @@ jobs:
       with:
         name: hext-node-macos-${{ env.HEXT_ARCH }}-${{ github.sha }}
         path: ${{ env.NODE_OUT }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION4 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION4 }}
+        arch: ${{ env.HEXT_ARCH }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION3 }} wheel
       uses: ./.github/actions/build-hext-python-macos-version
@@ -480,6 +486,12 @@ jobs:
       uses: ./.github/actions/test-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION4 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION4 }}
         arch: ${{ env.HEXT_ARCH }}
 
     - uses: ./.github/actions/test-hext-npm
