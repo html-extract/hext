@@ -55,7 +55,7 @@ for i in /opt/python/cp* ; do
   CMAKE_PREFIX_PATH="$HEXT_PYTHON_PREFIX:$HEXT_BOOST_INSTALL_PATH:$HEXT_GUMBO_INSTALL_PATH" cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=On \
-    -DCMAKE_CXX_FLAGS=" -static-libgcc -static-libstdc++ " ..
+    -DCMAKE_CXX_FLAGS=" -static-libgcc -static-libstdc++ -Wl,--exclude-libs,ALL " ..
   make $CMAKE_MAKE_FLAGS
   cp hext.py wheel/hext/__init__.py
   strip --strip-unneeded _hext.so
