@@ -48,6 +48,6 @@ target_link_libraries(${PROJECT_NAME}
 
 option(HEXT_BUILD_STATIC_RELEASE "Build static Hext release" OFF)
 if(HEXT_BUILD_STATIC_RELEASE)
-  target_link_libraries(${PROJECT_NAME} "-static-libgcc" "-static-libstdc++" "-Wl,-as-needed")
+  target_link_libraries(${PROJECT_NAME} "-static-libgcc" "-static-libstdc++" "-Wl,--as-needed")
 endif()
 
