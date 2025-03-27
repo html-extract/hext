@@ -26,6 +26,7 @@ BLACKBOXSH="$HEXTD/test/blackbox.sh"
 BLACKBOXCASED="$HEXTD/test/case"
 [[ -d "$BLACKBOXCASED" ]] || perror_exit "cannot access blackbox test case directory (expected '$BLACKBOXCASED')"
 
+WHEEL_ARCH="$(uname -m)"
 for i in /opt/python/cp* ; do
   V=$(basename $i)
   [[ "$V" == *t ]] && continue
@@ -33,7 +34,7 @@ for i in /opt/python/cp* ; do
   if [[ "$USE_PYPI" = true ]] ; then
     WHEEL="hext"
   else
-    WHEEL=$(readlink -f "$WHEELD"/hext-*.*.*-"$V"-"$HEXT_MANYLINUX_VERSION"_x86_64.whl)
+    WHEEL=$(readlink -f "$WHEELD"/hext-*.*.*-"$V"-"$HEXT_MANYLINUX_VERSION"_"$WHEEL_ARCH".whl)
   fi
   $PIP install "$WHEEL"
 done
