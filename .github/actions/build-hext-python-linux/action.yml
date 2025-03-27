@@ -1,0 +1,57 @@
+name: Build python wheels for linux
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v4
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: ${{ env.HEXT_MANYLINUX_VERSION }}-${{ env.HEXT_ARCH }}-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v4
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: ${{ env.HEXT_MANYLINUX_VERSION }}-${{ env.HEXT_ARCH }}-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      shell: bash
+      run: >
+        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+        && dnf install -y https://dl.fedoraproject.org/pub/epel/10/Everything/${{ env.HEXT_ARCH }}/Packages/r/rapidjson-devel-1.1.0-42.el10_0.${{ env.HEXT_ARCH }}.rpm
+        && yum install -y swig gtest-devel
+
+    - name: Install gumbo
+      shell: bash
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-gumbo.sh
+
+    - name: Install boost
+      shell: bash
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-boost.sh
+
+    - name: Build
+      shell: bash
+      run: ./scripts/github-actions/linux/build-hext-python-manylinux.sh
+
+    - name: Remove .gitignore
+      shell: bash
+      run: rm ${{ env.WHEEL_OUT }}/.gitignore
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hext-python-linux-${{ env.HEXT_ARCH }}-${{ github.sha }}
+        path: ${{ env.WHEEL_OUT }}
+
+    - name: Prepare upload
+      shell: bash
+      run: |
+        mkdir upload
+        cp /usr/local/bin/htmlext upload/
+        strip --strip-unneeded upload/htmlext
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: htmlext-static-linux-${{ env.HEXT_ARCH }}-${{ github.sha }}
+        path: upload

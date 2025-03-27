@@ -1,0 +1,41 @@
+name: Build node modules for linux
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v4
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: linux-${{ env.HEXT_ARCH }}-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v4
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: linux-${{ env.HEXT_ARCH }}-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      shell: bash
+      run: >
+        sudo apt-get update > /dev/null
+        && sudo apt-get upgrade -y > /dev/null
+        && sudo apt-get install -y git curl libtool automake libicu-dev googletest libgtest-dev rapidjson-dev
+
+    - name: Install gumbo
+      shell: bash
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-gumbo.sh
+
+    - name: Install boost
+      shell: bash
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/linux/install-boost.sh
+
+    - name: Build
+      shell: bash
+      run: ./scripts/github-actions/linux/build-hext-node-linux.sh
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hext-node-linux-${{ env.HEXT_ARCH }}-${{ github.sha }}
+        path: ${{ env.NODE_OUT }}

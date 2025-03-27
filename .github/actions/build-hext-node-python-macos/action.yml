@@ -1,0 +1,77 @@
+name: Build node modules and python wheels for macos
+inputs:
+  build_python_version5:
+    required: false
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v4
+      id: boost_cache
+      with:
+        path: ${{ env.HEXT_BOOST_INSTALL_PATH }}
+        key: macos-${{ env.HEXT_ARCH }}-boost-${{ env.HEXT_BOOST_VERSION }}
+
+    - uses: actions/cache@v4
+      id: gumbo_cache
+      with:
+        path: ${{ env.HEXT_GUMBO_INSTALL_PATH }}
+        key: macos-${{ env.HEXT_ARCH }}-gumbo-${{ env.HEXT_GUMBO_VERSION }}
+
+    - name: Install build dependencies
+      shell: bash
+      run: brew install rapidjson googletest autoconf automake libtool swig
+
+    - name: Install gumbo
+      shell: bash
+      if: steps.gumbo_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-gumbo.sh
+
+    - name: Install boost
+      shell: bash
+      if: steps.boost_cache.outputs.cache-hit != 'true'
+      run: ./scripts/github-actions/macos/install-boost.sh
+
+    - name: Install hext
+      shell: bash
+      run: ./scripts/github-actions/macos/install-hext.sh
+
+    - name: Build node modules
+      shell: bash
+      run: ./scripts/github-actions/macos/build-hext-node-macos.sh
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: hext-node-macos-${{ env.HEXT_ARCH }}-${{ github.sha }}
+        path: ${{ env.NODE_OUT }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION5 }} wheel
+      if: inputs.build_python_version5 == 'true'
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION5 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION4 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION4 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION3 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION2 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION2 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Build and upload python${{ env.HEXT_PYTHON_VERSION1 }} wheel
+      uses: ./.github/actions/build-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION1 }}
+        arch: ${{ env.HEXT_ARCH }}

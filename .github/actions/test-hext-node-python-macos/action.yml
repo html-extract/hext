@@ -1,0 +1,40 @@
+name: Test node modules and python wheels for macos
+inputs:
+  test_python_version5:
+    required: false
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - name: Test python${{ env.HEXT_PYTHON_VERSION1 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION1 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION2 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION2 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION3 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION3 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION4 }} wheel
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION4 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - name: Test python${{ env.HEXT_PYTHON_VERSION5 }} wheel
+      if: inputs.test_python_version5 == 'true'
+      uses: ./.github/actions/test-hext-python-macos-version
+      with:
+        version: ${{ env.HEXT_PYTHON_VERSION5 }}
+        arch: ${{ env.HEXT_ARCH }}
+
+    - uses: ./.github/actions/test-hext-npm
