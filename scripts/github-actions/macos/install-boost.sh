@@ -20,7 +20,7 @@ done
 [[ -f "$HEXT_BOOST_INSTALL_PATH/include/boost/version.hpp" ]] \
   && perror_exit "boost is already installed in $HEXT_BOOST_INSTALL_PATH"
 
-boost_dl_url="https://boostorg.jfrog.io/artifactory/main/release/${HEXT_BOOST_VERSION}/source/boost_${HEXT_BOOST_VERSION//./_}.tar.gz"
+boost_dl_url="https://archives.boost.io/release/${HEXT_BOOST_VERSION}/source/boost_${HEXT_BOOST_VERSION//./_}.tar.gz"
 
 build_dir=$(mktemp -d)
 echo $build_dir
