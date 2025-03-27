@@ -19,6 +19,7 @@ hash gcc-10 && export CC=gcc-10 CXX=g++-10
 hash gcc-11 && export CC=gcc-11 CXX=g++-11
 hash gcc-12 && export CC=gcc-12 CXX=g++-12
 hash gcc-13 && export CC=gcc-13 CXX=g++-13
+hash gcc-14 && export CC=gcc-14 CXX=g++-14
 $CXX --version
 
 
