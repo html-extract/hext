@@ -44,6 +44,7 @@ PYTHOND="$LIBHEXTD/bindings/python"
 cd "$PYTHOND"
 for i in /opt/python/cp* ; do
   V=$(basename $i)
+  [[ "$V" == *t ]] && continue
   mkdir $V
   cd $V
   mkdir -p wheel/hext
