@@ -33,7 +33,7 @@ tar zxf boost.tar.gz
 cd */
 
 ./bootstrap.sh --with-libraries=regex,program_options
-./b2 -j$THREADS --prefix="$HEXT_BOOST_INSTALL_PATH" cxxflags="-fPIC" runtime-link=static variant=release link=static install
+./b2 -d0 -j$THREADS --prefix="$HEXT_BOOST_INSTALL_PATH" cxxflags="-fPIC" runtime-link=static variant=release link=static install
 
 ls -lah "$HEXT_BOOST_INSTALL_PATH"
 
