@@ -45,13 +45,13 @@ setup(
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: Apache Software License',
         'Operating System :: POSIX :: Linux',
         'Operating System :: MacOS :: MacOS X',
         'Programming Language :: C++',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
+    license='Apache-2.0',
     keywords='html-extraction scraping html data-extraction',
     project_urls={
         'Github': 'https://github.com/html-extract/hext/',
