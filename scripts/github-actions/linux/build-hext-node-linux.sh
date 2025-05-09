@@ -58,12 +58,6 @@ make -j$THREADS
 sudo make install
 
 
-hash node 2>/dev/null || {
-  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo bash -
-  sudo apt-get install -y nodejs
-}
-
-
 cd "$LIBHEXTD/bindings/nodejs"
 npm install
 npm install prebuild
