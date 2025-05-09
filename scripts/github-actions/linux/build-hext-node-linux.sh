@@ -61,9 +61,11 @@ sudo make install
 cd "$LIBHEXTD/bindings/nodejs"
 npm install
 npm install prebuild
-cat node_modules/node-abi/package.json || true
-npm install "node-abi@^4.8.0"
-cat node_modules/node-abi/package.json || true
+
+# Fix for "node-abi@3.75.0, node-abi@4.8.0 ABI version mismatch for Node 24.0.0 (v134 vs v137)"
+# https://github.com/electron/node-abi/issues/208
+sed -i 's/"abi": "134"/"abi": "137"/' $(find . -wholename "*node-abi/abi_registry.json")
+
 npx prebuild \
   -t "$HEXT_NODE_API_VERSION1" \
   -t "$HEXT_NODE_API_VERSION2" \
@@ -82,7 +84,6 @@ npx prebuild \
   --CDCMAKE_BUILD_TYPE=Release
 
 
-grep "define NODE_MODULE_VERSION" $(find "$HOME" -name node_version.h)
 ls -1 prebuilds/
 
 
