@@ -16,7 +16,7 @@ npm install prebuild
 
 # Fix for "node-abi@3.75.0, node-abi@4.8.0 ABI version mismatch for Node 24.0.0 (v134 vs v137)"
 # https://github.com/electron/node-abi/issues/208
-sed -i 's/"abi": "134"/"abi": "137"/' $(find . -wholename "*node-abi/abi_registry.json")
+sed -i '' 's/"abi": "134"/"abi": "137"/' $(find . -wholename "*node-abi/abi_registry.json")
 
 npx prebuild \
   -t "$HEXT_NODE_API_VERSION1" \
