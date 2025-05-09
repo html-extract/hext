@@ -61,9 +61,9 @@ sudo make install
 cd "$LIBHEXTD/bindings/nodejs"
 npm install
 npm install prebuild
-npm list | grep node-abi
+cat node_modules/node-abi/package.json || true
 npm install "node-abi@^4.8.0"
-npm list | grep node-abi
+cat node_modules/node-abi/package.json || true
 npx prebuild \
   -t "$HEXT_NODE_API_VERSION1" \
   -t "$HEXT_NODE_API_VERSION2" \
