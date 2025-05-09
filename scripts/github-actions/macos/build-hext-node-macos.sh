@@ -13,6 +13,11 @@ OUTD="$( cd "$NODE_OUT" >/dev/null && pwd )"
 cd "$LIBHEXTD/bindings/nodejs"
 npm install
 npm install prebuild
+
+# Fix for "node-abi@3.75.0, node-abi@4.8.0 ABI version mismatch for Node 24.0.0 (v134 vs v137)"
+# https://github.com/electron/node-abi/issues/208
+sed -i 's/"abi": "134"/"abi": "137"/' $(find . -wholename "*node-abi/abi_registry.json")
+
 npx prebuild \
   -t "$HEXT_NODE_API_VERSION1" \
   -t "$HEXT_NODE_API_VERSION2" \
@@ -29,6 +34,9 @@ npx prebuild \
   --CDBoost_USE_STATIC_LIBS=On \
   --CDBoost_USE_STATIC_RUNTIME=On \
   --CDCMAKE_BUILD_TYPE=Release
+
+
+ls -1 prebuilds/
 
 
 cd prebuilds
