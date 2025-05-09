@@ -33,9 +33,8 @@ Visit [Hext’s documentation](https://hext.thomastrapp.com/documentation) and i
 
 This binary package is compatible with:
 * Node v20, v22, v23, v24
-* Linux x86_64 (GLIBC ≥2.14, basically any distribution built after the year 2012)
-* macOS x86_64 (10.11 El Capitan or later)
-* macOS ARM64 (11.0 Big Sur or later)
+* Linux x86_64, arm64
+* macOS x86_64, arm64
 
 If you would like to use Hext on a system that is not supported, please raise an issue on github: [https://github.com/html-extract/hext/issues/](https://github.com/html-extract/hext/issues/).
 
