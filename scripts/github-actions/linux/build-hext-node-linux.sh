@@ -79,6 +79,9 @@ npx prebuild \
   --CDCMAKE_BUILD_TYPE=Release
 
 
+grep "define NODE_MODULE_VERSION" $(find "$HOME" -name node_version.h)
+
+
 cd prebuilds
 for i in *.tar.gz ; do
   tar xf "$i"
