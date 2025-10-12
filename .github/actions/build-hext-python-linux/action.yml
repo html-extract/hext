@@ -19,7 +19,7 @@ runs:
       run: >
         dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
         && dnf install -y https://dl.fedoraproject.org/pub/epel/10/Everything/${{ env.HEXT_ARCH }}/Packages/r/rapidjson-devel-1.1.0-42.el10_0.${{ env.HEXT_ARCH }}.rpm
-        && yum install -y swig gtest-devel
+        && yum install -y swig gtest-devel meson
 
     - name: Install gumbo
       shell: bash

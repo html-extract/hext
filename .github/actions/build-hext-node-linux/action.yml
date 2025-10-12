@@ -19,7 +19,7 @@ runs:
       run: >
         sudo apt-get update > /dev/null
         && sudo apt-get upgrade -y > /dev/null
-        && sudo apt-get install -y git curl libtool automake libicu-dev googletest libgtest-dev rapidjson-dev
+        && sudo apt-get install -y git curl meson libicu-dev googletest libgtest-dev rapidjson-dev
 
     - name: Install gumbo
       shell: bash

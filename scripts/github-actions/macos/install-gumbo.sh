@@ -5,8 +5,6 @@ set -x
 
 perror_exit() { echo "$1" >&2 ; exit 1 ; }
 
-THREADS=2
-
 deps=(
   "HEXT_GUMBO_VERSION"
   "HEXT_GUMBO_SHA256"
@@ -16,6 +14,8 @@ deps=(
 for dep in "${deps[@]}" ; do
   [[ -z "${!dep}" ]] && perror_exit "missing env var '$dep'"
 done
+
+hash meson || perror_exit "missing dependency 'meson'"
 
 [[ -f "$HEXT_GUMBO_INSTALL_PATH/include/gumbo.h" ]] \
   && perror_exit "gumbo is already installed in $HEXT_GUMBO_INSTALL_PATH"
@@ -32,10 +32,10 @@ shasum -a 256 -c <(echo "$HEXT_GUMBO_SHA256  gumbo.tar.gz")
 tar zxf gumbo.tar.gz
 cd */
 
-./autogen.sh
-CFLAGS="-fPIC" ./configure --enable-shared=no --prefix="$HEXT_GUMBO_INSTALL_PATH"
-make -j$THREADS
-make install
+meson_dir=$(mktemp -d)
+meson setup "$meson_dir" -Dtests=false -Dc_args=-fPIC --prefix="$HEXT_GUMBO_INSTALL_PATH" -Ddefault_library=static
+meson compile -C "$meson_dir"
+meson install -C "$meson_dir"
 
 ls -lah "$HEXT_GUMBO_INSTALL_PATH"
 

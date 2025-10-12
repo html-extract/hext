@@ -16,7 +16,7 @@ runs:
 
     - name: Install build dependencies
       shell: bash
-      run: brew install rapidjson googletest autoconf automake libtool swig
+      run: brew install rapidjson googletest meson swig
 
     - name: Install gumbo
       shell: bash
