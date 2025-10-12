@@ -6,8 +6,8 @@ env:
   HEXT_BOOST_VERSION: "1.89.0"
   HEXT_BOOST_SHA256: "9de758db755e8330a01d995b0a24d09798048400ac25c03fc5ea9be364b13c93"
   HEXT_BOOST_INSTALL_PATH: "${{ github.workspace }}/boost_root"
-  HEXT_GUMBO_VERSION: "0.10.1"
-  HEXT_GUMBO_SHA256: "28463053d44a5dfbc4b77bcf49c8cee119338ffa636cc17fc3378421d714efad"
+  HEXT_GUMBO_VERSION: "0.13.2"
+  HEXT_GUMBO_SHA256: "dbdc159dc8e5c6f3f254e50bce689dd9e439064ff06c165d5653410a5714ab66"
   HEXT_GUMBO_INSTALL_PATH: "${{ github.workspace }}/gumbo_root"
   # NOTE: when changing HEXT_MANYLINUX_VERSION, also change the container images.
   #       See `image: quay.io/pypa/manylinux_*_x86_64`.

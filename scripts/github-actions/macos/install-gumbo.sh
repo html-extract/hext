@@ -20,7 +20,7 @@ done
 [[ -f "$HEXT_GUMBO_INSTALL_PATH/include/gumbo.h" ]] \
   && perror_exit "gumbo is already installed in $HEXT_GUMBO_INSTALL_PATH"
 
-gumbo_dl_url="https://github.com/google/gumbo-parser/archive/refs/tags/v${HEXT_GUMBO_VERSION}.tar.gz"
+gumbo_dl_url="https://codeberg.org/gumbo-parser/gumbo-parser/archive/${HEXT_GUMBO_VERSION}.tar.gz"
 
 build_dir=$(mktemp -d)
 echo $build_dir

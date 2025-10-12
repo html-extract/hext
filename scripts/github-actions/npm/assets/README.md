@@ -103,5 +103,5 @@ In addition to Python and Node, there are language bindings for [JavaScript](htt
 
 [Hext](https://hext.thomastrapp.com/) is released under the terms of the Apache License v2.0. The source code is hosted on [Github](https://github.com/html-extract/hext.git).
 This binary package includes content authored by third parties:
-* [gumbo-parser](https://github.com/google/gumbo-parser). Copyright 2010 Google Inc. See gumbo.license.
+* [gumbo-parser](https://codeberg.org/gumbo-parser/gumbo-parser/). Copyright 2010 Google Inc. See gumbo.license.
 

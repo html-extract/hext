@@ -105,7 +105,7 @@ tests through valgrind you'd run the following:
     $ HTMLEXT="valgrind -q ../build/htmlext" ./blackbox.sh case/*.hext
 
 ## Acknowledgements
-* [Gumbo](https://github.com/google/gumbo-parser)
+* [Gumbo](https://codeberg.org/gumbo-parser/gumbo-parser/)
   — **An HTML5 parsing library in pure C99**  
   Gumbo is used as the HTML parser behind `hext::Html`. It's fast, easy to
   integrate and even fixes invalid HTML.
