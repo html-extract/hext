@@ -12,12 +12,11 @@ env:
   # NOTE: when changing HEXT_MANYLINUX_VERSION, also change the container images.
   #       See `image: quay.io/pypa/manylinux_*_x86_64`.
   HEXT_MANYLINUX_VERSION: "manylinux_2_28"
-  HEXT_PYTHON_VERSION1: "3.13"
-  HEXT_PYTHON_VERSION2: "3.12"
-  HEXT_PYTHON_VERSION3: "3.11"
-  HEXT_PYTHON_VERSION4: "3.10"
-  # NOTE: HEXT_PYTHON_VERSION5 is currently not built/tested for macos_arm_releases
-  HEXT_PYTHON_VERSION5: "3.9"
+  HEXT_PYTHON_VERSION1: "3.14"
+  HEXT_PYTHON_VERSION2: "3.13"
+  HEXT_PYTHON_VERSION3: "3.12"
+  HEXT_PYTHON_VERSION4: "3.11"
+  HEXT_PYTHON_VERSION5: "3.10"
   HEXT_NODE_VERSION1: "24"
   HEXT_NODE_VERSION2: "23"
   HEXT_NODE_VERSION3: "22"
@@ -74,8 +73,6 @@ jobs:
         fetch-depth: 1
     - name: Build and upload node and python wheels for ${{ env.HEXT_ARCH }}
       uses: ./.github/actions/build-hext-node-python-macos
-      with:
-        build_python_version5: false
 
 
   ###
@@ -112,8 +109,6 @@ jobs:
         fetch-depth: 1
     - name: Test node modules and python wheels for ${{ env.HEXT_ARCH }}
       uses: ./.github/actions/test-hext-node-python-macos
-      with:
-        test_python_version5: false
 
 
   ###

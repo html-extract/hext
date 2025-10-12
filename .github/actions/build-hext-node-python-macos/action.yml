@@ -1,8 +1,4 @@
 name: Build node modules and python wheels for macos
-inputs:
-  build_python_version5:
-    required: false
-    default: 'true'
 runs:
   using: composite
   steps:
@@ -46,7 +42,6 @@ runs:
         path: ${{ env.NODE_OUT }}
 
     - name: Build and upload python${{ env.HEXT_PYTHON_VERSION5 }} wheel
-      if: inputs.build_python_version5 == 'true'
       uses: ./.github/actions/build-hext-python-macos-version
       with:
         version: ${{ env.HEXT_PYTHON_VERSION5 }}
