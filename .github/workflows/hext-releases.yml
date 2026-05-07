@@ -34,8 +34,8 @@ jobs:
   ###
   macos_x86_64_node_python_release:
     name: "Release: macos x86_64 node python"
-    # macos-13 is x86_64
-    runs-on: macos-13
+    # macos-15-intel is x86_64
+    runs-on: macos-15-intel
     env:
       # 2021-12-16: Using MACOSX_DEPLOYMENT_TARGET="10.11" triggers the
       # following notice when building the python hext wheel:
@@ -81,8 +81,8 @@ jobs:
   macos_x86_64_node_python_test:
     name: "Testing: macos x86_64 node python"
     needs: [npm_package_release, macos_x86_64_node_python_release]
-    # macos-13 is x86_64
-    runs-on: macos-13
+    # macos-15-intel is x86_64
+    runs-on: macos-15-intel
     env:
       HEXT_ARCH: x86_64
     steps:
