@@ -5,7 +5,7 @@
   "dependencies": {
     "cmake-js": "^7.3.1",
     "jest": "^30.4.0",
-    "node-addon-api": "^8.5.0"
+    "node-addon-api": "^8.7.0"
   },
   "scripts": {
     "build": "cmake-js build",
