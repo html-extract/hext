@@ -47,5 +47,5 @@ swig_add_library(
   "${PROJECT_SOURCE_DIR}/pyhext.i"
   "${PROJECT_SOURCE_DIR}/../wrapper/Html.cpp"
   "${PROJECT_SOURCE_DIR}/../wrapper/Rule.cpp")
-swig_link_libraries(hext hext::hext)
+target_link_libraries(hext PRIVATE hext::hext)
 
