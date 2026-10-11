@@ -63,10 +63,10 @@ struct ScopedPyObject
     {
       if( map.count(it->first) < 2 )
       {
-        ScopedPyObject value(PyString_FromString(it->second.c_str()));
+        ScopedPyObject value(PyUnicode_FromString(it->second.c_str()));
         if( !value.obj )
           SWIG_exception(SWIG_RuntimeError,
-              "PyString_FromString returned nullptr");
+              "PyUnicode_FromString returned nullptr");
 
         // does not steal a reference to value
         if( PyDict_SetItemString(dict.obj, it->first.c_str(), value.obj) )
@@ -85,12 +85,10 @@ struct ScopedPyObject
         auto upper = map.upper_bound(it->first);
         for(; lower != upper; ++lower)
         {
-          // Swig defines PyString_FromString, which forwards to
-          // PyUnicode_FromString
-          ScopedPyObject value(PyString_FromString(lower->second.c_str()));
+          ScopedPyObject value(PyUnicode_FromString(lower->second.c_str()));
           if( !value.obj )
             SWIG_exception(SWIG_RuntimeError,
-                "PyString_FromString returned nullptr");
+                "PyUnicode_FromString returned nullptr");
 
           // does not steal a reference to value
           if( PyList_Append(list.obj, value.obj) )
