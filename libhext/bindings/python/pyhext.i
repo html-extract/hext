@@ -1,4 +1,4 @@
-// Copyright 2016-2024 Thomas Trapp
+// Copyright 2016-2026 Thomas Trapp
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,14 +13,6 @@
 // limitations under the License.
 
 %module hext
-
-%begin %{
-// Python 2: Allow conversion of unicode strings to std::string and char *.
-//   By SWIG's default, only byte strings are converted to std::string or
-//   char *. This does not affect Python 3.
-//   http://swig.org/Doc3.0/Python.html#Python_2_unicode
-#define SWIG_PYTHON_2_UNICODE
-%}
 
 %include "typemaps.i"
 %include "stdint.i"
