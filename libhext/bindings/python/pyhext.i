@@ -33,7 +33,7 @@ struct ScopedPyObject
   : obj(object)
   {}
 
-  ~ScopedPyObject() noexcept { Py_DECREF(this->obj); }
+  ~ScopedPyObject() noexcept { Py_XDECREF(this->obj); }
 
   PyObject * obj;
 };
